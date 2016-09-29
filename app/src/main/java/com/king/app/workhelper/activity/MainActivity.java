@@ -1,15 +1,12 @@
 package com.king.app.workhelper.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.common.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getContentLayout() {
+        return R.layout.activity_main;
     }
 }
