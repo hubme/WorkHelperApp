@@ -12,18 +12,30 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    //配置签名
+    signingConfigs {
+        config {
+            keyAlias 'feng'
+            keyPassword '123456'
+            storeFile file('D:/WorkHelperAppKeyStore.jks')
+            storePassword '123456'
+        }
+    }
     buildTypes {
         release {
+            // 不显示Log, 在java代码中的调用方式为：BuildConfig.LOG_DEBUG
+            buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config//使用签名
         }
         debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             shrinkResources false
         }
     }
-
     // 'return void' removes the lint error: 'Not all execution paths return a value'.
     return void
 }

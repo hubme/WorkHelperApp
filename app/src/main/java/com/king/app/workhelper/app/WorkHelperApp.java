@@ -1,6 +1,7 @@
 package com.king.app.workhelper.app;
 
 
+import com.king.app.workhelper.BuildConfig;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 
@@ -13,6 +14,6 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.init(true, AppConfig.LOG_TAG);
+        Logger.init(BuildConfig.LOG_DEBUG, AppConfig.LOG_TAG);
     }
 }
