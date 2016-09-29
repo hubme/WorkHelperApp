@@ -6,4 +6,5 @@ package com.king.app.workhelper.app;
  */
 
 public class AppConfig {
+    public static final String LOG_TAG = "aaa";
 }
