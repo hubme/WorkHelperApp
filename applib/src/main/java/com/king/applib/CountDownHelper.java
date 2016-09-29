@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common;
+package com.king.applib;
 
 import android.text.TextUtils;
 import android.widget.TextView;

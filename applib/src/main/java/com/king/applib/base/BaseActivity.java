@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common.base;
+package com.king.applib.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,10 +26,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract int getContentLayout();
 
-    private void initInitialData() {
+    protected void initInitialData() {
     }
 
-    private void initData() {
+    protected void initData() {
 
     }
 }

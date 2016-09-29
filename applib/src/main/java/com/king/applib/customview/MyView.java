@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common.ui.customview;
+package com.king.applib.customview;
 
 import android.content.Context;
 import android.util.AttributeSet;

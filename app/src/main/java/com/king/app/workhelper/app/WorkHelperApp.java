@@ -1,6 +1,7 @@
 package com.king.app.workhelper.app;
 
-import com.king.app.workhelper.common.base.BaseApplication;
+
+import com.king.applib.base.BaseApplication;
 
 /**
  * 全局Application

@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common.util;
+package com.king.applib.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

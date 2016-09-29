@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.king.app.workhelper.common;
+package com.king.applib;
 
 import android.os.Handler;
 import android.os.Message;

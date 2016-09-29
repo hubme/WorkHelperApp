@@ -1,7 +1,7 @@
 package com.king.app.workhelper.activity;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.common.base.BaseActivity;
+import com.king.applib.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 

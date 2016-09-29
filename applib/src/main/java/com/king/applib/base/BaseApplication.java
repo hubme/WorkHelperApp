@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common.base;
+package com.king.applib.base;
 
 import android.app.Application;
 
