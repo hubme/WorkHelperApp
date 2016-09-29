@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common.utils;
+package com.king.app.workhelper.common.util;
 
 /**
  * 字符串工具类
