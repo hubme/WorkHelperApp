@@ -17,7 +17,7 @@ android {
         config {
             keyAlias 'feng'
             keyPassword '123456'
-            storeFile file('D:/WorkHelperAppKeyStore.jks')
+            storeFile file('/key/WorkHelperAppKeyStore.jks')
             storePassword '123456'
         }
     }
