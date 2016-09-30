@@ -21,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initInitialData();
         mContentLayout = LayoutInflater.from(this).inflate(getContentLayout(), null);
         setContentView(mContentLayout);
+        initContentView();
         initData();
     }
 
@@ -32,4 +33,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initData() {
 
     }
+
+    protected void initContentView() {
+
+    }
+
 }

@@ -9,18 +9,25 @@ import butterknife.ButterKnife;
 
 /**
  * 应用基础Activity
- * Created by HuoGuangxu on 2016/9/29.
+ * Created by VanceKing on 2016/9/29.
  */
 
 public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BusProvider.getEventBus().register(this);
     }
 
     @Override
-    protected void initData() {
+    protected void initContentView() {
+        super.initContentView();
         ButterKnife.bind(this);
-        super.initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BusProvider.getEventBus().unregister(this);
     }
 }

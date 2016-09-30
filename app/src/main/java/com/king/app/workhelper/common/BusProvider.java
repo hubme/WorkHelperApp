@@ -1,4 +1,5 @@
-package com.king.applib;
+package com.king.app.workhelper.common;
+
 
 import com.squareup.otto.Bus;
 
@@ -8,6 +9,10 @@ import com.squareup.otto.Bus;
  */
 
 public class BusProvider {
+    private BusProvider() {
+
+    }
+
     private static class BusHolder {
         private static final Bus BUS = new Bus();
     }

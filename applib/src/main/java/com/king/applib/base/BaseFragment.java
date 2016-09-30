@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 
 /**
  * 基础Fragment
- * Created by HuoGuangxu on 2016/9/29.
+ * Created by VanceKing on 2016/9/29.
  */
 
 public abstract class BaseFragment extends Fragment {
+
+    protected View mRootView;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +23,18 @@ public abstract class BaseFragment extends Fragment {
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        mRootView = inflater.inflate(getContentLayout(), container, false);
+        initContentView();
+        initData();
+        return mRootView;
+    }
+
+    public abstract int getContentLayout();
+
+    protected void initContentView() {
+    }
+
+    private void initData() {
+
     }
 }
