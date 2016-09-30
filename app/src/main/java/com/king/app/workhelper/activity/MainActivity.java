@@ -6,8 +6,11 @@ import android.widget.TextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.model.entity.Person;
 import com.king.applib.log.Logger;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,8 +47,11 @@ public class MainActivity extends AppBaseActivity {
 
     private void startViewPagerActivity() {
         Bundle bundle = new Bundle();
-        bundle.putString(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY, "aaa");
-        startActivity(bundle, ViewPagerActivity.class);
+        ArrayList<Person> arrayList = new ArrayList<>();
+        arrayList.add(new Person("000"));
+        arrayList.add(new Person("111"));
+        bundle.putSerializable(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY, null);
 
+        startActivity(bundle, ViewPagerActivity.class);
     }
 }
