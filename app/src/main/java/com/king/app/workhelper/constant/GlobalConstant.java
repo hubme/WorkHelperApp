@@ -6,4 +6,7 @@ package com.king.app.workhelper.constant;
  */
 
 public class GlobalConstant {
+    public interface BUNDLE_PARAMS_KEY{
+        String EXTRA_KEY = "EXTRA_KEY";
+    }
 }

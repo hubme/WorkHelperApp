@@ -1,8 +1,12 @@
 package com.king.app.workhelper.activity;
 
+import android.content.Intent;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.app.workhelper.fragment.FragmentOne;
+import com.king.applib.log.Logger;
 
 public class ViewPagerActivity extends AppBaseActivity {
 
@@ -11,6 +15,13 @@ public class ViewPagerActivity extends AppBaseActivity {
     @Override
     public int getContentLayout() {
         return R.layout.activity_view_pager;
+    }
+
+    @Override
+    public void getIntentData(Intent intent) {
+        super.getIntentData(intent);
+        String bundleValue = intent.getStringExtra(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY);
+        Logger.i(bundleValue);
     }
 
     @Override

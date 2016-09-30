@@ -1,9 +1,11 @@
 package com.king.app.workhelper.activity;
 
+import android.os.Bundle;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.log.Logger;
 import com.squareup.otto.Subscribe;
 
@@ -27,6 +29,7 @@ public class MainActivity extends AppBaseActivity {
 
     @OnClick(R.id.hello_world)
     public void printHelloWorld() {
+        startViewPagerActivity();
     }
 
     @Subscribe
@@ -37,5 +40,12 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private void startViewPagerActivity() {
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY, "aaa");
+        startActivity(bundle, ViewPagerActivity.class);
+
     }
 }
