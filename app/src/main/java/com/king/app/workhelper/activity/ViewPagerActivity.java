@@ -1,64 +1,64 @@
 package com.king.app.workhelper.activity;
 
-import android.content.Intent;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.constant.GlobalConstant;
-import com.king.app.workhelper.fragment.FragmentOne;
-import com.king.app.workhelper.model.entity.Person;
-import com.king.applib.log.Logger;
-import com.king.applib.util.ExtendUtil;
+import com.king.app.workhelper.common.DepthPageTransformer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import butterknife.BindView;
+
 public class ViewPagerActivity extends AppBaseActivity {
+    @BindView(R.id.king_view_pager)
+    ViewPager mViewPager;
 
-    private FragmentOne mFragmentOne;
+    private List<ImageView> mImageViews = new ArrayList<>();
+    private int[] mImageIds = new int[]{R.mipmap.intro_1_img, R.mipmap.intro_2_img, R.mipmap.intro_3_img};
 
-    @Override
-    public int getContentLayout() {
+    @Override public int getContentLayout() {
         return R.layout.activity_view_pager;
     }
 
-    @Override
-    public void getIntentData(Intent intent) {
-        super.getIntentData(intent);
-
-        //1.不会创建多余的List
-        ArrayList<Person> list1 = new ArrayList<>();
-        list1.add(new Person("111"));
-        list1.add(new Person("222"));
-
-        //2.使用匿名内部类
-        ArrayList<Person> list2 = new ArrayList<Person>() {
-            {
-                add(new Person("111"));
-                add(new Person("222"));
-            }
-        };
-
-        //3.Arrays.asList会产生多余的List对象
-        ArrayList<Person> list3 = new ArrayList<>(Arrays.asList(new Person("111"), new Person("222")));
-
-        //4.
-        List<Person> defaultList = Arrays.asList(new Person("999"), new Person("888"));
-        List<Person> list = getSerializableListExtra(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY, defaultList);
-        ExtendUtil.printList(list);
-        if (ExtendUtil.isListNullOrEmpty(list)) {
-            Logger.i("lsit == null");
-        }
-
+    @Override protected void initContentView() {
+        super.initContentView();
     }
 
-    @Override
-    protected void initContentView() {
-        super.initContentView();
-        if (mFragmentOne == null) {
-            mFragmentOne = new FragmentOne();
+    @Override protected void initData() {
+        super.initData();
+
+        for (int imgId : mImageIds) {
+            ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setImageResource(imgId);
+            mImageViews.add(imageView);
         }
-        getSupportFragmentManager().beginTransaction().add(R.id.my_frame, mFragmentOne).commit();
+
+        mViewPager.setAdapter(new PagerAdapter() {
+            @Override public Object instantiateItem(ViewGroup container, int position) {
+                container.addView(mImageViews.get(position));
+                return mImageViews.get(position);
+            }
+
+            @Override public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView(mImageViews.get(position));
+            }
+
+            @Override public int getCount() {
+                return mImageIds.length;
+            }
+
+            @Override public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+        });
+//        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        mViewPager.setPageTransformer(true, new DepthPageTransformer());
     }
 }
