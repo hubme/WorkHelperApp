@@ -3,16 +3,23 @@
           package="com.king.app.workhelper">
 
     <application
-        android:name=".app.WorkHelperApp"
+        android:name=".thirdparty.tinker.WorkHelperApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
-
         </activity>
         <activity android:name=".activity.ViewPagerActivity">
+
+        </activity>
+
+        <service
+            android:name=".thirdparty.tinker.SampleResultService"
+            android:exported="false"/>
+
+        <activity android:name=".activity.TinkerSampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
