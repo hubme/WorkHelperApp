@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'com.tencent.tinker.patch'
+apply plugin: 'me.ele.amigo'
 
 android {
     compileSdkVersion 24
