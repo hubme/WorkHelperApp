@@ -1,8 +1,11 @@
 package com.king.applib.util;
 
+import android.os.Environment;
+
 import com.king.applib.log.Logger;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 扩展工具类
@@ -34,6 +37,9 @@ public class ExtendUtil {
 
     }
 
+    /**
+     * 打印List
+     */
     public static <T> void printList(List<T> list) {
         if (ExtendUtil.isListNullOrEmpty(list)) {
             return;
@@ -44,4 +50,21 @@ public class ExtendUtil {
             }
         }
     }
+
+    /**
+     * 检查是否挂载SD卡
+     */
+    public static boolean checkSDCardExists() {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
+
+    /**
+     * 检查是否安装外置的SD卡
+     */
+    public static boolean checkExternalSDExists() {
+        Map<String, String> evn = System.getenv();
+        return evn.containsKey("SECONDARY_STORAGE");
+    }
+
+
 }
