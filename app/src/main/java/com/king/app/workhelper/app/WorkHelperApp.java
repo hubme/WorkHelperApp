@@ -14,6 +14,6 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.init(BuildConfig.LOG_DEBUG, AppConfig.LOG_TAG);
+        Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1).hideThreadInfo();
     }
 }

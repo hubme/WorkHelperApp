@@ -4,13 +4,9 @@ public final class Settings {
 
     private int methodCount = 2;
     private boolean showThreadInfo = true;
+    private boolean isShowLog = true;
     private int methodOffset = 0;
     private LogAdapter logAdapter;
-
-    /**
-     * Determines to how logs will be printed
-     */
-    private LogLevel logLevel = LogLevel.FULL;
 
     public Settings hideThreadInfo() {
         showThreadInfo = false;
@@ -25,8 +21,12 @@ public final class Settings {
         return this;
     }
 
-    public Settings logLevel(LogLevel logLevel) {
-        this.logLevel = logLevel;
+    public boolean isShowLog() {
+        return isShowLog;
+    }
+
+    public Settings setShowLog(boolean isShowLog) {
+        this.isShowLog = isShowLog;
         return this;
     }
 
@@ -48,10 +48,6 @@ public final class Settings {
         return showThreadInfo;
     }
 
-    public LogLevel getLogLevel() {
-        return logLevel;
-    }
-
     public int getMethodOffset() {
         return methodOffset;
     }
@@ -67,6 +63,6 @@ public final class Settings {
         methodCount = 2;
         methodOffset = 0;
         showThreadInfo = true;
-        logLevel = LogLevel.FULL;
+        isShowLog = true;
     }
 }

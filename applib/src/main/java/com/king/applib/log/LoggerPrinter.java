@@ -65,11 +65,6 @@ final class LoggerPrinter implements Printer {
     private String tag = DEFAULT_TAG;
 
     /**
-     * weather debug
-     */
-    private boolean debug = LEO_DEBUG;
-
-    /**
      * Localize single tag and method count for each thread
      */
     private final ThreadLocal<String> localTag = new ThreadLocal<>();
@@ -81,7 +76,7 @@ final class LoggerPrinter implements Printer {
     private final Settings settings = new Settings();
 
     public LoggerPrinter() {
-        init(LEO_DEBUG, DEFAULT_TAG);
+        init(DEFAULT_TAG);
     }
 
     /**
@@ -90,14 +85,13 @@ final class LoggerPrinter implements Printer {
      * @param tag is the given string which will be used in Logger
      */
     @Override
-    public Settings init(boolean debug, String tag) {
+    public Settings init(String tag) {
         if (tag == null) {
             throw new NullPointerException("tag may not be null");
         }
         if (tag.trim().length() == 0) {
             throw new IllegalStateException("tag may not be empty");
         }
-        this.debug = debug;
         this.tag = tag;
         return settings;
     }
@@ -118,15 +112,12 @@ final class LoggerPrinter implements Printer {
 
     @Override
     public void d(String message, Object... args) {
-        if (!debug) {
-            return;
-        }
         log(DEBUG, null, message, args);
     }
 
     @Override
     public void d(Object object) {
-        if (!debug) {
+        if (!settings.isShowLog()) {
             return;
         }
         String message;
@@ -145,41 +136,26 @@ final class LoggerPrinter implements Printer {
 
     @Override
     public void e(Throwable throwable, String message, Object... args) {
-        if (!debug) {
-            return;
-        }
         log(ERROR, throwable, message, args);
     }
 
     @Override
     public void w(String message, Object... args) {
-        if (!debug) {
-            return;
-        }
         log(WARN, null, message, args);
     }
 
     @Override
     public void i(String message, Object... args) {
-        if (!debug) {
-            return;
-        }
         log(INFO, null, message, args);
     }
 
     @Override
     public void v(String message, Object... args) {
-        if (!debug) {
-            return;
-        }
         log(VERBOSE, null, message, args);
     }
 
     @Override
     public void wtf(String message, Object... args) {
-        if (!debug) {
-            return;
-        }
         log(ASSERT, null, message, args);
     }
 
@@ -190,7 +166,7 @@ final class LoggerPrinter implements Printer {
      */
     @Override
     public void json(String json) {
-        if (!debug) {
+        if (!settings.isShowLog()) {
             return;
         }
         if (Helper.isEmpty(json)) {
@@ -224,7 +200,7 @@ final class LoggerPrinter implements Printer {
      */
     @Override
     public void xml(String xml) {
-        if (!debug) {
+        if (!settings.isShowLog()) {
             return;
         }
         if (Helper.isEmpty(xml)) {
@@ -246,10 +222,7 @@ final class LoggerPrinter implements Printer {
 
     @Override
     public synchronized void log(int priority, String tag, String message, Throwable throwable) {
-        if (!debug) {
-            return;
-        }
-        if (settings.getLogLevel() == LogLevel.NONE) {
+        if (!settings.isShowLog()) {
             return;
         }
         if (throwable != null && message != null) {
@@ -300,7 +273,7 @@ final class LoggerPrinter implements Printer {
      * This method is synchronized in order to avoid messy of logs' order.
      */
     private synchronized void log(int priority, Throwable throwable, String msg, Object... args) {
-        if (settings.getLogLevel() == LogLevel.NONE) {
+        if (!settings.isShowLog()) {
             return;
         }
         String tag = getTag();

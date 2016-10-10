@@ -28,7 +28,7 @@ public final class Logger {
      * @return the settings object
      */
     public static Settings init() {
-        return init(LEO_DEBUG, DEFAULT_TAG);
+        return init(DEFAULT_TAG);
     }
 
     /**
@@ -36,9 +36,9 @@ public final class Logger {
      *
      * @param tag is the given string which will be used in Logger as TAG
      */
-    public static Settings init(boolean debug, String tag) {
+    public static Settings init(String tag) {
         printer = new LoggerPrinter();
-        return printer.init(debug, tag);
+        return printer.init(tag);
     }
 
     public static void resetSettings() {
