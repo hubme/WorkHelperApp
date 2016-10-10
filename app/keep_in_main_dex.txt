@@ -5,7 +5,7 @@
     *;
 }
 
--keep class com.king.app.workhelper.thirdparty.tinker.WorkHelperApp {
+-keep class com.king.app.workhelper.app.WorkHelperApplication {
     *;
 }
 

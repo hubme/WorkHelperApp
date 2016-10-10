@@ -1,4 +1,4 @@
-package com.king.app.workhelper.thirdparty.tinker;
+package com.king.app.workhelper.app;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,7 +8,8 @@ import android.content.res.Resources;
 import android.support.multidex.MultiDex;
 
 import com.king.app.workhelper.BuildConfig;
-import com.king.app.workhelper.app.AppConfig;
+import com.king.app.workhelper.thirdparty.tinker.MyLogImp;
+import com.king.app.workhelper.thirdparty.tinker.TinkerManager;
 import com.king.applib.log.Logger;
 import com.tencent.tinker.anno.DefaultLifeCycle;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
@@ -38,7 +39,7 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
  * Created by HuoGuangxu on 2016/10/8.
  */
 
-@DefaultLifeCycle(application = "com.king.app.workhelper.thirdparty.tinker.WorkHelperApp",
+@DefaultLifeCycle(application = "com.king.app.workhelper.app.WorkHelperApplication",
         flags = ShareConstants.TINKER_ENABLE_ALL,
         loadVerifyFlag = false)
 public class WorkHelperAppLike extends DefaultApplicationLike {
