@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'com.tencent.tinker.patch'
-apply plugin: 'me.ele.amigo'
+//apply plugin: 'me.ele.amigo'
 
 android {
     compileSdkVersion 24
@@ -37,6 +37,11 @@ android {
         buildConfigField "String", "CLIENTVERSION", "\"${gitSha()}\""
         buildConfigField "String", "PLATFORM",  "\"all\""
     }
+    //tinker hot fix
+    dexOptions {
+        jumboMode = true
+    }
+
     //配置签名
     signingConfigs {
         config {
@@ -103,7 +108,7 @@ ext {
     tinkerEnabled = true
     //you should bak the following files
     //old apk file to build patch apk
-    tinkerOldApkPath = "${bakPath}/app-debug-1008-18-32-30.apk"
+    tinkerOldApkPath = "${bakPath}/app-release-1010-14-07-47.apk"
     //proguard mapping file to build patch apk
     tinkerApplyMappingPath = "${bakPath}/"
     //resource R.txt to build patch apk, must input if there is resource changed
@@ -201,8 +206,7 @@ if (buildWithTinker()) {
              * we can use git rev, svn rev or simply versionCode.
              * we will gen the tinkerId in your manifest automatic
              */
-            //tinkerId = getTinkerIdValue()
-            tinkerId = "tinkerId"
+            tinkerId = getTinkerIdValue()
         }
 
         dex {
@@ -231,9 +235,9 @@ if (buildWithTinker()) {
              *
              */
             loader = ["com.tencent.tinker.loader.*",
-                      "tinker.sample.android.SampleApplication",
+                      "com.king.app.workhelper.WorkHelperApp",
                       //use sample, let BaseBuildInfo unchangeable with tinker
-                      "tinker.sample.android.app.BaseBuildInfo"
+                      "com.king.app.workhelper.thirdparty.tinker.BaseBuildInfo"
             ]
         }
 

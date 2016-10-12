@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.thirdparty.tinker.BaseBuildInfo;
 import com.king.app.workhelper.thirdparty.tinker.BuildInfo;
 import com.king.app.workhelper.thirdparty.tinker.Utils;
 import com.tencent.tinker.lib.tinker.Tinker;
@@ -101,7 +102,7 @@ public class TinkerSampleActivity extends AppCompatActivity {
             sb.append(String.format("[buildConfig MESSSAGE] %s \n", BuildInfo.MESSAGE));
             sb.append(String.format("[TINKER_ID] %s \n", ShareTinkerInternals.getManifestTinkerID(getApplicationContext())));
         }
-        sb.append(String.format("[BaseBuildInfo Message] %s \n", "I won't change with tinker patch!"));
+        sb.append(String.format("[BaseBuildInfo Message] %s \n", BaseBuildInfo.TEST_MESSAGE));
 
         final TextView v = new TextView(context);
         v.setText(sb);

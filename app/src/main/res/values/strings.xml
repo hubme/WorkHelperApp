@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WorkHelper</string>
+    <string name="bug_fixed_msg">错误提示</string>
+    <string name="patched_msg">修复后的提示</string>
 </resources>

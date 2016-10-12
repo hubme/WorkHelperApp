@@ -56,4 +56,13 @@
         android:layout_below="@+id/killSelf"
         android:text="show info"/>
 
+    <Button
+        android:id="@+id/bugFix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/showInfo"
+        android:text="修复bug"/>
+
 </RelativeLayout>
