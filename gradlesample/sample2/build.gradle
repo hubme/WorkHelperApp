@@ -1,0 +1,20 @@
+/*
+https://docs.gradle.org/current/userguide/tutorial_using_tasks.html#ftn.N10D3F
+Task(任务)
+ */
+
+task hello {
+    println 'Hello World!'
+}
+
+task hello2 << {
+    println 'Hello World!'
+}
+/*
+运行：
+gradle hello,输出日志；git -q hello,不输出日志。see:https://docs.gradle.org/current/userguide/logging.html
+ */
+
+def Closure = {
+    println '我是一个闭包'
+}
