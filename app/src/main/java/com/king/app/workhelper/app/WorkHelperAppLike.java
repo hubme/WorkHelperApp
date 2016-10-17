@@ -51,7 +51,7 @@ public class WorkHelperAppLike extends DefaultApplicationLike {
 
     @Override public void onCreate() {
         super.onCreate();
-        Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1).hideThreadInfo();
+        Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
     }
 
     @Override public void onBaseContextAttached(Context base) {

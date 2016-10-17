@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.king.app.workhelper">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".app.WorkHelperApplication"
         android:allowBackup="true"
@@ -12,11 +14,7 @@
         <activity android:name=".activity.MainActivity">
         </activity>
         <activity android:name=".activity.ViewPagerActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <service
@@ -24,10 +22,15 @@
             android:exported="false"/>
 
         <activity android:name=".activity.TinkerSampleActivity">
-
         </activity>
         <activity android:name=".activity.SampleRetrofitActivity">
+        </activity>
+        <activity android:name=".activity.SampleWebViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
