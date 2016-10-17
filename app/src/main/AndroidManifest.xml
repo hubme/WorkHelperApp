@@ -3,6 +3,8 @@
           package="com.king.app.workhelper">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".app.WorkHelperApplication"
@@ -26,6 +28,15 @@
         <activity android:name=".activity.SampleRetrofitActivity">
         </activity>
         <activity android:name=".activity.SampleWebViewActivity">
+
+        </activity>
+        <activity android:name=".activity.TestActivity">
+
+        </activity>
+        <activity android:name=".activity.WebViewActivity">
+
+        </activity>
+        <activity android:name=".activity.WebActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

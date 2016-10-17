@@ -147,7 +147,7 @@ public class SampleWebViewActivity extends AppBaseActivity {
                 if (data != null) {
                     String picPath = data.getData().toString();
                     showToast(picPath);
-                    Logger.i("图片路径为： "+picPath);
+                    Logger.i("图片路径为： " + picPath);
                 }
                 break;
         }
