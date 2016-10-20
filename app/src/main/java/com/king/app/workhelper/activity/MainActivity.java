@@ -31,13 +31,14 @@ public class MainActivity extends AppBaseActivity {
     protected void initData() {
         super.initData();
         Logger.i(ExtendUtil.checkExternalSDExists() + "");
-        Logger.i(ExtendUtil.checkSDCardExists() + "");
+        Logger.i(ExtendUtil.isSDCardAvailable() + "");
     }
 
     @OnClick(R.id.hello_world)
     public void printHelloWorld() {
 //        startViewPagerActivity();
-        onPickImage();
+//        onPickImage();
+
     }
 
     @Subscribe

@@ -54,7 +54,7 @@ public class ExtendUtil {
     /**
      * 检查是否挂载SD卡
      */
-    public static boolean checkSDCardExists() {
+    public static boolean isSDCardAvailable() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 

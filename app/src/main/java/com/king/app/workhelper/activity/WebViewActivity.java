@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.common.FileUtils;
+import com.king.applib.util.ImageUtil;
 
 import java.io.File;
 
@@ -139,7 +139,7 @@ public class WebViewActivity extends AppBaseActivity {
     private void afterOpenCamera() {
         File f = new File(imagePaths);
         addImageGallery(f);
-        File newFile = FileUtils.compressFile(f.getPath(), compressPath);
+        File newFile = ImageUtil.compressFile(f.getPath(), compressPath);
     }
 
     /** 解决拍照后在相册中找不到的问题 */
@@ -154,7 +154,7 @@ public class WebViewActivity extends AppBaseActivity {
      * 本地相册选择图片
      */
     private void takePhotoFromAlbum() {
-        FileUtils.delFile(compressPath);
+        ImageUtil.delFile(compressPath);
         Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         String IMAGE_UNSPECIFIED = "image/*";
         innerIntent.setType(IMAGE_UNSPECIFIED); // 查看类型
@@ -183,7 +183,7 @@ public class WebViewActivity extends AppBaseActivity {
         // 最后根据索引值获取图片路径
         String path = cursor.getString(column_index);
         if (path != null && (path.endsWith(".png") || path.endsWith(".PNG") || path.endsWith(".jpg") || path.endsWith(".JPG"))) {
-            File newFile = FileUtils.compressFile(path, compressPath);
+            File newFile = ImageUtil.compressFile(path, compressPath);
             return Uri.fromFile(newFile);
         } else {
             Toast.makeText(this, "上传的图片仅支持png或jpg格式", Toast.LENGTH_SHORT).show();

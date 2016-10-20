@@ -1,8 +1,12 @@
 package com.king.app.workhelper.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -13,113 +17,79 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.applib.log.Logger;
+import com.king.applib.util.ImageUtil;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by HuoGuangxu on 2016/10/17.
  */
 
-public class WebActivity2 extends AppBaseActivity {
+public class WebActivity2 extends Activity {
     private static final String TAG = "aaa";
+    private static String DingDang = "https://cubetest.doraemoney.com/index?proId=ad63c39595d40686952528d1ae469a00";
     private WebView webView;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
     private final static int FILECHOOSER_RESULTCODE = 2;
+    private static final int REQ_CODE_CAMERA = 3;
+    private static final int REQ_CODE_ALBUM = 4;
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mFilePathCallback;
 
-    private String mCameraPhotoPath;
+    private String mCameraPhotoPath = Environment.getExternalStorageDirectory().getPath() + "/000/upload_photo.jpg";
 
-    @Override public int getContentLayout() {
-        return R.layout.activity_webview;
-    }
 
-    @Override protected void initData() {
-        super.initData();
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.web_view);
-        webView.loadUrl("file:///android_asset/upload_image.html");
+//        webView.loadUrl("file:///android_asset/upload_image.html");
+        webView.loadUrl(DingDang);
         WebSettings mWebSettings = webView.getSettings();
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setSupportZoom(false);
         mWebSettings.setAllowFileAccess(true);
+        mWebSettings.setAllowFileAccess(true);
         mWebSettings.setAllowContentAccess(true);
-        webView.setWebChromeClient(new MyWebChromeClient());
+
+        webView.setWebChromeClient(mWebChromeClient);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 Log.i(TAG, "shouldOverrideUrlLoading url=" + url);
                 view.loadUrl(url);
-                return false;
+                return true;
             }
         });
     }
 
     //在sdcard卡创建缩略图
-    //createImageFileInSdcard
     private File createImageFile() {
-        File file = new File(Environment.getExternalStorageDirectory() + "/000", "tmp.png");
-        mCameraPhotoPath = file.getAbsolutePath();
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        File file = new File(mCameraPhotoPath);
+        file.deleteOnExit();
+        File parentFile = file.getParentFile();
+        if (!parentFile.exists()) {
+            parentFile.mkdirs();
         }
         return file;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FILECHOOSER_RESULTCODE) {
-            if (null == mUploadMessage)
-                return;
-            Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
-            /*if (result != null) {
-                String imagePath = ImageFilePath.getPath(this, result);
-                if (!TextUtils.isEmpty(imagePath)) {
-                    result = Uri.parse("file:///" + imagePath);
-                }
-            }*/
-            mUploadMessage.onReceiveValue(result);
-            mUploadMessage = null;
-        } else if (requestCode == INPUT_FILE_REQUEST_CODE && mFilePathCallback != null) {
-            // 5.0的回调
-            Uri[] results = null;
-            if (resultCode == Activity.RESULT_OK) {
-                if (data == null) {
-                    // If there is not data, then we may have taken a photo
-                    if (mCameraPhotoPath != null) {
-                        Logger.d("camera_photo_path", mCameraPhotoPath);
-                        results = new Uri[]{Uri.parse(mCameraPhotoPath)};
-                    }
-                } else {
-                    String dataString = data.getDataString();
-                    Logger.d("camera_dataString", dataString);
-                    if (dataString != null) {
-                        results = new Uri[]{Uri.parse(dataString)};
-                    }
-                }
-            }
-
-            mFilePathCallback.onReceiveValue(results);
-            mFilePathCallback = null;
-        }
-    }
-
-    private class MyWebChromeClient extends WebChromeClient {
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
         // android 5.0 这里需要使用android5.0 sdk
-        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
-            Log.d(TAG, "onShowFileChooser");
+        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
+                                         WebChromeClient.FileChooserParams fileChooserParams) {
+
+            Log.i(TAG, "onShowFileChooser");
             if (mFilePathCallback != null) {
                 mFilePathCallback.onReceiveValue(null);
             }
             mFilePathCallback = filePathCallback;
+
             /**
              Open Declaration   String android.provider.MediaStore.ACTION_IMAGE_CAPTURE = "android.media.action.IMAGE_CAPTURE"
              Standard Intent action that can be sent to have the camera application capture an image and return it.
@@ -144,8 +114,7 @@ public class WebActivity2 extends AppBaseActivity {
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
                     mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            Uri.fromFile(photoFile));
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                     System.out.println(mCameraPhotoPath);
                 } else {
                     takePictureIntent = null;
@@ -158,6 +127,7 @@ public class WebActivity2 extends AppBaseActivity {
             Intent[] intentArray;
             if (takePictureIntent != null) {
                 intentArray = new Intent[]{takePictureIntent};
+                System.out.println(takePictureIntent);
             } else {
                 intentArray = new Intent[0];
             }
@@ -168,41 +138,126 @@ public class WebActivity2 extends AppBaseActivity {
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
 
             startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE);
+
             return true;
         }
 
-        // For Android 3.0+
+        // For Android 3.0-
         public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-            Log.d(TAG, "openFileChooser1");
-
+            Log.i(TAG, "openFileChooser 3.0-");
             mUploadMessage = uploadMsg;
-            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-            i.addCategory(Intent.CATEGORY_OPENABLE);
-            i.setType("image/*");
-            startActivityForResult(Intent.createChooser(i, "Image Chooser"), FILECHOOSER_RESULTCODE);
-
+            selectImage();
         }
 
         // For Android 3.0+
         public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
-            Log.d(TAG, "openFileChooser2");
+            Log.i(TAG, "openFileChooser 3.0+");
             mUploadMessage = uploadMsg;
-            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-            i.addCategory(Intent.CATEGORY_OPENABLE);
-            i.setType("image/*");
-            startActivityForResult(Intent.createChooser(i, "Image Chooser"), FILECHOOSER_RESULTCODE);
+            selectImage();
         }
 
         //For Android 4.1
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-            Log.d(TAG, "openFileChooser3");
-
+            Log.i(TAG, "openFileChooser 4.1");
             mUploadMessage = uploadMsg;
-            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-            i.addCategory(Intent.CATEGORY_OPENABLE);
-            i.setType("image/*");
-            startActivityForResult(Intent.createChooser(i, "Image Chooser"), FILECHOOSER_RESULTCODE);
+            selectImage();
+        }
+    };
 
+    /*
+    弹出什么都不选，返回，不能再选择，即只能选择一次。
+     */
+    private void selectImage() {
+        String[] selectPicTypeStr = {"照相机", "图片"};
+        new AlertDialog.Builder(this).setTitle("选择照片").setCancelable(false)
+                .setItems(selectPicTypeStr, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                takePhotoFromCamera();
+                                break;
+                            case 1:
+                                takePhotoFromAlbum();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
+    private void takePhotoFromAlbum() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQ_CODE_ALBUM);
+    }
+
+    /**
+     * 打开照相机
+     */
+    private void takePhotoFromCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // 必须确保文件夹路径存在，否则拍照后无法完成回调
+        File photoFile = new File(mCameraPhotoPath);
+        if (!photoFile.exists()) {
+            File photoParentDir = photoFile.getParentFile();
+            if (!photoParentDir.exists()) {
+                photoParentDir.mkdirs();
+            }
+        } else {
+            if (photoFile.exists()) {
+                photoFile.delete();
+            }
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+        startActivityForResult(intent, REQ_CODE_CAMERA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult");
+        if (requestCode == REQ_CODE_CAMERA) {
+            if (null == mUploadMessage){
+                return;
+            }
+            mUploadMessage.onReceiveValue(Uri.parse("file:///" + mCameraPhotoPath));
+            mUploadMessage = null;
+        } else if (requestCode == FILECHOOSER_RESULTCODE) {
+            if (null == mUploadMessage)
+                return;
+            String photoFilePath = "";
+            if (data != null) {
+                photoFilePath = ImageUtil.uri2ImageFile(data.getData(), getContentResolver());
+            }
+
+            mUploadMessage.onReceiveValue(Uri.parse("file:///" + photoFilePath));
+            mUploadMessage = null;
+        } else if (requestCode == INPUT_FILE_REQUEST_CODE && mFilePathCallback != null) {
+            // 5.0的回调
+            Uri[] results = null;
+
+            // Check that the response is a good one
+            if (resultCode == Activity.RESULT_OK) {
+                if (data == null) {
+                    // If there is not data, then we may have taken a photo
+                    if (mCameraPhotoPath != null) {
+                        Logger.d("camera_photo_path", mCameraPhotoPath);
+                        results = new Uri[]{Uri.parse(mCameraPhotoPath)};
+                    }
+                } else {
+                    String dataString = data.getDataString();
+                    Logger.d("camera_dataString", dataString);
+                    if (dataString != null) {
+                        results = new Uri[]{Uri.parse(dataString)};
+                    }
+                }
+            }
+
+            mFilePathCallback.onReceiveValue(results);
+            mFilePathCallback = null;
         }
     }
 }
