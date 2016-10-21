@@ -1,5 +1,8 @@
 package com.king.applib.util;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 
 import com.king.applib.log.Logger;
@@ -66,5 +69,21 @@ public class ExtendUtil {
         return evn.containsKey("SECONDARY_STORAGE");
     }
 
+    /**
+     * 拨打电话
+     */
+    public static void makePhoneCall(Context context, String telNumber) {
+        if (context == null || StringUtil.isNullOrEmpty(telNumber)) {
+            return;
+        }
+        if (!telNumber.toLowerCase().startsWith("tel:")) {
+            telNumber = "tel:" + telNumber;
+        }
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(telNumber));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
 
 }
