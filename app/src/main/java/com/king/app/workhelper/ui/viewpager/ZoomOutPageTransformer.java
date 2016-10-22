@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common;
+package com.king.app.workhelper.ui.viewpager;
 
 import android.annotation.SuppressLint;
 import android.support.v4.view.ViewPager;
