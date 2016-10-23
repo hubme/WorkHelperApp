@@ -22,10 +22,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 /**
+ * 下载大文件的管理类
  * Created by HuoGuangxu on 2016/10/20.
  */
 
 public class DownloadManager {
+    public static final String ACTION_DOWNLOAD_FILE = "fund.intent.action.DOWNLOAD_FILE";
     private Context mContext;
     private String mAppFileName = "update.apk";
     private final OkHttpClient mOkHttpClient;
@@ -33,9 +35,10 @@ public class DownloadManager {
     private static final int DOWNLOAD_MSG_INTERVAL = 400;
     private static final String APK_DOWNLOAD_URL = "http://192.168.38.2:8080/appupdate/app_update.apk";
 
-    public DownloadManager(Context context, OkHttpClient okHttpClient) {
+    public DownloadManager(Context context) {
         mContext = context;
-        mOkHttpClient = okHttpClient;
+        // FIXME: 2016/10/22 使用OkHttpClient单例
+        mOkHttpClient = new OkHttpClient();
     }
 
     /**

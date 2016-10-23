@@ -6,7 +6,8 @@ package com.king.app.workhelper.constant;
  */
 
 public class GlobalConstant {
-    public interface BUNDLE_PARAMS_KEY{
+    public interface PARAMS_KEY {
         String EXTRA_KEY = "EXTRA_KEY";
+        String APP_DOWNLOAD_URL = "APP_DOWNLOAD_URL";
     }
 }

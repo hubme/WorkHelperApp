@@ -56,7 +56,7 @@ public class MainActivity extends AppBaseActivity {
         ArrayList<Person> arrayList = new ArrayList<>();
         arrayList.add(new Person("000"));
         arrayList.add(new Person("111"));
-        bundle.putSerializable(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY, null);
+        bundle.putSerializable(GlobalConstant.PARAMS_KEY.EXTRA_KEY, null);
 
         startActivity(bundle, ViewPagerActivity.class);
     }

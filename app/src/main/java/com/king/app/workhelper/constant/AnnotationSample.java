@@ -27,7 +27,7 @@ public class AnnotationSample {
     public static final int SAT = 6;
     public static final int SUN = 7;
 
-    @IntDef({MON, TUE, WED})
+    @IntDef({MON, TUE, WED, THU, FRI, SAT, SUN})
     public @interface WeakDay {
 
     }

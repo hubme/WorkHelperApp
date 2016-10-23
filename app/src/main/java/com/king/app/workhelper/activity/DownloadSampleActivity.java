@@ -1,8 +1,11 @@
 package com.king.app.workhelper.activity;
 
+import android.content.Intent;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.common.DownloadManager;
+import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.service.DownloadFileService;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -21,7 +24,7 @@ import okhttp3.Response;
  */
 
 public class DownloadSampleActivity extends AppBaseActivity {
-    private static final String APK_DOWNLOAD_URL = "http://192.168.38.2:8080/appupdate/app_update.apk";
+    private static final String APK_DOWNLOAD_URL = "http://192.168.9.102:8080/appupdate/app_update.apk";
     //    private static final String APK_DOWNLOAD_URL = "http://www.baidu.com";
     OkHttpClient mHttpClient;
 
@@ -40,15 +43,8 @@ public class DownloadSampleActivity extends AppBaseActivity {
     }
 
     private void downApk() {
-        Thread thread = new Thread(new DownRunnable());
-        thread.start();
-    }
-
-    private class DownRunnable implements Runnable {
-        @Override public void run() {
-            DownloadManager downloadManager = new DownloadManager(DownloadSampleActivity.this, mHttpClient);
-            downloadManager.downloadFile(new DownloadManager.Request(APK_DOWNLOAD_URL));
-        }
+        Intent intent = new Intent(this, DownloadFileService.class);
+        intent.putExtra(GlobalConstant.PARAMS_KEY.APP_DOWNLOAD_URL, APK_DOWNLOAD_URL);
     }
 
 
