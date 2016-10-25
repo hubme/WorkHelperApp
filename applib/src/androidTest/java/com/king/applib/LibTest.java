@@ -8,6 +8,7 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
+import com.king.applib.util.NetworkUtil;
 import com.king.applib.util.NumberUtil;
 import com.king.applib.util.SPUtil;
 
@@ -28,6 +29,13 @@ public class LibTest extends AndroidTestCase {
         super.setUp();
         Logger.init("aaa").methodCount(1).hideThreadInfo();
         mContext = getContext();
+    }
+
+    public void testNetwork() throws Exception {
+        Logger.i(NetworkUtil.isNetworkAvailable(mContext) + "");
+        Logger.i(NetworkUtil.isWifi(getContext()) + "");
+        Logger.i(getContext().getExternalCacheDir().getAbsolutePath());//"/storage/sdcard0/Android/data/com.king.applib.test/cache"
+        Logger.i(getContext().getCacheDir().getAbsolutePath());//"/data/data/com.king.applib.test/cache"
     }
 
     public void testPrintArray() throws Exception {

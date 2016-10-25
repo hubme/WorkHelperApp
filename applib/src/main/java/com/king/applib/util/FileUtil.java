@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 /**
  * 文件工具类。读写sdcard记得申请权限.
@@ -123,6 +124,25 @@ public class FileUtil {
             //
         } finally {
             IOUtil.close(bufferedWriter);
+        }
+    }
+
+    /**
+     * 返回byte的数据大小对应的格式化大小文字
+     * @param size 大小
+     * @param format 格式化格式（DecimalFormat参数）
+     * @return 格式化后的文字
+     */
+    public static String formatFileSize(long size, String format) {
+        DecimalFormat decimalFormat = new DecimalFormat(format);
+        if (size < 1024) {
+            return size + "bytes";
+        } else if (size < 1024 * 1024) {
+            return decimalFormat.format(size / 1024f) + "KB";
+        } else if (size < 1024 * 1024 * 1024) {
+            return decimalFormat.format(size / 1024f / 1024f) + "MB";
+        } else {
+            return decimalFormat.format(size / 1024f / 1024f / 1024f) + "GB";
         }
     }
 }

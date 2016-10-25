@@ -44,7 +44,7 @@ public class DownloadSampleActivity extends AppBaseActivity {
 
     private void downApk() {
         Intent intent = new Intent(this, DownloadFileService.class);
-        intent.putExtra(GlobalConstant.PARAMS_KEY.APP_DOWNLOAD_URL, APK_DOWNLOAD_URL);
+        intent.putExtra(GlobalConstant.INTENT_PARAMS_KEY.APP_DOWNLOAD_URL, APK_DOWNLOAD_URL);
     }
 
 

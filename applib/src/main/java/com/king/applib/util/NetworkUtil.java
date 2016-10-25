@@ -9,61 +9,68 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 
+import com.king.applib.constant.GlobalConstants;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
 /**
+ * 网络相关工具类.
  * Created by HuoGuangxu on 2016/10/20.
  */
 
-public class NetUtil {
-    private NetUtil() {
+public class NetworkUtil {
+    private NetworkUtil() {
 
     }
 
-    // 网络是否可用
+    /**
+     * 判断网络是否可用.
+     */
     public static boolean isNetworkAvailable(Context context) {
+        if (context == null) {
+            return false;
+        }
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity == null) {
             return false;
-        } else {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
+        }
+        NetworkInfo[] allNets = connectivity.getAllNetworkInfo();
+        if (allNets != null) {
+            for (NetworkInfo info : allNets) {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
                 }
             }
         }
         return false;
     }
 
-    // 得到当前网络类型
-    public static String getNetWorkType(Context context) {
+    /**
+     * 判断是否是wifi
+     */
+    public static boolean isWifi(Context context) {
+        return GlobalConstants.NETWORK_TYPE.TYPE_WIFI == getNetWorkType(context);
+    }
+
+    /**
+     * 获得当前网络类型.
+     */
+    public static int getNetWorkType(Context context) {
+        if (context == null) {
+            return GlobalConstants.NETWORK_TYPE.TYPE_UNKNOWN;
+        }
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         int type = networkInfo.getType();
         if (type == ConnectivityManager.TYPE_WIFI) {
-            return "wifi";
+            return GlobalConstants.NETWORK_TYPE.TYPE_WIFI;
         } else if (type == ConnectivityManager.TYPE_MOBILE) {
-            return "mobile";
+            return GlobalConstants.NETWORK_TYPE.TYPE_MOBILE;
         }
-        return "unknow";
-    }
-
-    //当前网络是不是wifi
-    public static boolean isConnectedByWifi(Context context) {
-        try {
-            ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo ni = manager.getActiveNetworkInfo();
-            return ni.getType() == ConnectivityManager.TYPE_WIFI;
-        } catch (Exception e) {
-
-        }
-        return false;
+        return GlobalConstants.NETWORK_TYPE.TYPE_UNKNOWN;
     }
 
     // MOBILE网络是几G网2G？3G？4G？
