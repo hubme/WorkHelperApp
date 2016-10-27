@@ -3,8 +3,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <com.king.app.workhelper.ui.customview.SparkView
-        android:id="@+id/spark_view"
+    <com.king.app.workhelper.ui.customview.LoadingView
+        android:id="@+id/loading_view"
         android:layout_width="match_parent"
-        android:layout_height="270dp"/>
+        android:layout_height="wrap_content"/>
+
+
+    <CheckedTextView
+        android:id="@+id/btn_change_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:background="@color/colorAccent"
+        android:checked="false"
+        android:padding="10dp"
+        android:text="开始动画"/>
+
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,7 +27,7 @@ import java.io.IOException;
 
 public class ImageUtil {
 
-    private ImageUtil(){
+    private ImageUtil() {
 
     }
 
@@ -43,7 +44,6 @@ public class ImageUtil {
      * 把图片压缩到200K
      * @param oldpath 压缩前的图片路径
      * @param newPath 压缩后的图片路径
-     * @return
      */
     public static File compressFile(String oldpath, String newPath) {
         Bitmap compressBitmap = decodeFile(oldpath);
@@ -81,8 +81,6 @@ public class ImageUtil {
 
     /**
      * 旋转图片
-     * @param angle
-     * @param bitmap
      * @return Bitmap
      */
     public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
@@ -126,9 +124,6 @@ public class ImageUtil {
 
     /**
      * 把字节数组保存为一个文件
-     * @param b
-     * @param outputFile
-     * @return
      */
     public static File getFileFromBytes(byte[] b, String outputFile) {
         File ret = null;
@@ -156,8 +151,6 @@ public class ImageUtil {
 
     /**
      * 图片压缩
-     * @param fPath
-     * @return
      */
     public static Bitmap decodeFile(String fPath) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
@@ -185,7 +178,6 @@ public class ImageUtil {
 
     /**
      * 创建目录
-     * @param path
      */
     public static void setMkdir(String path) {
         File file = new File(path);
@@ -199,7 +191,6 @@ public class ImageUtil {
 
     /**
      * 获取目录名称
-     * @param url
      * @return FileName
      */
     public static String getFileName(String url) {
@@ -213,7 +204,6 @@ public class ImageUtil {
 
     /**
      * 删除该目录下的文件
-     * @param path
      */
     public static void delFile(String path) {
         if (!TextUtils.isEmpty(path)) {
@@ -249,8 +239,6 @@ public class ImageUtil {
 
     /**
      * Gets the content:// URI  from the given corresponding path to a file
-     * @param context
-     * @param imageFile
      * @return content Uri
      */
     public static Uri imageFile2Uri(Context context, File imageFile) {
@@ -274,5 +262,25 @@ public class ImageUtil {
                 return null;
             }
         }
+    }
+
+    /**
+     * 获取图片宽度.获取不到返回-1.
+     */
+    public static int getImageWidth(Context context, @DrawableRes int resId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(), resId, options);
+        return options.outWidth;
+    }
+
+    /**
+     * 获取图片高度.获取不到返回-1.
+     */
+    public static int getImageHeight(Context context, @DrawableRes int resId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(), resId, options);
+        return options.outHeight;
     }
 }

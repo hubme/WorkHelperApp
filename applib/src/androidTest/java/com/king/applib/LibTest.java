@@ -9,9 +9,11 @@ import com.king.applib.util.AppUtil;
 import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
+import com.king.applib.util.ImageUtil;
 import com.king.applib.util.NetworkUtil;
 import com.king.applib.util.NumberUtil;
 import com.king.applib.util.SPUtil;
+import com.king.applib.util.ScreenUtil;
 import com.king.applib.util.StringUtil;
 
 import java.io.File;
@@ -33,15 +35,24 @@ public class LibTest extends AndroidTestCase {
         mContext = getContext();
     }
 
+    public void testImageWidth() throws Exception {
+        Logger.i(ImageUtil.getImageWidth(mContext, R.drawable.home) + " == " + ImageUtil.getImageHeight(mContext, R.drawable.home));
+    }
+
+    public void testScreen() throws Exception {
+        Logger.i("屏幕宽度：" + ScreenUtil.getScreenWidth(mContext) + "; 屏幕高度: " + ScreenUtil.getScreenHeight(mContext));
+
+    }
+
     public void testBetweenDays() throws Exception {
         long day = DateTimeUtil.betweenDays("yyyy-MM-dd", "2011-10-23", "2011-10-23")/* / DateUtils.DAY_IN_MILLIS*/;
-        Logger.i(day+"");
+        Logger.i(day + "");
     }
 
     public void testEmpty() throws Exception {
-        Logger.i(StringUtil.containsNullOrEmpty("aaa", null)+"");
-        Logger.i(StringUtil.containsNullOrEmpty("aaa", "")+"");
-        Logger.i(StringUtil.containsNullOrEmpty("aaa", "bbb")+"");
+        Logger.i(StringUtil.containsNullOrEmpty("aaa", null) + "");
+        Logger.i(StringUtil.containsNullOrEmpty("aaa", "") + "");
+        Logger.i(StringUtil.containsNullOrEmpty("aaa", "bbb") + "");
     }
 
     public void testNetwork() throws Exception {

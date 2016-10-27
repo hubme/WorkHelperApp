@@ -3,6 +3,7 @@ package com.king.app.workhelper.common;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.view.View;
 import android.widget.Toast;
 
 import com.king.applib.base.BaseActivity;
@@ -15,7 +16,7 @@ import butterknife.ButterKnife;
  * Created by VanceKing on 2016/9/29.
  */
 
-public abstract class AppBaseActivity extends BaseActivity {
+public abstract class AppBaseActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,10 @@ public abstract class AppBaseActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         BusProvider.getEventBus().unregister(this);
+    }
+
+    @Override public void onClick(View v) {
+
     }
 
     /**

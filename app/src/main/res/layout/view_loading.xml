@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@id/boy_icon"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_gray_999_corner_5dp"/>
+
+    <RelativeLayout
+        android:id="@+id/boy_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_boy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/boy_running"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/iv_coin"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/iv_boy"
+            android:layout_alignRight="@id/iv_boy"
+            android:background="@mipmap/coin_rolling"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="76dp"
+        android:layout_height="70dp"
+        android:layout_above="@+id/progress_bar"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/loading_house"/>
+
+
+</RelativeLayout>
