@@ -2,6 +2,7 @@ package com.king.app.workhelper.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
@@ -9,7 +10,6 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.app.workhelper.model.entity.Person;
 import com.king.applib.log.Logger;
-import com.king.applib.util.ExtendUtil;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -30,8 +30,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        Logger.i(ExtendUtil.checkExternalSDExists() + "");
-        Logger.i(ExtendUtil.isSDCardAvailable() + "");
+        mHelloView.setText(Html.fromHtml(getString(R.string.html_text)));
     }
 
     @OnClick(R.id.hello_world)
@@ -56,7 +55,7 @@ public class MainActivity extends AppBaseActivity {
         ArrayList<Person> arrayList = new ArrayList<>();
         arrayList.add(new Person("000"));
         arrayList.add(new Person("111"));
-        bundle.putSerializable(GlobalConstant.PARAMS_KEY.EXTRA_KEY, null);
+        bundle.putSerializable(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY, null);
 
         startActivity(bundle, ViewPagerActivity.class);
     }

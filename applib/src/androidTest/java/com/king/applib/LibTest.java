@@ -6,11 +6,13 @@ import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
+import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.NetworkUtil;
 import com.king.applib.util.NumberUtil;
 import com.king.applib.util.SPUtil;
+import com.king.applib.util.StringUtil;
 
 import java.io.File;
 
@@ -29,6 +31,17 @@ public class LibTest extends AndroidTestCase {
         super.setUp();
         Logger.init("aaa").methodCount(1).hideThreadInfo();
         mContext = getContext();
+    }
+
+    public void testBetweenDays() throws Exception {
+        long day = DateTimeUtil.betweenDays("yyyy-MM-dd", "2011-10-23", "2011-10-23")/* / DateUtils.DAY_IN_MILLIS*/;
+        Logger.i(day+"");
+    }
+
+    public void testEmpty() throws Exception {
+        Logger.i(StringUtil.containsNullOrEmpty("aaa", null)+"");
+        Logger.i(StringUtil.containsNullOrEmpty("aaa", "")+"");
+        Logger.i(StringUtil.containsNullOrEmpty("aaa", "bbb")+"");
     }
 
     public void testNetwork() throws Exception {

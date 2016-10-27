@@ -24,8 +24,26 @@ public class StringUtil {
 
     }
 
+    /**
+     * 判断字符串是否是null或者empty
+     */
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.trim().isEmpty();
+    }
+
+    /**
+     * 如果可变字符串中包含null或empty,返回true;否则返回false.
+     */
+    public static boolean containsNullOrEmpty(String... strings) {
+        if (strings == null || strings.length < 1) {
+            return true;
+        }
+        for (String str : strings) {
+            if (StringUtil.isNullOrEmpty(str)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -98,7 +116,8 @@ public class StringUtil {
                     // do somthing...
                 }
             }, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            textView.setHighlightColor(Color.TRANSPARENT); //设置点击后的颜色为透明，否则会一直出现高亮            textView.setMovementMethod(LinkMovementMethod.getInstance());//开始响应点击事件
+            textView.setHighlightColor(Color.TRANSPARENT); //设置点击后的颜色为透明，否则会一直出现高亮
+            //textView.setMovementMethod(LinkMovementMethod.getInstance());//开始响应点击事件
         }
     }
 

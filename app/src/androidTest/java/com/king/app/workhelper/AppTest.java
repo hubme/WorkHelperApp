@@ -1,11 +1,13 @@
 package com.king.app.workhelper;
 
+import android.content.Context;
 import android.os.Environment;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.king.app.workhelper.common.BusProvider;
 import com.king.applib.log.Logger;
+import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 
 import java.io.File;
@@ -19,6 +21,12 @@ import static com.king.applib.util.FileUtil.createFile;
 
 public class AppTest extends AndroidTestCase {
     private static final String TAG = "aaa";
+    private Context mContext;
+
+    @Override protected void setUp() throws Exception {
+        super.setUp();
+        mContext = getContext();
+    }
 
     public void testBusProvider() throws Exception {
         for (int i = 0; i < 100; i++) {
@@ -56,5 +64,12 @@ public class AppTest extends AndroidTestCase {
         File file = FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/123");
         File newFile = FileUtil.createFile(file, "哈哈哈");
         FileUtil.writeToFile(newFile, "987654321");
+    }
+
+    public void testSpDp() throws Exception {
+        Logger.i(ExtendUtil.dp2px(mContext, 20)+"");
+        Logger.i(ExtendUtil.px2dp(mContext, 20)+"");
+        Logger.i(ExtendUtil.sp2px(mContext, 20)+"");
+        Logger.i(ExtendUtil.px2sp(mContext, 20)+"");
     }
 }

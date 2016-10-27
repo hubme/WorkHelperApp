@@ -2,4 +2,6 @@
     <string name="app_name">WorkHelper</string>
     <string name="bug_fixed_msg">错误提示</string>
     <string name="patched_msg">修复后的提示</string>
+
+    <string name="html_text"><Data><![CDATA[收不到短信？点击获取<font color="#3366FF">语音验证码</font>]]></Data></string>
 </resources>

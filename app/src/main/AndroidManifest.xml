@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".app.WorkHelperApplication"
@@ -33,8 +34,12 @@
         <activity android:name=".activity.SampleWebViewActivity">
 
         </activity>
-        <activity android:name=".activity.TestActivity">
+        <activity android:name=".activity.CustomViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".activity.WebViewActivity">
 
@@ -43,13 +48,13 @@
 
         </activity>
         <activity android:name=".activity.DownloadSampleActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".activity.IntentServiceActivity">
+
+        </activity>
+
+        <activity android:name=".activity.WebViewLocateActivity">
 
         </activity>
 

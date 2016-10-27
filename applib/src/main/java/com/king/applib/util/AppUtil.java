@@ -96,4 +96,9 @@ public class AppUtil {
             return null;
         }
     }
+
+    /** * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * * @param context */
+    public static void cleanInternalCache(Context context) {
+
+    }
 }
