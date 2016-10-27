@@ -23,12 +23,14 @@ import static android.view.View.MeasureSpec.getMode;
  */
 
 public class LoadingView extends RelativeLayout {
+    private static final int DEFAULT_TOTAL_TIME = 60;
 
     private Context mContext;
     private ImageView mBoyIv;
     private AnimationDrawable mBoyRunAnim;
     private ImageView mCoinImage;
     private AnimatorSet mAnimatorSet;
+    private int mTotalTime = DEFAULT_TOTAL_TIME;
 
     public LoadingView(Context context) {
         this(context, null);
@@ -120,6 +122,16 @@ public class LoadingView extends RelativeLayout {
     public void pause() {
         pauseBoyRunningAnim();
         mAnimatorSet.cancel();
+    }
+
+    public void setTotalTime(int totalTime) {
+        if (totalTime > 0) {
+            mTotalTime = totalTime;
+        }
+    }
+
+    public void setStep(int step) {
+
     }
 
     /***
