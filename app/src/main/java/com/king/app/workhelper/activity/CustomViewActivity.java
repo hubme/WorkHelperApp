@@ -1,10 +1,11 @@
 package com.king.app.workhelper.activity;
 
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.ui.customview.LoadingView;
+import com.king.app.workhelper.ui.customview.LoadingDrawable;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -19,8 +20,9 @@ public class CustomViewActivity extends AppBaseActivity {
     @BindView(R.id.btn_change_anim)
     CheckedTextView mChangeAnimTv;
 
-    @BindView(R.id.loading_view)
-    LoadingView mLoadingView;
+    @BindView(R.id.iv_loading)
+    ImageView mLoadingView;
+    private LoadingDrawable mLoadingDrawable;
 
     @Override public int getContentLayout() {
 
@@ -30,17 +32,18 @@ public class CustomViewActivity extends AppBaseActivity {
     @Override protected void initData() {
         super.initData();
 
+        mLoadingDrawable = new LoadingDrawable(this);
+        mLoadingView.setImageDrawable(mLoadingDrawable);
     }
 
     @OnClick(R.id.btn_change_anim)
     public void changeAnim() {
-        mChangeAnimTv.toggle();
-        if (mChangeAnimTv.isChecked()) {
-            mChangeAnimTv.setText("暂停动画");
-            mLoadingView.start();
+        if (mLoadingDrawable.isRunning()) {
+            mLoadingDrawable.stop();
+            mChangeAnimTv.setText("start");
         } else {
-            mChangeAnimTv.setText("开始动画");
-            mLoadingView.pause();
+            mLoadingDrawable.start();
+            mChangeAnimTv.setText("stop");
         }
     }
 }

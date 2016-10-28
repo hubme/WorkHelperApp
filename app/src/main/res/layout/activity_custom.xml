@@ -3,11 +3,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <com.king.app.workhelper.ui.customview.LoadingView
-        android:id="@+id/loading_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
+    <ImageView
+        android:id="@+id/iv_loading"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
 
     <CheckedTextView
         android:id="@+id/btn_change_anim"
