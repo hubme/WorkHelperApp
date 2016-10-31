@@ -11,6 +11,7 @@ import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 
 import java.io.File;
+import java.util.Random;
 
 import static android.os.Environment.DIRECTORY_DCIM;
 import static com.king.applib.util.FileUtil.createFile;
@@ -26,6 +27,22 @@ public class AppTest extends AndroidTestCase {
     @Override protected void setUp() throws Exception {
         super.setUp();
         mContext = getContext();
+    }
+
+    public void testResources() throws Exception{
+//        Logger.i("getResourceName: " + mContext.getResources().getResourceName(R.drawable.boy_running));//com.king.app.workhelper:drawable/boy_running
+//        Logger.i("getResourceEntryName: " + mContext.getResources().getResourceEntryName(R.drawable.boy_running));//boy_running
+//        Logger.i("getResourcePackageName: " + mContext.getResources().getResourcePackageName(R.drawable.boy_running));//com.king.app.workhelper
+//        Logger.i("getResourceTypeName: " + mContext.getResources().getResourceTypeName(R.drawable.boy_running));//drawable
+
+        Logger.i(mContext.getResources().getResourceEntryName(R.color.colorPrimary));
+        Logger.i(mContext.getResources().getResourceEntryName(R.dimen.ts_25));
+        Logger.i(mContext.getResources().getResourceEntryName(R.drawable.little_boy_10));
+    }
+
+    public void testRandom() throws Exception{
+        Random random = new Random();
+        Logger.i(random.nextInt(2)+"");
     }
 
     public void testBusProvider() throws Exception {

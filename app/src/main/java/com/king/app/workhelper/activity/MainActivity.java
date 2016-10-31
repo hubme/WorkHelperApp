@@ -9,6 +9,7 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.app.workhelper.model.entity.Person;
+import com.king.app.workhelper.ui.guaid.GuideHelper;
 import com.king.applib.log.Logger;
 import com.squareup.otto.Subscribe;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppBaseActivity {
     protected void initData() {
         super.initData();
         mHelloView.setText(Html.fromHtml(getString(R.string.html_text)));
+        showUserGuide();
     }
 
     @OnClick(R.id.hello_world)
@@ -58,6 +60,13 @@ public class MainActivity extends AppBaseActivity {
         bundle.putSerializable(GlobalConstant.BUNDLE_PARAMS_KEY.EXTRA_KEY, null);
 
         startActivity(bundle, ViewPagerActivity.class);
+    }
+
+    private void showUserGuide() {
+        GuideHelper guideHelper = new GuideHelper(this);
+        GuideHelper.TipData tipData = new GuideHelper.TipData(R.mipmap.guaid_tip, mHelloView);
+        guideHelper.addPage(tipData);
+        guideHelper.show(false);
     }
 
     /**
