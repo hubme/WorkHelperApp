@@ -1,9 +1,8 @@
 package com.king.applib;
 
-import android.text.TextUtils;
+import android.content.Context;
+import android.support.annotation.StringRes;
 import android.widget.TextView;
-
-import java.util.Locale;
 
 /**
  * TextView/Button倒计时帮助类,以秒为单位.<br/>
@@ -14,20 +13,15 @@ public class CountDownHelper {
     private CountDownTimer mCountDownTimer;
     private TextView mCountDownTV;
     private String mFinishedText;
-    private String mPrefixText;
     private int mMaxDuration;
     private int mIntervalStep;
     private onCountDownFinishedListener mFinishedListener;
+    private final Context mContext;
+    @StringRes
+    private int mStringResId;
 
-    private CountDownHelper(Builder builder) {
-        mCountDownTV = builder.mCountDownTV;
-        mFinishedText = builder.mFinishedText;
-        mPrefixText = builder.mPrefixText;
-        mMaxDuration = builder.mMaxDuration;
-        mIntervalStep = builder.mIntervalStep;
-        mFinishedListener = builder.listener;
-
-        initTimer();
+    private CountDownHelper(Context context) {
+        mContext = context;
     }
 
     public CountDownTimer getTimer() {
@@ -44,7 +38,7 @@ public class CountDownHelper {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (mCountDownTV != null) {
-                    mCountDownTV.setText(String.format(Locale.US, "%s%d%s", mPrefixText == null ? "" : mPrefixText, (millisUntilFinished + 15) / 1000, "秒"));
+                    mCountDownTV.setText(mContext.getString(mStringResId, (millisUntilFinished + 15) / 1000));
                 }
             }
 
@@ -61,6 +55,29 @@ public class CountDownHelper {
         };
     }
 
+    private void setStringRes(@StringRes int stringResId) {
+        mStringResId = stringResId;
+    }
+
+    private void setFinishedText(String finishedText) {
+        mFinishedText = finishedText;
+    }
+
+    private void setOnFinishedListener(onCountDownFinishedListener listener) {
+        mFinishedListener = listener;
+    }
+
+    private void setMaxDuration(int duration) {
+        mMaxDuration = duration;
+    }
+
+    private void setIntervalStep(int interval) {
+        mIntervalStep = interval;
+    }
+
+    private void setTextView(TextView textView) {
+        mCountDownTV = textView;
+    }
 
     /**
      * 开始倒计时
@@ -70,16 +87,27 @@ public class CountDownHelper {
         mCountDownTV.setEnabled(false);
     }
 
+    /**
+     * 停止倒计时
+     */
+    public void stop() {
+        mCountDownTimer.onFinish();
+        mCountDownTimer.cancel();
+    }
+
     public static class Builder {
-        private TextView mCountDownTV;
+        @StringRes
+        private int mStringResId;
         private String mFinishedText;
-        private String mPrefixText;
         private int mMaxDuration;
         private int mIntervalStep;
-        private onCountDownFinishedListener listener;
+        private onCountDownFinishedListener mListener;
+        private final Context mContext;
+        private final TextView mTextView;
 
-        public Builder(TextView textView) {
-            mCountDownTV = textView;
+        public Builder(Context context, TextView textView) {
+            mContext = context;
+            mTextView = textView;
         }
 
         /**
@@ -87,17 +115,6 @@ public class CountDownHelper {
          */
         public Builder setFinishedText(String finishedText) {
             mFinishedText = finishedText;
-            return this;
-        }
-
-        /**
-         * 数字前面的字符串
-         */
-        public Builder setPrefixText(String prefixText) {
-            if (prefixText == null || TextUtils.isEmpty(prefixText.trim())) {
-                prefixText = "";
-            }
-            mPrefixText = prefixText;
             return this;
         }
 
@@ -110,6 +127,15 @@ public class CountDownHelper {
             } else {
                 mMaxDuration = duration;
             }
+            return this;
+        }
+
+        /**
+         * 设置显示的字符串
+         * @param stringResId 必须包含"%1$d",用于显示秒数
+         */
+        public Builder setStringRes(@StringRes int stringResId) {
+            mStringResId = stringResId;
             return this;
         }
 
@@ -131,12 +157,20 @@ public class CountDownHelper {
          * 倒计时回调结束监听
          */
         public Builder setOnFinishedListener(onCountDownFinishedListener listener) {
-            this.listener = listener;
+            this.mListener = listener;
             return this;
         }
 
         public CountDownHelper build() {
-            return new CountDownHelper(this);
+            CountDownHelper countDownHelper = new CountDownHelper(mContext);
+            countDownHelper.setTextView(mTextView);
+            countDownHelper.setFinishedText(mFinishedText);
+            countDownHelper.setIntervalStep(mIntervalStep);
+            countDownHelper.setMaxDuration(mMaxDuration);
+            countDownHelper.setOnFinishedListener(mListener);
+            countDownHelper.setStringRes(mStringResId);
+            countDownHelper.initTimer();
+            return countDownHelper;
         }
     }
 

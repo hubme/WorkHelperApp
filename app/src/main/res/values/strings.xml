@@ -4,4 +4,6 @@
     <string name="patched_msg">修复后的提示</string>
 
     <string name="html_text"><Data><![CDATA[收不到短信？点击获取<font color="#3366FF">语音验证码</font>]]></Data></string>
+    <string name="counting_down_text">%1$d秒后重试</string>
+
 </resources>
