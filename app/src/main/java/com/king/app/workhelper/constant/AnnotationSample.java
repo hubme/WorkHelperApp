@@ -9,6 +9,13 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.RequiresPermission;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * Android Annotation是以Support Library的形式给我们提供的，从安卓19.1开始出现.
  * 安卓注解有8种类型，分别是Nullness注解、资源类型注解、线程注解、
@@ -55,5 +62,17 @@ public class AnnotationSample {
     @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
 
+    }
+
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @Inherited
+    public @interface MethodInfo {
+        String author() default "VanceKing";
+
+        String date();
+
+        int version() default 1;
     }
 }
