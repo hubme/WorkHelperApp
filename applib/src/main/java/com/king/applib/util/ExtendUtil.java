@@ -1,14 +1,19 @@
 package com.king.applib.util;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 
 import com.king.applib.log.Logger;
 
 import java.util.List;
 import java.util.Map;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
  * 扩展工具类
@@ -99,7 +104,6 @@ public class ExtendUtil {
 
     /**
      * px转dp
-     *
      * @param context 上下文
      * @param pxValue px值
      * @return dp值
@@ -111,7 +115,6 @@ public class ExtendUtil {
 
     /**
      * sp转px
-     *
      * @param context 上下文
      * @param spValue sp值
      * @return px值
@@ -123,7 +126,6 @@ public class ExtendUtil {
 
     /**
      * px转sp
-     *
      * @param context 上下文
      * @param pxValue px值
      * @return sp值
@@ -131,5 +133,23 @@ public class ExtendUtil {
     public static int px2sp(Context context, float pxValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    private void copyTextToClipboard(Context context, String label, final String text) {
+        if (context == null || StringUtil.isNullOrEmpty(text)) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+            if (clipboard != null) {
+                ClipData clip = ClipData.newPlainText(label, text);
+                clipboard.setPrimaryClip(clip);
+            }
+        } else {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+            if (clipboard != null) {
+                clipboard.setText(text);
+            }
+        }
     }
 }
