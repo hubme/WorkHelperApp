@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.king.applib.log.Logger;
 
@@ -135,6 +137,9 @@ public class ExtendUtil {
         return (int) (pxValue / fontScale + 0.5f);
     }
 
+    /**
+     * 拷贝字符串
+     */
     private void copyTextToClipboard(Context context, String label, final String text) {
         if (context == null || StringUtil.isNullOrEmpty(text)) {
             return;
@@ -150,6 +155,32 @@ public class ExtendUtil {
             if (clipboard != null) {
                 clipboard.setText(text);
             }
+        }
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    public static void hideSoftInput(View view) {
+        if (null == view) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);//InputMethodManager.HIDE_NOT_ALWAYS等只能隐藏一次
+        }
+    }
+
+    /**
+     * 显示软键盘
+     */
+    public static void showSoftInput(View view) {
+        if (null == view) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         }
     }
 }
