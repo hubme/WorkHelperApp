@@ -12,6 +12,7 @@ import com.king.applib.util.FileUtil;
 
 import java.io.File;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import static android.os.Environment.DIRECTORY_DCIM;
 import static com.king.applib.util.FileUtil.createFile;
@@ -27,6 +28,12 @@ public class AppTest extends AndroidTestCase {
     @Override protected void setUp() throws Exception {
         super.setUp();
         mContext = getContext();
+    }
+
+    public void testTimeUnit() {
+        Logger.i(TimeUnit.MILLISECONDS.toSeconds(1000)+"");
+        Logger.i(TimeUnit.SECONDS.toSeconds(1000)+"");
+        Logger.i(TimeUnit.MINUTES.toSeconds(1000)+"");
     }
 
     public void testResources() throws Exception{
