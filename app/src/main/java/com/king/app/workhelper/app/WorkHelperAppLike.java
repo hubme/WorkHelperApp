@@ -57,6 +57,7 @@ public class WorkHelperAppLike extends DefaultApplicationLike {
     @Override public void onCreate() {
         super.onCreate();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
+        Logger.i("WorkHelperAppLike#onCreate()");
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
@@ -85,5 +86,15 @@ public class WorkHelperAppLike extends DefaultApplicationLike {
 
     public void registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks callback) {
         getApplication().registerActivityLifecycleCallbacks(callback);
+    }
+
+    @Override public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        Logger.i("WorkHelperAppLike#onTrimMemory()");
+    }
+
+    @Override public void onTerminate() {
+        super.onTerminate();
+        Logger.i("WorkHelperAppLike#onTerminate()");
     }
 }
