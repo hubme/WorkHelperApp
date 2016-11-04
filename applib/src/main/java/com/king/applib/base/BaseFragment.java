@@ -29,12 +29,12 @@ public abstract class BaseFragment extends Fragment {
         return mRootView;
     }
 
-    public abstract int getContentLayout();
+    protected abstract int getContentLayout();
 
     protected void initContentView() {
     }
 
-    private void initData() {
+    protected void initData() {
 
     }
 }

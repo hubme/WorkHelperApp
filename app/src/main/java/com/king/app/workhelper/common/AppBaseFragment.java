@@ -15,13 +15,15 @@ public abstract class AppBaseFragment extends BaseFragment {
 
     @Override
     protected void initContentView() {
-        unbinder = ButterKnife.bind(this, mRootView);
         super.initContentView();
+        unbinder = ButterKnife.bind(this, mRootView);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 }

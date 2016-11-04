@@ -27,7 +27,6 @@ public class WorkHelperApp extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
-        Logger.i("WorkHelperApp#onCreate()");
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
