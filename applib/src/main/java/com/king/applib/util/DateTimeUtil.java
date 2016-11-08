@@ -63,7 +63,7 @@ public class DateTimeUtil {
      * @param template 日期格式
      */
     public static long betweenDays(String template, String firstDay, String secondDay) {
-        if (StringUtil.containsNullOrEmpty(template, firstDay, secondDay)) {
+        if (StringUtil.isAnyEmpty(template, firstDay, secondDay)) {
             return -1;
         }
         DATE_FORMATTER.applyPattern(template);

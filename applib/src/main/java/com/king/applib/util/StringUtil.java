@@ -25,7 +25,7 @@ public class StringUtil {
     }
 
     /**
-     * 判断字符串是否是null或者empty
+     * 判断字符串是否是null或者empty(""," ")
      */
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.trim().isEmpty();
@@ -34,7 +34,7 @@ public class StringUtil {
     /**
      * 如果可变字符串中包含null或empty,返回true;否则返回false.
      */
-    public static boolean containsNullOrEmpty(String... strings) {
+    public static boolean isAnyEmpty(String... strings) {
         if (strings == null || strings.length < 1) {
             return true;
         }
@@ -50,8 +50,7 @@ public class StringUtil {
      * 创建一个Spannable对象
      */
     public static Spannable createSpannable(String string) {
-        Spannable WordtoSpan = new SpannableString(string);
-        return WordtoSpan;
+        return new SpannableString(string);
     }
 
     /**

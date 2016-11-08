@@ -12,15 +12,38 @@ import java.text.DecimalFormat;
  */
 
 public class FileUtil {
+    private FileUtil() {
+        throw new IllegalStateException("No instances!");
+    }
+
+    /**
+     * 根据文件路径获取文件.
+     */
+    public static File getFileByPath(String filePath) {
+        return StringUtil.isNullOrEmpty(filePath) ? null : new File(filePath);
+    }
+
+    /**
+     * 根据文件路径判断文件是否存在
+     */
+    public static boolean isFileExists(String filePath) {
+        return isFileExists(getFileByPath(filePath));
+    }
+
+    /**
+     * 判断文件是否存在
+     */
+    public static boolean isFileExists(File file) {
+        return file != null && file.exists();
+    }
+
     /**
      * 获取全路径中的文件拓展名.
      * @param file 文件
      * @return 文件拓展名
      */
     public static String getFileExtension(File file) {
-        if (file == null)
-            return null;
-        return getFileExtension(file.getAbsolutePath());
+        return file == null ? "" : getFileExtension(file.getAbsolutePath());
     }
 
     /**
@@ -61,7 +84,7 @@ public class FileUtil {
     }
 
     /**
-     * 根据文件目录和文件名称文件文件,如果文件已经存在，则删除。
+     * 根据文件目录和文件名称创建文件,如果文件已经存在，则删除。
      * @param dir 文件目录
      * @param name 文件名称
      * @return 文件对象
@@ -144,5 +167,52 @@ public class FileUtil {
         } else {
             return decimalFormat.format(size / 1024f / 1024f / 1024f) + "GB";
         }
+    }
+
+    public static boolean deleteDir(String dir) {
+        return deleteDir(getFileByPath(dir));
+    }
+
+    /**
+     * 删除目录
+     */
+    public static boolean deleteDir(File dir) {
+        if (dir == null || !dir.isDirectory()) {
+            return false;
+        }
+        if (!dir.exists()) {
+            return true;
+        }
+        File[] files = dir.listFiles();
+        ExtendUtil.printArray(files);
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    if (!deleteFile(file)) {
+                        return false;
+                    }
+                } else if (file.isDirectory()) {
+                    if (!deleteDir(file)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return dir.delete();
+    }
+
+
+    /**
+     * 删除文件
+     */
+    public static boolean deleteFile(String filePath) {
+        return deleteFile(getFileByPath(filePath));
+    }
+
+    /**
+     * 删除文件.文件不存在返回{@code true}.
+     */
+    public static boolean deleteFile(File file) {
+        return file != null && (!file.exists() || file.isFile() && file.delete());
     }
 }

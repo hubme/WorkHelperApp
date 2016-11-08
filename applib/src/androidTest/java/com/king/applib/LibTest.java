@@ -50,9 +50,9 @@ public class LibTest extends AndroidTestCase {
     }
 
     public void testEmpty() throws Exception {
-        Logger.i(StringUtil.containsNullOrEmpty("aaa", null) + "");
-        Logger.i(StringUtil.containsNullOrEmpty("aaa", "") + "");
-        Logger.i(StringUtil.containsNullOrEmpty("aaa", "bbb") + "");
+        Logger.i(StringUtil.isAnyEmpty("aaa", null) + "");
+        Logger.i(StringUtil.isAnyEmpty("aaa", "") + "");
+        Logger.i(StringUtil.isAnyEmpty("aaa", "bbb") + "");
     }
 
     public void testNetwork() throws Exception {

@@ -1,10 +1,12 @@
 package com.king.applib.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 /**
  * App相关工具类.
@@ -13,6 +15,7 @@ import android.graphics.drawable.Drawable;
 public class AppUtil {
 
     private AppUtil() {
+        throw new IllegalStateException("No instances!");
     }
 
     /**
@@ -97,8 +100,21 @@ public class AppUtil {
         }
     }
 
-    /** * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache) * * @param context */
-    public static void cleanInternalCache(Context context) {
+    /**
+     * 清除本应用内部数据(/data/data/PackageName/)和外部数据(/Android/data/PackageName/)<br/>
+     * 应用会自动关闭,下次打开和第一次安装效果一样.
+     */
+    public static boolean clearUserData(Context context) {
+        if (context == null) {
+            return false;
+        }
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return activityManager.clearApplicationUserData();
+        } else {
+            return context.getExternalCacheDir() != null && FileUtil.deleteDir(context.getExternalCacheDir().getParent())
+                    && FileUtil.deleteDir(context.getCacheDir().getParent());
 
+        }
     }
 }
