@@ -1,11 +1,15 @@
 package com.king.app.workhelper.fragment;
 
+import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.ui.dialog.SimpleDialog;
+import com.king.app.workhelper.ui.dialog.SimpleDialogFragment;
 import com.king.applib.log.Logger;
 
 import java.util.List;
@@ -39,6 +43,29 @@ public class RxJavaOperatorSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.btn_send)
     public void sendBtnClick() {
+        /*new SimpleDialogFragment()
+                .isCancelable(true).setCanceledOnTouchOutside(false)
+                .setLeftIcon(R.drawable.little_boy_01)
+                .setRightIcon(R.drawable.little_boy_09)
+                .show(getFragmentManager(), "SimpleDialogFragment");*/
+
+        new SimpleDialogFragment.Builder().setLeftIcon(R.drawable.little_boy_01)
+        .create().show(getFragmentManager(), "TAG");
+
+    }
+
+    private void sdf() {
+        SimpleDialog dialog = SimpleDialog.getInstance(getContext());
+        dialog.isCancelable(false).isCancelableOnTouchOutside(false)
+                .setRightButtonClick(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        Toast.makeText(getContext(), "右边", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .withMessage("哈哈哈哈")
+                .withRightButtonText("右边")
+                .withIcon(null)
+                .show();
     }
 
     @Override public void onDestroyView() {
