@@ -1,8 +1,10 @@
 package com.king.app.workhelper.activity;
 
+import android.support.v4.app.Fragment;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.fragment.RxJavaSampleFragment;
+import com.king.app.workhelper.fragment.RxJavaOperatorSampleFragment;
 
 /**
  * RxJava.http://blog.csdn.net/lzyzsd/article/details/41833541
@@ -18,6 +20,9 @@ public class RxJavaSampleActivity extends AppBaseActivity {
 
     @Override protected void initData() {
         super.initData();
-        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, new RxJavaSampleFragment()).commit();
+//        Fragment fragment = new RxJavaSampleFragment();
+        Fragment fragment = new RxJavaOperatorSampleFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, fragment).commit();
+
     }
 }
