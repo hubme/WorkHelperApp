@@ -37,17 +37,17 @@ public class WorkHelperApp extends BaseApplication {
 
     @Override public void onTerminate() {
         super.onTerminate();
-        Logger.i("WorkHelperApp#onTerminate()");
+//        Logger.i("WorkHelperApp#onTerminate()");
     }
 
     @Override public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Logger.i("WorkHelperApp#onConfigurationChanged()");
+//        Logger.i("WorkHelperApp#onConfigurationChanged()");
     }
 
     @Override public void onLowMemory() {
         super.onLowMemory();
-        Logger.i("WorkHelperApp#onLowMemory()");
+//        Logger.i("WorkHelperApp#onLowMemory()");
     }
 
     /*
@@ -56,6 +56,6 @@ public class WorkHelperApp extends BaseApplication {
      */
     @Override public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        Logger.i("WorkHelperApp#onTrimMemory()");
+//        Logger.i("WorkHelperApp#onTrimMemory()");
     }
 }
