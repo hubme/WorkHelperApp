@@ -9,6 +9,8 @@
     <color name="transparent">#00000000</color>
     <color name="divider">#e8e8e8</color>
 
+    <color name="item_normal">#f3f7f9</color>
+    <color name="item_pressed">#f0f0f0</color>
 
     <color name="gray">#999999</color>
     <color name="gray_dddddd">#dddddd</color>

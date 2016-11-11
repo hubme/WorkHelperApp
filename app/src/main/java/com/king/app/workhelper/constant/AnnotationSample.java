@@ -8,6 +8,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.RequiresPermission;
+import android.support.annotation.StringDef;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -36,6 +37,18 @@ public class AnnotationSample {
 
     @IntDef({MON, TUE, WED, THU, FRI, SAT, SUN})
     public @interface WeakDay {
+
+    }
+
+    public static final String POWER_SERVICE = "power";
+    public static final String WINDOW_SERVICE = "window";
+    public static final String LAYOUT_INFLATER_SERVICE = "layout_inflater";
+
+    @StringDef({POWER_SERVICE, WINDOW_SERVICE, LAYOUT_INFLATER_SERVICE})
+    public @interface ServiceName {
+    }
+
+    public void getSystemService(@ServiceName String name) {
 
     }
 

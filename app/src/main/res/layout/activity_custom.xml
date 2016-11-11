@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/iv_loading"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:visibility="gone"/>
 
     <CheckedTextView
         android:id="@+id/btn_change_anim"
@@ -19,6 +20,12 @@
         android:background="@color/colorAccent"
         android:checked="false"
         android:padding="10dp"
-        android:text="开始动画"/>
+        android:text="开始动画"
+        android:visibility="gone"/>
+
+    <com.king.app.workhelper.ui.customview.FormTextViewItem
+        android:id="@+id/form_item"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
 
 </RelativeLayout>
