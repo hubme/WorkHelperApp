@@ -15,11 +15,14 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.common.PermissionMediator;
 import com.king.applib.log.Logger;
 import com.king.applib.util.DateTimeUtil;
+import com.king.applib.util.EasyPermission;
 import com.king.applib.util.FileUtil;
 
 import java.util.Date;
+import java.util.List;
 
 import butterknife.OnClick;
 
@@ -28,8 +31,9 @@ import butterknife.OnClick;
  * Created by HuoGuangxu on 2016/11/10.
  */
 
-public class PermissionFragment extends AppBaseFragment {
+public class PermissionFragment extends AppBaseFragment implements EasyPermission.PermissionCallback{
     public static final int REQUEST_CODE_PERMISSION = 1024;
+    public static final int REQ_CODE_CAMERA = 0;
 
     @Override
     protected int getContentLayout() {
@@ -38,6 +42,24 @@ public class PermissionFragment extends AppBaseFragment {
 
     @OnClick(R.id.hello_world)
     public void clickBtn() {
+        PermissionMediator.checkPermission(getActivity(), Manifest.permission.CAMERA, new PermissionMediator.DefaultPermissionRequest() {
+            @Override public void onPermissionRequest(boolean granted, String permission) {
+                super.onPermissionRequest(granted, permission);
+                if (granted) {
+                    Toast.makeText(getContext(), "已授权", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "未授权", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void requestCameraPermission() {
+        EasyPermission.with(this).rationale("相机权限").addRequestCode(REQ_CODE_CAMERA)
+                .permissions(Manifest.permission.CAMERA).request();
+    }
+
+    private void normalRequestPermission() {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             /*
             帮我们判断接下来的对话框是否包含”不再询问“选择框。
@@ -59,13 +81,16 @@ public class PermissionFragment extends AppBaseFragment {
             }
 
         }
-//        takePhotoFromCamera(0);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
+        EasyPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+
+        PermissionMediator.dispatchPermissionResult(getActivity(), requestCode, permissions, grantResults);
+
+        /*switch (requestCode) {
             case REQUEST_CODE_PERMISSION:
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
                     boolean sdfsd = (grantResults[0] == PackageManager.PERMISSION_GRANTED);
@@ -77,13 +102,14 @@ public class PermissionFragment extends AppBaseFragment {
                     }
                 }
                 break;
-        }
+        }*/
     }
 
-    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 0:
+            case REQ_CODE_CAMERA:
                 Logger.i("相机返回");
                 break;
         }
@@ -104,5 +130,21 @@ public class PermissionFragment extends AppBaseFragment {
         } else {
             Toast.makeText(getContext(), "手机中未安装拍照应用", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onPermissionGranted(int requestCode, List<String> perms) {
+        switch (requestCode) {
+            case REQ_CODE_CAMERA:
+                takePhotoFromCamera(REQ_CODE_CAMERA);
+                break;
+        }
+    }
+
+    @Override
+    public void onPermissionDenied(int requestCode, List<String> perms) {
+        Logger.i("未授权");
+        //可选的,跳转到Settings界面
+        EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "请到设置中打开相机权限", R.string.confirm, R.string.cancel, null, perms);
     }
 }

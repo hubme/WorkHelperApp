@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.king.applib.util.ExtendUtil.isEmpty;
-
 /**
  * see:https://github.com/baiiu/easypermissions
  * Created by HuoGuangxu on 2016/11/10.
@@ -128,22 +126,22 @@ public class EasyPermission {
 
         PermissionCallback mCallBack = (PermissionCallback) object;
 
-        if (!Utils.isOverMarshmallow()) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             mCallBack.onPermissionGranted(requestCode, Arrays.asList(permissions));
             return;
         }
 
         final List<String> deniedPermissions =
-                Utils.findDeniedPermissions(Utils.getActivity(object), permissions);
+                findDeniedPermissions(getActivity(object), permissions);
 
 
         boolean shouldShowRationale = false;
         for (String perm : deniedPermissions) {
             shouldShowRationale =
-                    shouldShowRationale || Utils.shouldShowRequestPermissionRationale(object, perm);
+                    shouldShowRationale || shouldShowRequestPermissionRationale(object, perm);
         }
 
-        if (Utils.isEmpty(deniedPermissions)) {
+        if (deniedPermissions.isEmpty()) {
             mCallBack.onPermissionGranted(requestCode, Arrays.asList(permissions));
         } else {
 
@@ -151,7 +149,7 @@ public class EasyPermission {
                     deniedPermissions.toArray(new String[deniedPermissions.size()]);
 
             if (shouldShowRationale) {
-                Activity activity = Utils.getActivity(object);
+                Activity activity = getActivity(object);
                 if (null == activity) {
                     return;
                 }
@@ -177,7 +175,7 @@ public class EasyPermission {
         }
     }
 
-    @TargetApi(23)
+    @TargetApi(Build.VERSION_CODES.M)
     private static void executePermissionsRequest(Object object, String[] perms, int requestCode) {
         checkCallingObjectSuitability(object);
 
@@ -206,7 +204,7 @@ public class EasyPermission {
             }
         }
 
-        if (isEmpty(deniedPermissions)) {
+        if (deniedPermissions.isEmpty()) {
             mCallBack.onPermissionGranted(requestCode, Arrays.asList(permissions));
         } else {
             mCallBack.onPermissionDenied(requestCode, deniedPermissions);
@@ -273,8 +271,21 @@ public class EasyPermission {
         return false;
     }
 
+    private static void checkCallingObjectSuitability(Object object) {
 
-    @TargetApi(11) private static void startAppSettingsScreen(Object object, Intent intent) {
+        if (!((object instanceof Fragment)
+                || (object instanceof Activity)
+                || (object instanceof android.app.Fragment))) {
+            throw new IllegalArgumentException("Caller must be an Activity or a Fragment.");
+        }
+
+        if (!(object instanceof PermissionCallback)) {
+            throw new IllegalArgumentException("Caller must implement PermissionCallback.");
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private static void startAppSettingsScreen(Object object, Intent intent) {
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(intent, SETTINGS_REQ_CODE);
         } else if (object instanceof Fragment) {
@@ -284,21 +295,7 @@ public class EasyPermission {
         }
     }
 
-    private static void checkCallingObjectSuitability(Object object) {
-
-        if (!((object instanceof Fragment)
-                || (object instanceof Activity)
-                || (object instanceof android.app.Fragment))) {
-            throw new IllegalArgumentException("Caller must be an Activity or a Fragment.");
-        }
-
-
-        if (!(object instanceof PermissionCallback)) {
-            throw new IllegalArgumentException("Caller must implement PermissionCallback.");
-        }
-    }
-
-    @TargetApi(23)
+    @TargetApi(Build.VERSION_CODES.M)
     public static List<String> findDeniedPermissions(Activity activity, String... permission) {
         List<String> denyPermissions = new ArrayList<>();
 
@@ -311,8 +308,8 @@ public class EasyPermission {
         return denyPermissions;
     }
 
-    @TargetApi(23)
-    public static boolean shouldShowRequestPermissionRationale(Object object, String perm) {
+    @TargetApi(Build.VERSION_CODES.M)
+    private static boolean shouldShowRequestPermissionRationale(Object object, String perm) {
         if (object instanceof Activity) {
             return ActivityCompat.shouldShowRequestPermissionRationale((Activity) object, perm);
         } else if (object instanceof Fragment) {
@@ -324,8 +321,8 @@ public class EasyPermission {
         }
     }
 
-    @TargetApi(11)
-    public static Activity getActivity(Object object) {
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private static Activity getActivity(Object object) {
         if (object instanceof Activity) {
             return ((Activity) object);
         } else if (object instanceof Fragment) {
