@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.ui.customview.FormTextViewItem;
+import com.king.app.workhelper.ui.customview.FormInputView;
 import com.king.app.workhelper.ui.customview.LoadingDrawable;
 
 import butterknife.BindView;
@@ -26,7 +26,7 @@ public class CustomViewActivity extends AppBaseActivity {
     private LoadingDrawable mLoadingDrawable;
 
     @BindView(R.id.form_item)
-    public FormTextViewItem mFormTextViewItem;
+    public FormInputView mFormInputView;
 
     @Override public int getContentLayout() {
 
@@ -39,9 +39,9 @@ public class CustomViewActivity extends AppBaseActivity {
         mLoadingDrawable = new LoadingDrawable(this);
         mLoadingView.setImageDrawable(mLoadingDrawable);
 
-        mFormTextViewItem.setTitle("哈航啊");
-        mFormTextViewItem.setTitleTextColor(R.color.black);
-        mFormTextViewItem.setTitleTextSize(R.dimen.ts_normal);
+        mFormInputView.setTitle("哈航啊");
+        mFormInputView.setTitleTextColor(R.color.black);
+        mFormInputView.setTitleTextSize(R.dimen.ts_normal);
 
 //        mFormTextViewItem.setBackgroundResource(R.drawable.bg_selfhelp_selector);
 //        mFormTextViewItem.setRightDrawable(R.mipmap.arrow_right);
