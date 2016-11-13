@@ -24,7 +24,7 @@
         android:id="@+id/vs_input_edit_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout="@layout/layout_simple_text_view"
+        android:layout="@layout/layout_simple_edit_text"
         android:paddingLeft="10dp"
         android:visibility="visible"/>
 </LinearLayout>
