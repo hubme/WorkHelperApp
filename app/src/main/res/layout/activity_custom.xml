@@ -28,4 +28,31 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"/>
 
+    <TextView
+        android:id="@+id/haha"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/form_item"
+        android:drawableRight="@mipmap/arrow_right"
+        android:gravity="center_vertical"
+        android:paddingRight="15dp"
+        android:text="哈哈哈"/>
+
+    <com.king.app.workhelper.ui.customview.DrawableEditText
+        android:id="@+id/xedittext"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/haha"
+        android:background="@color/transparent"
+        android:drawableLeft="@mipmap/arrow_right"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/arrow_right"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="双蓝佛双陈"/>
+
 </RelativeLayout>

@@ -19,6 +19,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getArgumentData();
     }
 
     @Nullable @Override
@@ -27,6 +28,17 @@ public abstract class BaseFragment extends Fragment {
         initContentView();
         initData();
         return mRootView;
+    }
+
+    private void getArgumentData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            getIntentData(bundle);
+        }
+    }
+
+    protected void getIntentData(Bundle bundle) {
+
     }
 
     protected abstract int getContentLayout();

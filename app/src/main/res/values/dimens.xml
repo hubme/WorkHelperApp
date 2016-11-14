@@ -19,4 +19,6 @@
     <dimen name="ts_huge_middle">22sp</dimen>
     <dimen name="ts_huger">24sp</dimen>
     <dimen name="ts_25">25sp</dimen>
+
+    <dimen name="dp_50">50dp</dimen>
 </resources>
