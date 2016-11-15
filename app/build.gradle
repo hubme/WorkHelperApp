@@ -17,7 +17,7 @@ android {
         /**
          * you can use multiDex and install it in your ApplicationLifeCycle implement
          */
-        multiDexEnabled true
+//        multiDexEnabled true
         /**
          * not like proguard, multiDexKeepProguard is not a list, so we can't just
          * add for you in our task. you can copy tinker keep rules at

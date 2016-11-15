@@ -5,7 +5,10 @@
     </declare-styleable>
 
     <declare-styleable name="StepView">
-        <attr name="circle_color" format="color"/>
-        <attr name="circle_radius" format="dimension"/>
+        <attr name="step_circle_color" format="color"/>
+        <attr name="step_circle_radius" format="dimension"/>
+        <attr name="inner_text" format="string"/>
+        <attr name="inner_text_color" format="color"/>
+        <attr name="step_steps" format="integer"/>
     </declare-styleable>
 </resources>
