@@ -6,6 +6,7 @@
 
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="red">#ff0000</color>
     <color name="transparent">#00000000</color>
     <color name="divider">#e8e8e8</color>
 
@@ -18,4 +19,5 @@
 
 
     <color name="orange_ff8800">#ff8800</color>
+    <color name="light_orange_ff8800">#99ff8800</color>
 </resources>
