@@ -36,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:scaleType="centerInside"
             android:src="@mipmap/ic_launcher"/>
 
         <View
@@ -66,20 +65,20 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
 
-    <View
-        android:id="@+id/btn_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider"
-        android:visibility="visible"/>
-
     <LinearLayout
+        android:id="@+id/dialog_btn_panel"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal">
 
+        <View
+            android:id="@+id/btn_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/red"/>
+
         <Button
-            android:id="@+id/btn_left"
+            android:id="@+id/btn_dialog_confirm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -87,15 +86,13 @@
             android:gravity="center"
             android:text="确定"
             android:textColor="@color/gray_666666"
-            android:textSize="@dimen/ts_normal"
-            android:visibility="gone"/>
+            android:textSize="@dimen/ts_normal"/>
 
         <View
             android:id="@+id/dialog_btn_divider"
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/divider"
-            android:visibility="gone"/>
+            android:background="@color/divider"/>
 
         <Button
             android:id="@+id/btn_right"
@@ -106,19 +103,7 @@
             android:gravity="center"
             android:text="取消"
             android:textColor="@color/gray_666666"
-            android:textSize="@dimen/ts_normal"
-            android:visibility="gone"/>
+            android:textSize="@dimen/ts_normal"/>
 
-        <Button
-            android:id="@+id/btn_single"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/dialog_single_btn_selector"
-            android:gravity="center"
-            android:text="确定"
-            android:textColor="@color/gray_666666"
-            android:textSize="@dimen/ts_normal"
-            android:visibility="visible"/>
     </LinearLayout>
 </LinearLayout>

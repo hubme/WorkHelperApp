@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-    <com.king.app.workhelper.ui.customview.FormInputView
-        android:id="@+id/form_item"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:visibility="gone"/>
-
-    <com.king.app.workhelper.ui.customview.DrawableEditText
+    <!--<com.king.app.workhelper.ui.customview.DrawableEditText
         android:id="@+id/xedittext"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/form_item"
         android:background="@color/transparent"
         android:drawableLeft="@mipmap/arrow_right"
         android:drawablePadding="10dp"
@@ -27,24 +19,23 @@
         android:paddingRight="15dp"
         android:singleLine="true"
         android:text="双蓝佛双陈"
-        android:visibility="gone"/>
+        android:visibility="gone"/>-->
 
-    <com.king.app.workhelper.ui.customview.CircleView
-        android:id="@+id/circle_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/gray"
-        android:visibility="gone"/>
-
-    <com.king.app.workhelper.ui.customview.StepView
+    <!--<com.king.app.workhelper.ui.customview.StepView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@id/circle_view"
         android:background="@color/gray"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         app:inner_text="呵"
-        app:step_steps="1"/>
+        app:step_steps="1"/>-->
+
+    <TextView
+        android:id="@+id/tv_show_dialog"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="弹出"
+        android:textSize="@dimen/ts_bigger"/>
 
 </RelativeLayout>

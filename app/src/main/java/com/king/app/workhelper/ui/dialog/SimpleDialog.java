@@ -95,7 +95,7 @@ public class SimpleDialog extends Dialog implements DialogInterface {
         mMessageTv = (TextView) mDialogView.findViewById(R.id.tv_message);
         mTitleIconIv = (ImageView) mDialogView.findViewById(R.id.iv_title_icon);
         mDividerView = mDialogView.findViewById(R.id.title_divider);
-        mLeftBtn = (Button) mDialogView.findViewById(R.id.btn_left);
+        mLeftBtn = (Button) mDialogView.findViewById(R.id.btn_dialog_confirm);
         mRightBtn = (Button) mDialogView.findViewById(R.id.btn_right);
 
         setContentView(mDialogView);

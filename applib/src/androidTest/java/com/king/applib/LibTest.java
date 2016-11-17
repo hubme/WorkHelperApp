@@ -3,6 +3,7 @@ package com.king.applib;
 import android.content.Context;
 import android.os.Environment;
 import android.test.AndroidTestCase;
+import android.util.SparseArray;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
@@ -15,6 +16,9 @@ import com.king.applib.util.NumberUtil;
 import com.king.applib.util.SPUtil;
 import com.king.applib.util.ScreenUtil;
 import com.king.applib.util.StringUtil;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -33,6 +37,31 @@ public class LibTest extends AndroidTestCase {
         super.setUp();
         Logger.init("aaa").methodCount(1).hideThreadInfo();
         mContext = getContext();
+    }
+
+    public void testSparseArray() throws Exception {
+        SparseArray<SparseArray<String>> sparseArray = new SparseArray<>();
+        SparseArray<String> values0 = new SparseArray<>();
+        values0.append(0, "000");
+        values0.append(1, "111");
+
+        SparseArray<String> values1 = new SparseArray<>();
+        values1.append(0, "000");
+        values1.append(1, "111");
+        sparseArray.append(0, values0);
+        sparseArray.append(0, values1);
+
+        android.support.v4.util.ArrayMap<String, String> arrayMap = new android.support.v4.util.ArrayMap<>();
+        arrayMap.keySet();
+
+    }
+
+    public void testJson() throws Exception {
+        String jsonStr = "{\"山西省\":[\"长治市\",\"大同市\",\"晋城市\",\"晋中市\",\"临汾市\",\"吕梁市\",\"朔州市\",\"太原市\",\"忻州市\",\"阳泉市\",\"运城市\"],\"宁夏自治区\":[\"固原市\",\"石嘴山市\",\"吴忠市\",\"银川市\",\"中卫市\"]}";
+        JSONObject jsonObject = new JSONObject(jsonStr);
+        JSONArray jsonArray = jsonObject.optJSONArray("山西省");
+        String str = jsonArray.getString(0);
+        Logger.i(str);
     }
 
     public void testImageWidth() throws Exception {
