@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.king.applib.log.Logger;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -256,5 +257,19 @@ public class ExtendUtil {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    /**
+     * SparseArray转List
+     */
+    public static <E> List<E> asList(SparseArray<E> sparseArray) {
+        if (sparseArray == null) {
+            return null;
+        }
+        List<E> arrayList = new ArrayList<>(sparseArray.size());
+        for (int i = 0; i < sparseArray.size(); i++) {
+            arrayList.add(sparseArray.valueAt(i));
+        }
+        return arrayList;
     }
 }
