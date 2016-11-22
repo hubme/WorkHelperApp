@@ -33,7 +33,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class ExtendUtil {
     private ExtendUtil() {
-        throw new UnsupportedOperationException("u can't instantiate me...");
+        throw new UnsupportedOperationException("No instances!");
     }
 
     public static boolean isListNullOrEmpty(List list) {

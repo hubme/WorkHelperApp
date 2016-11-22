@@ -30,13 +30,18 @@ public class AppTest extends AndroidTestCase {
         mContext = getContext();
     }
 
-    public void testTimeUnit() {
-        Logger.i(TimeUnit.MILLISECONDS.toSeconds(1000)+"");
-        Logger.i(TimeUnit.SECONDS.toSeconds(1000)+"");
-        Logger.i(TimeUnit.MINUTES.toSeconds(1000)+"");
+    public void testMathPowMethod() throws Exception {
+        double aaa = Math.pow(2, 10);
+        Logger.i("Math.pow(): " + aaa);
     }
 
-    public void testResources() throws Exception{
+    public void testTimeUnit() throws Exception {
+        Logger.i(TimeUnit.MILLISECONDS.toSeconds(1000) + "");
+        Logger.i(TimeUnit.SECONDS.toSeconds(1000) + "");
+        Logger.i(TimeUnit.MINUTES.toSeconds(1000) + "");
+    }
+
+    public void testResources() throws Exception {
 //        Logger.i("getResourceName: " + mContext.getResources().getResourceName(R.drawable.boy_running));//com.king.app.workhelper:drawable/boy_running
 //        Logger.i("getResourceEntryName: " + mContext.getResources().getResourceEntryName(R.drawable.boy_running));//boy_running
 //        Logger.i("getResourcePackageName: " + mContext.getResources().getResourcePackageName(R.drawable.boy_running));//com.king.app.workhelper
@@ -47,9 +52,9 @@ public class AppTest extends AndroidTestCase {
         Logger.i(mContext.getResources().getResourceEntryName(R.drawable.little_boy_10));
     }
 
-    public void testRandom() throws Exception{
+    public void testRandom() throws Exception {
         Random random = new Random();
-        Logger.i(random.nextInt(2)+"");
+        Logger.i(random.nextInt(2) + "");
     }
 
     public void testBusProvider() throws Exception {
@@ -91,9 +96,9 @@ public class AppTest extends AndroidTestCase {
     }
 
     public void testSpDp() throws Exception {
-        Logger.i(ExtendUtil.dp2px(mContext, 20)+"");
-        Logger.i(ExtendUtil.px2dp(mContext, 20)+"");
-        Logger.i(ExtendUtil.sp2px(mContext, 20)+"");
-        Logger.i(ExtendUtil.px2sp(mContext, 20)+"");
+        Logger.i(ExtendUtil.dp2px(mContext, 20) + "");
+        Logger.i(ExtendUtil.px2dp(mContext, 20) + "");
+        Logger.i(ExtendUtil.sp2px(mContext, 20) + "");
+        Logger.i(ExtendUtil.px2sp(mContext, 20) + "");
     }
 }

@@ -11,6 +11,9 @@ import java.util.Locale;
  */
 
 public class DateTimeUtil {
+    private DateTimeUtil() {
+        throw new UnsupportedOperationException("No instances!");
+    }
     public static final String INTL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String FULL_DATE_FORMAT = "yyyy年M月d日 HH:00";
     public static final String MONTH_DAY_HOUR_FORMAT = "MM月dd日 HH:00";

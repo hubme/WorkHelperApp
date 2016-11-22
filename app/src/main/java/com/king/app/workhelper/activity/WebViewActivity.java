@@ -154,7 +154,6 @@ public class WebViewActivity extends AppBaseActivity {
      * 本地相册选择图片
      */
     private void takePhotoFromAlbum() {
-        ImageUtil.delFile(compressPath);
         Intent innerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         String IMAGE_UNSPECIFIED = "image/*";
         innerIntent.setType(IMAGE_UNSPECIFIED); // 查看类型

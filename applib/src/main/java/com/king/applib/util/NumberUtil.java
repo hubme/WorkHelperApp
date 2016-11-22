@@ -6,6 +6,9 @@ package com.king.applib.util;
  */
 
 public class NumberUtil {
+    private NumberUtil() {
+        throw new UnsupportedOperationException("No instances!");
+    }
 
     /**
      * 字符串转整型,转换出错返回-1

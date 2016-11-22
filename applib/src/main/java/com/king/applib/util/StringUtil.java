@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 public class StringUtil {
     private StringUtil() {
-
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**

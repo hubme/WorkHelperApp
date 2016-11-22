@@ -7,18 +7,24 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
-import android.text.TextUtils;
-import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
+import static android.graphics.BitmapFactory.decodeFile;
 
 /**
  * 文件工具类
@@ -28,50 +34,122 @@ import java.io.IOException;
 public class ImageUtil {
 
     private ImageUtil() {
-
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**
-     * 把图片压缩到200K
-     *
-     * @param oldpath
-     *            压缩前的图片路径
-     * @param newPath
-     *            压缩后的图片路径
-     * @return
+     * 获取bitmap
+     * @param file 文件
+     * @return bitmap
      */
-    /**
-     * 把图片压缩到200K
-     * @param oldpath 压缩前的图片路径
-     * @param newPath 压缩后的图片路径
-     */
-    public static File compressFile(String oldpath, String newPath) {
-        Bitmap compressBitmap = decodeFile(oldpath);
-        Bitmap newBitmap = ratingImage(oldpath, compressBitmap);
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        newBitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
-        byte[] bytes = os.toByteArray();
-
-        File file = null;
-        try {
-            file = getFileFromBytes(bytes, newPath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (newBitmap != null) {
-                if (!newBitmap.isRecycled()) {
-                    newBitmap.recycle();
-                }
-                newBitmap = null;
-            }
-            if (compressBitmap != null) {
-                if (!compressBitmap.isRecycled()) {
-                    compressBitmap.recycle();
-                }
-                compressBitmap = null;
-            }
+    public static Bitmap getBitmap(File file) {
+        if (file == null) {
+            return null;
         }
-        return file;
+        InputStream is = null;
+        try {
+            is = new BufferedInputStream(new FileInputStream(file));
+            return BitmapFactory.decodeStream(is);
+        } catch (FileNotFoundException e) {
+            return null;
+        } finally {
+            IOUtil.close(is);
+        }
+    }
+
+    public static File saveBitmap(Bitmap bitmap, String imagePath, Bitmap.CompressFormat format, int quality) {
+        if (isBitmapEmpty(bitmap) || StringUtil.isNullOrEmpty(imagePath)) {
+            return null;
+        }
+        File file = FileUtil.createFile(imagePath);
+        if (file == null) {
+            return null;
+        }
+        if (quality <= 0 || quality > 100) {
+            quality = 100;
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(format, quality, bos);
+        byte[] bytes = bos.toByteArray();
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            return null;
+        }finally {
+            IOUtil.close(fos);
+            IOUtil.close(bos);
+        }
+        return null;
+    }
+
+    /**
+     * drawable转bitmap
+     * @param drawable drawable对象
+     * @return bitmap
+     */
+    public static Bitmap drawable2Bitmap(Drawable drawable) {
+        return drawable == null ? null : ((BitmapDrawable) drawable).getBitmap();
+    }
+
+    /**
+     * bitmap转drawable
+     * @param context context对象
+     * @param bitmap bitmap对象
+     * @return drawable
+     */
+    public static Drawable bitmap2Drawable(Context context, Bitmap bitmap) {
+        return bitmap == null ? null : new BitmapDrawable(context.getResources(), bitmap);
+    }
+
+    /**
+     * 获取bitmap
+     * @param resId 文件
+     * @return bitmap
+     */
+    public static Bitmap getBitmap(Context context, @DrawableRes int resId) {
+        return drawable2Bitmap(context.getResources().getDrawable(resId));
+    }
+
+    /**
+     * 按质量压缩
+     * @param src 源图片
+     * @param quality 质量
+     * @return 质量压缩后的图片
+     */
+    public static Bitmap compressByQuality(Bitmap src, int quality) {
+        return compressByQuality(src, quality, false);
+    }
+
+    /**
+     * 按质量压缩
+     * @param src 源图片
+     * @param quality 质量
+     * @param recycle 是否回收
+     * @return 质量压缩后的图片
+     */
+    public static Bitmap compressByQuality(Bitmap src, int quality, boolean recycle) {
+        if (isBitmapEmpty(src) || quality < 0 || quality > 100) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        src.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        byte[] bytes = outputStream.toByteArray();
+        if (recycle && !src.isRecycled()) {
+            src.recycle();
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    /**
+     * 判断bitmap对象是否为空
+     * @param src 源图片
+     */
+    public static boolean isBitmapEmpty(Bitmap src) {
+        return src == null || src.getWidth() == 0 || src.getHeight() == 0;
     }
 
     private static Bitmap ratingImage(String filePath, Bitmap bitmap) {
@@ -84,15 +162,9 @@ public class ImageUtil {
      * @return Bitmap
      */
     public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
-        //旋转图片 动作
         Matrix matrix = new Matrix();
-        ;
         matrix.postRotate(angle);
-        System.out.println("angle2=" + angle);
-        // 创建新的图片
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        return resizedBitmap;
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     /**
@@ -120,98 +192,6 @@ public class ImageUtil {
             e.printStackTrace();
         }
         return degree;
-    }
-
-    /**
-     * 把字节数组保存为一个文件
-     */
-    public static File getFileFromBytes(byte[] b, String outputFile) {
-        File ret = null;
-        BufferedOutputStream stream = null;
-        try {
-            ret = new File(outputFile);
-            FileOutputStream fstream = new FileOutputStream(ret);
-            stream = new BufferedOutputStream(fstream);
-            stream.write(b);
-        } catch (Exception e) {
-            // log.error("helper:get file from byte process error!");
-            e.printStackTrace();
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    // log.error("helper:get file from byte process error!");
-                    e.printStackTrace();
-                }
-            }
-        }
-        return ret;
-    }
-
-    /**
-     * 图片压缩
-     */
-    public static Bitmap decodeFile(String fPath) {
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inJustDecodeBounds = true;
-        opts.inDither = false; // Disable Dithering mode
-        opts.inPurgeable = true; // Tell to gc that whether it needs free
-        opts.inInputShareable = true; // Which kind of reference will be used to
-        BitmapFactory.decodeFile(fPath, opts);
-        final int REQUIRED_SIZE = 200;
-        int scale = 1;
-        if (opts.outHeight > REQUIRED_SIZE || opts.outWidth > REQUIRED_SIZE) {
-            final int heightRatio = Math.round((float) opts.outHeight
-                    / (float) REQUIRED_SIZE);
-            final int widthRatio = Math.round((float) opts.outWidth
-                    / (float) REQUIRED_SIZE);
-            scale = heightRatio < widthRatio ? heightRatio : widthRatio;//
-        }
-        Log.i("scale", "scal =" + scale);
-        opts.inJustDecodeBounds = false;
-        opts.inSampleSize = scale;
-        Bitmap bm = BitmapFactory.decodeFile(fPath, opts).copy(Bitmap.Config.ARGB_8888, false);
-        return bm;
-    }
-
-
-    /**
-     * 创建目录
-     */
-    public static void setMkdir(String path) {
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdirs();
-            Log.e("file", "目录不存在  创建目录    ");
-        } else {
-            Log.e("file", "目录存在");
-        }
-    }
-
-    /**
-     * 获取目录名称
-     * @return FileName
-     */
-    public static String getFileName(String url) {
-        int lastIndexStart = url.lastIndexOf("/");
-        if (lastIndexStart != -1) {
-            return url.substring(lastIndexStart + 1, url.length());
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 删除该目录下的文件
-     */
-    public static void delFile(String path) {
-        if (!TextUtils.isEmpty(path)) {
-            File file = new File(path);
-            if (file.exists()) {
-                file.delete();
-            }
-        }
     }
 
     /**
@@ -275,6 +255,19 @@ public class ImageUtil {
     }
 
     /**
+     * 获取图片宽度.获取不到返回-1.
+     */
+    public static int getImageWidth(Context context, String imagePath) {
+        if (context == null || StringUtil.isNullOrEmpty(imagePath)) {
+            return -1;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        decodeFile(imagePath, options);
+        return options.outWidth;
+    }
+
+    /**
      * 获取图片高度.获取不到返回-1.
      */
     public static int getImageHeight(Context context, @DrawableRes int resId) {
@@ -282,5 +275,115 @@ public class ImageUtil {
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(context.getResources(), resId, options);
         return options.outHeight;
+    }
+
+    /**
+     * 获取图片高度.获取不到返回-1.
+     */
+    public static int getImageHeight(Context context, String imagePath) {
+        if (context == null || StringUtil.isNullOrEmpty(imagePath)) {
+            return -1;
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        decodeFile(imagePath, options);
+        return options.outHeight;
+    }
+
+    /**
+     * 把图片压缩到200K
+     *
+     * @param oldpath
+     *            压缩前的图片路径
+     * @param newPath
+     *            压缩后的图片路径
+     * @return
+     */
+    /**
+     * 把图片压缩到200K
+     * @param oldpath 压缩前的图片路径
+     * @param newPath 压缩后的图片路径
+     */
+    public static File compressFile(String oldpath, String newPath) {
+        Bitmap compressBitmap = decodeFile(oldpath);
+        Bitmap newBitmap = ratingImage(oldpath, compressBitmap);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        newBitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+        byte[] bytes = os.toByteArray();
+
+        File file = null;
+        try {
+            file = getFileFromBytes(bytes, newPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (newBitmap != null) {
+                if (!newBitmap.isRecycled()) {
+                    newBitmap.recycle();
+                }
+                newBitmap = null;
+            }
+            if (compressBitmap != null) {
+                if (!compressBitmap.isRecycled()) {
+                    compressBitmap.recycle();
+                }
+                compressBitmap = null;
+            }
+        }
+        return file;
+    }
+
+    /**
+     * 把字节数组保存为一个文件
+     */
+    public static File getFileFromBytes(byte[] b, String outputFile) {
+        File ret = null;
+        BufferedOutputStream stream = null;
+        try {
+            ret = new File(outputFile);
+            FileOutputStream fstream = new FileOutputStream(ret);
+            stream = new BufferedOutputStream(fstream);
+            stream.write(b);
+        } catch (Exception e) {
+            // log.error("helper:get file from byte process error!");
+            e.printStackTrace();
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    // log.error("helper:get file from byte process error!");
+                    e.printStackTrace();
+                }
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 按质量压缩
+     * @param bitmap 源图片
+     * @param maxByteSize 允许最大值字节数
+     * @param recycle 是否回收
+     * @return 质量压缩压缩过的图片
+     */
+    public static Bitmap compressByQuality(Bitmap bitmap, long maxByteSize, boolean recycle) {
+        if (isBitmapEmpty(bitmap) || maxByteSize <= 0) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        int quality = 100;
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        while (outputStream.toByteArray().length > maxByteSize && quality >= 0) {
+            outputStream.reset();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality -= 5, outputStream);
+        }
+        if (quality < 0){
+            return null;
+        }
+        byte[] bytes = outputStream.toByteArray();
+        if (recycle && !bitmap.isRecycled())
+            bitmap.recycle();
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

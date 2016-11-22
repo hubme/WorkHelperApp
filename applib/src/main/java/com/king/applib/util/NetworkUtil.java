@@ -23,7 +23,7 @@ import java.util.Enumeration;
 
 public class NetworkUtil {
     private NetworkUtil() {
-
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**

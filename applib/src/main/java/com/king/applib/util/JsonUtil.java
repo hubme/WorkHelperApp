@@ -19,7 +19,7 @@ public class JsonUtil {
     private static final Gson GSON = new Gson();
 
     private JsonUtil() {
-
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**

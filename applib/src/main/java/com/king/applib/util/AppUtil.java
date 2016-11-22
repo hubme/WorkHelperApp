@@ -15,7 +15,7 @@ import android.os.Build;
 public class AppUtil {
 
     private AppUtil() {
-        throw new IllegalStateException("No instances!");
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**

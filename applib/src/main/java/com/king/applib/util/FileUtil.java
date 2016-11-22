@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 
 public class FileUtil {
     private FileUtil() {
-        throw new IllegalStateException("No instances!");
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**
@@ -22,6 +22,12 @@ public class FileUtil {
     public static File getFileByPath(String filePath) {
         return StringUtil.isNullOrEmpty(filePath) ? null : new File(filePath);
     }
+
+    /*public static File getFileByPath(Context context, @DrawableRes int resId) {
+        Bitmap bitmap = ImageUtil.getBitmap(context, resId);
+        ImageUtil.
+        return StringUtil.isNullOrEmpty(filePath) ? null : new File(filePath);
+    }*/
 
     /**
      * 根据文件路径判断文件是否存在

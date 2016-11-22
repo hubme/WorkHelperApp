@@ -38,4 +38,17 @@
         android:text="弹出"
         android:textSize="@dimen/ts_bigger"/>
 
+    <ImageView
+        android:id="@+id/image_before"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/tv_show_dialog"
+        android:src="@mipmap/home_ad"/>
+
+    <ImageView
+        android:id="@+id/image_after"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/image_before"/>
+
 </RelativeLayout>

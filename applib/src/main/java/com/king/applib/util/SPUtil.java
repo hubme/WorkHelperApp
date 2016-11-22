@@ -20,6 +20,7 @@ public class SPUtil {
     public static final String SP_SEPARATOR = ";##;";
 
     private SPUtil() {
+        throw new UnsupportedOperationException("No instances!");
     }
 
     public static SharedPreferences getSP(@NonNull Context context) {

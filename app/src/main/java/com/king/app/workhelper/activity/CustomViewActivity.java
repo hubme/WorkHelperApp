@@ -1,15 +1,21 @@
 package com.king.app.workhelper.activity;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.applib.log.Logger;
+import com.king.applib.util.FileUtil;
+import com.king.applib.util.ImageUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
 
@@ -19,6 +25,9 @@ import okhttp3.Call;
  */
 
 public class CustomViewActivity extends AppBaseActivity {
+    String mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/CAMERA/20161126_140744.jpg";
+    @BindView(R.id.image_after)
+    public ImageView mAfterImage;
 
     @Override
     public int getContentLayout() {
@@ -32,7 +41,14 @@ public class CustomViewActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_show_dialog)
     public void clickBtn() {
-        showDialog();
+//        showDialog();
+
+        Bitmap bitmap = ImageUtil.getBitmap(FileUtil.getFileByPath(mImagePath));
+        long aaa = System.currentTimeMillis();
+        Bitmap compressedBitmap = ImageUtil.compressByQuality(bitmap, 60);
+        Logger.i("压缩需要：" + (System.currentTimeMillis() - aaa) + " Millis");
+
+        mAfterImage.setImageBitmap(compressedBitmap);
     }
 
     private void requestBank() {
@@ -43,7 +59,7 @@ public class CustomViewActivity extends AppBaseActivity {
                     }
 
                     @Override public void onResponse(String response, int id) {
-                        Logger.i("response : " + response);
+//                        Logger.i("response : " + response);
                     }
                 });
     }

@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class IOUtil {
     private IOUtil() {
-
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**

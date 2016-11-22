@@ -11,7 +11,7 @@ import android.view.WindowManager;
 
 public class ScreenUtil {
     private ScreenUtil() {
-
+        throw new UnsupportedOperationException("No instances!");
     }
 
     /**
