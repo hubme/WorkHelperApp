@@ -14,8 +14,11 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 
+import com.king.applib.log.Logger;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +42,7 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
+     *
      * @param file 文件
      * @return bitmap
      */
@@ -57,6 +61,15 @@ public class ImageUtil {
         }
     }
 
+    /**
+     * 保存Bitmap到File
+     *
+     * @param bitmap Bitmap
+     * @param imagePath 保存文件的绝对路径
+     * @param format 图片格式
+     * @param quality 压缩质量(0, 100]
+     * @return File
+     */
     public static File saveBitmap(Bitmap bitmap, String imagePath, Bitmap.CompressFormat format, int quality) {
         if (isBitmapEmpty(bitmap) || StringUtil.isNullOrEmpty(imagePath)) {
             return null;
@@ -79,7 +92,7 @@ public class ImageUtil {
             fos.close();
         } catch (Exception e) {
             return null;
-        }finally {
+        } finally {
             IOUtil.close(fos);
             IOUtil.close(bos);
         }
@@ -88,6 +101,7 @@ public class ImageUtil {
 
     /**
      * drawable转bitmap
+     *
      * @param drawable drawable对象
      * @return bitmap
      */
@@ -97,6 +111,7 @@ public class ImageUtil {
 
     /**
      * bitmap转drawable
+     *
      * @param context context对象
      * @param bitmap bitmap对象
      * @return drawable
@@ -107,6 +122,7 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
+     *
      * @param resId 文件
      * @return bitmap
      */
@@ -116,6 +132,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩
+     *
      * @param src 源图片
      * @param quality 质量
      * @return 质量压缩后的图片
@@ -126,6 +143,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩
+     *
      * @param src 源图片
      * @param quality 质量
      * @param recycle 是否回收
@@ -144,8 +162,27 @@ public class ImageUtil {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
+    public static Bitmap compressBySize(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 100) { //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            //这里压缩options%，把压缩后的数据存放到baos中
+            if (options > 0) {
+                image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+            }
+            options -= 10;
+            Logger.i("options : "+options);
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+        return BitmapFactory.decodeStream(isBm, null, null);
+    }
+
     /**
      * 判断bitmap对象是否为空
+     *
      * @param src 源图片
      */
     public static boolean isBitmapEmpty(Bitmap src) {
@@ -159,6 +196,7 @@ public class ImageUtil {
 
     /**
      * 旋转图片
+     *
      * @return Bitmap
      */
     public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
@@ -169,6 +207,7 @@ public class ImageUtil {
 
     /**
      * 读取图片属性：旋转的角度
+     *
      * @param path 图片绝对路径
      * @return degree旋转的角度
      */
@@ -196,6 +235,7 @@ public class ImageUtil {
 
     /**
      * Gets the corresponding path to a file from the given content:// URI
+     *
      * @param selectedVideoUri The content:// URI to find the file path from
      * @param contentResolver The content resolver to use to perform the query.
      * @return the file path as a string
@@ -219,6 +259,7 @@ public class ImageUtil {
 
     /**
      * Gets the content:// URI  from the given corresponding path to a file
+     *
      * @return content Uri
      */
     public static Uri imageFile2Uri(Context context, File imageFile) {
@@ -301,6 +342,7 @@ public class ImageUtil {
      */
     /**
      * 把图片压缩到200K
+     *
      * @param oldpath 压缩前的图片路径
      * @param newPath 压缩后的图片路径
      */
@@ -362,6 +404,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩
+     *
      * @param bitmap 源图片
      * @param maxByteSize 允许最大值字节数
      * @param recycle 是否回收
@@ -378,7 +421,7 @@ public class ImageUtil {
             outputStream.reset();
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality -= 5, outputStream);
         }
-        if (quality < 0){
+        if (quality < 0) {
             return null;
         }
         byte[] bytes = outputStream.toByteArray();

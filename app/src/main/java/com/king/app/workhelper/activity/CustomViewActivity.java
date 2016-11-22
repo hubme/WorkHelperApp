@@ -25,7 +25,9 @@ import okhttp3.Call;
  */
 
 public class CustomViewActivity extends AppBaseActivity {
-    String mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/CAMERA/20161126_140744.jpg";
+    String mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/origin_spring.jpg";
+    String mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/dest_spring.jpg";
+
     @BindView(R.id.image_after)
     public ImageView mAfterImage;
 
@@ -44,11 +46,17 @@ public class CustomViewActivity extends AppBaseActivity {
 //        showDialog();
 
         Bitmap bitmap = ImageUtil.getBitmap(FileUtil.getFileByPath(mImagePath));
-        long aaa = System.currentTimeMillis();
+        /*long aaa = System.currentTimeMillis();
         Bitmap compressedBitmap = ImageUtil.compressByQuality(bitmap, 60);
         Logger.i("压缩需要：" + (System.currentTimeMillis() - aaa) + " Millis");
 
-        mAfterImage.setImageBitmap(compressedBitmap);
+        mAfterImage.setImageBitmap(compressedBitmap);*/
+
+        Bitmap compressedImage = ImageUtil.compressBySize(bitmap);
+        long aaa = System.currentTimeMillis();
+        ImageUtil.saveBitmap(compressedImage, mSavedBitmapPath, Bitmap.CompressFormat.JPEG, 100);
+        Logger.i("压缩需要：" + (System.currentTimeMillis() - aaa) + " Millis");
+        mAfterImage.setImageBitmap(compressedImage);
     }
 
     private void requestBank() {

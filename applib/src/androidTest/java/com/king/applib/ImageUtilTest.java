@@ -9,6 +9,8 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
 
+import java.io.File;
+
 /**
  * Created by HuoGuangxu on 2016/11/22.
  */
@@ -25,8 +27,8 @@ public class ImageUtilTest extends AndroidTestCase {
         mContext = getContext();
         Logger.init("aaa").methodCount(1).hideThreadInfo();
 
-        mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/CAMERA/20161126_140744.jpg";
-        mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000.png";
+        mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/origin_spring.jpg";
+        mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/dest_spring.jpg";
     }
 
     @Override protected void tearDown() throws Exception {
@@ -35,7 +37,12 @@ public class ImageUtilTest extends AndroidTestCase {
 
     public void testBitmap2File() throws Exception {
         Bitmap bitmap = ImageUtil.getBitmap(mContext, R.drawable.home);
-        ImageUtil.saveBitmap(bitmap, mSavedBitmapPath, Bitmap.CompressFormat.PNG, 100);
+        File imageFile = ImageUtil.saveBitmap(bitmap, mSavedBitmapPath, Bitmap.CompressFormat.PNG, 100);
+        if (imageFile != null) {
+            Logger.i("图片保存成功");
+        } else {
+            Logger.i("图片保存失败");
+        }
     }
 
     public void testCompressByQuality() throws Exception {
