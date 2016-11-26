@@ -9,7 +9,7 @@
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_alignBottom="@id/boy_icon"
+        android:layout_alignBottom="@+id/boy_icon"
         android:background="@drawable/bg_gray_999_corner_5dp"/>
 
     <RelativeLayout

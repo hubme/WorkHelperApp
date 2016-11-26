@@ -2,12 +2,12 @@ package com.king.app.workhelper.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.widget.TextView;
+import android.view.View;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.fragment.EntryFragment;
 import com.king.app.workhelper.model.entity.Person;
 import com.king.app.workhelper.ui.guaid.GuideHelper;
 import com.king.applib.log.Logger;
@@ -15,13 +15,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 public class MainActivity extends AppBaseActivity {
-    @BindView(R.id.hello_world)
-    TextView mHelloView;
-
 
     @Override
     public int getContentLayout() {
@@ -31,15 +25,9 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        mHelloView.setText(Html.fromHtml(getString(R.string.html_text)));
-        showUserGuide();
-    }
 
-    @OnClick(R.id.hello_world)
-    public void printHelloWorld() {
-//        startViewPagerActivity();
-//        onPickImage();
-
+        EntryFragment mEntryFragment = new EntryFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, mEntryFragment).commit();
     }
 
     @Subscribe
@@ -64,7 +52,7 @@ public class MainActivity extends AppBaseActivity {
 
     private void showUserGuide() {
         GuideHelper guideHelper = new GuideHelper(this);
-        GuideHelper.TipData tipData = new GuideHelper.TipData(R.mipmap.guaid_tip, mHelloView);
+        GuideHelper.TipData tipData = new GuideHelper.TipData(R.mipmap.guaid_tip, new View(this));
         guideHelper.addPage(tipData);
         guideHelper.show(false);
     }

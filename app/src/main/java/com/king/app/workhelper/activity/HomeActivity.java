@@ -11,12 +11,17 @@ import com.king.app.workhelper.fragment.EntryFragment;
 
 public class HomeActivity extends AppBaseActivity {
 
-    @Override public int getContentLayout() {
+    @Override
+    public int getContentLayout() {
         return R.layout.activity_home;
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
-        getSupportFragmentManager().beginTransaction().add(R.id.layout_content, new EntryFragment()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.layout_container, new EntryFragment())
+                .commit();
     }
 }

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-apply plugin: 'com.tencent.tinker.patch'
 //apply plugin: 'me.ele.amigo'
 
 android {
@@ -109,7 +108,7 @@ def bakPath = file("${buildDir}/bakApk/")
  */
 ext {
     //for some reason, you may want to ignore tinkerBuild, such as instant run debug build?
-    tinkerEnabled = true
+    tinkerEnabled = false
     //you should bak the following files
     //old apk file to build patch apk
     tinkerOldApkPath = "${bakPath}/app-release-1010-14-07-47.apk"

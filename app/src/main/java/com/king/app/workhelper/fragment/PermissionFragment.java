@@ -24,26 +24,24 @@ import com.king.applib.util.FileUtil;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.OnClick;
-
 /**
  * 6.0权限
  * Created by HuoGuangxu on 2016/11/10.
  */
 
-public class PermissionFragment extends AppBaseFragment implements EasyPermission.PermissionCallback{
+public class PermissionFragment extends AppBaseFragment implements EasyPermission.PermissionCallback {
     public static final int REQUEST_CODE_PERMISSION = 1024;
     public static final int REQ_CODE_CAMERA = 0;
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_main;
+        return R.layout.fragment_permission;
     }
 
-    @OnClick(R.id.hello_world)
     public void clickBtn() {
         PermissionMediator.checkPermission(getActivity(), Manifest.permission.CAMERA, new PermissionMediator.DefaultPermissionRequest() {
-            @Override public void onPermissionRequest(boolean granted, String permission) {
+            @Override
+            public void onPermissionRequest(boolean granted, String permission) {
                 super.onPermissionRequest(granted, permission);
                 if (granted) {
                     Toast.makeText(getContext(), "已授权", Toast.LENGTH_SHORT).show();
@@ -70,7 +68,8 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
                 new AlertDialog.Builder(getContext()).setMessage("请授权")
                         .setNegativeButton("取消", null)
                         .setPositiveButton("授权", new DialogInterface.OnClickListener() {
-                            @Override public void onClick(DialogInterface dialog, int which) {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
                                 requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSION);
                             }
                         })
