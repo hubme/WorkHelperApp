@@ -23,7 +23,7 @@ import rx.subjects.PublishSubject;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * RxJavaSample
+ * RxJavaSample.http://blog.csdn.net/lzyzsd/article/details/41833541
  * Created by HuoGuangxu on 2016/11/4.
  */
 

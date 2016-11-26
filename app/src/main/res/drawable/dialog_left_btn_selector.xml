@@ -6,7 +6,7 @@
                      android:bottomRightRadius="0dp"
                      android:topLeftRadius="0dp"
                      android:topRightRadius="0dp"/>
-            <solid android:color="@color/gray_dddddd"/>
+            <solid android:color="@color/white_dddddd"/>
         </shape>
     </item>
 
@@ -16,7 +16,7 @@
                      android:bottomRightRadius="0dp"
                      android:topLeftRadius="0dp"
                      android:topRightRadius="0dp"/>
-            <solid android:color="@color/gray_dddddd"/>
+            <solid android:color="@color/white_dddddd"/>
         </shape>
     </item>
 
@@ -26,7 +26,7 @@
                      android:bottomRightRadius="0dp"
                      android:topLeftRadius="0dp"
                      android:topRightRadius="0dp"/>
-            <solid android:color="@color/gray_dddddd"/>
+            <solid android:color="@color/white_dddddd"/>
         </shape>
     </item>
 

@@ -21,9 +21,6 @@
         <activity android:name=".activity.MainActivity">
 
         </activity>
-        <activity android:name=".activity.ViewPagerActivity">
-
-        </activity>
 
         <service
             android:name=".thirdparty.tinker.SampleResultService"
@@ -32,9 +29,6 @@
         <activity android:name=".activity.TinkerSampleActivity">
         </activity>
         <activity android:name=".activity.SampleRetrofitActivity">
-        </activity>
-        <activity android:name=".activity.SampleWebViewActivity">
-
         </activity>
         <activity android:name=".activity.CustomViewActivity">
 
@@ -48,16 +42,8 @@
         <activity android:name=".activity.DownloadSampleActivity">
 
         </activity>
-        <activity android:name=".activity.IntentServiceActivity">
-
-        </activity>
 
         <activity android:name=".activity.WebViewLocateActivity">
-
-        </activity>
-
-
-        <activity android:name=".activity.RxJavaSampleActivity">
 
         </activity>
 

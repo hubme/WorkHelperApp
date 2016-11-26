@@ -1,4 +1,4 @@
-package com.king.app.workhelper.activity;
+package com.king.app.workhelper.fragment;
 
 import android.os.Handler;
 import android.os.Message;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.viewpager.ViewPagerHelper;
 
 import java.util.ArrayList;
@@ -17,16 +17,23 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ViewPagerActivity extends AppBaseActivity {
+/**
+ * ViewPager相关
+ * Created by VanceKing on 2016/11/26 0026.
+ */
+
+public class ViewPagerSampleFragment extends AppBaseFragment {
     public static final int BANNER_SHOW_DURATION = 2000;
+
     @BindView(R.id.king_view_pager)
     ViewPager mViewPager;
 
     private List<ImageView> mImageViews = new ArrayList<>();
     private int[] mImageIds = new int[]{R.mipmap.intro_1_img, R.mipmap.intro_2_img, R.mipmap.intro_3_img};
 
-    private Handler mHandler = new Handler(){
-        @Override public void handleMessage(Message msg) {
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             int size = mBannerAdapter.getCount();
             int cItem = mViewPager.getCurrentItem();
@@ -48,19 +55,17 @@ public class ViewPagerActivity extends AppBaseActivity {
         }
     };
 
-    @Override public int getContentLayout() {
+    @Override
+    protected int getContentLayout() {
         return R.layout.activity_view_pager;
     }
 
-    @Override protected void initContentView() {
-        super.initContentView();
-    }
-
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
 
         for (int imgId : mImageIds) {
-            ImageView imageView = new ImageView(getApplicationContext());
+            ImageView imageView = new ImageView(getContext());
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageResource(imgId);
             mImageViews.add(imageView);
@@ -75,28 +80,41 @@ public class ViewPagerActivity extends AppBaseActivity {
         startBannerLoop();
     }
 
-    private class BannerAdapter extends PagerAdapter{
-        @Override public Object instantiateItem(ViewGroup container, int position) {
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        /*
+        一定要移除Handler消息.
+        否则，返回上一个页面时，当前页面销毁，mViewPager == null，出现NPE.
+         */
+        stopBannerLoop();
+    }
+
+    private class BannerAdapter extends PagerAdapter {
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
             container.addView(mImageViews.get(position));
             return mImageViews.get(position);
         }
 
-        @Override public void destroyItem(ViewGroup container, int position, Object object) {
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView(mImageViews.get(position));
         }
 
-        @Override public int getCount() {
+        @Override
+        public int getCount() {
             return mImageIds.length;
         }
 
-        @Override public boolean isViewFromObject(View view, Object object) {
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
     }
 
     /**
      * 延迟切换下一个banner
-     * <p>
      * 会清除已存在的延迟切换操作
      */
     private void startBannerLoop() {
@@ -106,6 +124,8 @@ public class ViewPagerActivity extends AppBaseActivity {
     }
 
     private void stopBannerLoop() {
-        mHandler.removeCallbacks(mLoopBannerRun);
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
     }
 }

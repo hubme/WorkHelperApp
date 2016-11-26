@@ -32,11 +32,13 @@ public class WebViewActivity extends AppBaseActivity {
     private String imagePaths;
     private Uri cameraUri;
 
-    @Override public int getContentLayout() {
+    @Override
+    public int getContentLayout() {
         return R.layout.activity_webview;
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
         initView();
     }

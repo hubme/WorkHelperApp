@@ -26,11 +26,32 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new PermissionFragment());
     }
 
+    @OnClick(R.id.tv_image_sample)
+    public void clickImageSample() {
+        clickedOn(new ImageSampleFragment());
+    }
+
+    @OnClick(R.id.tv_rx_java)
+    public void clickRxJava() {
+        clickedOn(new RxJavaSampleFragment());
+    }
+
+    @OnClick(R.id.tv_view_pager)
+    public void clickViewPager() {
+        clickedOn(new ViewPagerSampleFragment());
+    }
+
+    @OnClick(R.id.tv_web_view_js)
+    public void clickWebViewJs() {
+        clickedOn(new WebViewSampleFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
+        final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(TAG)
-                .replace(R.id.layout_container, fragment, TAG)
+                .replace(R.id.layout_container, fragment, tag)
                 .commit();
     }
 }

@@ -13,12 +13,49 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
+            <TextView
                 android:id="@+id/tv_permission"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_selfhelp_selector"
                 android:gravity="center"
-                android:text="6.0权限"/>
+                android:text="6.0(M)权限"/>
+
+            <TextView
+                android:id="@+id/tv_image_sample"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_selfhelp_selector"
+                android:gravity="center"
+                android:text="Image Bitmap 相关"/>
+
+            <TextView
+                android:id="@+id/tv_rx_java"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_selfhelp_selector"
+                android:gravity="center"
+                android:text="RxJava"/>
+
+            <TextView
+                android:id="@+id/tv_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_selfhelp_selector"
+                android:gravity="center"
+                android:text="ViewPager"/>
+
+            <TextView
+                android:id="@+id/tv_web_view_js"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_selfhelp_selector"
+                android:gravity="center"
+                android:text="WebView和JS交互"/>
 
         </LinearLayout>
 

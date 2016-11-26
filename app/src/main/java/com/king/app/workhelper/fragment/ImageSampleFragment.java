@@ -1,5 +1,6 @@
 package com.king.app.workhelper.fragment;
 
+import com.king.app.workhelper.R;
 import com.king.applib.base.BaseFragment;
 
 /**
@@ -10,6 +11,6 @@ import com.king.applib.base.BaseFragment;
 public class ImageSampleFragment extends BaseFragment {
     @Override
     protected int getContentLayout() {
-        return 0;
+        return R.layout.fragment_image_sample;
     }
 }

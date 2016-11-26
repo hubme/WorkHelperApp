@@ -1,4 +1,4 @@
-package com.king.app.workhelper.activity;
+package com.king.app.workhelper.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,41 +11,55 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.log.Logger;
 import com.king.applib.util.StringUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SampleWebViewActivity extends AppBaseActivity {
+import static android.app.Activity.RESULT_OK;
+
+/**
+ * WebView和Native交互
+ * Created by VanceKing on 2016/11/26.
+ */
+
+public class WebViewSampleFragment extends AppBaseFragment {
     private static String URL = "http://www.baidu.com";
+
     @BindView(R.id.web_my)
     WebView mWebView;
     @BindView(R.id.btn_load_url)
     Button mLoadUrlBtn;
 
-    @Override public int getContentLayout() {
+    @Override
+    protected int getContentLayout() {
         return R.layout.activity_sample_web_view;
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         mWebView.setWebChromeClient(new WebChromeClient());//不写这句,js的alert()无效
         mWebView.setWebViewClient(new WebViewClient() {
-            @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
             }
 
-            @Override public void onPageFinished(WebView view, String url) {
+            @Override
+            public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
             }
 
-            @Override public void onPageCommitVisible(WebView view, String url) {
+            @Override
+            public void onPageCommitVisible(WebView view, String url) {
                 super.onPageCommitVisible(view, url);
             }
         });
@@ -60,14 +74,14 @@ public class SampleWebViewActivity extends AppBaseActivity {
     @OnClick(R.id.btn_invoke_js_method1)
     public void invokeJsMethod1() {
         new Thread(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 test();
 
             }
         }).start();
 
     }
-
 
     private void test() {
 //        String call = "javascript:sayHello()";
@@ -91,7 +105,8 @@ public class SampleWebViewActivity extends AppBaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void testEvaluateJavaScript() {
         mWebView.evaluateJavascript("getGreetings()", new ValueCallback<String>() {
-            @Override public void onReceiveValue(String value) {
+            @Override
+            public void onReceiveValue(String value) {
                 Logger.i("onReceiveValue value= " + value);
             }
         });
@@ -104,7 +119,7 @@ public class SampleWebViewActivity extends AppBaseActivity {
         @JavascriptInterface
         public void toastMessage(String message) {
             if (!StringUtil.isNullOrEmpty(message)) {
-                showToast(message);
+                Toast.makeText(getContext(), "message", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -137,7 +152,8 @@ public class SampleWebViewActivity extends AppBaseActivity {
     }
 
 
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK) {
             return;
@@ -146,7 +162,6 @@ public class SampleWebViewActivity extends AppBaseActivity {
             case 1:
                 if (data != null) {
                     String picPath = data.getData().toString();
-                    showToast(picPath);
                     Logger.i("图片路径为： " + picPath);
                 }
                 break;
