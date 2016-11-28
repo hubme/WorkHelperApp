@@ -25,7 +25,7 @@ public abstract class BaseFragment extends Fragment {
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(getContentLayout(), container, false);
-        initContentView();
+        initContentView(mRootView);
         initData();
         return mRootView;
     }
@@ -43,7 +43,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getContentLayout();
 
-    protected void initContentView() {
+    protected void initContentView(View view) {
     }
 
     protected void initData() {

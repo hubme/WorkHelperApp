@@ -1,5 +1,7 @@
 package com.king.app.workhelper.common;
 
+import android.view.View;
+
 import com.king.applib.base.BaseFragment;
 
 import butterknife.ButterKnife;
@@ -14,8 +16,8 @@ public abstract class AppBaseFragment extends BaseFragment {
     private Unbinder unbinder;
 
     @Override
-    protected void initContentView() {
-        super.initContentView();
+    protected void initContentView(View rootView) {
+        super.initContentView(rootView);
         unbinder = ButterKnife.bind(this, mRootView);
     }
 

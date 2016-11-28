@@ -30,6 +30,19 @@ public class AppTest extends AndroidTestCase {
         mContext = getContext();
     }
 
+    public void testEnvironment() throws Exception {
+        Logger.i("DIRECTORY_DCIM: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath());
+        Logger.i("DIRECTORY_DOWNLOADS: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+        Logger.i("DIRECTORY_PICTURES: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
+    }
+
+    public void testMathaaa() {
+        Logger.i(1000 % 100 + "");//0
+        Logger.i(99 % 100 + "");//99
+        Logger.i(101 % 100 + "");//1
+        Logger.i(200 % 100 + "");//0
+    }
+
     public void testMathPowMethod() throws Exception {
         double aaa = Math.pow(2, 10);
         Logger.i("Math.pow(): " + aaa);

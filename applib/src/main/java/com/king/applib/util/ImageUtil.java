@@ -17,7 +17,6 @@ import android.support.annotation.DrawableRes;
 import com.king.applib.log.Logger;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,7 +41,18 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
-     *
+     * @param filePath 文件路径
+     * @return bitmap
+     */
+    public static Bitmap getBitmap(String filePath) {
+        if (StringUtil.isNullOrEmpty(filePath)) {
+            return null;
+        }
+        return BitmapFactory.decodeFile(filePath);
+    }
+
+    /**
+     * 获取bitmap
      * @param file 文件
      * @return bitmap
      */
@@ -63,11 +73,10 @@ public class ImageUtil {
 
     /**
      * 保存Bitmap到File
-     *
-     * @param bitmap Bitmap
+     * @param bitmap    Bitmap
      * @param imagePath 保存文件的绝对路径
-     * @param format 图片格式
-     * @param quality 压缩质量(0, 100]
+     * @param format    图片格式
+     * @param quality   压缩质量(0, 100]
      * @return File
      */
     public static File saveBitmap(Bitmap bitmap, String imagePath, Bitmap.CompressFormat format, int quality) {
@@ -89,19 +98,30 @@ public class ImageUtil {
             fos = new FileOutputStream(file);
             fos.write(bytes);
             fos.flush();
-            fos.close();
         } catch (Exception e) {
             return null;
         } finally {
             IOUtil.close(fos);
             IOUtil.close(bos);
         }
-        return null;
+        return file;
+    }
+
+    /**
+     * 图片文件压缩到指定宽高后保存.
+     * @param file      file对象
+     * @param imagePath 保存图片的全路径
+     * @param maxWidth  图片最大宽度
+     * @param maxHeight 图片的最大高度
+     * @return 保存文件的对象
+     */
+    public static File compressBySampling(File file, String imagePath, int maxWidth, int maxHeight) {
+        Bitmap bitmap = ImageUtil.getBitmap(file, maxWidth, maxHeight);
+        return ImageUtil.saveBitmap(bitmap, imagePath, Bitmap.CompressFormat.JPEG, 100);
     }
 
     /**
      * drawable转bitmap
-     *
      * @param drawable drawable对象
      * @return bitmap
      */
@@ -111,9 +131,8 @@ public class ImageUtil {
 
     /**
      * bitmap转drawable
-     *
      * @param context context对象
-     * @param bitmap bitmap对象
+     * @param bitmap  bitmap对象
      * @return drawable
      */
     public static Drawable bitmap2Drawable(Context context, Bitmap bitmap) {
@@ -122,7 +141,6 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
-     *
      * @param resId 文件
      * @return bitmap
      */
@@ -132,8 +150,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩
-     *
-     * @param src 源图片
+     * @param src     源图片
      * @param quality 质量
      * @return 质量压缩后的图片
      */
@@ -143,8 +160,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩
-     *
-     * @param src 源图片
+     * @param src     源图片
      * @param quality 质量
      * @param recycle 是否回收
      * @return 质量压缩后的图片
@@ -171,18 +187,18 @@ public class ImageUtil {
             baos.reset();//重置baos即清空baos
             //这里压缩options%，把压缩后的数据存放到baos中
             if (options > 0) {
-                image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+                image.compress(Bitmap.CompressFormat.JPEG, options, baos);//注意quality must be [0, 100]
             }
             options -= 10;
-            Logger.i("options : "+options);
+            Logger.i("options : " + options);
         }
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
         return BitmapFactory.decodeStream(isBm, null, null);
     }
 
+
     /**
      * 判断bitmap对象是否为空
-     *
      * @param src 源图片
      */
     public static boolean isBitmapEmpty(Bitmap src) {
@@ -196,7 +212,6 @@ public class ImageUtil {
 
     /**
      * 旋转图片
-     *
      * @return Bitmap
      */
     public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
@@ -207,7 +222,6 @@ public class ImageUtil {
 
     /**
      * 读取图片属性：旋转的角度
-     *
      * @param path 图片绝对路径
      * @return degree旋转的角度
      */
@@ -235,9 +249,8 @@ public class ImageUtil {
 
     /**
      * Gets the corresponding path to a file from the given content:// URI
-     *
      * @param selectedVideoUri The content:// URI to find the file path from
-     * @param contentResolver The content resolver to use to perform the query.
+     * @param contentResolver  The content resolver to use to perform the query.
      * @return the file path as a string
      */
     public static String uri2ImageFile(Uri selectedVideoUri, ContentResolver contentResolver) {
@@ -259,7 +272,6 @@ public class ImageUtil {
 
     /**
      * Gets the content:// URI  from the given corresponding path to a file
-     *
      * @return content Uri
      */
     public static Uri imageFile2Uri(Context context, File imageFile) {
@@ -333,16 +345,6 @@ public class ImageUtil {
 
     /**
      * 把图片压缩到200K
-     *
-     * @param oldpath
-     *            压缩前的图片路径
-     * @param newPath
-     *            压缩后的图片路径
-     * @return
-     */
-    /**
-     * 把图片压缩到200K
-     *
      * @param oldpath 压缩前的图片路径
      * @param newPath 压缩后的图片路径
      */
@@ -354,61 +356,16 @@ public class ImageUtil {
         byte[] bytes = os.toByteArray();
 
         File file = null;
-        try {
-            file = getFileFromBytes(bytes, newPath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (newBitmap != null) {
-                if (!newBitmap.isRecycled()) {
-                    newBitmap.recycle();
-                }
-                newBitmap = null;
-            }
-            if (compressBitmap != null) {
-                if (!compressBitmap.isRecycled()) {
-                    compressBitmap.recycle();
-                }
-                compressBitmap = null;
-            }
-        }
+
         return file;
     }
 
     /**
-     * 把字节数组保存为一个文件
-     */
-    public static File getFileFromBytes(byte[] b, String outputFile) {
-        File ret = null;
-        BufferedOutputStream stream = null;
-        try {
-            ret = new File(outputFile);
-            FileOutputStream fstream = new FileOutputStream(ret);
-            stream = new BufferedOutputStream(fstream);
-            stream.write(b);
-        } catch (Exception e) {
-            // log.error("helper:get file from byte process error!");
-            e.printStackTrace();
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    // log.error("helper:get file from byte process error!");
-                    e.printStackTrace();
-                }
-            }
-        }
-        return ret;
-    }
-
-    /**
-     * 按质量压缩
-     *
-     * @param bitmap 源图片
+     * 按质量压缩到指定大小的图片
+     * @param bitmap      源图片
      * @param maxByteSize 允许最大值字节数
-     * @param recycle 是否回收
-     * @return 质量压缩压缩过的图片
+     * @param recycle     是否回收
+     * @return 压缩过的图片
      */
     public static Bitmap compressByQuality(Bitmap bitmap, long maxByteSize, boolean recycle) {
         if (isBitmapEmpty(bitmap) || maxByteSize <= 0) {
@@ -419,14 +376,76 @@ public class ImageUtil {
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
         while (outputStream.toByteArray().length > maxByteSize && quality >= 0) {
             outputStream.reset();
+            if (quality <= 0) {
+                break;
+            }
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality -= 5, outputStream);
         }
-        if (quality < 0) {
+        byte[] bytes = outputStream.toByteArray();
+        if (recycle && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    /**
+     * 计算采样大小
+     * @param options   选项
+     * @param maxWidth  最大宽度
+     * @param maxHeight 最大高度
+     * @return 采样大小
+     */
+    private static int calculateInSampleSize(BitmapFactory.Options options, int maxWidth, int maxHeight) {
+        if (maxWidth == 0 || maxHeight == 0) {
+            return 1;
+        }
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+        while ((height >>= 1) >= maxHeight && (width >>= 1) >= maxWidth) {
+            inSampleSize <<= 1;
+        }
+
+        return inSampleSize;
+    }
+
+
+    /**
+     * 获取bitmap
+     * @param file      文件
+     * @param maxWidth  最大宽度
+     * @param maxHeight 最大高度
+     * @return bitmap
+     */
+    public static Bitmap getBitmap(File file, int maxWidth, int maxHeight) {
+        if (file == null || maxWidth <= 0 || maxHeight <= 0) {
             return null;
         }
-        byte[] bytes = outputStream.toByteArray();
-        if (recycle && !bitmap.isRecycled())
-            bitmap.recycle();
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        InputStream inputStream = null;
+        InputStream decodeStream = null;
+        try {
+            inputStream = new BufferedInputStream(new FileInputStream(file));
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, options);
+            options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
+            Logger.i("图片采样率：" + options.inSampleSize);
+            options.inJustDecodeBounds = false;
+
+            /*
+            创建新的InputStream，以前的InputStream无法保存Bitmap。
+            The problem was that once you've used an InputStream from a HttpUrlConnection,
+            you can't rewind and use the same InputStream again.
+            Therefore you have to create a new InputStream for the actual sampling of the image.
+             */
+            decodeStream = new BufferedInputStream(new FileInputStream(file));
+            return BitmapFactory.decodeStream(decodeStream, null, options);
+        } catch (FileNotFoundException e) {
+            return null;
+        } finally {
+            IOUtil.close(inputStream);
+            IOUtil.close(decodeStream);
+        }
     }
 }

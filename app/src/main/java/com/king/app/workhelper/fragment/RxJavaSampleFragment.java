@@ -1,5 +1,6 @@
 package com.king.app.workhelper.fragment;
 
+import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 
@@ -48,8 +49,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         return R.layout.fragment_rxjava_sample;
     }
 
-    @Override protected void initContentView() {
-        super.initContentView();
+    @Override protected void initContentView(View rootView) {
+        super.initContentView(rootView);
     }
 
     @Override protected void initData() {
