@@ -9,7 +9,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import butterknife.OnClick;
 
 /**
- * 测试入口Fragment
+ * 测试页面入口Fragment
  * Created by HuoGuangxu on 2016/11/10.
  */
 
@@ -44,6 +44,21 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_web_view_js)
     public void clickWebViewJs() {
         clickedOn(new WebViewSampleFragment());
+    }
+
+    @OnClick(R.id.tv_download_file)
+    public void clickDownloadFile() {
+        clickedOn(new DownloadFileSampleFragment());
+    }
+
+    @OnClick(R.id.tv_retrofit)
+    public void clickRetrofit() {
+        clickedOn(new RetrofitSampleFragment());
+    }
+
+    @OnClick(R.id.tv_custom_view)
+    public void clickCustomView() {
+        clickedOn(new CustomViewFragment());
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

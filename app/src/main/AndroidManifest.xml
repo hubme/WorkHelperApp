@@ -28,18 +28,11 @@
 
         <activity android:name=".activity.TinkerSampleActivity">
         </activity>
-        <activity android:name=".activity.SampleRetrofitActivity">
-        </activity>
-        <activity android:name=".activity.CustomViewActivity">
 
-        </activity>
         <activity android:name=".activity.WebViewActivity">
 
         </activity>
         <activity android:name=".activity.WebActivity2">
-
-        </activity>
-        <activity android:name=".activity.DownloadSampleActivity">
 
         </activity>
 
@@ -55,7 +48,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.AppDownloadService"/>
+        <service android:name=".service.DownloadFileService"/>
     </application>
 
 </manifest>

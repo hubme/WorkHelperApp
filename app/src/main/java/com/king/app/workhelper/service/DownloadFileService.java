@@ -30,7 +30,7 @@ public class DownloadFileService extends IntentService {
             return;
         }
         if (DownloadManager.ACTION_DOWNLOAD_FILE.equals(intent.getAction())) {
-            String fileUrl = intent.getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.APP_DOWNLOAD_URL);
+            String fileUrl = intent.getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.FILE_DOWNLOAD_URL);
             if (!StringUtil.isNullOrEmpty(fileUrl)) {
                 downloadFile(fileUrl);
             }

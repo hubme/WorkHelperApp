@@ -1,5 +1,6 @@
-package com.king.app.workhelper.activity;
+package com.king.app.workhelper.fragment;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -8,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
@@ -21,23 +22,26 @@ import okhttp3.Call;
 
 /**
  * 自定义View
- * Created by HuoGuangxu on 2016/10/17.
+ * Created by VanceKing on 2016/11/26 0026.
  */
 
-public class CustomViewActivity extends AppBaseActivity {
+public class CustomViewFragment extends AppBaseFragment {
     String mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/origin_spring.jpg";
     String mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/dest_spring.jpg";
 
     @BindView(R.id.image_after)
     public ImageView mAfterImage;
+    private Context mContext;
 
     @Override
-    public int getContentLayout() {
+    protected int getContentLayout() {
         return R.layout.activity_custom;
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
+        mContext = getContext();
         requestBank();
     }
 
@@ -73,8 +77,8 @@ public class CustomViewActivity extends AppBaseActivity {
     }
 
     private void showDialog() {
-        View customView = LayoutInflater.from(this).inflate(R.layout.list_picker_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View customView = LayoutInflater.from(mContext).inflate(R.layout.list_picker_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(customView);
 
         AlertDialog dialog = builder.create();

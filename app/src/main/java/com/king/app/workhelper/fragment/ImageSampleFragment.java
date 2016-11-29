@@ -36,11 +36,13 @@ public class ImageSampleFragment extends AppBaseFragment {
         return R.layout.fragment_image_sample;
     }
 
-    @Override protected void initContentView(View rootView) {
+    @Override
+    protected void initContentView(View rootView) {
         super.initContentView(rootView);
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
         mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/compress_before.jpg";
         mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/compress_after_02.jpg";
@@ -49,8 +51,8 @@ public class ImageSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_image_sample)
     public void compressImage() {
         //图片太大，无法显示。
-//        Bitmap mBeforeBitmap = ImageUtil.getBitmap(getContext(), R.mipmap.compress_before);
-//        mBeforeCompressedIv.setImageBitmap(mBeforeBitmap);
+        //        Bitmap mBeforeBitmap = ImageUtil.getBitmap(getContext(), R.mipmap.compress_before);
+        //        mBeforeCompressedIv.setImageBitmap(mBeforeBitmap);
 
         int width = mAfterCompressedIv.getWidth();
         int height = mAfterCompressedIv.getHeight();

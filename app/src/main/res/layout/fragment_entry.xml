@@ -57,6 +57,33 @@
                 android:gravity="center"
                 android:text="WebView和JS交互"/>
 
+            <TextView
+                android:id="@+id/tv_download_file"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_selfhelp_selector"
+                android:gravity="center"
+                android:text="文件下载"/>
+
+            <TextView
+                android:id="@+id/tv_retrofit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_selfhelp_selector"
+                android:gravity="center"
+                android:text="Retrofit"/>
+
+            <TextView
+                android:id="@+id/tv_custom_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/bg_selfhelp_selector"
+                android:gravity="center"
+                android:text="Custom View"/>
+
         </LinearLayout>
 
 
