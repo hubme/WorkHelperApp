@@ -15,74 +15,48 @@
 
             <TextView
                 android:id="@+id/tv_permission"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="6.0(M)权限"/>
 
             <TextView
                 android:id="@+id/tv_image_sample"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="Image Bitmap 相关"/>
 
             <TextView
                 android:id="@+id/tv_rx_java"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="RxJava"/>
 
             <TextView
                 android:id="@+id/tv_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="ViewPager"/>
 
             <TextView
                 android:id="@+id/tv_web_view_js"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="WebView和JS交互"/>
 
             <TextView
                 android:id="@+id/tv_download_file"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="文件下载"/>
 
             <TextView
                 android:id="@+id/tv_retrofit"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="Retrofit"/>
 
             <TextView
                 android:id="@+id/tv_custom_view"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/bg_selfhelp_selector"
-                android:gravity="center"
+                style="@style/EntryItem"
                 android:text="Custom View"/>
+
+            <TextView
+                android:id="@+id/tv_weak_handler"
+                style="@style/EntryItem"
+                android:text="Weak Handler"/>
 
         </LinearLayout>
 

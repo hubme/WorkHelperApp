@@ -61,6 +61,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new CustomViewFragment());
     }
 
+    @OnClick(R.id.tv_weak_handler)
+    public void clickWeakHandler() {
+        clickedOn(new WeakHandlerFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
