@@ -1,21 +1,15 @@
 package com.king.app.workhelper.fragment;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.common.PermissionMediator;
 import com.king.applib.log.Logger;
 import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.EasyPermission;
@@ -24,92 +18,66 @@ import com.king.applib.util.FileUtil;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.OnClick;
+
 /**
- * 6.0权限
+ * 6.0权限.在模拟器上Manifest.permission.CALL_PHONE，无法弹出授权弹窗
  * Created by HuoGuangxu on 2016/11/10.
  */
 
 public class PermissionFragment extends AppBaseFragment implements EasyPermission.PermissionCallback {
-    public static final int REQUEST_CODE_PERMISSION = 1024;
-    public static final int REQ_CODE_CAMERA = 0;
+    public static final int REQ_CODE_PERMISSION_CAMERA = 0;
+    public static final int REQ_CODE_PERMISSION_STORAGE = 1;
+    public static final int REQ_CODE_PERMISSION_PHONE_SMS = 2;
+    public static final int REQ_CODE_ACTIVITY_CAMERA = 3;
 
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_permission;
     }
 
-    public void clickBtn() {
-        PermissionMediator.checkPermission(getActivity(), Manifest.permission.CAMERA, new PermissionMediator.DefaultPermissionRequest() {
-            @Override
-            public void onPermissionRequest(boolean granted, String permission) {
-                super.onPermissionRequest(granted, permission);
-                if (granted) {
-                    Toast.makeText(getContext(), "已授权", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "未授权", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    @OnClick(R.id.tv_request_storage_permission)
+    public void clickStorageBtn() {
+        EasyPermission
+                .with(this)
+                .rationale("需要读写SDCard权限")
+                .addRequestCode(REQ_CODE_PERMISSION_STORAGE)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .request();
     }
 
-    private void requestCameraPermission() {
-        EasyPermission.with(this).rationale("相机权限").addRequestCode(REQ_CODE_CAMERA)
-                .permissions(Manifest.permission.CAMERA).request();
+    @OnClick(R.id.tv_request_camera_permission)
+    public void clickCameraBtn() {
+        EasyPermission
+                .with(this)
+                .rationale("需要相机权限")
+                .addRequestCode(REQ_CODE_PERMISSION_CAMERA)
+                .permissions(Manifest.permission.CAMERA)
+                .request();
     }
 
-    private void normalRequestPermission() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            /*
-            帮我们判断接下来的对话框是否包含”不再询问“选择框。
-            1.第一次询问,没有“不再询问”选项, 拒绝,返回true
-            2.以后询问,有“不再询问”选项，不勾选，拒绝，返回true;勾选，拒绝，返回false
-             */
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-                new AlertDialog.Builder(getContext()).setMessage("请授权")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("授权", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSION);
-                            }
-                        })
-                        .show();
-            } else {
-                //记得在manifest中加入READ_PHONE_STATE，否则会自动拒绝授权，不会出现弹窗
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_PERMISSION);
-            }
-
-        }
+    @OnClick(R.id.tv_request_phone_sms_permission)
+    public void clickPhoneSmsBtn() {
+        EasyPermission.with(this)
+                .rationale("需要电话和短信权限")
+                .addRequestCode(REQ_CODE_PERMISSION_PHONE_SMS)
+                .permissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .request();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-
-        PermissionMediator.dispatchPermissionResult(getActivity(), requestCode, permissions, grantResults);
-
-        /*switch (requestCode) {
-            case REQUEST_CODE_PERMISSION:
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-                    boolean sdfsd = (grantResults[0] == PackageManager.PERMISSION_GRANTED);
-                    if (!sdfsd) {
-                        Toast.makeText(getContext(), "到设置中打开权限", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(getContext(), "授权成功", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                break;
-        }*/
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQ_CODE_CAMERA:
-                Logger.i("相机返回");
+            case EasyPermission.SETTINGS_REQ_CODE:
+                Toast.makeText(getContext(), "从设置页面返回", Toast.LENGTH_SHORT).show();
+                break;
+            default:
                 break;
         }
     }
@@ -134,16 +102,36 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
     @Override
     public void onPermissionGranted(int requestCode, List<String> perms) {
         switch (requestCode) {
-            case REQ_CODE_CAMERA:
-                takePhotoFromCamera(REQ_CODE_CAMERA);
+            case REQ_CODE_PERMISSION_STORAGE:
+                Logger.i("读写SDCard权限已授权");
+                break;
+            case REQ_CODE_PERMISSION_CAMERA:
+                Logger.i("相机权限已授权，打开相机");
+                takePhotoFromCamera(REQ_CODE_ACTIVITY_CAMERA);
+                break;
+            case REQ_CODE_PERMISSION_PHONE_SMS:
+                Logger.i("电话短信已授权");
+                break;
+            default:
                 break;
         }
     }
 
     @Override
     public void onPermissionDenied(int requestCode, List<String> perms) {
-        Logger.i("未授权");
-        //可选的,跳转到Settings界面
-        EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "请到设置中打开相机权限", R.string.confirm, R.string.cancel, null, perms);
+        switch (requestCode) {
+            case REQ_CODE_PERMISSION_CAMERA:
+                EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "请到设置中打开相机权限", R.string.confirm, R.string.cancel, null, perms);
+                break;
+            case REQ_CODE_PERMISSION_STORAGE:
+                EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "请到设置中打开读写SDCard权限", R.string.confirm, R.string.cancel, null, perms);
+                break;
+            case REQ_CODE_PERMISSION_PHONE_SMS:
+                Toast.makeText(getContext(), "PHONE_SMS", Toast.LENGTH_SHORT).show();
+                EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "请到设置中打开电话和短信权限", R.string.confirm, R.string.cancel, null, perms);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -5,9 +5,29 @@
               android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="权限相关"
-        android:textSize="@dimen/ts_bigger"/>
+        android:id="@+id/tv_request_storage_permission"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_selfhelp_selector"
+        android:gravity="center"
+        android:text="申请STORAGE权限"/>
+
+    <TextView
+        android:id="@+id/tv_request_camera_permission"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_selfhelp_selector"
+        android:gravity="center"
+        android:text="申请相机权限"/>
+
+    <TextView
+        android:id="@+id/tv_request_phone_sms_permission"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_selfhelp_selector"
+        android:gravity="center"
+        android:text="申请电话和短信权限(电话权限弹不出授权弹窗???)"/>
 
 </LinearLayout>
