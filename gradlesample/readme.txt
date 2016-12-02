@@ -34,3 +34,6 @@ gradle help --task compile
 
 10.依赖列表
 执行 gradle dependencies 会列出#项目#的依赖列表,所有依赖会根据任务区分,以树型结构展示出来。
+
+11.查看特定依赖
+执行 gradle dependencyInsight 可以查看指定的依赖情况.
