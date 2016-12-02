@@ -1,0 +1,57 @@
+//15.1. Projects and tasks。https://docs.gradle.org/current/userguide/tutorial_using_tasks.html#ftn.N10D3F
+/*
+1.执行Task.
+不指定运行Task
+带日志: gradle compile(Task名称); 不带日志: gradle -q(--quiet) compile
+
+2.执行多个任务.
+Gradle 将会按顺序执行。每个任务都只执行一次，不管它如何被包含在build：无论是在命令行中指定，或作为一个依赖的另一个任务，或两者兼而有之。
+
+3.排除 task。
+gradle -q dist -x test; gradle dist -q -x test。
+
+4.任务名称缩写。
+当执行某个 task 的时候,无需输入 task 的全名.只需提供足够的可以唯一区分出该 task 的字符即可。
+eg: gradle compileDependsOn3 ---> gradle cDO3；
+    gradle whataaa ---> gradle whata
+
+5."<<"操作符代表task的doLast方法,没有"<<"的Task会先运行。
+
+ */
+/*task aaa {
+    println 'aaa'
+}
+
+task bbb {
+    println 'bbb'
+}*/
+
+task whataaa << {
+    println 'whataaa'
+}
+
+task whatbbb << {
+    println 'whatBbb'
+}
+
+task helloworld << {
+    println 'running task Hello World!'
+}
+task compile << {
+    println 'running task compile'
+}
+
+task compileDependsOn1(dependsOn: compile) << {
+    println 'running task compileDependsOn1'
+}
+
+task compileDependsOn2(dependsOn: [compile, compileDependsOn1]) << {
+    println 'running task compileDependsOn2'
+}
+
+task compileDependsOn3(dependsOn: [compile, compileDependsOn2]) << {
+    println 'running task compileDependsOn3'
+}
+
+//执行gradle projects时显示的描述信息。
+description = 'The description for task project'
