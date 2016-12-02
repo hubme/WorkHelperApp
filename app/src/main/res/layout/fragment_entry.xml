@@ -58,6 +58,11 @@
                 style="@style/EntryItem"
                 android:text="Weak Handler"/>
 
+            <TextView
+                android:id="@+id/tv_leak_canary"
+                style="@style/EntryItem"
+                android:text="LeakCanary"/>
+
         </LinearLayout>
 
 
