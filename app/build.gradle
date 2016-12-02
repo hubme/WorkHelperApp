@@ -97,6 +97,10 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'pub.devrel:easypermissions:0.2.1'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
 
 def bakPath = file("${buildDir}/bakApk/")

@@ -66,6 +66,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new WeakHandlerFragment());
     }
 
+    @OnClick(R.id.tv_leak_canary)
+    public void clicktvLeakCanary() {
+        clickedOn(new LeakCanaryFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
