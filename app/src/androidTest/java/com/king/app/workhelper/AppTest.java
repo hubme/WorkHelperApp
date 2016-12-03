@@ -18,6 +18,7 @@ import static android.os.Environment.DIRECTORY_DCIM;
 import static com.king.applib.util.FileUtil.createFile;
 
 /**
+ * 测试
  * Created by HuoGuangxu on 2016/9/29.
  */
 
@@ -25,7 +26,8 @@ public class AppTest extends AndroidTestCase {
     private static final String TAG = "aaa";
     private Context mContext;
 
-    @Override protected void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
         super.setUp();
         mContext = getContext();
     }

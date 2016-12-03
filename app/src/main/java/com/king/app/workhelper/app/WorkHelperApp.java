@@ -40,7 +40,6 @@ public class WorkHelperApp extends BaseApplication {
 
         initOkHttp();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
-        Logger.i("onCreate");
 
     }
 
