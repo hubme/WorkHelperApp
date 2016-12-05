@@ -31,3 +31,4 @@ proguard/
 
 # Android Studio Navigation editor temp files
 .navigation/
+/gradlesample/build/

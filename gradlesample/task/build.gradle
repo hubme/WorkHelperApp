@@ -15,7 +15,7 @@ gradle -q dist -x test; gradle dist -q -x test。
 eg: gradle compileDependsOn3 ---> gradle cDO3；
     gradle whataaa ---> gradle whata
 
-5."<<"操作符代表task的doLast方法,没有"<<"的Task会先运行。
+5."<<"操作符代表task的doLast方法,仅仅是 doLast 的别名,没有"<<"的Task会先运行。
 
  */
 /*task aaa {
@@ -52,6 +52,105 @@ task compileDependsOn2(dependsOn: [compile, compileDependsOn1]) << {
 task compileDependsOn3(dependsOn: [compile, compileDependsOn2]) << {
     println 'running task compileDependsOn3'
 }
+
+task upper << {
+    String name = 'VanceKing'
+    println 'lower name : ' + name
+    println 'upper name : ' + name.toUpperCase(Locale.CHINA)
+}
+/*
+output:
+lower name : VanceKing
+upper name : VANCEKING
+ */
+
+task count << {
+    4.times { print "$it " }
+}
+//output: 0 1 2 3
+
+task task1 << {
+    4.times { counter ->
+        task "task$counter" << {
+            println "I'm task number $counter"
+        }
+    }
+}
+
+
+//begin 添加行为到一个已经存在 task 中
+/*
+doFirst 和 doLast 可以多次执行调用。
+他们在开始或结束的 task 动作清单中添加动作。task 执行时，按动作列表的顺序执行的动作。操作符 << 仅仅是 doLast 的别名。
+ */
+task hello << {
+    println 'Hello Earth'
+}
+hello.doFirst {
+    println 'Hello Venus'
+}
+hello.doLast {
+    println 'Hello Mars'
+}
+hello << {
+    println 'Hello Jupiter'
+}
+//end 添加行为到一个已经存在 task 中
+
+//快捷符号
+task taskA << {
+    println 'I\'am taskA.'
+}
+taskA.doFirst{
+    println "Before taskA."
+}
+taskA.doLast{
+    println "Greetings from the $hello.name task."
+}
+
+//task 不对额外属性做限制
+task taskB{
+    ext.myProperty = "taskB"
+}
+task printTaskProperties << {
+    println taskB.myProperty
+}
+
+//默认 task
+defaultTasks 'clean', 'run'
+
+task clean << {
+    println 'Default Cleaning!'
+}
+task run << {
+    println 'Default Running!'
+}
+task other << {
+    println "i'm not a default task!"
+}
+
+//通过 DAG 配置
+/*
+ gradle distribution -q
+ output: We build the zip with version=1.0-SNAPSHOT
+ gradle release -q
+ output: We build the zip with version=1.0
+        We release now
+ */
+task distribution << {
+    println "We build the zip with version=$version"
+}
+task release(dependsOn: 'distribution') << {
+    println 'We release now'
+}
+gradle.taskGraph.whenReady {taskGraph ->
+    if (taskGraph.hasTask(release)) {
+        version = '1.0'
+    } else {
+        version = '1.0-SNAPSHOT'
+    }
+}
+
 
 //执行gradle projects时显示的描述信息。
 description = 'The description for task project'

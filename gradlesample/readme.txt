@@ -1,4 +1,8 @@
-//http://wiki.jikexueyuan.com/project/gradle-2-user-guide/using-the-gradle-command-line.html
+文档：
+http://wiki.jikexueyuan.com/project/gradle-2-user-guide/using-the-gradle-command-line.html
+https://github.com/waylau/Gradle-2-User-Guide-Demos
+https://github.com/waylau/Gradle-2-User-Guide
+
 
 1.因为每个目录下只能有一个build.gradle文件。
 为了方便测试，通过setting.gradle管理每个目录下的build.gradle文件，在setting.gradle所在目录下测试即可。
@@ -37,3 +41,13 @@ gradle help --task compile
 
 11.查看特定依赖
 执行 gradle dependencyInsight 可以查看指定的依赖情况.
+
+12.项目属性列表
+gradle properties(root project的属性);gradle task:properties(task project的属性)
+
+13.Profiling a build
+--profile 命令选项可以记录一些构建期间的信息并保存到 build/reports/profile 目录下并且以构建时间命名这些文件.
+该报告列出总时间和在配置和task的执行阶段的细节。并以时间大小倒序排列，并且记录了任务的执行情况.如果采用了buildSrc 构建,那么在 buildSrc/build 下同时也会给 buildSrc 生成一份日志记录
+
+14.执行
+有时可能你只想知道某个 task 在一个 task 集中按顺序执行的结果,但并不想实际执行这些 task 。那么你可以用 -m 选项。例如 执行 gradle -m clean compile 将会看到所有的作为 clean 和 compile 一部分的 task 会被执行。这与 task 可以形成互补,让你知道哪些 task 可以用于执行。
