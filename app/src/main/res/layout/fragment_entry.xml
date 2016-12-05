@@ -63,6 +63,11 @@
                 style="@style/EntryItem"
                 android:text="LeakCanary"/>
 
+            <TextView
+                android:id="@+id/tv_toolbar"
+                style="@style/EntryItem"
+                android:text="Toolbar"/>
+
         </LinearLayout>
 
 

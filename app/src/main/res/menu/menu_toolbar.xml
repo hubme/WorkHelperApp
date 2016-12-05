@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--虽然给Item设置了图标，但是不会显示。
+    Google Material Design 设计规范并不建议这里添加图标, 所以Google默认不显示图标-->
+    <item
+        android:id="@+id/editor"
+        android:icon="@mipmap/ic_editor"
+        android:title="@string/edit"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/share"
+        android:icon="@mipmap/ic_share"
+        android:title="@string/share"/>
+    <item
+        android:id="@+id/search"
+        android:icon="@mipmap/ic_search"
+        android:title="@string/search"/>
 
 </menu>

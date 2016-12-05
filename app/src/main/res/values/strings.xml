@@ -10,5 +10,11 @@
     <string name="how_much_rate">0.25 &#047; &#037;</string><!--0.25 / % “%”有时会运行失败,用两个%代替“%%”-->
     <string name="hint_loan_period_money">还款方式为等额本息，日费率%1$.4f%%，总利息%2$.2f，每月还款%3$.2f。</string>
     <string name="how_much_cny">%1$.2f</string>
+    <string name="edit">编辑</string>
+    <string name="share">分享</string>
+    <string name="about">关于</string>
+    <string name="search">搜索</string>
+
+
 
 </resources>

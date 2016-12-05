@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
 
 import butterknife.OnClick;
@@ -67,8 +68,13 @@ public class EntryFragment extends AppBaseFragment {
     }
 
     @OnClick(R.id.tv_leak_canary)
-    public void clicktvLeakCanary() {
+    public void clickLeakCanary() {
         clickedOn(new LeakCanaryFragment());
+    }
+
+    @OnClick(R.id.tv_toolbar)
+    public void clickToolbar() {
+        ToolbarActivity.startToolbarActivity(getContext());
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
