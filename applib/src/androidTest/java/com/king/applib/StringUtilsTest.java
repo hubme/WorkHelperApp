@@ -37,4 +37,24 @@ public class StringUtilsTest extends AndroidTestCase {
         Logger.i(String.valueOf(StringUtil.isNumber("%$012df")));
         Logger.i(String.valueOf(StringUtil.isNumber("%%&**)")));
     }
+
+    public void testIsNotEmpty() throws Exception {
+        String text = null;
+        Logger.i(String.valueOf(StringUtil.isNotEmpty(text)));
+        Logger.i(String.valueOf(StringUtil.isNotEmpty("")));
+        Logger.i(String.valueOf(StringUtil.isNotEmpty(" ")));
+        Logger.i(String.valueOf(StringUtil.isNotEmpty("000")));
+    }
+
+    public void testNoneEmpty() throws Exception {
+        String text = null;
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty()));
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty("")));
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty(" ")));
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty(text)));
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty("0a")));
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty("0a", "")));
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty("0a", text)));
+        Logger.i(String.valueOf(StringUtil.isNoneEmpty("0a", "ab")));
+    }
 }

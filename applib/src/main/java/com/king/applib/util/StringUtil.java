@@ -29,19 +29,26 @@ public class StringUtil {
     /**
      * 判断字符串是否是null或者empty(""," ")
      */
-    public static boolean isNullOrEmpty(String string) {
+    public static boolean isNullOrEmpty(final String string) {
         return string == null || string.trim().isEmpty();
+    }
+
+    /**
+     * 判断字符串是否 not null或者not empty(""," ")
+     */
+    public static boolean isNotEmpty(final String string) {
+        return !isNullOrEmpty(string);
     }
 
     /**
      * 如果可变字符串中包含null或empty,返回true;否则返回false.
      */
-    public static boolean isAnyEmpty(String... strings) {
+    public static boolean isAnyEmpty(final String... strings) {
         if (strings == null || strings.length < 1) {
             return true;
         }
         for (String str : strings) {
-            if (StringUtil.isNullOrEmpty(str)) {
+            if (isNullOrEmpty(str)) {
                 return true;
             }
         }
@@ -49,12 +56,19 @@ public class StringUtil {
     }
 
     /**
+     * 字符串都不为null或""返回true,否则返回false.
+     */
+    public static boolean isNoneEmpty(final String... strings) {
+        return !isAnyEmpty(strings);
+    }
+
+    /**
      * 判断字符串是否为数字
      * @param str 传入的字符串
      * @return 是整数返回true, 否则返回false
      */
-    public static boolean isNumber(String str) {
-        if (StringUtil.isNullOrEmpty(str)) {
+    public static boolean isNumber(final String str) {
+        if (isNullOrEmpty(str)) {
             return false;
         }
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");

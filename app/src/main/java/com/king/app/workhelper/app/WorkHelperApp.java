@@ -22,7 +22,7 @@ import okhttp3.OkHttpClient;
 
 public class WorkHelperApp extends BaseApplication {
 
-    private RefWatcher mRrefWatcher;
+    private RefWatcher mRefWatcher;
 
     /*
     1.第一次安装会运行。
@@ -36,7 +36,7 @@ public class WorkHelperApp extends BaseApplication {
             // You should not init your app in this process.
             return;
         }
-        mRrefWatcher = LeakCanary.install(this);
+        mRefWatcher = LeakCanary.install(this);
 
         initOkHttp();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
@@ -54,7 +54,7 @@ public class WorkHelperApp extends BaseApplication {
 
     public static RefWatcher getRefWatcher(Context context) {
         WorkHelperApp application = (WorkHelperApp) context.getApplicationContext();
-        return application.mRrefWatcher;
+        return application.mRefWatcher;
     }
 
     @Override
