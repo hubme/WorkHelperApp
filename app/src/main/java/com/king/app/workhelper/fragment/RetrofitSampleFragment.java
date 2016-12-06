@@ -4,10 +4,17 @@ import android.widget.Button;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.model.entity.Movie;
+import com.king.app.workhelper.webservice.MovieService;
 import com.king.applib.log.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Retrofit.
@@ -31,6 +38,27 @@ public class RetrofitSampleFragment extends AppBaseFragment {
     }
 
     private void getMovie() {
+        final String baseUrl = "https://api.douban.com/v2/movie/";
+        /*Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())*/
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        MovieService movieService = retrofit.create(MovieService.class);
+        Call<Movie> call = movieService.getTopMovie(0, 10);
+        call.enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t) {
+
+            }
+        });
 
     }
 }
