@@ -4,6 +4,7 @@ package com.king.app.workhelper.app;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.antfortune.freeline.FreelineCore;
 import com.king.app.workhelper.BuildConfig;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
@@ -40,7 +41,7 @@ public class WorkHelperApp extends BaseApplication {
 
         initOkHttp();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
-
+        FreelineCore.init(this);
     }
 
     private void initOkHttp() {
