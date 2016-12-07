@@ -3,12 +3,15 @@ package com.king.app.workhelper.common;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.king.app.workhelper.R;
 import com.king.applib.base.BaseActivity;
 import com.king.applib.util.StringUtil;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,6 +20,10 @@ import butterknife.ButterKnife;
  */
 
 public abstract class AppBaseActivity extends BaseActivity implements View.OnClickListener{
+    //可能之类没有引用Toolbar
+    @Nullable @BindView(R.id.toolbar)
+    public Toolbar mToolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +34,7 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
     protected void initContentView() {
         super.initContentView();
         ButterKnife.bind(this);
+        initToolbar();
     }
 
     @Override
@@ -35,8 +43,29 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
         BusProvider.getEventBus().unregister(this);
     }
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 
+    }
+
+    protected void initToolbar(){
+        if (mToolbar == null) {
+            return;
+        }
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
+//        mToolbar.setLogo(R.mipmap.ic_launcher);
+        mToolbar.setTitle(getString(getTitleResource()));
+//        mToolbar.setSubtitle("副标题");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    protected @StringRes int getTitleResource() {
+        return R.string.app_name;
     }
 
     /**

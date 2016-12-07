@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.EntryFragment;
+import com.king.applib.log.Logger;
 
 /**
  * 测试入口界面
@@ -27,8 +28,15 @@ public class HomeActivity extends AppBaseActivity {
                 .commit();
     }
 
-    @Override public void getIntentData(Intent intent) {
+    @Override
+    public void getIntentData(Intent intent) {
         super.getIntentData(intent);
-        
+        String value = getStringExtra("aaa", "000");
+        Logger.i(value);
+    }
+
+    @Override
+    protected int getTitleResource() {
+        return R.string.about;
     }
 }

@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.StringUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(mContentLayout);
         initContentView();
         initData();
+        loadingData();
     }
 
     /**
@@ -56,9 +55,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract int getContentLayout();
 
     /**
-     * 可以访问网络，获取数据。给View填充数据。
+     * 给View填充数据。
      */
     protected void initData() {
+
+    }
+
+    /**
+     * 访问网络数据。
+     */
+    protected void loadingData() {
 
     }
 
@@ -109,15 +115,12 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param defaultValue 指定的key为null,返回defaultValue
      */
     protected String getStringExtra(String key, @NonNull String defaultValue) {
-        if (getIntent() == null) {
-            return StringUtil.isNullOrEmpty(defaultValue) ? "" : defaultValue;
+        Intent intent = getIntent();
+        if (intent == null) {
+            return defaultValue;
         }
-        String value = getIntent().getStringExtra(key);
-        if (value != null) {
-            return value;
-        } else {
-            return StringUtil.isNullOrEmpty(defaultValue) ? "" : defaultValue;
-        }
+        String value = intent.getStringExtra(key);
+        return StringUtil.isNullOrEmpty(value) ? defaultValue : value;
     }
 
     /**
@@ -127,15 +130,12 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     @SuppressWarnings("unchecked")
     protected <T> T getSerializableExtra(String key, T defaultValue) {
-        if (getIntent() == null) {
+        Intent intent = getIntent();
+        if (intent == null) {
             return defaultValue;
         }
-        T t = (T) getIntent().getSerializableExtra(key);
-        if (t == null) {
-            return defaultValue;
-        } else {
-            return t;
-        }
+        T value = (T) intent.getSerializableExtra(key);
+        return value == null ? defaultValue : value;
     }
 
     /**
@@ -145,14 +145,11 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     @SuppressWarnings("unchecked")
     protected <T> List<T> getSerializableListExtra(String key, @NonNull List<T> defaultValue) {
-        if (getIntent() == null) {
-            return ExtendUtil.isListNullOrEmpty(defaultValue) ? new ArrayList<T>() : defaultValue;
+        Intent intent = getIntent();
+        if (intent == null) {
+            return defaultValue;
         }
-        List<T> list = (List<T>) getIntent().getSerializableExtra(key);
-        if (list == null) {
-            return ExtendUtil.isListNullOrEmpty(defaultValue) ? new ArrayList<T>() : defaultValue;
-        } else {
-            return list;
-        }
+        List<T> list = (List<T>) intent.getSerializableExtra(key);
+        return list == null ? defaultValue : list;
     }
 }
