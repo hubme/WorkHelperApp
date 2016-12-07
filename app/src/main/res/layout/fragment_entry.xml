@@ -68,6 +68,11 @@
                 style="@style/EntryItem"
                 android:text="Toolbar"/>
 
+            <TextView
+                android:id="@+id/tv_log"
+                style="@style/EntryItem"
+                android:text="Log"/>
+
         </LinearLayout>
 
 

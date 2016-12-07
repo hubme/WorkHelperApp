@@ -77,6 +77,11 @@ public class EntryFragment extends AppBaseFragment {
         ToolbarActivity.startToolbarActivity(getContext());
     }
 
+    @OnClick(R.id.tv_log)
+    public void clickLog() {
+        clickedOn(new LogFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

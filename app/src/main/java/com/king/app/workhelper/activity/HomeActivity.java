@@ -1,5 +1,7 @@
 package com.king.app.workhelper.activity;
 
+import android.content.Intent;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.EntryFragment;
@@ -23,5 +25,10 @@ public class HomeActivity extends AppBaseActivity {
                 .beginTransaction()
                 .add(R.id.layout_container, new EntryFragment())
                 .commit();
+    }
+
+    @Override public void getIntentData(Intent intent) {
+        super.getIntentData(intent);
+        
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_trace"
+        style="@style/EntryItem"
+        android:text="打印Trace"/>
+
+    <TextView
+        android:id="@+id/tv_origin_log"
+        style="@style/EntryItem"
+        android:text="原生Log"/>
+
+    <TextView
+        android:id="@+id/tv_log"
+        style="@style/EntryItem"
+        android:text="打印Log"/>
+</LinearLayout>
