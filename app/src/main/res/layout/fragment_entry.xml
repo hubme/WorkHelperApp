@@ -73,6 +73,11 @@
                 style="@style/EntryItem"
                 android:text="Log"/>
 
+            <TextView
+                android:id="@+id/tv_notification"
+                style="@style/EntryItem"
+                android:text="Notification"/>
+
         </LinearLayout>
 
 

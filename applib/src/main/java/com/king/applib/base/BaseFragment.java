@@ -1,5 +1,6 @@
 package com.king.applib.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 public abstract class BaseFragment extends Fragment {
 
     protected View mRootView;
+    protected Context mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +30,12 @@ public abstract class BaseFragment extends Fragment {
         initContentView(mRootView);
         initData();
         return mRootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = getContext();
     }
 
     private void getArgumentData() {

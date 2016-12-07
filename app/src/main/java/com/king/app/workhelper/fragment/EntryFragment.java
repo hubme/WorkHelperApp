@@ -82,6 +82,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new LogFragment());
     }
 
+    @OnClick(R.id.tv_notification)
+    public void onNotificationClick() {
+        clickedOn(new NotificationFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
