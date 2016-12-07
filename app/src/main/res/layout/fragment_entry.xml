@@ -78,6 +78,11 @@
                 style="@style/EntryItem"
                 android:text="Notification"/>
 
+            <TextView
+                android:id="@+id/tv_round_image"
+                style="@style/EntryItem"
+                android:text="RoundedBitmapDrawable"/>
+
         </LinearLayout>
 
 

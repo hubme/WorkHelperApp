@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.model.LeakTestModel;
 import com.king.applib.log.Logger;
 
 import butterknife.BindView;
@@ -57,7 +56,7 @@ public class LeakCanaryFragment extends AppBaseFragment {
         super.initData();
 
         //2.静态方法导致的Activity泄漏
-        LeakTestModel.getInstance().setRetainedTextView(textView);
+//        LeakTestModel.getInstance().setRetainedTextView(textView);
     }
 
     @Override
