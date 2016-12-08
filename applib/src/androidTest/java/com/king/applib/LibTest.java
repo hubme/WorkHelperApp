@@ -3,6 +3,7 @@ package com.king.applib;
 import android.content.Context;
 import android.os.Environment;
 import android.test.AndroidTestCase;
+import android.text.format.Formatter;
 import android.util.SparseArray;
 
 import com.king.applib.log.Logger;
@@ -37,6 +38,15 @@ public class LibTest extends AndroidTestCase {
         super.setUp();
         Logger.init("aaa").methodCount(1).hideThreadInfo();
         mContext = getContext();
+    }
+
+    public void testSDf() {
+        Logger.i(Formatter.formatFileSize(mContext, 250));//250 B
+        Logger.i(Formatter.formatFileSize(mContext, 1024));//1.00 KB
+        Logger.i(Formatter.formatFileSize(mContext, 1024 * 1024));//1.00 MB
+        Logger.i(Formatter.formatFileSize(mContext, 1024 * 1024 * 1024));//1.00 GB
+        Logger.i(Formatter.formatFileSize(mContext, 1024 * 1024 * 1024 * 1024));//
+        Logger.i(Formatter.formatFileSize(mContext, 1024 * 1024 * 1024));//
     }
 
     public void testSparseArray() throws Exception {

@@ -5,6 +5,9 @@ import android.os.Environment;
 import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
+import com.king.applib.util.FileUtil;
+
+import java.io.File;
 
 /**
  * 文件工具测试类
@@ -23,6 +26,14 @@ public class FileUtilTest extends AndroidTestCase {
 
     @Override protected void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    public void testDeleteOnExit() throws Exception{
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000/000.jpg";
+        Logger.i(FileUtil.isFileExists(filePath) ? "存在" : "不存在");
+        File file = FileUtil.createFile(filePath);
+        Logger.i(FileUtil.isFileExists(file) ? "存在" : "不存在");
+        Logger.i(file == null ? "null" : "not null");
     }
 
     public void testEnvironment() throws Exception {

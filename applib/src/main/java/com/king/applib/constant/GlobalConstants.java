@@ -19,4 +19,13 @@ public class GlobalConstants {
         int TYPE_MOBILE = 1;
     }
 
+    public interface HTTP_RESPONSE_CODE {
+        /** 请求范围不符合要求 */
+        int NON_CONFORMANCE = 416;
+        /** 文件未修改 */
+        int UNMODIFIED = 304;
+        /**部分内容*/
+        int PARTIAL_CONTENT = 206;
+    }
+
 }

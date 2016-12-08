@@ -46,6 +46,6 @@ public class DownloadFileService extends IntentService {
 
     private void downloadFile(String url) {
         DownloadManager downloadManager = new DownloadManager(this);
-        downloadManager.downloadFile(new DownloadManager.Request(url));
+        downloadManager.downloadFile(null);
     }
 }

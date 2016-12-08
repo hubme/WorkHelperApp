@@ -44,4 +44,8 @@
         <!-- 设置弹出菜单文字颜色 -->
         <item name="android:textColor">@android:color/holo_blue_dark</item>
     </style>
+
+    <style name="Notification_title" parent="@style/TextAppearance.StatusBar.EventContent.Title"/>
+    <style name="Notification_line2" parent="@style/TextAppearance.StatusBar.EventContent.Line2"/>
+    <style name="Notification_time" parent="@style/TextAppearance.StatusBar.EventContent.Time"/>
 </resources>

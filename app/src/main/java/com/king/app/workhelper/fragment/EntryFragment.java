@@ -87,6 +87,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new NotificationFragment());
     }
 
+    @OnClick(R.id.tv_okhttp)
+    public void onOkHttpClick() {
+        clickedOn(new OkHttpFragment());
+    }
+
     @OnClick(R.id.tv_round_image)
     public void onRoundImageClick() {
         clickedOn(new RoundDrawableFragment());

@@ -1,11 +1,15 @@
 package com.king.app.workhelper.fragment;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.HomeActivity;
@@ -67,5 +71,31 @@ public class NotificationFragment extends AppBaseFragment {
                     }
                 }
         ).start();
+    }
+
+    @OnClick(R.id.tv_remote_view)
+    public void onRemoteViewsClick() {
+        initDownloadProgress(1024);
+    }
+
+    private void initDownloadProgress(long fileSize) {
+        final Context mContext = getContext();
+        NotificationManagerCompat mNoticeManager = NotificationManagerCompat.from(mContext);
+        if (!mNoticeManager.areNotificationsEnabled()) {
+            return;
+        }
+
+        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.view_download_notification);
+        remoteViews.setTextViewText(R.id.file_name, "哈哈哈");
+        remoteViews.setTextViewText(R.id.file_size, Formatter.formatFileSize(mContext, fileSize));
+        remoteViews.setTextViewText(R.id.status, "下载中...");
+
+        Notification notification = new NotificationCompat.Builder(mContext)
+                .setSmallIcon(R.mipmap.downloading)
+                .setContentIntent(null)
+                .setContent(remoteViews)
+                .build();
+
+        mNoticeManager.notify(1024, notification);
     }
 }

@@ -70,7 +70,7 @@ public class FileUtil {
     }
 
     /**
-     * 根据文件路径创建文件.如果文件已经存在，则删除.
+     * 根据文件路径创建全新的文件.如果文件已经存在，则删除.
      * @param path 文件全路径
      * @return 文件对象
      */
@@ -79,7 +79,11 @@ public class FileUtil {
             return null;
         }
         File file = new File(path);
-        file.deleteOnExit();
+        if (isFileExists(file)) {
+            if (!file.delete()) {
+                return null;
+            }
+        }
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
             if (!parentFile.mkdirs()) {

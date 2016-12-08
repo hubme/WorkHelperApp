@@ -5,12 +5,8 @@
               android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_notification"
+        android:id="@+id/tv_okhttp"
         style="@style/EntryItem"
-        android:text="发送通知"/>
+        android:text="OkHttp"/>
 
-    <TextView
-        android:id="@+id/tv_remote_view"
-        style="@style/EntryItem"
-        android:text="RemoteViews通知"/>
 </LinearLayout>
