@@ -1,5 +1,7 @@
 package com.king.applib.util;
 
+import android.text.format.DateUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,6 +16,7 @@ public class DateTimeUtil {
     private DateTimeUtil() {
         throw new UnsupportedOperationException("No instances!");
     }
+
     public static final String INTL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String FULL_DATE_FORMAT = "yyyy年M月d日 HH:00";
     public static final String MONTH_DAY_HOUR_FORMAT = "MM月dd日 HH:00";
@@ -49,6 +52,7 @@ public class DateTimeUtil {
         } catch (ParseException e) {
             return null;
         }
+
     }
 
     /**
@@ -76,5 +80,21 @@ public class DateTimeUtil {
             return -1;
         }
         return secondDate.getTime() - firstDate.getTime();
+    }
+
+    /**
+     * 毫秒时间格式化
+     * @param time 时间，单位毫秒
+     */
+    public static String getUnitTime(long time) {
+        if (time < DateUtils.SECOND_IN_MILLIS) {
+            return String.format(Locale.getDefault(), "%d毫秒", time);
+        } else if (time < DateUtils.MINUTE_IN_MILLIS) {
+            return String.format(Locale.getDefault(), "%d秒", time / DateUtils.SECOND_IN_MILLIS);
+        } else if (time < DateUtils.HOUR_IN_MILLIS) {
+            return String.format(Locale.getDefault(), "%d分钟", time / DateUtils.MINUTE_IN_MILLIS);
+        } else {
+            return String.format(Locale.getDefault(), "%d小时", time / DateUtils.HOUR_IN_MILLIS);
+        }
     }
 }

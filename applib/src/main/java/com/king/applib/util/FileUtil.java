@@ -4,7 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.util.Locale;
 
 /**
  * 文件工具类。读写sdcard记得申请权限.
@@ -15,6 +15,12 @@ public class FileUtil {
     private FileUtil() {
         throw new UnsupportedOperationException("No instances!");
     }
+
+    public static final long KB_IN_BYTES = 1024;
+    public static final long MB_IN_BYTES = KB_IN_BYTES * 1024;
+    public static final long GB_IN_BYTES = MB_IN_BYTES * 1024;
+    public static final long TB_IN_BYTES = GB_IN_BYTES * 1024;
+    public static final long PB_IN_BYTES = TB_IN_BYTES * 1024;
 
     /**
      * 根据文件路径获取文件.
@@ -53,7 +59,7 @@ public class FileUtil {
     }
 
     /**
-     * 获取全路径中的文件拓展名.eg: jpg、apk、txt.
+     * 获取文件拓展名.eg: jpg、apk、txt.
      * @param filePath 文件路径
      * @return 文件拓展名
      */
@@ -95,7 +101,7 @@ public class FileUtil {
 
     /**
      * 根据文件目录和文件名称创建文件,如果文件已经存在，则删除。
-     * @param dir 文件目录
+     * @param dir  文件目录
      * @param name 文件名称
      * @return 文件对象
      */
@@ -109,7 +115,7 @@ public class FileUtil {
     /**
      * 创建文件.如果指定文件存在，则删除。
      * @param dirFile 文件夹对象
-     * @param name 文件名称
+     * @param name    文件名称
      * @return 文件对象
      */
     public static File createFile(File dirFile, String name) {
@@ -140,7 +146,7 @@ public class FileUtil {
 
     /**
      * 保存字符串到文件
-     * @param file 文件
+     * @param file    文件
      * @param content 保存的字符串
      */
     public static void writeToFile(File file, String content) {
@@ -162,20 +168,22 @@ public class FileUtil {
 
     /**
      * 返回byte的数据大小对应的格式化大小文字
-     * @param size 大小
-     * @param format 格式化格式（DecimalFormat参数）
+     * @param size 文件大小
      * @return 格式化后的文字
      */
-    public static String formatFileSize(long size, String format) {
-        DecimalFormat decimalFormat = new DecimalFormat(format);
-        if (size < 1024) {
-            return size + "bytes";
-        } else if (size < 1024 * 1024) {
-            return decimalFormat.format(size / 1024f) + "KB";
-        } else if (size < 1024 * 1024 * 1024) {
-            return decimalFormat.format(size / 1024f / 1024f) + "MB";
+    public static String formatFileSize(long size) {
+        if (size < KB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2d bytes", size);
+        } else if (size < MB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2f KB", size / KB_IN_BYTES);
+        } else if (size < GB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2d MB", size / MB_IN_BYTES);
+        } else if (size < TB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2d GB", size / GB_IN_BYTES);
+        } else if (size < PB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2d TB", size / TB_IN_BYTES);
         } else {
-            return decimalFormat.format(size / 1024f / 1024f / 1024f) + "GB";
+            return String.format(Locale.getDefault(), "%.2d PB", size / TB_IN_BYTES);
         }
     }
 

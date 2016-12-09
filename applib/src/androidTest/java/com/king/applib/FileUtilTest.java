@@ -8,6 +8,7 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * 文件工具测试类
@@ -26,6 +27,25 @@ public class FileUtilTest extends AndroidTestCase {
 
     @Override protected void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    private String getNetSpeed(double speed) {
+        if (speed < FileUtil.KB_IN_BYTES) {
+            return "bytes/s";
+        } else if (speed < FileUtil.MB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2f K/s", speed / FileUtil.KB_IN_BYTES);
+        } else if (speed < FileUtil.GB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2f M/s", speed / FileUtil.MB_IN_BYTES);
+        } else {
+            return String.format(Locale.getDefault(), "%.2f G/s", speed / FileUtil.GB_IN_BYTES);
+        }
+    }
+
+    public void testFormatFileSize() throws Exception{
+        Logger.i(getNetSpeed(1024d));
+        Logger.i(getNetSpeed(1024 * 1024d));
+        Logger.i(getNetSpeed(1024 * 1024 * 1024d));
+        Logger.i(getNetSpeed(1024 * 1024 * 1024 * 1024d));
     }
 
     public void testDeleteOnExit() throws Exception{
