@@ -2,6 +2,7 @@ package com.king.app.workhelper.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Environment;
 
 import com.king.app.workhelper.common.DownloadManager;
 import com.king.app.workhelper.constant.GlobalConstant;
@@ -35,7 +36,6 @@ public class DownloadFileService extends IntentService {
                 downloadFile(fileUrl);
             }
         }
-
     }
 
     @Override
@@ -46,6 +46,10 @@ public class DownloadFileService extends IntentService {
 
     private void downloadFile(String url) {
         DownloadManager downloadManager = new DownloadManager(this);
-        downloadManager.downloadFile(null);
+        DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(url,
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test", "app_update.apk")
+                .showNotification(true)
+                .setNotificationClickIntent(null);
+        downloadManager.downloadFile(request);
     }
 }

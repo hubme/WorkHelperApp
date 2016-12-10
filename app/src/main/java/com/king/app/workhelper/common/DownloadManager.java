@@ -17,10 +17,6 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.IOUtil;
 import com.king.applib.util.StringUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,6 +29,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * 文件下载管理类。
@@ -147,11 +149,13 @@ public class DownloadManager {
             return this;
         }
 
-        @Override public int describeContents() {
+        @Override
+        public int describeContents() {
             return 0;
         }
 
-        @Override public void writeToParcel(Parcel parcel, int i) {
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
             parcel.writeString(url);
             parcel.writeString(dir);
             parcel.writeString(fileName);
@@ -166,10 +170,10 @@ public class DownloadManager {
     /**
      * 更新通知栏下载进度
      * @param notificationId 通知id
-     * @param progress       当前进度
-     * @param totalBytes     总需要下载字节数
-     * @param currentBytes   本次已下载字节数
-     * @param costTime       当前下载耗费时间 单位毫秒
+     * @param progress 当前进度
+     * @param totalBytes 总需要下载字节数
+     * @param currentBytes 本次已下载字节数
+     * @param costTime 当前下载耗费时间 单位毫秒
      */
     private void updateDownloadProgress(int notificationId, float progress, long totalBytes, long currentBytes, long costTime) {
         if (mNotification == null || mRemoteViews == null) {
@@ -260,7 +264,8 @@ public class DownloadManager {
             this.percent = percent;
         }
 
-        @Override public String toString() {
+        @Override
+        public String toString() {
             return "DownloadStatus{" +
                     "status=" + status +
                     ", percent=" + percent +
@@ -293,12 +298,14 @@ public class DownloadManager {
         reqBuilder.header("Range", "bytes=" + startLen + "-");
         Request request = reqBuilder.get().url(downloadRequest.url).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Request request, IOException e) {
-                Logger.log(Logger.INFO, TAG, Thread.currentThread().toString());
-                Logger.log(Logger.INFO, TAG, "onFailure");
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Logger.log(Logger.INFO, TAG, "onFailure" + Thread.currentThread().toString());
+
             }
 
-            @Override public void onResponse(Response response) throws IOException {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
                 Logger.log(Logger.INFO, TAG, Thread.currentThread().toString());
                 if (response.isSuccessful()) {
                     Logger.log(Logger.INFO, TAG, "receivedContent start");
