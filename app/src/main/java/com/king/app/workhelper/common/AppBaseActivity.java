@@ -49,7 +49,7 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
     }
 
     protected void initToolbar(){
-        if (mToolbar == null) {
+        /*if (mToolbar == null) {
             return;
         }
         setSupportActionBar(mToolbar);
@@ -61,7 +61,7 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
             @Override public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
     }
 
     protected @StringRes int getTitleResource() {

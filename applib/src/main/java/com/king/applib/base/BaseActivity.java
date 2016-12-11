@@ -24,6 +24,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+        去掉Actionbar有两种方式。1.使用NoActionbar主题；
+        2.代码设置。一般在BaseActivity(继承AppCompatActivity)设置supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        如果继承Activity，要使用requestWindowFeature(Window.FEATURE_NO_TITLE);
+         */
         initInitialData();
         if (getIntent() != null) {
             getIntentData(getIntent());
@@ -77,7 +82,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 跳转到指定的Activity
-     *
      * @param cls 跳转到的Activity
      */
     protected void startActivity(@NonNull Class<?> cls) {
@@ -87,9 +91,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 跳转到指定的Activity
-     *
      * @param flags 启动的Activity标志
-     * @param cls   跳转到的Activity
+     * @param cls 跳转到的Activity
      */
     protected void startActivity(int flags, @NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
@@ -99,9 +102,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 跳转到指定的Activity
-     *
      * @param bundle 传递的数据
-     * @param cls    跳转到的Activity
+     * @param cls 跳转到的Activity
      */
     protected void startActivity(@NonNull Bundle bundle, @NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
@@ -111,7 +113,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 从上一个Activity获取Intent中String类型的数据
-     *
      * @param defaultValue 指定的key为null,返回defaultValue
      */
     protected String getStringExtra(String key, @NonNull String defaultValue) {
@@ -125,7 +126,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 从上一个Activity获取Intent中String类型的数据
-     *
      * @param defaultValue 指定的key为null,返回defaultValue
      */
     @SuppressWarnings("unchecked")
@@ -140,7 +140,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 从上一个Activity获取Intent中List的数据
-     *
      * @param defaultValue 指定的key为null,返回defaultValue
      */
     @SuppressWarnings("unchecked")

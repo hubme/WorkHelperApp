@@ -23,10 +23,12 @@ public class ToolbarActivity extends AppBaseActivity {
     @BindView(R.id.toolbar)
     public Toolbar mToolbar;
 
+//    @BindView(R.id.vs_toolbar_custom)
+//    public ViewStub mToolbarCustom;
+
     @Override
     protected void initInitialData() {
         super.initInitialData();
-        setSupportActionBar(mToolbar);
     }
 
     @Override
@@ -45,6 +47,13 @@ public class ToolbarActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
+    }
+
+    @Override
+    protected void initToolbar() {
+//        mToolbarCustom.setLayoutResource(R.layout.toolbar_custom1);
+//        View view = mToolbarCustom.inflate();
+
         mToolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
         mToolbar.setLogo(R.mipmap.ic_launcher);
         mToolbar.setTitle("标题");
@@ -56,7 +65,8 @@ public class ToolbarActivity extends AppBaseActivity {
         menu.add("添加");
 
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override public boolean onMenuItemClick(MenuItem item) {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.editor:
                         Toast.makeText(ToolbarActivity.this, "编辑", Toast.LENGTH_SHORT).show();
@@ -65,16 +75,20 @@ public class ToolbarActivity extends AppBaseActivity {
                 return false;
             }
         });
+        //替换Toolbar右上角的菜单图标
         mToolbar.setOverflowIcon(getResources().getDrawable(R.mipmap.ic_setting));
 
         //设置溢出菜单样式
-        mToolbar.setPopupTheme(R.style.OverflowMenuStyle);
+//        mToolbar.setPopupTheme(R.style.OverflowMenuStyle);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
         });
+
+//        setSupportActionBar(mToolbar);
     }
 
     public static void startToolbarActivity(Context context) {
