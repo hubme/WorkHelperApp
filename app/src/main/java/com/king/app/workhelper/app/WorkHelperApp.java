@@ -42,6 +42,9 @@ public class WorkHelperApp extends BaseApplication {
         initOkHttp();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         FreelineCore.init(this);
+
+        //记录崩溃日志，便于debug
+        CrashHandler.getInstance().init(getApplicationContext());
     }
 
     private void initOkHttp() {
