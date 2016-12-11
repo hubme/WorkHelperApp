@@ -54,6 +54,15 @@ public class AppUtil {
             return versionCode;
         }
 
+        private AppInfo() {
+            this.name = "";
+            this.icon = null;
+            this.packageName = "";
+            this.packagePath = "";
+            this.versionName = "";
+            this.versionCode = 0;
+        }
+
         /**
          * @param name 名称
          * @param icon 图标
@@ -86,7 +95,7 @@ public class AppUtil {
 
     public static AppInfo getAppInfo(Context context) {
         if (context == null) {
-            return null;
+            return new AppInfo();
         }
         PackageManager pm = context.getPackageManager();
         try {
@@ -96,7 +105,7 @@ public class AppUtil {
             Drawable icon = appInfo.loadIcon(pm);
             return new AppInfo(name, icon, packageInfo.packageName, appInfo.sourceDir, packageInfo.versionName, packageInfo.versionCode);
         } catch (PackageManager.NameNotFoundException e) {
-            return null;
+            return new AppInfo();
         }
     }
 
