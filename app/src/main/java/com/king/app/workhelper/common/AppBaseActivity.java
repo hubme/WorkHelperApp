@@ -1,6 +1,7 @@
 package com.king.app.workhelper.common;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
@@ -19,10 +20,11 @@ import butterknife.ButterKnife;
  * Created by VanceKing on 2016/9/29.
  */
 
-public abstract class AppBaseActivity extends BaseActivity implements View.OnClickListener{
-    //可能之类没有引用Toolbar
-    @Nullable @BindView(R.id.toolbar)
-    public Toolbar mToolbar;
+public abstract class AppBaseActivity extends BaseActivity implements View.OnClickListener {
+    //子类可能没有引用common_header.xml
+    @Nullable
+    @BindView(R.id.toolbar)
+    protected Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,24 +50,47 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
 
     }
 
-    protected void initToolbar(){
-        /*if (mToolbar == null) {
+    protected void initToolbar() {
+        if (mToolbar == null) {
             return;
         }
-        setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
-//        mToolbar.setLogo(R.mipmap.ic_launcher);
-        mToolbar.setTitle(getString(getTitleResource()));
-//        mToolbar.setSubtitle("副标题");
+        mToolbar.setTitle(getActivityTitle());
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 finish();
             }
-        });*/
+        });
+
+        //setSupportActionBar(mToolbar);
     }
 
-    protected @StringRes int getTitleResource() {
-        return R.string.app_name;
+    protected String getActivityTitle() {
+        return getString(R.string.app_name);
+    }
+
+    /**
+     * View设置OnClick事件
+     */
+    protected void setViewClickListeners(@IdRes int... ids) {
+        for (int id : ids) {
+            View view = findViewById(id);
+            if (view != null) {
+                view.setOnClickListener(this);
+            }
+        }
+    }
+
+    /**
+     * View设置OnClick事件
+     */
+    protected void setViewClickListeners(View... views) {
+        for (View view : views) {
+            if (view != null) {
+                view.setOnClickListener(this);
+            }
+        }
     }
 
     /**

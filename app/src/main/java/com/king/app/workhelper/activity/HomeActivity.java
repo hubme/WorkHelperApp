@@ -35,7 +35,7 @@ public class HomeActivity extends AppBaseActivity {
     }
 
     @Override
-    protected int getTitleResource() {
-        return R.string.about;
+    protected String getActivityTitle() {
+        return "测试入口";
     }
 }

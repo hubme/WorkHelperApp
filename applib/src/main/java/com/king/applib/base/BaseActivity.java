@@ -36,13 +36,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContentLayout = LayoutInflater.from(this).inflate(getContentLayout(), null);
         setContentView(mContentLayout);
         initContentView();
+        setViewListeners();
         initData();
         loadingData();
     }
 
     /**
-     * 初始化数据，获取不需要访问网络的数据。<br/>
-     * eg:new ArrayList()、从SP读取数据等。
+     * 初始化不耗时的数据,为了在View初始化以后直接使用<br/>
+     * eg:设置默认值、从SP读取数据等。
      */
     protected void initInitialData() {
     }
@@ -81,7 +82,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 设置View的事件监听
+     */
+    protected void setViewListeners() {
+
+    }
+
+    /**
      * 跳转到指定的Activity
+     *
      * @param cls 跳转到的Activity
      */
     protected void startActivity(@NonNull Class<?> cls) {
@@ -91,8 +100,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 跳转到指定的Activity
+     *
      * @param flags 启动的Activity标志
-     * @param cls 跳转到的Activity
+     * @param cls   跳转到的Activity
      */
     protected void startActivity(int flags, @NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
@@ -102,8 +112,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 跳转到指定的Activity
+     *
      * @param bundle 传递的数据
-     * @param cls 跳转到的Activity
+     * @param cls    跳转到的Activity
      */
     protected void startActivity(@NonNull Bundle bundle, @NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
@@ -113,6 +124,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 从上一个Activity获取Intent中String类型的数据
+     *
      * @param defaultValue 指定的key为null,返回defaultValue
      */
     protected String getStringExtra(String key, @NonNull String defaultValue) {
@@ -126,6 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 从上一个Activity获取Intent中String类型的数据
+     *
      * @param defaultValue 指定的key为null,返回defaultValue
      */
     @SuppressWarnings("unchecked")
@@ -140,6 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 从上一个Activity获取Intent中List的数据
+     *
      * @param defaultValue 指定的key为null,返回defaultValue
      */
     @SuppressWarnings("unchecked")

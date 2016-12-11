@@ -11,32 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
-        app:subtitle="呵呵"
-        app:title="哈哈">
+        android:fitsSystemWindows="true"
+        app:navigationIcon="@mipmap/arrow_left_blue"
+        app:title="标题"
+        app:titleTextColor="@color/white_f5f5f5">
         <!--android:theme="@style/Theme.ToolBar.Base"-->
         <!--android:theme="@style/OverflowMenuStyle"-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="内容"
-            android:textColor="@color/white"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="哈哈"/>
-
-        <!--<ViewStub
+        <ViewStub
             android:id="@+id/vs_toolbar_custom"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:inflatedId="@+id/toolbar_panel"/>-->
+            android:inflatedId="@+id/toolbar_panel"/>
 
     </android.support.v7.widget.Toolbar>
-
 
 </LinearLayout>
