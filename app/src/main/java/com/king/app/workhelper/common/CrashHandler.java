@@ -1,4 +1,4 @@
-package com.king.app.workhelper.app;
+package com.king.app.workhelper.common;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

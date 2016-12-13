@@ -27,4 +27,16 @@ public class GlobalConstant {
     public @interface NETWORK_TYPE {
 
     }
+
+    //SharedPreference的key
+    public interface SP_PARAMS_KEY {
+        //app更新是否下载完成
+        String APP_UPDATE_SUCCESS = "APP_UPDATE_SUCCESS";
+        //app下载的版本号
+        String APP_UPDATE_VERSION = "APP_UPDATE_VERSION";
+        /** app下载服务是否存在 */
+        String DOWNLOAD_SERVER_EXISTS = "DOWNLOAD_SERVER_EXISTS";
+        //是否显示过刷新账户向导 统计次数，第二次再弹出
+        String REFRESH_ACCOUNT_GUIDE_COUNT = "REFRESH_ACCOUNT_GUIDE_COUNT";
+    }
 }

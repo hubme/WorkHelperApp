@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 
 import com.antfortune.freeline.FreelineCore;
 import com.king.app.workhelper.BuildConfig;
+import com.king.app.workhelper.common.CrashHandler;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.squareup.leakcanary.LeakCanary;

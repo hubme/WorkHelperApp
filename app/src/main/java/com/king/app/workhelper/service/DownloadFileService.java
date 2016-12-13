@@ -7,6 +7,7 @@ import android.os.Environment;
 import com.king.app.workhelper.common.DownloadManager;
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.log.Logger;
+import com.king.applib.util.SPUtil;
 import com.king.applib.util.StringUtil;
 
 /**
@@ -15,6 +16,8 @@ import com.king.applib.util.StringUtil;
  */
 
 public class DownloadFileService extends IntentService {
+    public static final String ACTION_DOWNLOAD_FILE = "ACTION_DOWNLOAD_FILE";
+
     public DownloadFileService() {
         super("DownloadFileService");
     }
@@ -22,6 +25,7 @@ public class DownloadFileService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+        SPUtil.putBoolean(this, GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS, true);
     }
 
     @Override
@@ -30,7 +34,7 @@ public class DownloadFileService extends IntentService {
         if (intent == null) {
             return;
         }
-        if (DownloadManager.ACTION_DOWNLOAD_FILE.equals(intent.getAction())) {
+        if (ACTION_DOWNLOAD_FILE.equals(intent.getAction())) {
             String fileUrl = intent.getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.FILE_DOWNLOAD_URL);
             if (!StringUtil.isNullOrEmpty(fileUrl)) {
                 downloadFile(fileUrl);
@@ -42,9 +46,15 @@ public class DownloadFileService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Logger.i("DownloadFileService#onDestroy");
+        SPUtil.putBoolean(this, GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS, false);
     }
 
     private void downloadFile(String url) {
+        try {
+            Thread.sleep(5 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         DownloadManager downloadManager = new DownloadManager(this);
         DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(url,
                 Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test", "app_update.apk")

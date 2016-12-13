@@ -8,20 +8,22 @@ import android.os.Parcelable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.text.format.Formatter;
 import android.widget.RemoteViews;
 
 import com.king.app.workhelper.R;
 import com.king.applib.constant.GlobalConstants;
 import com.king.applib.log.Logger;
+import com.king.applib.util.AppUtil;
+import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.IOUtil;
 import com.king.applib.util.StringUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -30,20 +32,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * 文件下载管理类。
+ * 文件下载管理类。目前只支持单线程单文件下载，包含通知栏提示。
  * Created by HuoGuangxu on 2016/10/20.
  */
-// TODO: 2016/10/21 1.支持多文件下载 2.添加状态回调id
+// TODO: 2016/10/21 1.多文件下载 2.暂停 3.多线程
 public class DownloadManager {
     public static final String TAG = DownloadManager.class.getSimpleName();
-    public static final String ACTION_DOWNLOAD_FILE = "ACTION_DOWNLOAD_FILE";
 
     // 下载进度消息发送间隔时间(ms)
     private static final int DOWNLOAD_MSG_INTERVAL = 400;
@@ -56,10 +55,11 @@ public class DownloadManager {
     private NotificationManagerCompat mNoticeManager;
     private File mDestFile;
     private File mTempFile;
+    private FileDownloadRequest mDownloadRequest;
 
     public DownloadManager(Context context) {
-        mContext = context.getApplicationContext();// NOTICE: 2016/12/8 会不会内存泄露
-        mOkHttpClient = new OkHttpClient();
+        mContext = context.getApplicationContext();
+        mOkHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
     }
 
     public void setDownloadCallback(DownloadCallback callback) {
@@ -73,6 +73,8 @@ public class DownloadManager {
         void failed();
 
         void pause();
+
+        void downloading();
     }
 
     /**
@@ -149,13 +151,11 @@ public class DownloadManager {
             return this;
         }
 
-        @Override
-        public int describeContents() {
+        @Override public int describeContents() {
             return 0;
         }
 
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
+        @Override public void writeToParcel(Parcel parcel, int i) {
             parcel.writeString(url);
             parcel.writeString(dir);
             parcel.writeString(fileName);
@@ -167,50 +167,58 @@ public class DownloadManager {
         volatile boolean pause;
     }
 
+    private void updateNotificationComplete() {
+        if (mNotification == null || mRemoteViews == null) {
+            return;
+        }
+        mRemoteViews.setProgressBar(R.id.progress, 100, 100, false);
+        mRemoteViews.setTextViewText(R.id.progress_text, "100%");
+        mRemoteViews.setTextViewText(R.id.status, "下载完成，点击安装");
+        mNoticeManager.notify(mDownloadRequest.notificationId, mNotification);
+    }
+
     /**
      * 更新通知栏下载进度
      * @param notificationId 通知id
-     * @param progress 当前进度
-     * @param totalBytes 总需要下载字节数
-     * @param currentBytes 本次已下载字节数
-     * @param costTime 当前下载耗费时间 单位毫秒
+     * @param progress       当前进度
+     * @param totalBytes     总需要下载字节数
+     * @param currentBytes   本次已下载字节数
+     * @param costTime       当前下载耗费时间 单位毫秒
      */
-    private void updateDownloadProgress(int notificationId, float progress, long totalBytes, long currentBytes, long costTime) {
+    private void updateNotificationProgress(int notificationId, float progress, long totalBytes, long currentBytes, long costTime) {
         if (mNotification == null || mRemoteViews == null) {
             return;
         }
 
         mRemoteViews.setProgressBar(R.id.progress, 100, (int) (progress * 100), false);
-        mRemoteViews.setTextViewText(R.id.progress_text, String.format(Locale.CHINA, "%.1f", progress * 100) + "%");
+        mRemoteViews.setTextViewText(R.id.progress_text, String.format(Locale.CHINA, "%.1f%%", progress * 100));
         mRemoteViews.setTextViewText(R.id.status, buildNotificationText(totalBytes, currentBytes, costTime));
         mNoticeManager.notify(notificationId, mNotification);
     }
 
-    //生成通知栏上的文字
+    //生成通知栏上的文字.//剩余26秒 下载速度：1.19M/s
     private String buildNotificationText(long totalBytes, long currentBytes, long costTime) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("剩余");
+        double curSpeed = (costTime == 0 ? 0L : currentBytes / (costTime / 1000d));//bytes/s
+        long leftSec = curSpeed == 0 ? 0 : (long) ((totalBytes - currentBytes) / curSpeed);
 
-        double curSpeed = currentBytes / (costTime * 1000);
-        int leftSec = (int) ((totalBytes - currentBytes) / curSpeed + 0.5);
-        if (leftSec > 60) {
-            sb.append(leftSec / 60).append("分钟");
+        return String.format(Locale.getDefault(), "剩余%s 下载速度：%s", DateTimeUtil.getUnitTime(leftSec * DateUtils.SECOND_IN_MILLIS), getNetSpeed(curSpeed));
+
+    }
+
+    /**
+     * 每秒多少bytes.
+     * @param bytesPerSecond 一秒的字节数
+     */
+    private String getNetSpeed(double bytesPerSecond) {
+        if (bytesPerSecond < FileUtil.KB_IN_BYTES) {
+            return " bytes/s";
+        } else if (bytesPerSecond < FileUtil.MB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2f K/s", bytesPerSecond / FileUtil.KB_IN_BYTES);
+        } else if (bytesPerSecond < FileUtil.GB_IN_BYTES) {
+            return String.format(Locale.getDefault(), "%.2f M/s", bytesPerSecond / FileUtil.MB_IN_BYTES);
         } else {
-            sb.append(leftSec).append("秒");
+            return String.format(Locale.getDefault(), "%.2f G/s", bytesPerSecond / FileUtil.GB_IN_BYTES);
         }
-        sb.append(" 下载速度：");
-
-        if (curSpeed < 1024) {
-            sb.append((int) curSpeed).append(" bytes/s");
-        } else if (curSpeed < 1024 * 1024) {
-            sb.append(String.format(Locale.getDefault(), "%.2f", curSpeed / 1024)).append(" K/s");
-        } else if (curSpeed < 1024 * 1024 * 1024) {
-            sb.append(String.format(Locale.getDefault(), "%.2f", curSpeed / 1024 / 1024)).append(" M/s");
-        } else {
-            sb.append(String.format(Locale.getDefault(), "%.2f", curSpeed / 1024 / 1024 / 1024)).append(" G/s");
-        }
-
-        return sb.toString();
     }
 
     /**
@@ -226,30 +234,30 @@ public class DownloadManager {
 
     /**
      * 初始化通知栏进度显示
-     * @param request Request
      */
-    private void initDownloadProgress(FileDownloadRequest request, long fileSize) {
+    private void initDownloadProgress(long fileSize) {
         mNoticeManager = NotificationManagerCompat.from(mContext);
         if (!mNoticeManager.areNotificationsEnabled()) {
-            cancelNotification(request.notificationId);
+            cancelNotification(mDownloadRequest.notificationId);
             return;
         }
         if (mNotification != null && mRemoteViews != null) {
-            updateDownloadProgress(request.notificationId, 0, 0, 0, 1);
+            updateNotificationProgress(mDownloadRequest.notificationId, 0, 0, 0, 1);
             return;
         }
 
         mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.view_download_notification);
-        mRemoteViews.setTextViewText(R.id.file_name, request.fileName);
+        mRemoteViews.setTextViewText(R.id.file_name, mContext.getString(R.string.app_name));
         mRemoteViews.setTextViewText(R.id.file_size, Formatter.formatFileSize(mContext, fileSize));
 
         mNotification = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(request.notificationClickIntent)
+                .setSmallIcon(R.mipmap.downloading)
+                .setContentIntent(mDownloadRequest.notificationClickIntent)
                 .setContent(mRemoteViews)
+                .setAutoCancel(false)
                 .build();
 
-        mNoticeManager.notify(request.notificationId, mNotification);
+        mNoticeManager.notify(mDownloadRequest.notificationId, mNotification);
     }
 
     /**
@@ -264,8 +272,7 @@ public class DownloadManager {
             this.percent = percent;
         }
 
-        @Override
-        public String toString() {
+        @Override public String toString() {
             return "DownloadStatus{" +
                     "status=" + status +
                     ", percent=" + percent +
@@ -286,8 +293,17 @@ public class DownloadManager {
         return true;
     }
 
-    private void downloadFileTask(final FileDownloadRequest downloadRequest, final long startLen, String lastTag, boolean fileExists) {
-        Request.Builder reqBuilder = new Request.Builder();
+    private void downloadFileTask() {
+        //可能是老包,客户端无法确认是要下载的文件。
+        // 请求服务器检查，如果是要下载的文件，不会重新下载；如果不是要下载的文件，重新下载。
+        final boolean fileExists = mDestFile.exists() && mDestFile.isFile();
+
+        mTempFile = FileUtil.getFileByPath(mDestFile.getAbsolutePath() + ".tmp");
+        final long startLen = mTempFile != null ? mTempFile.length() : 0;
+        String lastTag = getLastTag(mDestFile);
+        Logger.log(Logger.INFO, TAG, "startLen: " + startLen + "; lastTag: " + lastTag);
+
+        okhttp3.Request.Builder reqBuilder = new okhttp3.Request.Builder();
         if (!TextUtils.isEmpty(lastTag)) {
             if (fileExists) { //如果原文件存在，则比较ETag值，不同则重新下载
                 reqBuilder.header("If-None-Match", lastTag);
@@ -296,44 +312,67 @@ public class DownloadManager {
             }
         }
         reqBuilder.header("Range", "bytes=" + startLen + "-");
-        Request request = reqBuilder.get().url(downloadRequest.url).build();
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Logger.log(Logger.INFO, TAG, "onFailure" + Thread.currentThread().toString());
 
+        Request request = reqBuilder.get().url(mDownloadRequest.url).tag(mDownloadRequest.url).build();
+
+        /*mOkHttpClient.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Logger.log(Logger.INFO, TAG, Thread.currentThread().toString());
+                Logger.log(Logger.INFO, TAG, "onFailure");
+                onDownloadFailed();
             }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
                 Logger.log(Logger.INFO, TAG, Thread.currentThread().toString());
                 if (response.isSuccessful()) {
                     Logger.log(Logger.INFO, TAG, "receivedContent start");
-                    receivedContent(downloadRequest, startLen, response);
+                    receivedContent(startLen, response);
                     Logger.log(Logger.INFO, TAG, "receivedContent end");
                 } else {
                     unreceivedContent(response.code());
                     Logger.log(Logger.INFO, TAG, "unreceivedContent");
                 }
             }
-        });
+        });*/
+
+        try {
+            Response response = mOkHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                Logger.log(Logger.INFO, TAG, "receivedContent start");
+                receivedContent(startLen, response);
+                Logger.log(Logger.INFO, TAG, "receivedContent end");
+            } else {
+                unreceivedContent(response.code());
+                Logger.log(Logger.INFO, TAG, "unreceivedContent");
+            }
+
+        } catch (IOException e) {
+
+        }
 
     }
 
     private void unreceivedContent(int responseCode) {
         switch (responseCode) {
             case GlobalConstants.HTTP_RESPONSE_CODE.NON_CONFORMANCE:
-                Logger.log(Logger.INFO, TAG, "请求范围不符合要求，删除tmpFile");
-                // NOTICE: 2016/12/8 删除临时文件
+                Logger.log(Logger.INFO, TAG, "请求范围不符合要求，删除临时文件，重新下载.");
+                onDownloadFailed();
+                clearTempFiles();
+                downloadFileTask();
                 break;
 
             case GlobalConstants.HTTP_RESPONSE_CODE.UNMODIFIED:
                 Logger.log(Logger.INFO, TAG, "文件未改变，不下载");
-                onFileUnmodified();
+                onDownloadSuccess();
                 break;
             default:
                 break;
         }
+    }
+
+    private void clearTempFiles() {
+        FileUtil.deleteFile(mDestFile);
+        FileUtil.deleteFile(mTempFile);
     }
 
     /**
@@ -343,6 +382,7 @@ public class DownloadManager {
         if (!checkRequest(request)) {//检查下载请求
             return;
         }
+        mDownloadRequest = request;
         //检查保存文件的路径
         mDestFile = FileUtil.getFileByPath(request.dir + "/" + request.fileName);
         if (mDestFile == null) {
@@ -351,92 +391,94 @@ public class DownloadManager {
         }
         Logger.log(Logger.INFO, TAG, "文件保存路径：" + mDestFile.getAbsolutePath());
 
-        //可能是老包,客户端无法确认是要下载的文件。
-        // 请求服务器检查，如果是要下载的文件，不会重新下载；如果不是要下载的文件，重新下载。
-        final boolean destFileExists = mDestFile.exists() && mDestFile.isFile();
-
-        mTempFile = FileUtil.getFileByPath(mDestFile.getAbsolutePath() + ".tmp");
-        long startLen = mTempFile != null ? mTempFile.length() : 0;
-        String lastTag = getLastTag(mDestFile);
-        Logger.log(Logger.INFO, TAG, "startLen: " + startLen + "; lastTag: " + lastTag);
-
-        downloadFileTask(request, startLen, lastTag, destFileExists);
+        downloadFileTask();
     }
 
-    private void onFileUnmodified() {
-        if (mDownloadCallback != null) {
-            mDownloadCallback.complete();
-        }
-    }
-
-    private void receivedContent(FileDownloadRequest downloadRequest, long startLen, Response response) {
+    private void receivedContent(long startLength, Response response) {
         InputStream inputStream = null;
         FileOutputStream outputStream = null;
-        byte[] bytesContent = null;
+
         try {
             inputStream = response.body().byteStream();
-            long cl;
-            final String contentLength = response.header("Content-Length");
-            if (TextUtils.isEmpty(contentLength)) {
-                bytesContent = convertToByteArray(inputStream);
-                cl = bytesContent == null ? 0 : bytesContent.length;
-            } else {
-                cl = Long.valueOf(contentLength);
-            }
+
+            final long contentLength = Long.valueOf(response.header("Content-Length"));//请求的内容长度
             boolean supportContinue = (response.code() == GlobalConstants.HTTP_RESPONSE_CODE.PARTIAL_CONTENT);
-            final long totalLength = supportContinue ? startLen + cl : cl;
+            final long totalLength = supportContinue ? startLength + contentLength : contentLength;
             saveLastTag(mDestFile, response.header("ETag"));
 
-            Logger.log(Logger.INFO, TAG, String.format("下载文件的大小:%s(%s),是否支持断点续传: %b",
-                    Formatter.formatFileSize(mContext, cl), Formatter.formatFileSize(mContext, totalLength), supportContinue));
+            Logger.log(Logger.INFO, TAG, String.format("初始文件的大小:%s, 文件总大小: %s, 是否支持断点续传: %b",
+                    Formatter.formatFileSize(mContext, startLength), Formatter.formatFileSize(mContext, totalLength), supportContinue));
 
-            if (bytesContent != null) {
-                inputStream = new ByteArrayInputStream(bytesContent);
-            }
             outputStream = new FileOutputStream(mTempFile, supportContinue);
 
-            if (downloadRequest.showNotification) {
-                initDownloadProgress(downloadRequest, totalLength);
+            if (mDownloadRequest.showNotification) {
+                initDownloadProgress(totalLength);
             }
 
             final int BUF_SIZE = 1024 * 4;
             byte[] buffer = new byte[BUF_SIZE];
-            int len;
-            long lastSendTime = System.currentTimeMillis();
-            final long beginTime = lastSendTime;
+            final long beginTime = System.currentTimeMillis();//记录下载开始时间
+            long lastTime = beginTime;//记录上次更新时间
 
+            int len;
             while ((len = inputStream.read(buffer, 0, BUF_SIZE)) != -1) {
                 outputStream.write(buffer, 0, len);
-                startLen += len;
+                startLength += len;
 
-                if (downloadRequest.pause) {
-                    Logger.log(Logger.INFO, TAG, new DownloadStatus(3, startLen / totalLength).toString());
+                if (mDownloadRequest.pause) {
+                    Logger.log(Logger.INFO, TAG, new DownloadStatus(3, startLength / totalLength).toString());
                     break;
                 } else {
                     long nt = System.currentTimeMillis();
-                    if (nt - lastSendTime >= DOWNLOAD_MSG_INTERVAL) {
-                        lastSendTime = nt;
-                        float progress = (float) startLen / totalLength;
-                        updateDownloadProgress(downloadRequest.notificationId, progress, totalLength, len, nt - beginTime);
-                        Logger.log(Logger.INFO, TAG, new DownloadStatus(0, (float) startLen / totalLength).toString());
+                    if (nt - lastTime >= DOWNLOAD_MSG_INTERVAL) {
+                        lastTime = nt;
+                        float progress = (float) startLength / totalLength;
+                        updateNotificationProgress(mDownloadRequest.notificationId, progress, totalLength, startLength, nt - beginTime);
+                        Logger.log(Logger.INFO, TAG, "totalLength: " + totalLength + "bytes; startLength: "
+                                + startLength + "bytes; costTime: " + (nt - beginTime) + "millis; percent: " + (float) startLength / totalLength);
+                        if (mDownloadCallback != null) {
+                            mDownloadCallback.downloading();
+                        }
                     }
                 }
             }
             outputStream.flush();
 
             if (mTempFile.length() == totalLength) {
-                // NOTICE: 2016/12/8 文件检查
-                File completedFile = mTempFile.renameTo(mDestFile) ? mDestFile : mTempFile;
-                Logger.log(Logger.INFO, TAG, new DownloadStatus(1, 1).toString());
-                if (mDownloadCallback != null) {
-                    mDownloadCallback.complete();
+                Logger.log(Logger.INFO, TAG, "文件下载成功。" + new DownloadStatus(1, 1).toString());
+
+                // TODO: 2016/12/8 文件校验
+                boolean renameSuccess = mTempFile.renameTo(mDestFile);
+                if (!renameSuccess) {
+                    return;
                 }
+                onDownloadSuccess();
+            } else {
+                clearTempFiles();
+                downloadFileTask();
             }
-        } catch (IOException e) {
-            //
+        } catch (Exception e) {
+            onDownloadFailed();
         } finally {
             IOUtil.close(inputStream);
             IOUtil.close(outputStream);
+        }
+    }
+
+    //文件下载成功。1.文件没有改变，但是没有下载.2.文件下载成功
+    private void onDownloadSuccess() {
+        cancelNotification(mDownloadRequest.notificationId);
+        if (mDownloadRequest.showNotification) {//通知栏提示自动安装
+            AppUtil.installApk(mContext, mDestFile);
+        }
+        if (mDownloadCallback != null) {
+            mDownloadCallback.complete();
+        }
+    }
+
+    private void onDownloadFailed() {
+        if (mDownloadCallback != null) {
+            mDownloadCallback.failed();
         }
     }
 
@@ -444,8 +486,8 @@ public class DownloadManager {
     private String getLastTag(File tmpFile) {
         FileReader fr = null;
         try {
-            File tagFile = new File(tmpFile.getAbsolutePath() + "_");
-            if (!tagFile.exists()) {
+            File tagFile = FileUtil.getFileByPath(tmpFile.getAbsolutePath() + "_");
+            if (tagFile == null || !tagFile.exists()) {
                 return null;
             }
 
@@ -463,7 +505,10 @@ public class DownloadManager {
     private boolean saveLastTag(File file, String tag) {
         FileWriter fw = null;
         try {
-            File tagFile = new File(file.getAbsolutePath() + "_");
+            File tagFile = FileUtil.createFile(file.getAbsolutePath() + "_");
+            if (tagFile == null) {
+                return false;
+            }
             if (TextUtils.isEmpty(tag)) {
                 return tagFile.delete();
             }
@@ -473,26 +518,9 @@ public class DownloadManager {
             br.flush();
             return true;
         } catch (Exception e) {
-            Logger.log(Logger.INFO, TAG, "read tmp file tag failed!");
             return false;
         } finally {
             IOUtil.close(fw);
-        }
-    }
-
-    private byte[] convertToByteArray(InputStream inputStream) {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int len;
-        byte[] data = new byte[16384];
-        try {
-            while ((len = inputStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, len);
-            }
-            buffer.flush();
-            return buffer.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }

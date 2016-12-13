@@ -1,12 +1,18 @@
 package com.king.applib.util;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
+import android.webkit.MimeTypeMap;
+
+import java.io.File;
 
 /**
  * App相关工具类.
@@ -125,5 +131,44 @@ public class AppUtil {
                     && FileUtil.deleteDir(context.getCacheDir().getParent());
 
         }
+    }
+
+    /**
+     * 安装apk(支持6.0)
+     */
+    public static void installApk(Context context, File file) {
+        Intent intent = getInstallAppIntent(file);
+        if (intent != null) {
+            context.startActivity(intent);
+        }
+    }
+
+    /**
+     * 安装apk(支持6.0)
+     */
+    public static void installApk(Activity activity, File file, int requestCode) {
+        Intent intent = getInstallAppIntent(file);
+        if (intent != null) {
+            activity.startActivityForResult(intent, requestCode);
+        }
+    }
+
+    /**
+     * 获取安装Intent
+     */
+    public static Intent getInstallAppIntent(File file) {
+        if (file == null || !file.exists() || !file.isFile()) {
+            return null;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        String type;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            type = "application/vnd.android.package-archive";
+        } else {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(FileUtil.getFileExtension(file));
+        }
+        intent.setDataAndType(Uri.fromFile(file), type);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
     }
 }
