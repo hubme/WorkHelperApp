@@ -6,7 +6,10 @@ import android.content.res.Configuration;
 
 import com.antfortune.freeline.FreelineCore;
 import com.king.app.workhelper.BuildConfig;
-import com.king.app.workhelper.common.CrashHandler;
+import com.king.app.workhelper.activity.CrashedActivity;
+import com.king.app.workhelper.activity.HomeActivity;
+import com.king.app.workhelper.common.crash.CrashHandler;
+import com.king.app.workhelper.common.crash.CustomActivityOnCrash;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.squareup.leakcanary.LeakCanary;
@@ -44,7 +47,13 @@ public class WorkHelperApp extends BaseApplication {
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         FreelineCore.init(this);
 
-        //记录崩溃日志，便于debug
+        CustomActivityOnCrash.setEventListener(new CustomEventListener());
+        CustomActivityOnCrash.setErrorActivityClass(CrashedActivity.class);
+        CustomActivityOnCrash.setRestartActivityClass(HomeActivity.class);
+        CustomActivityOnCrash.install(this);
+
+        //记录崩溃日志，便于debug.
+        // ps:写在CustomActivityOnCrash后面，否则会覆盖UncaughtExceptionHandler，CrashHandler收集不到日志.
         CrashHandler.getInstance().init(getApplicationContext());
     }
 
@@ -65,19 +74,19 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        //        Logger.i("WorkHelperApp#onTerminate()");
+        //Logger.i("WorkHelperApp#onTerminate()");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        //        Logger.i("WorkHelperApp#onConfigurationChanged()");
+        //Logger.i("WorkHelperApp#onConfigurationChanged()");
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        //        Logger.i("WorkHelperApp#onLowMemory()");
+        //Logger.i("WorkHelperApp#onLowMemory()");
     }
 
     /*
@@ -87,6 +96,23 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        //        Logger.i("WorkHelperApp#onTrimMemory()");
+        //Logger.i("WorkHelperApp#onTrimMemory()");
+    }
+
+    static class CustomEventListener implements CustomActivityOnCrash.EventListener {
+        @Override
+        public void onLaunchErrorActivity() {
+            Logger.i("onLaunchErrorActivity()");
+        }
+
+        @Override
+        public void onRestartAppFromErrorActivity() {
+            Logger.i("onRestartAppFromErrorActivity()");
+        }
+
+        @Override
+        public void onCloseAppFromErrorActivity() {
+            Logger.i("onCloseAppFromErrorActivity()");
+        }
     }
 }

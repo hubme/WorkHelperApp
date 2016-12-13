@@ -52,6 +52,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.CrashedActivity"
+            android:process=":error_process">
+
+        </activity>
+
         <service android:name=".service.DownloadFileService"/>
     </application>
 

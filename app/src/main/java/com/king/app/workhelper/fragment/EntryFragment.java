@@ -2,6 +2,7 @@ package com.king.app.workhelper.fragment;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.ToolbarActivity;
@@ -24,7 +25,9 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_permission)
     public void permissionClick() {
-        clickedOn(new PermissionFragment());
+//        clickedOn(new PermissionFragment());
+        TextView textView = null;
+        textView.setText("");
     }
 
     @OnClick(R.id.tv_image_sample)
