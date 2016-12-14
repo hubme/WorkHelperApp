@@ -12,7 +12,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.webkit.MimeTypeMap;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 
 /**
  * App相关工具类.
@@ -70,8 +72,8 @@ public class AppUtil {
         }
 
         /**
-         * @param name 名称
-         * @param icon 图标
+         * @param name        名称
+         * @param icon        图标
          * @param packageName 包名
          * @param packagePath 包路径
          * @param versionName 版本号
@@ -170,5 +172,34 @@ public class AppUtil {
         intent.setDataAndType(Uri.fromFile(file), type);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
+    }
+
+    /** 获取当前进程名称 */
+    public static String getCurrentProcessName(Context context) {
+        if (context == null) {
+            return "";
+        }
+        int pid = android.os.Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return "";
+    }
+
+    /** 获取当前进程名称 */
+    public static String getProcessName(Context context) {
+        BufferedReader mBufferedReader = null;
+        try {
+            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            mBufferedReader = new BufferedReader(new FileReader(file));
+            return mBufferedReader.readLine().trim();
+        } catch (Exception e) {
+            return getCurrentProcessName(context);
+        }finally {
+            IOUtil.close(mBufferedReader);
+        }
     }
 }

@@ -4,7 +4,6 @@ package com.king.app.workhelper.app;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.antfortune.freeline.FreelineCore;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.activity.HomeActivity;
@@ -36,6 +35,8 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
+        Logger.i("WorkHelperApp#onCreate");
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -44,8 +45,7 @@ public class WorkHelperApp extends BaseApplication {
         mRefWatcher = LeakCanary.install(this);
 
         initOkHttp();
-        Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
-        FreelineCore.init(this);
+        //FreelineCore.init(this);
 
         CustomActivityOnCrash.setEventListener(new CustomEventListener());
         CustomActivityOnCrash.setErrorActivityClass(CrashedActivity.class);
