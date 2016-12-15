@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.activity.HomeActivity;
+import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.crash.CrashHandler;
 import com.king.app.workhelper.common.crash.CustomActivityOnCrash;
 import com.king.applib.base.BaseApplication;
@@ -55,6 +56,8 @@ public class WorkHelperApp extends BaseApplication {
         //记录崩溃日志，便于debug.
         // ps:写在CustomActivityOnCrash后面，否则会覆盖UncaughtExceptionHandler，CrashHandler收集不到日志.
         CrashHandler.getInstance().init(getApplicationContext());
+
+        AppManager.getInstance().init(this);
     }
 
     private void initOkHttp() {
