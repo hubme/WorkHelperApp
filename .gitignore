@@ -32,3 +32,7 @@ proguard/
 # Android Studio Navigation editor temp files
 .navigation/
 /gradlesample/build/
+/freeline_core/
+/freeline/
+/freeline_project_description.json
+/freeline.py

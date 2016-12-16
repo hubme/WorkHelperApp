@@ -6,7 +6,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
-        //ButterkNife
+        /*
+        android-apt 是一个Gradle插件，协助Android Studio 处理annotation processors, 它有两个目的：
+        1.允许配置只在编译时作为注解处理器的依赖，而不添加到最后的APK或library
+        2.设置源路径，使注解处理器生成的代码能被Android Studio正确的引用
+        http://www.jianshu.com/p/2494825183c5
+         */
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         //tinker hot fix
         classpath 'com.tencent.tinker:tinker-patch-gradle-plugin:1.6.2'

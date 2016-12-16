@@ -36,6 +36,10 @@ android {
          */
         buildConfigField "String", "CLIENTVERSION", "\"${gitSha()}\""
         buildConfigField "String", "PLATFORM",  "\"all\""
+
+        freeline {
+            hack true
+        }
     }
     //tinker hot fix
     dexOptions {
@@ -102,6 +106,10 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    debugCompile 'com.antfortune.freeline:runtime:0.8.3'
+    releaseCompile 'com.antfortune.freeline:runtime-no-op:0.8.3'
+    testCompile 'com.antfortune.freeline:runtime-no-op:0.8.3'
 }
 
 def bakPath = file("${buildDir}/bakApk/")
