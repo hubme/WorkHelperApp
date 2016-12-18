@@ -2,8 +2,10 @@ package com.king.applib.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -89,7 +91,8 @@ public class AppUtil {
             this.versionCode = versionCode;
         }
 
-        @Override public String toString() {
+        @Override
+        public String toString() {
             return "AppInfo{" +
                     "name='" + name + '\'' +
                     ", icon=" + icon +
@@ -198,8 +201,22 @@ public class AppUtil {
             return mBufferedReader.readLine().trim();
         } catch (Exception e) {
             return getCurrentProcessName(context);
-        }finally {
+        } finally {
             IOUtil.close(mBufferedReader);
+        }
+    }
+
+    /** 获取Activity所在的进程名称 */
+    public static String getActivityProcessName(Context context, Class<? extends Activity> cls) {
+        if (context == null) {
+            return "";
+        }
+        try {
+            ComponentName component = new ComponentName(context, cls);
+            ActivityInfo activityInfo = context.getPackageManager().getActivityInfo(component, 0);
+            return activityInfo.processName;
+        } catch (Exception e) {
+            return "";
         }
     }
 }

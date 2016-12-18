@@ -54,7 +54,7 @@
 
         <activity
             android:name=".activity.CrashedActivity"
-            android:process=":error_process">
+            android:process=":error">
 
         </activity>
 

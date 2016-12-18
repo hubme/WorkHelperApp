@@ -1,12 +1,15 @@
 package com.king.app.workhelper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.BusProvider;
 import com.king.applib.log.Logger;
+import com.king.applib.util.AppUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 
@@ -30,6 +33,11 @@ public class AppTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getContext();
+    }
+
+    public void testGetActivityProcessName() throws Exception {
+        Logger.i("Activity: "+AppUtil.getActivityProcessName(mContext, Activity.class));
+        Logger.i("CrashedActivity: "+AppUtil.getActivityProcessName(mContext, CrashedActivity.class));
     }
 
     public void testEnvironment() throws Exception {

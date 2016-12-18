@@ -1,18 +1,22 @@
-package com.king.app.workhelper.common.crash;
+package com.king.app.workhelper.common;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
+import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.IOUtil;
+import com.king.applib.util.SPUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,17 +31,20 @@ import java.util.Date;
  * created by VanceKing at 2016/12/11
  */
 public class CrashHandler implements UncaughtExceptionHandler {
-    public final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "CrashHandler";
+    //循环重启的阈(yu)值
+    private final int TIMESTAMP_AVOID_RESTART_LOOPS_IN_MILLIS = 2000;
 
-    // 系统默认的UncaughtException处理类
     private UncaughtExceptionHandler mDefaultHandler;
     private static CrashHandler INSTANCE;
     private WeakReference<Context> mContext;
+    private static Class<? extends Activity> mCrashedActivity;
+    /** 应用在后台是否crash */
+    private static boolean mCrashInBackground = false;
 
     private CrashHandler() {
     }
 
-    /** 获取CrashHandler实例 ,单例模式 */
     public static CrashHandler getInstance() {
         if (INSTANCE == null) {
             synchronized (CrashHandler.class) {
@@ -57,42 +64,37 @@ public class CrashHandler implements UncaughtExceptionHandler {
             return;
         }
         mContext = new WeakReference<>(context.getApplicationContext());
-
-        // 获取系统默认的UncaughtException处理器
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-
-        // 设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
-    /**
-     * 当UncaughtException发生时会转入该函数来处理
-     */
+    /** 当UncaughtException发生时会转入该函数来处理 */
     @Override
-    public void uncaughtException(Thread thread, Throwable ex) {
-        /*if (mDefaultHandler != null && !handleException(ex)) {
-            // 如果用户没有处理则让系统默认的异常处理器来处理
-            mDefaultHandler.uncaughtException(thread, ex);
+    public void uncaughtException(Thread thread, Throwable throwable) {
+        Logger.e(throwable, "App has crashed");
+//        saveCrashInfo(throwable);
+        if (!mCrashInBackground) {//后台拦截crash，对用户无感知
+            return;
+        }
+        if (hasCrashedInTheLastSeconds(mContext.get()) || isStackTraceLikelyConflictive(throwable, mCrashedActivity)) {
+            Logger.i("应用crash循环重启,交给DefaultUncaughtExceptionHandler");
+            //避免crash后启动的Activity也crash了，造成循环重启，或者卡死的现象。
+            mDefaultHandler.uncaughtException(thread, throwable);
         } else {
-            exitApp();
-        }*/
-        handleException(ex);
-        //交给DefaultHandler处理，否则错误Log在IDE打不出来
-        mDefaultHandler.uncaughtException(thread, ex);
+            saveLastCrashTimestamp(mContext.get(), System.currentTimeMillis());
+            startCrashedActivity();
+            killCurrentProcess();
+        }
     }
 
-    /**
-     * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成.
-     *
-     * @return true:如果处理了该异常信息;否则返回false.
-     */
-    private boolean handleException(Throwable throwable) {
-        if (throwable == null) {
-            return false;
-        }
-        // 发送错误报告到服务器
-        //reportCrashLogs("");
-        return saveCrashInfo(throwable);
+    /** 设置Crash后显示的Activity */
+    public static void setCrashedActivity(Class<? extends Activity> crashedActivity) {
+        mCrashedActivity = crashedActivity;
+    }
+
+    /** 应用后台是否crash */
+    public static void setCrashInBackground(boolean isCrash) {
+        mCrashInBackground = isCrash;
     }
 
     /**
@@ -117,7 +119,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
         PrintWriter printWriter = null;
         try {
-            printWriter = new PrintWriter(new FileWriter(fullPath, false));
+            printWriter = new PrintWriter(new FileWriter(fileLog, false));
             printWriter.write(getCrashHead());
             throwable.printStackTrace(printWriter);
             Throwable cause = throwable.getCause();
@@ -134,8 +136,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
         }
     }
 
+    // TODO 发送错误报告到服务器
     private void reportCrashLogs(String logPath) {
-        // TODO 发送错误报告到服务器
     }
 
     /**
@@ -187,8 +189,53 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 "\n************* Crash Log Head ****************\n\n";
     }
 
-    private void exitApp() {
+    private void saveLastCrashTimestamp(Context context, long timestamp) {
+        SPUtil.putLong(context, GlobalConstant.SP_PARAMS_KEY.LAST_CRASH_TIMESTAMP, timestamp);
+    }
+
+    private long getLastCrashTimestamp(Context context) {
+        return SPUtil.getLong(context, GlobalConstant.SP_PARAMS_KEY.LAST_CRASH_TIMESTAMP);
+    }
+
+    //是否符合循环启动的条件.可能CrashedActivity也crash了，造成循环启动。
+    private boolean hasCrashedInTheLastSeconds(Context context) {
+        long lastTimestamp = getLastCrashTimestamp(context);
+        long currentTimestamp = System.currentTimeMillis();
+
+        return lastTimestamp < currentTimestamp && currentTimestamp - lastTimestamp < TIMESTAMP_AVOID_RESTART_LOOPS_IN_MILLIS;
+    }
+
+    /*
+    1.可能Application.onCreate()方法中crash了 (handleBindApplication is in the stack)
+    2.CrashedActivity也crash了 (crashedClass is in the stack)
+     */
+    private static boolean isStackTraceLikelyConflictive(Throwable throwable, Class<? extends Activity> crashedClass) {
+        do {
+            StackTraceElement[] stackTrace = throwable.getStackTrace();
+            for (StackTraceElement element : stackTrace) {
+                if (element == null) {
+                    continue;
+                }
+                if (("android.app.ActivityThread".equals(element.getClassName()) && "handleBindApplication".equals(element.getMethodName()))
+                        || (crashedClass != null && crashedClass.getName().equals(element.getClassName()))) {
+                    return true;
+                }
+            }
+        } while ((throwable = throwable.getCause()) != null);
+        return false;
+    }
+
+    private void killCurrentProcess() {
         android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(0);
+        System.exit(10);
+    }
+
+    private void startCrashedActivity() {
+        if (mContext.get() == null || mCrashedActivity == null) {
+            return;
+        }
+        Intent intent = new Intent(mContext.get(), mCrashedActivity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        mContext.get().startActivity(intent);
     }
 }

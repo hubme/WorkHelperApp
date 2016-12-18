@@ -9,7 +9,7 @@ import butterknife.OnClick;
  * 应用crash后显示给用户的界面
  * Created by HuoGuangxu on 2016/12/13.
  */
-
+// HGX: 2016/12/17 应不应该放到单独的进程中.单独进程更合理一些。
 public class CrashedActivity extends AppBaseActivity {
 
     @Override
@@ -21,11 +21,5 @@ public class CrashedActivity extends AppBaseActivity {
     public void restartApp() {
         startActivity(HomeActivity.class);
         finish();
-        killCurrentProcess();
-    }
-
-    private static void killCurrentProcess() {
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(10);
     }
 }

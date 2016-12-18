@@ -6,12 +6,11 @@ import android.content.res.Configuration;
 
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
-import com.king.app.workhelper.activity.HomeActivity;
 import com.king.app.workhelper.common.AppManager;
-import com.king.app.workhelper.common.crash.CrashHandler;
-import com.king.app.workhelper.common.crash.CustomActivityOnCrash;
+import com.king.app.workhelper.common.CrashHandler;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
+import com.king.applib.util.AppUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -32,32 +31,35 @@ public class WorkHelperApp extends BaseApplication {
     /*
     1.第一次安装会运行。
     2.应用在后台被杀死.ps:热启动、冷启动
+    3.多进程下回执行多次。解决办法是根据进程做相应的操作
      */
     @Override
     public void onCreate() {
         super.onCreate();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
-        Logger.i("WorkHelperApp#onCreate");
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
+        if (isNonMainProcess()) {
             return;
         }
+        Logger.i("WorkHelperApp#onCreate");
         mRefWatcher = LeakCanary.install(this);
 
         initOkHttp();
         //FreelineCore.init(this);
 
-        CustomActivityOnCrash.setEventListener(new CustomEventListener());
-        CustomActivityOnCrash.setErrorActivityClass(CrashedActivity.class);
-        CustomActivityOnCrash.setRestartActivityClass(HomeActivity.class);
-        CustomActivityOnCrash.install(this);
-
         //记录崩溃日志，便于debug.
-        // ps:写在CustomActivityOnCrash后面，否则会覆盖UncaughtExceptionHandler，CrashHandler收集不到日志.
+        CrashHandler.setCrashedActivity(CrashedActivity.class);
+        CrashHandler.setCrashInBackground(false);
         CrashHandler.getInstance().init(getApplicationContext());
 
         AppManager.getInstance().init(this);
+    }
+
+    private boolean isNonMainProcess() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return true;
+        }
+        String currentProcess = AppUtil.getCurrentProcessName(this);
+        return AppUtil.getActivityProcessName(this, CrashedActivity.class).equals(currentProcess);
     }
 
     private void initOkHttp() {
@@ -100,22 +102,5 @@ public class WorkHelperApp extends BaseApplication {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
         //Logger.i("WorkHelperApp#onTrimMemory()");
-    }
-
-    static class CustomEventListener implements CustomActivityOnCrash.EventListener {
-        @Override
-        public void onLaunchErrorActivity() {
-            Logger.i("onLaunchErrorActivity()");
-        }
-
-        @Override
-        public void onRestartAppFromErrorActivity() {
-            Logger.i("onRestartAppFromErrorActivity()");
-        }
-
-        @Override
-        public void onCloseAppFromErrorActivity() {
-            Logger.i("onCloseAppFromErrorActivity()");
-        }
     }
 }
