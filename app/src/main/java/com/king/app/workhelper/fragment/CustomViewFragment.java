@@ -1,8 +1,12 @@
 package com.king.app.workhelper.fragment;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,5 +87,20 @@ public class CustomViewFragment extends AppBaseFragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @OnClick(R.id.image1)
+    public void clickImage1(ImageView textView) {
+        textView.setBackground(wrap(R.mipmap.icon_1));
+    }
+
+    public Drawable wrap(int icon) {
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(),icon, getActivity().getTheme());
+        ColorStateList mTint = ResourcesCompat.getColorStateList(getResources(), R.color.tab, getActivity().getTheme());
+        if (drawable != null) {
+            drawable = DrawableCompat.wrap(drawable.mutate());
+            DrawableCompat.setTintList(drawable, mTint);
+        }
+        return drawable;
     }
 }
