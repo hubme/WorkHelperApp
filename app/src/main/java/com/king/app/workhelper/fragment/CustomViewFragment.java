@@ -11,10 +11,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.log.Logger;
+import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -35,6 +37,8 @@ public class CustomViewFragment extends AppBaseFragment {
 
     @BindView(R.id.image_after)
     public ImageView mAfterImage;
+    @BindView(R.id.tv_haha)
+    public TextView mTextViewHaHa;
     private Context mContext;
 
     @Override
@@ -47,6 +51,12 @@ public class CustomViewFragment extends AppBaseFragment {
         super.initData();
         mContext = getContext();
         requestBank();
+
+        BadgeView badgeView = new BadgeView(getContext(), mTextViewHaHa);
+        badgeView.setText("2");
+        badgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+//        badgeView.setBadgeMargin(-20, 0);
+        badgeView.show();
     }
 
     @OnClick(R.id.tv_show_dialog)
@@ -95,7 +105,7 @@ public class CustomViewFragment extends AppBaseFragment {
     }
 
     public Drawable wrap(int icon) {
-        Drawable drawable = ResourcesCompat.getDrawable(getResources(),icon, getActivity().getTheme());
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), icon, getActivity().getTheme());
         ColorStateList mTint = ResourcesCompat.getColorStateList(getResources(), R.color.tab, getActivity().getTheme());
         if (drawable != null) {
             drawable = DrawableCompat.wrap(drawable.mutate());
