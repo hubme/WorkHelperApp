@@ -9,8 +9,6 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 
-import com.king.applib.constant.GlobalConstants;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -52,25 +50,31 @@ public class NetworkUtil {
      * 判断是否是wifi
      */
     public static boolean isWifi(Context context) {
-        return GlobalConstants.NETWORK_TYPE.TYPE_WIFI == getNetWorkType(context);
+        return ConnectivityManager.TYPE_WIFI == getNetWorkType(context);
     }
 
     /**
-     * 获得当前网络类型.
+     * 获得当前网络类型.获取不到返回-1.
      */
     public static int getNetWorkType(Context context) {
         if (context == null) {
-            return GlobalConstants.NETWORK_TYPE.TYPE_UNKNOWN;
+            return -1;
         }
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        int type = networkInfo.getType();
-        if (type == ConnectivityManager.TYPE_WIFI) {
-            return GlobalConstants.NETWORK_TYPE.TYPE_WIFI;
-        } else if (type == ConnectivityManager.TYPE_MOBILE) {
-            return GlobalConstants.NETWORK_TYPE.TYPE_MOBILE;
+        if (manager != null) {
+            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+            if (networkInfo != null) {
+                switch (networkInfo.getType()) {
+                    case ConnectivityManager.TYPE_WIFI:
+                        return ConnectivityManager.TYPE_WIFI;
+                    case ConnectivityManager.TYPE_MOBILE:
+                        return ConnectivityManager.TYPE_MOBILE;
+                    default:
+                        return -1;
+                }
+            }
         }
-        return GlobalConstants.NETWORK_TYPE.TYPE_UNKNOWN;
+        return -1;
     }
 
     // MOBILE网络是几G网2G？3G？4G？

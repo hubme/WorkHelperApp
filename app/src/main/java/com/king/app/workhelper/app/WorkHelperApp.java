@@ -4,6 +4,7 @@ package com.king.app.workhelper.app;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.antfortune.freeline.FreelineCore;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
@@ -44,7 +45,7 @@ public class WorkHelperApp extends BaseApplication {
         mRefWatcher = LeakCanary.install(this);
 
         initOkHttp();
-        //FreelineCore.init(this);
+        FreelineCore.init(this);
 
         //记录崩溃日志，便于debug.
         CrashHandler.setCrashedActivity(CrashedActivity.class);

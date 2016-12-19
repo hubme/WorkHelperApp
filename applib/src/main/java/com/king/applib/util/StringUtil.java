@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.AbsoluteSizeSpan;
@@ -14,6 +15,7 @@ import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -64,6 +66,7 @@ public class StringUtil {
 
     /**
      * 判断字符串是否为数字
+     *
      * @param str 传入的字符串
      * @return 是整数返回true, 否则返回false
      */
@@ -76,6 +79,63 @@ public class StringUtil {
     }
 
     /**
+     * 设置字符串中指定字符的样式
+     *
+     * @param context 上下文
+     * @param text    字符串
+     * @param keyword 关键字
+     * @param colorId 指定字体的颜色.-1不设置颜色
+     * @param sizeId  指定字体的大小.-1不设置字体大小
+     * @return 特殊的字符串
+     */
+    public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, String keyword, int colorId, int sizeId) {
+        SpannableStringBuilder style = new SpannableStringBuilder(text);
+
+        Pattern p = Pattern.compile(keyword);
+        Matcher matcher = p.matcher(text);
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            if (colorId != -1) {
+                style.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if (sizeId != -1) {
+                style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            }
+        }
+        return style;
+    }
+
+    /**
+     * 设置字符串中指定多个字符的样式
+     *
+     * @param context       上下文
+     * @param text          字符串
+     * @param keywordArray  关键字数组。要一一对应。
+     * @param colorResArray 颜色值资源数组。要一一对应。-1不设置颜色
+     * @param sizeResArray  字符大小资源数组。要一一对应。-1不设置大小
+     * @return 特殊的字符串
+     */
+    public static SpannableStringBuilder buildMulTextStyle(Context context, String text, String[] keywordArray, int[] colorResArray, int[] sizeResArray) {
+        SpannableStringBuilder spannableBuilder = new SpannableStringBuilder(text);
+        for (int i = 0; i < keywordArray.length; i++) {
+            Pattern p = Pattern.compile(keywordArray[i]);
+            Matcher matcher = p.matcher(text);
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+                if (colorResArray[i] != -1) {
+                    spannableBuilder.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorResArray[i])), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if (sizeResArray[i] != -1) {
+                    spannableBuilder.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeResArray[i]), false), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                }
+            }
+        }
+        return spannableBuilder;
+    }
+
+    /**
      * 创建一个Spannable对象
      */
     public static Spannable createSpannable(String string) {
@@ -85,6 +145,7 @@ public class StringUtil {
     /**
      * FOR: textview.setText(WordtoSpan)
      * Textview文字设置俩种不同颜色
+     *
      * @param tag 从哪个索引开始分割
      */
     private static Spannable setTextColor(Context context, String string, int tag, int colorFirstId, int colorSecondId) {
