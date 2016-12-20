@@ -74,7 +74,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_toolbar)
     public void clickToolbar() {
-        ToolbarActivity.startToolbarActivity(getContext());
+        openActivity(ToolbarActivity.class);
     }
 
     @OnClick(R.id.tv_log)

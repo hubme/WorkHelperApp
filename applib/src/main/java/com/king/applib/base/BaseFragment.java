@@ -1,6 +1,8 @@
 package com.king.applib.base;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +26,8 @@ public abstract class BaseFragment extends Fragment {
         getArgumentData();
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(getContentLayout(), container, false);
         initContentView(mRootView);
@@ -56,5 +59,13 @@ public abstract class BaseFragment extends Fragment {
 
     protected void initData() {
 
+    }
+
+    protected void openActivity(Class<? extends Activity> cls) {
+        Context context = getContext();
+        if (context != null) {
+            Intent intent = new Intent(context, cls);
+            context.startActivity(intent);
+        }
     }
 }
