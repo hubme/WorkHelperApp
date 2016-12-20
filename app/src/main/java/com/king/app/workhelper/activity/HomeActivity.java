@@ -36,6 +36,6 @@ public class HomeActivity extends AppBaseActivity {
 
     @Override
     protected String getActivityTitle() {
-        return "测试入口";
+        return "测试";
     }
 }

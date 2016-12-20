@@ -25,6 +25,7 @@ public class OkHttpFragment extends AppBaseFragment {
     private final String URL = "http://www.baidu.com";
     private final String HTML_URL = "http://www.baidu.com";
     private final String IMAGE_URL = "http://192.168.1.106:8080/appupdate/pic.jpg";
+    private final String JSON_URL = "http://gjj.9188.com/app/loan/xiaoying_bank.json";
 
     @BindView(R.id.tv_okhttp)
     public TextView mOkHttp;

@@ -23,4 +23,10 @@
 
     <color name="orange_ff8800">#ff8800</color>
     <color name="light_orange_ff8800">#99ff8800</color>
+
+    <color name="gjjSwitchTitleLine">#ff27A5E2</color>
+    <color name="gjjSwitchTitleTxtActive">#ff27A5E2</color>
+    <color name="gjjSwitchTitleTxtDisable">#ffb0b0b0</color>
+    <color name="bg_header_pressed">#1e000000</color>
+
 </resources>

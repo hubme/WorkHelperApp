@@ -1,30 +1,21 @@
 package com.king.app.workhelper.fragment;
 
-import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Environment;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.applib.log.Logger;
+import com.king.app.workhelper.ui.customview.BadgeTextView;
 import com.king.applib.ui.customview.BadgeView;
-import com.king.applib.util.FileUtil;
-import com.king.applib.util.ImageUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.Call;
 
 /**
  * 自定义View
@@ -32,14 +23,15 @@ import okhttp3.Call;
  */
 
 public class CustomViewFragment extends AppBaseFragment {
-    String mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/origin_spring.jpg";
-    String mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/dest_spring.jpg";
 
-    @BindView(R.id.image_after)
-    public ImageView mAfterImage;
     @BindView(R.id.tv_haha)
     public TextView mTextViewHaHa;
-    private Context mContext;
+
+    @BindView(R.id.gradient_drawable)
+    public ImageView mGradientDrawable;
+
+    @BindView(R.id.my_badge)
+    public BadgeTextView myBadgeTextView;
 
     @Override
     protected int getContentLayout() {
@@ -47,62 +39,28 @@ public class CustomViewFragment extends AppBaseFragment {
     }
 
     @Override
+    protected void initContentView(View rootView) {
+        super.initContentView(rootView);
+
+        //颜色渐变
+        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{0xFFFF0000, 0xFF00FF00, 0xFF0000FF});
+        mGradientDrawable.setImageDrawable(drawable);
+
+    }
+
+    @Override
     protected void initData() {
         super.initData();
-        mContext = getContext();
-        requestBank();
 
         BadgeView badgeView = new BadgeView(getContext(), mTextViewHaHa);
         badgeView.setText("2");
         badgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
 //        badgeView.setBadgeMargin(-20, 0);
         badgeView.show();
+
+        myBadgeTextView.drawBadge();
     }
 
-    @OnClick(R.id.tv_show_dialog)
-    public void clickBtn() {
-//        showDialog();
-
-        Bitmap bitmap = ImageUtil.getBitmap(FileUtil.getFileByPath(mImagePath));
-        /*long aaa = System.currentTimeMillis();
-        Bitmap compressedBitmap = ImageUtil.compressByQuality(bitmap, 60);
-        Logger.i("压缩需要：" + (System.currentTimeMillis() - aaa) + " Millis");
-
-        mAfterImage.setImageBitmap(compressedBitmap);*/
-
-        Bitmap compressedImage = ImageUtil.compressBySize(bitmap);
-        long aaa = System.currentTimeMillis();
-        ImageUtil.saveBitmap(compressedImage, mSavedBitmapPath, Bitmap.CompressFormat.JPEG, 100);
-        Logger.i("压缩需要：" + (System.currentTimeMillis() - aaa) + " Millis");
-        mAfterImage.setImageBitmap(compressedImage);
-    }
-
-    private void requestBank() {
-        final String url = "http://gjj.9188.com/app/loan/xiaoying_bank.json";
-        OkHttpUtils.get().url(url).build()
-                .execute(new StringCallback() {
-                    @Override public void onError(Call call, Exception e, int id) {
-                    }
-
-                    @Override public void onResponse(String response, int id) {
-//                        Logger.i("response : " + response);
-                    }
-                });
-    }
-
-    private void showDialog() {
-        View customView = LayoutInflater.from(mContext).inflate(R.layout.list_picker_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setView(customView);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    @OnClick(R.id.image1)
-    public void clickImage1(ImageView textView) {
-        textView.setBackground(wrap(R.mipmap.icon_1));
-    }
 
     public Drawable wrap(int icon) {
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), icon, getActivity().getTheme());
@@ -112,5 +70,17 @@ public class CustomViewFragment extends AppBaseFragment {
             DrawableCompat.setTintList(drawable, mTint);
         }
         return drawable;
+    }
+
+    @OnClick(R.id.tv_hehe)
+    public void clickHeHe(TextView textView) {
+//        ColorStateList csl = getResources().getColorStateList(R.color.button_text);
+        ColorStateList csl = ResourcesCompat.getColorStateList(getResources(), R.color.button_text, getActivity().getTheme());
+        textView.setTextColor(csl);
+    }
+
+    @OnClick(R.id.image2)
+    public void testGradientDrawable(ImageView imageView) {
+
     }
 }
