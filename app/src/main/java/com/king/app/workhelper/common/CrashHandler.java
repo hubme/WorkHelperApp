@@ -73,7 +73,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     public void uncaughtException(Thread thread, Throwable throwable) {
         Logger.e(throwable, "App has crashed");
 //        saveCrashInfo(throwable);
-        if (!mCrashInBackground) {//后台拦截crash，对用户无感知
+        if (!mCrashInBackground && !AppManager.getInstance().isForeground()) {//后台拦截crash，对用户无感知
             return;
         }
         if (hasCrashedInTheLastSeconds(mContext.get()) || isStackTraceLikelyConflictive(throwable, mCrashedActivity)) {

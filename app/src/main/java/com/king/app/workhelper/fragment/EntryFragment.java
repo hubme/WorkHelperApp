@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
 
@@ -39,7 +40,8 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_view_pager)
     public void clickViewPager() {
-        clickedOn(new ViewPagerSampleFragment());
+//        clickedOn(new ViewPagerSampleFragment());
+        openActivity(TabSwitchActivity.class);
     }
 
     @OnClick(R.id.tv_web_view_js)

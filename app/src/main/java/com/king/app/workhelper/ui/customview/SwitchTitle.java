@@ -32,7 +32,7 @@ import java.util.List;
  * @author CJL
  * @since 2014年11月17日
  */
-public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickListener {
+public class SwitchTitle extends HorizontalScrollView implements OnClickListener {
     /** 动画持续时间 **/
     private static final int ANIM_DURATION = 300;
     /** 动画延迟时间 **/
@@ -107,7 +107,7 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
      * @param defStyleAttr
      *            defStyleAttr
      */
-    public CaiyiSwitchTitle(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SwitchTitle(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -120,7 +120,7 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
      * @param attrs
      *            AttributeSet
      */
-    public CaiyiSwitchTitle(Context context, AttributeSet attrs) {
+    public SwitchTitle(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
@@ -130,7 +130,7 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
      * @param context
      *            Context
      */
-    public CaiyiSwitchTitle(Context context) {
+    public SwitchTitle(Context context) {
         this(context, null);
     }
 
@@ -224,6 +224,10 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
             tt.setOnClickListener(this);
             mTabContainer.addView(tt, LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         }
+    }
+
+    public TabContainer getTabContainer() {
+        return mTabContainer;
     }
 
     public void setBadgeView(int position, String text) {
@@ -362,7 +366,7 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
      */
     private void runAnimation(TabText src, TabText dest) {
         if (src != dest && getWidth() != 0) { // getWidth=0表示还未调用onMeasure,view还未显示,不用动画
-            int scrollPos = dest.getLeft() - (CaiyiSwitchTitle.this.getWidth() - dest.getWidth()) / 2;
+            int scrollPos = dest.getLeft() - (SwitchTitle.this.getWidth() - dest.getWidth()) / 2;
             smoothScrollTo(scrollPos, 0);
             runAnimation(src.getLeft() + mExtraPadding, src.getRight() - mExtraPadding,
                     dest.getLeft() + mExtraPadding, dest.getRight() - mExtraPadding);
@@ -431,7 +435,7 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
     }
 
     /** tab 容器， 选中的项底部含有下划线 **/
-    private class TabContainer extends LinearLayout {
+    public class TabContainer extends LinearLayout {
 
         /**
          * Constructor
@@ -457,7 +461,7 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
 
                     // 若要显示的View未完全显示，则滚动scrollView使其在屏幕中间
 //                  if (mLineLeft < getScrollX() || mLineRight > getScrollX() + CaiyiSwtichTitle.this.getWidth()) {
-                    int scrollPos = dest.getLeft() - (CaiyiSwitchTitle.this.getWidth() - dest.getWidth()) / 2;
+                    int scrollPos = dest.getLeft() - (SwitchTitle.this.getWidth() - dest.getWidth()) / 2;
                     smoothScrollTo(scrollPos, 0);
 //                  }
                 }
@@ -505,7 +509,7 @@ public class CaiyiSwitchTitle extends HorizontalScrollView implements OnClickLis
     }
 
     /** tab TextView **/
-    private class TabText extends TextView {
+    public class TabText extends TextView {
         /** 该Tab位置 **/
         private int mPos;
 

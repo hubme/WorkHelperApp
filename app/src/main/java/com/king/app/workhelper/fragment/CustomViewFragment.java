@@ -13,6 +13,7 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
 import com.king.applib.ui.customview.BadgeView;
+import com.king.applib.ui.customview.BadgeView2;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,6 +34,8 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.my_badge)
     public BadgeTextView myBadgeTextView;
 
+    private BadgeView mBadgeView;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_custom;
@@ -52,13 +55,15 @@ public class CustomViewFragment extends AppBaseFragment {
     protected void initData() {
         super.initData();
 
-        BadgeView badgeView = new BadgeView(getContext(), mTextViewHaHa);
-        badgeView.setText("2");
-        badgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
-//        badgeView.setBadgeMargin(-20, 0);
-        badgeView.show();
+        mBadgeView = new BadgeView(getContext(), mTextViewHaHa);
+        mBadgeView.setText("2");
+        mBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+//        mBadgeView.setBadgeMargin(-20, 0);
+        mBadgeView.show();
 
-        myBadgeTextView.drawBadge();
+        BadgeView2 badgeView2 = new BadgeView2(getContext());
+        badgeView2.setBadgeCount(15);
+        badgeView2.setTargetView(myBadgeTextView);
     }
 
 
