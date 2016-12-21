@@ -100,7 +100,7 @@ public class SparkItem {
 //        mMatrix.postRotate(mRotation, mBitmapHalfWidth, mBitmapHalfHeight);
         mMatrix.postScale(mScale, mScale, mBitmapHalfWidth, mBitmapHalfHeight);
         mMatrix.postTranslate(mCurrentX, mCurrentY);
-//        mPaint.setAlpha(mAlpha);
+//        mTabLinePaint.setAlpha(mAlpha);
         c.drawBitmap(mImage, mMatrix, mPaint);
     }
 }

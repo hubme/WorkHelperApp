@@ -13,7 +13,9 @@
         android:layout_height="50dp"
         android:layout_below="@+id/header"
         android:background="#ffffffff"
+        app:tabIsShortLine="false"
         app:tabLineHeight="1.5dp"
+        app:tabLineTopIndent="0dp"
         app:tabTxtDisableColor="#ff363f46"
         app:tabTxtSize="15dp"/>
 

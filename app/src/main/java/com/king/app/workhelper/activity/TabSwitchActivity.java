@@ -24,7 +24,7 @@ import butterknife.BindView;
  * Created by VanceKing on 2016/12/20 0020.
  */
 
-public class TabSwitchActivity extends AppBaseActivity implements SwitchTitle.PageChangeListener {
+public class TabSwitchActivity extends AppBaseActivity implements SwitchTitle.OnTabTitleClickListener {
     @BindView(R.id.view_pager)
     public ViewPager mViewPager;
 
@@ -45,7 +45,8 @@ public class TabSwitchActivity extends AppBaseActivity implements SwitchTitle.Pa
     protected void initData() {
         super.initData();
 
-        mSwitchTitle.setParams(mViewPager, Arrays.asList("第一个", "第一个", "第二个"), this);
+        List<String> tabTitles = Arrays.asList("第一个", "第二个", "第三个");
+        mSwitchTitle.setParams(mViewPager, tabTitles, this);
 
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(new FirstTabFragment());
@@ -63,7 +64,7 @@ public class TabSwitchActivity extends AppBaseActivity implements SwitchTitle.Pa
     }
 
     @Override
-    public void pageChange(int position) {
-        Logger.i("position: " + position);
+    public void onTabTitleClick(int position) {
+        Logger.i("current position: " + position);
     }
 }
