@@ -99,6 +99,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new RoundDrawableFragment());
     }
 
+    @OnClick(R.id.tv_flat_buffer)
+    public void onFlatBufferClick() {
+        clickedOn(new FlatBufferFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

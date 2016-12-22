@@ -88,6 +88,11 @@
                 style="@style/EntryItem"
                 android:text="RoundedBitmapDrawable"/>
 
+            <TextView
+                android:id="@+id/tv_flat_buffer"
+                style="@style/EntryItem"
+                android:text="FlatBuffer VS Json"/>
+
         </LinearLayout>
 
 

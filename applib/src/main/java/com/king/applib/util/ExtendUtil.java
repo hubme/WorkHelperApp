@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.king.applib.log.Logger;
 
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,6 +59,7 @@ public class ExtendUtil {
 
     /**
      * 判断对象是否为空
+     *
      * @param obj 对象
      * @return {@code true}: 为空<br>{@code false}: 不为空
      */
@@ -142,6 +144,7 @@ public class ExtendUtil {
 
     /**
      * dp转px
+     *
      * @param context 上下文
      * @param dpValue dp值
      * @return px值
@@ -153,6 +156,7 @@ public class ExtendUtil {
 
     /**
      * px转dp
+     *
      * @param context 上下文
      * @param pxValue px值
      * @return dp值
@@ -164,6 +168,7 @@ public class ExtendUtil {
 
     /**
      * sp转px
+     *
      * @param context 上下文
      * @param spValue sp值
      * @return px值
@@ -175,6 +180,7 @@ public class ExtendUtil {
 
     /**
      * px转sp
+     *
      * @param context 上下文
      * @param pxValue px值
      * @return sp值
@@ -271,5 +277,18 @@ public class ExtendUtil {
             arrayList.add(sparseArray.valueAt(i));
         }
         return arrayList;
+    }
+
+    /** 读取Raw资源 */
+    public static byte[] readRawResource(Context context, int resId) {
+        InputStream stream = null;
+        try {
+            stream = context.getResources().openRawResource(resId);
+            return new byte[stream.available()];
+        } catch (Exception e) {
+            return null;
+        } finally {
+            IOUtil.close(stream);
+        }
     }
 }
