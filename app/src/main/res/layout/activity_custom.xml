@@ -62,8 +62,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="15dp"
-        android:paddingTop="10dp"
         android:text="自定义徽标"
         android:textSize="@dimen/ts_huge"/>
+
+    <com.king.app.workhelper.ui.customview.HorizontalTagView
+        android:id="@+id/htv_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

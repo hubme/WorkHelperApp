@@ -26,6 +26,18 @@ public class StringUtilsTest extends AndroidTestCase {
         super.tearDown();
     }
 
+    public void testStringLength() throws Exception {
+        Logger.i(String.valueOf("".length()));
+        Logger.i(String.valueOf("哈".length()));
+        Logger.i(String.valueOf("h".length()));
+        Logger.i(String.valueOf("哈哈".length()));
+        Logger.i(String.valueOf("hh".length()));
+        Logger.i(String.valueOf(" ".length()));
+        Logger.i(String.valueOf("0".length()));
+        Logger.i(String.valueOf(".".length()));
+        Logger.i(String.valueOf("&".length()));
+    }
+
     public void testIsNumber() throws Exception {
         Logger.i(String.valueOf(StringUtil.isNumber("")));
         Logger.i(String.valueOf(StringUtil.isNumber(" ")));
