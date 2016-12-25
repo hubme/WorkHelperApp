@@ -22,4 +22,16 @@
         <attr name="tabIsShortLine" format="boolean"/>
         <attr name="tabLineTopIndent" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="CircleCenterTextView">
+        <attr name="orientation" format="integer">
+            <flag name="horizontal" value="1"/>
+            <flag name="vertical" value="2"/>
+        </attr>
+        <attr name="circleColor" format="color"/>
+        <attr name="radius" format="dimension"/>
+        <attr name="text" format="string"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
 </resources>

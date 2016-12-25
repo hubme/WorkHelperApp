@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
+import com.king.app.workhelper.ui.customview.CircleCenterTextView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.applib.log.Logger;
@@ -75,7 +76,8 @@ public class CustomViewFragment extends AppBaseFragment {
         badgeView2.setTargetView(myBadgeTextView);
 
         mTagView.setOnTagCheckedListener(new HorizontalTagView.OnTagCheckedListener() {
-            @Override public void onTagChecked(boolean isChecked, String tag) {
+            @Override
+            public void onTagChecked(boolean isChecked, String tag) {
                 Logger.i("isChecked: " + isChecked + "; tag: " + tag);
                 Toast.makeText(getContext(), tag + "  " + isChecked, Toast.LENGTH_SHORT).show();
             }
@@ -135,5 +137,10 @@ public class CustomViewFragment extends AppBaseFragment {
                 .setBackgroundColor(R.color.colorAccent)
                 .setCornerRadius(45)
                 .build();
+    }
+
+    @OnClick(R.id.tv_center)
+    public void onCenterTextViewClick(CircleCenterTextView view) {
+        view.setOrientation(CircleCenterTextView.Horizontal);
     }
 }

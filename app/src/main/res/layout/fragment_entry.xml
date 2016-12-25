@@ -93,6 +93,11 @@
                 style="@style/EntryItem"
                 android:text="FlatBuffer VS Json"/>
 
+            <TextView
+                android:id="@+id/tv_canvas"
+                style="@style/EntryItem"
+                android:text="Canvas"/>
+
         </LinearLayout>
 
 

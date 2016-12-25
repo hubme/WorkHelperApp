@@ -104,6 +104,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new FlatBufferFragment());
     }
 
+    @OnClick(R.id.tv_canvas)
+    public void onCanvasClick() {
+        clickedOn(new CanvasSampleFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

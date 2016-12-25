@@ -13,6 +13,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 
 import com.king.applib.log.Logger;
 
@@ -26,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.graphics.Bitmap.createBitmap;
 import static android.graphics.BitmapFactory.decodeFile;
 
 /**
@@ -41,6 +43,7 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
+     *
      * @param filePath 文件路径
      * @return bitmap
      */
@@ -53,6 +56,7 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
+     *
      * @param file 文件
      * @return bitmap
      */
@@ -73,6 +77,7 @@ public class ImageUtil {
 
     /**
      * 保存Bitmap到File
+     *
      * @param bitmap    Bitmap
      * @param imagePath 保存文件的绝对路径
      * @param format    图片格式
@@ -109,6 +114,7 @@ public class ImageUtil {
 
     /**
      * 图片文件压缩到指定宽高后保存.
+     *
      * @param file      file对象
      * @param imagePath 保存图片的全路径
      * @param maxWidth  图片最大宽度
@@ -122,6 +128,7 @@ public class ImageUtil {
 
     /**
      * drawable转bitmap
+     *
      * @param drawable drawable对象
      * @return bitmap
      */
@@ -131,6 +138,7 @@ public class ImageUtil {
 
     /**
      * bitmap转drawable
+     *
      * @param context context对象
      * @param bitmap  bitmap对象
      * @return drawable
@@ -141,6 +149,7 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
+     *
      * @param resId 文件
      * @return bitmap
      */
@@ -150,6 +159,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩
+     *
      * @param src     源图片
      * @param quality 质量
      * @return 质量压缩后的图片
@@ -160,6 +170,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩
+     *
      * @param src     源图片
      * @param quality 质量
      * @param recycle 是否回收
@@ -199,6 +210,7 @@ public class ImageUtil {
 
     /**
      * 判断bitmap对象是否为空
+     *
      * @param src 源图片
      */
     public static boolean isBitmapEmpty(Bitmap src) {
@@ -212,16 +224,18 @@ public class ImageUtil {
 
     /**
      * 旋转图片
+     *
      * @return Bitmap
      */
     public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     /**
      * 读取图片属性：旋转的角度
+     *
      * @param path 图片绝对路径
      * @return degree旋转的角度
      */
@@ -249,6 +263,7 @@ public class ImageUtil {
 
     /**
      * Gets the corresponding path to a file from the given content:// URI
+     *
      * @param selectedVideoUri The content:// URI to find the file path from
      * @param contentResolver  The content resolver to use to perform the query.
      * @return the file path as a string
@@ -272,6 +287,7 @@ public class ImageUtil {
 
     /**
      * Gets the content:// URI  from the given corresponding path to a file
+     *
      * @return content Uri
      */
     public static Uri imageFile2Uri(Context context, File imageFile) {
@@ -345,6 +361,7 @@ public class ImageUtil {
 
     /**
      * 把图片压缩到200K
+     *
      * @param oldpath 压缩前的图片路径
      * @param newPath 压缩后的图片路径
      */
@@ -362,6 +379,7 @@ public class ImageUtil {
 
     /**
      * 按质量压缩到指定大小的图片
+     *
      * @param bitmap      源图片
      * @param maxByteSize 允许最大值字节数
      * @param recycle     是否回收
@@ -390,6 +408,7 @@ public class ImageUtil {
 
     /**
      * 计算采样大小
+     *
      * @param options   选项
      * @param maxWidth  最大宽度
      * @param maxHeight 最大高度
@@ -412,6 +431,7 @@ public class ImageUtil {
 
     /**
      * 获取bitmap
+     *
      * @param file      文件
      * @param maxWidth  最大宽度
      * @param maxHeight 最大高度
@@ -448,4 +468,17 @@ public class ImageUtil {
             IOUtil.close(decodeStream);
         }
     }
+
+    /** 获取一定透明度的图片 */
+    public static Bitmap getTransparentBitmap(@NonNull Bitmap source, int number) {
+        int[] argb = new int[source.getWidth() * source.getHeight()];
+        // 获得图片的ARGB值
+        source.getPixels(argb, 0, source.getWidth(), 0, 0, source.getWidth(), source.getHeight());
+        for (int i = 0; i < argb.length; i++) {
+            argb[i] = (number << 24) | (argb[i] & 0x00FFFFFF);
+        }
+        source = createBitmap(argb, source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
+        return source;
+    }
+
 }

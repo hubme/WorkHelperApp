@@ -1,9 +1,7 @@
 package com.king.app.workhelper;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Environment;
-import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.king.app.workhelper.activity.CrashedActivity;
@@ -25,19 +23,18 @@ import static com.king.applib.util.FileUtil.createFile;
  * Created by HuoGuangxu on 2016/9/29.
  */
 
-public class AppTest extends AndroidTestCase {
-    private static final String TAG = "aaa";
-    private Context mContext;
+public class AppTest extends BaseTestCase {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContext = getContext();
+    public void testDimension() throws Exception {
+
+        Logger.i(String.valueOf(mContext.getResources().getDimension(R.dimen.ts_normal)));
+        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelOffset(R.dimen.ts_normal)));
+        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelSize(R.dimen.ts_normal)));
     }
 
     public void testGetActivityProcessName() throws Exception {
-        Logger.i("Activity: "+AppUtil.getActivityProcessName(mContext, Activity.class));
-        Logger.i("CrashedActivity: "+AppUtil.getActivityProcessName(mContext, CrashedActivity.class));
+        Logger.i("Activity: " + AppUtil.getActivityProcessName(mContext, Activity.class));
+        Logger.i("CrashedActivity: " + AppUtil.getActivityProcessName(mContext, CrashedActivity.class));
     }
 
     public void testEnvironment() throws Exception {
@@ -92,11 +89,11 @@ public class AppTest extends AndroidTestCase {
     }
 
     public void testGetFilePath() throws Exception {
-        Log.i(TAG, Environment.getDataDirectory().getAbsolutePath());
-        Log.i(TAG, Environment.getDownloadCacheDirectory().getAbsolutePath());
-        Log.i(TAG, Environment.getExternalStorageDirectory().getAbsolutePath());
-        Log.i(TAG, Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getPath());
-        Log.i(TAG, Environment.getRootDirectory().getAbsolutePath());
+        Logger.i(Environment.getDataDirectory().getAbsolutePath());
+        Logger.i(Environment.getDownloadCacheDirectory().getAbsolutePath());
+        Logger.i(Environment.getExternalStorageDirectory().getAbsolutePath());
+        Logger.i(Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getPath());
+        Logger.i(Environment.getRootDirectory().getAbsolutePath());
     }
 
     public void testCreateDir() throws Exception {

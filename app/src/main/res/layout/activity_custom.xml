@@ -3,71 +3,100 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center_horizontal"
               android:orientation="vertical"
               android:paddingTop="10dp">
 
-    <TextView
-        android:id="@+id/tv_hehe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="点击变色"
-        android:textSize="@dimen/ts_huge"/>
-
-    <com.king.applib.ui.customview.BadgeButton
-        android:id="@+id/btn_badge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="带徽标的TextView"
-        android:textSize="@dimen/ts_huge"
-        app:btnBadgeColor="@color/colorPrimary"
-        app:btnBadgeText="双方东"
-        app:btnBadgeVisible="true"/>
-
-    <ImageView
-        android:id="@+id/gradient_drawable"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/btn_badge"
-        android:src="@mipmap/icon_1"/>
-
-    <ImageView
-        android:id="@+id/image2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@mipmap/icon_1"/>
-
-    <TextView
-        android:id="@+id/tv_haha"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="哈哈哈"
-        android:textSize="@dimen/ts_huge"/>
-
-    <TextView
-        android:id="@+id/sdfdsf"
-        android:layout_width="120dp"
-        android:layout_height="45dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:text="双方东方"
-        android:textSize="@dimen/ts_huge"/>
-
-    <com.king.app.workhelper.ui.customview.BadgeTextView
-        android:id="@+id/my_badge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:text="自定义徽标"
-        android:textSize="@dimen/ts_huge"/>
-
-    <com.king.app.workhelper.ui.customview.HorizontalTagView
-        android:id="@+id/htv_tag"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_hehe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击变色"
+                android:textSize="@dimen/ts_huge"/>
+
+            <com.king.applib.ui.customview.BadgeButton
+                android:id="@+id/btn_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="带徽标的TextView"
+                android:textSize="@dimen/ts_huge"
+                app:btnBadgeColor="@color/colorPrimary"
+                app:btnBadgeText="双方东"
+                app:btnBadgeVisible="true"/>
+
+            <ImageView
+                android:id="@+id/gradient_drawable"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/btn_badge"
+                android:src="@mipmap/icon_1"/>
+
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_1"/>
+
+            <TextView
+                android:id="@+id/tv_haha"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="哈哈哈"
+                android:textSize="@dimen/ts_huge"/>
+
+            <TextView
+                android:id="@+id/sdfdsf"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="双方东方"
+                android:textSize="@dimen/ts_huge"/>
+
+            <com.king.app.workhelper.ui.customview.BadgeTextView
+                android:id="@+id/my_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="自定义徽标"
+                android:textSize="@dimen/ts_huge"/>
+
+            <com.king.app.workhelper.ui.customview.HorizontalTagView
+                android:id="@+id/htv_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.king.app.workhelper.ui.customview.AnalogClock
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@color/aqua"/>
+
+            <com.king.app.workhelper.ui.customview.CircleCenterTextView
+                android:id="@+id/tv_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                app:circleColor="@color/blueviolet"
+                app:orientation="vertical"
+                app:radius="68dp"
+                app:text="邢雁啡"
+                app:textColor="@color/white"
+                app:textSize="@dimen/ts_big"/>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
