@@ -38,7 +38,7 @@ public class WorkHelperApp extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
-        if (isNonMainProcess()) {
+        if (!isMainProcess()) {
             return;
         }
         Logger.i("WorkHelperApp#onCreate");
@@ -55,12 +55,8 @@ public class WorkHelperApp extends BaseApplication {
         AppManager.getInstance().init(this);
     }
 
-    private boolean isNonMainProcess() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return true;
-        }
-        String currentProcess = AppUtil.getCurrentProcessName(this);
-        return AppUtil.getActivityProcessName(this, CrashedActivity.class).equals(currentProcess);
+    private boolean isMainProcess() {
+        return AppUtil.getCurrentProcessName(this).equals(AppUtil.getAppInfo(this).getPackageName());
     }
 
     private void initOkHttp() {
