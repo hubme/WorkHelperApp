@@ -21,6 +21,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * OkHttp使用
@@ -84,7 +85,7 @@ public class OkHttpFragment extends AppBaseFragment {
             MediaType mediaType = response.body().contentType();
             String content = response.body().string();
             Logger.i("content: " + content);
-            return response.newBuilder().body(okhttp3.ResponseBody.create(mediaType, content)).build();
+            return response.newBuilder().body(ResponseBody.create(mediaType, content)).build();
         }
     }
 }

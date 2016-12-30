@@ -35,7 +35,7 @@ public class FlatBufferFragment extends AppBaseFragment {
 
     @OnClick(R.id.btn_flat_buffer)
     public void loadFromFlatBuffer() {
-        byte[] buffer = ExtendUtil.readRawResource(getApplication(), R.raw.sample_flatbuffer);
+        byte[] buffer = ExtendUtil.readRawResource(getApplication(), R.raw.sample_flatbuffer);//由于raw文件太大，用空文件代替
         long startTime = System.currentTimeMillis();
         ByteBuffer bb = ByteBuffer.wrap(buffer);
         PeopleList peopleList = PeopleList.getRootAsPeopleList(bb);
