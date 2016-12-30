@@ -10,7 +10,7 @@ import com.king.applib.log.Logger;
  * Created by HuoGuangxu on 2016/11/30.
  */
 
-public class BaseTestCase extends AndroidTestCase {
+abstract class BaseTestCase extends AndroidTestCase {
     protected Context mContext;
 
     @Override

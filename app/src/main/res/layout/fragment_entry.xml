@@ -98,6 +98,11 @@
                 style="@style/EntryItem"
                 android:text="Canvas"/>
 
+            <TextView
+                android:id="@+id/tv_fresco"
+                style="@style/EntryItem"
+                android:text="Fresco Sample"/>
+
         </LinearLayout>
 
 

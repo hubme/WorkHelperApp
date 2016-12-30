@@ -109,6 +109,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new CanvasSampleFragment());
     }
 
+    @OnClick(R.id.tv_fresco)
+    public void onFrescoClick() {
+        clickedOn(new FrescoSampleFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

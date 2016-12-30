@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import com.antfortune.freeline.FreelineCore;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
@@ -53,6 +54,8 @@ public class WorkHelperApp extends BaseApplication {
         CrashHandler.getInstance().init(getApplicationContext());
 
         AppManager.getInstance().init(this);
+
+        Fresco.initialize(this);
     }
 
     private boolean isMainProcess() {
