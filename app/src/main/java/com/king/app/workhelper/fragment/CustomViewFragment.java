@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,9 +16,9 @@ import android.widget.Toast;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
-import com.king.app.workhelper.ui.customview.CircleCenterTextView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
+import com.king.app.workhelper.ui.customview.TagTextView;
 import com.king.applib.log.Logger;
 import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
@@ -45,6 +46,9 @@ public class CustomViewFragment extends AppBaseFragment {
 
     @BindView(R.id.htv_tag)
     public HorizontalTagView mTagView;
+
+    @BindView(R.id.tag_view)
+    public TagTextView mTagTextView;
 
     @Override
     protected int getContentLayout() {
@@ -76,13 +80,18 @@ public class CustomViewFragment extends AppBaseFragment {
         badgeView2.setTargetView(myBadgeTextView);
 
         mTagView.setOnTagCheckedListener(new HorizontalTagView.OnTagCheckedListener() {
-            @Override
-            public void onTagChecked(boolean isChecked, String tag) {
+            @Override public void onTagChecked(boolean isChecked, String tag) {
                 Logger.i("isChecked: " + isChecked + "; tag: " + tag);
                 Toast.makeText(getContext(), tag + "  " + isChecked, Toast.LENGTH_SHORT).show();
             }
         });
 
+        mTagTextView.setChangedBackground(false);
+        mTagTextView.setOnTagCheckedListener(new TagTextView.OnTagCheckedListener() {
+            @Override public void onTagChecked(TagTextView tagView) {
+                Log.i("aaa", tagView.getText().toString());
+            }
+        });
     }
 
 
@@ -139,8 +148,4 @@ public class CustomViewFragment extends AppBaseFragment {
                 .build();
     }
 
-    @OnClick(R.id.tv_center)
-    public void onCenterTextViewClick(CircleCenterTextView view) {
-        view.setOrientation(CircleCenterTextView.Horizontal);
-    }
 }

@@ -106,6 +106,28 @@ public class StringUtil {
         return style;
     }
 
+
+    /**
+     * 设置字符串中指定字符的样式
+     *
+     * @param context 上下文
+     * @param text    字符串
+     * @param start   关键字开始位置
+     * @param end     关键字结束位置
+     * @param colorId 关键字的颜色.-1不设置颜色
+     * @param sizeId  关键字的大小.-1不设置字体大小
+     */
+    public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, int start, int end, int colorId, int sizeId) {
+        SpannableStringBuilder style = new SpannableStringBuilder(text);
+        if (colorId != -1) {
+            style.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        if (sizeId != -1) {
+            style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        }
+        return style;
+    }
+
     /**
      * 设置字符串中指定多个字符的样式
      *

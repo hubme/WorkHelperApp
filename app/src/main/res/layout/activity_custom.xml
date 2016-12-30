@@ -99,4 +99,11 @@
         </LinearLayout>
     </ScrollView>
 
+    <com.king.app.workhelper.ui.customview.TagTextView
+        android:id="@+id/tag_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="呵呵呵"
+        android:textSize="@dimen/ts_huge"/>
+
 </LinearLayout>
