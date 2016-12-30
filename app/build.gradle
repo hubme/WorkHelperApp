@@ -127,6 +127,8 @@ dependencies {
     //compile 'com.facebook.fresco:webpsupport:0.12.0'
     // 仅支持 WebP 静态图，需要添加
     //compile 'com.facebook.fresco:webpsupport:0.12.0'
+
+    compile 'com.facebook.stetho:stetho:1.4.2'
 }
 
 def bakPath = file("${buildDir}/bakApk/")

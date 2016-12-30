@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import com.antfortune.freeline.FreelineCore;
+import com.facebook.stetho.Stetho;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
@@ -54,6 +55,11 @@ public class WorkHelperApp extends BaseApplication {
         CrashHandler.getInstance().init(getApplicationContext());
 
         AppManager.getInstance().init(this);
+
+//        Stetho.initializeWithDefaults(this);
+        Stetho.initialize(Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
 
         Fresco.initialize(this);
     }

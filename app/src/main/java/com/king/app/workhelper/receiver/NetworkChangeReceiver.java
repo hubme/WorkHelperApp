@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.king.applib.log.Logger;
-import com.king.applib.util.NetworkUtil;
-
 /**
  * 网络变化的广播.
  * Created by HuoGuangxu on 2016/12/16.
@@ -27,9 +24,9 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             });
         }*/
         //注意：运行在主线程，不要做耗时操作.
-        if (NetworkUtil.isNetworkAvailable(context)) {
+        /*if (NetworkUtil.isNetworkAvailable(context)) {
             Logger.i("网络类型： " + NetworkUtil.getNetWorkType(context));
-        }
+        }*/
 
     }
 }
