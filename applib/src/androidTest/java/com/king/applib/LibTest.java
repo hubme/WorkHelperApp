@@ -1,8 +1,6 @@
 package com.king.applib;
 
-import android.content.Context;
 import android.os.Environment;
-import android.test.AndroidTestCase;
 import android.text.format.Formatter;
 import android.util.SparseArray;
 
@@ -25,19 +23,14 @@ import java.io.File;
 
 /**
  * Lib测试类
- * Created by HuoGuangxu on 2016/9/30.
+ * eated by HuoGuangxu on 2016/9/30.
  */
 
-public class LibTest extends AndroidTestCase {
+public class LibTest extends BaseTestCase {
 
-    private Context mContext;
-    private static final String SP_KEY = "aaa";
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        Logger.init("aaa").methodCount(1).hideThreadInfo();
-        mContext = getContext();
+    public void testDoubleArray() throws Exception {
+        String[][] array = {{"11", "12"}, {"21", "22"}};
+        Logger.i(array[1][0]);
     }
 
     public void testStringSwitch() throws Exception {
