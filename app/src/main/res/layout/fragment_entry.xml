@@ -79,7 +79,7 @@
                 android:text="Notification"/>
 
             <TextView
-                android:id="@+id/tv_okhttp"
+                android:id="@+id/tv_okhttp_get"
                 style="@style/EntryItem"
                 android:text="OkHttp"/>
 

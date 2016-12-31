@@ -40,6 +40,24 @@ public class LibTest extends AndroidTestCase {
         mContext = getContext();
     }
 
+    public void testStringSwitch() throws Exception {
+        String aaa = "aaa";
+        switch (aaa) {
+            case "aaa":
+                Logger.i("aaa");
+                break;
+            case "AAA":
+                Logger.i("AAA");
+                break;
+            case "aaA":
+                Logger.i("aaA");
+                break;
+            case "bb":
+                Logger.i("bb");
+                break;
+        }
+    }
+
     public void testSDf() {
         Logger.i(Formatter.formatFileSize(mContext, 250));//250 B
         Logger.i(Formatter.formatFileSize(mContext, 1024));//1.00 KB

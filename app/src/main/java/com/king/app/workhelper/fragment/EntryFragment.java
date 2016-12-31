@@ -89,7 +89,7 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new NotificationFragment());
     }
 
-    @OnClick(R.id.tv_okhttp)
+    @OnClick(R.id.tv_okhttp_get)
     public void onOkHttpClick() {
         clickedOn(new OkHttpFragment());
     }

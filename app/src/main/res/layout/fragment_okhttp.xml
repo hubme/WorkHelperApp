@@ -5,8 +5,13 @@
               android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_okhttp"
+        android:id="@+id/tv_okhttp_get"
         style="@style/EntryItem"
-        android:text="OkHttp"/>
+        android:text="GET"/>
+
+    <TextView
+        android:id="@+id/tv_okhttp_post"
+        style="@style/EntryItem"
+        android:text="POST"/>
 
 </LinearLayout>

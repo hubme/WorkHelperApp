@@ -5,6 +5,7 @@ import com.king.applib.log.Logger;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.Locale;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -13,80 +14,91 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 
+import static java.lang.String.format;
+
 /**
  * OkHttp3日志拦截器。添加后SimpleDraweeView显示不出图片。
  * Created by VanceKing on 2016/12/28 0028.
  */
 
 public class LoggingInterceptor implements Interceptor {
-    private static final String F_BREAK = " %n";
+    private static final String F_BREAK = "%n";
     private static final String F_URL = " %s";
-    private static final String F_TIME = " in %.1fms";
+    private static final String F_TIME = " %s";
     private static final String F_HEADERS = "%s";
-    private static final String F_RESPONSE = F_BREAK + "Response: %d";
+    private static final String F_RESPONSE = F_BREAK + "Response: %s";
     private static final String F_BODY = "body: %s";
 
-    private static final String F_BREAKER = F_BREAK + "-------------------------------------------" + F_BREAK;
     private static final String F_REQUEST_WITHOUT_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS;
-    private static final String F_RESPONSE_WITHOUT_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BREAKER;
+    private static final String F_RESPONSE_WITHOUT_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BREAK;
     private static final String F_REQUEST_WITH_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS + F_BODY + F_BREAK;
-    private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAKER;
+    private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAK;
 
-    private boolean mIsPrintRequestHeaders = false;
-    private boolean mIsPrintResponseHeaders = false;
+    private boolean mIsPrintRequestHeaders = true;
+    private boolean mIsPrintResponseHeaders = true;
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = null;
+        Response response = null;
+        String time = "";
+        String mediaType = null;
+        String bodyString = null;
         try {
             request = chain.request();
 
             long t1 = System.nanoTime();
-            Response response = chain.proceed(request);
-            long t2 = System.nanoTime();
+            response = chain.proceed(request);
+            time = String.format(Locale.getDefault(), "%.1fms", (System.nanoTime() - t1) / 1e6d);
 
             MediaType contentType = null;
-            String bodyString = "";
-            String mediaType = "";
-            if (response.body() != null) {
-                contentType = response.body().contentType();
-                bodyString = response.body().string();
+            ResponseBody responseBody = response.body();
+            if (responseBody != null) {
+                contentType = responseBody.contentType();
+                bodyString = responseBody.string();
+            }
+            if (contentType != null) {
                 mediaType = contentType.type();
             }
-            double time = (t2 - t1) / 1e6d;
 
             printLog(request, response, time, mediaType, bodyString);
 
-            if (response.body() != null) {
-                ResponseBody body = ResponseBody.create(contentType, bodyString);
-                return response.newBuilder().body(body).build();
+            if (bodyString != null) {
+                return response.newBuilder().body(ResponseBody.create(contentType, bodyString)).build();
             } else {
                 return response;
             }
         } catch (SocketTimeoutException e) {
-            if (request != null) {
-                Logger.log(Logger.INFO, AppConfig.LOG_TAG, "url: " + request.url() + "超时了.");
-            } else {
-                Logger.log(Logger.INFO, AppConfig.LOG_TAG, "request == null");
-            }
-
-            return chain.proceed(chain.request());
+            printLog(request, null, "超时", null, null);
+        } catch (Exception e) {
+            printLog(request, null, "失败.可能断网、接口挂了", null, null);
         }
+        return chain.proceed(chain.request());
     }
 
-    private void printLog(Request request, Response response, double time, String mediaType, String bodyString) {
-        switch (request.method()) {
+    private void printLog(Request request, Response response, String time, String mediaType, String bodyString) {
+        String url = request.url().toString();
+        String requestHeaders = stringifyRequestHeaders(request);
+        String responseCode = response != null ? response.code() + "" : "";
+        String responseHeaders = stringifyResponseHeaders(response);
+        String responseBody = stringifyResponseBody(mediaType, bodyString);
+
+        switch (request.method().toUpperCase()) {
             case "GET":
-                Logger.log(Logger.INFO, AppConfig.LOG_TAG, String.format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY, request.url(), time, stringifyRequestHeaders(request), response.code(), stringifyResponseHeaders(response), stringifyResponseBody(mediaType, bodyString)));//response.headers()
+                Logger.log(Logger.INFO, AppConfig.LOG_TAG, format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY,
+                        url, time, requestHeaders, responseCode, responseHeaders, responseBody));
                 break;
             case "POST":
-                Logger.log(Logger.INFO, AppConfig.LOG_TAG, String.format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, request.url(), time, stringifyRequestHeaders(request), stringifyRequestBody(request), response.code(), stringifyResponseHeaders(response), stringifyResponseBody(mediaType, bodyString)));
+                Logger.log(Logger.INFO, AppConfig.LOG_TAG, format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY,
+                        url, time, requestHeaders, stringifyRequestBody(request), responseCode, responseHeaders, responseBody));
                 break;
             case "PUT":
-                Logger.log(Logger.INFO, AppConfig.LOG_TAG, String.format("PUT " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, request.url(), time, stringifyRequestHeaders(request), request.body().toString(), response.code(), stringifyResponseHeaders(response), stringifyResponseBody(mediaType, bodyString)));
+                Logger.log(Logger.INFO, AppConfig.LOG_TAG, format("PUT " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY,
+                        url, time, requestHeaders, request.body().toString(), responseCode, responseHeaders, responseBody));
                 break;
             case "DELETE":
-                Logger.log(Logger.INFO, AppConfig.LOG_TAG, String.format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY, request.url(), time, stringifyRequestHeaders(request), response.code(), stringifyResponseHeaders(response)));
+                Logger.log(Logger.INFO, AppConfig.LOG_TAG, format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY,
+                        url, time, requestHeaders, responseCode, responseHeaders));
                 break;
             default:
                 break;
@@ -94,11 +106,11 @@ public class LoggingInterceptor implements Interceptor {
     }
 
     private String stringifyRequestHeaders(Request request) {
-        return mIsPrintRequestHeaders ? request.headers().toString() : "";
+        return mIsPrintRequestHeaders && request != null ? request.headers().toString() : "";
     }
 
     private String stringifyResponseHeaders(Response response) {
-        return mIsPrintResponseHeaders ? response.headers().toString() : "";
+        return mIsPrintResponseHeaders && response != null ? response.headers().toString() : "";
     }
 
     private String stringifyRequestBody(Request request) {
@@ -107,12 +119,15 @@ public class LoggingInterceptor implements Interceptor {
             final Buffer buffer = new Buffer();
             copy.body().writeTo(buffer);
             return buffer.readUtf8();
-        } catch (final IOException e) {
-            return "IOException";
+        } catch (IOException e) {
+            return "stringify request occur IOException";
         }
     }
 
     private String stringifyResponseBody(String MediaType, String responseBody) {
+        if (responseBody == null) {
+            return "";
+        }
         if (!"text".equalsIgnoreCase(MediaType)) {
             return "MIME类型是：" + MediaType + ",不打印log.";
         }
