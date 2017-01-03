@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 
 import com.antfortune.freeline.FreelineCore;
-import com.facebook.stetho.Stetho;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.stetho.Stetho;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
@@ -39,11 +39,11 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         if (!isMainProcess()) {
             return;
         }
-        Logger.i("WorkHelperApp#onCreate");
+        Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
+        Logger.i("WorkHelperApp#onCreate()");
         mRefWatcher = LeakCanary.install(this);
 
         initOkHttp();

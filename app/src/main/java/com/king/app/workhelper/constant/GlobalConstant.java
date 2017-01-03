@@ -14,6 +14,7 @@ public class GlobalConstant {
 
     public interface INTENT_PARAMS_KEY {
         String FILE_DOWNLOAD_URL = "FILE_DOWNLOAD_URL";
+        String WEB_URL = "WEB_URL";
     }
 
     /** 未知网络 */

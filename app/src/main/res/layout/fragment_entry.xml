@@ -103,6 +103,11 @@
                 style="@style/EntryItem"
                 android:text="Fresco Sample"/>
 
+            <TextView
+                android:id="@+id/tv_web_view"
+                style="@style/EntryItem"
+                android:text="WebView Activity"/>
+
         </LinearLayout>
 
 

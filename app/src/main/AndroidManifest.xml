@@ -59,6 +59,21 @@
 
         </activity>
 
+        <activity
+            android:name=".activity.SchemeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <!--android:scheme: 唤起协议
+                android:host: 唤起host，只有置顶的host才可被唤起
+                android:pathPrefix: 唤起的路径，对路径进一步的过滤-->
+                <data android:scheme="scheme"/>
+            </intent-filter>
+        </activity>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service

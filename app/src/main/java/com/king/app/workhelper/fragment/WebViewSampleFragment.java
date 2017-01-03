@@ -6,7 +6,6 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,7 +45,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
         super.initData();
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        mWebView.setWebChromeClient(new WebChromeClient());//不写这句,js的alert()无效
+//        mWebView.setWebChromeClient(new WebChromeClient());//不写这句,js的alert()无效
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -68,7 +67,8 @@ public class WebViewSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.btn_load_url)
     public void loadUrl() {
-        loadUrl("file:///android_asset/js_java_interaction.html");
+//        loadUrl("file:///android_asset/js_java_interaction.html");
+        loadUrl(URL);
     }
 
     @OnClick(R.id.btn_invoke_js_method1)
