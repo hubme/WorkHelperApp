@@ -264,25 +264,25 @@ public class ImageUtil {
     /**
      * Gets the corresponding path to a file from the given content:// URI
      *
-     * @param selectedVideoUri The content:// URI to find the file path from
+     * @param uri The content:// URI to find the file path from
      * @param contentResolver  The content resolver to use to perform the query.
      * @return the file path as a string
      */
-    public static String uri2ImageFile(Uri selectedVideoUri, ContentResolver contentResolver) {
-        String filePath = "";
-        String[] filePathColumn = {MediaStore.MediaColumns.DATA};
+    public static String uri2ImageFile(Uri uri, ContentResolver contentResolver) {
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-        Cursor cursor = contentResolver.query(selectedVideoUri, filePathColumn, null, null, null);
+        Cursor cursor = contentResolver.query(uri, filePathColumn, null, null, null);
 //      也可用下面的方法拿到cursor
-//      Cursor cursor = context.managedQuery(selectedVideoUri, filePathColumn, null, null, null);
+//      Cursor cursor = context.managedQuery(uri, filePathColumn, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            filePath = cursor.getString(columnIndex);
+            String filePath = cursor.getString(columnIndex);
             cursor.close();
+            return filePath;
         }
-        return filePath;
+        return uri.getPath();
     }
 
     /**

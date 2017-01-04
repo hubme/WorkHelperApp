@@ -8,4 +8,15 @@
         android:id="@+id/tv_open_gallery"
         style="@style/EntryItem"
         android:text="打开相册"/>
+
+    <TextView
+        android:id="@+id/tv_open_camera"
+        style="@style/EntryItem"
+        android:text="拍照"/>
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"/>
 </LinearLayout>
