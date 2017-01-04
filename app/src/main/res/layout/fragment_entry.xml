@@ -108,6 +108,11 @@
                 style="@style/EntryItem"
                 android:text="WebView Activity"/>
 
+            <TextView
+                android:id="@+id/tv_file_provider"
+                style="@style/EntryItem"
+                android:text="FileProvider"/>
+
         </LinearLayout>
 
 

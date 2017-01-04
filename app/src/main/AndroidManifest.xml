@@ -18,6 +18,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--exported:要求必须为false，为true则会报安全异常。grantUriPermissions:true，表示授予 URI 临时访问权限。-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.king.app.workhelper.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_share_paths"/>
+        </provider>
+
         <activity android:name=".activity.MainActivity">
 
         </activity>

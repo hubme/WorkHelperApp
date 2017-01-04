@@ -120,6 +120,11 @@ public class EntryFragment extends AppBaseFragment {
         WebViewActivity.openActivity(getContext(), WebViewActivity.BAI_DU_URL);
     }
 
+    @OnClick(R.id.tv_file_provider)
+    public void onFileProviderClick() {
+        clickedOn(new FileProviderFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
