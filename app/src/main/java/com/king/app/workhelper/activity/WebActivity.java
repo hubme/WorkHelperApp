@@ -51,16 +51,19 @@ public class WebActivity extends AppBaseActivity {
     }
 
     @OnClick(R.id.tv_load_url)
-    public void loadWebUrl(){
-        showToast("加载网页");
+    public void loadWebUrl() {
         mWebView.loadUrl(mUrl);
     }
 
-    private class DefaultWebViewClient extends WebViewClient{
-
+    private class DefaultWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 
-    private class DefaultWebChromeClient extends WebChromeClient{
+    private class DefaultWebChromeClient extends WebChromeClient {
 
     }
 
