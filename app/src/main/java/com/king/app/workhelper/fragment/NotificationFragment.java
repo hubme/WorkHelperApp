@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.king.app.workhelper.R;
@@ -16,8 +15,6 @@ import com.king.app.workhelper.activity.HomeActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
 
 import butterknife.OnClick;
-
-import static com.king.app.workhelper.activity.WebViewActivity.TAG;
 
 /**
  * Notification.
@@ -60,7 +57,6 @@ public class NotificationFragment extends AppBaseFragment {
                                 // Sleep for 5 seconds
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
-                                Log.d(TAG, "sleep failure");
                             }
                         }
                         mBuilder.setContentText("下载完成")

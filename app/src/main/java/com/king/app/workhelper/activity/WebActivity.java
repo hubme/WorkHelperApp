@@ -2,6 +2,7 @@ package com.king.app.workhelper.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -9,13 +10,20 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WebViewActivity extends AppBaseActivity {
+/**
+ * WebView使用。WebView是一个基于webkit引擎、展现web页面的控件。
+ * created by VanceKing at 2017/1/6
+ */
+public class WebActivity extends AppBaseActivity {
     public static final String TAG = "MainActivity";
     public static final String BAI_DU_URL = "http://www.baidu.com";
 
-    private WebView mWebView;
+    @BindView(R.id.web_view)
+    public WebView mWebView;
+
     private String mUrl = "";
 
     @Override
@@ -31,9 +39,9 @@ public class WebViewActivity extends AppBaseActivity {
 
     @Override
     protected void initContentView() {
-        mWebView = (WebView) findViewById(R.id.web_view);
-//        mWebView.setWebChromeClient(new WebChromeClient());//不设置网页加载不出来
-        mWebView.setWebViewClient(new WebViewClient());
+        super.initContentView();
+        mWebView.setWebChromeClient(new DefaultWebChromeClient());
+        mWebView.setWebViewClient(new DefaultWebViewClient());
     }
 
     @Override
@@ -44,11 +52,20 @@ public class WebViewActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_load_url)
     public void loadWebUrl(){
+        showToast("加载网页");
         mWebView.loadUrl(mUrl);
     }
 
+    private class DefaultWebViewClient extends WebViewClient{
+
+    }
+
+    private class DefaultWebChromeClient extends WebChromeClient{
+
+    }
+
     public static void openActivity(Context context, String url) {
-        Intent intent = new Intent(context, WebViewActivity.class);
+        Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL, url);
         context.startActivity(intent);
     }

@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
-import com.king.app.workhelper.activity.WebViewActivity;
+import com.king.app.workhelper.activity.WebActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
 
 import butterknife.OnClick;
@@ -117,7 +117,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_web_view)
     public void onWebViewClick() {
-        WebViewActivity.openActivity(getContext(), WebViewActivity.BAI_DU_URL);
+        WebActivity.openActivity(getContext(), WebActivity.BAI_DU_URL);
     }
 
     @OnClick(R.id.tv_file_provider)
