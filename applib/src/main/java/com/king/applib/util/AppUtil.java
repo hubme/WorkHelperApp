@@ -219,4 +219,13 @@ public class AppUtil {
             return "";
         }
     }
+
+    /**
+     * 获取当前应用FileProvide的author name。<br/>
+     * 注意：不同应用使用相同的provider,安装时会出现INSTALL_FAILED_CONFLICTING_PROVIDER的错误
+     */
+    public static String getFileProviderAuthor(Context context) {
+        String pkgName = AppUtil.getAppInfo(context).getPackageName();
+        return StringUtil.isNullOrEmpty(pkgName) ? "com.fund.app.fileprovider" : pkgName + ".fileprovider";
+    }
 }

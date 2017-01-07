@@ -8,10 +8,12 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.log.Logger;
+import com.king.applib.util.AppUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
 
@@ -61,6 +63,8 @@ public class FileProviderFragment extends AppBaseFragment {
                 mPhotoIv.setImageBitmap(ImageUtil.getBitmap(FileUtil.getFileByPath(CAMERA_PATH)));
                 break;
             case REQ_CODE_TAKE_PHOTO_FROM_ALBUM:
+                Uri uri = data.getData();
+                Logger.i("uri: " + uri.toString());
                 break;
             default:
                 break;
@@ -87,7 +91,7 @@ public class FileProviderFragment extends AppBaseFragment {
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             //authority需要和manifest里面保持一致
-            Uri photoURI = FileProvider.getUriForFile(mContext, "com.king.app.workhelper.fileprovider", file);
+            Uri photoURI = FileProvider.getUriForFile(mContext, AppUtil.getFileProviderAuthor(mContext), file);
             Logger.i(photoURI.toString());
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 //            intent.putExtra("return-data",false);
@@ -99,9 +103,18 @@ public class FileProviderFragment extends AppBaseFragment {
     }
 
     private void takePhotoFromAlbum() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        //content://com.android.providers.media.documents/document/image%3A2287
+//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        //要使用Intent.ACTION_PICK，才能把content://转换成file://。content://com.google.android.apps.photos.contentprovider/-1/1/content%3A%2F%2Fmedia%2Fexternal%2Ffile%2F49/ORIGINAL/NONE/1537110199
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);//加上无法处理Intent
         intent.setType("image/*");//去掉会报异常：No Activity found to handle Intent
-        startActivityForResult(intent, REQ_CODE_TAKE_PHOTO_FROM_ALBUM);
+
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivityForResult(intent, REQ_CODE_TAKE_PHOTO_FROM_ALBUM);
+        } else {
+            Toast.makeText(getContext(), "无法处理Intent", Toast.LENGTH_SHORT).show();
+        }
     }
 }
