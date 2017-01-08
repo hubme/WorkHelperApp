@@ -36,7 +36,9 @@ public class OkHttpFragment extends AppBaseFragment {
     private final String IMAGE_URL = "http://192.168.1.106:8080/appupdate/pic.jpg";
     private final String JSON_URL = "http://gjj.9188.com/app/loan/xiaoying_bank.json";
     private final String JSON_URL2 = "http://gjj.9188.com/user/querySystemMessage.go";
+    private final String JSON_URL3 = "https://api.github.com/users/Guolei1130";
     private final String PIC_URL = "http://192.168.1.102:8080/appupdate/pic.jpg";
+    private final String DOU_BAN_URL = "https://api.douban.com/v2/movie/top250?start=0&count=10";
 
     @BindView(R.id.tv_okhttp_get)
     public TextView mOkHttp;
