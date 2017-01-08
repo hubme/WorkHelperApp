@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.os.Environment;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.BusProvider;
+import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ExtendUtil;
@@ -24,6 +27,28 @@ import static com.king.applib.util.FileUtil.createFile;
  */
 
 public class AppTest extends BaseTestCase {
+
+    public void testGsonExposeAnnotation() throws Exception {
+        Student student = new Student();
+        student.id = 1;
+        student.age = 24;
+        student.name = "VanceKing";
+
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        String json = gson.toJson(student);
+        Logger.i("json: " + json);
+
+        final String jsonText = "{\"pId\":1024,\"age\":25,\"name\":\"VanceKing\"}";
+        Student student1 = gson.fromJson(jsonText, Student.class);
+        Logger.i("student1: " + student1.toString());
+    }
+
+    public void testSerializedNameAnnotation() throws Exception {
+        final String jsonText = "{\"pId\":1024,\"name\":\"VanceKing\"}";
+        Gson gson = new Gson();
+        Student student = gson.fromJson(jsonText, Student.class);
+        Logger.i("student: " + student.toString());
+    }
 
     public void testDimension() throws Exception {
 
