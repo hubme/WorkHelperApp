@@ -87,14 +87,19 @@ public class AppTest extends BaseTestCase {
     }
 
     public void testResources() throws Exception {
+        Logger.i(ExtendUtil.getResourceName(mContext, R.drawable.boy_running));//boy_running
+        Logger.i(ExtendUtil.getResourceName(mContext, R.color.colorPrimary));//colorPrimary
+        Logger.i(ExtendUtil.getResourceName(mContext, R.dimen.ts_25));//ts_25
+        Logger.i(ExtendUtil.getResourceName(mContext, R.drawable.little_boy_10));//little_boy_10
+
 //        Logger.i("getResourceName: " + mContext.getResources().getResourceName(R.drawable.boy_running));//com.king.app.workhelper:drawable/boy_running
 //        Logger.i("getResourceEntryName: " + mContext.getResources().getResourceEntryName(R.drawable.boy_running));//boy_running
 //        Logger.i("getResourcePackageName: " + mContext.getResources().getResourcePackageName(R.drawable.boy_running));//com.king.app.workhelper
 //        Logger.i("getResourceTypeName: " + mContext.getResources().getResourceTypeName(R.drawable.boy_running));//drawable
 
-        Logger.i(mContext.getResources().getResourceEntryName(R.color.colorPrimary));
-        Logger.i(mContext.getResources().getResourceEntryName(R.dimen.ts_25));
-        Logger.i(mContext.getResources().getResourceEntryName(R.drawable.little_boy_10));
+//        Logger.i(mContext.getResources().getResourceEntryName(R.color.colorPrimary));
+//        Logger.i(mContext.getResources().getResourceEntryName(R.dimen.ts_25));
+//        Logger.i(mContext.getResources().getResourceEntryName(R.drawable.little_boy_10));
     }
 
     public void testRandom() throws Exception {

@@ -9,6 +9,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.AnyRes;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
@@ -290,5 +291,12 @@ public class ExtendUtil {
         } finally {
             IOUtil.close(stream);
         }
+    }
+
+    /**
+     * 根据资源id获取资源文件简单名称.
+     */
+    public static String getResourceName(Context context, @AnyRes int resId) {
+        return context.getResources().getResourceEntryName(resId);
     }
 }
