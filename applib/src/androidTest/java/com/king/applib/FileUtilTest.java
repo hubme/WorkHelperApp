@@ -41,14 +41,14 @@ public class FileUtilTest extends AndroidTestCase {
         }
     }
 
-    public void testFormatFileSize() throws Exception{
+    public void testFormatFileSize() throws Exception {
         Logger.i(getNetSpeed(1024d));
         Logger.i(getNetSpeed(1024 * 1024d));
         Logger.i(getNetSpeed(1024 * 1024 * 1024d));
         Logger.i(getNetSpeed(1024 * 1024 * 1024 * 1024d));
     }
 
-    public void testDeleteOnExit() throws Exception{
+    public void testDeleteOnExit() throws Exception {
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000/000.jpg";
         Logger.i(FileUtil.isFileExists(filePath) ? "存在" : "不存在");
         File file = FileUtil.createFile(filePath);
@@ -67,14 +67,15 @@ public class FileUtilTest extends AndroidTestCase {
     }
 
     public void testFileDir() throws Exception {
-//        Logger.i("getFilesDir(): " + mContext.getFilesDir());//  /data/data/com.king.applib.test/files
-//        String path = mContext.getFilesDir().getParent();
-//        Logger.i("getParent(): " + path + " ;isDirectory(): " + FileUtil.getFileByPath(path).isDirectory());
-//        Logger.i("getPackageName(): " + mContext.getPackageName());//  com.king.applib.test
-//        Logger.i("getExternalCacheDir(): " + mContext.getExternalCacheDir());// /storage/sdcard0/Android/data/com.king.applib.test/cache
-//        Logger.i("getCacheDir(): " + mContext.getCacheDir() + ";CacheDir是目录吗：" + mContext.getCacheDir().isDirectory());//  /data/data/com.king.applib.test/cache
-//        Logger.i(FileUtil.deleteDir(mContext.getCacheDir().getParentFile()) ? "删除成功" : "删除失败");
-//        Logger.i(FileUtil.deleteDir(Environment.getExternalStorageDirectory()+"/360") ? "删除成功" : "删除失败");
+        Logger.i("getPackageName(): " + mContext.getPackageName());//  com.king.applib.test
+        Logger.i("getFilesDir(): " + mContext.getFilesDir());//  /data/data/com.king.applib.test/files
+        Logger.i("getExternalCacheDir(): " + mContext.getExternalCacheDir());// /storage/sdcard0/Android/data/com.king.applib.test/cache
+        Logger.i("getCacheDir(): " + mContext.getCacheDir());//  /data/data/com.king.applib.test/cache
+        Logger.i("getObbDir(): " + mContext.getObbDir());
+    }
 
+    public void testDeleteDir() throws Exception {
+        Logger.i(FileUtil.deleteDir(mContext.getCacheDir().getParentFile()) ? "删除成功" : "删除失败");
+        Logger.i(FileUtil.deleteDir(Environment.getExternalStorageDirectory() + "/360") ? "删除成功" : "删除失败");
     }
 }

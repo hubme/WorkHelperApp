@@ -3,6 +3,7 @@ package com.king.app.workhelper.app;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Environment;
 
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -48,20 +49,15 @@ public class WorkHelperApp extends BaseApplication {
 
         initOkHttp();
         FreelineCore.init(this);
-
-        //记录崩溃日志，便于debug.
-        CrashHandler.setCrashedActivity(CrashedActivity.class);
-        CrashHandler.setCrashInBackground(false);
-        CrashHandler.getInstance().init(getApplicationContext());
-
+        Fresco.initialize(this);
         AppManager.getInstance().init(this);
+        initCrash();
 
 //        Stetho.initializeWithDefaults(this);
         Stetho.initialize(Stetho.newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
 
-        Fresco.initialize(this);
     }
 
     private boolean isMainProcess() {
@@ -75,6 +71,19 @@ public class WorkHelperApp extends BaseApplication {
                 .readTimeout(10000L, TimeUnit.MILLISECONDS)
                 .build();
         OkHttpUtils.initClient(okHttpClient);
+    }
+
+    private void initCrash() {
+        CrashHandler.setCrashedActivity(CrashedActivity.class);
+        CrashHandler.setCrashInBackground(true);
+
+        String logSavedDir;
+        if (BuildConfig.DEBUG) {
+            logSavedDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000CrashLog";
+        } else {
+            logSavedDir = getCacheDir().getAbsolutePath() + "/CrashLog";
+        }
+        CrashHandler.getInstance().init(this, logSavedDir);
     }
 
     public static RefWatcher getRefWatcher(Context context) {

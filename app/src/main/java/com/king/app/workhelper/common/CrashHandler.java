@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
 
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.log.Logger;
@@ -17,6 +15,7 @@ import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.IOUtil;
 import com.king.applib.util.SPUtil;
+import com.king.applib.util.StringUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,7 +30,7 @@ import java.util.Date;
  * created by VanceKing at 2016/12/11
  */
 public class CrashHandler implements UncaughtExceptionHandler {
-    private final String TAG = "CrashHandler";
+    public static final String TAG = "CrashHandler";
     //循环重启的阈(yu)值
     private final int TIMESTAMP_AVOID_RESTART_LOOPS_IN_MILLIS = 2000;
 
@@ -41,6 +40,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private static Class<? extends Activity> mCrashedActivity;
     /** 应用在后台是否crash */
     private static boolean mCrashInBackground = false;
+    private String mLogSavedDir;
 
     private CrashHandler() {
     }
@@ -58,12 +58,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 初始化
+     *
+     * @param context 上下文
+     * @param logDir  日志保存目录
      */
-    public void init(Context context) {
-        if (context == null) {
-            return;
-        }
+    public void init(Context context, String logDir) {
         mContext = new WeakReference<>(context.getApplicationContext());
+        mLogSavedDir = StringUtil.isNullOrEmpty(logDir) ? mContext.get().getCacheDir().getAbsolutePath() : logDir;
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
@@ -71,13 +72,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
     /** 当UncaughtException发生时会转入该函数来处理 */
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
-        Logger.e(throwable, "App has crashed");
-//        saveCrashInfo(throwable);
+        Logger.e(throwable, "App crashed");
+        saveCrashInfo(throwable);
         if (!mCrashInBackground && !AppManager.getInstance().isForeground()) {//后台拦截crash，对用户无感知
             return;
         }
-        if (hasCrashedInTheLastSeconds(mContext.get()) || isStackTraceLikelyConflictive(throwable, mCrashedActivity)) {
-            Logger.i("应用crash循环重启,交给DefaultUncaughtExceptionHandler");
+        if (mCrashedActivity == null || hasCrashedInTheLastSeconds(mContext.get()) || isStackTraceLikelyConflictive(throwable, mCrashedActivity)) {
+            Logger.i("CrashedActivity为null或应用crash循环重启,交给DefaultUncaughtExceptionHandler");
             //避免crash后启动的Activity也crash了，造成循环重启，或者卡死的现象。
             mDefaultHandler.uncaughtException(thread, throwable);
         } else {
@@ -107,10 +108,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
             return false;
         }
 
-        String fileName = "crash_" + DateTimeUtil.formatDate(new Date(), "yyyy-MM-dd_HH-mm-ss")
-                + "_" + System.currentTimeMillis() + ".log";
-        final String fullPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "000crash/" + fileName;
-        Log.i(TAG, "日志保存路径--->" + fullPath);
+        String fileName = "crash_" + DateTimeUtil.formatDate(new Date(), "yyyy-MM-dd_HH-mm-ss") + "_" + System.currentTimeMillis() + ".log";
+        final String fullPath = mLogSavedDir.endsWith(File.separator) ? mLogSavedDir + fileName : mLogSavedDir + File.separator + fileName;
+        Logger.i("日志保存路径--->" + fullPath);
 
         File fileLog = FileUtil.createFile(fullPath);
         if (fileLog == null) {
