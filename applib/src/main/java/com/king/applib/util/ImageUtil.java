@@ -154,7 +154,8 @@ public class ImageUtil {
      * @return bitmap
      */
     public static Bitmap getBitmap(Context context, @DrawableRes int resId) {
-        return drawable2Bitmap(context.getResources().getDrawable(resId));
+        return BitmapFactory.decodeResource(context.getResources(), resId);
+//        return drawable2Bitmap(context.getResources().getDrawable(resId));
     }
 
     /**
