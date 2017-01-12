@@ -91,7 +91,7 @@ public class StringUtil {
      * @param sizeId  指定字体的大小.-1不设置字体大小
      * @return 特殊的字符串
      */
-    public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, String keyword, int colorId, int sizeId) {
+    public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, String keyword, @ColorRes int colorId, @DimenRes int sizeId) {
         SpannableStringBuilder style = new SpannableStringBuilder(text);
 
         Pattern p = Pattern.compile(keyword);
@@ -100,7 +100,7 @@ public class StringUtil {
             int start = matcher.start();
             int end = matcher.end();
             if (colorId != -1) {
-                style.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             if (sizeId != -1) {
                 style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
