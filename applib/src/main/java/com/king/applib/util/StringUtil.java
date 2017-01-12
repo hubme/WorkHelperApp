@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * Created by HuoGuangxu on 2016/9/29.
  */
 
-public class StringUtil {
+public final class StringUtil {
     private StringUtil() {
         throw new UnsupportedOperationException("No instances!");
     }
@@ -174,10 +174,10 @@ public class StringUtil {
      * @param tag 从哪个索引开始分割
      */
     private static Spannable setTextColor(Context context, String string, int tag, int colorFirstId, int colorSecondId) {
-        Spannable WordtoSpan = createSpannable(string);
-        WordtoSpan.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorFirstId)), 0, tag, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        WordtoSpan.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorSecondId)), tag, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return WordtoSpan;
+        Spannable wordtoSpan = createSpannable(string);
+        wordtoSpan.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorFirstId)), 0, tag, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorSecondId)), tag, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return wordtoSpan;
     }
 
     /**
