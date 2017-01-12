@@ -2,6 +2,9 @@ package com.king.applib.util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -117,10 +120,10 @@ public class StringUtil {
      * @param colorId 关键字的颜色.-1不设置颜色
      * @param sizeId  关键字的大小.-1不设置字体大小
      */
-    public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, int start, int end, int colorId, int sizeId) {
+    public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, int start, int end, @ColorRes int colorId, @DimenRes int sizeId) {
         SpannableStringBuilder style = new SpannableStringBuilder(text);
         if (colorId != -1) {
-            style.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         if (sizeId != -1) {
             style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
