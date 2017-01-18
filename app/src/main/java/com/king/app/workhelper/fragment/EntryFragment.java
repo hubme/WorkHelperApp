@@ -124,6 +124,11 @@ public class EntryFragment extends AppBaseFragment {
     public void onFileProviderClick() {
         clickedOn(new FileProviderFragment());
     }
+    
+    @OnClick(R.id.tv_animation)
+    public void onAnimation() {
+        clickedOn(new AnimationFragment());
+    }
 
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();

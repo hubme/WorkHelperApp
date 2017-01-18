@@ -113,6 +113,11 @@
                 style="@style/EntryItem"
                 android:text="FileProvider"/>
 
+            <TextView
+                android:id="@+id/tv_animation"
+                style="@style/EntryItem"
+                android:text="Animation"/>
+
         </LinearLayout>
 
 

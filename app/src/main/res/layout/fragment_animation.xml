@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_show_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示/隐藏"/>
+
+    <TextView
+        android:id="@+id/tv_expandable"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/tan"/>
+
+    <ViewFlipper
+        android:id="@+id/vf_ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoStart="true"
+        android:flipInterval="3000"
+        android:inAnimation="@anim/anim_marquee_in"
+        android:outAnimation="@anim/anim_marquee_out"
+        android:paddingLeft="15dp"/>
+
+</LinearLayout>

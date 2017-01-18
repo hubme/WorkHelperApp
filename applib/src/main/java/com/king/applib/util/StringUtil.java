@@ -150,7 +150,7 @@ public final class StringUtil {
                 int start = matcher.start();
                 int end = matcher.end();
                 if (colorResArray[i] != -1) {
-                    spannableBuilder.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorResArray[i])), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableBuilder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorResArray[i])), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 if (sizeResArray[i] != -1) {
                     spannableBuilder.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeResArray[i]), false), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -175,8 +175,8 @@ public final class StringUtil {
      */
     private static Spannable setTextColor(Context context, String string, int tag, int colorFirstId, int colorSecondId) {
         Spannable wordtoSpan = createSpannable(string);
-        wordtoSpan.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorFirstId)), 0, tag, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        wordtoSpan.setSpan(new ForegroundColorSpan(context.getResources().getColor(colorSecondId)), tag, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorFirstId)), 0, tag, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorSecondId)), tag, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return wordtoSpan;
     }
 
