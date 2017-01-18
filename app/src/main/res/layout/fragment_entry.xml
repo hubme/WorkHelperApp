@@ -118,6 +118,11 @@
                 style="@style/EntryItem"
                 android:text="Animation"/>
 
+            <TextView
+                android:id="@+id/tv_view_usage"
+                style="@style/EntryItem"
+                android:text="View Usage"/>
+
         </LinearLayout>
 
 

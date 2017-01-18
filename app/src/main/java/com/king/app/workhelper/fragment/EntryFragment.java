@@ -124,10 +124,15 @@ public class EntryFragment extends AppBaseFragment {
     public void onFileProviderClick() {
         clickedOn(new FileProviderFragment());
     }
-    
+
     @OnClick(R.id.tv_animation)
     public void onAnimation() {
         clickedOn(new AnimationFragment());
+    }
+
+    @OnClick(R.id.tv_view_usage)
+    public void onViewUsage() {
+        clickedOn(new ViewSampleFragment());
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
