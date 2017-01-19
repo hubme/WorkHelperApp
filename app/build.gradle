@@ -9,12 +9,12 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.king.app.workhelper"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        vectorDrawables.useSupportLibrary = true
         /**
          * you can use multiDex and install it in your ApplicationLifeCycle implement
          */

@@ -1,0 +1,12 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/heart_selected">
+
+    <target
+        android:name="heart_group"
+        android:animation="@anim/disappear" />
+
+    <target
+        android:name="heart"
+        android:animation="@anim/pink_to_gray" />
+
+</animated-vector>

@@ -13,16 +13,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextSwitcher
-                android:id="@+id/switcher_text"
-                android:layout_width="70dp"
-                android:layout_height="40dp"/>
-
-            <Button
-                android:id="@+id/btn_switch"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextSwitcher"/>
+                android:orientation="horizontal">
+
+                <TextSwitcher
+                    android:id="@+id/switcher_text"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"/>
+
+                <Button
+                    android:id="@+id/btn_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextSwitcher"/>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

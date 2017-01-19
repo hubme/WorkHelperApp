@@ -30,4 +30,6 @@
     <dimen name="SwitchTitleTabsPadding">20dp</dimen>
     <dimen name="ShadowHeight">6dp</dimen>
     <dimen name="ShadowHeightReverse">-6dp</dimen>
+
+    <dimen name="icon_size">100dp</dimen>
 </resources>

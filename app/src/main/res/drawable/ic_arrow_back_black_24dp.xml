@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportHeight="24.0"
+        android:viewportWidth="24.0">
+    <path
+        android:fillColor="#FFE4C4"
+        android:pathData="M20,11H7.83l5.59,-5.59L12,4l-8,8 8,8 1.41,-1.41L7.83,13H20v-2z"/>
+
+    <!--
+    width，height表示该SVG图形的具体大小。 而viewportHeight，viewportWidth表示SVG图形划分比例。
+    
+    fillColor 这个属性表明绘制出来的是一个填充的图形。不填充使用strokeColor。
+    pathData 就是绘制SVG图形所用到的指令。
+    -->
+</vector>
