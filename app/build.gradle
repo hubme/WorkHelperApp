@@ -9,7 +9,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.king.app.workhelper"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

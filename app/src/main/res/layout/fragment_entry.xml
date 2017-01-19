@@ -123,6 +123,11 @@
                 style="@style/EntryItem"
                 android:text="View Usage"/>
 
+            <TextView
+                android:id="@+id/tv_reflect"
+                style="@style/EntryItem"
+                android:text="Reflect"/>
+
         </LinearLayout>
 
 

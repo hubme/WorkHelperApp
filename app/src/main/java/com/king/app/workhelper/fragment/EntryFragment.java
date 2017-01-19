@@ -135,6 +135,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new ViewSampleFragment());
     }
 
+    @OnClick(R.id.tv_reflect)
+    public void onReflect() {
+        clickedOn(new ReflectFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
