@@ -2,10 +2,13 @@ package com.king.app.workhelper;
 
 import com.king.app.workhelper.model.ReflectTestBean;
 import com.king.applib.log.Logger;
+import com.king.applib.util.Reflect;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * @author VanceKing
@@ -114,5 +117,23 @@ public class ReflectTest extends BaseTestCase {
      */
     public void testDemo8() throws Exception {
         Logger.i("类加载器类名: " + mClazz.getClassLoader().getClass().getName());
+    }
+    
+    public void testDemo9() throws Exception {
+        String world = Reflect.on("java.lang.String")  // Like Class.forName()
+                .create("Hello World") // Call most specific matching constructor
+                .call("substring", 6)  // Call most specific matching substring() method
+                .call("toString")      // Call toString()
+                .get();                // Get the wrapped object, in this case a String
+        Logger.i("world: " + world);
+
+        char pathSeparatorChar = Reflect.on(File.class).create("/sdcard/droidyue.com").field("pathSeparatorChar").get();
+        Logger.i("pathSeparatorChar: " + pathSeparatorChar);
+
+        ArrayList arrayList = new ArrayList();
+        arrayList.add("Hello");
+        arrayList.add("World");
+        int value = Reflect.on(arrayList).call("hugeCapacity", 12).get();
+        Logger.i("value: " + value);
     }
 }
