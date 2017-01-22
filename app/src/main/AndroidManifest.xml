@@ -92,6 +92,10 @@
             android:name=".thirdparty.tinker.SampleResultService"
             android:exported="false"/>
 
+        <service
+            android:name=".service.MyJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
         <receiver android:name=".receiver.NetworkChangeReceiver">
             <intent-filter>
                 <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
