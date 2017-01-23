@@ -67,7 +67,7 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
     }
 
     protected String getActivityTitle() {
-        return getString(R.string.app_name);
+        return getString(R.string.test);
     }
 
     /**

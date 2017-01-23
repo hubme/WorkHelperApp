@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WebActivity;
@@ -22,6 +23,11 @@ public class EntryFragment extends AppBaseFragment {
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_entry;
+    }
+
+    @OnClick(R.id.tv_main_activity)
+    public void mainActivityClick() {
+        openActivity(MainActivity.class);
     }
 
     @OnClick(R.id.tv_permission)

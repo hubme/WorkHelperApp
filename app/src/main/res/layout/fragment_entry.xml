@@ -14,6 +14,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_main_activity"
+                style="@style/EntryItem"
+                android:text="Main Activity"/>
+
+            <TextView
                 android:id="@+id/tv_permission"
                 style="@style/EntryItem"
                 android:text="6.0(M)权限"/>

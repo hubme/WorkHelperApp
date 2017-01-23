@@ -13,7 +13,7 @@
         android:background="@color/colorPrimaryDark"
         android:fitsSystemWindows="true"
         app:navigationIcon="@mipmap/arrow_left_blue"
-        app:title="标题"
+        app:title="@string/test"
         app:titleTextColor="@color/white_f5f5f5">
         <!--android:theme="@style/Theme.ToolBar.Base"-->
         <!--android:theme="@style/OverflowMenuStyle"-->
