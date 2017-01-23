@@ -23,6 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        beforeCreate();
         super.onCreate(savedInstanceState);
         /*
         去掉Actionbar有两种方式。1.使用NoActionbar主题；
@@ -39,6 +40,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         setViewListeners();
         initData();
         loadingData();
+    }
+
+    /**
+     * 在super.onCreate()之前执行
+     */
+    protected void beforeCreate() {
+
     }
 
     /**
