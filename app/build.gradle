@@ -83,6 +83,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:palette-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.1'
     //使用ButterkNife-View注入框架

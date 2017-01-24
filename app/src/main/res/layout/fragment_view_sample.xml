@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
@@ -15,7 +16,7 @@
 
             <!--android:dividerPadding="@dimen/dp_15"-->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@drawable/ll_h_divider_common_margin_left"
                 android:orientation="vertical"
@@ -31,6 +32,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextSwitcher"/>
+
+                <TextView
+                    android:id="@+id/tv_ripple"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:text="水波纹"
+                    android:textSize="@dimen/ts_bigger"/>
+
+                <!--android:background="@drawable/selector_row"-->
+                <com.king.app.workhelper.ui.customview.RippleView
+                    android:id="@+id/rect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:rv_type="simpleRipple"
+                    app:rv_zoom="false">
+
+                    <TextView
+                        android:id="@+id/rect_child"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerInParent="true"
+                        android:background="@android:color/holo_green_light"
+                        android:gravity="center"
+                        android:text="水波纹"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"/>
+
+                </com.king.app.workhelper.ui.customview.RippleView>
             </LinearLayout>
 
         </LinearLayout>
