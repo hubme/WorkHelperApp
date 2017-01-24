@@ -36,7 +36,7 @@ android {
          * so we can get the newly git version easily!
          */
         buildConfigField "String", "CLIENTVERSION", "\"${gitSha()}\""
-        buildConfigField "String", "PLATFORM",  "\"all\""
+        buildConfigField "String", "PLATFORM", "\"all\""
 
         freeline {
             hack true
@@ -370,8 +370,6 @@ if (buildWithTinker()) {
 //        path = "/usr/local/bin/7za"
         }
     }
-
-
 
     /**
      * bak apk and mapping
