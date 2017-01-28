@@ -1,0 +1,19 @@
+//动态任务定义和任务链
+
+task startSession << {
+    chant()
+}
+
+def chant() {
+    ant.echo(message: 'Repeat after me...')
+}
+
+3.times {
+    task "yayGradle$it" << {
+        println 'Gradle rocks'
+    }
+}
+
+yayGradle0.dependsOn startSession
+yayGradle2.dependsOn yayGradle1, yayGradle0
+task groupTherapy(dependsOn: yayGradle2)
