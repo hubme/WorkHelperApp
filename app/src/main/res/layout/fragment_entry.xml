@@ -133,6 +133,11 @@
                 style="@style/EntryItem"
                 android:text="Reflect"/>
 
+            <TextView
+                android:id="@+id/tv_mul_process"
+                style="@style/EntryItem"
+                android:text="Mul Process"/>
+
         </LinearLayout>
 
 

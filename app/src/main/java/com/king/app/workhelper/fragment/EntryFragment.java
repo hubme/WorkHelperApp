@@ -146,6 +146,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new ReflectFragment());
     }
 
+    @OnClick(R.id.tv_mul_process)
+    public void onMulProcess() {
+        clickedOn(new MulProcessFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

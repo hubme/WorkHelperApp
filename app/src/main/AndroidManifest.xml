@@ -96,6 +96,10 @@
             android:name=".service.MyJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
+        <service
+            android:name=".service.MessengerService"
+            android:process=":remote"/>
+
         <receiver android:name=".receiver.NetworkChangeReceiver">
             <intent-filter>
                 <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
