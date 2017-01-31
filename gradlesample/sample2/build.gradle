@@ -1,0 +1,41 @@
+//动态任务定义和任务链
+
+task startSession << {
+    chant()
+}
+
+def chant() {
+    ant.echo(message: 'Repeat after me...')
+}
+
+3.times {
+    task "yayGradle$it" << {
+        println 'Gradle rocks'
+    }
+}
+
+yayGradle0.dependsOn startSession
+yayGradle2.dependsOn yayGradle1, yayGradle0
+task groupTherapy(dependsOn: yayGradle2)
+
+//扩展属性
+project.ext.myProp = 'myValue'
+ext {
+    someOtherProp = 123
+}
+assert myProp == 'myValue'
+println project.someOtherProp
+ext.someOtherProp = 567
+task printGradleProperty << {
+    println "Custom property: $someOtherProp"
+}
+
+version = '1.0.0'
+task printVersion {
+    doFirst{
+        println 'before reading the project version'
+    }
+    doLast{
+        println "Version: $version"
+    }
+}
