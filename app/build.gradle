@@ -19,6 +19,8 @@ android {
         freeline {
             hack true
         }
+
+        //resConfigs "zh"//将语言资源限定为中文
     }
 
     //配置签名
@@ -34,8 +36,9 @@ android {
         release {
             // 不显示Log, 在java代码中的调用方式为：BuildConfig.LOG_DEBUG
             buildConfigField "boolean", "LOG_DEBUG", "false"
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled true//代码混淆
+            shrinkResources false//移除无用的资源. AS>=2.0时设为true编译出错，使用Inspect Code代替此功能。
+            zipAlignEnabled true//Zipalign优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config//使用签名
         }
