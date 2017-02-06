@@ -34,9 +34,6 @@
 
         </activity>
 
-        <activity android:name=".activity.TinkerSampleActivity">
-        </activity>
-
         <activity android:name=".activity.WebActivity">
 
         </activity>
