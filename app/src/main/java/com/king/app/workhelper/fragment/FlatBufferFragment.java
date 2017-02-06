@@ -15,8 +15,6 @@ import java.nio.ByteBuffer;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.antfortune.freeline.FreelineCore.getApplication;
-
 /**
  * FlatBuffer和Json对比
  * Created by HuoGuangxu on 2016/12/22.
@@ -35,7 +33,7 @@ public class FlatBufferFragment extends AppBaseFragment {
 
     @OnClick(R.id.btn_flat_buffer)
     public void loadFromFlatBuffer() {
-        byte[] buffer = ExtendUtil.readRawResource(getApplication(), R.raw.sample_flatbuffer);//由于raw文件太大，用空文件代替
+        byte[] buffer = ExtendUtil.readRawResource(mContext, R.raw.sample_flatbuffer);//由于raw文件太大，用空文件代替
         long startTime = System.currentTimeMillis();
         ByteBuffer bb = ByteBuffer.wrap(buffer);
         PeopleList peopleList = PeopleList.getRootAsPeopleList(bb);
@@ -47,7 +45,7 @@ public class FlatBufferFragment extends AppBaseFragment {
 
     @OnClick(R.id.btn_json)
     public void loadFromJson() {
-        String jsonText = new String(ExtendUtil.readRawResource(getApplication(), R.raw.sample_json));
+        String jsonText = new String(ExtendUtil.readRawResource(mContext, R.raw.sample_json));
         long startTime = System.currentTimeMillis();
 //        PeopleListJson peopleList = new Gson().fromJson(jsonText, PeopleListJson.class);
         PeopleListJson peopleList = JsonUtil.decode(jsonText, PeopleListJson.class);
