@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.king.app.workhelper">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -13,11 +14,12 @@
 
     <application
         android:name=".app.WorkHelperApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${app_label}"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon, android:label, android:theme, android:name">
 
         <!--exported:要求必须为false，为true则会报安全异常。grantUriPermissions:true，表示授予 URI 临时访问权限。-->
         <provider
@@ -84,10 +86,6 @@
         </activity>
 
         <service android:name=".service.DownloadFileService"/>
-
-        <service
-            android:name=".thirdparty.tinker.SampleResultService"
-            android:exported="false"/>
 
         <service
             android:name=".service.MyJobService"

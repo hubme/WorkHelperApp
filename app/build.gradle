@@ -46,6 +46,16 @@ android {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             shrinkResources false
+            manifestPlaceholders = [app_label:"Test"]
+//            resValue "string", "app_label", "Test"//意为把名为app_label的string value值改为Test
+        }
+        preview {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled true
+            shrinkResources false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     // 'return void' removes the lint error: 'Not all execution paths return a value'.
