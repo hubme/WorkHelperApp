@@ -42,6 +42,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config//使用签名
             manifestPlaceholders = [app_label:"Test"]
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称示例为app-1.0-release-20170208.apk
+                        def fileName = "app-${defaultConfig.versionName}-release-${releaseTime()}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
@@ -65,9 +76,9 @@ android {
 
 dependencies {
     //公共基础库
-//    compile project(':applib')
+    compile project(':applib')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(name:'applib-0.0.1', ext:'aar')
+    //compile(name:'applib-0.0.1', ext:'aar')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -139,4 +150,8 @@ repositories {
     flatDir {
         dirs 'libs' //this way we can find the .aar file in libs folder
     }
+}
+
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
