@@ -16,9 +16,74 @@
 #   public *;
 #}
 
+################################ 下列类不能进行混淆 ########################################
+#
+#(1)、反射用到的类
+#(2)、在AndroidManifest中配置的类(Activity、Service等的子类及Framework类默认不会进行混淆)
+#(3)、Jni中调用的类
+#
+###########################################################################################
 
+################################ ProGuard的常用语法 ########################################
+#
+#-libraryjars class_path 应用的依赖包，如android-support-v4
+#-keep [,modifier,...] class_specification 不混淆某些类
+#-keepclassmembers [,modifier,...] class_specification 不混淆类的成员
+#-keepclasseswithmembers [,modifier,...] class_specification 不混淆类及其成员
+#-keepnames class_specification 不混淆类及其成员名
+#-keepclassmembernames class_specification 不混淆类的成员名
+#-keepclasseswithmembernames class_specification 不混淆类及其成员名
+#-assumenosideeffects class_specification 假设调用不产生任何影响，在proguard代码优化时会将该调用remove掉。如system.out.println和Log.v等等
+#-dontwarn [class_filter] 不提示warnning
+#
+#see more: http://proguard.sourceforge.net/index.html#manual/usage.html
+###########################################################################################
+
+#关闭混淆
+#-dontobfuscate
+
+############################## 反射 ###############################
 -keepattributes *Annotation*
 -keepattributes Signature
+-keepattributes EnclosingMethod
+
+-keep class com.king.app.workhelper.model.** { *; }
+
+#release模式下移除Log代码
+#-assumenosideeffects class android.util.Log {
+#    public static *** d(...);
+#    public static *** v(...);
+#}
+
+########################################################################
+#                                 系统类
+########################################################################
+-keep class android.support.v4.** { *; }
+-keep interface android.support.v4.** { *; }
+
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+
+############################## Serializable ###############################
+-keep class * implements java.io.Serializable {*;}
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+
+########################################################################
+#                                 第三方类
+########################################################################
+
+############################## 自定义注解 ###############################
+-keep @com.king.applib.annotation.DoNotProguard class * {*;}
+-keep,allowobfuscation @interface com.king.applib.annotation.DoNotProguard
+-keepclassmembers class * { @com.king.applib.annotation.DoNotProguard *; }
 
 ############################## butterknife ###############################
 -keep class butterknife.** { *; }
@@ -67,18 +132,10 @@
 
 ############################## fresco ###############################
 -keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
-
-# Do not strip any method/class that is annotated with @DoNotStrip
 -keep @com.facebook.common.internal.DoNotStrip class *
 -keepclassmembers class * {
     @com.facebook.common.internal.DoNotStrip *;
 }
-
-# Keep native methods
--keepclassmembers class * {
-    native <methods>;
-}
-
 -dontwarn javax.annotation.**
 -dontwarn com.android.volley.toolbox.**
 
@@ -92,6 +149,5 @@
 -keep class com.facebook.stetho.** { *; }
 
 ############################## gson ###############################
--keepattributes EnclosingMethod
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }

@@ -41,6 +41,7 @@ android {
             zipAlignEnabled true//Zipalign优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config//使用签名
+            manifestPlaceholders = [app_label:"Test"]
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
