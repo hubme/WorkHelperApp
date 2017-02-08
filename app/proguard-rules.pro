@@ -39,15 +39,43 @@
 #see more: http://proguard.sourceforge.net/index.html#manual/usage.html
 ###########################################################################################
 
+########################################################################
+#                                 基本配置
+########################################################################
+
 #关闭混淆
 #-dontobfuscate
 
-############################## 反射 ###############################
--keepattributes *Annotation*
--keepattributes Signature
--keepattributes EnclosingMethod
+# 代码混淆压缩比，在0~7之间，默认为5，一般不做修改
+-optimizationpasses 5
 
--keep class com.king.app.workhelper.model.** { *; }
+# 混合时不使用大小写混合，混合后的类名为小写
+-dontusemixedcaseclassnames
+
+# 指定不去忽略非公共库的类
+-dontskipnonpubliclibraryclasses
+
+# 指定不去忽略非公共库的类成员
+-dontskipnonpubliclibraryclassmembers
+
+# 这句话能够使我们的项目混淆后产生映射文件
+# 包含有类名->混淆后类名的映射关系
+-verbose
+
+# 不做预校验，preverify是proguard的四个步骤之一，Android不需要preverify，去掉这一步能够加快混淆速度。
+-dontpreverify
+
+# 保留Annotation不混淆,反射使用
+-keepattributes *Annotation*
+
+# 避免混淆泛型,反射使用
+-keepattributes Signature
+
+# 抛出异常时保留代码行号
+-keepattributes SourceFile,LineNumberTable
+
+############################## 反射 ###############################
+-keepattributes EnclosingMethod
 
 #release模式下移除Log代码
 #-assumenosideeffects class android.util.Log {
@@ -58,11 +86,18 @@
 ########################################################################
 #                                 系统类
 ########################################################################
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.** { *; }
+-keep class android.support.** { *; }
+-keep public class * extends android.support.v4.**
+-keep public class * extends android.support.v7.**
+-keep public class * extends android.support.annotation.**
 
--keep class android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
+# 保留R下面的资源
+-keep class **.R$* {*;}
+
+# 保留本地native方法不被混淆
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
 
 ############################## Serializable ###############################
 -keep class * implements java.io.Serializable {*;}
@@ -75,6 +110,28 @@
     java.lang.Object readResolve();
 }
 
+# 保留Parcelable序列化类不被混淆
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+
+########################################################################
+#                                 项目相关
+########################################################################
+#不混淆实体类,避免json解析失败
+-keep class com.king.app.workhelper.model.** { *; }
+
+############################## webView ###############################
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+    public *;
+}
+-keepclassmembers class * extends android.webkit.webViewClient {
+    public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
+    public boolean *(android.webkit.WebView, java.lang.String);
+}
+-keepclassmembers class * extends android.webkit.webViewClient {
+    public void *(android.webkit.webView, jav.lang.String);
+}
 
 ########################################################################
 #                                 第三方类
