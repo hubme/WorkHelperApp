@@ -65,8 +65,9 @@ android {
 
 dependencies {
     //公共基础库
-    compile project(':applib')
+//    compile project(':applib')
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile(name:'applib-0.0.1', ext:'aar')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -134,3 +135,8 @@ task checkstyle(type: Checkstyle) {
     classpath = files()
 }
 
+repositories {
+    flatDir {
+        dirs 'libs' //this way we can find the .aar file in libs folder
+    }
+}
