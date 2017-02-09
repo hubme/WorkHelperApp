@@ -23,6 +23,13 @@ public abstract class BaseFragment extends Fragment {
     protected FragmentActivity mActivity;
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = getContext();
+        mActivity = getActivity();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getArgumentData();
@@ -37,11 +44,9 @@ public abstract class BaseFragment extends Fragment {
         return mRootView;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = getContext();
-        mActivity = getActivity();
+    @Override 
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
 
     private void getArgumentData() {
@@ -65,10 +70,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void openActivity(Class<? extends Activity> cls) {
-        Context context = getContext();
-        if (context != null) {
-            Intent intent = new Intent(context, cls);
-            context.startActivity(intent);
-        }
+        Intent intent = new Intent(mContext, cls);
+        mContext.startActivity(intent);
     }
 }

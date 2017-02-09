@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
     <include layout="@layout/common_header"/>
-
-    <com.king.app.workhelper.ui.customview.SwitchTitle
-        android:id="@+id/tab_switch"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/header"
-        android:background="#ffffffff"
-        app:tabIsShortLine="false"
-        app:tabLineHeight="1.5dp"
-        app:tabLineTopIndent="0dp"
-        app:tabTxtDisableColor="#ff363f46"
-        app:tabTxtSize="15dp"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"

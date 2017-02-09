@@ -9,12 +9,8 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.FirstTabFragment;
 import com.king.app.workhelper.fragment.SecondTabFragment;
 import com.king.app.workhelper.fragment.ThirdTabFragment;
-import com.king.app.workhelper.ui.customview.SwitchTitle;
-import com.king.applib.log.Logger;
-import com.king.applib.ui.customview.BadgeView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,12 +20,9 @@ import butterknife.BindView;
  * Created by VanceKing on 2016/12/20 0020.
  */
 
-public class TabSwitchActivity extends AppBaseActivity implements SwitchTitle.OnTabTitleClickListener {
+public class TabSwitchActivity extends AppBaseActivity {
     @BindView(R.id.view_pager)
     public ViewPager mViewPager;
-
-    @BindView(R.id.tab_switch)
-    public SwitchTitle mSwitchTitle;
 
     @Override
     public int getContentLayout() {
@@ -45,9 +38,6 @@ public class TabSwitchActivity extends AppBaseActivity implements SwitchTitle.On
     protected void initData() {
         super.initData();
 
-        List<String> tabTitles = Arrays.asList("第一个", "第二个", "第三个");
-        mSwitchTitle.setParams(mViewPager, tabTitles, this);
-
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(new FirstTabFragment());
         mFragments.add(new SecondTabFragment());
@@ -55,16 +45,6 @@ public class TabSwitchActivity extends AppBaseActivity implements SwitchTitle.On
 
         TabFragmentAdapter mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mTabFragmentAdapter);
-
-        SwitchTitle.TabContainer tabContainer = mSwitchTitle.getTabContainer();
-        SwitchTitle.TabText tabText = (SwitchTitle.TabText) tabContainer.getChildAt(0);
-        BadgeView badgeView = new BadgeView(this, tabText);
-        badgeView.setText("10");
-        badgeView.show();
-    }
-
-    @Override
-    public void onTabTitleClick(int position) {
-        Logger.i("current position: " + position);
+        mViewPager.setOffscreenPageLimit(1);//缓存当前页面前后各1个，之外的将销毁。
     }
 }

@@ -1,21 +1,19 @@
 package com.king.app.workhelper.fragment;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.common.AppBasePageFragment;
+import com.king.applib.log.Logger;
 
-public class ThirdTabFragment extends Fragment {
+public class ThirdTabFragment extends AppBasePageFragment {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View contextView = inflater.inflate(R.layout.fragment_third, container,
-				false);
-		return contextView;
-	}
+    @Override
+    protected int getContentLayout() {
+        return R.layout.fragment_third;
+    }
+
+    @Override 
+    protected void fetchData() {
+        Logger.i("ThirdTabFragment fetchData");
+    }
 
 }

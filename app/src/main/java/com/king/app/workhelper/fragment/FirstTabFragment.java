@@ -1,23 +1,28 @@
 package com.king.app.workhelper.fragment;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.common.AppBasePageFragment;
+import com.king.applib.log.Logger;
 
-/**
- * @author Allen Wang
- *
- */
-public class FirstTabFragment extends Fragment {
+public class FirstTabFragment extends AppBasePageFragment {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_first, container, false);
-	}
+    @Override
+    protected int getContentLayout() {
+        return R.layout.fragment_first;
+    }
 
+    @Override
+    protected void fetchData() {
+        Logger.i("FirstTabFragment fetchData");
+    }
+
+    /*@Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Logger.i("onActivityCreated");
+    }
+
+    @Override public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Logger.i("setUserVisibleHint " + isVisibleToUser);
+    }*/
 }

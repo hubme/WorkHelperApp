@@ -1,5 +1,7 @@
 package com.king.app.workhelper.common;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -127,5 +129,10 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
         } else {
             Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected void openActivity(Class<? extends Activity> cls) {
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
     }
 }

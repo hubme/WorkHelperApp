@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.applib.log.Logger;
 
 import butterknife.OnClick;
 
@@ -22,7 +21,7 @@ public class MainActivity extends AppBaseActivity {
         //因为LayoutInflaterCompat#setFactory()只能设置一次.see also: AppCompatDelegateImplV7#installViewFactory
         LayoutInflaterCompat.setFactory(LayoutInflater.from(this), new LayoutInflaterFactory() {
             @Override public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-                Logger.i("name: " + name);
+//                Logger.i("name: " + name);//look log
                 /*int size = attrs.getAttributeCount();
                 for (int i = 0; i < size; i++) {
                     Logger.i(attrs.getAttributeName(i) + "---" + attrs.getAttributeValue(i));
@@ -55,6 +54,7 @@ public class MainActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_main)
     public void onMainClick() {
+        openActivity(TabSwitchActivity.class);
     }
 
     private Typeface getTypeface() {
