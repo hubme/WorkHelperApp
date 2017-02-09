@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.adapter.TabFragmentAdapter;
+import com.king.app.workhelper.adapter.viewpager.TabFragmentAdapter;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.FirstTabFragment;
 import com.king.app.workhelper.fragment.SecondTabFragment;

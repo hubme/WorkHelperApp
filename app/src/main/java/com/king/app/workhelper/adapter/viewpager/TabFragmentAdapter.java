@@ -1,4 +1,4 @@
-package com.king.app.workhelper.adapter;
+package com.king.app.workhelper.adapter.viewpager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
