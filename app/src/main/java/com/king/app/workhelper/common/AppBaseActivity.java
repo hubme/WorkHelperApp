@@ -53,19 +53,18 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
     }
 
     protected void initToolbar() {
-        if (mToolbar == null) {
-            return;
+        if (mToolbar != null) {
+            mToolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
+            mToolbar.setTitle(getActivityTitle());
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            //setSupportActionBar(mToolbar);
         }
-        mToolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
-        mToolbar.setTitle(getActivityTitle());
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
-        //setSupportActionBar(mToolbar);
     }
 
     protected String getActivityTitle() {
