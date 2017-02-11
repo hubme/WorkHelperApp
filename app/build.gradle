@@ -72,7 +72,7 @@ android {
         dev {
             manifestPlaceholders = [channel: "dev"]
         }
-        official {
+        /*official {
             manifestPlaceholders = [channel: "official"]
         }
         wandoujia {
@@ -81,7 +81,7 @@ android {
         //flavor名如果是数字开头，必须用引号引起来
         "360" {
             manifestPlaceholders = [channel: "360"]
-        }
+        }*/
     }
     // 'return void' removes the lint error: 'Not all execution paths return a value'.
     return void
