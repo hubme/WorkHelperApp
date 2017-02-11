@@ -5,14 +5,14 @@ apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.king.app.workhelper"
-        minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -42,32 +42,45 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config//使用签名
             manifestPlaceholders = [app_label:"Test"]
-
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称示例为app-1.0-release-20170208.apk
-                        def fileName = "app-${defaultConfig.versionName}-release-${releaseTime()}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
-                }
-            }
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             shrinkResources false
             manifestPlaceholders = [app_label:"Test"]
+            applicationIdSuffix ".debug"
 //            resValue "string", "app_label", "Test"//意为把名为app_label的string value值改为Test
         }
-        preview {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
-            minifyEnabled true
-            shrinkResources false
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        //增加Build Type
+        /*preview {
             signingConfig signingConfigs.config
+        }*/
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                //app-release-official-1.0.0-20170211.apk
+                def fileName = "app-${variant.buildType.name}-${variant.productFlavors[0].name}-${variant.versionName}-${releaseTime()}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+
+    productFlavors {
+        dev {
+            manifestPlaceholders = [channel: "dev"]
+        }
+        official {
+            manifestPlaceholders = [channel: "official"]
+        }
+        wandoujia {
+            manifestPlaceholders = [channel: "wandoujia"]
+        }
+        //flavor名如果是数字开头，必须用引号引起来
+        "360" {
+            manifestPlaceholders = [channel: "360"]
         }
     }
     // 'return void' removes the lint error: 'Not all execution paths return a value'.
