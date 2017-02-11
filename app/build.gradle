@@ -41,13 +41,13 @@ android {
             zipAlignEnabled true//Zipalign优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config//使用签名
-            manifestPlaceholders = [app_label:"Test"]
+            manifestPlaceholders = [app_label: "Test"]
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             shrinkResources false
-            manifestPlaceholders = [app_label:"Test"]
+            manifestPlaceholders = [app_label: "Test"]
             applicationIdSuffix ".debug"
 //            resValue "string", "app_label", "Test"//意为把名为app_label的string value值改为Test
         }
@@ -83,6 +83,13 @@ android {
             manifestPlaceholders = [channel: "360"]
         }*/
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     // 'return void' removes the lint error: 'Not all execution paths return a value'.
     return void
 }
