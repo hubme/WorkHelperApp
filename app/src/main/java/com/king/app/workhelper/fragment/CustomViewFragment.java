@@ -17,11 +17,15 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
+import com.king.app.workhelper.ui.customview.PieView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.TagTextView;
 import com.king.applib.log.Logger;
 import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +53,9 @@ public class CustomViewFragment extends AppBaseFragment {
 
     @BindView(R.id.tag_view)
     public TagTextView mTagTextView;
+
+    @BindView(R.id.pie_view)
+    PieView mPieView;
 
     @Override
     protected int getContentLayout() {
@@ -92,6 +99,17 @@ public class CustomViewFragment extends AppBaseFragment {
                 Log.i("aaa", tagView.getText().toString());
             }
         });
+
+        initPieView();
+    }
+
+    private void initPieView() {
+        List<PieView.Pie> pies = new ArrayList<>();
+        pies.add(new PieView.Pie(0.35f, R.color.chocolate));
+        pies.add(new PieView.Pie(0.15f, R.color.peru));
+        pies.add(new PieView.Pie(0.05f, R.color.indianred));
+        pies.add(new PieView.Pie(0.45f, R.color.mediumvioletred));
+        mPieView.drawPies(pies);
     }
 
 

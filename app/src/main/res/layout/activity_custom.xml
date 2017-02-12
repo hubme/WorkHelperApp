@@ -96,6 +96,12 @@
                 app:text="邢雁啡"
                 app:textColor="@color/white"
                 app:textSize="@dimen/ts_big"/>
+
+            <com.king.app.workhelper.ui.customview.PieView
+                android:id="@+id/pie_view"
+                android:background="@color/aqua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 
