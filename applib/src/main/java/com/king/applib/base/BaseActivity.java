@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.king.applib.util.StringUtil;
-
 import java.util.List;
 
 /**
@@ -141,7 +139,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             return defaultValue;
         }
         String value = intent.getStringExtra(key);
-        return StringUtil.isNullOrEmpty(value) ? defaultValue : value;
+        return value == null ? defaultValue : value;
     }
 
     /**
