@@ -21,6 +21,7 @@
     <dimen name="ts_25">25sp</dimen>
 
     <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_11">11dp</dimen>
     <dimen name="dp_15">15dp</dimen>
 
     <!-- switchTitle -->

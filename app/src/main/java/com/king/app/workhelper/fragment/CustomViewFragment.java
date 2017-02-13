@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
+import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
@@ -56,6 +57,9 @@ public class CustomViewFragment extends AppBaseFragment {
 
     @BindView(R.id.pie_view)
     PieView mPieView;
+
+    @BindView(R.id.pie_tax)
+    FundFormPieView mFundPieView;
 
     @Override
     protected int getContentLayout() {
@@ -101,6 +105,8 @@ public class CustomViewFragment extends AppBaseFragment {
         });
 
         initPieView();
+        initPieView2();
+        Logger.i("哈哈哈");
     }
 
     private void initPieView() {
@@ -110,6 +116,21 @@ public class CustomViewFragment extends AppBaseFragment {
         pies.add(new PieView.Pie(0.05f, R.color.indianred));
         pies.add(new PieView.Pie(0.45f, R.color.mediumvioletred));
         mPieView.drawPies(pies);
+    }
+
+    private void initPieView2() {
+        final List<FundFormPieView.IFormStatisticsData> datas = new ArrayList<>();
+
+        datas.add(new FundFormPieView.IFormStatisticsData("7475元", "税后月薪", 7475, Color.GRAY));
+        datas.add(new FundFormPieView.IFormStatisticsData("1200元", "公积金", 1200, Color.GREEN));
+        datas.add(new FundFormPieView.IFormStatisticsData("1020元", "社保", 1200, Color.DKGRAY));
+        datas.add(new FundFormPieView.IFormStatisticsData("323元", "个税", 1200, Color.MAGENTA));
+
+        mFundPieView.postDelayed(new Runnable() {
+            @Override public void run() {
+                mFundPieView.updateData(datas, true);
+            }
+        }, 300);
     }
 
 

@@ -63,4 +63,15 @@
     <style name="Notification_line2" parent="@style/TextAppearance.StatusBar.EventContent.Line2"/>
 
     <style name="Notification_time" parent="@style/TextAppearance.StatusBar.EventContent.Time"/>
+
+    <declare-styleable name="FundFormPieView">
+        <attr name="imageSize" format="dimension"/>
+        <attr name="imageTextSize" format="dimension"/>
+        <attr name="imageTextColor" format="color"/>
+        <attr name="imagePadding" format="dimension"/>
+        <attr name="chartPercent" format="float"/>
+        <attr name="chartStrokeWidth" format="dimension"/>
+        <attr name="chartProgress" format="float"/>
+        <attr name="chartMaxProgress" format="float"/>
+    </declare-styleable>
 </resources>

@@ -3,13 +3,14 @@ package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.king.app.workhelper.R;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class PieView extends View {
 
     private Paint mPaint;
     private List<Pie> mPies;
+    private RectF mPieViewRectF;
+    private int mRingWidth;
+    private int mInnerCircleRadius;
 
     public PieView(Context context) {
         this(context, null);
@@ -40,12 +44,21 @@ public class PieView extends View {
     }
 
     private void init() {
+        //圆环宽度
+        mRingWidth = dip2px(getContext(), 10);
+        //内圆半径
+        mInnerCircleRadius = dip2px(getContext(), 80);
+
+        mPieViewRectF = new RectF(0, 0, 300, 300);
+        mPieViewRectF.offset(100, 100);
+
         initPaint();
     }
 
     private void initPaint() {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(Color.BLACK);
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.chocolate));
     }
 
     @Override
@@ -58,7 +71,7 @@ public class PieView extends View {
 
         // FIXME: 2017/2/12
         setMeasuredDimension(resolveSizeAndState(500000, widthMeasureSpec, 0),
-                resolveSizeAndState(900, heightMeasureSpec, 0));
+                resolveSizeAndState(500, heightMeasureSpec, 0));
     }
 
     @Override
@@ -69,14 +82,13 @@ public class PieView extends View {
     }
 
     private void drawPies(Canvas canvas) {
-        mPaint.setStyle(Paint.Style.FILL);
-        RectF rectF = new RectF(0, 0, 500, 500);
-        rectF.offset(20, 10);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(50);
 
-        float startAngle = -90;
+        float startAngle = -75;
         for (Pie pie : mPies) {
             mPaint.setColor(ContextCompat.getColor(getContext(), pie.color));
-            canvas.drawArc(rectF, startAngle, pie.percent * 360, true, mPaint);
+            canvas.drawArc(mPieViewRectF, startAngle, pie.percent * 360 + 1, false, mPaint);//不加1后留下缝隙
             startAngle += pie.percent * 360;
         }
 
@@ -98,5 +110,10 @@ public class PieView extends View {
             mPies = pies;
             postInvalidate();
         }
+    }
+
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 }

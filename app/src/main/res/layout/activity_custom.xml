@@ -16,6 +16,17 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.app.workhelper.ui.customview.FundFormPieView
+                android:id="@+id/pie_tax"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@color/orange_ff8800"
+                app:chartPercent="0.28"
+                app:chartStrokeWidth="20dp"
+                app:imageTextColor="@color/text_primary_color"
+                app:imageTextSize="@dimen/ts_small"/>
+
             <TextView
                 android:id="@+id/tv_hehe"
                 android:layout_width="wrap_content"
@@ -93,15 +104,15 @@
                 app:circleColor="@color/blueviolet"
                 app:orientation="vertical"
                 app:radius="68dp"
-                app:text="邢雁啡"
+                app:text="哈哈哈"
                 app:textColor="@color/white"
                 app:textSize="@dimen/ts_big"/>
 
             <com.king.app.workhelper.ui.customview.PieView
                 android:id="@+id/pie_view"
-                android:background="@color/aqua"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@color/aqua"/>
         </LinearLayout>
     </ScrollView>
 
