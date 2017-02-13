@@ -299,4 +299,14 @@ public class ExtendUtil {
     public static String getResourceName(Context context, @AnyRes int resId) {
         return context.getResources().getResourceEntryName(resId);
     }
+
+    /** 获取屏幕宽度 */
+    public static int getScreenWidth(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    /** 获取屏幕高度 */
+    public static int getScreenHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
 }
