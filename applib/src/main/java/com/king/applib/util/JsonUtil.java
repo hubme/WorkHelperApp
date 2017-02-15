@@ -6,6 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,5 +82,30 @@ public class JsonUtil {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    /**
+     * 从指定的JSONObject获取最内层的JSONObject,如果中间环节获取JSONObject == null,则直接返回null.
+     *
+     * @param jsonObject 指定的JSONObject
+     * @param names      json字符串从外层到内层的name
+     * @return 最内层的name的JSONObject
+     */
+    public static JSONObject getJsonObject(final JSONObject jsonObject, String... names) {
+        if (jsonObject == null || names == null || names.length == 0) {
+            return null;
+        }
+        JSONObject tempJsonObject = jsonObject;
+        for (int i = 0; i < names.length; i++) {
+            if (tempJsonObject != null) {
+                tempJsonObject = tempJsonObject.optJSONObject(names[i]);
+            } else {
+                return null;
+            }
+            if (i == names.length - 1) {
+                return tempJsonObject;
+            }
+        }
+        return null;
     }
 }

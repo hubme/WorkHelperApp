@@ -18,6 +18,7 @@ android {
 
         freeline {
             hack true
+            productFlavor 'dev'
         }
 
         //resConfigs "zh"//将语言资源限定为中文
