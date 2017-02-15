@@ -1,6 +1,7 @@
 package com.king.applib.base;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,13 +18,13 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     protected List<T> mAdapterData;
     private int mLayoutId;
 
-    public BaseListAdapter(Context mContext, int layoutId) {
+    public BaseListAdapter(Context mContext, @LayoutRes int layoutId) {
         this.mLayoutId = layoutId;
         this.mContext = mContext;
         mAdapterData = new ArrayList<>();
     }
 
-    public BaseListAdapter(Context context, int layoutId, List<T> dataList) {
+    public BaseListAdapter(Context context, @LayoutRes int layoutId, List<T> dataList) {
         this.mContext = context;
         this.mAdapterData = dataList;
         this.mLayoutId = layoutId;

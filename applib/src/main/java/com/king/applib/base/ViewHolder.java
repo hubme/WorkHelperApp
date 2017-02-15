@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.LayoutRes;
 import android.text.util.Linkify;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ public class ViewHolder {
 
     }
 
-    public static ViewHolder getHolder(Context context, View convertView, ViewGroup parent, int layoutId, int position) {
+    public static ViewHolder getHolder(Context context, View convertView, ViewGroup parent, @LayoutRes int layoutId, int position) {
         ViewHolder holder;
         if (convertView == null) {
             View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
