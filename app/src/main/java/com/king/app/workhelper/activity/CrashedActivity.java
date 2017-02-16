@@ -19,7 +19,7 @@ public class CrashedActivity extends AppBaseActivity {
 
     @OnClick(R.id.btn_restart_app)
     public void restartApp() {
-        startActivity(HomeActivity.class);
+        openActivity(HomeActivity.class);
         finish();
     }
 }

@@ -100,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param cls 跳转到的Activity
      */
-    protected void startActivity(@NonNull Class<?> cls) {
+    protected void openActivity(@NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
     }
@@ -111,7 +111,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param flags 启动的Activity标志
      * @param cls   跳转到的Activity
      */
-    protected void startActivity(int flags, @NonNull Class<?> cls) {
+    protected void openActivity(int flags, @NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(flags);
         startActivity(intent);
@@ -123,7 +123,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param bundle 传递的数据
      * @param cls    跳转到的Activity
      */
-    protected void startActivity(@NonNull Bundle bundle, @NonNull Class<?> cls) {
+    protected void openActivity(@NonNull Bundle bundle, @NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -144,7 +144,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 从上一个Activity获取Intent中String类型的数据
+     * 从上一个Activity获取Intent中T类型的数据
      *
      * @param defaultValue 指定的key为null,返回defaultValue
      */
