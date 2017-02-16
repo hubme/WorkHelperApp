@@ -52,9 +52,9 @@ public class AppTest extends BaseTestCase {
 
     public void testDimension() throws Exception {
 
-        Logger.i(String.valueOf(mContext.getResources().getDimension(R.dimen.ts_normal)));
-        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelOffset(R.dimen.ts_normal)));
-        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelSize(R.dimen.ts_normal)));
+        Logger.i(String.valueOf(mContext.getResources().getDimension(R.dimen.icon_test)));
+        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelOffset(R.dimen.icon_test)));
+        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelSize(R.dimen.icon_test)));
     }
 
     public void testGetActivityProcessName() throws Exception {

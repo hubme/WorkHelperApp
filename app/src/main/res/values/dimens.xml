@@ -33,4 +33,5 @@
     <dimen name="ShadowHeightReverse">-6dp</dimen>
 
     <dimen name="icon_size">100dp</dimen>
+    <dimen name="dp_test">20.25dp</dimen>
 </resources>
