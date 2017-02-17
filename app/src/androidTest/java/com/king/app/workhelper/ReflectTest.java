@@ -1,5 +1,6 @@
 package com.king.app.workhelper;
 
+import com.king.applib.annotation.AnnotationTest;
 import com.king.app.workhelper.model.ReflectTestBean;
 import com.king.applib.log.Logger;
 import com.king.applib.util.Reflect;
@@ -17,12 +18,26 @@ import java.util.ArrayList;
 
 public class ReflectTest extends BaseTestCase {
     private Class<?> mClazz;
+    @AnnotationTest(date = "2017-02-15 23:03")
+    private String testAnnotation;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mClazz = Class.forName("com.king.app.workhelper.model.ReflectTestBean");
+    }
 
+    public void testAnnotation() throws Exception {
+        Class clazz = Class.forName("com.king.app.workhelper.ReflectTest");
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            AnnotationTest annotation = field.getAnnotation(AnnotationTest.class);
+            if (annotation != null) {
+                Logger.i(annotation.author());
+                Logger.i(annotation.date());
+                Logger.i(annotation.version() + "");
+            }
+        }
     }
 
     /** 通过Java反射机制得到类的包名、类名等信息 */
@@ -118,7 +133,7 @@ public class ReflectTest extends BaseTestCase {
     public void testDemo8() throws Exception {
         Logger.i("类加载器类名: " + mClazz.getClassLoader().getClass().getName());
     }
-    
+
     public void testDemo9() throws Exception {
         String world = Reflect.on("java.lang.String")  // Like Class.forName()
                 .create("Hello World") // Call most specific matching constructor
