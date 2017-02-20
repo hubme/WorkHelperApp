@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
+import com.king.app.workhelper.ui.customview.FormView;
 import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieView;
@@ -26,6 +28,7 @@ import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,28 +41,16 @@ import butterknife.OnClick;
 
 public class CustomViewFragment extends AppBaseFragment {
 
-    @BindView(R.id.tv_haha)
-    public TextView mTextViewHaHa;
-
-    @BindView(R.id.gradient_drawable)
-    public ImageView mGradientDrawable;
-
-    @BindView(R.id.my_badge)
-    public BadgeTextView myBadgeTextView;
+    @BindView(R.id.tv_haha) public TextView mTextViewHaHa;
+    @BindView(R.id.gradient_drawable) public ImageView mGradientDrawable;
+    @BindView(R.id.my_badge) public BadgeTextView myBadgeTextView;
+    @BindView(R.id.htv_tag) public HorizontalTagView mTagView;
+    @BindView(R.id.tag_view) public TagTextView mTagTextView;
+    @BindView(R.id.pie_view) PieView mPieView;
+    @BindView(R.id.pie_tax) FundFormPieView mFundPieView;
+    @BindView(R.id.form_view) FormView mFormView;
 
     private BadgeView mBadgeView;
-
-    @BindView(R.id.htv_tag)
-    public HorizontalTagView mTagView;
-
-    @BindView(R.id.tag_view)
-    public TagTextView mTagTextView;
-
-    @BindView(R.id.pie_view)
-    PieView mPieView;
-
-    @BindView(R.id.pie_tax)
-    FundFormPieView mFundPieView;
 
     @Override
     protected int getContentLayout() {
@@ -106,7 +97,7 @@ public class CustomViewFragment extends AppBaseFragment {
 
         initPieView();
         initPieView2();
-        Logger.i("哈哈哈");
+        initFormView();
     }
 
     private void initPieView() {
@@ -131,6 +122,29 @@ public class CustomViewFragment extends AppBaseFragment {
                 mFundPieView.updateData(datas, true);
             }
         }, 300);
+    }
+
+    private void initFormView() {
+        List<FormView.FormLine> formLines = new ArrayList<>();
+        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("购房情况"),
+                new FormView.FormItem("建筑面积", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
+                new FormView.FormItem("税率", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)))));
+        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("首套房", 1, 3, Color.WHITE),
+                new FormView.FormItem("90(含)平以下", Color.WHITE),
+                new FormView.FormItem("1%", Color.WHITE))));
+        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
+                new FormView.FormItem("90-144平", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
+                new FormView.FormItem("1.5%", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)))));
+        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, Color.WHITE),
+                new FormView.FormItem("144平以上", Color.WHITE),
+                new FormView.FormItem("1.5%", Color.WHITE))));
+        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("二套房", 1, 2, Color.WHITE),
+                new FormView.FormItem("90(含)平以下", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
+                new FormView.FormItem("1%", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)))));
+        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, Color.WHITE),
+                new FormView.FormItem("90平以上", Color.WHITE),
+                new FormView.FormItem("2%", Color.WHITE))));
+        mFormView.setData(formLines);
     }
 
 
