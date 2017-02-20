@@ -16,6 +16,7 @@ import com.king.app.workhelper.okhttp.LoggingInterceptor;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
+import com.king.applib.util.ContextUtil;
 import com.king.applib.util.FileUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -50,6 +51,7 @@ public class WorkHelperApp extends BaseApplication {
         Logger.i("WorkHelperApp#onCreate()");
         mRefWatcher = LeakCanary.install(this);
 
+        ContextUtil.init(this);
         initOkHttp();
         FreelineCore.init(this);
         Fresco.initialize(this);

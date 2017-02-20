@@ -58,7 +58,7 @@ public class AnimationFragment extends AppBaseFragment {
 
     }
 
-    @OnClick(R.id.iv_animated_vector_line)
+//    @OnClick(R.id.iv_animated_vector_line)
     public void onAnimatedLineClick(ImageView imageView) {
         Drawable drawable = imageView.getDrawable();
         if (drawable instanceof Animatable) {
@@ -66,7 +66,7 @@ public class AnimationFragment extends AppBaseFragment {
         }
     }
 
-    @OnClick(R.id.iv_animated_vector_heart)
+//    @OnClick(R.id.iv_animated_vector_heart)
     public void onAnimatedHeartClick(ImageView imageView) {
         Drawable drawable = imageView.getDrawable();
         if (drawable instanceof Animatable) {

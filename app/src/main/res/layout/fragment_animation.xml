@@ -39,15 +39,15 @@
         android:layout_marginTop="2dp"
         android:background="@drawable/ic_arrow_back_black_24dp"/>
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/iv_animated_vector_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/vector_line_animated"/>
+        android:src="@drawable/vector_line_animated"/>-->
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/iv_animated_vector_heart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/fill_in_heart"/>
+        android:src="@drawable/fill_in_heart"/>-->
 </LinearLayout>
