@@ -16,6 +16,7 @@ import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -54,6 +55,7 @@ public class OkHttpFragment extends AppBaseFragment {
         super.initData();
         mOkHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new LoggingInterceptor())
+                .addInterceptor(new OkHttpMockInterceptor())
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .build();
@@ -92,6 +94,26 @@ public class OkHttpFragment extends AppBaseFragment {
 //                Logger.i("onResponse" + content);
             }
         });
+    }
+
+    /**
+     * 1.通过Interceptor拦截器模拟数据
+     * 2.通过转接服务器模拟网络数据。http://www.mocky.io/
+     */
+    private class OkHttpMockInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            HttpUrl url = chain.request().url();
+            Response response = chain.proceed(chain.request());
+            ResponseBody responseBody = response.body();
+            if (url.toString() != null && url.toString().startsWith("http://www.baidu.com/")) {
+                final String json = "{\"name\":\"VanceKing\",\"age\":\"27\"}";
+                return response.newBuilder().body(ResponseBody.create(responseBody.contentType(), json)).build();
+            } else {
+                return response;
+            }
+        }
     }
 
     /**
