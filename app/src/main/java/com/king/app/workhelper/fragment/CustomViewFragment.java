@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
-import com.king.app.workhelper.ui.customview.FormView;
+import com.king.applib.ui.customview.FormView;
 import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieView;
@@ -125,25 +125,20 @@ public class CustomViewFragment extends AppBaseFragment {
     }
 
     private void initFormView() {
+        int color = ContextCompat.getColor(getContext(), R.color.gray_fbfbfb);
         List<FormView.FormLine> formLines = new ArrayList<>();
         formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("购房情况"),
-                new FormView.FormItem("建筑面积", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
-                new FormView.FormItem("税率", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)))));
+                new FormView.FormItem("建筑面积", color), new FormView.FormItem("税率", color))));
         formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("首套房", 1, 3, Color.WHITE),
-                new FormView.FormItem("90(含)平以下", Color.WHITE),
-                new FormView.FormItem("1%", Color.WHITE))));
-        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
-                new FormView.FormItem("90-144平", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
-                new FormView.FormItem("1.5%", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)))));
+                new FormView.FormItem("90(含)平以下", Color.WHITE), new FormView.FormItem("1%", Color.WHITE))));
+        formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, color),
+                new FormView.FormItem("90-144平", color), new FormView.FormItem("1.5%", color))));
         formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, Color.WHITE),
-                new FormView.FormItem("144平以上", Color.WHITE),
-                new FormView.FormItem("1.5%", Color.WHITE))));
+                new FormView.FormItem("144平以上", Color.WHITE), new FormView.FormItem("1.5%", Color.WHITE))));
         formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("二套房", 1, 2, Color.WHITE),
-                new FormView.FormItem("90(含)平以下", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)),
-                new FormView.FormItem("1%", ContextCompat.getColor(getContext(), R.color.gray_f0f0f0)))));
+                new FormView.FormItem("90(含)平以下", color), new FormView.FormItem("1%", color))));
         formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, Color.WHITE),
-                new FormView.FormItem("90平以上", Color.WHITE),
-                new FormView.FormItem("2%", Color.WHITE))));
+                new FormView.FormItem("90平以上", Color.WHITE), new FormView.FormItem("2%", Color.WHITE))));
         mFormView.setData(formLines);
     }
 

@@ -27,11 +27,12 @@
                 app:imageTextColor="@color/text_primary_color"
                 app:imageTextSize="@dimen/ts_small"/>
 
-            <com.king.app.workhelper.ui.customview.FormView
+            <com.king.applib.ui.customview.FormView
                 android:id="@+id/form_view"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:padding="15dp"/>
+                android:padding="15dp"
+                app:border_color="@color/gray_f0f0f0"/>
 
             <TextView
                 android:id="@+id/tv_hehe"

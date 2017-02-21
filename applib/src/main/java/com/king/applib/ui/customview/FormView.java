@@ -1,6 +1,7 @@
-package com.king.app.workhelper.ui.customview;
+package com.king.applib.ui.customview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,7 +9,7 @@ import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.king.applib.log.Logger;
+import com.king.applib.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +22,14 @@ import java.util.List;
  */
 
 public class FormView extends View {
-    private static final int DEFAULT_STROKE_WIDTH = 1;
-    @ColorInt
-    private static final int DEFAULT_STROKE_COLOR = Color.BLACK;
     @ColorInt
     private static final int DEFAULT_TEXT_COLOR = Color.BLACK;
-    private static final int DEFAULT_TEXT_SIZE = 26;
-
     private List<FormLine> mFormLines = new ArrayList<>();
     private Paint mPaint;
+
+    private @ColorInt int mBorderColor;
+    private int mBorderWidth;
+    private float mTextSize;
 
     public FormView(Context context) {
         this(context, null);
@@ -42,6 +42,12 @@ public class FormView extends View {
     public FormView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FormView);
+        mBorderColor = typedArray.getColor(R.styleable.FormView_border_color, Color.BLACK);
+        mBorderWidth = typedArray.getInt(R.styleable.FormView_border_width, 1);
+        mTextSize = typedArray.getDimension(R.styleable.FormView_text_size, getResources().getDimension(R.dimen.ts_small));
+        typedArray.recycle();
+
         init();
     }
 
@@ -53,7 +59,6 @@ public class FormView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Logger.i("onDraw");
         super.onDraw(canvas);
 
         int mLineCount = mFormLines.size();//行数
@@ -83,8 +88,8 @@ public class FormView extends View {
 
                 //画外层矩形
                 mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                mPaint.setStrokeWidth(DEFAULT_STROKE_WIDTH);
-                mPaint.setColor(DEFAULT_STROKE_COLOR);
+                mPaint.setStrokeWidth(mBorderWidth);
+                mPaint.setColor(mBorderColor);
                 canvas.drawRect(paddingLeft + j * columnItemWidth, paddingTop + i * lineItemHeight, paddingLeft + (j + item.widthSpan) * columnItemWidth,
                         paddingTop + (i + item.heightSpan) * lineItemHeight, mPaint);
 
@@ -92,14 +97,14 @@ public class FormView extends View {
                 mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
                 mPaint.setStrokeWidth(0);
                 mPaint.setColor(item.backgroundColor);
-                canvas.drawRect(paddingLeft + DEFAULT_STROKE_WIDTH + j * columnItemWidth, paddingTop + DEFAULT_STROKE_WIDTH + i * lineItemHeight,
-                        paddingLeft - DEFAULT_STROKE_WIDTH + (j + item.widthSpan) * columnItemWidth,
-                        paddingTop + (i + item.heightSpan) * lineItemHeight - DEFAULT_STROKE_WIDTH, mPaint);
+                canvas.drawRect(paddingLeft + mBorderWidth + j * columnItemWidth, paddingTop + mBorderWidth + i * lineItemHeight,
+                        paddingLeft - mBorderWidth + (j + item.widthSpan) * columnItemWidth,
+                        paddingTop + (i + item.heightSpan) * lineItemHeight - mBorderWidth, mPaint);
 
                 //画文字
                 if (item.text != null && !item.text.trim().isEmpty()) {
                     mPaint.setColor(DEFAULT_TEXT_COLOR);
-                    mPaint.setTextSize(DEFAULT_TEXT_SIZE);
+                    mPaint.setTextSize(mTextSize);
                     drawHorizontalCenterText(canvas, paddingLeft + (item.widthSpan * columnItemWidth) / 2 + j * columnItemWidth,
                             paddingTop + (item.heightSpan * lineItemHeight) / 2 + i * lineItemHeight, item.text, mPaint);
                 }
@@ -169,6 +174,12 @@ public class FormView extends View {
         public FormItem(String text, @ColorInt int backgroundColor) {
             this.text = text;
             this.backgroundColor = backgroundColor;
+        }
+
+        public FormItem(String text, float widthSpan, float heightSpan) {
+            this.text = text;
+            this.widthSpan = widthSpan;
+            this.heightSpan = heightSpan;
         }
 
         public FormItem(String text, float widthSpan, float heightSpan, int backgroundColor) {
