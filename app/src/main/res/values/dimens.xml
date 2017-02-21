@@ -3,23 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <!-- 常用字体大小 ts = text_size -->
-    <dimen name="ts_very_small">8sp</dimen>
-    <dimen name="ts_much_smaller">9sp</dimen>
-    <dimen name="ts_smaller">10sp</dimen>
-    <dimen name="ts_bigger_than_smaller">11sp</dimen>
-    <dimen name="ts_small">12sp</dimen>
-    <dimen name="ts_normaler">13sp</dimen>
-    <dimen name="ts_normal">14sp</dimen>
-    <dimen name="ts_big">15sp</dimen>
-    <dimen name="ts_bigger">16sp</dimen>
-    <dimen name="ts_large">17sp</dimen>
-    <dimen name="ts_larger">18sp</dimen>
-    <dimen name="ts_huge">20sp</dimen>
-    <dimen name="ts_huge_middle">22sp</dimen>
-    <dimen name="ts_huger">24sp</dimen>
-    <dimen name="ts_25">25sp</dimen>
-
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_11">11dp</dimen>
     <dimen name="dp_15">15dp</dimen>
