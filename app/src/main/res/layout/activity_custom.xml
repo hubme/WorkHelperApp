@@ -19,13 +19,20 @@
             <com.king.app.workhelper.ui.customview.FundFormPieView
                 android:id="@+id/pie_tax"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center"
                 android:background="@color/orange_ff8800"
-                app:chartPercent="0.28"
-                app:chartStrokeWidth="20dp"
-                app:imageTextColor="@color/text_primary_color"
-                app:imageTextSize="@dimen/ts_small"/>
+                app:chartPercent="0.52"
+                app:strokeWidth="20dp"
+                app:imageTextColor="@color/text_primary_color"/>
+
+            <com.king.app.workhelper.ui.customview.PieView
+                android:id="@+id/pie_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:background="@color/aqua"/>
 
             <com.king.applib.ui.customview.FormView
                 android:id="@+id/form_view"
@@ -115,11 +122,6 @@
                 app:textColor="@color/white"
                 app:textSize="@dimen/ts_big"/>
 
-            <com.king.app.workhelper.ui.customview.PieView
-                android:id="@+id/pie_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/aqua"/>
         </LinearLayout>
     </ScrollView>
 

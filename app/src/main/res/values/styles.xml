@@ -68,10 +68,9 @@
         <attr name="imageSize" format="dimension"/>
         <attr name="imageTextSize" format="dimension"/>
         <attr name="imageTextColor" format="color"/>
-        <attr name="imagePadding" format="dimension"/>
-        <attr name="chartPercent" format="float"/>
-        <attr name="chartStrokeWidth" format="dimension"/>
-        <attr name="chartProgress" format="float"/>
-        <attr name="chartMaxProgress" format="float"/>
+        <attr name="chartPercent" format="float"/><!--环形View的占整个View的比例-->
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="progress" format="float"/>
+        <attr name="maxProgress" format="float"/>
     </declare-styleable>
 </resources>

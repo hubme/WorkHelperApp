@@ -3,15 +3,20 @@ package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.ColorRes;
+import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.king.app.workhelper.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -22,10 +27,25 @@ import java.util.List;
  */
 
 public class PieView extends View {
+    private static final int START_ANGLE = -90;
+    private static final int FULL_ANGLE = 360;
+    private static final int DEFAULT_STROKE_WIDTH = 50;
+    private static final int DEFAULT_RADIUS = 150;
+    public static final int ASC = 0;
+    public static final int DESC = 1;
 
-    private Paint mPaint;
-    private List<Pie> mPies;
-    private RectF mPieViewRectF;
+    private boolean isPrint;
+
+    @IntDef({ASC, DESC})
+    public @interface SORT_TYPE {
+
+    }
+
+    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    ;
+    private List<PieItem> mPies = new ArrayList<>();
+
+    private RectF mPieRectF;
     private int mRingWidth;
     private int mInnerCircleRadius;
 
@@ -49,17 +69,11 @@ public class PieView extends View {
         //内圆半径
         mInnerCircleRadius = dip2px(getContext(), 80);
 
-        mPieViewRectF = new RectF(0, 0, 300, 300);
-        mPieViewRectF.offset(100, 100);
+        mPieRectF = new RectF();
 
-        initPaint();
-    }
-
-    private void initPaint() {
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.chocolate));
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -70,7 +84,7 @@ public class PieView extends View {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         // FIXME: 2017/2/12
-        setMeasuredDimension(resolveSizeAndState(500000, widthMeasureSpec, 0),
+        setMeasuredDimension(resolveSizeAndState(Integer.MAX_VALUE, widthMeasureSpec, 0),
                 resolveSizeAndState(500, heightMeasureSpec, 0));
     }
 
@@ -78,41 +92,90 @@ public class PieView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        drawPies(canvas);
-    }
-
-    private void drawPies(Canvas canvas) {
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(50);
-
-        float startAngle = -75;
-        for (Pie pie : mPies) {
-            mPaint.setColor(ContextCompat.getColor(getContext(), pie.color));
-            canvas.drawArc(mPieViewRectF, startAngle, pie.percent * 360 + 1, false, mPaint);//不加1后留下缝隙
-            startAngle += pie.percent * 360;
+        float totalValue = 0;
+        for (PieItem pieItem : mPies) {
+            if (pieItem != null) {
+                totalValue += pieItem.value;
+            }
+        }
+        if (totalValue == 0) {
+            return;
         }
 
+        final int width = getWidth();
+        final int height = getHeight();
+        final int paddingLeft = getPaddingLeft();
+        final int paddingRight = getPaddingRight();
+        final int paddingTop = getPaddingTop();
+        final int paddingBottom = getPaddingBottom();
+        final int availableWidth = width - paddingLeft - paddingRight;
+        final int availableHeight = height - paddingTop - paddingBottom;
+
+        final int maxWidth = Math.min(availableWidth, availableHeight);
+        final int radius = Math.min(DEFAULT_RADIUS, maxWidth / 2);
+
+        final int centerX = paddingLeft + availableWidth / 2;
+        final int centerY = paddingTop + availableHeight / 2;
+
+        // TODO: 2017/2/22 没有处理paddingBottom和paddingRight 
+        mPieRectF.set(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
+
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(DEFAULT_STROKE_WIDTH);
+
+        float startAngle = START_ANGLE;
+        for (PieItem pieItem : mPies) {
+            if (pieItem == null) {
+                continue;
+            }
+            mPaint.setColor(ContextCompat.getColor(getContext(), pieItem.color));
+            float pieAngle = (float) (pieItem.value / totalValue) * FULL_ANGLE;
+            canvas.drawArc(mPieRectF, startAngle, pieAngle + 1, false, mPaint);//不加1后留下缝隙
+            startAngle += pieAngle;
+        }
+
+        mPaint.setStrokeWidth(2);
+        mPaint.setColor(Color.WHITE);
+        canvas.drawLine(centerX, centerY, centerX + (float)((radius + DEFAULT_STROKE_WIDTH / 2) * Math.sin(Math.PI/8)),
+                centerY - (radius + DEFAULT_STROKE_WIDTH / 2) * (float) Math.cos(1 / 8 * Math.PI), mPaint);
+
     }
 
-    public static class Pie {
-        public float percent;
+    public static class PieItem {
+        public double value;
         @ColorRes
         public int color;
 
-        public Pie(float percent, int color) {
-            this.percent = percent;
+        public PieItem(double value, int color) {
+            this.value = value;
             this.color = color;
         }
     }
 
-    public void drawPies(List<Pie> pies) {
+    public void drawPies(List<PieItem> pies, @SORT_TYPE int sortType) {
         if (pies != null && !pies.isEmpty()) {
-            mPies = pies;
+            mPies.clear();
+            mPies.addAll(pies);
+            sortPies(sortType);
             postInvalidate();
         }
     }
 
-    public static int dip2px(Context context, float dpValue) {
+    private void sortPies(@SORT_TYPE final int type) {
+        Collections.sort(mPies, new Comparator<PieItem>() {
+            @Override public int compare(PieItem o1, PieItem o2) {
+                if (o1.value < o2.value) {
+                    return type == ASC ? -1 : 1;
+                } else if (o1.value > o2.value) {
+                    return type == ASC ? 1 : -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+    }
+
+    private int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }

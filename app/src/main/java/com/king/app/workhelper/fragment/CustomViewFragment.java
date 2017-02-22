@@ -101,25 +101,27 @@ public class CustomViewFragment extends AppBaseFragment {
     }
 
     private void initPieView() {
-        List<PieView.Pie> pies = new ArrayList<>();
-        pies.add(new PieView.Pie(0.35f, R.color.chocolate));
-        pies.add(new PieView.Pie(0.15f, R.color.peru));
-        pies.add(new PieView.Pie(0.05f, R.color.indianred));
-        pies.add(new PieView.Pie(0.45f, R.color.mediumvioletred));
-        mPieView.drawPies(pies);
+        List<PieView.PieItem> pies = new ArrayList<>();
+        pies.add(new PieView.PieItem(1, R.color.chocolate));
+        pies.add(new PieView.PieItem(1, R.color.peru));
+        pies.add(new PieView.PieItem(1, R.color.indianred));
+        pies.add(new PieView.PieItem(1, R.color.mediumvioletred));
+        mPieView.drawPies(pies, PieView.ASC);
     }
 
     private void initPieView2() {
-        final List<FundFormPieView.IFormStatisticsData> datas = new ArrayList<>();
+        final List<FundFormPieView.PieItem> datas = new ArrayList<>();
 
-        datas.add(new FundFormPieView.IFormStatisticsData("7475元", "税后月薪", 7475, Color.GRAY));
-        datas.add(new FundFormPieView.IFormStatisticsData("1200元", "公积金", 1200, Color.GREEN));
-        datas.add(new FundFormPieView.IFormStatisticsData("1020元", "社保", 1200, Color.DKGRAY));
-        datas.add(new FundFormPieView.IFormStatisticsData("323元", "个税", 1200, Color.MAGENTA));
+        datas.add(new FundFormPieView.PieItem("1000元", "", 1000, Color.GRAY));//税后月薪
+        datas.add(new FundFormPieView.PieItem("100元", "", 100, Color.GREEN));//公积金
+        datas.add(new FundFormPieView.PieItem("100元", "", 100, Color.DKGRAY));//社保
+        datas.add(new FundFormPieView.PieItem("100元", "", 100, Color.MAGENTA));//个税
 
         mFundPieView.postDelayed(new Runnable() {
             @Override public void run() {
-                mFundPieView.updateData(datas, true);
+                if (mFundPieView != null) {
+                    mFundPieView.updateData(datas, true);
+                }
             }
         }, 300);
     }

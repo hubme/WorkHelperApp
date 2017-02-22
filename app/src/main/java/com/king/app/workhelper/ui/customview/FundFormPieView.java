@@ -1,7 +1,6 @@
 package com.king.app.workhelper.ui.customview;
 
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -10,8 +9,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -31,29 +30,21 @@ import java.util.List;
  * @since 2016-01-13
  */
 public class FundFormPieView extends View {
-    private static final float DEFAULT_RING_WIDTH = 40;//默认环形宽度
-
-    /**
-     * 显示色块图标数量
-     **/
-    private static final int MAX_IMAGE_COUNT = 11;
     /**
      * 最多显示数据数量
      **/
     private static final int MAX_DATA_COUNT = 12;
-    private int mDefaultColor;
 
-    private int mImageSize;
+    private int mImageSize = 50;
     private int mImageTextSize;
     private int mImageSecondTextSize;
     private int mImageTextColor;
-    private int mImagePadding;
     private float mChartSizePercent;
     private int mChartStrokeWidth;
-    private float mChartStrokeHerPercent;
+    private float mChartStrokeHerPercent = 90f / 610;//文字距离水平方向外边距的比例
     private float mChartProgress = 0;
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint mPaint;
     // 第一个块起始角度
     private float mStartAngle = -75;
     private RectF mRectF = new RectF();
@@ -64,17 +55,16 @@ public class FundFormPieView extends View {
      * 文字的一半对角线距离
      **/
     private float defTextHL;
+    private boolean isPrint;
 
     private ArrayList<PieData> mPieItems = new ArrayList<>();
 
     public FundFormPieView(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public FundFormPieView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public FundFormPieView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -82,27 +72,18 @@ public class FundFormPieView extends View {
         init(context, attrs);
     }
 
-    @TargetApi(21)
-    public FundFormPieView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs);
-    }
-
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FundFormPieView);
-        mImageSize = a.getDimensionPixelSize(R.styleable.FundFormPieView_imageSize, 50);
-        mImageTextSize = a.getDimensionPixelSize(R.styleable.FundFormPieView_imageTextSize, 20);
-        mImageSecondTextSize = getResources().getDimensionPixelSize(R.dimen.dp_11);
-        mImagePadding = a.getDimensionPixelOffset(R.styleable.FundFormPieView_imagePadding, 10);
+//        mImageSize = a.getDimensionPixelSize(R.styleable.FundFormPieView_imageSize, 50);
+        mImageTextSize = a.getDimensionPixelSize(R.styleable.FundFormPieView_imageTextSize, 24);
+        mImageSecondTextSize = mImageTextSize;
         mImageTextColor = a.getColor(R.styleable.FundFormPieView_imageTextColor, Color.BLACK);
-
         mChartSizePercent = a.getFloat(R.styleable.FundFormPieView_chartPercent, 120f / 610);
-        mChartStrokeWidth = a.getDimensionPixelSize(R.styleable.FundFormPieView_chartStrokeWidth, 40);
-        mChartStrokeHerPercent = 115f / 610;
-        mChartProgress = a.getFloat(R.styleable.FundFormPieView_chartProgress, 100);
+        mChartStrokeWidth = a.getDimensionPixelSize(R.styleable.FundFormPieView_strokeWidth, 40);
+        mChartProgress = a.getFloat(R.styleable.FundFormPieView_progress, 100);
         a.recycle();
 
-        mDefaultColor = ContextCompat.getColor(context, R.color.blue);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setTextSize(mImageTextSize);
 
@@ -111,102 +92,92 @@ public class FundFormPieView extends View {
         defTextHL = (float) Math.sqrt(hw * hw + hh * hh);
     }
 
-
-    @SuppressWarnings("unCheck")
-    public void updateData(final List<IFormStatisticsData> formData, boolean anim) {
-        if (formData == null || formData.size() == 0) {
-            mPieItems.clear();
-            postInvalidate();
-            return;
+    public void updateData(final List<PieItem> pieItems, boolean anim) {
+        if (pieItems != null && !pieItems.isEmpty()) {
+            readPieDataFromFormData(pieItems, anim);
         }
-        readPieDataFromFormData(anim, formData.toArray(new IFormStatisticsData[formData.size()]));
     }
 
     /**
      * 转换数据，从传入参数转换为画图数据
      **/
-    private void readPieDataFromFormData(final boolean anim, final IFormStatisticsData... formPieData) {
+    private void readPieDataFromFormData(final List<PieItem> pieItems, final boolean anim) {
         //TODO:因为只有两条数据，所以做了简单处理，如果其中一个比例小于0.01则修改为0.01,后面有时间做进一步处理
-        if (formPieData.length >= 2) {
-            if (formPieData[0].money < 0.01f) {
-                formPieData[0].money = 0.01f;
-                formPieData[1].money = 1 - 0.01f;
-            } else if (formPieData[1].money < 0.01f) {
-                formPieData[1].money = 0.01f;
-                formPieData[0].money = 1 - 0.01f;
+        if (pieItems.size() >= 2) {
+            if (pieItems.get(0).value < 0.01f) {
+                pieItems.get(0).value = 0.01f;
+                pieItems.get(1).value = 1 - 0.01f;
+            } else if (pieItems.get(1).value < 0.01f) {
+                pieItems.get(1).value = 0.01f;
+                pieItems.get(0).value = 1 - 0.01f;
             }
         }
 
-        ArrayList<PieData> results = new ArrayList<>(Math.min(MAX_DATA_COUNT, formPieData.length));
-
-        double totalMoney = 0;
-        for (IFormStatisticsData f : formPieData) {
-            totalMoney += f.money;
-        }
-
-        double currentCount = 0;
-        for (int i = formPieData.length - 1; i >= 0; i--) {
-            IFormStatisticsData fpd = formPieData[i];
-
-            int pdCount = results.size();
-            float percent = (float) (fpd.money / totalMoney);
-            if (percent == 0) {
-                continue;
-            } else {
-                int color = fpd.colorInt;
-                color = color == Color.BLACK ? mDefaultColor : color;
-                currentCount += fpd.money;
-                //PieData pd = new PieData(color, percent, drawable);
-                PieData pd = new PieData(fpd.primaryText, fpd.secondText, color, percent);
-                results.add(pd);
+        float totalValue = 0;
+        for (PieItem p : pieItems) {
+            if (p != null) {
+                totalValue += p.value;
             }
         }
 
         mPieItems.clear();
-        mPieItems.addAll(results);
+        for (PieItem item : pieItems) {
+            if (item == null) {
+                continue;
+            }
+            PieData pd = new PieData(item.primaryText, item.secondText, item.color, item.value / totalValue);
+            mPieItems.add(0, pd);
+        }
+
         if (anim) {
             startAnim();
         } else {
             stopAnim();
             invalidate();
         }
-
     }
 
     @Override
     public void draw(final Canvas canvas) {
         super.draw(canvas);
-
-        int maxValue = Math.min(getWidth(), getHeight());
-        float strokeSize = mChartStrokeWidth;
-        float strokeHerSize = maxValue * mChartStrokeHerPercent;
-        float chartR = maxValue * mChartSizePercent - strokeSize / 2;
-        Logger.i("maxValue: " + maxValue + ";strokeSize: " + strokeSize + ";strokeHerSize: " + strokeHerSize + ";chartR: " + chartR);
-
-        int centerX = getWidth() / 2;
-        int centerY = getHeight() / 2;
         if (mChartProgress <= 0) {
             return;
         }
 
-        mRectF.set(centerX - chartR, centerY - chartR, centerX + chartR, centerY + chartR);
+        final int width = getWidth();
+        final int height = getHeight();
+        final int centerX = width / 2;
+        final int centerY = height / 2;
+        int maxValue = Math.min(width, height);
+
+        float chartRadius = (maxValue * mChartSizePercent - mChartStrokeWidth) / 2;
+        if (!isPrint) {
+            Logger.i("maxValue: " + maxValue + ";strokeSize: " + mChartStrokeWidth + ";chartRadius: " + chartRadius);
+            isPrint = true;
+        }
+
+        mRectF.set(centerX - chartRadius, centerY - chartRadius, centerX + chartRadius, centerY + chartRadius);
 
         float angle = mStartAngle;
         final float fullAngle = Math.min(360, mChartProgress);
+        Logger.i("mChartProgress: " + mChartProgress + ";fullAngle: " + fullAngle);
 
-        for (int size = mPieItems.size(), i = 0; i < size; i++) {
-            PieData pd = mPieItems.get(i);
+        for (PieData pd : mPieItems) {
+            if (pd == null) {
+                continue;
+            }
             mPaint.setColor(pd.color);
+            // FIXME: 2017/2/21 以下两句放在循环外面图标变形
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(strokeSize);
+            mPaint.setStrokeWidth(mChartStrokeWidth);
             float ang = fullAngle * pd.percent;
 
             canvas.drawArc(mRectF, angle, ang + 1, false, mPaint); // 此处不+1会出现间隙
             angle += ang;
 
             if (fullAngle >= 360 && !TextUtils.isEmpty(pd.primaryText)) {
-                if (pd.p1 == null) {
-                    findImagePlace(mStartAngle, mRectF.centerX(), mRectF.centerY(), mRectF.width() / 2 + strokeSize / 2, strokeHerSize);
+                if (pd.startPoint == null) {
+                    findImagePlace(mStartAngle, mRectF.centerX(), mRectF.centerY(), chartRadius, maxValue * mChartStrokeHerPercent);
                 }
                 drawImageAndText(canvas, mPaint, pd, (mChartProgress - 360) / 360);
             }
@@ -256,7 +227,7 @@ public class FundFormPieView extends View {
      * 画类别图标和对应的百分比文字
      */
     private void drawImageAndText(Canvas canvas, Paint mPaint, PieData pieData, float progress) {
-        if (pieData.p1 == null) {
+        if (pieData.startPoint == null) {
             return;
         }
 
@@ -268,38 +239,38 @@ public class FundFormPieView extends View {
             progress = progress * 2;
             if (progress <= 0.5) {
                 progress = progress * 2;
-                float x = pieData.p1.x + (pieData.p2.x - pieData.p1.x) * progress;
-                float y = pieData.p1.y + (pieData.p2.y - pieData.p1.y) * progress;
-                canvas.drawLine(pieData.p1.x, pieData.p1.y, x, y, mPaint);
+                float x = pieData.startPoint.x + (pieData.turnPoint.x - pieData.startPoint.x) * progress;
+                float y = pieData.startPoint.y + (pieData.turnPoint.y - pieData.startPoint.y) * progress;
+                canvas.drawLine(pieData.startPoint.x, pieData.startPoint.y, x, y, mPaint);
             } else {
                 progress = progress - 0.5f;
                 progress = progress * 2f;
-                float y = pieData.p2.y;
-                float x = pieData.p2.x + (pieData.p3.x - pieData.p2.x) * progress;
-                canvas.drawLine(pieData.p1.x, pieData.p1.y, x, y, mPaint);
+                float y = pieData.turnPoint.y;
+                float x = pieData.turnPoint.x + (pieData.endPoint.x - pieData.turnPoint.x) * progress;
+                canvas.drawLine(pieData.startPoint.x, pieData.startPoint.y, x, y, mPaint);
             }
             return;
         }
         progress = progress * 2 - 1; // 剩余图片和文字动画进度
 
         // 连线
-        canvas.drawLine(pieData.p1.x, pieData.p1.y, pieData.p2.x, pieData.p2.y, mPaint);
-        canvas.drawLine(pieData.p2.x, pieData.p2.y, pieData.p3.x, pieData.p3.y, mPaint);
+        canvas.drawLine(pieData.startPoint.x, pieData.startPoint.y, pieData.turnPoint.x, pieData.turnPoint.y, mPaint);
+        canvas.drawLine(pieData.turnPoint.x, pieData.turnPoint.y, pieData.endPoint.x, pieData.endPoint.y, mPaint);
         mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(pieData.p3.x, pieData.p3.y, 6, mPaint);
+        canvas.drawCircle(pieData.endPoint.x, pieData.endPoint.y, 6, mPaint);
 
         // 百分比文字
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(mImageTextColor);
         mPaint.setAlpha((int) (255 * progress));
         mPaint.setTextSize(mImageTextSize);
-        canvas.drawText(pieData.primaryText, pieData.textPrimaryCenter.x, pieData.textPrimaryCenter.y, mPaint);
+        canvas.drawText(pieData.primaryText, pieData.textPrimaryPoint.x, pieData.textPrimaryPoint.y, mPaint);
+
         mPaint.setColor(pieData.color);
         mPaint.setTextSize(mImageSecondTextSize);
-        canvas.drawText(pieData.secondText, pieData.textSecondCenter.x, pieData.textSecondCenter.y, mPaint);
+        canvas.drawText(pieData.secondText, pieData.textSecondPoint.x, pieData.textSecondPoint.y, mPaint);
         mPaint.setColor(mImageTextColor);
         mPaint.setTextSize(mImageTextSize);
-        //mPaint.setAlpha(255);
     }
 
     /**
@@ -319,6 +290,10 @@ public class FundFormPieView extends View {
         return to;
     }
 
+    private void findImagePlace2(float startAngle, float centerX, float centerY, float r, float herStroke) {
+        
+    }
+
     /**
      * 给数据寻找图片和文字的合适空间
      * FIXME
@@ -335,13 +310,13 @@ public class FundFormPieView extends View {
      * @param herStroke  水平线长度
      */
     private void findImagePlace(float startAngle, float centerX, float centerY, float r, float herStroke) {
-        final int imageW = mImageSize;
-        final int halfSize = imageW / 2;
+        int mImageSize = 50;
+
+        final int halfSize = mImageSize / 2;
         final int count = mPieItems.size();
 
         final float or = r + halfSize * 3; // 图片所在圆圈半径
-        final float olr = r + imageW * 1.2f; // 图片连线底部所在圆圈半径 折线第一段的长度
-        final float otr = or + halfSize + defTextHL; // 文字中心所在圆圈半径
+        final float olr = r + mImageSize * 1.2f; // 图片连线底部所在圆圈半径 折线第一段的长度
 
         // 每个图片占用角度
         final double imageAngle = Math.toDegrees(Math.atan2(halfSize, or)) * 2;
@@ -373,14 +348,10 @@ public class FundFormPieView extends View {
                 double ca = Math.toRadians(itemSa - 360 * pieData.percent / 2);
                 double sar = Math.toRadians(sa);
 
-                pieData.p1 = new Point((int) (centerX + r * Math.cos(ca)), (int) (centerY + r * Math.sin(ca)));
-                pieData.p2 = new Point((int) (centerX + olr * Math.cos(sar)), (int) (centerY + olr * Math.sin(sar)));
-                pieData.p3 = new Point((int) (centerX + olr * Math.cos(sar) + (Math.cos(sar) >= 0 ? herStroke : -herStroke)), (int) (centerY + olr * Math.sin(sar)));
+                pieData.startPoint = new Point((int) (centerX + r * Math.cos(ca)), (int) (centerY + r * Math.sin(ca)));
+                pieData.turnPoint = new Point((int) (centerX + olr * Math.cos(sar)), (int) (centerY + olr * Math.sin(sar)));
+                pieData.endPoint = new Point((int) (centerX + olr * Math.cos(sar) + (Math.cos(sar) >= 0 ? herStroke : -herStroke)), (int) (centerY + olr * Math.sin(sar)));
                 boolean isRight = (Math.cos(sar) >= 0);
-
-                int p2cx = (int) (centerX + or * Math.cos(sar));
-                int p2cy = (int) (centerY + or * Math.sin(sar));
-                //pieData.imageRect = new Rect(p2cx - halfSize, p2cy - halfSize, p2cx + halfSize, p2cy + halfSize);
 
                 mPaint.setTextSize(mImageTextSize);
                 float hpw = mPaint.measureText(pieData.primaryText) / 2;
@@ -388,8 +359,8 @@ public class FundFormPieView extends View {
                 mPaint.setTextSize(mImageSecondTextSize);
                 float hsw = mPaint.measureText(pieData.secondText) / 2;
                 float hsh = mImageSecondTextSize / 2;
-                pieData.textPrimaryCenter = new Point((int) (isRight ? (pieData.p3.x - hpw - 2) : (pieData.p3.x + hpw + 2)), (int) (pieData.p3.y - hph + 5));
-                pieData.textSecondCenter = new Point((int) (isRight ? (pieData.p3.x - hsw - 2) : (pieData.p3.x + hsw + 2)), (int) (pieData.p3.y + hsh + hsh));
+                pieData.textPrimaryPoint = new Point((int) (isRight ? (pieData.endPoint.x - hpw - 2) : (pieData.endPoint.x + hpw + 2)), (int) (pieData.endPoint.y - hph + 5));
+                pieData.textSecondPoint = new Point((int) (isRight ? (pieData.endPoint.x - hsw - 2) : (pieData.endPoint.x + hsw + 2)), (int) (pieData.endPoint.y + hsh + hsh));
                 mPaint.setTextSize(mImageTextSize);
 
                 itemSa -= 360 * pieData.percent;
@@ -405,9 +376,9 @@ public class FundFormPieView extends View {
             int p2cx = (int) (centerX + or * Math.cos(ra));
             int p2cy = (int) (centerY + or * Math.sin(ra));
 
-            pieData.p1 = new Point((int) (centerX + r * Math.cos(ra)), (int) (centerY + r * Math.sin(ra)));
-            pieData.p2 = new Point((int) (centerX + olr * Math.cos(ra)), (int) (centerY + olr * Math.sin(ra)));
-            pieData.p3 = new Point((int) (centerX + olr * Math.cos(ra) + (Math.cos(ra) >= 0 ? herStroke : -herStroke)), (int) (centerY + olr * Math.sin(ra)));
+            pieData.startPoint = new Point((int) (centerX + r * Math.cos(ra)), (int) (centerY + r * Math.sin(ra)));
+            pieData.turnPoint = new Point((int) (centerX + olr * Math.cos(ra)), (int) (centerY + olr * Math.sin(ra)));
+            pieData.endPoint = new Point((int) (centerX + olr * Math.cos(ra) + (Math.cos(ra) >= 0 ? herStroke : -herStroke)), (int) (centerY + olr * Math.sin(ra)));
             boolean isRight = (Math.cos(ra) >= 0);
             //pieData.imageRect = new Rect(p2cx - halfSize, p2cy - halfSize, p2cx + halfSize, p2cy + halfSize);
 
@@ -417,8 +388,8 @@ public class FundFormPieView extends View {
             mPaint.setTextSize(mImageSecondTextSize);
             float hsw = mPaint.measureText(pieData.secondText) / 2;
             float hsh = mImageSecondTextSize / 2;
-            pieData.textPrimaryCenter = new Point((int) (isRight ? (pieData.p3.x - hpw - 2) : (pieData.p3.x + hpw + 2)), (int) (pieData.p3.y - hph + 5));
-            pieData.textSecondCenter = new Point((int) (isRight ? (pieData.p3.x - hsw - 2) : (pieData.p3.x + hsw + 2)), (int) (pieData.p3.y + hsh + hsh));
+            pieData.textPrimaryPoint = new Point((int) (isRight ? (pieData.endPoint.x - hpw - 2) : (pieData.endPoint.x + hpw + 2)), (int) (pieData.endPoint.y - hph + 5));
+            pieData.textSecondPoint = new Point((int) (isRight ? (pieData.endPoint.x - hsw - 2) : (pieData.endPoint.x + hsw + 2)), (int) (pieData.endPoint.y + hsh + hsh));
             mPaint.setTextSize(mImageTextSize);
 
             itemSa += 360 * pieData.percent;
@@ -436,30 +407,21 @@ public class FundFormPieView extends View {
     }
 
     /**
-     * 圆饼图数据
+     * 饼图元数据
      */
     private static class PieData {
-        final int color;
-        final float percent;
-        String primaryText;
-        String secondText;
+        private int color;
+        private float percent;
+        private String primaryText;
+        private String secondText;
 
         // 文字中心点1
-        private Point textPrimaryCenter;
+        private Point textPrimaryPoint;
         // 文字中心点2
-        private Point textSecondCenter;
-        // 连线起点
-        private Point p1;
-        // 连线转折点
-        private Point p2;
-        // 连线终点
-        private Point p3;
-
-//        public PieData(int color, float percent, Drawable image) {
-//            this.color = color;
-//            this.percent = percent;
-//            this.image = image;
-//        }
+        private Point textSecondPoint;
+        private Point startPoint;
+        private Point turnPoint;
+        private Point endPoint;
 
         public PieData(String primaryText, String secondText, int color, float percent) {
             this.primaryText = primaryText;
@@ -469,23 +431,25 @@ public class FundFormPieView extends View {
         }
     }
 
-    public static class IFormStatisticsData implements Comparable<IFormStatisticsData> {
+    //client端饼图元数据
+    public static class PieItem implements Comparable<PieItem> {
 
         public String primaryText;
         public String secondText;
-        public float money;
-        public int colorInt;
+        public float value;
+        @ColorInt
+        public int color = Color.BLACK;
 
-        public IFormStatisticsData(String primaryText, String secondText, float money, int colorInt) {
+        public PieItem(String primaryText, String secondText, float value, @ColorInt int color) {
             this.primaryText = primaryText;
             this.secondText = secondText;
-            this.money = money;
-            this.colorInt = colorInt;
+            this.value = value;
+            this.color = color;
         }
 
         @Override
-        public int compareTo(IFormStatisticsData data) {
-            float cf = this.money - data.money;
+        public int compareTo(PieItem data) {
+            float cf = this.value - data.value;
             if (cf > 0) {
                 return 1;
             } else if (cf == 0) {

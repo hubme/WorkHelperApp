@@ -28,6 +28,12 @@ import static com.king.applib.util.FileUtil.createFile;
 
 public class AppTest extends BaseTestCase {
 
+    public void testMathMethod() throws Exception {
+        Logger.i(Math.sinh(Math.PI / 6) + "");
+        Logger.i(Math.sin(Math.PI / 6) + "");
+
+    }
+
     public void testGsonExposeAnnotation() throws Exception {
         Student student = new Student();
         student.id = 1;
@@ -52,9 +58,9 @@ public class AppTest extends BaseTestCase {
 
     public void testDimension() throws Exception {
 
-        Logger.i(String.valueOf(mContext.getResources().getDimension(R.dimen.icon_test)));
-        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelOffset(R.dimen.icon_test)));
-        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelSize(R.dimen.icon_test)));
+        Logger.i(String.valueOf(mContext.getResources().getDimension(R.dimen.dp_15)));
+        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelOffset(R.dimen.dp_15)));
+        Logger.i(String.valueOf(mContext.getResources().getDimensionPixelSize(R.dimen.dp_15)));
     }
 
     public void testGetActivityProcessName() throws Exception {
