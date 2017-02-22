@@ -160,7 +160,7 @@ public class FundFormPieView extends View {
 
         float angle = mStartAngle;
         final float fullAngle = Math.min(360, mChartProgress);
-        Logger.i("mChartProgress: " + mChartProgress + ";fullAngle: " + fullAngle);
+//        Logger.i("mChartProgress: " + mChartProgress + ";fullAngle: " + fullAngle);
 
         for (PieData pd : mPieItems) {
             if (pd == null) {

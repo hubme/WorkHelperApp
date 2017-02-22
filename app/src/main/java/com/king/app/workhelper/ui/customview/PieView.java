@@ -30,7 +30,7 @@ public class PieView extends View {
     private static final int START_ANGLE = -90;
     private static final int FULL_ANGLE = 360;
     private static final int DEFAULT_STROKE_WIDTH = 50;
-    private static final int DEFAULT_RADIUS = 150;
+    private static final int DEFAULT_RADIUS = 200;
     public static final int ASC = 0;
     public static final int DESC = 1;
 
@@ -136,9 +136,34 @@ public class PieView extends View {
 
         mPaint.setStrokeWidth(2);
         mPaint.setColor(Color.WHITE);
-        canvas.drawLine(centerX, centerY, centerX + (float)((radius + DEFAULT_STROKE_WIDTH / 2) * Math.sin(Math.PI/8)),
-                centerY - (radius + DEFAULT_STROKE_WIDTH / 2) * (float) Math.cos(1 / 8 * Math.PI), mPaint);
+        float beforeValue = 0;
+        for (PieItem item : mPies) {
+            float percent = (float) (beforeValue + item.value / 2) / totalValue;
+            canvas.drawLine(centerX, centerY, getPointX(centerX, radius + DEFAULT_STROKE_WIDTH / 2, percent),
+                    getPointY(centerY, radius + DEFAULT_STROKE_WIDTH / 2, percent), mPaint);
+            beforeValue += item.value;
+        }
 
+    }
+
+    private float getPointX(int centerX, int radius, double percent) {
+        if (percent >= 0 && percent <= 0.5) {//第一和第二象限
+            return centerX + radius * (float) Math.sin(percent * 2 * Math.PI);
+        } else if (percent > 0.5 && percent <= 1) {////第三和第四象限
+            return centerX - radius * (float) Math.sin(percent * 2 * Math.PI);
+        } else {
+            return 0;
+        }
+    }
+
+    private float getPointY(int centerY, int radius, double percent) {
+        if ((percent >= 0 && percent <= 0.25) || (percent >= 0.75 && percent <= 1)) {//第一和第四象限
+            return centerY - radius * (float) Math.cos(percent * 2 * Math.PI);
+        } else if (percent > 0.25 && percent < 0.75) {//第二和第三象限
+            return centerY + radius * (float) Math.cos(percent * 2 * Math.PI);
+        } else {
+            return 0;
+        }
     }
 
     public static class PieItem {

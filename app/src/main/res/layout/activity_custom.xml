@@ -30,8 +30,6 @@
                 android:id="@+id/pie_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
                 android:background="@color/aqua"/>
 
             <com.king.applib.ui.customview.FormView
