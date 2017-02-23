@@ -41,14 +41,22 @@ import butterknife.OnClick;
 
 public class CustomViewFragment extends AppBaseFragment {
 
-    @BindView(R.id.tv_haha) public TextView mTextViewHaHa;
-    @BindView(R.id.gradient_drawable) public ImageView mGradientDrawable;
-    @BindView(R.id.my_badge) public BadgeTextView myBadgeTextView;
-    @BindView(R.id.htv_tag) public HorizontalTagView mTagView;
-    @BindView(R.id.tag_view) public TagTextView mTagTextView;
-    @BindView(R.id.pie_view) PieView mPieView;
-    @BindView(R.id.pie_tax) FundFormPieView mFundPieView;
-    @BindView(R.id.form_view) FormView mFormView;
+    @BindView(R.id.tv_haha)
+    public TextView mTextViewHaHa;
+    @BindView(R.id.gradient_drawable)
+    public ImageView mGradientDrawable;
+    @BindView(R.id.my_badge)
+    public BadgeTextView myBadgeTextView;
+    @BindView(R.id.htv_tag)
+    public HorizontalTagView mTagView;
+    @BindView(R.id.tag_view)
+    public TagTextView mTagTextView;
+    @BindView(R.id.pie_view)
+    PieView mPieView;
+    @BindView(R.id.pie_tax)
+    FundFormPieView mFundPieView;
+    @BindView(R.id.form_view)
+    FormView mFormView;
 
     private BadgeView mBadgeView;
 
@@ -82,7 +90,8 @@ public class CustomViewFragment extends AppBaseFragment {
         badgeView2.setTargetView(myBadgeTextView);
 
         mTagView.setOnTagCheckedListener(new HorizontalTagView.OnTagCheckedListener() {
-            @Override public void onTagChecked(boolean isChecked, String tag) {
+            @Override
+            public void onTagChecked(boolean isChecked, String tag) {
                 Logger.i("isChecked: " + isChecked + "; tag: " + tag);
                 Toast.makeText(getContext(), tag + "  " + isChecked, Toast.LENGTH_SHORT).show();
             }
@@ -90,7 +99,8 @@ public class CustomViewFragment extends AppBaseFragment {
 
         mTagTextView.setChangedBackground(false);
         mTagTextView.setOnTagCheckedListener(new TagTextView.OnTagCheckedListener() {
-            @Override public void onTagChecked(TagTextView tagView) {
+            @Override
+            public void onTagChecked(TagTextView tagView) {
                 Log.i("aaa", tagView.getText().toString());
             }
         });
@@ -102,10 +112,10 @@ public class CustomViewFragment extends AppBaseFragment {
 
     private void initPieView() {
         List<PieView.PieItem> pies = new ArrayList<>();
-        pies.add(new PieView.PieItem(1, R.color.chocolate));
-        pies.add(new PieView.PieItem(1, R.color.peru));
-        pies.add(new PieView.PieItem(1, R.color.indianred));
-        pies.add(new PieView.PieItem(1, R.color.mediumvioletred));
+        pies.add(new PieView.PieItem("Android", 1, ContextCompat.getColor(mContext, R.color.chocolate)));
+        pies.add(new PieView.PieItem("Java", 1, ContextCompat.getColor(mContext, R.color.peru)));
+        pies.add(new PieView.PieItem("Python", 1, ContextCompat.getColor(mContext, R.color.indianred)));
+        pies.add(new PieView.PieItem("Shell", 1, ContextCompat.getColor(mContext, R.color.mediumvioletred)));
         mPieView.drawPies(pies, PieView.ASC);
     }
 
@@ -118,7 +128,8 @@ public class CustomViewFragment extends AppBaseFragment {
         datas.add(new FundFormPieView.PieItem("100元", "", 100, Color.MAGENTA));//个税
 
         mFundPieView.postDelayed(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 if (mFundPieView != null) {
                     mFundPieView.updateData(datas, true);
                 }
