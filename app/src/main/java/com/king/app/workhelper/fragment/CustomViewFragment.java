@@ -17,15 +17,15 @@ import android.widget.Toast;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
-import com.king.applib.ui.customview.FormView;
 import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
-import com.king.app.workhelper.ui.customview.PieView;
+import com.king.app.workhelper.ui.customview.PieView2;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.TagTextView;
 import com.king.applib.log.Logger;
 import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
+import com.king.applib.ui.customview.FormView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,22 +41,14 @@ import butterknife.OnClick;
 
 public class CustomViewFragment extends AppBaseFragment {
 
-    @BindView(R.id.tv_haha)
-    public TextView mTextViewHaHa;
-    @BindView(R.id.gradient_drawable)
-    public ImageView mGradientDrawable;
-    @BindView(R.id.my_badge)
-    public BadgeTextView myBadgeTextView;
-    @BindView(R.id.htv_tag)
-    public HorizontalTagView mTagView;
-    @BindView(R.id.tag_view)
-    public TagTextView mTagTextView;
-    @BindView(R.id.pie_view)
-    PieView mPieView;
-    @BindView(R.id.pie_tax)
-    FundFormPieView mFundPieView;
-    @BindView(R.id.form_view)
-    FormView mFormView;
+    @BindView(R.id.tv_haha) public TextView mTextViewHaHa;
+    @BindView(R.id.gradient_drawable) public ImageView mGradientDrawable;
+    @BindView(R.id.my_badge) public BadgeTextView myBadgeTextView;
+    @BindView(R.id.htv_tag) public HorizontalTagView mTagView;
+    @BindView(R.id.tag_view) public TagTextView mTagTextView;
+    @BindView(R.id.pie_view) PieView2 mPieView;
+    @BindView(R.id.pie_tax) FundFormPieView mFundPieView;
+    @BindView(R.id.form_view) FormView mFormView;
 
     private BadgeView mBadgeView;
 
@@ -90,8 +82,7 @@ public class CustomViewFragment extends AppBaseFragment {
         badgeView2.setTargetView(myBadgeTextView);
 
         mTagView.setOnTagCheckedListener(new HorizontalTagView.OnTagCheckedListener() {
-            @Override
-            public void onTagChecked(boolean isChecked, String tag) {
+            @Override public void onTagChecked(boolean isChecked, String tag) {
                 Logger.i("isChecked: " + isChecked + "; tag: " + tag);
                 Toast.makeText(getContext(), tag + "  " + isChecked, Toast.LENGTH_SHORT).show();
             }
@@ -99,8 +90,7 @@ public class CustomViewFragment extends AppBaseFragment {
 
         mTagTextView.setChangedBackground(false);
         mTagTextView.setOnTagCheckedListener(new TagTextView.OnTagCheckedListener() {
-            @Override
-            public void onTagChecked(TagTextView tagView) {
+            @Override public void onTagChecked(TagTextView tagView) {
                 Log.i("aaa", tagView.getText().toString());
             }
         });
@@ -111,12 +101,16 @@ public class CustomViewFragment extends AppBaseFragment {
     }
 
     private void initPieView() {
-        List<PieView.PieItem> pies = new ArrayList<>();
-        pies.add(new PieView.PieItem("Android", 1, ContextCompat.getColor(mContext, R.color.chocolate)));
-        pies.add(new PieView.PieItem("Java", 1, ContextCompat.getColor(mContext, R.color.peru)));
-        pies.add(new PieView.PieItem("Python", 1, ContextCompat.getColor(mContext, R.color.indianred)));
-        pies.add(new PieView.PieItem("Shell", 1, ContextCompat.getColor(mContext, R.color.mediumvioletred)));
-        mPieView.drawPies(pies, PieView.ASC);
+        List<PieView2.PieItem> pies = new ArrayList<>();
+        pies.add(new PieView2.PieItem("税后月薪", "税后月薪",0.1, ContextCompat.getColor(mContext, R.color.chocolate)));
+        pies.add(new PieView2.PieItem("公积金", "公积金", 0.1, ContextCompat.getColor(mContext, R.color.peru)));
+        pies.add(new PieView2.PieItem("社保", "社保", 0.1, ContextCompat.getColor(mContext, R.color.indianred)));
+        pies.add(new PieView2.PieItem("社保", "社保", 2, ContextCompat.getColor(mContext, R.color.violet)));
+        pies.add(new PieView2.PieItem("社保", "社保", 2, ContextCompat.getColor(mContext, R.color.tan)));
+        pies.add(new PieView2.PieItem("社保", "社保", 3, ContextCompat.getColor(mContext, R.color.plum)));
+        pies.add(new PieView2.PieItem("个税", "个税", 10, ContextCompat.getColor(mContext, R.color.blue_57a5e2)));
+        mPieView.setCenterText("哈哈哈哈\r\n呵呵呵");
+        mPieView.drawPies(pies, PieView2.ASC);
     }
 
     private void initPieView2() {
@@ -128,8 +122,7 @@ public class CustomViewFragment extends AppBaseFragment {
         datas.add(new FundFormPieView.PieItem("100元", "", 100, Color.MAGENTA));//个税
 
         mFundPieView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 if (mFundPieView != null) {
                     mFundPieView.updateData(datas, true);
                 }

@@ -1,7 +1,5 @@
 package com.king.app.workhelper.common;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.king.applib.base.BaseFragment;
@@ -29,15 +27,5 @@ public abstract class AppBaseFragment extends BaseFragment {
         if (unbinder != null) {
             unbinder.unbind();
         }
-    }
-
-    /**
-     * 跳转到指定的Activity
-     *
-     * @param cls 跳转到的Activity
-     */
-    protected void startActivity(@NonNull Class<?> cls) {
-        Intent intent = new Intent(getContext(), cls);
-        getContext().startActivity(intent);
     }
 }

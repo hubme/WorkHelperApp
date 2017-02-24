@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.king.applib.log.Logger;
 
@@ -265,8 +267,8 @@ public class ImageUtil {
     /**
      * Gets the corresponding path to a file from the given content:// URI
      *
-     * @param uri The content:// URI to find the file path from
-     * @param contentResolver  The content resolver to use to perform the query.
+     * @param uri             The content:// URI to find the file path from
+     * @param contentResolver The content resolver to use to perform the query.
      * @return the file path as a string
      */
     public static String uri2ImageFile(Uri uri, ContentResolver contentResolver) {
@@ -482,4 +484,17 @@ public class ImageUtil {
         return source;
     }
 
+    /**
+     * 从View获取图片.see {@link View#getDrawingCache()}
+     */
+    public static Bitmap loadBitmapFromView(View view) {
+        if (view == null) {
+            return null;
+        }
+        Bitmap screenshot = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(screenshot);
+        c.translate(-view.getScrollX(), -view.getScrollY());
+        view.draw(c);
+        return screenshot;
+    }
 }

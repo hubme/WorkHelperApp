@@ -7,6 +7,7 @@
               android:paddingTop="10dp">
 
     <ScrollView
+        android:id="@+id/my_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,11 +27,11 @@
                 app:strokeWidth="20dp"
                 app:imageTextColor="@color/text_primary_color"/>
 
-            <com.king.app.workhelper.ui.customview.PieView
+            <com.king.app.workhelper.ui.customview.PieView2
                 android:id="@+id/pie_view"
                 android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                android:background="@color/aqua"/>
+                android:layout_height="300dp"
+                android:background="@color/white"/>
 
             <com.king.applib.ui.customview.FormView
                 android:id="@+id/form_view"

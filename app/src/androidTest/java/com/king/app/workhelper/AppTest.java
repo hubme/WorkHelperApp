@@ -29,9 +29,11 @@ import static com.king.applib.util.FileUtil.createFile;
 public class AppTest extends BaseTestCase {
 
     public void testMathMethod() throws Exception {
-        Logger.i(Math.sinh(Math.PI / 6) + "");
-        Logger.i(Math.sin(Math.PI / 6) + "");
+        Logger.i("Math.sinh(): " + Math.sinh(Math.PI / 6) + ";Math.sin(): " + Math.sin(Math.PI / 6));
 
+        Logger.i(Math.cos(0.25 * Math.PI) + "    " + Math.cos(0.75 * Math.PI));
+        Logger.i("Math.sqrt: " + Math.sqrt(3 * 3 + 4 * 4));
+        Logger.i("Math.sqrt: " + Math.sqrt(-3 * 3 + -4 * 4));
     }
 
     public void testGsonExposeAnnotation() throws Exception {
