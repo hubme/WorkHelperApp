@@ -148,6 +148,7 @@ public class PieView2 extends View {
         final int tempRadius = radius + DEFAULT_STROKE_WIDTH / 2;
         float beforeValue = 0;
         PieItem lastItem;
+        int lastEndPointX = 0;
         for (int i = 0, size = mPies.size(); i < size; i++) {
             PieItem item = mPies.get(i);
             if (item == null) {
@@ -170,10 +171,13 @@ public class PieView2 extends View {
             mPaint.setStyle(Paint.Style.FILL);
             canvas.drawLine(pStartX, pStartY, pTurnX, pTurnY, mPaint);//画折线
 
-            
-            
             if (isFirstQuadrant(centerX, centerY, pTurnX, pTurnY) || isSecondQuadrant(centerX, centerY, pTurnX, pTurnY)) {
-                pEndX = pTurnX + END_LINE_LENGTH;
+                if (i == 0) {//以第一个为参考点
+                    pEndX = pTurnX + END_LINE_LENGTH;
+                } else {
+                    int textWidth = (int)mTextPaint.measureText(item.primaryText);
+                    pEndX = lastEndPointX + (lastEndPointX - pTurnX) + textWidth;
+                }
             } else {
                 pEndX = pTurnX - END_LINE_LENGTH;
             }
@@ -207,6 +211,7 @@ public class PieView2 extends View {
 
             beforeValue += item.value;
             lastItem = item;
+            lastEndPointX = pEndX;
         }
 
 
