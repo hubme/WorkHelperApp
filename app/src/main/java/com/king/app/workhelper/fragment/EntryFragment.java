@@ -71,9 +71,9 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new CustomViewFragment());
     }
 
-    @OnClick(R.id.tv_weak_handler)
+    @OnClick(R.id.tv_usage)
     public void clickWeakHandler() {
-        clickedOn(new WeakHandlerFragment());
+        clickedOn(new UsageFragment());
     }
 
     @OnClick(R.id.tv_leak_canary)
@@ -139,11 +139,6 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_view_usage)
     public void onViewUsage() {
         clickedOn(new ViewSampleFragment());
-    }
-
-    @OnClick(R.id.tv_reflect)
-    public void onReflect() {
-        clickedOn(new ReflectFragment());
     }
 
     @OnClick(R.id.tv_mul_process)

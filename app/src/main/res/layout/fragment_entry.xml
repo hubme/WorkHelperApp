@@ -59,9 +59,9 @@
                 android:text="Custom View"/>
 
             <TextView
-                android:id="@+id/tv_weak_handler"
+                android:id="@+id/tv_usage"
                 style="@style/EntryItem"
-                android:text="Weak Handler"/>
+                android:text="Usage"/>
 
             <TextView
                 android:id="@+id/tv_leak_canary"
@@ -127,11 +127,6 @@
                 android:id="@+id/tv_view_usage"
                 style="@style/EntryItem"
                 android:text="View Usage"/>
-
-            <TextView
-                android:id="@+id/tv_reflect"
-                style="@style/EntryItem"
-                android:text="Reflect"/>
 
             <TextView
                 android:id="@+id/tv_mul_process"
