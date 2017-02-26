@@ -19,7 +19,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.BadgeTextView;
 import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
-import com.king.app.workhelper.ui.customview.PieView2;
+import com.king.app.workhelper.ui.customview.PieChartView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.TagTextView;
 import com.king.applib.log.Logger;
@@ -46,7 +46,8 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.my_badge) public BadgeTextView myBadgeTextView;
     @BindView(R.id.htv_tag) public HorizontalTagView mTagView;
     @BindView(R.id.tag_view) public TagTextView mTagTextView;
-    @BindView(R.id.pie_view) PieView2 mPieView;
+    @BindView(R.id.pie_view)
+    PieChartView mPieView;
     @BindView(R.id.pie_tax) FundFormPieView mFundPieView;
     @BindView(R.id.form_view) FormView mFormView;
 
@@ -101,16 +102,13 @@ public class CustomViewFragment extends AppBaseFragment {
     }
 
     private void initPieView() {
-        List<PieView2.PieItem> pies = new ArrayList<>();
-        pies.add(new PieView2.PieItem("税后月薪", "税后月薪",0.1, ContextCompat.getColor(mContext, R.color.chocolate)));
-        pies.add(new PieView2.PieItem("公积金", "公积金", 0.1, ContextCompat.getColor(mContext, R.color.peru)));
-        pies.add(new PieView2.PieItem("社保", "社保", 0.1, ContextCompat.getColor(mContext, R.color.indianred)));
-        pies.add(new PieView2.PieItem("社保", "社保", 2, ContextCompat.getColor(mContext, R.color.violet)));
-        pies.add(new PieView2.PieItem("社保", "社保", 2, ContextCompat.getColor(mContext, R.color.tan)));
-        pies.add(new PieView2.PieItem("社保", "社保", 3, ContextCompat.getColor(mContext, R.color.plum)));
-        pies.add(new PieView2.PieItem("个税", "个税", 10, ContextCompat.getColor(mContext, R.color.blue_57a5e2)));
+        List<PieChartView.PieItem> pies = new ArrayList<>();
+        pies.add(new PieChartView.PieItem("税后月薪", "8000元",0.1, ContextCompat.getColor(mContext, R.color.chocolate)));
+        pies.add(new PieChartView.PieItem("公积金", "700元", 0.1, ContextCompat.getColor(mContext, R.color.peru)));
+        pies.add(new PieChartView.PieItem("社保", "500元", 0.1, ContextCompat.getColor(mContext, R.color.indianred)));
+        pies.add(new PieChartView.PieItem("个税", "1000元", 20, ContextCompat.getColor(mContext, R.color.blue_57a5e2)));
         mPieView.setCenterText("哈哈哈哈\r\n呵呵呵");
-        mPieView.drawPies(pies, PieView2.ASC);
+        mPieView.drawPies(pies, PieChartView.ASC);
     }
 
     private void initPieView2() {

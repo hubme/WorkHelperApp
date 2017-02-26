@@ -3,8 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingTop="10dp">
+              android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/my_scroll_view"
@@ -17,6 +16,16 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.app.workhelper.ui.customview.PieChartView
+                android:id="@+id/pie_view"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:background="@color/wheat"/>
+
+            <com.king.app.workhelper.ui.customview.TestView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+
             <com.king.app.workhelper.ui.customview.FundFormPieView
                 android:id="@+id/pie_tax"
                 android:layout_width="match_parent"
@@ -24,14 +33,8 @@
                 android:layout_gravity="center"
                 android:background="@color/orange_ff8800"
                 app:chartPercent="0.52"
-                app:strokeWidth="20dp"
-                app:imageTextColor="@color/text_primary_color"/>
-
-            <com.king.app.workhelper.ui.customview.PieView2
-                android:id="@+id/pie_view"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:background="@color/whitesmoke"/>
+                app:imageTextColor="@color/text_primary_color"
+                app:strokeWidth="20dp"/>
 
             <com.king.applib.ui.customview.FormView
                 android:id="@+id/form_view"
