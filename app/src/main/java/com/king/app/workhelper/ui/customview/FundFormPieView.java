@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.king.app.workhelper.R;
-import com.king.applib.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +151,7 @@ public class FundFormPieView extends View {
 
         float chartRadius = (maxValue * mChartSizePercent - mChartStrokeWidth) / 2;
         if (!isPrint) {
-            Logger.i("maxValue: " + maxValue + ";strokeSize: " + mChartStrokeWidth + ";chartRadius: " + chartRadius);
+//            Logger.i("maxValue: " + maxValue + ";strokeSize: " + mChartStrokeWidth + ";chartRadius: " + chartRadius);
             isPrint = true;
         }
 

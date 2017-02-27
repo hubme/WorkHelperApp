@@ -22,6 +22,7 @@ import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieChartView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.TagTextView;
+import com.king.app.workhelper.ui.customview.TestView;
 import com.king.applib.log.Logger;
 import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
@@ -198,6 +199,11 @@ public class CustomViewFragment extends AppBaseFragment {
                 .setBackgroundColor(R.color.colorAccent)
                 .setCornerRadius(45)
                 .build();
+    }
+
+    @OnClick(R.id.test_view)
+    public void onTestViewClick(TestView view) {
+        view.startAnim();
     }
 
 }
