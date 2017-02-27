@@ -103,10 +103,10 @@ public class CustomViewFragment extends AppBaseFragment {
 
     private void initPieView() {
         List<PieChartView.PieItem> pies = new ArrayList<>();
-        pies.add(new PieChartView.PieItem("税后月薪", "8000元",0.1, ContextCompat.getColor(mContext, R.color.chocolate)));
-        pies.add(new PieChartView.PieItem("公积金", "700元", 0.1, ContextCompat.getColor(mContext, R.color.peru)));
-        pies.add(new PieChartView.PieItem("社保", "500元", 0.1, ContextCompat.getColor(mContext, R.color.indianred)));
-        pies.add(new PieChartView.PieItem("个税", "1000元", 20, ContextCompat.getColor(mContext, R.color.blue_57a5e2)));
+        pies.add(new PieChartView.PieItem("8000元", "税后月薪",0.1, ContextCompat.getColor(mContext, R.color.chocolate)));
+        pies.add(new PieChartView.PieItem("700元", "公积金", 0.1, ContextCompat.getColor(mContext, R.color.peru)));
+        pies.add(new PieChartView.PieItem("500元", "社保", 0.1, ContextCompat.getColor(mContext, R.color.indianred)));
+        pies.add(new PieChartView.PieItem("1000元", "个税", 20, ContextCompat.getColor(mContext, R.color.blue_57a5e2)));
         mPieView.setCenterText("哈哈哈哈\r\n呵呵呵");
         mPieView.drawPies(pies, PieChartView.ASC);
     }
