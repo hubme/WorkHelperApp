@@ -14,8 +14,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.king.applib.log.Logger;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,10 +45,9 @@ public class PieChartView extends View {
     private static final int CENTER_TEXT_TEXT_SIZE = 16;//圆中心的文字大小(dp)
     private static final int TURN_LINE_LENGTH = 80;//拐点距圆圈的距离
 
-    // TODO: 2017/2/24 根据文字自动调整 
     private static final int END_LINE_LENGTH = 80;//连线终点距拐点的距离
 
-    private String mCenterText = "哈哈哈\r\n呵呵呵呵";
+    private String mCenterText = "";
     private StaticLayout mTextLayout;
     private RectF mPieRectF;
 
@@ -86,8 +83,6 @@ public class PieChartView extends View {
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setColor(Color.BLACK);
         mTextPaint.setTextSize(dip2px(getContext(), CENTER_TEXT_TEXT_SIZE));
-        mTextLayout = new StaticLayout(mCenterText, mTextPaint, (int) mTextPaint.measureText(mCenterText),
-                Layout.Alignment.ALIGN_CENTER, 1.0F, 0.0F, true);
     }
 
 
@@ -227,10 +222,8 @@ public class PieChartView extends View {
         canvas.drawCircle(centerX, centerY, radius - DEFAULT_STROKE_WIDTH / 2, mPaint);
 
         //画圆中心的文字
-        Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
-        Logger.i("metrics.ascent: " + metrics.ascent + ";metrics.bottom: " + metrics.bottom + ";metrics.descent: " +
-                metrics.descent + ";metrics.leading: " + metrics.leading + ";metrics.top: " + metrics.top);
         if (mTextLayout != null) {
+            Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
             canvas.save();
             final float textHeight = (metrics.descent - metrics.ascent) * mTextLayout.getLineCount();
             canvas.translate(centerX - mTextPaint.measureText(mCenterText) / 2, centerY - textHeight / 2);
@@ -295,7 +288,9 @@ public class PieChartView extends View {
             mPies.clear();
             mPies.addAll(pies);
 
-            if (mCenterText != null && !mCenterText.trim().isEmpty()) {
+            if (mCenterText != null) {
+                mTextLayout = new StaticLayout(mCenterText, mTextPaint, (int) mTextPaint.measureText(mCenterText),
+                        Layout.Alignment.ALIGN_CENTER, 1.0F, 0.0F, true);
             }
 
             sortPies(sortType);

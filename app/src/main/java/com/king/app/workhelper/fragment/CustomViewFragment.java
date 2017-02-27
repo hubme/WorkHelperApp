@@ -107,7 +107,7 @@ public class CustomViewFragment extends AppBaseFragment {
         pies.add(new PieChartView.PieItem("700元", "公积金", 0.1, ContextCompat.getColor(mContext, R.color.peru)));
         pies.add(new PieChartView.PieItem("500元", "社保", 0.1, ContextCompat.getColor(mContext, R.color.indianred)));
         pies.add(new PieChartView.PieItem("1000元", "个税", 20, ContextCompat.getColor(mContext, R.color.blue_57a5e2)));
-        mPieView.setCenterText("哈哈哈哈\r\n呵呵呵");
+        mPieView.setCenterText("3000元\r\n税后月薪");
         mPieView.drawPies(pies, PieChartView.ASC);
     }
 

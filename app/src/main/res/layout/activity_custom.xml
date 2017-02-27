@@ -16,15 +16,15 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.app.workhelper.ui.customview.TestView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+
             <com.king.app.workhelper.ui.customview.PieChartView
                 android:id="@+id/pie_view"
                 android:layout_width="wrap_content"
                 android:layout_height="350dp"
                 android:background="@color/wheat"/>
-
-            <com.king.app.workhelper.ui.customview.TestView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"/>
 
             <com.king.app.workhelper.ui.customview.FundFormPieView
                 android:id="@+id/pie_tax"
