@@ -161,9 +161,7 @@ public class PieChartView extends View {
             int pTurnY;
             boolean isTooSmall = isBelowThreshold(item.value, totalValue);
             if (i == 2 && isTooSmall) {
-                Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
-                final float lineHeight = fontMetrics.descent - fontMetrics.ascent;
-                pTurnY = getPointY(centerY, tempRadius + TURN_LINE_LENGTH - (int) lineHeight, percent);
+                pTurnY = getPointY(centerY, tempRadius + TURN_LINE_LENGTH - (int) getTextHeight(mPaint), percent);
             } else {
                 pTurnY = getPointY(centerY, tempRadius + TURN_LINE_LENGTH, percent);
             }
@@ -173,7 +171,7 @@ public class PieChartView extends View {
 
             canvas.drawLine(pStartX, pStartY, pTurnX, pTurnY, mPaint);//画折线
 
-            final int textMaxWidth = (int) Math.max(mPaint.measureText(item.primaryText), mPaint.measureText(item.secondText));
+            final int textMaxWidth = (int) Math.max(getTextWidth(mPaint, item.primaryText), getTextWidth(mPaint, item.secondText));
             if (isFirstQuadrant(centerX, centerY, pTurnX, pTurnY) || isSecondQuadrant(centerX, centerY, pTurnX, pTurnY)) {
                 if (isTooSmall) {
                     if (i == 0) {
@@ -195,13 +193,13 @@ public class PieChartView extends View {
             canvas.drawCircle(pEndX, pEndY, LINE_END_DOT_RADIUS, mPaint);//画终点圆点
 
             Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
-            final float lineHeight = fontMetrics.descent - fontMetrics.ascent;
+            final float lineHeight = getTextHeight(mPaint);
             if (isFirstQuadrant(centerX, centerY, pEndX, pEndY) || isSecondQuadrant(centerX, centerY, pEndX, pEndY)) {//文字右对齐
                 canvas.drawText(item.primaryText,
-                        pEndX - mPaint.measureText(item.primaryText) - LINE_END_DOT_RADIUS / 2 - END_TEXT_MARGIN,
+                        pEndX - getTextWidth(mPaint, item.primaryText) - LINE_END_DOT_RADIUS / 2 - END_TEXT_MARGIN,
                         pEndY - lineHeight / 2 + fontMetrics.descent - PRIMARY_TEXT_MARGIN, mPaint);
                 canvas.drawText(item.secondText,
-                        pEndX - mPaint.measureText(item.secondText) - LINE_END_DOT_RADIUS / 2 - END_TEXT_MARGIN,
+                        pEndX - getTextWidth(mPaint, item.secondText) - LINE_END_DOT_RADIUS / 2 - END_TEXT_MARGIN,
                         pEndY + lineHeight / 2 + fontMetrics.descent + SECOND_TEXT_MARGIN, mPaint);
             } else {//文字左对齐
                 canvas.drawText(item.primaryText,
@@ -223,10 +221,8 @@ public class PieChartView extends View {
 
         //画圆中心的文字
         if (mTextLayout != null) {
-            Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
             canvas.save();
-            final float textHeight = (metrics.descent - metrics.ascent) * mTextLayout.getLineCount();
-            canvas.translate(centerX - mTextPaint.measureText(mCenterText) / 2, centerY - textHeight / 2);
+            canvas.translate(centerX - getTextWidth(mTextPaint, mCenterText) / 2, centerY - mTextLayout.getHeight() / 2);
             mTextLayout.draw(canvas);
             canvas.restore();
         }
@@ -244,9 +240,8 @@ public class PieChartView extends View {
             //画底部的种类的文字
             mTextPaint.setTextSize(dip2px(getContext(), SECOND_TEXT_TEXT_SIZE));
             mTextPaint.setColor(Color.BLACK);
-            Paint.FontMetrics metrics1 = mTextPaint.getFontMetrics();
             drawHorizontalCenterText(canvas, paddingLeft + eachWidth / 2 + i * eachWidth,
-                    height - paddingBottom - (metrics1.descent - metrics1.ascent) / 2 - SECOND_TEXT_PADDING_BOTTOM,
+                    height - paddingBottom - getTextHeight(mTextPaint) / 2 - SECOND_TEXT_PADDING_BOTTOM,
                     item.primaryText, mTextPaint);
 
             //画底部的种类的圆圈
@@ -254,8 +249,8 @@ public class PieChartView extends View {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setColor(item.color);
             canvas.drawCircle(paddingLeft + eachWidth / 2 + i * eachWidth,
-                    height - paddingBottom - (metrics1.descent - metrics1.ascent) - SECOND_TEXT_PADDING_BOTTOM - BOTTOM_DOT_RADIUS * 2, BOTTOM_DOT_RADIUS,
-                    mPaint);
+                    height - paddingBottom - getTextHeight(mTextPaint) - SECOND_TEXT_PADDING_BOTTOM - BOTTOM_DOT_RADIUS * 2, 
+                    BOTTOM_DOT_RADIUS, mPaint);
         }
 
     }
@@ -289,7 +284,7 @@ public class PieChartView extends View {
             mPies.addAll(pies);
 
             if (mCenterText != null) {
-                mTextLayout = new StaticLayout(mCenterText, mTextPaint, (int) mTextPaint.measureText(mCenterText),
+                mTextLayout = new StaticLayout(mCenterText, mTextPaint, (int)getTextWidth(mTextPaint, mCenterText),
                         Layout.Alignment.ALIGN_CENTER, 1.0F, 0.0F, true);
             }
 
@@ -350,11 +345,19 @@ public class PieChartView extends View {
             return;
         }
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-        float baseLine = -(fontMetrics.ascent + fontMetrics.descent) / 2;
+        float baseLine = (fontMetrics.descent - fontMetrics.ascent) / 2;
         float textWidth = paint.measureText(text);
         float startX = centerX - textWidth / 2;
         float endY = centerY + baseLine;
         canvas.drawText(text, startX, endY, paint);
+    }
 
+    private float getTextHeight(Paint paint) {
+        Paint.FontMetrics metrics = paint.getFontMetrics();
+        return metrics.descent - metrics.ascent; 
+    }
+
+    private float getTextWidth(Paint paint, String text) {
+        return paint.measureText(text);
     }
 }
