@@ -18,8 +18,9 @@
 
             <com.king.app.workhelper.ui.customview.TestView
                 android:id="@+id/test_view"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"/>
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@color/oldlace"/>
 
             <com.king.app.workhelper.ui.customview.PieChartView
                 android:id="@+id/pie_view"
@@ -125,6 +126,10 @@
                 app:textColor="@color/white"
                 app:textSize="@dimen/ts_big"/>
 
+            <com.king.app.workhelper.ui.customview.VerticalCenterView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/oldlace"/>
         </LinearLayout>
     </ScrollView>
 

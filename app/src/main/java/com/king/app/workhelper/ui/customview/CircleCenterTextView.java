@@ -109,8 +109,8 @@ public class CircleCenterTextView extends View {
         mHorizontalTextPaint.setDither(true);
         mHorizontalTextPaint.setColor(mTextColor);
         mHorizontalTextPaint.setTextSize(mTextSize);
-        mStaticLayout = new StaticLayout(mText, mHorizontalTextPaint, 1, Layout.Alignment.ALIGN_CENTER,
-                1.0f, 1.0f, false);
+        //字体宽度超过1像素时自动换行
+        mStaticLayout = new StaticLayout(mText, mHorizontalTextPaint, 1, Layout.Alignment.ALIGN_CENTER, 1.0f, 1.0f, false);
     }
 
     @Override
