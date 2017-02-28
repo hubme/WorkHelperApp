@@ -11,6 +11,9 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 
 import com.king.app.workhelper.R;
 
@@ -32,6 +35,7 @@ public class TestView extends View {
     private int mCenterY;
 
     private ValueAnimator mValueAnimator;
+    private RotateAnimation mProgressRotateAnim;
     private int mValue;
 
     public TestView(Context context) {
@@ -58,11 +62,11 @@ public class TestView extends View {
 
         mRectF = new RectF();
 
-        mValueAnimator = ValueAnimator.ofInt(-200, 200);
-        mValueAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        mValueAnimator = ValueAnimator.ofInt(0, 360);
+        mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
+//        mValueAnimator.setInterpolator(new DecelerateInterpolator());
         mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mValueAnimator.setIntValues(-200, 200);
-        mValueAnimator.setDuration(5000);
+        mValueAnimator.setDuration(2000);
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -70,6 +74,13 @@ public class TestView extends View {
                 invalidate();
             }
         });
+
+        mProgressRotateAnim = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mProgressRotateAnim.setDuration(1500);
+        mProgressRotateAnim.setRepeatCount(Animation.INFINITE);
+        mProgressRotateAnim.setInterpolator(new LinearInterpolator());//不停顿
+        mProgressRotateAnim.setFillAfter(true);//停在最后
     }
 
 
@@ -86,8 +97,29 @@ public class TestView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mRectF.set(mCenterX - 120, mCenterY - mValue, mCenterX + 120, mCenterY + 200);
-        canvas.drawRoundRect(mRectF, 10, 10, mPaint);
+        canvas.rotate(mValue, mCenterX, mCenterY);
+        /*for (double i = 0; i < 8; i++) {
+            mPaint.setAlpha(162 + 162 * (int)i / 8);
+            canvas.drawCircle(getPointX(100, i / 8), getPointY(100, i / 8), 20, mPaint);
+        }*/
+
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(3);
+        canvas.drawCircle(mCenterX, mCenterY, 100, mPaint);
+
+        canvas.drawCircle(mCenterX, mCenterY, 3, mPaint);
+
+        mRectF.set(mCenterX - 80, mCenterY - 80, mCenterX + 80, mCenterY + 80);
+        canvas.drawArc(mRectF, -120, 60, false, mPaint);
+
+        mRectF.set(mCenterX - 70, mCenterY - 70, mCenterX + 70, mCenterY + 70);
+        canvas.drawArc(mRectF, -120, 60, false, mPaint);
+
+        mRectF.set(mCenterX - 80, mCenterY - 80, mCenterX + 80, mCenterY + 80);
+        canvas.drawArc(mRectF, 60, 60, false, mPaint);
+
+        mRectF.set(mCenterX - 70, mCenterY - 70, mCenterX + 70, mCenterY + 70);
+        canvas.drawArc(mRectF, 60, 60, false, mPaint);
     }
 
     @Override
@@ -99,7 +131,9 @@ public class TestView extends View {
     }
 
     public void startAnim() {
-        mValueAnimator.start();
+//        mValueAnimator.start();
+//        mProgressRotateAnim.start();
+        startAnimation(mProgressRotateAnim);
     }
 
     //把换行的文字画到圆的正中央
@@ -125,5 +159,13 @@ public class TestView extends View {
     private static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    private int getPointX(int radius, double percent) {
+        return mCenterX + (int) (radius * Math.sin(percent * 2 * Math.PI));
+    }
+
+    private int getPointY(int radius, double percent) {
+        return mCenterY - (int) (radius * Math.cos(percent * 2 * Math.PI));
     }
 }
