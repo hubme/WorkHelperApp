@@ -17,6 +17,9 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.common.PointEvaluator;
+import com.king.app.workhelper.model.entity.Point;
+import com.king.applib.log.Logger;
 
 /**
  * @author VanceKing
@@ -40,6 +43,10 @@ public class TestView extends View {
     private int mValue;
     private AnimatorSet mAnimatorSet;
     private int mArcValue;
+    private Point mStartPoint;
+    private Point mEndPoint;
+    private ValueAnimator mAnim;
+    private Point mCurrentPoint;
 
     public TestView(Context context) {
         this(context, null);
@@ -101,6 +108,18 @@ public class TestView extends View {
         mProgressRotateAnim.setInterpolator(new AccelerateInterpolator());
         mProgressRotateAnim.setFillAfter(false);
 
+        mStartPoint = new Point(0, 0);
+        mEndPoint = new Point();
+        mAnim = ValueAnimator.ofObject(new PointEvaluator(), mStartPoint, mEndPoint);
+        mAnim.setDuration(5000);
+        mAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator animation) {
+                mCurrentPoint = (Point) animation.getAnimatedValue();
+                Logger.i(mCurrentPoint.getX()+"");
+                invalidate();
+            }
+        });
+        
     }
 
 
@@ -111,6 +130,9 @@ public class TestView extends View {
         mHeight = getMeasuredHeight();
         mCenterX = mWidth / 2;
         mCenterY = mHeight / 2;
+
+        mEndPoint.setX(mCenterX);
+        mEndPoint.setY(mCenterY);
     }
 
     @Override
@@ -119,7 +141,10 @@ public class TestView extends View {
         canvas.drawLine(0, mCenterY, mWidth, mCenterY, mPaint);
         canvas.drawLine(mCenterX, 0, mCenterX, mHeight, mPaint);
 
-        
+        if (mCurrentPoint != null) {
+            canvas.drawCircle(mCurrentPoint.getX(), mCurrentPoint.getY(), 20, mPaint);
+            mAnim.start();
+        }
         
     }
 
@@ -128,6 +153,9 @@ public class TestView extends View {
         super.onDetachedFromWindow();
         if (mValueAnimator != null && mValueAnimator.isRunning()) {
             mValueAnimator.cancel();
+        }
+        if (mAnim != null && mAnim.isRunning()) {
+            mAnim.cancel();
         }
         clearAnimation();
     }
