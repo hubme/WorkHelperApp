@@ -1,5 +1,6 @@
 package com.king.app.workhelper.ui.customview;
 
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,8 +12,8 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 
 import com.king.app.workhelper.R;
@@ -37,6 +38,8 @@ public class TestView extends View {
     private ValueAnimator mValueAnimator;
     private RotateAnimation mProgressRotateAnim;
     private int mValue;
+    private AnimatorSet mAnimatorSet;
+    private int mArcValue;
 
     public TestView(Context context) {
         this(context, null);
@@ -64,9 +67,9 @@ public class TestView extends View {
 
         mValueAnimator = ValueAnimator.ofInt(0, 360);
         mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
-//        mValueAnimator.setInterpolator(new DecelerateInterpolator());
+        mValueAnimator.setInterpolator(new AccelerateInterpolator());
         mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mValueAnimator.setDuration(2000);
+        mValueAnimator.setDuration(1500);
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -75,12 +78,29 @@ public class TestView extends View {
             }
         });
 
+        ValueAnimator mArcAnimator = ValueAnimator.ofInt(0, 360);
+        mArcAnimator.setRepeatMode(ValueAnimator.RESTART);
+        mArcAnimator.setInterpolator(new AccelerateInterpolator());
+        mArcAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mArcAnimator.setDuration(1000);
+        mArcAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator animation) {
+                mArcValue = (int) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+
+        mAnimatorSet = new AnimatorSet();
+        mAnimatorSet.play(mValueAnimator).with(mArcAnimator);
+        
+
         mProgressRotateAnim = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         mProgressRotateAnim.setDuration(1500);
         mProgressRotateAnim.setRepeatCount(Animation.INFINITE);
-        mProgressRotateAnim.setInterpolator(new LinearInterpolator());//不停顿
-        mProgressRotateAnim.setFillAfter(true);//停在最后
+        mProgressRotateAnim.setInterpolator(new AccelerateInterpolator());
+        mProgressRotateAnim.setFillAfter(false);
+
     }
 
 
@@ -96,30 +116,11 @@ public class TestView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawLine(0, mCenterY, mWidth, mCenterY, mPaint);
+        canvas.drawLine(mCenterX, 0, mCenterX, mHeight, mPaint);
 
-        canvas.rotate(mValue, mCenterX, mCenterY);
-        /*for (double i = 0; i < 8; i++) {
-            mPaint.setAlpha(162 + 162 * (int)i / 8);
-            canvas.drawCircle(getPointX(100, i / 8), getPointY(100, i / 8), 20, mPaint);
-        }*/
-
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(3);
-        canvas.drawCircle(mCenterX, mCenterY, 100, mPaint);
-
-        canvas.drawCircle(mCenterX, mCenterY, 3, mPaint);
-
-        mRectF.set(mCenterX - 80, mCenterY - 80, mCenterX + 80, mCenterY + 80);
-        canvas.drawArc(mRectF, -120, 60, false, mPaint);
-
-        mRectF.set(mCenterX - 70, mCenterY - 70, mCenterX + 70, mCenterY + 70);
-        canvas.drawArc(mRectF, -120, 60, false, mPaint);
-
-        mRectF.set(mCenterX - 80, mCenterY - 80, mCenterX + 80, mCenterY + 80);
-        canvas.drawArc(mRectF, 60, 60, false, mPaint);
-
-        mRectF.set(mCenterX - 70, mCenterY - 70, mCenterX + 70, mCenterY + 70);
-        canvas.drawArc(mRectF, 60, 60, false, mPaint);
+        
+        
     }
 
     @Override
@@ -128,12 +129,59 @@ public class TestView extends View {
         if (mValueAnimator != null && mValueAnimator.isRunning()) {
             mValueAnimator.cancel();
         }
+        clearAnimation();
     }
 
     public void startAnim() {
 //        mValueAnimator.start();
-//        mProgressRotateAnim.start();
-        startAnimation(mProgressRotateAnim);
+//        startAnimation(mProgressRotateAnim);
+//        mAnimatorSet.start();
+    }
+
+    private void drawSmillCircle(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(15);
+        final int radius = 30;
+
+        mRectF.set(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius);
+        canvas.drawArc(mRectF, 10, 160, false, mPaint);
+        canvas.rotate(mArcValue, mCenterX, mCenterY);
+
+        mPaint.setStrokeWidth(1);
+        mPaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(mCenterX - (float)(radius * Math.sin(Math.toRadians(60))), mCenterY - (float)(radius*Math.cos(Math.toRadians(60))), 10, mPaint);
+        canvas.drawCircle(mCenterX + (float)(radius * Math.sin(Math.toRadians(60))), mCenterY - (float)(radius*Math.cos(Math.toRadians(60))), 10, mPaint);
+        canvas.rotate(mValue, mCenterX, mCenterY);
+    }
+
+    //中心点外8个小圆圈
+    private void drawEightSmallCircle(Canvas canvas) {
+        for (double i = 0; i < 8; i++) {
+            mPaint.setAlpha(162 + 162 * (int)i / 8);
+            canvas.drawCircle(getPointX(100, i / 8), getPointY(100, i / 8), 20, mPaint);
+        }
+    }
+
+    private void drawAnimatedCircle(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(3);
+        canvas.drawCircle(mCenterX, mCenterY, 100, mPaint);
+
+        mRectF.set(mCenterX - 80, mCenterY - 80, mCenterX + 80, mCenterY + 80);
+        canvas.drawArc(mRectF, -120, 60, false, mPaint);
+
+        mRectF.set(mCenterX - 70, mCenterY - 70, mCenterX + 70, mCenterY + 70);
+        canvas.drawArc(mRectF, -120, 60, false, mPaint);
+
+        mRectF.set(mCenterX - 80, mCenterY - 80, mCenterX + 80, mCenterY + 80);
+        canvas.drawArc(mRectF, 60, 60, false, mPaint);
+
+        mRectF.set(mCenterX - 70, mCenterY - 70, mCenterX + 70, mCenterY + 70);
+        canvas.drawArc(mRectF, 60, 60, false, mPaint);
+
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        canvas.drawCircle(mCenterX, mCenterY, 3, mPaint);
     }
 
     //把换行的文字画到圆的正中央
