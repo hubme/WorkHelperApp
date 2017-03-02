@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="chocolate">#D2691E</color><!--巧可力色 -->
+
+    <color name="peru">#CD853F</color><!--秘鲁色 -->
+
+    <color name="indianred">#CD5C5C</color><!--印第安红 -->
+
+    <color name="mediumvioletred">#C71585</color><!--中紫罗兰色 -->
+</resources>

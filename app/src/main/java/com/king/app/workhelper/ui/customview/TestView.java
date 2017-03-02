@@ -99,7 +99,7 @@ public class TestView extends View {
 
         mAnimatorSet = new AnimatorSet();
         mAnimatorSet.play(mValueAnimator).with(mArcAnimator);
-        
+
 
         mProgressRotateAnim = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -115,11 +115,11 @@ public class TestView extends View {
         mAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override public void onAnimationUpdate(ValueAnimator animation) {
                 mCurrentPoint = (Point) animation.getAnimatedValue();
-                Logger.i(mCurrentPoint.getX()+"");
+                Logger.i(mCurrentPoint.getX() + "");
                 invalidate();
             }
         });
-        
+
     }
 
 
@@ -145,7 +145,18 @@ public class TestView extends View {
             canvas.drawCircle(mCurrentPoint.getX(), mCurrentPoint.getY(), 20, mPaint);
             mAnim.start();
         }
-        
+
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(1);
+        final int width = 100;
+        for (int i = 0; i < 4; i++) {
+            mRectF.set(10 + i * width, 10, 10 + (i + 1) * width, 110);
+            canvas.drawRect(mRectF, mPaint);
+        }
+
+        final int radius = 20;
+        mPaint.setStrokeWidth(80);
+        canvas.drawRect(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius, mPaint);
     }
 
     @Override
@@ -178,15 +189,15 @@ public class TestView extends View {
 
         mPaint.setStrokeWidth(1);
         mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(mCenterX - (float)(radius * Math.sin(Math.toRadians(60))), mCenterY - (float)(radius*Math.cos(Math.toRadians(60))), 10, mPaint);
-        canvas.drawCircle(mCenterX + (float)(radius * Math.sin(Math.toRadians(60))), mCenterY - (float)(radius*Math.cos(Math.toRadians(60))), 10, mPaint);
+        canvas.drawCircle(mCenterX - (float) (radius * Math.sin(Math.toRadians(60))), mCenterY - (float) (radius * Math.cos(Math.toRadians(60))), 10, mPaint);
+        canvas.drawCircle(mCenterX + (float) (radius * Math.sin(Math.toRadians(60))), mCenterY - (float) (radius * Math.cos(Math.toRadians(60))), 10, mPaint);
         canvas.rotate(mValue, mCenterX, mCenterY);
     }
 
     //中心点外8个小圆圈
     private void drawEightSmallCircle(Canvas canvas) {
         for (double i = 0; i < 8; i++) {
-            mPaint.setAlpha(162 + 162 * (int)i / 8);
+            mPaint.setAlpha(162 + 162 * (int) i / 8);
             canvas.drawCircle(getPointX(100, i / 8), getPointY(100, i / 8), 20, mPaint);
         }
     }

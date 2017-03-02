@@ -27,6 +27,7 @@ import com.king.applib.log.Logger;
 import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
 import com.king.applib.ui.customview.FormView;
+import com.king.applib.ui.customview.FormViewTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +52,7 @@ public class CustomViewFragment extends AppBaseFragment {
     PieChartView mPieView;
     @BindView(R.id.pie_tax) FundFormPieView mFundPieView;
     @BindView(R.id.form_view) FormView mFormView;
+    @BindView(R.id.form_view2) FormViewTest mFormView2;
 
     private BadgeView mBadgeView;
 
@@ -145,6 +147,19 @@ public class CustomViewFragment extends AppBaseFragment {
         formLines.add(new FormView.FormLine(Arrays.asList(new FormView.FormItem("", 0, 0, Color.WHITE),
                 new FormView.FormItem("90平以上", Color.WHITE), new FormView.FormItem("2%", Color.WHITE))));
         mFormView.setData(formLines);
+
+        List<FormViewTest.FormLine> formItems = new ArrayList<>();
+        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("税前 / 12", 1.5f, color), new FormViewTest.FormItem("税率", color), new FormViewTest.FormItem("速算扣除", color))));
+//        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("不超过1500元(含)", 1.5f), new FormViewTest.FormItem("3%"), new FormViewTest.FormItem("0"))));
+//        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("1500元-4500元(含)", 1.5f, color), new FormViewTest.FormItem("10%", color), new FormViewTest.FormItem("105", color))));
+//        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("4500元-9000元(含)", 1.5f), new FormViewTest.FormItem("20%"), new FormViewTest.FormItem("555"))));
+//        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("9000元-35000元(含)", 1.5f, color), new FormViewTest.FormItem("25%", color), new FormViewTest.FormItem("1005", color))));
+//        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("35000元-55000元(含)", 1.5f), new FormViewTest.FormItem("30%"), new FormViewTest.FormItem("2755"))));
+//        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("55000元-80000元(含)", color), new FormViewTest.FormItem("35%", color), new FormViewTest.FormItem("5505", color))));
+//        formItems.add(new FormViewTest.FormLine(Arrays.asList(new FormViewTest.FormItem("超过80000元",1.5f), new FormViewTest.FormItem("45%"), new FormViewTest.FormItem("13505"))));
+
+        mFormView2.setColumnWeights(10, 2, 2);
+        mFormView2.setData(formItems);
     }
 
 
