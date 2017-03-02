@@ -188,11 +188,6 @@ public class CustomViewFragment extends AppBaseFragment {
         } else {
             textView.setBackgroundDrawable(drawable);
         }
-        if (!mTagView.isTagExists("北京")) {
-            mTagView.addTag(true, "北京");
-        } else {
-            Toast.makeText(getContext(), "tag已存在", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private Drawable getGradientDrawable() {
