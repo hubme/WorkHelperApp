@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.ui.customview.BadgeTextView;
 import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieChartView;
@@ -45,7 +44,7 @@ public class CustomViewFragment extends AppBaseFragment {
 
     @BindView(R.id.tv_haha) public TextView mTextViewHaHa;
     @BindView(R.id.gradient_drawable) public ImageView mGradientDrawable;
-    @BindView(R.id.my_badge) public BadgeTextView myBadgeTextView;
+    @BindView(R.id.my_badge) public TextView myBadgeTextView;
     @BindView(R.id.htv_tag) public HorizontalTagView mTagView;
     @BindView(R.id.tag_view) public TagTextView mTagTextView;
     @BindView(R.id.pie_view)

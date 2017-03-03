@@ -208,12 +208,6 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         return mTabContainer;
     }
 
-    public void setBadgeView(int position, String text) {
-        mTabContainer.getChildAt(position);
-        BadgeTextView view = new BadgeTextView(getContext());
-        view.setBadgeText(text);
-    }
-
     /**
      * 获取当前页位置
      *
