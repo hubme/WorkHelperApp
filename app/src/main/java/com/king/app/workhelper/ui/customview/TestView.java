@@ -1,9 +1,11 @@
 package com.king.app.workhelper.ui.customview;
 
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
@@ -17,9 +19,9 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.common.PointEvaluator;
+import com.king.app.workhelper.common.anim.ColorEvaluator;
+import com.king.app.workhelper.common.anim.PointEvaluator;
 import com.king.app.workhelper.model.entity.Point;
-import com.king.applib.log.Logger;
 
 /**
  * @author VanceKing
@@ -28,7 +30,7 @@ import com.king.applib.log.Logger;
 
 public class TestView extends View {
     private static final String TEXT = "哈哈哈\r\n呵呵呵呵";
-    private static final int RADIUS = 200;
+    private static final int RADIUS = 50;
     private Paint mPaint;
     private StaticLayout mStaticLayout;
     private TextPaint mTextPaint;
@@ -38,15 +40,13 @@ public class TestView extends View {
     private int mCenterX;
     private int mCenterY;
 
-    private ValueAnimator mValueAnimator;
     private RotateAnimation mProgressRotateAnim;
-    private int mValue;
-    private AnimatorSet mAnimatorSet;
-    private int mArcValue;
     private Point mStartPoint;
     private Point mEndPoint;
-    private ValueAnimator mAnim;
-    private Point mCurrentPoint;
+    private ValueAnimator mPointAnim;
+    private ObjectAnimator mColorAnimator;
+    private AnimatorSet mAnimatorSet;
+    private String color;
 
     public TestView(Context context) {
         this(context, null);
@@ -72,34 +72,6 @@ public class TestView extends View {
 
         mRectF = new RectF();
 
-        mValueAnimator = ValueAnimator.ofInt(0, 360);
-        mValueAnimator.setRepeatMode(ValueAnimator.RESTART);
-        mValueAnimator.setInterpolator(new AccelerateInterpolator());
-        mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mValueAnimator.setDuration(1500);
-        mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mValue = (int) animation.getAnimatedValue();
-                invalidate();
-            }
-        });
-
-        ValueAnimator mArcAnimator = ValueAnimator.ofInt(0, 360);
-        mArcAnimator.setRepeatMode(ValueAnimator.RESTART);
-        mArcAnimator.setInterpolator(new AccelerateInterpolator());
-        mArcAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mArcAnimator.setDuration(1000);
-        mArcAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override public void onAnimationUpdate(ValueAnimator animation) {
-                mArcValue = (int) animation.getAnimatedValue();
-                invalidate();
-            }
-        });
-
-        mAnimatorSet = new AnimatorSet();
-        mAnimatorSet.play(mValueAnimator).with(mArcAnimator);
-
 
         mProgressRotateAnim = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -108,20 +80,34 @@ public class TestView extends View {
         mProgressRotateAnim.setInterpolator(new AccelerateInterpolator());
         mProgressRotateAnim.setFillAfter(false);
 
-        mStartPoint = new Point(0, 0);
+        mStartPoint = new Point();
         mEndPoint = new Point();
-        mAnim = ValueAnimator.ofObject(new PointEvaluator(), mStartPoint, mEndPoint);
-        mAnim.setDuration(5000);
-        mAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        mPointAnim = ValueAnimator.ofObject(new PointEvaluator(), mStartPoint, mEndPoint);
+        mPointAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override public void onAnimationUpdate(ValueAnimator animation) {
-                mCurrentPoint = (Point) animation.getAnimatedValue();
-                Logger.i(mCurrentPoint.getX() + "");
+                Point point = (Point) animation.getAnimatedValue();
+                mStartPoint.setX(point.getX());
+                mStartPoint.setY(point.getY());
                 invalidate();
             }
         });
 
+        mColorAnimator = ObjectAnimator.ofObject(this, "color", new ColorEvaluator(), "#0000FF", "#FF0000");
+
+        mAnimatorSet = new AnimatorSet();
+        mAnimatorSet.play(mPointAnim).with(mColorAnimator);
+        mAnimatorSet.setDuration(5000);
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+        mPaint.setColor(Color.parseColor(color));
+        invalidate();
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -131,8 +117,8 @@ public class TestView extends View {
         mCenterX = mWidth / 2;
         mCenterY = mHeight / 2;
 
-        mEndPoint.setX(mCenterX);
-        mEndPoint.setY(mCenterY);
+        mEndPoint.setX(mWidth);
+        mEndPoint.setY(mHeight);
     }
 
     @Override
@@ -141,32 +127,20 @@ public class TestView extends View {
         canvas.drawLine(0, mCenterY, mWidth, mCenterY, mPaint);
         canvas.drawLine(mCenterX, 0, mCenterX, mHeight, mPaint);
 
-        if (mCurrentPoint != null) {
-            canvas.drawCircle(mCurrentPoint.getX(), mCurrentPoint.getY(), 20, mPaint);
-            mAnim.start();
-        }
+//        mStartPoint.setX(RADIUS);
+//        mStartPoint.setY(RADIUS);
+        canvas.drawCircle(mStartPoint.getX(), mStartPoint.getY(), RADIUS, mPaint);
 
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(1);
-        final int width = 100;
-        for (int i = 0; i < 4; i++) {
-            mRectF.set(10 + i * width, 10, 10 + (i + 1) * width, 110);
-            canvas.drawRect(mRectF, mPaint);
-        }
-
-        final int radius = 20;
-        mPaint.setStrokeWidth(80);
-        canvas.drawRect(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius, mPaint);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (mValueAnimator != null && mValueAnimator.isRunning()) {
-            mValueAnimator.cancel();
+        if (mPointAnim != null && mPointAnim.isRunning()) {
+            mPointAnim.cancel();
         }
-        if (mAnim != null && mAnim.isRunning()) {
-            mAnim.cancel();
+        if (mAnimatorSet != null && mAnimatorSet.isRunning()) {
+            mAnimatorSet.cancel();
         }
         clearAnimation();
     }
@@ -174,24 +148,7 @@ public class TestView extends View {
     public void startAnim() {
 //        mValueAnimator.start();
 //        startAnimation(mProgressRotateAnim);
-//        mAnimatorSet.start();
-    }
-
-    private void drawSmillCircle(Canvas canvas) {
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(15);
-        final int radius = 30;
-
-        mRectF.set(mCenterX - radius, mCenterY - radius, mCenterX + radius, mCenterY + radius);
-        canvas.drawArc(mRectF, 10, 160, false, mPaint);
-        canvas.rotate(mArcValue, mCenterX, mCenterY);
-
-        mPaint.setStrokeWidth(1);
-        mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(mCenterX - (float) (radius * Math.sin(Math.toRadians(60))), mCenterY - (float) (radius * Math.cos(Math.toRadians(60))), 10, mPaint);
-        canvas.drawCircle(mCenterX + (float) (radius * Math.sin(Math.toRadians(60))), mCenterY - (float) (radius * Math.cos(Math.toRadians(60))), 10, mPaint);
-        canvas.rotate(mValue, mCenterX, mCenterY);
+        mAnimatorSet.start();
     }
 
     //中心点外8个小圆圈
