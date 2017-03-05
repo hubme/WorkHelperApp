@@ -3,15 +3,19 @@ package com.king.app.workhelper.fragment;
 import android.content.Context;
 import android.os.Message;
 import android.os.UserManager;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.dialog.ShareBottomDialog;
 import com.king.applib.base.WeakHandler;
 
 import java.lang.reflect.Method;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -64,5 +68,32 @@ public class UsageFragment extends AppBaseFragment {
         } catch (Exception e) {//(NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    @OnClick(R.id.tv_bottom_dialog)
+    public void onBottomDialogClick() {
+        /*BottomDialog.create(getActivity().getSupportFragmentManager())
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+                    public void bindView(View v) {
+                        initBottomDialogView(v);
+                    }
+                })
+                .setLayoutRes(R.layout.dialog_layout)
+                .setDimAmount(0.2f)
+                .setTag("BottomDialog")
+                .show();*/
+        ShareBottomDialog dialog = new ShareBottomDialog();
+        dialog.show(getActivity().getSupportFragmentManager());
+    }
+
+    private void initBottomDialogView(View v) {
+        TextView textView = ButterKnife.findById(v, R.id.tv_we_chat);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "哈哈哈", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

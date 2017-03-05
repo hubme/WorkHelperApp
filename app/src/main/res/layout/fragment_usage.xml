@@ -14,4 +14,9 @@
         style="@style/EntryItem"
         android:text="reflect"/>
 
+    <TextView
+        android:id="@+id/tv_bottom_dialog"
+        style="@style/EntryItem"
+        android:text="BottomDialog"/>
+
 </LinearLayout>
