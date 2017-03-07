@@ -187,12 +187,15 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 删除目录下的全部文件,删除成功只留下空目录。有一个删除不成功返回false
+     */
     public static boolean deleteDir(String dir) {
         return deleteDir(getFileByPath(dir));
     }
 
     /**
-     * 删除目录
+     * 删除目录下的全部文件,删除成功只留下空目录。有一个删除不成功返回false
      */
     public static boolean deleteDir(File dir) {
         if (dir == null || !dir.isDirectory()) {
@@ -202,21 +205,21 @@ public class FileUtil {
             return true;
         }
         File[] files = dir.listFiles();
-        ExtendUtil.printArray(files);
-        if (files != null && files.length > 0) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    if (!deleteFile(file)) {
-                        return false;
-                    }
-                } else if (file.isDirectory()) {
-                    if (!deleteDir(file)) {
-                        return false;
-                    }
+        for (File file : files) {
+            if (file == null) {
+                continue;
+            }
+            if (file.isFile()) {
+                if (!deleteFile(file)) {
+                    return false;
+                }
+            } else if (file.isDirectory()) {
+                if (!deleteDir(file)) {
+                    return false;
                 }
             }
         }
-        return dir.delete();
+        return true;
     }
 
 

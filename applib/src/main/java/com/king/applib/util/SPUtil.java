@@ -163,4 +163,31 @@ public class SPUtil {
         }
         return values;
     }
+
+    /***
+     * 把List数据保存到SP
+     */
+    public static <T> void putListToSp(Context context, String key, List<T> list) {
+        if (ExtendUtil.isListNullOrEmpty(list)) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (T t : list) {
+            sb.append(JsonUtil.encode(t)).append(SP_SEPARATOR);
+        }
+        getSP(context).edit().putString(key, sb.toString()).apply();
+    }
+
+    /***
+     * 从SP中获取List类型的数据
+     */
+    public static <T> List<T> getListFromSp(Context context, String key, Class<T> clazz) {
+        List<T> list = new ArrayList<>();
+        String text = SPUtil.getString(context, key);
+        String[] classArray = text.trim().split(SP_SEPARATOR);
+        for (String value : classArray) {
+            list.add(JsonUtil.decode(value, clazz));
+        }
+        return list;
+    }
 }

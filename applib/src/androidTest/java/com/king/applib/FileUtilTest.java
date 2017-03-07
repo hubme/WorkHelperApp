@@ -75,7 +75,7 @@ public class FileUtilTest extends AndroidTestCase {
     }
 
     public void testDeleteDir() throws Exception {
-        Logger.i(FileUtil.deleteDir(mContext.getCacheDir().getParentFile()) ? "删除成功" : "删除失败");
-        Logger.i(FileUtil.deleteDir(Environment.getExternalStorageDirectory() + "/360") ? "删除成功" : "删除失败");
+//        Logger.i(FileUtil.deleteDir(mContext.getCacheDir().getParentFile()) ? "删除成功" : "删除失败");
+        Logger.i(FileUtil.deleteDir(Environment.getExternalStorageDirectory() + "/000test") ? "删除成功" : "删除失败");
     }
 }

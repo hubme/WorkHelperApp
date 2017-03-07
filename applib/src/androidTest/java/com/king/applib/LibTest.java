@@ -12,7 +12,6 @@ import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
 import com.king.applib.util.NetworkUtil;
 import com.king.applib.util.NumberUtil;
-import com.king.applib.util.SPUtil;
 import com.king.applib.util.ScreenUtil;
 import com.king.applib.util.StringUtil;
 
@@ -20,6 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Lib测试类
@@ -27,6 +29,22 @@ import java.io.File;
  */
 
 public class LibTest extends BaseTestCase {
+    //使用Iterator动态删除
+    public void testListRemove() throws Exception {
+        List<Integer> list = new ArrayList<>();
+        list.add(111);
+        list.add(222);
+        list.add(333);
+        list.add(444);
+        Iterator<Integer> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Integer next = iterator.next();
+            if (222 == next) {
+                iterator.remove();
+            }
+        }
+        ExtendUtil.printList(list);
+    }
 
     public void testDoubleArray() throws Exception {
         String[][] array = {{"11", "12"}, {"21", "22"}};
@@ -136,47 +154,5 @@ public class LibTest extends BaseTestCase {
 
     public void testNumberMethod() throws Exception {
         Logger.i("result：" + NumberUtil.getInt(""));
-    }
-
-    public void testSPUtils() throws Exception {
-        SPUtil.putBoolean(mContext, "aaaaaaaaa", true);
-//        SPUtil.putBoolean(mContext, "boolean", false);
-//        SPUtil.putFloat(mContext, "float", 5.20f);
-//        SPUtil.putInt(mContext, "int", 100);
-//        SPUtil.putLong(mContext, "long", 321651);
-//        SPUtil.putString(mContext, "string", "双方而上方的");
-//
-//        Set<String> texts = new HashSet<>();
-//        texts.add("董藩");
-//        texts.add("带看佛陈");
-//        texts.add("董双管");
-//        texts.add("；困啊");
-//        SPUtil.getSP(mContext).edit().putStringSet("list_set", texts).apply();
-//
-//        List<Integer> intList = new ArrayList<>();
-//        intList.add(1);
-//        intList.add(2);
-//        intList.add(3);
-//        SPUtil.putIntList(mContext, "int_list", intList);
-//
-//        List<String> stringList = new ArrayList<>();
-//        stringList.add("我##fdf");
-//        stringList.add("是");
-//        stringList.add("谁");
-//        SPUtil.putStringList(mContext, "string_list", stringList);
-
-
-//        SPUtil.clear(mContext);
-
-//        SPUtil.remove(mContext, "string_list");
-//        SPUtil.putInt(mContext, "int", 999);
-
-//        ExtendUtil.printList(SPUtil.getStringList(mContext, "string_list"));
-//        ExtendUtil.printList(SPUtil.getIntList(mContext, "int_list"));
-//        Logger.i(SPUtil.getInt(mContext, "sdjfo")+"");
-
-
-//        SPUtil.getSP(mContext).edit().putBoolean("aaa", true).putString("bbb", "龙胆啊")
-//                .putLong("ccc", 7).putInt("ddd", 678).putFloat("eee", 20.222f).apply();
     }
 }

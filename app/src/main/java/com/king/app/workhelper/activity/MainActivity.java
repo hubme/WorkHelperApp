@@ -1,7 +1,9 @@
 package com.king.app.workhelper.activity;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.util.AttributeSet;
@@ -54,7 +56,11 @@ public class MainActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_main)
     public void onMainClick() {
-        openActivity(TabSwitchActivity.class);
+//        openActivity(TabSwitchActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ActivityManager activityManager = (ActivityManager) getApplication().getSystemService(Context.ACTIVITY_SERVICE);
+            activityManager.clearApplicationUserData();
+        }
     }
 
     private Typeface getTypeface() {
