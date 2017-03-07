@@ -10,6 +10,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,6 +22,9 @@ import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.NetworkUtil;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import butterknife.BindView;
 
@@ -87,10 +91,6 @@ public class WebActivity extends AppBaseActivity {
     }
 
     private class DefaultWebViewClient extends WebViewClient {
-        @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            mWebProgress.setVisibility(View.VISIBLE);
-        }
 
         @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             Logger.i("shouldOverrideUrlLoading");
@@ -101,6 +101,30 @@ public class WebActivity extends AppBaseActivity {
             super.onPageFinished(view, url);
             Logger.i("网页加载完成.url: " + url);
             mWebProgress.setVisibility(View.GONE);
+        }
+
+        @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            mWebProgress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            return super.shouldInterceptRequest(view, request);
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            WebResourceResponse response = null;
+            if (url.contains("baidu")) {
+                try {
+                    InputStream inputStream = getAssets().open("aaa.png");
+                    response = new WebResourceResponse("image/png", "UTF-8", inputStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return response;
         }
     }
 
