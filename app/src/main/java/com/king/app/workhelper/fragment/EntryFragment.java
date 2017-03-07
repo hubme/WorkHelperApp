@@ -123,7 +123,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_web_view)
     public void onWebViewClick() {
-        WebActivity.openActivity(getContext(), WebActivity.BAI_DU_URL);
+        WebActivity.openActivity(getContext(), WebActivity.URL_BAI_DU);
     }
 
     @OnClick(R.id.tv_file_provider)

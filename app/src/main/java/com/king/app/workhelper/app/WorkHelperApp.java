@@ -50,7 +50,7 @@ public class WorkHelperApp extends BaseApplication {
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         Logger.i("WorkHelperApp#onCreate()");
         mRefWatcher = LeakCanary.install(this);
-
+        
         ContextUtil.init(this);
         initOkHttp();
         FreelineCore.init(this);

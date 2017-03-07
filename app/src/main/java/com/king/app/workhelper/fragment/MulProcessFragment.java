@@ -29,6 +29,7 @@ public class MulProcessFragment extends AppBaseFragment {
 
     private MessengerServiceConnection mMessengerServiceConnection = new MessengerServiceConnection();
     Messenger mReplyMessenger = new Messenger(new MessengerHandler());
+    private boolean mBindSuccess = false;
 
     private class MessengerHandler extends Handler {
         @Override
@@ -51,7 +52,7 @@ public class MulProcessFragment extends AppBaseFragment {
     @OnClick(R.id.tv_messenger)
     public void onMessengerClick() {
         Intent intent = new Intent(mActivity, MessengerService.class);
-        mActivity.bindService(intent, mMessengerServiceConnection, Context.BIND_AUTO_CREATE);
+        mBindSuccess = mActivity.bindService(intent, mMessengerServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     private class MessengerServiceConnection implements ServiceConnection {
@@ -80,6 +81,8 @@ public class MulProcessFragment extends AppBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mContext.unbindService(mMessengerServiceConnection);
+        if (mBindSuccess && mContext != null) {
+            mContext.unbindService(mMessengerServiceConnection);
+        }
     }
 }

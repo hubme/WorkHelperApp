@@ -67,8 +67,8 @@ public class WebViewSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.btn_load_url)
     public void loadUrl() {
-//        loadUrl("file:///android_asset/js_java_interaction.html");
-        loadUrl(URL);
+        loadUrl("file:///android_asset/js_java_interaction.html");
+//        loadUrl(URL);
     }
 
     @OnClick(R.id.btn_invoke_js_method1)

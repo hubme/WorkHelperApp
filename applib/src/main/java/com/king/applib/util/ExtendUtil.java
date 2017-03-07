@@ -144,6 +144,21 @@ public class ExtendUtil {
     }
 
     /**
+     * 使用浏览器下载文件
+     */
+    public static void downloadWithIntent(Context context, String fileUrl) {
+        if (context == null || StringUtil.isNullOrEmpty(fileUrl)) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(fileUrl));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
+
+    /**
      * dp转px
      *
      * @param context 上下文
