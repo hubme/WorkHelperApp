@@ -9,6 +9,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Looper;
 import android.support.annotation.AnyRes;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -324,4 +325,10 @@ public class ExtendUtil {
     public static int getScreenHeight(Context context) {
         return context.getResources().getDisplayMetrics().heightPixels;
     }
+
+    /** 判断是否是主线程 */
+    public static boolean isInMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
+
 }

@@ -5,10 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.UiThread;
 import android.view.View;
+import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
+import android.webkit.JavascriptInterface;
+import android.webkit.JsPromptResult;
+import android.webkit.JsResult;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -29,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * WebView使用。WebView是一个基于webkit引擎、展现web页面的控件。
@@ -37,7 +45,9 @@ import butterknife.BindView;
 public class WebActivity extends AppBaseActivity {
     public static final String TAG = "MainActivity";
     public static final String URL_BAI_DU = "http://www.baidu.com";
-
+    public static final String ASSET_JS = "file:///android_asset/jsdemo.html";
+    public static final String PREFIX_JS_PROTOCOL = "jsbridge://";
+    
     private String mUrl = "";
 
     @BindView(R.id.web_view) WebView mWebView;
@@ -56,12 +66,12 @@ public class WebActivity extends AppBaseActivity {
         super.getIntentData(intent);
         mUrl = intent.getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL);
     }
-    
-    @Override @SuppressLint("SetJavaScriptEnabled")
+
+    @Override @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     protected void initContentView() {
         super.initContentView();
+        mWebView.setWebViewClient(new DefaultWebViewClient());//不设置将跳转到系统浏览器
         mWebView.setWebChromeClient(new DefaultWebChromeClient());
-        mWebView.setWebViewClient(new DefaultWebViewClient());
         mWebView.setDownloadListener(new DefaultDownloadListener());
 
         WebSettings settings = mWebView.getSettings();
@@ -75,7 +85,12 @@ public class WebActivity extends AppBaseActivity {
             settings.setCacheMode(WebSettings.LOAD_CACHE_ONLY); //不从网络加载数据，只从缓存加载数据。
         }
 
+        //1.开启js交互
         settings.setJavaScriptEnabled(true);
+        //3.注入js对象.第二个参数为注入接口名称。
+        mWebView.addJavascriptInterface(new JsInteraction(), "control");
+        mWebView.addJavascriptInterface(new WebAppInterface(), "Android");
+
     }
 
     @Override
@@ -94,10 +109,19 @@ public class WebActivity extends AppBaseActivity {
 
     private class DefaultWebViewClient extends WebViewClient {
 
-        @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            Logger.i("shouldOverrideUrlLoading");
-            return true;
+        //js2java 1
+        @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url != null && url.contains(PREFIX_JS_PROTOCOL)) {
+                showToast(url);
+                return true;
+            }
+            return super.shouldOverrideUrlLoading(view, url);
         }
+
+        /*@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override 
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return true;
+        }*/
 
         @Override public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
@@ -118,7 +142,7 @@ public class WebActivity extends AppBaseActivity {
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
             WebResourceResponse response = null;
-            if (url.contains("baidu")) {
+            if (url.endsWith("123")) {
                 try {
                     InputStream inputStream = getAssets().open("aaa.png");
                     response = new WebResourceResponse("image/png", "UTF-8", inputStream);
@@ -148,6 +172,40 @@ public class WebActivity extends AppBaseActivity {
             if (newProgress > 0 && newProgress < 100) {
                 mWebProgress.setProgress(newProgress);
             }
+        }
+
+        //js2java 2
+        @Override public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+            if (message != null && defaultValue != null && defaultValue.contains(PREFIX_JS_PROTOCOL)) {
+                final String text = url + "-" + message + "-" + defaultValue;
+                Logger.i("onJsPrompt。" + text);
+                showToast(text);
+                result.confirm();// 给js回调，否则会有问题
+                return true;
+            }
+            return super.onJsPrompt(view, url, message, defaultValue, result);
+        }
+
+        //js2java 3
+        @Override public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            final String message = consoleMessage.message();
+            Logger.i("onConsoleMessage。" + message);
+            if (message.contains(PREFIX_JS_PROTOCOL)) {
+                showToast(message);
+                return true;
+            }
+            return super.onConsoleMessage(consoleMessage);
+        }
+
+        //js2java 4
+        @Override public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+            Logger.i("onJsAlert。" + message);
+            if (message.contains(PREFIX_JS_PROTOCOL)) {
+                showToast(message);
+                result.confirm();// 给js回调，否则会有问题
+                return true;
+            }
+            return super.onJsAlert(view, url, message, result);
         }
     }
 
@@ -197,7 +255,61 @@ public class WebActivity extends AppBaseActivity {
         }
     }
 
+    /*
+     * 2.定义交互接口
+     * 1):在该方式下，JavaScript 调用 Java 通过 WebView 的一个私有后台线程，所以，需要我们需要注意线程安全
+     * 2):Java对象的域是不可访问的；
+     * 3):在 Android 5.0及以上，被注入对象的方法可被 JavaScript 枚举。
+     */
+    private class JsInteraction {
+
+        @JavascriptInterface
+        public void toastMessage(String message) {
+            showToast(message);
+        }
+
+        @JavascriptInterface
+        public void onSumResult(int result) {
+            showToast(result + "");
+        }
+    }
+
+    private class WebAppInterface {
+
+        @JavascriptInterface
+        public void toast(String message) {
+            if (message != null) {
+                showToast(message);
+            }
+        }
+    }
+
+
     public static void openActivity(Context context, String url) {
         new IntentBuilder(context, WebActivity.class).put(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL, url).start();
+    }
+
+    /* 4.java调用js。webView调用js的基本格式为: webView.loadUrl(“javascript:methodName(parameterValues)”)
+     * 5.js调用java。调用格式为window.jsInterfaceName.methodName(parameterValues) 此例中我们使用的是control作为注入接口名称。
+     */
+    @OnClick(R.id.btn_js)
+    public void onTestClick() {
+        String call = "javascript:sayHello()";//不设置WebChromeClient则alert探不出
+//        String call = "javascript:alertMessage(\"" + "哈哈哈" + "\")";//注意对于字符串作为参数值需要进行转义双引号
+//        String call = "javascript:toastMessage(\"" + "哈哈哈" + "\")";
+//        String call = "javascript:sumToJava(1,2)";
+        mWebView.loadUrl(call);
+
+    }
+
+    //Android 4.4之后可以使用使用evaluateJavascript
+    @UiThread//方法必须在UI线程（主线程）调用，因此onReceiveValue也执行在主线程。
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT) 
+    public void testEvaluateJavascript() {
+        mWebView.evaluateJavascript("getGreetings()", new ValueCallback<String>() {
+            @Override public void onReceiveValue(String value) {
+                showToast(value);
+            }
+        });
     }
 }

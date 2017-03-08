@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>JS与Java互相调用</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<style>
+		.ui-btn {
+			width: 150px;
+			height: 44px;
+		}
+	</style>
+	<script type="text/javascript">
+		function javascriptInterface() {
+			for (obj in window) {
+				console.log(obj);
+			}
+			Android.toast("jsbridge://toast?params=jstojava");
+		}
+
+		function consoleMethod() {
+			console.log("jsbridge://toast?params=js to java");
+		}
+
+		//result = window.prompt(message, default);
+		function promptMethod() {
+			window.prompt("toast?params=jstojava", "jsbridge://");
+		}
+
+		function jsbridgeMethod() {
+			// 方式(1) 直接设置window.location.href
+			//window.location.href = "jsbridge://toast?params=jstojava";
+			// 方式(2) 在需要js调用native api的时候,js在页面中创建一个不可见的iframe,设置这个iframe的地址
+			var iframe = document.createElement("iframe");
+			iframe.style.display = "none";
+			document.documentElement.appendChild(iframe);
+			iframe.src = "jsbridge://toast?params=jstojava";
+		}
+
+		function alertMethod() {
+			alert("jsbridge://toast?params=jstojava");
+		}
+
+		window.javaCallJs = function () {
+			console.log(document.body.style.background);
+			document.body.style.background = "#000";
+		}
+	</script>
+</head>
+
+<body>
+	<div>
+		<input type="button" value="JavascriptInterface" class="ui-btn" onClick="javascriptInterface()" />
+	</div>
+
+	<div>
+		<input type="button" value="Console.log" onClick="consoleMethod()" />
+	</div>
+
+	<div>
+		<input type="button" value="window.prompt" onClick="promptMethod()" />
+	</div>
+
+	<div>
+		<input type="button" value="alert" onClick="alertMethod()" />
+	</div>
+
+	<div>
+		<input type="button" value="shouldOverrideUrlLoading" onClick="jsbridgeMethod()" />
+	</div>
+
+</body>
+
+</html>
