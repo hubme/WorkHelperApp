@@ -1,5 +1,6 @@
 package com.king.app.workhelper.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.widget.ProgressBar;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.applib.builder.IntentBuilder;
 import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.NetworkUtil;
@@ -54,8 +56,8 @@ public class WebActivity extends AppBaseActivity {
         super.getIntentData(intent);
         mUrl = intent.getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL);
     }
-
-    @Override
+    
+    @Override @SuppressLint("SetJavaScriptEnabled")
     protected void initContentView() {
         super.initContentView();
         mWebView.setWebChromeClient(new DefaultWebChromeClient());
@@ -171,7 +173,7 @@ public class WebActivity extends AppBaseActivity {
         }
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
-        
+
 //      cookie设置形式:cookieManager.setCookie(url, "key=value;" + "domain=[your domain];path=/;")
         cookieManager.setCookie(url, cookie);
     }
@@ -180,7 +182,6 @@ public class WebActivity extends AppBaseActivity {
      * 这个两个在 API level 21 被抛弃
      * CookieManager.getInstance().removeSessionCookie();
      * CookieManager.getInstance().removeAllCookie();
-     *
      * 推荐使用这两个， level 21 新加的
      * CookieManager.getInstance().removeSessionCookies();
      * CookieManager.getInstance().removeAllCookies();
@@ -197,8 +198,6 @@ public class WebActivity extends AppBaseActivity {
     }
 
     public static void openActivity(Context context, String url) {
-        Intent intent = new Intent(context, WebActivity.class);
-        intent.putExtra(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL, url);
-        context.startActivity(intent);
+        new IntentBuilder(context, WebActivity.class).put(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL, url).start();
     }
 }

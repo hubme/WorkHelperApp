@@ -28,16 +28,16 @@ public class MainActivity extends AppBaseActivity {
                 for (int i = 0; i < size; i++) {
                     Logger.i(attrs.getAttributeName(i) + "---" + attrs.getAttributeValue(i));
                 }*/
-                
+
                 //统一把TextView替换成Button
                 /*if (name.equals("TextView")) {
                     return new AppCompatButton(context, attrs);
                 }*/
-                
+
                 //返回null将不能使用兼容包里的新特性。
                 View view = getDelegate().createView(parent, name, context, attrs);
                 if (view != null && (view instanceof TextView)) {
-                    ((TextView)view).setTypeface(getTypeface());
+                    ((TextView) view).setTypeface(getTypeface());
                 }
                 return view;
             }
