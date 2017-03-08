@@ -25,6 +25,13 @@ import java.lang.annotation.Target;
  */
 
 public class AnnotationSample {
+
+    @IntDef({SORT_TYPE.ASC, SORT_TYPE.DESC})
+    public @interface SORT_TYPE {
+        int ASC = 0;
+        int DESC = 1;
+    }
+
     private int day;
 
     public static final int MON = 1;
