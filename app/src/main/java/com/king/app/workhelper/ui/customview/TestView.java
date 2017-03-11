@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -131,6 +132,18 @@ public class TestView extends View {
 //        mStartPoint.setY(RADIUS);
         canvas.drawCircle(mStartPoint.getX(), mStartPoint.getY(), RADIUS, mPaint);
 
+    }
+
+    //矩形四周阴影效果
+    private void drawBlurMaskFilter(Canvas canvas) {
+        mPaint.setFlags(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(0xFF603811);
+        mPaint.setMaskFilter(new BlurMaskFilter(20, BlurMaskFilter.Blur.SOLID));//也可以使用mPaint.setShadowLayer()
+
+        //关闭硬件加速.AvoidXfermode在API 16的时候该类已经被标注为过时了，因为AvoidXfermode不支持硬件加速
+        setLayerType(LAYER_TYPE_SOFTWARE, null);
+        canvas.drawRect(20, 20, 220, 220, mPaint);
     }
 
     @Override
