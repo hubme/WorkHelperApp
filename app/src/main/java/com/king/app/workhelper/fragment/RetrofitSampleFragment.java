@@ -7,9 +7,9 @@ import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.webservice.GitUserService;
 import com.king.app.workhelper.webservice.MovieService;
 import com.king.applib.log.Logger;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import butterknife.OnClick;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,11 +58,10 @@ public class RetrofitSampleFragment extends AppBaseFragment {
     public void retrofitSample() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
-                .client(new OkHttpClient())
+                .client(OkHttpUtils.getInstance().getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-
         final GitUserService service = retrofit.create(GitUserService.class);
         service.getUser("Guolei1130").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GitHubUser>() {

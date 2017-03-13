@@ -34,15 +34,14 @@ public class LoggingInterceptor implements Interceptor {
     private static final String F_REQUEST_WITH_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS + F_BODY + F_BREAK;
     private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAK;
 
-    private boolean mIsPrintRequestHeaders = true;
-    private boolean mIsPrintResponseHeaders = true;
+    private boolean mIsPrintRequestHeaders = false;
+    private boolean mIsPrintResponseHeaders = false;
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = null;
-        Response response = null;
-        String time = "";
-        String mediaType = null;
+        Response response;
+        String time;
         String bodyString = null;
         try {
             request = chain.request();
@@ -57,11 +56,8 @@ public class LoggingInterceptor implements Interceptor {
                 contentType = responseBody.contentType();
                 bodyString = responseBody.string();
             }
-            if (contentType != null) {
-                mediaType = contentType.type();
-            }
 
-            printLog(request, response, time, mediaType, bodyString);
+            printLog(request, response, time, contentType, bodyString);
 
             if (bodyString != null) {
                 return response.newBuilder().body(ResponseBody.create(contentType, bodyString)).build();
@@ -76,7 +72,7 @@ public class LoggingInterceptor implements Interceptor {
         return chain.proceed(chain.request());
     }
 
-    private void printLog(Request request, Response response, String time, String mediaType, String bodyString) {
+    private void printLog(Request request, Response response, String time, MediaType mediaType, String bodyString) {
         String url = request.url().toString();
         String requestHeaders = stringifyRequestHeaders(request);
         String responseCode = response != null ? response.code() + "" : "";
@@ -124,13 +120,34 @@ public class LoggingInterceptor implements Interceptor {
         }
     }
 
-    private String stringifyResponseBody(String MediaType, String responseBody) {
+    private String stringifyResponseBody(MediaType MediaType, String responseBody) {
         if (responseBody == null) {
             return "";
         }
-        if (!"text".equalsIgnoreCase(MediaType)) {
+        if (!isPlaintext(MediaType)) {
             return "MIME类型是：" + MediaType + ",不打印log.";
         }
         return responseBody;
+    }
+
+    /**
+     * Returns true if the body in question probably contains human readable text. Uses a small sample
+     * of code points to detect unicode control characters commonly used in binary file signatures.
+     */
+    private boolean isPlaintext(MediaType mediaType) {
+        if (mediaType == null) return false;
+        if (mediaType.type() != null && mediaType.type().equals("text")) {
+            return true;
+        }
+        String subtype = mediaType.subtype();
+        if (subtype != null) {
+            subtype = subtype.toLowerCase();
+            if (subtype.contains("x-www-form-urlencoded") ||
+                    subtype.contains("json") ||
+                    subtype.contains("xml") ||
+                    subtype.contains("html"))
+                return true;
+        }
+        return false;
     }
 }
