@@ -5,13 +5,13 @@
               android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_retrofit_dou_ban"
+        android:id="@+id/tv_common_retrofit"
         style="@style/EntryItem"
-        android:text="retrofit1"/>
+        android:text="common retrofit"/>
 
     <TextView
-        android:id="@+id/tv_retrofit_sample"
+        android:id="@+id/tv_rx_retrofit"
         style="@style/EntryItem"
-        android:text="retrofit sample"/>
+        android:text="rx retrofit"/>
 
 </LinearLayout>

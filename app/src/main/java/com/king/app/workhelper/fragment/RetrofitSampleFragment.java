@@ -2,18 +2,23 @@ package com.king.app.workhelper.fragment;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.model.entity.Movie;
-import com.king.app.workhelper.model.entity.User;
-import com.king.app.workhelper.webservice.APIInterface;
+import com.king.app.workhelper.model.entity.GitHubUser;
+import com.king.app.workhelper.model.entity.MovieEntity;
+import com.king.app.workhelper.webservice.GitUserService;
 import com.king.app.workhelper.webservice.MovieService;
 import com.king.applib.log.Logger;
 
 import butterknife.OnClick;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Retrofit.
@@ -27,7 +32,7 @@ public class RetrofitSampleFragment extends AppBaseFragment {
         return R.layout.activity_sample_retrofit;
     }
 
-    @OnClick(R.id.tv_retrofit_dou_ban)
+    @OnClick(R.id.tv_common_retrofit)
     public void retrofitRequest() {
         final String baseUrl = "https://api.douban.com/v2/movie/";
         Retrofit retrofit = new Retrofit.Builder()
@@ -35,39 +40,45 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         MovieService movieService = retrofit.create(MovieService.class);
-        Call<Movie> call = movieService.getTopMovie(0, 10);
-        call.enqueue(new Callback<Movie>() {
+        Call<MovieEntity> call = movieService.getTopMovie(0, 10);
+        call.enqueue(new Callback<MovieEntity>() {
             @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
+            public void onResponse(Call<MovieEntity> call, Response<MovieEntity> response) {
                 Logger.i("results: " + response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+            public void onFailure(Call<MovieEntity> call, Throwable t) {
                 Logger.i("onFailure");
             }
         });
     }
 
-    @OnClick(R.id.tv_retrofit_sample)
+    @OnClick(R.id.tv_rx_retrofit)
     public void retrofitSample() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
+                .client(new OkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        APIInterface service = retrofit.create(APIInterface.class);
-        Call<User> user = service.getUser("Guolei1130");
-        user.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                Logger.i("results: " + response.body().toString());
-            }
+        final GitUserService service = retrofit.create(GitUserService.class);
+        service.getUser("Guolei1130").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GitHubUser>() {
+                    @Override public void onCompleted() {
+                        Logger.i("GitUserService->onCompleted");
+                    }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Logger.i("onFailure");
-            }
-        });
+                    @Override public void onError(Throwable e) {
+                        Logger.i("GitUserService->onError");
+
+                    }
+
+                    @Override public void onNext(GitHubUser gitHubUser) {
+                        Logger.i("GitUserService->" + gitHubUser.toString());
+                    }
+                });
+
     }
 }

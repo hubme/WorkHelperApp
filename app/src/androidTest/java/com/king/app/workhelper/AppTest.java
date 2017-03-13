@@ -2,6 +2,7 @@ package com.king.app.workhelper;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -27,6 +28,17 @@ import static com.king.applib.util.FileUtil.createFile;
  */
 
 public class AppTest extends BaseTestCase {
+
+    //计算SDCard的大小、可用空间等。
+    public void testSdCardState() throws Exception {
+        String path = Environment.getExternalStorageDirectory().getPath();
+        StatFs statFs = new StatFs(path);
+        long blockSize = statFs.getBlockSize();
+        long blockCount = statFs.getBlockCount();
+        long availCount = statFs.getAvailableBlocks();
+        Logger.i("block大小: " + blockSize + ";block数目: " + blockCount + ";总大小: " + (blockSize * blockCount) / 1024 + "KB");
+        Logger.i("可用的block数目：:" + availCount + ",剩余空间:" + availCount * blockSize / 1024 + "KB");
+    }
 
     public void testMathMethod() throws Exception {
         Logger.i("Math.sinh(): " + Math.sinh(Math.PI / 6) + ";Math.sin(): " + Math.sin(Math.PI / 6));
