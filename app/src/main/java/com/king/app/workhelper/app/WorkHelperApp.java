@@ -13,6 +13,7 @@ import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.okhttp.LoggingInterceptor;
+import com.king.app.workhelper.okhttp.MockInterceptor;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
@@ -70,13 +71,17 @@ public class WorkHelperApp extends BaseApplication {
     }
 
     private void initOkHttp() {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new LoggingInterceptor())
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(AppConfig.HTTP_CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
                 .readTimeout(AppConfig.HTTP_READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(AppConfig.HTTP_WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-                .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"), AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE))
-                .build();
+                .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"), AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
+
+        if (BuildConfig.LOG_DEBUG) {
+            builder.addInterceptor(new LoggingInterceptor());
+            builder.addInterceptor(new MockInterceptor());
+        }
+        OkHttpClient okHttpClient = builder.build();
         OkHttpUtils.initClient(okHttpClient);
     }
 

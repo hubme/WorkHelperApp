@@ -4,27 +4,19 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.okhttp.LoggingInterceptor;
-import com.king.applib.log.Logger;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
 
 /**
  * OkHttp使用
@@ -53,12 +45,7 @@ public class OkHttpFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        mOkHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new LoggingInterceptor())
-                .addInterceptor(new OkHttpMockInterceptor())
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .build();
+        mOkHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
     }
 
     @OnClick(R.id.tv_okhttp_get)
@@ -94,61 +81,5 @@ public class OkHttpFragment extends AppBaseFragment {
 //                Logger.i("onResponse" + content);
             }
         });
-    }
-
-    /**
-     * 1.通过Interceptor拦截器模拟数据
-     * 2.通过转接服务器模拟网络数据。http://www.mocky.io/
-     */
-    private class OkHttpMockInterceptor implements Interceptor {
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            HttpUrl url = chain.request().url();
-            Response response = chain.proceed(chain.request());
-            ResponseBody responseBody = response.body();
-            if (url.toString() != null && url.toString().startsWith("http://www.baidu.com/")) {
-                final String json = "{\"name\":\"VanceKing\",\"age\":\"27\"}";
-                return response.newBuilder().body(ResponseBody.create(responseBody.contentType(), json)).build();
-            } else {
-                return response;
-            }
-        }
-    }
-
-    /**
-     * notice: response.body()使用后流就关闭了.see:{@link ResponseBody#bytes() 源码}
-     */
-    private class LogInterceptor implements Interceptor {
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            Logger.i(String.format(Locale.getDefault(), "send request %s %s%n%s%n%s", request.method(), request.url(), stringifyRequestBody(request), request.headers()));
-            long t1 = System.nanoTime();
-            Response response = chain.proceed(chain.request());
-            long time = System.nanoTime() - t1;
-
-            MediaType mediaType = response.body().contentType();
-            String content = response.body().string();
-
-            Logger.i(String.format(Locale.getDefault(), "Received response for %s in %.1fms%s%n%s%n%s",
-                    response.request().url(), time / 1e6d, request.headers(), response.headers(), content));
-            return response.newBuilder().body(ResponseBody.create(mediaType, content)).build();
-        }
-
-        private String stringifyRequestBody(Request request) {
-            if (request.body() == null) {
-                return "request body is empty";
-            }
-            try {
-                final Request copy = request.newBuilder().build();
-                final Buffer buffer = new Buffer();
-                copy.body().writeTo(buffer);
-                return buffer.readUtf8();
-            } catch (final IOException e) {
-                return "IOException";
-            }
-        }
     }
 }
