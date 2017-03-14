@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.MainActivity;
+import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WebActivity;
@@ -144,6 +145,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_mul_process)
     public void onMulProcess() {
         clickedOn(new MulProcessFragment());
+    }
+
+    @OnClick(R.id.tv_share)
+    public void onShare() {
+        openActivity(WBShareActivity.class);
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

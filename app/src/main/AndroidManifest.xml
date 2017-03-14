@@ -85,6 +85,18 @@
             </intent-filter>
         </activity>
 
+        <!-- 微博分享 -->
+        <activity
+            android:name=".activity.WBShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service

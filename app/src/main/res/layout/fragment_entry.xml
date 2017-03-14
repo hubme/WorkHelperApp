@@ -133,6 +133,11 @@
                 style="@style/EntryItem"
                 android:text="Mul Process"/>
 
+            <TextView
+                android:id="@+id/tv_share"
+                style="@style/EntryItem"
+                android:text="Share"/>
+
         </LinearLayout>
 
 
