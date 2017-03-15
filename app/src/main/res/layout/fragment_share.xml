@@ -5,6 +5,11 @@
               android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_register_app"
+        style="@style/EntryItem"
+        android:text="注册应用到微博(提前注册)"/>
+    
+    <TextView
         android:id="@+id/tv_share_text"
         style="@style/EntryItem"
         android:text="分享文字"/>

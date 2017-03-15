@@ -86,10 +86,6 @@ public class WBShareActivity extends AppBaseActivity implements IWeiboHandler.Re
         // 创建微博分享接口实例
         mWeiBoShareAPI = WeiboShareSDK.createWeiboAPI(this, APP_KEY);
 
-        // 注册第三方应用到微博客户端中，注册成功后该应用将显示在微博的应用列表中。
-        //NOTE：请务必提前注册，即界面初始化的时候或是应用程序初始化时，进行注册
-        mWeiBoShareAPI.registerApp();
-
 
         AuthInfo mAuthInfo = new AuthInfo(this, APP_KEY, REDIRECT_URL, SCOPE);
         mSsoHandler = new SsoHandler(this, mAuthInfo);
@@ -111,6 +107,14 @@ public class WBShareActivity extends AppBaseActivity implements IWeiboHandler.Re
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+    }
+
+    @OnClick(R.id.tv_register_app)
+    public void onRegisterAppClick() {
+        // 注册第三方应用到微博客户端中，注册成功后该应用将显示在微博的应用列表中。
+        //NOTE：请务必提前注册，即界面初始化的时候或是应用程序初始化时，进行注册
+        boolean registerSuccess = mWeiBoShareAPI.registerApp();
+        showToast(registerSuccess ? "注册成功" : "注册失败");
     }
 
     @OnClick(R.id.tv_share_text)
@@ -135,11 +139,11 @@ public class WBShareActivity extends AppBaseActivity implements IWeiboHandler.Re
             case WBConstants.ErrorCode.ERR_CANCEL:
                 showToast("取消分享");
                 break;
-            case WBConstants.ErrorCode.ERR_FAIL:
+            case WBConstants.ErrorCode.ERR_FAIL://认证失败很可能是APP_KEY和包名不对应的问题。第一次分享失败，以后分享成功和授权有关.
                 showToast("分享失败" + "Error Message: " + baseResponse.errMsg);
                 break;
         }
-    }
+    } 
 
     /**
      * 第三方应用发送请求消息到微博，唤起微博分享界面。
