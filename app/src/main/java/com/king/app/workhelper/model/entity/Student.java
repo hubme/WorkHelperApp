@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * &#64SerializedName标签定义属性序列化后的名字.当接口定义的名称可读性很差的时候很实用。
@@ -21,6 +22,8 @@ public class Student implements Serializable {
     public int age;
     @Expose(deserialize = false)
     public String name;
+
+    public List<Course> courses;
 
     public Student() {
     }

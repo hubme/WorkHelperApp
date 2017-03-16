@@ -3,11 +3,18 @@ package com.king.app.workhelper.fragment;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.model.entity.Course;
+import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
 import com.king.applib.util.StringUtil;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,11 +62,179 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     @Override protected void initData() {
         super.initData();
+        initSubscriber();
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        if (mSubscriber != null) {
+            mSubscriber.unsubscribe();
+        }
     }
 
     @OnClick(R.id.btn_send)
     public void sendBtnClick() {
         testTakeOperator(2);
+    }
+
+    /*
+    create() 方法是 RxJava 最基本的创造事件序列的方法。
+    
+    这里传入了一个 OnSubscribe 对象作为参数。
+    OnSubscribe 会被存储在返回的 Observable 对象中，它的作用相当于一个计划表，当 Observable 被订阅的时候，
+    OnSubscribe 的 call() 方法会自动被调用，事件序列就会依照设定依次触发（对于上面的代码，
+    就是观察者Subscriber 将会被调用三次 onNext() 和一次 onCompleted()）。
+    这样，由被观察者调用了观察者的回调方法，就实现了由被观察者向观察者的事件传递，即观察者模式。
+     */
+    @OnClick(R.id.tv_basal_use)
+    public void onBasalUse() {
+        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext("Hello");
+                subscriber.onNext("RxJava");
+                subscriber.onCompleted();
+            }
+        });
+        observable.subscribe(mSubscriber);
+    }
+
+    //将会依次调用：// onNext("Hello");// onNext("Hi");// onNext("Aloha");// onCompleted();
+    @OnClick(R.id.tv_just_operator)
+    public void onJustOperator() {
+        Observable<String> just = Observable.just("Hello", "RxJava");
+        just.subscribe(mSubscriber);
+    }
+
+    @OnClick(R.id.tv_from_operator)
+    public void onFromOperator() {
+        final String[] arrays = {"Hello", "RxJava"};
+        Observable<String> from = Observable.from(arrays);
+        from.subscribe(mSubscriber);
+    }
+
+    //map适用于一对一的转换。
+    @OnClick(R.id.tv_map_operator)
+    public void onMapOperator() {
+        final Student[] students = {};
+        Observable.from(students).map(new Func1<Student, String>() {
+            @Override public String call(Student student) {
+                return student.name;
+            }
+        }).subscribe(new Action1<String>() {
+            @Override public void call(String s) {
+                Logger.i("s");
+            }
+        });
+    }
+
+    /*
+    flapMap适用于一对多的转换。
+    
+    flatMap() 的原理是这样的：
+    1. 使用传入的事件对象创建一个 Observable 对象；
+    2. 并不发送这个 Observable, 而是将它激活，于是它开始发送事件；
+    3. 每一个创建出来的 Observable 发送的事件，都被汇入同一个 Observable ，
+    而这个 Observable 负责将这些事件统一交给 Subscriber 的回调方法。
+     */
+    @OnClick(R.id.tv_flat_map_operator)
+    public void onFlatMapOperator() {
+        final Student[] students = {};
+        Observable.from(students).flatMap(new Func1<Student, Observable<Course>>() {
+            @Override public Observable<Course> call(Student student) {
+                return Observable.from(student.courses);
+            }
+        }).subscribe(new Action1<Course>() {
+            @Override public void call(Course course) {
+                Logger.i(course.name);
+            }
+        });
+    }
+
+    @OnClick(R.id.tv_mul_action)
+    public void onActionOperator() {
+        Action1<String> onNextAction = new Action1<String>() {
+            @Override public void call(String s) {
+                Logger.i(s);
+            }
+        };
+
+        Action1<Throwable> onError = new Action1<Throwable>() {
+            @Override public void call(Throwable throwable) {
+                Logger.i("onError");
+            }
+        };
+
+        Action0 onCompletedAction = new Action0() {
+            @Override public void call() {
+                Logger.i("onCompleted");
+            }
+        };
+
+        Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
+            @Override public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext("Hello");
+                subscriber.onNext("RxJava");
+                subscriber.onCompleted();
+            }
+        });
+
+        // 自动创建 Subscriber ，并使用 onNextAction、 onErrorAction 和 onCompletedAction 来定义 onNext()、 onError() 和 onCompleted()
+        observable.subscribe(onNextAction, onError, onCompletedAction);
+    }
+
+    //后台线程取数据，主线程显示
+    @OnClick(R.id.tv_main_thread)
+    public void onMainThread(final TextView textView) {
+        Observable.just("Hello", "RxJava")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override public void call(String s) {
+                        Logger.i(s);
+                        textView.setText(s);
+                    }
+                });
+    }
+
+    // FIXME: 2017/3/16 点击一次无效
+    @OnClick(R.id.tv_throttle_first)
+    public void onThrottleFirst(TextView textView) {
+        RxView.clicks(textView).throttleFirst(1000, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override public void call(Void aVoid) {
+                        Toast.makeText(mContext, "哈哈哈", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    //将事件中的 Integer 对象转换成 String 的例子.
+    //RxJava 都不建议开发者自定义 Operator 来直接使用 lift()，而是建议尽量使用已有的 lift() 包装方法
+    //（如 map() flatMap() 等）进行组合来实现需求，因为直接使用 lift() 非常容易发生一些难以发现的错误。
+    @OnClick(R.id.tv_left)
+    public void onLeft() {
+        Observable<Integer> integerObservable = Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override public void call(Subscriber<? super Integer> subscriber) {
+
+            }
+        });
+
+        integerObservable.lift(new Observable.Operator<String, Integer>() {
+            @Override public Subscriber<? super Integer> call(final Subscriber<? super String> subscriber) {
+                return new Subscriber<Integer>() {
+                    @Override public void onCompleted() {
+
+                    }
+
+                    @Override public void onError(Throwable e) {
+
+                    }
+
+                    @Override public void onNext(Integer integer) {
+                        subscriber.onNext("" + integer);
+                    }
+                };
+            }
+        });
     }
 
     /**

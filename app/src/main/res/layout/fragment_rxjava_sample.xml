@@ -4,15 +4,75 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <CheckedTextView
-        android:id="@+id/btn_send"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:background="@color/colorAccent"
-        android:text=""/>
-
-    <EditText
-        android:id="@+id/et_input"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_basal_use"
+                style="@style/EntryItem"
+                android:text="Basal Use"/>
+
+            <TextView
+                android:id="@+id/tv_just_operator"
+                style="@style/EntryItem"
+                android:text="Just"/>
+
+            <TextView
+                android:id="@+id/tv_from_operator"
+                style="@style/EntryItem"
+                android:text="From"/>
+
+            <TextView
+                android:id="@+id/tv_map_operator"
+                style="@style/EntryItem"
+                android:text="Map"/>
+
+            <TextView
+                android:id="@+id/tv_flat_map_operator"
+                style="@style/EntryItem"
+                android:text="Flat Map"/>
+
+            <TextView
+                android:id="@+id/tv_mul_action"
+                style="@style/EntryItem"
+                android:text="Next Complete Error of Action"/>
+
+            <TextView
+                android:id="@+id/tv_main_thread"
+                style="@style/EntryItem"
+                android:text="Main Thread"/>
+            
+            <TextView
+                android:id="@+id/tv_throttle_first"
+                style="@style/EntryItem"
+                android:text="Throttle First"/>
+            
+            <TextView
+                android:id="@+id/tv_left"
+                style="@style/EntryItem"
+                android:text="Left"/>
+
+            <CheckedTextView
+                android:id="@+id/btn_send"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:background="@color/chocolate"
+                android:gravity="center"
+                android:text="哈哈"
+                android:textAlignment="center"
+                android:textColor="@color/cadetblue"
+                android:textSize="@dimen/ts_big"/>
+
+            <EditText
+                android:id="@+id/et_input"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
