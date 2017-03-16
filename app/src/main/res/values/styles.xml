@@ -10,6 +10,13 @@
         <!--<item name="windowActionBar">false</item>-->
     </style>
 
+    <style name="AppTheme.Splash" parent="@style/AppTheme">
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="android:windowIsTranslucent">false</item>-->
+        <item name="android:windowBackground">@mipmap/splash</item>
+    </style>
+
     <style name="BottomDialogStyle" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

@@ -32,6 +32,20 @@
                 android:resource="@xml/file_share_paths"/>
         </provider>
 
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/AppTheme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activity.HomeActivity">
+
+        </activity>
+
         <activity android:name=".activity.MainActivity">
 
         </activity>
@@ -49,14 +63,6 @@
 
         <activity android:name=".activity.ToolbarActivity">
 
-        </activity>
-
-        <activity android:name=".activity.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <activity
