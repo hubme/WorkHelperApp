@@ -52,20 +52,24 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private PublishSubject<Float> mFloabSubject;
     private CompositeSubscription mCompositeSubscription;
 
-    @Override public int getContentLayout() {
+    @Override
+    public int getContentLayout() {
         return R.layout.fragment_rxjava_sample;
     }
 
-    @Override protected void initContentView(View rootView) {
+    @Override
+    protected void initContentView(View rootView) {
         super.initContentView(rootView);
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
         initSubscriber();
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         if (mSubscriber != null) {
             mSubscriber.unsubscribe();
@@ -89,7 +93,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_basal_use)
     public void onBasalUse() {
         Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override public void call(Subscriber<? super String> subscriber) {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
                 subscriber.onNext("Hello");
                 subscriber.onNext("RxJava");
                 subscriber.onCompleted();
@@ -117,11 +122,13 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     public void onMapOperator() {
         final Student[] students = {};
         Observable.from(students).map(new Func1<Student, String>() {
-            @Override public String call(Student student) {
+            @Override
+            public String call(Student student) {
                 return student.name;
             }
         }).subscribe(new Action1<String>() {
-            @Override public void call(String s) {
+            @Override
+            public void call(String s) {
                 Logger.i("s");
             }
         });
@@ -140,11 +147,13 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     public void onFlatMapOperator() {
         final Student[] students = {};
         Observable.from(students).flatMap(new Func1<Student, Observable<Course>>() {
-            @Override public Observable<Course> call(Student student) {
+            @Override
+            public Observable<Course> call(Student student) {
                 return Observable.from(student.courses);
             }
         }).subscribe(new Action1<Course>() {
-            @Override public void call(Course course) {
+            @Override
+            public void call(Course course) {
                 Logger.i(course.name);
             }
         });
@@ -153,25 +162,29 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_mul_action)
     public void onActionOperator() {
         Action1<String> onNextAction = new Action1<String>() {
-            @Override public void call(String s) {
+            @Override
+            public void call(String s) {
                 Logger.i(s);
             }
         };
 
         Action1<Throwable> onError = new Action1<Throwable>() {
-            @Override public void call(Throwable throwable) {
+            @Override
+            public void call(Throwable throwable) {
                 Logger.i("onError");
             }
         };
 
         Action0 onCompletedAction = new Action0() {
-            @Override public void call() {
+            @Override
+            public void call() {
                 Logger.i("onCompleted");
             }
         };
 
         Observable<String> observable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override public void call(Subscriber<? super String> subscriber) {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
                 subscriber.onNext("Hello");
                 subscriber.onNext("RxJava");
                 subscriber.onCompleted();
@@ -189,7 +202,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
-                    @Override public void call(String s) {
+                    @Override
+                    public void call(String s) {
                         Logger.i(s);
                         textView.setText(s);
                     }
@@ -201,41 +215,71 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     public void onThrottleFirst(TextView textView) {
         RxView.clicks(textView).throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe(new Action1<Void>() {
-                    @Override public void call(Void aVoid) {
+                    @Override
+                    public void call(Void aVoid) {
                         Toast.makeText(mContext, "哈哈哈", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    //将事件中的 Integer 对象转换成 String 的例子.
-    //RxJava 都不建议开发者自定义 Operator 来直接使用 lift()，而是建议尽量使用已有的 lift() 包装方法
-    //（如 map() flatMap() 等）进行组合来实现需求，因为直接使用 lift() 非常容易发生一些难以发现的错误。
+    /*
+    lift() 是针对事件项和事件序列的
+
+    将事件中的 Integer 对象转换成 String 的例子.
+    （如 map() flatMap() 等）进行组合来实现需求，因为直接使用 lift() 非常容易发生一些难以发现的错误。
+    RxJava 都不建议开发者自定义 Operator 来直接使用 lift()，而是建议尽量使用已有的 lift() 包装方法
+     */
     @OnClick(R.id.tv_left)
     public void onLeft() {
         Observable<Integer> integerObservable = Observable.create(new Observable.OnSubscribe<Integer>() {
-            @Override public void call(Subscriber<? super Integer> subscriber) {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
 
             }
         });
 
         integerObservable.lift(new Observable.Operator<String, Integer>() {
-            @Override public Subscriber<? super Integer> call(final Subscriber<? super String> subscriber) {
+            @Override
+            public Subscriber<? super Integer> call(final Subscriber<? super String> subscriber) {
                 return new Subscriber<Integer>() {
-                    @Override public void onCompleted() {
+                    @Override
+                    public void onCompleted() {
 
                     }
 
-                    @Override public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
                     }
 
-                    @Override public void onNext(Integer integer) {
+                    @Override
+                    public void onNext(Integer integer) {
                         subscriber.onNext("" + integer);
                     }
                 };
             }
         });
     }
+
+    /*
+     compose() 是针对 Observable 自身进行变换
+     */
+    @OnClick(R.id.tv_compose)
+    public void onCompose() {
+        LiftAllTransformer liftAll = new LiftAllTransformer();
+//        observable1.compose(liftAll).subscribe(subscriber1);
+//        observable2.compose(liftAll).subscribe(subscriber2);
+//        observable3.compose(liftAll).subscribe(subscriber3);
+    }
+
+    private class LiftAllTransformer implements Observable.Transformer<Integer, String> {
+        @Override
+        public Observable<String> call(Observable<Integer> observable) {
+//            return observable.lift1().lift2().lift3();
+            return null;
+        }
+    }
+
 
     /**
      * 只打印前count个.count<=0不显示 >Observable的数量，显示全部.
@@ -245,19 +289,22 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         String nullStr = null;
         Observable.from(new String[]{"Hello", "World", " ", nullStr, "!"})
                 .filter(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String s) {
+                    @Override
+                    public Boolean call(String s) {
                         return !StringUtil.isNullOrEmpty(s);
                     }
                 })
                 .take(count)//同first()或last()
                 //doOnNext() allows us to add extra behavior each time an item is emitted, in this case saving the title.
                 .doOnNext(new Action1<String>() {
-                    @Override public void call(String s) {
+                    @Override
+                    public void call(String s) {
                         Logger.i("save \"" + s + "\" on disk.");
                     }
                 })
                 .subscribe(new Action1<String>() {
-                    @Override public void call(String s) {
+                    @Override
+                    public void call(String s) {
                         Logger.i(s);
                     }
                 });
@@ -270,12 +317,14 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         String nullStr = null;
         Observable.from(new String[]{"Hello", "World", " ", nullStr, "!"})
                 .filter(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String s) {
+                    @Override
+                    public Boolean call(String s) {
                         return !StringUtil.isNullOrEmpty(s);
                     }
                 })
                 .subscribe(new Action1<String>() {
-                    @Override public void call(String s) {
+                    @Override
+                    public void call(String s) {
                         Logger.i(s);
                     }
                 });
@@ -287,7 +336,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void testFromOperator() {
         Observable.from(new String[]{"Hello", "World", "!"})
                 .subscribe(new Action1<String>() {
-                    @Override public void call(String s) {
+                    @Override
+                    public void call(String s) {
                         Logger.i(s);
                     }
                 });
@@ -296,25 +346,30 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void testRngeOperator() {
         Observable.range(1, 4)
                 .delay(new Func1<Integer, Observable<Integer>>() {
-                    @Override public Observable<Integer> call(Integer integer) {
+                    @Override
+                    public Observable<Integer> call(Integer integer) {
                         return null;
                     }
                 })
                 .doOnSubscribe(new Action0() {
-                    @Override public void call() {
+                    @Override
+                    public void call() {
                         Logger.i("doOnSubscribe");
                     }
                 })
                 .subscribe(new Subscriber<Integer>() {//rx.exceptions.OnErrorNotImplementedException
-                    @Override public void onCompleted() {
+                    @Override
+                    public void onCompleted() {
                         Logger.i("onCompleted");
                     }
 
-                    @Override public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
                         Logger.i("onError");
                     }
 
-                    @Override public void onNext(Integer integer) {
+                    @Override
+                    public void onNext(Integer integer) {
                         Logger.i(integer.toString());
                     }
                 });
@@ -325,20 +380,24 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         mCompositeSubscription = new CompositeSubscription();
         mCompositeSubscription.add(Observable.error(new RuntimeException("testing"))
                 .doOnSubscribe(new Action0() {
-                    @Override public void call() {
+                    @Override
+                    public void call() {
                         Logger.i("doOnSubscribe");
                     }
                 })
                 .subscribe(new Observer<Object>() {
-                    @Override public void onCompleted() {
+                    @Override
+                    public void onCompleted() {
                         Logger.i("onCompleted()");
                     }
 
-                    @Override public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
                         Logger.i("onError()");
                     }
 
-                    @Override public void onNext(Object o) {
+                    @Override
+                    public void onNext(Object o) {
                         Logger.i("onNext()");
                     }
                 })
@@ -349,7 +408,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void initPublishSubject() {
         mFloabSubject = PublishSubject.create();
         Subscription mFloabSubjectSubscription = mFloabSubject.asObservable().subscribe(new Action1<Float>() {
-            @Override public void call(Float aFloat) {
+            @Override
+            public void call(Float aFloat) {
                 Logger.i(aFloat.toString());
             }
         });
@@ -362,7 +422,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void test1() {
         Observable.just(true)
                 .map(new Func1<Boolean, Boolean>() {
-                    @Override public Boolean call(Boolean aBoolean) {
+                    @Override
+                    public Boolean call(Boolean aBoolean) {
                         try {
                             Thread.sleep(3000);
                         } catch (InterruptedException e) {
@@ -374,7 +435,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
-                    @Override public void call(Boolean aBoolean) {
+                    @Override
+                    public void call(Boolean aBoolean) {
                         Logger.i(aBoolean + "");
                     }
                 });
@@ -383,14 +445,16 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void testScheduler() {
         Observable.just("Hello World!")
                 .map(new Func1<String, Integer>() {
-                    @Override public Integer call(String s) {
+                    @Override
+                    public Integer call(String s) {
                         return s.length();
                     }
                 })
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Integer>() {
-                    @Override public void call(Integer integer) {
+                    @Override
+                    public void call(Integer integer) {
                         Logger.i(integer.toString());
                     }
                 });
@@ -404,12 +468,14 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void testMapOperators() {
         Observable.just("Hello World!")
                 .map(new Func1<String, String>() {
-                    @Override public String call(String s) {
+                    @Override
+                    public String call(String s) {
                         return s + " hahaha";
                     }
                 })
                 .subscribe(new Action1<String>() {
-                    @Override public void call(String s) {
+                    @Override
+                    public void call(String s) {
                         Logger.i(s + "");
                     }
                 });
@@ -420,12 +486,14 @@ public class RxJavaSampleFragment extends AppBaseFragment {
          */
         Observable.just("Hello World !")
                 .map(new Func1<String, Integer>() {
-                    @Override public Integer call(String s) {
+                    @Override
+                    public Integer call(String s) {
                         return s.length();
                     }
                 })
                 .subscribe(new Action1<Integer>() {
-                    @Override public void call(Integer integer) {
+                    @Override
+                    public void call(Integer integer) {
                         Logger.i(integer.toString());
                     }
                 });
@@ -433,17 +501,20 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         //多个map同事使用
         Observable.just("Hello World!")
                 .map(new Func1<String, String>() {
-                    @Override public String call(String s) {
+                    @Override
+                    public String call(String s) {
                         return s + "哈哈";
                     }
                 })
                 .map(new Func1<String, Integer>() {
-                    @Override public Integer call(String s) {
+                    @Override
+                    public Integer call(String s) {
                         return s.length();
                     }
                 })
                 .subscribe(new Action1<Integer>() {
-                    @Override public void call(Integer integer) {
+                    @Override
+                    public void call(Integer integer) {
                         Logger.i(integer.toString());
                     }
                 });
@@ -452,8 +523,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void testObservable() {
         //Subscriber的回调函数会按注册时的顺序执行.
         // TODO: 2016/11/1 注册多个Observable，为什么只有第一个有用？
-//        mObservable.subscribe(mSubscriber);
-//        mObservable.subscribe(mSubscriber2);
+        //        mObservable.subscribe(mSubscriber);
+        //        mObservable.subscribe(mSubscriber2);
 
         //有三个重装方法
         mObservable2.subscribe(mAction);
@@ -462,7 +533,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void initObservable() {
         //创建被观察者
         mObservable = Observable.create(new Observable.OnSubscribe<String>() {
-            @Override public void call(Subscriber<? super String> subscriber) {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
                 //被观察者向被观察者发送消息
                 subscriber.onNext("Hello World! 哈哈");
                 //告诉观察者结束，观察者会在onCompleted()回调中收到消息。
@@ -474,49 +546,58 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void initSubscriber() {
         //创建观察者1
         mSubscriber = new Subscriber<String>() {
-            @Override public void onCompleted() {
+            @Override
+            public void onCompleted() {
                 Logger.i("mSubscriber#onCompleted()");
             }
 
-            @Override public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
                 Logger.i("mSubscriber#onError()");
             }
 
-            @Override public void onNext(String s) {
+            @Override
+            public void onNext(String s) {
                 Logger.i("mSubscriber#onNext(): " + s);
             }
         };
 
         //创建观察者2
         mSubscriber2 = new Subscriber<String>() {
-            @Override public void onCompleted() {
+            @Override
+            public void onCompleted() {
                 Logger.i("mSubscriber2#onCompleted()");
             }
 
-            @Override public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
                 Logger.i("mSubscriber2#onError()");
             }
 
-            @Override public void onNext(String s) {
+            @Override
+            public void onNext(String s) {
                 Logger.i("mSubscriber2#onNext(): " + s);
             }
         };
 
         //简化的Subscriber
         mAction = new Action1<String>() {
-            @Override public void call(String s) {
+            @Override
+            public void call(String s) {
                 Logger.i(s);
             }
         };
 
         mActionError = new Action1<Throwable>() {
-            @Override public void call(Throwable s) {
+            @Override
+            public void call(Throwable s) {
                 Logger.i(s.toString());
             }
         };
 
         mActionComplete = new Action0() {
-            @Override public void call() {
+            @Override
+            public void call() {
                 Logger.i("complete()");
             }
         };
@@ -525,7 +606,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void simpleObservable() {
         //简化的Observable,不关心OnComplete和OnError
         Observable.just("yes, hello too!").subscribe(new Action1<String>() {
-            @Override public void call(String s) {
+            @Override
+            public void call(String s) {
                 Logger.i(s);
             }
         });

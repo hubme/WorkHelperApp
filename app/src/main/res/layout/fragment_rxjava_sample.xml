@@ -58,6 +58,11 @@
                 style="@style/EntryItem"
                 android:text="Left"/>
 
+            <TextView
+                android:id="@+id/tv_compose"
+                style="@style/EntryItem"
+                android:text="Compose"/>
+
             <CheckedTextView
                 android:id="@+id/btn_send"
                 android:layout_width="200dp"
