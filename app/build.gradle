@@ -98,6 +98,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
     }
 
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
     // 'return void' removes the lint error: 'Not all execution paths return a value'.
     return void
 }
