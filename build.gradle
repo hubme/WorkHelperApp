@@ -19,13 +19,13 @@ buildscript {
         //FreeLine秒级编译
         classpath 'com.antfortune.freeline:gradle:0.8.6'
 
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
+//        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 
     // Exclude the lombok version that the android plugin depends on.
-    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
+//    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
 }
 
 ext {

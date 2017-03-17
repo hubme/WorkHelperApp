@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 //apply plugin: 'me.ele.amigo'
 apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -91,6 +91,11 @@ android {
         main {
             jniLibs.srcDirs = ['libs']
         }
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_7
     }
 
     // 'return void' removes the lint error: 'Not all execution paths return a value'.
