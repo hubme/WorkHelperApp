@@ -17,7 +17,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -63,7 +62,8 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         final GitUserService service = retrofit.create(GitUserService.class);
-        service.getUser("Guolei1130").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        service.getUser("Guolei1130").subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GitHubUser>() {
                     @Override public void onCompleted() {
                         Logger.i("GitUserService->onCompleted");

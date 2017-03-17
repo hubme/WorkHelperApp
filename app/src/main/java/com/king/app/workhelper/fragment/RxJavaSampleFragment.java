@@ -3,9 +3,8 @@ package com.king.app.workhelper.fragment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.Course;
@@ -16,11 +15,12 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -198,7 +198,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     public void onMainThread(final TextView textView) {
         Observable.just("Hello", "RxJava")
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+//                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String s) {
@@ -212,10 +212,9 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_throttle_first)
     public void onThrottleFirst(TextView textView) {
         RxView.clicks(textView).throttleFirst(1000, TimeUnit.MILLISECONDS)
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        Toast.makeText(mContext, "哈哈哈", Toast.LENGTH_SHORT).show();
+                .subscribe(new Consumer<Object>() {
+                    @Override public void accept(@NonNull Object o) throws Exception {
+                        
                     }
                 });
     }
@@ -435,7 +434,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+//                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
@@ -453,7 +452,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                     }
                 })
                 .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
+//                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
