@@ -3,6 +3,7 @@ apply plugin: 'android-apt'
 //apply plugin: 'me.ele.amigo'
 apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -104,8 +105,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile rootProject.ext.appcompatV7
-    compile rootProject.ext.paletteV7
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:palette-v7:${supportLibVersion}"
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.1'
     //使用ButterkNife-View注入框架

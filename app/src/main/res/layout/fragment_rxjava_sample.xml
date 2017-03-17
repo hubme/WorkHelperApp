@@ -62,17 +62,31 @@
                 android:id="@+id/tv_compose"
                 style="@style/EntryItem"
                 android:text="Compose"/>
-
-            <CheckedTextView
-                android:id="@+id/btn_send"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                android:background="@color/chocolate"
-                android:gravity="center"
-                android:text="哈哈"
-                android:textAlignment="center"
-                android:textColor="@color/cadetblue"
-                android:textSize="@dimen/ts_big"/>
+            
+            <TextView
+                android:id="@+id/tv_first"
+                style="@style/EntryItem"
+                android:text="First"/>
+            
+            <TextView
+                android:id="@+id/tv_last"
+                style="@style/EntryItem"
+                android:text="Last"/>
+            
+            <TextView
+                android:id="@+id/tv_take"
+                style="@style/EntryItem"
+                android:text="Take"/>
+            
+            <TextView
+                android:id="@+id/tv_filter"
+                style="@style/EntryItem"
+                android:text="Filter"/>
+            
+            <TextView
+                android:id="@+id/tv_doOnNext"
+                style="@style/EntryItem"
+                android:text="doOnNext"/>
 
             <EditText
                 android:id="@+id/et_input"

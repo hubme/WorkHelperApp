@@ -1,7 +1,6 @@
 package com.king.app.workhelper.fragment;
 
 import android.view.View;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.Course;
 import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
-import com.king.applib.util.StringUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,8 +34,6 @@ import rx.subscriptions.CompositeSubscription;
  */
 
 public class RxJavaSampleFragment extends AppBaseFragment {
-    @BindView(R.id.btn_send)
-    public CheckedTextView mSendBtn;
     @BindView(R.id.et_input)
     public EditText mInputText;
 
@@ -76,11 +72,6 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         }
     }
 
-    @OnClick(R.id.btn_send)
-    public void sendBtnClick() {
-        testTakeOperator(2);
-    }
-
     /*
     create() 方法是 RxJava 最基本的创造事件序列的方法。
     
@@ -101,6 +92,13 @@ public class RxJavaSampleFragment extends AppBaseFragment {
             }
         });
         observable.subscribe(mSubscriber);
+
+        //不关心OnComplete和OnError,可以使用Action1
+        /*observable.subscribe(new Action1<String>() {
+            @Override public void call(String s) {
+                Logger.i(s);
+            }
+        });*/
     }
 
     //将会依次调用：// onNext("Hello");// onNext("Hi");// onNext("Aloha");// onCompleted();
@@ -280,68 +278,72 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         }
     }
 
+    @OnClick(R.id.tv_first)
+    public void onFirstOperator() {
+        Observable.just("Hello", "RxJava", "哈哈哈").first().subscribe(new Action1<String>() {
+            @Override public void call(String s) {
+                Logger.i(s);
+            }
+        });
+    }
 
-    /**
+    @OnClick(R.id.tv_last)
+    public void onLastOperator() {
+        Observable.just("Hello", "RxJava", "哈哈哈").last().subscribe(new Action1<String>() {
+            @Override public void call(String s) {
+                Logger.i(s);
+            }
+        });
+    }
+
+    /*
      * 只打印前count个.count<=0不显示 >Observable的数量，显示全部.
      * If there are fewer than count it'll just stop early.
      */
-    private void testTakeOperator(int count) {
-        String nullStr = null;
-        Observable.from(new String[]{"Hello", "World", " ", nullStr, "!"})
-                .filter(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        return !StringUtil.isNullOrEmpty(s);
-                    }
-                })
-                .take(count)//同first()或last()
-                //doOnNext() allows us to add extra behavior each time an item is emitted, in this case saving the title.
-                .doOnNext(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        Logger.i("save \"" + s + "\" on disk.");
-                    }
-                })
+    @OnClick(R.id.tv_take)
+    public void onTakeOperator() {
+        Observable.just("Hello", "RxJava", "哈哈哈")
+                .take(2)//同first()或last()
                 .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
+                    @Override public void call(String s) {
                         Logger.i(s);
                     }
                 });
     }
 
-    /**
-     * 把数组的item一个一个打印出来.过滤null或""
-     */
-    private void testFilterOperator() {
-        String nullStr = null;
-        Observable.from(new String[]{"Hello", "World", " ", nullStr, "!"})
+    @OnClick(R.id.tv_filter)
+    public void onFilterOperator() {
+        Observable.just("Hello", "RxJava", "")
                 .filter(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        return !StringUtil.isNullOrEmpty(s);
+                    @Override public Boolean call(String s) {
+                        return s != null && !s.trim().isEmpty();
                     }
                 })
                 .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
+                    @Override public void call(String s) {
                         Logger.i(s);
                     }
                 });
     }
 
     /*
-    把数组的item一个一个打印出来
+    doOnNext()允许我们在每次输出一个元素之前做一些额外的事情
+    doOnNext() allows us to add extra behavior each time an item is emitted, in this case saving the title.
      */
-    private void testFromOperator() {
-        Observable.from(new String[]{"Hello", "World", "!"})
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        Logger.i(s);
-                    }
-                });
+    @OnClick(R.id.tv_doOnNext)
+    public void onDoOnNext() {
+        Observable.just("Hello", "RxJava").doOnNext(new Action1<String>() {
+            @Override public void call(String s) {
+                Logger.i("save " + s + " to disk!");
+            }
+        }).subscribe(new Action1<String>() {
+            @Override public void call(String s) {
+                Logger.i(s);
+            }
+        });
+
     }
+
 
     private void testRngeOperator() {
         Observable.range(1, 4)
