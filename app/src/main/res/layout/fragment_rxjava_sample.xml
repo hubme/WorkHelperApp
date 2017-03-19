@@ -88,10 +88,10 @@
                 style="@style/EntryItem"
                 android:text="doOnNext"/>
 
-            <EditText
-                android:id="@+id/et_input"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"/>
+            <TextView
+                android:id="@+id/tv_range"
+                style="@style/EntryItem"
+                android:text="Range"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

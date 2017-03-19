@@ -1,19 +1,29 @@
 package com.king.app.workhelper.fragment;
 
+import android.os.SystemClock;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.model.entity.Course;
 import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
 
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -21,6 +31,7 @@ import io.reactivex.ObservableOperator;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -34,10 +45,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class RxJavaSampleFragment extends AppBaseFragment {
-    @BindView(R.id.et_input)
-    public EditText mInputText;
-
-    private Consumer mSubscriber;
+    private Consumer<String> mSubscriber;
+    private CompositeDisposable mCompositeDisposable;
 
     @Override
     public int getContentLayout() {
@@ -58,9 +67,14 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.clear();
+        }
     }
 
     private void initSubscriber() {
+        mCompositeDisposable = new CompositeDisposable();
+
         mSubscriber = new Consumer<String>() {
             @Override
             public void accept(@NonNull String s) throws Exception {
@@ -71,25 +85,112 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_basal_use)
     public void onBasalUse() {
-        Observable.create(new ObservableOnSubscribe<String>() {
+        //1.创建观察者
+        Observer<String> observer = new Observer<String>() {
             @Override
-            public void subscribe(ObservableEmitter<String> observableEmitter) throws Exception {
-                observableEmitter.onNext("Hello");
-                observableEmitter.onNext("RxJava");
-                observableEmitter.onComplete();
+            public void onSubscribe(Disposable d) {
             }
-        }).subscribe(mSubscriber);
+
+            @Override
+            public void onNext(String s) {
+                Logger.i("onNext." + s);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.i("onError");
+            }
+
+            @Override
+            public void onComplete() {
+                Logger.i("onComplete");
+            }
+        };
+
+        //2.创建被观察者
+        Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> e) throws Exception {
+                e.onNext("Hello RxJava!");
+            }
+        });
+
+        //3.订阅
+        observable.subscribe(observer);
+
+    }
+
+    //onBasalUse中最好这样写
+    private void basalUse2() {
+        Subscriber<String> subscriber = new Subscriber<String>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                //这一步是必须，我们通常可以在这里做一些初始化操作，调用request()方法表示初始化工作已经完成
+                //调用request()方法去请求资源，参数就是要请求的数量，会立即触发onNext()方法
+                //在onComplete()方法完成，才会再执行request()后边的代码
+                s.request(Long.MAX_VALUE);
+                Logger.i("呵呵呵");
+            }
+
+            @Override
+            public void onNext(String s) {
+                Logger.i("onNext." + s);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                //由于Reactive-Streams的兼容性，1.0中方法onCompleted被重命名为onComplete
+                Logger.i("onComplete");
+            }
+        };
+
+        Flowable.create(new FlowableOnSubscribe<String>() {
+            @Override
+            public void subscribe(FlowableEmitter<String> e) throws Exception {
+                e.onNext("Hello RxJava");
+            }
+        }, BackpressureStrategy.BUFFER).subscribe(subscriber);
+
+        //更简洁的用法.因为返回Void，无法取消
+//        Flowable.just("Hello RxJava").subscribe(subscriber);
+
+        //ResourceSubscriber实现Disposable接口,可以通过CompositeDisposable取消订阅
+        /*ResourceSubscriber<String> resourceSubscriber = Flowable.just("Hello RxJava")
+                .subscribeWith(new ResourceSubscriber<String>() {
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+        mCompositeDisposable.add(resourceSubscriber);*/
     }
 
     @OnClick(R.id.tv_just_operator)
     public void onJustOperator() {
-        Observable.just("Hello", "RxJava").subscribe(mSubscriber);
+        Disposable subscribe = Observable.just("Hello", "RxJava").subscribe(mSubscriber);
+        mCompositeDisposable.add(subscribe);
     }
 
     @OnClick(R.id.tv_from_operator)
     public void onFromOperator() {
         final String[] arrays = {"Hello", "RxJava"};
-        Observable.fromArray(arrays).subscribe(mSubscriber);
+        Disposable subscribe = Observable.fromArray(arrays).subscribe(mSubscriber);
+        mCompositeDisposable.add(subscribe);
     }
 
     /*
@@ -101,7 +202,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_map_operator)
     public void onMapOperator() {
         final Student[] students = {};
-        Observable.fromArray(students).map(new Function<Student, String>() {
+        Disposable subscribe = Observable.fromArray(students).map(new Function<Student, String>() {
             @Override
             public String apply(@NonNull Student student) throws Exception {
                 return student.name;
@@ -117,6 +218,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 Logger.i("s");
             }
         });
+        mCompositeDisposable.add(subscribe);
     }
 
     /*
@@ -130,25 +232,19 @@ public class RxJavaSampleFragment extends AppBaseFragment {
      */
     @OnClick(R.id.tv_flat_map_operator)
     public void onFlatMapOperator() {
-        /*final Student[] students = {};
-        Observable.from(students).flatMap(new Func1<Student, Observable<Course>>() {
+        final List<Student> students = Arrays.asList(new Student("VanceKing"), new Student("fei"));
+
+        Flowable.fromIterable(students).flatMap(new Function<Student, Publisher<Course>>() {
             @Override
-            public Observable<Course> call(Student student) {
-                return Observable.from(student.courses);
+            public Publisher<Course> apply(@NonNull Student student) throws Exception {
+                return Flowable.fromIterable(student.courses);
             }
-        }).subscribe(new Action1<Course>() {
+        }).subscribe(new Consumer<Course>() {
             @Override
-            public void call(Course course) {
+            public void accept(@NonNull Course course) throws Exception {
                 Logger.i(course.name);
             }
         });
-
-        Observable.fromArray(students).flatMap(new Function<Student, ObservableSource<?>>() {
-            @Override
-            public ObservableSource<?> apply(@NonNull Student student) throws Exception {
-                return Observable.fromArray(student.courses);
-            }
-        });*/
     }
 
     @OnClick(R.id.tv_mul_action)
@@ -184,19 +280,26 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         });
 
         // 自动创建 Subscriber ，并使用 onNextAction、 onErrorAction 和 onCompletedAction 来定义 onNext()、 onError() 和 onCompleted()
-        observable.subscribe(onNextAction, onError, onCompletedAction);
+        Disposable subscribe = observable.subscribe(onNextAction, onError, onCompletedAction);
+        mCompositeDisposable.add(subscribe);
     }
 
     //后台线程取数据，主线程显示
     @OnClick(R.id.tv_main_thread)
     public void onMainThread(final TextView textView) {
-        Observable.just("Hello", "RxJava")
-                .subscribeOn(Schedulers.io())
+        Flowable.create(new FlowableOnSubscribe<String>() {
+            @Override
+            public void subscribe(FlowableEmitter<String> e) throws Exception {
+                e.onNext("将会在3秒后显示");
+                SystemClock.sleep(3000);
+                e.onNext("Hello RxJava!");
+                e.onComplete();
+            }
+        }, BackpressureStrategy.BUFFER).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String s) throws Exception {
-                        Logger.i(s);
                         textView.setText(s);
                     }
                 });
@@ -205,13 +308,14 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     // FIXME: 2017/3/16 点击一次无效
     @OnClick(R.id.tv_throttle_first)
     public void onThrottleFirst(TextView textView) {
-        RxView.clicks(textView).throttleFirst(1000, TimeUnit.MILLISECONDS)
+        Disposable subscribe = RxView.clicks(textView).throttleFirst(1000, TimeUnit.MILLISECONDS)
                 .subscribe(new Consumer<Object>() {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
                         Logger.i("哈哈哈");
                     }
                 });
+        mCompositeDisposable.add(subscribe);
     }
 
     /*
@@ -277,22 +381,24 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_first)
     public void onFirstOperator() {
-        Observable.just("Hello", "RxJava").first("default").subscribe(new Consumer<String>() {
+        Disposable subscribe = Observable.just("Hello", "RxJava").first("default").subscribe(new Consumer<String>() {
             @Override
             public void accept(@NonNull String s) throws Exception {
                 Logger.i(s);
             }
         });
+        mCompositeDisposable.add(subscribe);
     }
 
     @OnClick(R.id.tv_last)
     public void onLastOperator() {
-        Observable.just("Hello", "RxJava", "哈哈哈").last("default").subscribe(new Consumer<String>() {
+        Disposable subscribe = Observable.just("Hello", "RxJava", "哈哈哈").last("default").subscribe(new Consumer<String>() {
             @Override
             public void accept(@NonNull String s) throws Exception {
                 Logger.i(s);
             }
         });
+        mCompositeDisposable.add(subscribe);
     }
 
     /*
@@ -301,7 +407,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
      */
     @OnClick(R.id.tv_take)
     public void onTakeOperator() {
-        Observable.just("Hello", "RxJava", "哈哈哈")
+        Disposable subscribe = Observable.just("Hello", "RxJava", "哈哈哈")
                 .take(2)//同first()或last()
                 .subscribe(new Consumer<String>() {
                     @Override
@@ -309,11 +415,12 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                         Logger.i(s);
                     }
                 });
+        mCompositeDisposable.add(subscribe);
     }
 
     @OnClick(R.id.tv_filter)
     public void onFilterOperator() {
-        Observable.just("Hello", "RxJava", "").filter(new Predicate<String>() {
+        Disposable subscribe = Observable.just("Hello", "RxJava", "").filter(new Predicate<String>() {
             @Override
             public boolean test(@NonNull String s) throws Exception {
                 return s != null && !s.trim().isEmpty();
@@ -324,6 +431,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 Logger.i(s);
             }
         });
+        mCompositeDisposable.add(subscribe);
     }
 
     /*
@@ -332,7 +440,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
      */
     @OnClick(R.id.tv_doOnNext)
     public void onDoOnNext() {
-        Observable.just("Hello", "RxJava").doOnNext(new Consumer<String>() {
+        Disposable subscribe = Observable.just("Hello", "RxJava").doOnNext(new Consumer<String>() {
             @Override
             public void accept(@NonNull String s) throws Exception {
                 Logger.i("save " + s + " to disk!");
@@ -343,7 +451,17 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 Logger.i(s);
             }
         });
+        mCompositeDisposable.add(subscribe);
+    }
 
+    @OnClick(R.id.tv_range)
+    public void onRange() {
+        Observable.range(5, 3).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(@NonNull Integer integer) throws Exception {
+                Logger.i(integer.toString());
+            }
+        });
     }
 
 
