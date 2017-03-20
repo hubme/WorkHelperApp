@@ -10,7 +10,7 @@ import android.content.Context;
  */
 
 public class ContextUtil {
-    private static Context mContext;
+    private static Context mAppContext;
 
     private ContextUtil() {
         throw new UnsupportedOperationException("No instances!");
@@ -18,15 +18,15 @@ public class ContextUtil {
 
     public static void init(Context context) {
         if (context != null) {
-            mContext = context.getApplicationContext();
+            mAppContext = context.getApplicationContext();
         }
     }
 
-    public static Context getApplicationContext() {
-        if (mContext != null) {
-            return mContext;
+    public static Context getAppContext() {
+        if (mAppContext != null) {
+            return mAppContext;
         } else {
-            throw new NullPointerException("u should init first");
+            throw new NullPointerException("u should init in Application first");
         }
     }
 }
