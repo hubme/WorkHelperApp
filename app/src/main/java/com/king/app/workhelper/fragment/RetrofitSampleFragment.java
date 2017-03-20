@@ -1,5 +1,7 @@
 package com.king.app.workhelper.fragment;
 
+import android.widget.TextView;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.GitHubUser;
@@ -10,14 +12,15 @@ import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 /**
  * Retrofit.
@@ -54,28 +57,28 @@ public class RetrofitSampleFragment extends AppBaseFragment {
     }
 
     @OnClick(R.id.tv_rx_retrofit)
-    public void retrofitSample() {
+    public void retrofitSample(final TextView textView) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
                 .client(OkHttpUtils.getInstance().getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         final GitUserService service = retrofit.create(GitUserService.class);
         service.getUser("Guolei1130").subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GitHubUser>() {
-                    @Override public void onCompleted() {
-                        Logger.i("GitUserService->onCompleted");
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<GitHubUser>() {
+                    @Override public void onNext(GitHubUser gitHubUser) {
+                        Logger.i("GitUserService->" + gitHubUser.toString());
+                        textView.setText(gitHubUser.login);
                     }
 
                     @Override public void onError(Throwable e) {
                         Logger.i("GitUserService->onError");
-
                     }
 
-                    @Override public void onNext(GitHubUser gitHubUser) {
-                        Logger.i("GitUserService->" + gitHubUser.toString());
+                    @Override public void onComplete() {
+                        Logger.i("GitUserService->onCompleted");
                     }
                 });
 

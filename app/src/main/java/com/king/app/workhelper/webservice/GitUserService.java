@@ -2,9 +2,9 @@ package com.king.app.workhelper.webservice;
 
 import com.king.app.workhelper.model.entity.GitHubUser;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * https://api.github.com/users/Guolei1130
