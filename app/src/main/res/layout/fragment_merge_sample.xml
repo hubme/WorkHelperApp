@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_concat"
+        style="@style/EntryItem"
+        android:text="Concat(有序,数据不会交叉,但需要等待)"/>
+
+    <TextView
+        android:id="@+id/tv_concatEager"
+        style="@style/EntryItem"
+        android:text="concatEager(和concat相似,后面的不会等待)"/>
+
+    <TextView
+        android:id="@+id/tv_merge"
+        style="@style/EntryItem"
+        android:text="Merge(数据可能交叉)"/>
+</LinearLayout>

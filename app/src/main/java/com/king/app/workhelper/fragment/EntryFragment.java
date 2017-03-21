@@ -19,7 +19,7 @@ import butterknife.OnClick;
  */
 
 public class EntryFragment extends AppBaseFragment {
-    public final String TAG = EntryFragment.class.getSimpleName();
+    public final String TAG = "EntryFragment";
 
     @Override
     protected int getContentLayout() {
@@ -156,7 +156,7 @@ public class EntryFragment extends AppBaseFragment {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack(TAG)
+                .addToBackStack(tag)
                 .replace(R.id.layout_container, fragment, tag)
                 .commit();
     }

@@ -1,8 +1,11 @@
 package com.king.app.workhelper.common;
 
+import android.support.annotation.StringRes;
 import android.view.View;
+import android.widget.Toast;
 
 import com.king.applib.base.BaseFragment;
+import com.king.applib.util.StringUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -26,6 +29,18 @@ public abstract class AppBaseFragment extends BaseFragment {
         super.onDestroyView();
         if (unbinder != null) {
             unbinder.unbind();
+        }
+    }
+
+    protected void showToast(String toast) {
+        if (isAdded() && !StringUtil.isNullOrEmpty(toast)) {
+            Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void showToast(@StringRes int resId) {
+        if (isAdded()) {
+            Toast.makeText(mContext, resId, Toast.LENGTH_SHORT).show();
         }
     }
 }

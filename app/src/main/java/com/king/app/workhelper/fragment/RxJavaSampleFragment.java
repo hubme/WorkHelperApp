@@ -1,15 +1,19 @@
 package com.king.app.workhelper.fragment;
 
 import android.os.SystemClock;
+import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.Course;
 import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
+import com.king.applib.util.StringUtil;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
@@ -19,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -34,17 +39,24 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * RxJavaSample.http://blog.csdn.net/lzyzsd/article/details/41833541
- * Created by HuoGuangxu on 2016/11/4.
+ * 操作符：http://reactivex.io/documentation/operators.html#alphabetical
+ *
+ * @author VanceKing
+ * @since 2016/11/4.
  */
-
 public class RxJavaSampleFragment extends AppBaseFragment {
+    @BindView(R.id.et_name) EditText mNameEt;
+    @BindView(R.id.et_age) EditText mAgeEt;
+
     private Consumer<String> mSubscriber;
     private CompositeDisposable mCompositeDisposable;
 
@@ -464,6 +476,60 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         });
     }
 
+    @OnClick(R.id.tv_debounce)
+    public void onDebounce(TextView textView) {
+        RxView.clicks(textView).debounce(2, TimeUnit.SECONDS)
+//                .subscribeOn(Schedulers.io())//添加报错
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Object>() {
+                    @Override public void accept(@NonNull Object o) throws Exception {
+                        showToast("每两秒弹一次");
+                    }
+                });
+
+    }
+
+    /*
+    使用combineLatest合并最近N个结点.
+    例如：注册的时候所有输入信息（邮箱、密码、电话号码等）合法才点亮注册按钮。
+     */
+    @OnClick(R.id.tv_combineLatest)
+    public void onCombineLatest() {
+        Observable<CharSequence> nameObservable = RxTextView.textChanges(mNameEt).skip(1);
+        Observable<CharSequence> ageObservable = RxTextView.textChanges(mAgeEt).skip(1);
+        Observable.combineLatest(nameObservable, ageObservable, new BiFunction<CharSequence, CharSequence, Boolean>() {
+            @Override public Boolean apply(@NonNull CharSequence name, @NonNull CharSequence age) throws Exception {
+                return !StringUtil.isNullOrEmpty(name.toString()) && !StringUtil.isNullOrEmpty(age.toString());
+            }
+        }).subscribe(new DisposableObserver<Boolean>() {
+            @Override public void onNext(Boolean aBoolean) {
+                showToast(aBoolean ? "合法" : "非法");
+                Logger.i(aBoolean.toString());
+            }
+
+            @Override public void onError(Throwable e) {
+                Logger.i("onError");
+            }
+
+            @Override public void onComplete() {
+                Logger.i("onComplete");
+            }
+        });
+    }
+
+    @OnClick(R.id.tv_merge_sample)
+    public void onMergeOperator() {
+        clickedOn(new MergeSampleFragment());
+    }
+
+    private void clickedOn(@NonNull Fragment fragment) {
+        final String tag = fragment.getClass().toString();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(tag)
+                .replace(R.id.layout_container, fragment, tag)
+                .commit();
+    }
 
     /*总结：
       1.Observable和Subscriber可以做任何事情

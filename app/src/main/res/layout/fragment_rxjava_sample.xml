@@ -47,12 +47,12 @@
                 android:id="@+id/tv_main_thread"
                 style="@style/EntryItem"
                 android:text="Main Thread"/>
-            
+
             <TextView
                 android:id="@+id/tv_throttle_first"
                 style="@style/EntryItem"
                 android:text="Throttle First"/>
-            
+
             <TextView
                 android:id="@+id/tv_left"
                 style="@style/EntryItem"
@@ -62,27 +62,27 @@
                 android:id="@+id/tv_compose"
                 style="@style/EntryItem"
                 android:text="Compose"/>
-            
+
             <TextView
                 android:id="@+id/tv_first"
                 style="@style/EntryItem"
                 android:text="First"/>
-            
+
             <TextView
                 android:id="@+id/tv_last"
                 style="@style/EntryItem"
                 android:text="Last"/>
-            
+
             <TextView
                 android:id="@+id/tv_take"
                 style="@style/EntryItem"
                 android:text="Take"/>
-            
+
             <TextView
                 android:id="@+id/tv_filter"
                 style="@style/EntryItem"
                 android:text="Filter"/>
-            
+
             <TextView
                 android:id="@+id/tv_doOnNext"
                 style="@style/EntryItem"
@@ -92,6 +92,31 @@
                 android:id="@+id/tv_range"
                 style="@style/EntryItem"
                 android:text="Range"/>
+
+            <TextView
+                android:id="@+id/tv_debounce"
+                style="@style/EntryItem"
+                android:text="Debounce"/>
+
+            <TextView
+                android:id="@+id/tv_combineLatest"
+                style="@style/EntryItem"
+                android:text="combineLatest"/>
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"/>
+
+            <EditText
+                android:id="@+id/et_age"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"/>
+
+            <TextView
+                android:id="@+id/tv_merge_sample"
+                style="@style/EntryItem"
+                android:text="Merge Sample"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -6,8 +6,8 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
-import com.king.app.workhelper.webservice.GitUserService;
-import com.king.app.workhelper.webservice.MovieService;
+import com.king.app.workhelper.api.GitHubApi;
+import com.king.app.workhelper.api.MovieApi;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -41,8 +41,8 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        MovieService movieService = retrofit.create(MovieService.class);
-        Call<MovieEntity> call = movieService.getTopMovie(0, 10);
+        MovieApi movieApi = retrofit.create(MovieApi.class);
+        Call<MovieEntity> call = movieApi.getTopMovie(0, 10);
         call.enqueue(new Callback<MovieEntity>() {
             @Override
             public void onResponse(Call<MovieEntity> call, Response<MovieEntity> response) {
@@ -64,7 +64,7 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        final GitUserService service = retrofit.create(GitUserService.class);
+        final GitHubApi service = retrofit.create(GitHubApi.class);
         service.getUser("Guolei1130").subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableObserver<GitHubUser>() {
