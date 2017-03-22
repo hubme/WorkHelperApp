@@ -5,7 +5,14 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <ScrollView
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/view_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:placeholderImage="@mipmap/beautiful_girl"/>
+
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,11 +23,12 @@
             android:orientation="vertical">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:id="@+id/view_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:placeholderImage="@mipmap/beautiful_girl"
                 app:roundAsCircle="true"/>
 
         </LinearLayout>
-    </ScrollView>
+    </ScrollView>-->
 </LinearLayout>

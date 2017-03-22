@@ -12,7 +12,6 @@ import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
-import com.king.app.workhelper.okhttp.LoggingInterceptor;
 import com.king.app.workhelper.okhttp.MockInterceptor;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
@@ -78,7 +77,7 @@ public class WorkHelperApp extends BaseApplication {
                 .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"), AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
 
         if (BuildConfig.LOG_DEBUG) {
-            builder.addInterceptor(new LoggingInterceptor());
+//            builder.addInterceptor(new LoggingInterceptor());
             builder.addInterceptor(new MockInterceptor());
         }
         OkHttpClient okHttpClient = builder.build();
