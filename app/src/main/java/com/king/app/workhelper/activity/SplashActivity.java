@@ -1,10 +1,13 @@
 package com.king.app.workhelper.activity;
 
-import android.os.Message;
-
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.applib.base.WeakHandler;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Splash页面
@@ -15,34 +18,24 @@ import com.king.applib.base.WeakHandler;
 
 public class SplashActivity extends AppBaseActivity {
 
-    private MyHandler mHandler = new MyHandler(this);
-
-    private static class MyHandler extends WeakHandler<SplashActivity> {
-
-        private MyHandler(SplashActivity target) {
-            super(target);
-        }
-
-        @Override public void handle(SplashActivity target, Message msg) {
-            target.gotoHomePage();
-        }
-    }
-
-    @Override public int getContentLayout() {
+    @Override
+    public int getContentLayout() {
         return R.layout.activity_spash;
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
-        mHandler.sendEmptyMessageDelayed(0, 1000);
+        Observable.timer(1000, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@NonNull Long aLong) throws Exception {
+                        goHomePage();
+                    }
+                });
     }
 
-    @Override protected void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
-    }
-
-    private void gotoHomePage() {
+    private void goHomePage() {
         openActivity(HomeActivity.class);
         finish();
         overridePendingTransition(R.anim.alpha_appear, R.anim.alpha_disappear);
