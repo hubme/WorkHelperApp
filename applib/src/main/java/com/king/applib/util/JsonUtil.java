@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
@@ -107,5 +108,30 @@ public class JsonUtil {
             }
         }
         return null;
+    }
+
+    /** 从指定的JSONObject获取name的JSONArray */
+    public static JSONArray getJsonArray(final JSONObject jsonObject, String name) {
+        return jsonObject == null ? null : jsonObject.optJSONArray(name);
+    }
+
+    /** 从JSONObject中获取name的内容 */
+    public static String getString(JSONObject jsonObject, String name) {
+        return jsonObject == null ? "" : jsonObject.optString(name, "");
+    }
+
+    /** 从JSONObject中获取name的内容 */
+    public static String getString(JSONObject jsonObject, String name, String defaultValue) {
+        return jsonObject == null ? defaultValue : jsonObject.optString(name, defaultValue);
+    }
+
+    /** 从JSONObject中获取name的值 */
+    public static int getInt(JSONObject jsonObject, String name) {
+        return getInt(jsonObject, name, 0);
+    }
+
+    /** 从JSONObject中获取name的值 */
+    public static int getInt(JSONObject jsonObject, String name, int defaultValue) {
+        return jsonObject == null ? defaultValue : jsonObject.optInt(name, defaultValue);
     }
 }

@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
@@ -297,10 +298,10 @@ public class ExtendUtil {
     }
 
     /** 读取Raw资源 */
-    public static byte[] readRawResource(Context context, int resId) {
+    public static byte[] readRawResource(int resId) {
         InputStream stream = null;
         try {
-            stream = context.getResources().openRawResource(resId);
+            stream = getResources().openRawResource(resId);
             return new byte[stream.available()];
         } catch (Exception e) {
             return null;
@@ -312,18 +313,18 @@ public class ExtendUtil {
     /**
      * 根据资源id获取资源文件简单名称.
      */
-    public static String getResourceName(Context context, @AnyRes int resId) {
-        return context.getResources().getResourceEntryName(resId);
+    public static String getResourceName(@AnyRes int resId) {
+        return getResources().getResourceEntryName(resId);
     }
 
     /** 获取屏幕宽度 */
-    public static int getScreenWidth(Context context) {
-        return context.getResources().getDisplayMetrics().widthPixels;
+    public static int getScreenWidth() {
+        return getResources().getDisplayMetrics().widthPixels;
     }
 
     /** 获取屏幕高度 */
-    public static int getScreenHeight(Context context) {
-        return context.getResources().getDisplayMetrics().heightPixels;
+    public static int getScreenHeight() {
+        return getResources().getDisplayMetrics().heightPixels;
     }
 
     /** 判断是否是主线程 */
@@ -331,4 +332,27 @@ public class ExtendUtil {
         return Looper.myLooper() == Looper.getMainLooper();
     }
 
+    public static boolean isLdpi() {
+        return getResources().getDisplayMetrics().densityDpi <= 120;
+    }
+
+    public static boolean isMdpi() {
+        return (getResources().getDisplayMetrics().densityDpi > 120) && (getResources().getDisplayMetrics().densityDpi <= 160);
+    }
+
+    public static boolean isHdpi() {
+        return (getResources().getDisplayMetrics().densityDpi > 160) && (getResources().getDisplayMetrics().densityDpi <= 240);
+    }
+
+    public static boolean isXhdpi() {
+        return (getResources().getDisplayMetrics().densityDpi > 240) && (getResources().getDisplayMetrics().densityDpi <= 320);
+    }
+
+    public static boolean isXxhdpi() {
+        return (getResources().getDisplayMetrics().densityDpi > 320) && (getResources().getDisplayMetrics().densityDpi <= 480);
+    }
+
+    public static Resources getResources() {
+        return ContextUtil.getAppContext().getResources();
+    }
 }

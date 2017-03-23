@@ -12,16 +12,25 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.log.Logger;
+import com.king.applib.util.ContextUtil;
+import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
+import com.king.applib.util.JsonUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.FileCallBack;
 
-import java.io.File;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import javax.annotation.Nullable;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * Fresco Sample
@@ -30,7 +39,9 @@ import okhttp3.Call;
 
 public class FrescoSampleFragment extends AppBaseFragment {
 //    public static final String PIC_URL = "http://192.168.2.78:8080/appupdate/launch_background.jpg";
-    public static final String PIC_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490190243757&di=3bd3e4eca13d247b62dad6e4dedaccc3&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2016%2Fhxj%2F08%2F16%2F1602%2FChMkJlexsJmIIe8dAAghrgQhdMQAAUdNAJInfYACCHG699.jpg";
+        public static final String PIC_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490190243757&di=3bd3e4eca13d247b62dad6e4dedaccc3&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2016%2Fhxj%2F08%2F16%2F1602%2FChMkJlexsJmIIe8dAAghrgQhdMQAAUdNAJInfYACCHG699.jpg";
+    public static final String LOCAL_PIC = Environment.getExternalStorageDirectory().getPath() + "/000test/timg.jpg";
+
     @BindView(R.id.view_pic)
     SimpleDraweeView mSimpleDraweeView;
 
@@ -42,6 +53,8 @@ public class FrescoSampleFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
+//        mSimpleDraweeView.setImageURI(Uri.fromFile(FileUtil.getFileByPath(LOCAL_PIC)));
+        mSimpleDraweeView.setImageURI(Uri.parse("res://"+ ContextUtil.getAppContext().getPackageName()+"/"+R.mipmap.splash_screen));
 
         final AbstractDraweeController build = Fresco.newDraweeControllerBuilder()
                 .setControllerListener(new ImageDownloadListener())
@@ -63,11 +76,17 @@ public class FrescoSampleFragment extends AppBaseFragment {
                 boolean isInCache = dataSource.getResult();
                 if (isInCache) {
                     Logger.i("有缓存，移除.重新下载图片");
-                    imagePipeline.evictFromDiskCache(uri);
+//                    imagePipeline.evictFromDiskCache(uri);
                 } else {
                     Logger.i("无缓存，立即下载图片");
                 }
-                mSimpleDraweeView.setController(build);
+                
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override public void run() {
+                        mSimpleDraweeView.setController(build);
+                    }
+                });
+
             }
 
             @Override protected void onFailureImpl(DataSource<Boolean> dataSource) {
@@ -95,10 +114,11 @@ public class FrescoSampleFragment extends AppBaseFragment {
             mSimpleDraweeView.setController(build);
         }*/
 
-        File file = FileUtil.getFileByPath(Environment.getExternalStorageDirectory().getPath() + "/000test/launch.jpg");
+        /*File file = FileUtil.getFileByPath(Environment.getExternalStorageDirectory().getPath() + "/000test/launch.jpg");
         if (FileUtil.isFileExists(file)) {
             mSimpleDraweeView.setImageURI(Uri.fromFile(file));
         } else {
+            //封装的下载图片有问题
             OkHttpUtils.get().url(PIC_URL).build().execute(new FileCallBack(Environment.getExternalStorageDirectory().getPath() + "/000test", "launch.jpg") {
                 @Override public void onError(Call call, Exception e, int id) {
                     Logger.i("onError");
@@ -109,8 +129,59 @@ public class FrescoSampleFragment extends AppBaseFragment {
                     mSimpleDraweeView.setImageURI(Uri.fromFile(response));
                 }
             });
-        }
+        }*/
+//        downloadLaunchImage();
+//        requestLaunchUrls();
+    }
+    
+    private void requestLaunchUrls(){
+        Request request = new Request.Builder().url("http://www.mocky.io/v2/58d36f5d100000b016b16690").build();
+        OkHttpUtils.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                
+            }
 
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                ResponseBody body = response.body();
+                if (body == null) {
+                    return;
+                }
+                try {
+                    JSONObject jsonObject = new JSONObject(body.string());
+                    JSONObject object = JsonUtil.getJsonObject(jsonObject, "results", "config", "android");
+                    int version = JsonUtil.getInt(object, "version");
+                    String hdpi = JsonUtil.getString(object, "hdpi");
+                    Logger.i("hdpi: " + hdpi);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    private void downloadLaunchImage() {
+        /*DownloadManager downloadManager = new DownloadManager(getContext());
+        DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(PIC_URL,
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test", "launchImage.jpg");
+        downloadManager.downloadFile(request);*/
+
+        Request request = new Request.Builder().url(PIC_URL).build();
+        OkHttpUtils.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Logger.i("onFailure");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                ResponseBody body = response.body();
+                if (body == null) {
+                    return;
+                }
+                Logger.i("文件大小："+body.contentLength()+"; 在主线程吗？ "+ ExtendUtil.isInMainThread());
+                boolean saveSuccess = FileUtil.saveStream(FileUtil.getFileByPath(Environment.getExternalStorageDirectory() + "/000test/test.jpg"), body.byteStream(), true);
+                Logger.i(saveSuccess ? "保存成功" : "保存失败");
+            }
+        });
     }
 
     //图片下载监听

@@ -14,4 +14,10 @@ public class AppUtilTest extends BaseTestCase {
     public void testGetActivityProcessName() throws Exception {
         Logger.i(AppUtil.getActivityProcessName(mContext, Activity.class));
     }
+    
+    public void testsSdfds() throws Exception {
+        float density = mContext.getResources().getDisplayMetrics().density;
+        int densityDpi = mContext.getResources().getDisplayMetrics().densityDpi;
+        Logger.i("density: " + density + "; densityDpi: " + densityDpi);
+    }
 }

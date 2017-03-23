@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -315,7 +316,7 @@ public class DownloadManager {
 
         Request request = reqBuilder.get().url(mDownloadRequest.url).tag(mDownloadRequest.url).build();
 
-        /*mOkHttpClient.newCall(request).enqueue(new okhttp3.Callback() {
+        mOkHttpClient.newCall(request).enqueue(new okhttp3.Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 Logger.log(Logger.INFO, TAG, Thread.currentThread().toString());
                 Logger.log(Logger.INFO, TAG, "onFailure");
@@ -333,9 +334,9 @@ public class DownloadManager {
                     Logger.log(Logger.INFO, TAG, "unreceivedContent");
                 }
             }
-        });*/
+        });
 
-        try {
+        /*try {
             Response response = mOkHttpClient.newCall(request).execute();
             if (response.isSuccessful()) {
                 Logger.log(Logger.INFO, TAG, "receivedContent start");
@@ -348,7 +349,7 @@ public class DownloadManager {
 
         } catch (IOException e) {
 
-        }
+        }*/
 
     }
 
@@ -415,7 +416,7 @@ public class DownloadManager {
                 initDownloadProgress(totalLength);
             }
 
-            final int BUF_SIZE = 1024 * 4;
+            final int BUF_SIZE = 1024;
             byte[] buffer = new byte[BUF_SIZE];
             final long beginTime = System.currentTimeMillis();//记录下载开始时间
             long lastTime = beginTime;//记录上次更新时间
