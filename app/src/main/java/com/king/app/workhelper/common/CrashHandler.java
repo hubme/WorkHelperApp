@@ -1,7 +1,6 @@
 package com.king.app.workhelper.common;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +9,7 @@ import android.os.Build;
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
+import com.king.applib.util.ContextUtil;
 import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.Date;
 
@@ -36,7 +35,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     private UncaughtExceptionHandler mDefaultHandler;
     private static CrashHandler INSTANCE;
-    private WeakReference<Context> mContext;
     private static Class<? extends Activity> mCrashedActivity;
     /** 应用在后台是否crash */
     private static boolean mCrashInBackground = false;
@@ -59,12 +57,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
     /**
      * 初始化
      *
-     * @param context 上下文
      * @param logDir  日志保存目录
      */
-    public void init(Context context, String logDir) {
-        mContext = new WeakReference<>(context.getApplicationContext());
-        mLogSavedDir = StringUtil.isNullOrEmpty(logDir) ? mContext.get().getCacheDir().getAbsolutePath() : logDir;
+    public void init(String logDir) {
+        mLogSavedDir = StringUtil.isNullOrEmpty(logDir) ? ContextUtil.getAppContext().getCacheDir().getAbsolutePath() : logDir;
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
@@ -77,12 +73,12 @@ public class CrashHandler implements UncaughtExceptionHandler {
         if (!mCrashInBackground && !AppManager.getInstance().isForeground()) {//后台拦截crash，对用户无感知
             return;
         }
-        if (mCrashedActivity == null || hasCrashedInTheLastSeconds(mContext.get()) || isStackTraceLikelyConflictive(throwable, mCrashedActivity)) {
+        if (mCrashedActivity == null || hasCrashedInTheLastSeconds() || isStackTraceLikelyConflictive(throwable, mCrashedActivity)) {
             Logger.i("CrashedActivity为null或应用crash循环重启,交给DefaultUncaughtExceptionHandler");
             //避免crash后启动的Activity也crash了，造成循环重启，或者卡死的现象。
             mDefaultHandler.uncaughtException(thread, throwable);
         } else {
-            saveLastCrashTimestamp(mContext.get(), System.currentTimeMillis());
+            saveLastCrashTimestamp(System.currentTimeMillis());
             startCrashedActivity();
             killCurrentProcess();
         }
@@ -143,11 +139,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
     /**
      * 收集设备参数信息
      */
-    private String getDeviceInfo(Context context) {
+    private String getDeviceInfo() {
         StringBuilder sb = new StringBuilder();
         try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_ACTIVITIES);
+            PackageManager pm = ContextUtil.getAppContext().getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(ContextUtil.getAppContext().getPackageName(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
                 String versionName = pi.versionName == null ? "null" : pi.versionName;
                 String versionCode = pi.versionCode + "";
@@ -177,9 +173,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
      */
     private String getCrashHead() {
         return "\n************* Crash Log Head ****************" +
-                "\nApp VersionName    : " + AppUtil.getAppInfo(mContext.get()).getVersionName() +
-                "\nApp VersionCode    : " + AppUtil.getAppInfo(mContext.get()).getVersionCode() +
-                "\nApp PackageName    : " + AppUtil.getAppInfo(mContext.get()).getPackageName() +
+                "\nApp VersionName    : " + AppUtil.getAppInfo().getVersionName() +
+                "\nApp VersionCode    : " + AppUtil.getAppInfo().getVersionCode() +
+                "\nApp PackageName    : " + AppUtil.getAppInfo().getPackageName() +
                 "\nAndroid Version    : " + Build.VERSION.RELEASE +
                 "\nAndroid SDK        : " + Build.VERSION.SDK_INT +
                 "\nMANUFACTURER       : " + Build.MANUFACTURER +
@@ -189,17 +185,17 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 "\n************* Crash Log Head ****************\n\n";
     }
 
-    private void saveLastCrashTimestamp(Context context, long timestamp) {
-        SPUtil.putLong(context, GlobalConstant.SP_PARAMS_KEY.LAST_CRASH_TIMESTAMP, timestamp);
+    private void saveLastCrashTimestamp(long timestamp) {
+        SPUtil.putLong(GlobalConstant.SP_PARAMS_KEY.LAST_CRASH_TIMESTAMP, timestamp);
     }
 
-    private long getLastCrashTimestamp(Context context) {
-        return SPUtil.getLong(context, GlobalConstant.SP_PARAMS_KEY.LAST_CRASH_TIMESTAMP);
+    private long getLastCrashTimestamp() {
+        return SPUtil.getLong(GlobalConstant.SP_PARAMS_KEY.LAST_CRASH_TIMESTAMP);
     }
 
     //是否符合循环启动的条件.可能CrashedActivity也crash了，造成循环启动。
-    private boolean hasCrashedInTheLastSeconds(Context context) {
-        long lastTimestamp = getLastCrashTimestamp(context);
+    private boolean hasCrashedInTheLastSeconds() {
+        long lastTimestamp = getLastCrashTimestamp();
         long currentTimestamp = System.currentTimeMillis();
 
         return lastTimestamp < currentTimestamp && currentTimestamp - lastTimestamp < TIMESTAMP_AVOID_RESTART_LOOPS_IN_MILLIS;
@@ -231,11 +227,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
     }
 
     private void startCrashedActivity() {
-        if (mContext.get() == null || mCrashedActivity == null) {
-            return;
-        }
-        Intent intent = new Intent(mContext.get(), mCrashedActivity);
+        Intent intent = new Intent(ContextUtil.getAppContext(), mCrashedActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        mContext.get().startActivity(intent);
+        ContextUtil.getAppContext().startActivity(intent);
     }
 }

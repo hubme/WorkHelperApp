@@ -25,7 +25,7 @@ public class DownloadFileService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        SPUtil.putBoolean(this, GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS, true);
+        SPUtil.putBoolean(GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS, true);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class DownloadFileService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Logger.i("DownloadFileService#onDestroy");
-        SPUtil.putBoolean(this, GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS, false);
+        SPUtil.putBoolean(GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS, false);
     }
 
     private void downloadFile(String url) {

@@ -107,10 +107,10 @@ public class AppTest extends BaseTestCase {
     }
 
     public void testResources() throws Exception {
-        Logger.i(ExtendUtil.getResourceName(mContext, R.drawable.boy_running));//boy_running
-        Logger.i(ExtendUtil.getResourceName(mContext, R.color.colorPrimary));//colorPrimary
-        Logger.i(ExtendUtil.getResourceName(mContext, R.dimen.ts_25));//ts_25
-        Logger.i(ExtendUtil.getResourceName(mContext, R.drawable.little_boy_10));//little_boy_10
+        Logger.i(ExtendUtil.getResourceName(R.drawable.boy_running));//boy_running
+        Logger.i(ExtendUtil.getResourceName(R.color.colorPrimary));//colorPrimary
+        Logger.i(ExtendUtil.getResourceName(R.dimen.ts_25));//ts_25
+        Logger.i(ExtendUtil.getResourceName(R.drawable.little_boy_10));//little_boy_10
 
 //        Logger.i("getResourceName: " + mContext.getResources().getResourceName(R.drawable.boy_running));//com.king.app.workhelper:drawable/boy_running
 //        Logger.i("getResourceEntryName: " + mContext.getResources().getResourceEntryName(R.drawable.boy_running));//boy_running

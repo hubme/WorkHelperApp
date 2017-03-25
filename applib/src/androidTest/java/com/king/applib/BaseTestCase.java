@@ -4,6 +4,7 @@ import android.content.Context;
 import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
+import com.king.applib.util.ContextUtil;
 
 /**
  * TestCase基础类
@@ -17,6 +18,7 @@ abstract class BaseTestCase extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mContext = getContext();
+        ContextUtil.init(mContext);
         Logger.init("aaa").methodCount(1).hideThreadInfo();
     }
 

@@ -1,7 +1,6 @@
 package com.king.app.workhelper.app;
 
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Environment;
 
@@ -65,7 +64,7 @@ public class WorkHelperApp extends BaseApplication {
     }
 
     private boolean isMainProcess() {
-        return AppUtil.getCurrentProcessName(this).equals(AppUtil.getAppInfo(this).getPackageName());
+        return AppUtil.getCurrentProcessName(this).equals(getPackageName());
     }
 
     private void initOkHttp() {
@@ -93,11 +92,11 @@ public class WorkHelperApp extends BaseApplication {
         } else {
             logSavedDir = getCacheDir().getAbsolutePath() + "/CrashLog";
         }
-        CrashHandler.getInstance().init(this, logSavedDir);
+        CrashHandler.getInstance().init(logSavedDir);
     }
 
-    public static RefWatcher getRefWatcher(Context context) {
-        WorkHelperApp application = (WorkHelperApp) context.getApplicationContext();
+    public static RefWatcher getRefWatcher() {
+        WorkHelperApp application = (WorkHelperApp) ContextUtil.getAppContext().getApplicationContext();
         return application.mRefWatcher;
     }
 

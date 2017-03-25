@@ -148,7 +148,7 @@ public class LibTest extends BaseTestCase {
     }
 
     public void testAppUtils() throws Exception {
-        AppUtil.AppInfo appInfo = AppUtil.getAppInfo(getContext());
+        AppUtil.AppInfo appInfo = AppUtil.getAppInfo();
         Logger.i(appInfo.toString());
     }
 

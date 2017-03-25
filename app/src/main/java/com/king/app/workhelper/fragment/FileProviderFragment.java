@@ -91,7 +91,7 @@ public class FileProviderFragment extends AppBaseFragment {
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             //authority需要和manifest里面保持一致
-            Uri photoURI = FileProvider.getUriForFile(mContext, AppUtil.getFileProviderAuthor(mContext), file);
+            Uri photoURI = FileProvider.getUriForFile(mContext, AppUtil.getFileProviderAuthor(), file);
             Logger.i(photoURI.toString());
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 //            intent.putExtra("return-data",false);

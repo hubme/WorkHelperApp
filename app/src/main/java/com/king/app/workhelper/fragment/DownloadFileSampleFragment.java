@@ -44,7 +44,7 @@ public class DownloadFileSampleFragment extends AppBaseFragment {
     }
 
     private void startDownloadService() {
-        boolean serviceExists = SPUtil.getBoolean(getContext(), GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS);
+        boolean serviceExists = SPUtil.getBoolean(GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS);
         if (serviceExists) {
             Logger.i("服务已存在");
             return;

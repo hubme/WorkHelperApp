@@ -104,13 +104,10 @@ public class AppUtil {
         }
     }
 
-    public static AppInfo getAppInfo(Context context) {
-        if (context == null) {
-            return new AppInfo();
-        }
-        PackageManager pm = context.getPackageManager();
+    public static AppInfo getAppInfo() {
+        PackageManager pm = ContextUtil.getAppContext().getPackageManager();
         try {
-            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
+            PackageInfo packageInfo = pm.getPackageInfo(ContextUtil.getAppContext().getPackageName(), 0);
             ApplicationInfo appInfo = packageInfo.applicationInfo;
             String name = appInfo.loadLabel(pm).toString();
             Drawable icon = appInfo.loadIcon(pm);
@@ -124,16 +121,13 @@ public class AppUtil {
      * 清除本应用内部数据(/data/data/PackageName/)和外部数据(/Android/data/PackageName/)<br/>
      * 应用会自动关闭,下次打开和第一次安装效果一样.
      */
-    public static boolean clearUserData(Context context) {
-        if (context == null) {
-            return false;
-        }
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+    public static boolean clearUserData() {
+        ActivityManager activityManager = (ActivityManager) ContextUtil.getAppContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             return activityManager.clearApplicationUserData();
         } else {
-            return context.getExternalCacheDir() != null && FileUtil.deleteDir(context.getExternalCacheDir().getParent())
-                    && FileUtil.deleteDir(context.getCacheDir().getParent());
+            return FileUtil.deleteDir(ContextUtil.getAppContext().getExternalCacheDir().getParent())
+                    && FileUtil.deleteDir(ContextUtil.getAppContext().getCacheDir().getParent());
 
         }
     }
@@ -224,8 +218,8 @@ public class AppUtil {
      * 获取当前应用FileProvide的author name。<br/>
      * 注意：不同应用使用相同的provider,安装时会出现INSTALL_FAILED_CONFLICTING_PROVIDER的错误
      */
-    public static String getFileProviderAuthor(Context context) {
-        String pkgName = AppUtil.getAppInfo(context).getPackageName();
+    public static String getFileProviderAuthor() {
+        String pkgName = AppUtil.getAppInfo().getPackageName();
         return StringUtil.isNullOrEmpty(pkgName) ? "com.fund.app.fileprovider" : pkgName + ".fileprovider";
     }
 }
