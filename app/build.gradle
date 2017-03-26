@@ -143,9 +143,9 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
-    debugCompile 'com.antfortune.freeline:runtime:0.8.6'
-    releaseCompile 'com.antfortune.freeline:runtime-no-op:0.8.6'
-    testCompile 'com.antfortune.freeline:runtime-no-op:0.8.6'
+    debugCompile 'com.antfortune.freeline:runtime:0.8.7'
+    releaseCompile 'com.antfortune.freeline:runtime-no-op:0.8.7'
+    testCompile 'com.antfortune.freeline:runtime-no-op:0.8.7'
 
     compile 'com.facebook.fresco:fresco:0.12.0'
     compile 'com.facebook.fresco:imagepipeline-okhttp:1.0.0'
