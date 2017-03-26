@@ -522,6 +522,29 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         clickedOn(new MergeSampleFragment());
     }
 
+    @OnClick(R.id.tv_timer)
+    public void onTimerOperator() {
+        Observable.timer(1, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@NonNull Long aLong) throws Exception {
+                        Logger.i("哈哈哈");
+                    }
+                });
+    }
+
+    @OnClick(R.id.tv_interval)
+    public void onIntervalOperator() {
+        Disposable intervalDisposable = Observable.interval(1, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@NonNull Long aLong) throws Exception {
+                        Logger.i("哈哈哈");
+                    }
+                });
+        mCompositeDisposable.add(intervalDisposable);
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

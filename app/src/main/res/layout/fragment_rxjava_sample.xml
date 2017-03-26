@@ -117,6 +117,16 @@
                 android:id="@+id/tv_merge_sample"
                 style="@style/EntryItem"
                 android:text="Merge Sample"/>
+
+            <TextView
+                android:id="@+id/tv_timer"
+                style="@style/EntryItem"
+                android:text="Timer"/>
+
+            <TextView
+                android:id="@+id/tv_interval"
+                style="@style/EntryItem"
+                android:text="Interval"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
