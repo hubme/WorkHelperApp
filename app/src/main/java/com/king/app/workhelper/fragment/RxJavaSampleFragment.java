@@ -54,8 +54,10 @@ import io.reactivex.schedulers.Schedulers;
  * @since 2016/11/4.
  */
 public class RxJavaSampleFragment extends AppBaseFragment {
-    @BindView(R.id.et_name) EditText mNameEt;
-    @BindView(R.id.et_age) EditText mAgeEt;
+    @BindView(R.id.et_name)
+    EditText mNameEt;
+    @BindView(R.id.et_age)
+    EditText mAgeEt;
 
     private Consumer<String> mSubscriber;
     private CompositeDisposable mCompositeDisposable;
@@ -482,7 +484,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 //                .subscribeOn(Schedulers.io())//添加报错
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object>() {
-                    @Override public void accept(@NonNull Object o) throws Exception {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
                         showToast("每两秒弹一次");
                     }
                 });
@@ -498,20 +501,24 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         Observable<CharSequence> nameObservable = RxTextView.textChanges(mNameEt).skip(1);
         Observable<CharSequence> ageObservable = RxTextView.textChanges(mAgeEt).skip(1);
         Observable.combineLatest(nameObservable, ageObservable, new BiFunction<CharSequence, CharSequence, Boolean>() {
-            @Override public Boolean apply(@NonNull CharSequence name, @NonNull CharSequence age) throws Exception {
+            @Override
+            public Boolean apply(@NonNull CharSequence name, @NonNull CharSequence age) throws Exception {
                 return !StringUtil.isNullOrEmpty(name.toString()) && !StringUtil.isNullOrEmpty(age.toString());
             }
         }).subscribe(new DisposableObserver<Boolean>() {
-            @Override public void onNext(Boolean aBoolean) {
+            @Override
+            public void onNext(Boolean aBoolean) {
                 showToast(aBoolean ? "合法" : "非法");
                 Logger.i(aBoolean.toString());
             }
 
-            @Override public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
                 Logger.i("onError");
             }
 
-            @Override public void onComplete() {
+            @Override
+            public void onComplete() {
                 Logger.i("onComplete");
             }
         });
@@ -543,6 +550,22 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                     }
                 });
         mCompositeDisposable.add(intervalDisposable);
+    }
+
+    @OnClick(R.id.tv_buffer)
+    public void onBufferOperator(TextView textView) {
+        Disposable subscribe = RxView.clicks(textView)
+                .map(onClickEvent -> 1)
+                .buffer(2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integers -> {
+                    if (!integers.isEmpty()) {
+                        Logger.i("size: " + integers.size());
+                    } else {
+                        Logger.i("No taps received");
+                    }
+                });
+        mCompositeDisposable.add(subscribe);
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

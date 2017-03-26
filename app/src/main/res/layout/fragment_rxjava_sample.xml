@@ -127,6 +127,11 @@
                 android:id="@+id/tv_interval"
                 style="@style/EntryItem"
                 android:text="Interval"/>
+
+            <TextView
+                android:id="@+id/tv_buffer"
+                style="@style/EntryItem"
+                android:text="Buffer"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
