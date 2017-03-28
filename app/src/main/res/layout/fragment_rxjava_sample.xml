@@ -109,7 +109,7 @@
                 android:layout_height="45dp"/>
 
             <EditText
-                android:id="@+id/et_age"
+                android:id="@+id/et_input"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"/>
 
@@ -130,6 +130,11 @@
 
             <TextView
                 android:id="@+id/tv_buffer"
+                style="@style/EntryItem"
+                android:text="Buffer"/>
+            
+            <TextView
+                android:id="@+id/tv_PublishProcessor"
                 style="@style/EntryItem"
                 android:text="Buffer"/>
         </LinearLayout>

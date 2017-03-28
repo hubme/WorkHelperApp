@@ -39,6 +39,13 @@ public final class StringUtil {
     }
 
     /**
+     * 字符串为null或empty(""," ")返回false,否则返回true.
+     */
+    public static boolean isNotNullOrEmpty(final String string) {
+        return !isNullOrEmpty(string);
+    }
+
+    /**
      * 判断字符串是否 not null或者not empty(""," ")
      */
     public static boolean isNotEmpty(final String string) {

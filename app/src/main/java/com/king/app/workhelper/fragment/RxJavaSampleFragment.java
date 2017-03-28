@@ -44,6 +44,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -56,8 +57,8 @@ import io.reactivex.schedulers.Schedulers;
 public class RxJavaSampleFragment extends AppBaseFragment {
     @BindView(R.id.et_name)
     EditText mNameEt;
-    @BindView(R.id.et_age)
-    EditText mAgeEt;
+    @BindView(R.id.et_input)
+    EditText mInputEt;
 
     private Consumer<String> mSubscriber;
     private CompositeDisposable mCompositeDisposable;
@@ -76,6 +77,14 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     protected void initData() {
         super.initData();
         initSubscriber();
+
+        //EditText变化时，每隔一秒打印EditText的内容,不打印"空".
+        Disposable mTextChangeSubscribe = RxTextView.textChanges(mInputEt)
+                .debounce(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .filter(str -> StringUtil.isNotNullOrEmpty(str.toString()))
+                .subscribe(str -> Logger.i(str.toString()));
+        mCompositeDisposable.add(mTextChangeSubscribe);
     }
 
     @Override
@@ -171,7 +180,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         }, BackpressureStrategy.BUFFER).subscribe(subscriber);
 
         //更简洁的用法.因为返回Void，无法取消
-//        Flowable.just("Hello RxJava").subscribe(subscriber);
+//        Flowable.just("Hello RxJava").mTextChangeSubscribe(subscriber);
 
         //ResourceSubscriber实现Disposable接口,可以通过CompositeDisposable取消订阅
         /*ResourceSubscriber<String> resourceSubscriber = Flowable.just("Hello RxJava")
@@ -380,9 +389,9 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_compose)
     public void onCompose() {
         //        LiftAllTransformer liftAll = new LiftAllTransformer();
-        //        observable1.compose(liftAll).subscribe(subscriber1);
-        //        observable2.compose(liftAll).subscribe(subscriber2);
-        //        observable3.compose(liftAll).subscribe(subscriber3);
+        //        observable1.compose(liftAll).mTextChangeSubscribe(subscriber1);
+        //        observable2.compose(liftAll).mTextChangeSubscribe(subscriber2);
+        //        observable3.compose(liftAll).mTextChangeSubscribe(subscriber3);
     }
 
     /*private class LiftAllTransformer implements Observable.Transformer<Integer, String> {
@@ -499,7 +508,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_combineLatest)
     public void onCombineLatest() {
         Observable<CharSequence> nameObservable = RxTextView.textChanges(mNameEt).skip(1);
-        Observable<CharSequence> ageObservable = RxTextView.textChanges(mAgeEt).skip(1);
+        Observable<CharSequence> ageObservable = RxTextView.textChanges(mInputEt).skip(1);
         Observable.combineLatest(nameObservable, ageObservable, new BiFunction<CharSequence, CharSequence, Boolean>() {
             @Override
             public Boolean apply(@NonNull CharSequence name, @NonNull CharSequence age) throws Exception {
@@ -566,6 +575,17 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                     }
                 });
         mCompositeDisposable.add(subscribe);
+    }
+
+    @OnClick(R.id.tv_PublishProcessor)
+    public void onPublishProcessor() {
+        PublishProcessor<String> publishProcessor = PublishProcessor.create();
+        publishProcessor.subscribe(str -> Logger.i(str));
+        publishProcessor.onNext("哈哈哈");
+        publishProcessor.onNext("呵呵呵");
+        publishProcessor.subscribe(str -> Logger.i(str));
+        publishProcessor.onNext("000");
+        publishProcessor.onNext("111");
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
