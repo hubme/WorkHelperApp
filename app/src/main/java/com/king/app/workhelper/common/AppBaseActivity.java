@@ -1,6 +1,7 @@
 package com.king.app.workhelper.common;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.applib.base.BaseActivity;
+import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
 
 import butterknife.BindView;
@@ -25,6 +27,21 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
     @Nullable
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
+    protected com.king.applib.base.WeakHandler mHandler = new WeakHandler(AppBaseActivity.this);
+    
+    private static class WeakHandler extends com.king.applib.base.WeakHandler<AppBaseActivity>{
+
+        private WeakHandler(AppBaseActivity target) {
+            super(target);
+        }
+
+        @Override public void handle(AppBaseActivity target, Message msg) {
+            target.handleMessage(msg);
+        }
+    }
+
+    protected void handleMessage(Message msg){
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +60,9 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
     protected void onDestroy() {
         super.onDestroy();
         BusProvider.getEventBus().unregister(this);
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     @Override
@@ -99,15 +119,15 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
      */
     protected void showToast(String toast) {
         if (!StringUtil.isNullOrEmpty(toast)) {
-            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContextUtil.getAppContext(), toast, Toast.LENGTH_SHORT).show();
         }
     }
 
     protected void showToast(String toast, String defaultToast) {
         if (!StringUtil.isNullOrEmpty(toast)) {
-            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContextUtil.getAppContext(), toast, Toast.LENGTH_SHORT).show();
         } else if (!StringUtil.isNullOrEmpty(defaultToast)) {
-            Toast.makeText(this, defaultToast, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContextUtil.getAppContext(), defaultToast, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -122,9 +142,9 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
 
     protected void showToast(String toast, int resId) {
         if (!StringUtil.isNullOrEmpty(toast)) {
-            Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContextUtil.getAppContext(), toast, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContextUtil.getAppContext(), resId, Toast.LENGTH_SHORT).show();
         }
     }
 }
