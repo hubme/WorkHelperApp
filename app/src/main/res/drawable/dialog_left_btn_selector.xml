@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_focused="true">
-        <shape>
-            <corners android:bottomLeftRadius="5dp"
-                     android:bottomRightRadius="0dp"
-                     android:topLeftRadius="0dp"
-                     android:topRightRadius="0dp"/>
-            <solid android:color="@color/white_dddddd"/>
-        </shape>
-    </item>
-
+    <!--同时写多过个state会失去效果-->
     <item android:state_pressed="true">
-        <shape>
-            <corners android:bottomLeftRadius="5dp"
-                     android:bottomRightRadius="0dp"
-                     android:topLeftRadius="0dp"
-                     android:topRightRadius="0dp"/>
-            <solid android:color="@color/white_dddddd"/>
-        </shape>
-    </item>
-
-    <item android:state_selected="true">
         <shape>
             <corners android:bottomLeftRadius="5dp"
                      android:bottomRightRadius="0dp"

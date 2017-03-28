@@ -46,13 +46,12 @@ public class SimpleDialogFragment extends DialogFragment {
         initDialog();
     }
 
-
     private void initView(View view) {
-        Logger.i("initView()");
         mLeftIconIv = (ImageView) view.findViewById(R.id.iv_left_icon);
         mRightIconIv = (ImageView) view.findViewById(R.id.iv_righ_icon);
     }
 
+    //写在onCreate()报NPE,写在onCreateView()或onViewCreated无效
     private void initDialog() {
         Window window = getDialog().getWindow();
         if (window != null) {
@@ -61,7 +60,7 @@ public class SimpleDialogFragment extends DialogFragment {
 
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            window.setLayout((int) (dm.widthPixels * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+            window.setLayout((int) (dm.widthPixels * 0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }
 
