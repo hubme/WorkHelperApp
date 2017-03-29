@@ -104,11 +104,6 @@
                 android:text="combineLatest"/>
 
             <EditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"/>
-
-            <EditText
                 android:id="@+id/et_input"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"/>
@@ -132,11 +127,21 @@
                 android:id="@+id/tv_buffer"
                 style="@style/EntryItem"
                 android:text="Buffer"/>
-            
+
             <TextView
                 android:id="@+id/tv_PublishProcessor"
                 style="@style/EntryItem"
-                android:text="Buffer"/>
+                android:text="PublishProcessor"/>
+
+            <TextView
+                android:id="@+id/tv_retry"
+                style="@style/EntryItem"
+                android:text="Retry"/>
+
+            <TextView
+                android:id="@+id/tv_network_changed"
+                style="@style/EntryItem"
+                android:text="监听网络变化"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

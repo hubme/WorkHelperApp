@@ -1,5 +1,10 @@
 package com.king.app.workhelper.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -13,6 +18,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.Course;
 import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
+import com.king.applib.util.NetworkUtil;
 import com.king.applib.util.StringUtil;
 
 import org.reactivestreams.Publisher;
@@ -39,11 +45,9 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 
@@ -55,13 +59,12 @@ import io.reactivex.schedulers.Schedulers;
  * @since 2016/11/4.
  */
 public class RxJavaSampleFragment extends AppBaseFragment {
-    @BindView(R.id.et_name)
-    EditText mNameEt;
-    @BindView(R.id.et_input)
-    EditText mInputEt;
+    @BindView(R.id.et_input) EditText mInputEt;
 
     private Consumer<String> mSubscriber;
     private CompositeDisposable mCompositeDisposable;
+    /** 网络变化发布者 */
+    private PublishProcessor<Boolean> mNetworkChangedProcessor;
 
     @Override
     public int getContentLayout() {
@@ -85,6 +88,14 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 .filter(str -> StringUtil.isNotNullOrEmpty(str.toString()))
                 .subscribe(str -> Logger.i(str.toString()));
         mCompositeDisposable.add(mTextChangeSubscribe);
+
+        mNetworkChangedProcessor = PublishProcessor.create();
+        mNetworkChangedProcessor.startWith(NetworkUtil.isNetworkAvailable(mContext))
+                .distinctUntilChanged()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(online -> showToast(online ? "联上网啦" : "断网了，shit"));
+
+        listenToNetworkConnectivity();
     }
 
     @Override
@@ -93,6 +104,16 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         if (mCompositeDisposable != null) {
             mCompositeDisposable.clear();
         }
+    }
+    
+    private void listenToNetworkConnectivity(){
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override public void onReceive(Context context, Intent intent) {
+                mNetworkChangedProcessor.onNext(NetworkUtil.isNetworkAvailable(mContext));
+            }
+        };
+        final IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        mContext.registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void initSubscriber() {
@@ -507,30 +528,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
      */
     @OnClick(R.id.tv_combineLatest)
     public void onCombineLatest() {
-        Observable<CharSequence> nameObservable = RxTextView.textChanges(mNameEt).skip(1);
-        Observable<CharSequence> ageObservable = RxTextView.textChanges(mInputEt).skip(1);
-        Observable.combineLatest(nameObservable, ageObservable, new BiFunction<CharSequence, CharSequence, Boolean>() {
-            @Override
-            public Boolean apply(@NonNull CharSequence name, @NonNull CharSequence age) throws Exception {
-                return !StringUtil.isNullOrEmpty(name.toString()) && !StringUtil.isNullOrEmpty(age.toString());
-            }
-        }).subscribe(new DisposableObserver<Boolean>() {
-            @Override
-            public void onNext(Boolean aBoolean) {
-                showToast(aBoolean ? "合法" : "非法");
-                Logger.i(aBoolean.toString());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Logger.i("onError");
-            }
-
-            @Override
-            public void onComplete() {
-                Logger.i("onComplete");
-            }
-        });
+        clickedOn(new CombineLatestSample());
     }
 
     @OnClick(R.id.tv_merge_sample)
@@ -586,6 +584,16 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         publishProcessor.subscribe(str -> Logger.i(str));
         publishProcessor.onNext("000");
         publishProcessor.onNext("111");
+    }
+
+    @OnClick(R.id.tv_retry)
+    public void onRetryWhenClick() {
+        clickedOn(new RetryFragment());
+    }
+
+    @OnClick(R.id.tv_network_changed)
+    public void onNetworkChanged() {
+
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
