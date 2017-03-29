@@ -1,316 +1,458 @@
 package com.king.applib.util;
 
-import android.text.TextUtils;
+import android.os.Environment;
+import android.support.annotation.IntDef;
 import android.util.Log;
 
-import java.io.PrintWriter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.Locale;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 /**
- * 日志
- * tag默认取类名，内容中带入了完整类路径和调用的方法名.
- * 格式化相关代码修改自
- * https://github.com/Robin-jiangyufeng/LazyLogger/blob/master/LoggerLibrary/src/main/java/com/robin/lazy/logger/LoggerFormattedPrinter.java
- * @author CJL
- * @since 2015-12-15
+ * 简洁Log工具类
+ *
+ * @author VanceKing
+ * @since 2017/3/29.
  */
-public class LogUtil {
-    // CHECKSTYLE:OFF
-    private boolean debug;
-    private String tag;
 
-    private static final Object LOCK = new Object();
-
-    final String LOG_FILE_NAME = "jz.log";
-
-    public LogUtil() {
-        this(null);
+public final class LogUtil {
+    private LogUtil() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
-    public LogUtil(String tag) {
-        this(true, tag);
+    public static final int V = 0x01;
+    public static final int D = 0x02;
+    public static final int I = 0x04;
+    public static final int W = 0x08;
+    public static final int E = 0x10;
+    public static final int A = 0x20;
+
+    @IntDef({V, D, I, W, E, A})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TYPE {
     }
 
-    public LogUtil(boolean debug, String tag) {
-        this.debug = debug;
-        this.tag = tag;
-    }
+    private static final int FILE = 0xF1;
+    private static final int JSON = 0xF2;
+    private static final int XML = 0xF4;
 
-    public boolean debug() {
-        return debug;
-    }
+    private static String dir;                      // log存储目录
+    private static boolean sLogSwitch = true; // log总开关
+    private static String sGlobalTag = null; // log标签
+    private static boolean sTagIsSpace = true; // log标签是否为空白
+    private static boolean sLog2FileSwitch = false;// log写入文件开关
+    private static boolean sLogBorderSwitch = true; // log边框开关
+    private static int sLogFilter = V;    // log过滤器
 
-    public void v(String msg) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.VERBOSE, m[0], m[1], null);
-        }
-    }
+    private static final String TOP_BORDER = "╔═══════════════════════════════════════════════════════════════════════════════════════════════════";
+    private static final String LEFT_BORDER = "║ ";
+    private static final String BOTTOM_BORDER = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════";
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    public void v(String msg, Object... args) {
-        if (debug) {
-            String[] m = buildMessage(String.format(msg, args));
-            log(Log.VERBOSE, m[0], m[1], null);
-        }
-    }
+    private static final int MAX_LEN = 4000;
+    private static final String NULL_TIPS = "Log with null object.";
+    private static final String NULL = "null";
+    private static final String ARGS = "args";
 
-    public void v(String msg, Throwable thr) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.VERBOSE, m[0], m[1], thr);
-        }
-    }
+    public static class Builder {
 
-    public void d(String msg) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.DEBUG, m[0], m[1], null);
-        }
-    }
-
-    public void d(String msg, Object... args) {
-        if (debug) {
-            String[] m = buildMessage(String.format(msg, args));
-            log(Log.DEBUG, m[0], m[1], null);
-        }
-    }
-
-    public void d(String msg, Throwable thr) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.DEBUG, m[0], m[1], thr);
-        }
-    }
-
-    public void i(String msg) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.INFO, m[0], m[1], null);
-        }
-    }
-
-    public void i(String msg, Object... args) {
-        if (debug) {
-            String[] m = buildMessage(String.format(msg, args));
-            log(Log.INFO, m[0], m[1], null);
-        }
-    }
-
-    public void i(String msg, Throwable thr) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.INFO, m[0], m[1], thr);
-        }
-    }
-
-    public void e(String msg) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.ERROR, m[0], m[1], null);
-        }
-    }
-
-    public void e(String msg, Object... args) {
-        if (debug) {
-            String[] m = buildMessage(String.format(msg, args));
-            log(Log.ERROR, m[0], m[1], null);
-        }
-    }
-
-    public void e(String msg, Throwable thr) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.ERROR, m[0], m[1], thr);
-        }
-    }
-
-    public void w(String msg) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.WARN, m[0], m[1], null);
-        }
-    }
-
-    public void w(String msg, Object... args) {
-        if (debug) {
-            String[] m = buildMessage(String.format(msg, args));
-            log(Log.WARN, m[0], m[1], null);
-        }
-    }
-
-    public void w(String msg, Throwable thr) {
-        if (debug) {
-            String[] m = buildMessage(msg);
-            log(Log.WARN, m[0], m[1], thr);
-        }
-    }
-
-    /*public void file(String msg, Throwable thr) {
-        if (!debug) {
-            return;
-        }
-        File f = new File(JZApp.getAppContext().getExternalFilesDir(null), LOG_FILE_NAME);
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(f, true);
-            String fm = new Date().toString() + "\n";
-            fos.write(fm.getBytes(Charset.forName("utf-8")));
-            fos.write(msg.getBytes(Charset.forName("utf-8")));
-            thr.printStackTrace(new PrintStream(fos));
-            fos.write("\n\n".getBytes());
-
-        } catch (Exception e) {
-            e("write file log failed");
-            i(msg, thr);
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    // null
-                }
-            }
-        }
-    }*/
-
-    /*public void file(String msg, Object... args) {
-        if (!debug) {
-            return;
-        }
-        File f = new File(JZApp.getAppContext().getExternalFilesDir(null), LOG_FILE_NAME);
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(f, true);
-            String fm = new Date().toString() + "\n";
-            fos.write(fm.getBytes(Charset.forName("utf-8")));
-            fos.write(String.format(msg, args).getBytes(Charset.forName("utf-8")));
-        } catch (Exception e) {
-            e("write file log failed");
-            i(msg, args);
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    // null
-                }
-            }
-        }
-    }*/
-
-    protected String[] buildMessage(String msg) {
-        StackTraceElement caller = new Throwable().fillInStackTrace().getStackTrace()[2];
-        String msgTag = tag;
-        if (TextUtils.isEmpty(tag)) {
-            msgTag = caller.getClassName().substring(caller.getClassName().lastIndexOf('.') + 1);
-        }
-        String res = caller.getClassName() + "#" + caller.getMethodName() + "():" + caller.getLineNumber() + "\n" + msg;
-        return new String[]{msgTag, res};
-    }
-
-    /**
-     * Android's max limit for a log entry is ~4076 bytes, so 4000 bytes is used
-     * as chunk size since default charset is UTF-8
-     */
-    private static final int CHUNK_SIZE = 4000;
-    private static final char TOP_LEFT_CORNER = '╔';
-    private static final char BOTTOM_LEFT_CORNER = '╚';
-    private static final char MIDDLE_CORNER = '╟';
-    private static final char HORIZONTAL_DOUBLE_LINE = '║';
-    private static final String DOUBLE_DIVIDER = "════════════════════════════════════════════";
-    private static final String SINGLE_DIVIDER = "────────────────────────────────────────────";
-    private static final String TOP_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
-    private static final String BOTTOM_BORDER = BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
-    private static final String MIDDLE_BORDER = MIDDLE_CORNER + SINGLE_DIVIDER + SINGLE_DIVIDER;
-
-    /**
-     * This method is synchronized in order to avoid messy of logs' order.
-     */
-    private void log(int logType, String tag, String message, Throwable thr) {
-        synchronized (LOCK) {
-            logTopBorder(logType, tag);
-            logHeaderContent(logType, tag);
-
-            byte[] bytes = message.getBytes();
-            int length = bytes.length;
-            if (length <= CHUNK_SIZE) {
-                logContent(logType, tag, message);
+        public Builder() {
+            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                dir = ContextUtil.getAppContext().getExternalCacheDir() + File.separator + "log" + File.separator;
             } else {
-                for (int i = 0; i < length; i += CHUNK_SIZE) {
-                    int count = Math.min(length - i, CHUNK_SIZE);
-                    logContent(logType, tag, new String(bytes, i, count));
-                }
+                dir = ContextUtil.getAppContext().getCacheDir() + File.separator + "log" + File.separator;
             }
+        }
 
-            // 打印Throwable信息
-            if (thr != null) {
-                logDivider(logType, tag);
+        public Builder setGlobalTag(String tag) {
+            if (!isSpace(tag)) {
+                LogUtil.sGlobalTag = tag;
+                sTagIsSpace = false;
+            } else {
+                LogUtil.sGlobalTag = "";
+                sTagIsSpace = true;
+            }
+            return this;
+        }
 
-                StringWriter sw = new StringWriter();
-                thr.printStackTrace(new PrintWriter(sw));
-                message = sw.toString();
+        public Builder setLogSwitch(boolean logSwitch) {
+            LogUtil.sLogSwitch = logSwitch;
+            return this;
+        }
 
-                bytes = message.getBytes();
-                length = bytes.length;
-                if (length <= CHUNK_SIZE) {
-                    logContent(logType, tag, message);
-                } else {
-                    for (int i = 0; i < length; i += CHUNK_SIZE) {
-                        int count = Math.min(length - i, CHUNK_SIZE);
-                        logContent(logType, tag, new String(bytes, i, count));
+        public Builder setLog2FileSwitch(boolean log2FileSwitch) {
+            LogUtil.sLog2FileSwitch = log2FileSwitch;
+            return this;
+        }
+
+        public Builder setBorderSwitch(boolean borderSwitch) {
+            LogUtil.sLogBorderSwitch = borderSwitch;
+            return this;
+        }
+
+        public Builder setLogFilter(@TYPE int logFilter) {
+            LogUtil.sLogFilter = logFilter;
+            return this;
+        }
+    }
+
+    public static void v(Object contents) {
+        log(V, sGlobalTag, contents);
+    }
+
+    public static void v(String tag, Object... contents) {
+        log(V, tag, contents);
+    }
+
+    public static void d(Object contents) {
+        log(D, sGlobalTag, contents);
+    }
+
+    public static void d(String tag, Object... contents) {
+        log(D, tag, contents);
+    }
+
+    public static void i(Object contents) {
+        log(I, sGlobalTag, contents);
+    }
+
+    public static void i(String tag, Object... contents) {
+        log(I, tag, contents);
+    }
+
+    public static void w(Object contents) {
+        log(W, sGlobalTag, contents);
+    }
+
+    public static void w(String tag, Object... contents) {
+        log(W, tag, contents);
+    }
+
+    public static void e(Object contents) {
+        log(E, sGlobalTag, contents);
+    }
+
+    public static void e(String tag, Object... contents) {
+        log(E, tag, contents);
+    }
+
+    public static void a(Object contents) {
+        log(A, sGlobalTag, contents);
+    }
+
+    public static void a(String tag, Object... contents) {
+        log(A, tag, contents);
+    }
+
+    public static void file(Object contents) {
+        log(FILE, sGlobalTag, contents);
+    }
+
+    public static void file(String tag, Object contents) {
+        log(FILE, tag, contents);
+    }
+
+    public static void json(String contents) {
+        log(JSON, sGlobalTag, contents);
+    }
+
+    public static void json(String tag, String contents) {
+        log(JSON, tag, contents);
+    }
+
+    public static void xml(String contents) {
+        log(XML, sGlobalTag, contents);
+    }
+
+    public static void xml(String tag, String contents) {
+        log(XML, tag, contents);
+    }
+
+    private static void log(int type, String tag, Object... contents) {
+        if (!sLogSwitch)
+            return;
+        final String[] processContents = processContents(type, tag, contents);
+        tag = processContents[0];
+        String msg = processContents[1];
+        switch (type) {
+            case V:
+            case D:
+            case I:
+            case W:
+            case E:
+            case A:
+                if (V == sLogFilter || type >= sLogFilter) {
+                    printLog(type, tag, msg);
+                }
+                if (sLog2FileSwitch) {
+                    print2File(tag, msg);
+                }
+                break;
+            case FILE:
+                print2File(tag, msg);
+                break;
+            case JSON:
+                printLog(D, tag, msg);
+                break;
+            case XML:
+                printLog(D, tag, msg);
+                break;
+        }
+
+    }
+
+    private static String[] processContents(int type, String tag, Object... contents) {
+        StackTraceElement targetElement = Thread.currentThread().getStackTrace()[5];
+        String className = targetElement.getClassName();
+        String[] classNameInfo = className.split("\\.");
+        if (classNameInfo.length > 0) {
+            className = classNameInfo[classNameInfo.length - 1];
+        }
+        if (className.contains("$")) {
+            className = className.split("\\$")[0];
+        }
+        if (!sTagIsSpace) {// 如果全局tag不为空，那就用全局tag
+            tag = sGlobalTag;
+        } else {// 全局tag为空时，如果传入的tag为空那就显示类名，否则显示tag
+            tag = isSpace(tag) ? className : tag;
+        }
+
+        String head = new Formatter()
+                .format("Thread: %s, %s(%s.java:%d)" + LINE_SEPARATOR,
+                        Thread.currentThread().getName(),
+                        targetElement.getMethodName(),
+                        className,
+                        targetElement.getLineNumber())
+                .toString();
+        String msg = NULL_TIPS;
+        if (contents != null) {
+            if (contents.length == 1) {
+                Object object = contents[0];
+                msg = object == null ? NULL : object.toString();
+                if (type == JSON) {
+                    msg = formatJson(msg);
+                } else if (type == XML) {
+                    msg = formatXml(msg);
+                }
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0, len = contents.length; i < len; ++i) {
+                    Object content = contents[i];
+                    sb.append(ARGS)
+                            .append("[")
+                            .append(i)
+                            .append("]")
+                            .append(" = ")
+                            .append(content == null ? NULL : content.toString())
+                            .append(LINE_SEPARATOR);
+                }
+                msg = sb.toString();
+            }
+        }
+        if (sLogBorderSwitch) {
+            StringBuilder sb = new StringBuilder();
+            String[] lines = msg.split(LINE_SEPARATOR);
+            for (String line : lines) {
+                sb.append(LEFT_BORDER).append(line).append(LINE_SEPARATOR);
+            }
+            msg = sb.toString();
+        }
+        return new String[]{tag, head + msg};
+    }
+
+    private static String formatJson(String json) {
+        try {
+            if (json.startsWith("{")) {
+                json = new JSONObject(json).toString(4);
+            } else if (json.startsWith("[")) {
+                json = new JSONArray(json).toString(4);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    private static String formatXml(String xml) {
+        try {
+            Source xmlInput = new StreamSource(new StringReader(xml));
+            StreamResult xmlOutput = new StreamResult(new StringWriter());
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            transformer.transform(xmlInput, xmlOutput);
+            xml = xmlOutput.getWriter().toString().replaceFirst(">", ">" + LINE_SEPARATOR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return xml;
+    }
+
+    private static void printLog(int type, String tag, String msg) {
+        if (sLogBorderSwitch)
+            printBorder(type, tag, true);
+        int len = msg.length();
+        int countOfSub = len / MAX_LEN;
+        if (countOfSub > 0) {
+            int index = 0;
+            String sub;
+            for (int i = 0; i < countOfSub; i++) {
+                sub = msg.substring(index, index + MAX_LEN);
+                printSubLog(type, tag, sub);
+                index += MAX_LEN;
+            }
+            printSubLog(type, tag, msg.substring(index, len));
+        } else {
+            printSubLog(type, tag, msg);
+        }
+        if (sLogBorderSwitch)
+            printBorder(type, tag, false);
+    }
+
+    private static void printSubLog(final int type, final String tag, String msg) {
+        if (sLogBorderSwitch)
+            msg = LEFT_BORDER + msg;
+        switch (type) {
+            case V:
+                Log.v(tag, msg);
+                break;
+            case D:
+                Log.d(tag, msg);
+                break;
+            case I:
+                Log.i(tag, msg);
+                break;
+            case W:
+                Log.w(tag, msg);
+                break;
+            case E:
+                Log.e(tag, msg);
+                break;
+            case A:
+                Log.wtf(tag, msg);
+                break;
+        }
+    }
+
+    private static void printBorder(int type, String tag, boolean isTop) {
+        String border = isTop ? TOP_BORDER : BOTTOM_BORDER;
+        switch (type) {
+            case V:
+                Log.v(tag, border);
+                break;
+            case D:
+                Log.d(tag, border);
+                break;
+            case I:
+                Log.i(tag, border);
+                break;
+            case W:
+                Log.w(tag, border);
+                break;
+            case E:
+                Log.e(tag, border);
+                break;
+            case A:
+                Log.wtf(tag, border);
+                break;
+        }
+    }
+
+    private synchronized static void print2File(final String tag, final String msg) {
+        Date now = new Date();
+        String date = new SimpleDateFormat("MM-dd", Locale.getDefault()).format(now);
+        final String fullPath = dir + date + ".txt";
+        if (!createOrExistsFile(fullPath)) {
+            Log.e(tag, "log to " + fullPath + " failed!");
+            return;
+        }
+        String time = new SimpleDateFormat("MM-dd HH:mm:ss.SSS ", Locale.getDefault()).format(now);
+        StringBuilder sb = new StringBuilder();
+        if (sLogBorderSwitch)
+            sb.append(TOP_BORDER).append(LINE_SEPARATOR);
+        sb.append(time)
+                .append(tag)
+                .append(": ")
+                .append(msg)
+                .append(LINE_SEPARATOR);
+        if (sLogBorderSwitch)
+            sb.append(BOTTOM_BORDER).append(LINE_SEPARATOR);
+        final String dateLogContent = sb.toString();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                BufferedWriter bw = null;
+                try {
+                    bw = new BufferedWriter(new FileWriter(fullPath, true));
+                    bw.write(dateLogContent);
+                    Log.d(tag, "log to " + fullPath + " success!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(tag, "log to " + fullPath + " failed!");
+                } finally {
+                    try {
+                        if (bw != null) {
+                            bw.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
+        }).start();
+    }
 
-            logBottomBorder(logType, tag);
+    private static boolean createOrExistsFile(String filePath) {
+        return createOrExistsFile(isSpace(filePath) ? null : new File(filePath));
+    }
+
+    private static boolean createOrExistsFile(File file) {
+        if (file == null)
+            return false;
+        if (file.exists())
+            return file.isFile();
+        if (!createOrExistsDir(file.getParentFile()))
+            return false;
+        try {
+            return file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
-    private void logTopBorder(int logType, String tag) {
-        logChunk(logType, tag, TOP_BORDER);
+    private static boolean createOrExistsDir(File file) {
+        return file != null && (file.exists() ? file.isDirectory() : file.mkdirs());
     }
 
-    private void logHeaderContent(int logType, String tag) {
-        logChunk(logType, tag, HORIZONTAL_DOUBLE_LINE + " Thread: " + Thread.currentThread().getName());
-        logDivider(logType, tag);
-    }
-
-    private void logBottomBorder(int logType, String tag) {
-        logChunk(logType, tag, BOTTOM_BORDER);
-    }
-
-    private void logDivider(int logType, String tag) {
-        logChunk(logType, tag, MIDDLE_BORDER);
-    }
-
-    private void logContent(int logType, String tag, String chunk) {
-        String[] lines = chunk.split(System.getProperty("line.separator"));
-        for (String line : lines) {
-            logChunk(logType, tag, HORIZONTAL_DOUBLE_LINE + " " + line);
+    private static boolean isSpace(String s) {
+        if (s == null)
+            return true;
+        for (int i = 0, len = s.length(); i < len; ++i) {
+            if (!Character.isWhitespace(s.charAt(i))) {
+                return false;
+            }
         }
+        return true;
     }
-
-    private void logChunk(int logType, String tag, String chunk) {
-        switch (logType) {
-            case Log.VERBOSE:
-                Log.v(tag, chunk);
-                break;
-            case Log.ERROR:
-                Log.e(tag, chunk);
-                break;
-            case Log.INFO:
-                Log.i(tag, chunk);
-                break;
-            case Log.WARN:
-                Log.w(tag, chunk);
-                break;
-            case Log.DEBUG:
-                // Fall through, log debug by default
-            default:
-                Log.d(tag, chunk);
-                break;
-        }
-    }
-
-    // CHECKSTYLE:ON
 }

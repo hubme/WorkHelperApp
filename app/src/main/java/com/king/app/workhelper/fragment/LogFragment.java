@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.log.Logger;
-import com.king.applib.util.LogUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,7 +54,6 @@ public class LogFragment extends AppBaseFragment {
 
     @BindView(R.id.tv_log)
     public TextView mLogTv;
-    private LogUtil mLog;
 
     @Override
     protected int getContentLayout() {
@@ -65,8 +63,6 @@ public class LogFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-
-        mLog = new LogUtil(true, TAG);
     }
 
     @OnClick(R.id.tv_trace)
