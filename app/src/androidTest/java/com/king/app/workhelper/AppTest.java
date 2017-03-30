@@ -16,6 +16,8 @@ import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -28,6 +30,28 @@ import static com.king.applib.util.FileUtil.createFile;
  */
 
 public class AppTest extends BaseTestCase {
+    
+    public void testList() throws Exception {
+        List<String> strings = new ArrayList<>();
+        strings.add("0");
+        strings.add("1");
+        strings.add("3");
+
+        List<String> strings1 = new ArrayList<>();
+        strings1.add("4");
+        strings1.add(null);
+        strings1.add("5");
+
+        strings.addAll(strings1);//strings1的内容可以为null，但是string1不能为null.
+        for (int i=0, size = strings.size();i<size;i++) {
+            final String s = strings.get(i);
+            if (s == null) {
+                Logger.i("第" + i + "个是null");
+            } else {
+                Logger.i(i + "===" + s);
+            } 
+        }
+    }
 
     //计算SDCard的大小、可用空间等。
     public void testSdCardState() throws Exception {

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.MainActivity;
+import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
@@ -150,6 +151,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_share)
     public void onShare() {
         openActivity(WBShareActivity.class);
+    }
+    
+    @OnClick(R.id.tv_recycler_view)
+    public void onRecyclerViewClick() {
+        openActivity(RecyclerViewActivity.class);
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

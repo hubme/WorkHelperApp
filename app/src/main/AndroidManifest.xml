@@ -102,6 +102,8 @@
             </intent-filter>
 
         </activity>
+        
+        <activity android:name=".activity.RecyclerViewActivity"/>
 
         <service android:name=".service.DownloadFileService"/>
 

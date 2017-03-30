@@ -137,6 +137,11 @@
                 android:id="@+id/tv_share"
                 style="@style/EntryItem"
                 android:text="Share"/>
+            
+            <TextView
+                android:id="@+id/tv_recycler_view"
+                style="@style/EntryItem"
+                android:text="RecyclerView"/>
 
         </LinearLayout>
 
