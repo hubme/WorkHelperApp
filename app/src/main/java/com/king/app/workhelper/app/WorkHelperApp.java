@@ -7,6 +7,7 @@ import android.os.Environment;
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
+import com.github.moduth.blockcanary.BlockCanary;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
@@ -61,6 +62,7 @@ public class WorkHelperApp extends BaseApplication {
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
 
+        BlockCanary.install(this, new AppBlockCanaryContext()).start();
     }
 
     private boolean isMainProcess() {
