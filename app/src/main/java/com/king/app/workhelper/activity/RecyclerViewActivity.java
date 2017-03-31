@@ -1,7 +1,7 @@
 package com.king.app.workhelper.activity;
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.annotation.LayoutRes;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.model.entity.StringEntity;
 import com.king.app.workhelper.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.king.app.workhelper.ui.recyclerview.RecyclerDivider;
+import com.king.app.workhelper.ui.recyclerview.RecyclerHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,22 +42,30 @@ public class RecyclerViewActivity extends AppBaseActivity {
     @Override protected void initData() {
         super.initData();
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mMineRv.setLayoutManager(mLayoutManager);
-        StringAdapter mStringAdapter = new StringAdapter();
-//        TypeStringAdapter mStringAdapter = new TypeStringAdapter();
+//        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mMineRv.setLayoutManager(layoutManager);
+//        StringAdapter mStringAdapter = new StringAdapter();
+        TypeStringAdapter mStringAdapter = new TypeStringAdapter(R.layout.layout_simple_text_view);
         mStringAdapter.setAdapterData(fakeData());
         mMineRv.setAdapter(mStringAdapter);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        itemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.ll_h_divider));
+//        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        itemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.ll_h_divider));
+
+        RecyclerDivider itemDecoration = new RecyclerDivider();//RVDivider.VERTICAL
         mMineRv.addItemDecoration(itemDecoration);
+        itemDecoration.setMargin(15, 0, 15, 0);
+        
+        mMineRv.setItemAnimator(new DefaultItemAnimator()); //即使不设置,默认也是这个动画
+
     }
 
     private List<StringEntity> fakeData() {
         List<StringEntity> data = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
-            if (i % 3 == 0) {
+            if (i % 5 == 0) {
                 data.add(new StringEntity("category" + i, StringEntity.ItemType.CATEGORY));
             } else {
                 data.add(new StringEntity("item " + i, StringEntity.ItemType.CONTENT));
@@ -64,6 +74,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
         return data;
     }
 
+    //通用的Adapter
     private class StringAdapter extends RecyclerView.Adapter<ContentViewHolder> {
         private List<StringEntity> mStrings = new ArrayList<>();
 
@@ -103,14 +114,13 @@ public class RecyclerViewActivity extends AppBaseActivity {
             final StringEntity entity = mStrings.get(position);
             if (holder.getItemViewType() == StringEntity.ItemType.CONTENT) {
                 holder.content.setText(entity.text);
-                holder.content.setOnClickListener(v -> showToast("content: " + entity.text));
+//                holder.content.setOnClickListener(v -> showToast("content: " + entity.text));
             } else {
                 TextView textView = holder.categoryName;
                 if (textView != null) {
                     textView.setText(entity.text);
                 }
             }
-            
             
         }
 
@@ -123,46 +133,52 @@ public class RecyclerViewActivity extends AppBaseActivity {
         }
     }
 
-    private class TypeStringAdapter extends BaseRecyclerViewAdapter<StringEntity, ContentViewHolder> {
+    //封装后的Adapter
+    private class TypeStringAdapter extends BaseRecyclerViewAdapter<StringEntity> {
+        
+        public TypeStringAdapter(@LayoutRes int layoutRes) {
+            super(layoutRes);
+        }
 
-        @Override public ContentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        @Override public void convert(RecyclerHolder holder, StringEntity item, int position) {
+            holder.setText(R.id.tv_item_input, item.text);
+            holder.getView(R.id.tv_item_input).setOnClickListener(v -> {});
+        }
+
+        /*@Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view;
             if (viewType == StringEntity.ItemType.CONTENT) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_simple_text_view, parent, false);
             } else {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_text_category, parent, false);
             }
-            return new ContentViewHolder(view);
+            return new RecyclerHolder(view);
         }
 
-        @Override public void onBindViewHolder(ContentViewHolder holder, int position) {
+        @Override public void onBindViewHolder(RecyclerHolder holder, int position) {
             final StringEntity entity = getAdapterData().get(position);
             if (entity.type == StringEntity.ItemType.CONTENT) {
-                TextView content = holder.content;
+                TextView content = holder.getView(R.id.tv_item_input);
                 content.setText(entity.text);
-                content.setOnClickListener(v -> showToast("content: " + entity.text));
+                content.setOnClickListener(v -> deleteData(position));
             } else {
-                TextView textView = holder.categoryName;
-                if (textView != null) {
-                    textView.setText(entity.text);
-                }
+                holder.setText(R.id.tv_category_name, entity.text);
             }
-        }
+        }*/
 
         @Override public int getItemViewType(int position) {
             return getAdapterData().get(position).type;
         }
     }
-
-
-    private class ContentViewHolder extends RecyclerView.ViewHolder {
+    
+    private static class ContentViewHolder extends RecyclerView.ViewHolder {
         private final TextView content;
         private final TextView categoryName;
 
         private ContentViewHolder(View itemView) {
             super(itemView);
             content = (TextView) itemView.findViewById(R.id.tv_item_input);
-            categoryName = (TextView) findViewById(R.id.tv_category_name);
+            categoryName = (TextView) itemView.findViewById(R.id.tv_category_name);
         }
         
     }

@@ -1,6 +1,9 @@
 package com.king.app.workhelper.ui.recyclerview;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -13,14 +16,17 @@ import java.util.List;
  * @since 2017/3/30.
  */
 
-public abstract class BaseRecyclerViewAdapter<E, K extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<K> {
-    //不允许直接赋值，防止NPE.
-    private List<E> mAdapterList = new ArrayList<>();
+public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
+    //不允许赋值，防止NPE.
+    private final List<E> mAdapterList = new ArrayList<>();
+    @LayoutRes private int mLayoutRes;
 
-    public BaseRecyclerViewAdapter() {
+    public BaseRecyclerViewAdapter(@LayoutRes int layoutRes) {
+        mLayoutRes = layoutRes;
     }
 
-    public BaseRecyclerViewAdapter(List<E> adapterData) {
+    public BaseRecyclerViewAdapter(@LayoutRes int layoutRes, List<E> adapterData) {
+        mLayoutRes = layoutRes;
         if (adapterData != null && adapterData.isEmpty()) {
             mAdapterList.addAll(adapterData);
         }
@@ -50,7 +56,7 @@ public abstract class BaseRecyclerViewAdapter<E, K extends RecyclerView.ViewHold
 
     public void addData(int position, E entity) {
         if (position >= 0 && position <= mAdapterList.size()) {
-            mAdapterList.add(entity);
+            mAdapterList.add(position, entity);
             notifyItemInserted(position);
         }
     }
@@ -74,11 +80,21 @@ public abstract class BaseRecyclerViewAdapter<E, K extends RecyclerView.ViewHold
         return position >= 0 && position < mAdapterList.size();
     }
 
-    @Override
-    public abstract K onCreateViewHolder(ViewGroup parent, int viewType);
+    public abstract void convert(RecyclerHolder holder, E item, int position);
 
     @Override
-    public abstract void onBindViewHolder(K holder, int position);
+    public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutRes, parent, false);
+        return new RecyclerHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerHolder holder, int position) {
+        E e = mAdapterList.get(position);
+        if (e != null) {
+            convert(holder, e, position);
+        }
+    }
 
     @Override
     public int getItemCount() {
