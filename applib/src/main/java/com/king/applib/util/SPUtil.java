@@ -16,14 +16,22 @@ import java.util.List;
  */
 
 public class SPUtil {
-    public static final String SP_NAME = "KingSP";
+    public static final String DEFAULT_SP_NAME = "KingSP";
     public static final String SP_SEPARATOR = ";##;";
 
     private SPUtil() {
+        throw new UnsupportedOperationException("No instances!");
     }
 
     public static SharedPreferences getSP() {
-        return ContextUtil.getAppContext().getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
+        return getSP(DEFAULT_SP_NAME);
+    }
+
+    public static SharedPreferences getSP(String spName) {
+        if (StringUtil.isNullOrEmpty(spName)) {
+            throw new RuntimeException("sp name not null or empty");
+        }
+        return ContextUtil.getAppContext().getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
     public static void putString(String key, String value) {

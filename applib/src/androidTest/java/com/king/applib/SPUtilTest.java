@@ -1,5 +1,6 @@
 package com.king.applib;
 
+import com.king.applib.log.Logger;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.SPUtil;
@@ -57,15 +58,27 @@ public class SPUtilTest extends BaseTestCase {
         List<TestOo> listFromSp = SPUtil.getListFromSp("2222", TestOo.class);
         ExtendUtil.printList(listFromSp);
     }
+    
+    //同时操作多个sp文件，后者无效。
+    public void testPutAtTheSameTime() throws Exception {
+        SPUtil.putBoolean("aaaaaaaaa", true);
+        SPUtil.getSP("spname").edit().putBoolean("aaa", false).putInt("ccc", 1).putString("bbb", "bbb").apply();
+    }
+    
+    public void testGetAtTheSameTime() throws Exception {
+        Logger.i(SPUtil.getBoolean("aaaaaaaaa")+"");
+        Logger.i(SPUtil.getSP("spname").getString("bbb", "-1"));
+    }
 
     public void testSPUtils() throws Exception {
         SPUtil.putBoolean("aaaaaaaaa", true);
+        SPUtil.getSP("spname").edit().putBoolean("aaa", false).putInt("ccc", 1).putString("bbb", "bbb").apply();
 //        SPUtil.putBoolean("boolean", false);
 //        SPUtil.putFloat("float", 5.20f);
 //        SPUtil.putInt("int", 100);
 //        SPUtil.putLong("long", 321651);
 //        SPUtil.putString("string", "双方而上方的");
-//
+
 //        Set<String> texts = new HashSet<>();
 //        texts.add("董藩");
 //        texts.add("带看佛陈");
@@ -80,7 +93,10 @@ public class SPUtilTest extends BaseTestCase {
 //        SPUtil.putIntList("int_list", intList);
 //
 //        List<String> stringList = new ArrayList<>();
-//        stringList.add("我##fdf");
+//        stringList.add("我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf");
+//        stringList.add("我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf");
+//        stringList.add("我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf");
+//        stringList.add("我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf我##fdf");
 //        stringList.add("是");
 //        stringList.add("谁");
 //        SPUtil.putStringList("string_list", stringList);
