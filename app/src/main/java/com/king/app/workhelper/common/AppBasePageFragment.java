@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.king.app.workhelper.app.WorkHelperApp;
 import com.king.applib.base.BasePageFragment;
+import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -15,20 +17,28 @@ import butterknife.Unbinder;
  */
 
 public abstract class AppBasePageFragment extends BasePageFragment {
-    private Unbinder unbinder;
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
-    }
+    private Unbinder mUnBinder;
 
     @Override
     protected void initContentView(View rootView) {
         super.initContentView(rootView);
-        unbinder = ButterKnife.bind(this, mRootView);
+        mUnBinder = ButterKnife.bind(this, mRootView);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //检测Fragment内存泄露
+        RefWatcher refWatcher = WorkHelperApp.getRefWatcher();
+        refWatcher.watch(this);
     }
 
     /**

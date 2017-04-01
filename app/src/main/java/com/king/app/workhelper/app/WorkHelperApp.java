@@ -48,7 +48,6 @@ public class WorkHelperApp extends BaseApplication {
         }
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         Logger.i("WorkHelperApp#onCreate()");
-        mRefWatcher = LeakCanary.install(this);
         
         ContextUtil.init(this);
         initOkHttp();
@@ -62,6 +61,7 @@ public class WorkHelperApp extends BaseApplication {
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
 
+        initLeakCanary();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
     }
 
@@ -97,6 +97,13 @@ public class WorkHelperApp extends BaseApplication {
         CrashHandler.getInstance().init(logSavedDir);
     }
 
+    private void initLeakCanary() {
+        if (BuildConfig.DEBUG) {
+            mRefWatcher = LeakCanary.install(this);
+        } else {
+            mRefWatcher = RefWatcher.DISABLED;
+        } 
+    }
     public static RefWatcher getRefWatcher() {
         WorkHelperApp application = (WorkHelperApp) ContextUtil.getAppContext().getApplicationContext();
         return application.mRefWatcher;
