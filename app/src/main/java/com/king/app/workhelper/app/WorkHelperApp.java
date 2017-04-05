@@ -100,6 +100,52 @@ public class WorkHelperApp extends BaseApplication {
     private void initLeakCanary() {
         if (BuildConfig.DEBUG) {
             mRefWatcher = LeakCanary.install(this);
+            /*ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
+                    .instanceField("android.animation.LayoutTransition$1", "val$parent")
+                    .build();
+            LeakCanary.enableDisplayLeakActivity(this);
+            mRefWatcher = LeakCanary.refWatcher(this)
+                    .listenerServiceClass(DisplayLeakService.class)
+                    .excludedRefs(excludedRefs)
+                    .buildAndInstall();
+            registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    //IGNORE Activities: Update or add the class name here to ingore the memory leaks from those actvities 
+//                    if (activity instanceof ThirdPartyOneActivity) return;
+                    mRefWatcher.watch(activity);
+                }
+
+                @Override
+                public void onActivityResumed(Activity activity) {
+
+                }
+            });*/
         } else {
             mRefWatcher = RefWatcher.DISABLED;
         } 
