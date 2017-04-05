@@ -1,6 +1,5 @@
 package com.king.applib.base;
 
-import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +13,15 @@ import java.util.List;
  * created by HuoGuangXu at 2016/5/27.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
-    protected Context mContext;
     protected List<T> mAdapterData;
     private int mLayoutId;
 
-    public BaseListAdapter(Context mContext, @LayoutRes int layoutId) {
+    public BaseListAdapter(@LayoutRes int layoutId) {
         this.mLayoutId = layoutId;
-        this.mContext = mContext;
         mAdapterData = new ArrayList<>();
     }
 
-    public BaseListAdapter(Context context, @LayoutRes int layoutId, List<T> dataList) {
-        this.mContext = context;
+    public BaseListAdapter(@LayoutRes int layoutId, List<T> dataList) {
         this.mAdapterData = dataList;
         this.mLayoutId = layoutId;
         if (mAdapterData == null) {
@@ -60,7 +56,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = ViewHolder.getHolder(mContext, convertView, parent, mLayoutId, position);
+        ViewHolder holder = ViewHolder.getHolder(convertView, parent, mLayoutId, position);
         if (getItem(position) != null) {
             convert(position, holder, getItem(position));
         }
