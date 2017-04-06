@@ -15,7 +15,6 @@ import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.common.utils.LeakCanaryHelper;
-import com.king.app.workhelper.okhttp.CacheInterceptor;
 import com.king.app.workhelper.okhttp.LogInterceptor;
 import com.king.app.workhelper.okhttp.MockInterceptor;
 import com.king.applib.base.BaseApplication;
@@ -57,7 +56,7 @@ public class WorkHelperApp extends BaseApplication {
         ContextUtil.init(this);
         initOkHttp();
         initFresco();
-        FreelineCore.init(this);
+        FreelineCore.init(this, this);
         AppManager.getInstance().init(this);
         initCrash();
 
