@@ -19,6 +19,7 @@ public class LeakCanaryHelper {
         return RefWatcher.DISABLED;
     }
 
+    //leakcanary/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java
     public static RefWatcher getEnableRefWatcher(Application app) {
 //        return LeakCanary.install(app);
         ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
