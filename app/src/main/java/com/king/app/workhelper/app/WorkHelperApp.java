@@ -6,12 +6,16 @@ import android.os.Environment;
 
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.stetho.Stetho;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
+import com.king.app.workhelper.okhttp.LogInterceptor;
+import com.king.app.workhelper.okhttp.MockInterceptor;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
@@ -51,8 +55,8 @@ public class WorkHelperApp extends BaseApplication {
         
         ContextUtil.init(this);
         initOkHttp();
+        initFresco();
         FreelineCore.init(this);
-        Fresco.initialize(this);
         AppManager.getInstance().init(this);
         initCrash();
 
@@ -77,11 +81,17 @@ public class WorkHelperApp extends BaseApplication {
                 .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"), AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
 
         if (BuildConfig.LOG_DEBUG) {
-//            builder.addInterceptor(new LoggingInterceptor());
-//            builder.addInterceptor(new MockInterceptor());
+            builder.addInterceptor(new LogInterceptor());
+            builder.addInterceptor(new MockInterceptor());
         }
         OkHttpClient okHttpClient = builder.build();
         OkHttpUtils.initClient(okHttpClient);
+    }
+
+    private void initFresco() {
+//        Fresco.initialize(this);
+        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory.newBuilder(this, OkHttpUtils.getInstance().getOkHttpClient()).build();
+        Fresco.initialize(this, config);
     }
 
     private void initCrash() {

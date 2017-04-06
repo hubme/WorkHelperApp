@@ -19,11 +19,12 @@ import okhttp3.ResponseBody;
  */
 
 public class MockInterceptor implements Interceptor {
+    private boolean isMock = false;
     @Override
     public Response intercept(Chain chain) throws IOException {
         String url = chain.request().url().toString();
         Response response = chain.proceed(chain.request());
-        if (BuildConfig.LOG_DEBUG && url != null && url.contains("baidu")) {
+        if (isMock && BuildConfig.LOG_DEBUG && url != null && url.contains("baidu")) {
             final String mockString = "{\"name\":\"VanceKing\",\"age\":\"28\"}";
 
             return new Response.Builder().code(200)

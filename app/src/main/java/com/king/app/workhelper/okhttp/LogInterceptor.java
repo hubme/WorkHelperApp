@@ -17,11 +17,12 @@ import okio.Buffer;
 import static java.lang.String.format;
 
 /**
- * OkHttp3日志拦截器。添加后SimpleDraweeView显示不出图片。
- * Created by VanceKing on 2016/12/28 0028.
+ * OkHttp3日志拦截器
+ *
+ * @author VanceKing
+ * @since 2016/12/28.
  */
-
-public class LoggingInterceptor implements Interceptor {
+public class LogInterceptor implements Interceptor {
     private static final String F_BREAK = "%n";
     private static final String F_URL = " %s";
     private static final String F_TIME = " %s";
@@ -39,13 +40,11 @@ public class LoggingInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request request = null;
+        Request request = chain.request();
         Response response;
         String time;
         String bodyString = null;
         try {
-            request = chain.request();
-
             long t1 = System.nanoTime();
             response = chain.proceed(request);
             time = String.format(Locale.getDefault(), "%.1fms", (System.nanoTime() - t1) / 1e6d);
@@ -60,7 +59,7 @@ public class LoggingInterceptor implements Interceptor {
             printLog(request, response, time, contentType, bodyString);
 
             if (bodyString != null) {
-                return response.newBuilder().body(ResponseBody.create(contentType, bodyString)).build();
+                return chain.proceed(chain.request());
             } else {
                 return response;
             }
