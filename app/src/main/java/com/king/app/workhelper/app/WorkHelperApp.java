@@ -14,6 +14,8 @@ import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
+import com.king.app.workhelper.common.utils.LeakCanaryHelper;
+import com.king.app.workhelper.okhttp.CacheInterceptor;
 import com.king.app.workhelper.okhttp.LogInterceptor;
 import com.king.app.workhelper.okhttp.MockInterceptor;
 import com.king.applib.base.BaseApplication;
@@ -21,7 +23,6 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.FileUtil;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -109,55 +110,9 @@ public class WorkHelperApp extends BaseApplication {
 
     private void initLeakCanary() {
         if (BuildConfig.DEBUG) {
-            mRefWatcher = LeakCanary.install(this);
-            /*ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
-                    .instanceField("android.animation.LayoutTransition$1", "val$parent")
-                    .build();
-            LeakCanary.enableDisplayLeakActivity(this);
-            mRefWatcher = LeakCanary.refWatcher(this)
-                    .listenerServiceClass(DisplayLeakService.class)
-                    .excludedRefs(excludedRefs)
-                    .buildAndInstall();
-            registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-                @Override
-                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-                }
-
-                @Override
-                public void onActivityStarted(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-                }
-
-                @Override
-                public void onActivityPaused(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityStopped(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityDestroyed(Activity activity) {
-                    //IGNORE Activities: Update or add the class name here to ingore the memory leaks from those actvities 
-//                    if (activity instanceof ThirdPartyOneActivity) return;
-                    mRefWatcher.watch(activity);
-                }
-
-                @Override
-                public void onActivityResumed(Activity activity) {
-
-                }
-            });*/
+            mRefWatcher = LeakCanaryHelper.getEnableRefWatcher(this);
         } else {
-            mRefWatcher = RefWatcher.DISABLED;
+            mRefWatcher = LeakCanaryHelper.getDisabledRefWatcher();
         } 
     }
     public static RefWatcher getRefWatcher() {

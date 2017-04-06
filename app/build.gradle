@@ -180,6 +180,6 @@ repositories {
     }
 }
 
-def releaseTime() {
+static def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }

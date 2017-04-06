@@ -79,7 +79,7 @@ public class WebActivity extends AppBaseActivity {
         settings.setAppCacheEnabled(true); //启用应用缓存
         settings.setDomStorageEnabled(true); //启用或禁用DOM缓存。
         settings.setDatabaseEnabled(true); //启用或禁用DOM缓存。
-        if (NetworkUtil.isNetworkAvailable(this)) { //判断是否联网
+        if (NetworkUtil.isNetworkAvailable()) { //判断是否联网
             settings.setCacheMode(WebSettings.LOAD_DEFAULT); //默认的缓存使用模式
         } else {
             settings.setCacheMode(WebSettings.LOAD_CACHE_ONLY); //不从网络加载数据，只从缓存加载数据。

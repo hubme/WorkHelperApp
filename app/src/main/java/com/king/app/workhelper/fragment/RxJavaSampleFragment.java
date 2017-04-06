@@ -90,7 +90,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         mCompositeDisposable.add(mTextChangeSubscribe);
 
         mNetworkChangedProcessor = PublishProcessor.create();
-        mNetworkChangedProcessor.startWith(NetworkUtil.isNetworkAvailable(mContext))
+        mNetworkChangedProcessor.startWith(NetworkUtil.isNetworkAvailable())
                 .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(online -> showToast(online ? "联上网啦" : "断网了，shit"));
@@ -109,7 +109,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private void listenToNetworkConnectivity(){
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override public void onReceive(Context context, Intent intent) {
-                mNetworkChangedProcessor.onNext(NetworkUtil.isNetworkAvailable(mContext));
+                mNetworkChangedProcessor.onNext(NetworkUtil.isNetworkAvailable());
             }
         };
         final IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);

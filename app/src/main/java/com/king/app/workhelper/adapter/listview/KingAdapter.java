@@ -1,7 +1,5 @@
 package com.king.app.workhelper.adapter.listview;
 
-import android.content.Context;
-
 import com.king.applib.base.BaseListAdapter;
 import com.king.applib.base.ViewHolder;
 
@@ -10,8 +8,8 @@ import com.king.applib.base.ViewHolder;
  */
 
 public class KingAdapter extends BaseListAdapter {
-    public KingAdapter(Context mContext, int layoutId) {
-        super(mContext, layoutId);
+    public KingAdapter(int layoutId) {
+        super(layoutId);
     }
 
     @Override public void convert(int position, ViewHolder holder, Object o) {
