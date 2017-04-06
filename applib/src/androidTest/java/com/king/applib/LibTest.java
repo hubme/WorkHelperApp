@@ -124,10 +124,8 @@ public class LibTest extends BaseTestCase {
     }
 
     public void testNetwork() throws Exception {
-        Logger.i(NetworkUtil.isNetworkAvailable(mContext) + "");
-        Logger.i(NetworkUtil.isWifi(getContext()) + "");
-        Logger.i(getContext().getExternalCacheDir().getAbsolutePath());//"/storage/sdcard0/Android/data/com.king.applib.test/cache"
-        Logger.i(getContext().getCacheDir().getAbsolutePath());//"/data/data/com.king.applib.test/cache"
+        Logger.i(NetworkUtil.isNetworkAvailable()+"");
+        Logger.i(NetworkUtil.isWifi() + "");
     }
 
     public void testPrintArray() throws Exception {
