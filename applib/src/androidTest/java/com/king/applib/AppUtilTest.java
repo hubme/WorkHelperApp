@@ -12,7 +12,7 @@ import com.king.applib.util.AppUtil;
 
 public class AppUtilTest extends BaseTestCase {
     public void testGetActivityProcessName() throws Exception {
-        Logger.i(AppUtil.getActivityProcessName(mContext, Activity.class));
+        Logger.i(AppUtil.getActivityProcessName(Activity.class));
     }
     
     public void testsSdfds() throws Exception {

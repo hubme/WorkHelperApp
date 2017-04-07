@@ -78,8 +78,8 @@ public class AppTest extends BaseTestCase {
     }
 
     public void testGetActivityProcessName() throws Exception {
-        Logger.i("Activity: " + AppUtil.getActivityProcessName(mContext, Activity.class));
-        Logger.i("CrashedActivity: " + AppUtil.getActivityProcessName(mContext, CrashedActivity.class));
+        Logger.i("Activity: " + AppUtil.getActivityProcessName(Activity.class));
+        Logger.i("CrashedActivity: " + AppUtil.getActivityProcessName(CrashedActivity.class));
     }
 
     public void testEnvironment() throws Exception {
@@ -166,9 +166,9 @@ public class AppTest extends BaseTestCase {
     }
 
     public void testSpDp() throws Exception {
-        Logger.i(ExtendUtil.dp2px(mContext, 20) + "");
-        Logger.i(ExtendUtil.px2dp(mContext, 20) + "");
-        Logger.i(ExtendUtil.sp2px(mContext, 20) + "");
-        Logger.i(ExtendUtil.px2sp(mContext, 20) + "");
+        Logger.i(ExtendUtil.dp2px(20) + "");
+        Logger.i(ExtendUtil.px2dp(20) + "");
+        Logger.i(ExtendUtil.sp2px(20) + "");
+        Logger.i(ExtendUtil.px2sp(20) + "");
     }
 }

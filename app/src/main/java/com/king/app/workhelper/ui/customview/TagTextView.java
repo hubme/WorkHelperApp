@@ -7,7 +7,6 @@ import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.CheckedTextView;
 
 import com.king.applib.util.ExtendUtil;
 
@@ -16,7 +15,7 @@ import com.king.applib.util.ExtendUtil;
  * Created by HuoGuangxu on 2016/12/27.
  */
 
-public class TagTextView extends CheckedTextView implements View.OnClickListener {
+public class TagTextView extends android.support.v7.widget.AppCompatCheckedTextView implements View.OnClickListener {
     private final int DEFAULT_TAG_RADIUS = 16;//dp
 
     private boolean mChangeBackground = true;
@@ -46,7 +45,7 @@ public class TagTextView extends CheckedTextView implements View.OnClickListener
     private void init() {
         mBackgroundDrawable = new GradientDrawable();
         mBackgroundDrawable.setShape(GradientDrawable.RECTANGLE);
-        mBackgroundDrawable.setCornerRadius(ExtendUtil.dp2px(getContext(), DEFAULT_TAG_RADIUS));
+        mBackgroundDrawable.setCornerRadius(ExtendUtil.dp2px(DEFAULT_TAG_RADIUS));
 
         if (isChecked()) {
             setCheckedBackground();
@@ -56,7 +55,7 @@ public class TagTextView extends CheckedTextView implements View.OnClickListener
 
         setOnClickListener(this);
 
-        setPadding(ExtendUtil.dp2px(getContext(), 15), ExtendUtil.dp2px(getContext(), 3), ExtendUtil.dp2px(getContext(), 15), ExtendUtil.dp2px(getContext(), 3));
+        setPadding(ExtendUtil.dp2px(15), ExtendUtil.dp2px(3), ExtendUtil.dp2px(15), ExtendUtil.dp2px(3));
     }
 
     public void setChangedBackground(boolean isChangeBackground) {

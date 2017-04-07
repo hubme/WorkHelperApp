@@ -212,7 +212,7 @@ public class WebActivity extends AppBaseActivity {
     private class DefaultDownloadListener implements DownloadListener {
         @Override public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
             Logger.i("download url: " + url);
-            ExtendUtil.downloadWithIntent(WebActivity.this, url);
+            ExtendUtil.downloadWithIntent(url);
         }
     }
 

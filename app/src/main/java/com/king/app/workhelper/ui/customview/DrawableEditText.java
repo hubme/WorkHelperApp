@@ -43,7 +43,7 @@ public class DrawableEditText extends EditText {
     }
 
     private void initView() {
-        mExtraSpace = ExtendUtil.dp2px(getContext(), 15);
+        mExtraSpace = ExtendUtil.dp2px(15);
     }
 
     /**

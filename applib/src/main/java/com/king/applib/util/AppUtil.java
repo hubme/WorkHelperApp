@@ -201,13 +201,10 @@ public class AppUtil {
     }
 
     /** 获取Activity所在的进程名称 */
-    public static String getActivityProcessName(Context context, Class<? extends Activity> cls) {
-        if (context == null) {
-            return "";
-        }
+    public static String getActivityProcessName(Class<? extends Activity> cls) {
         try {
-            ComponentName component = new ComponentName(context, cls);
-            ActivityInfo activityInfo = context.getPackageManager().getActivityInfo(component, 0);
+            ComponentName component = new ComponentName(ContextUtil.getAppContext(), cls);
+            ActivityInfo activityInfo = ContextUtil.getAppContext().getPackageManager().getActivityInfo(component, 0);
             return activityInfo.processName;
         } catch (Exception e) {
             return "";

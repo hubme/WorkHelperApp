@@ -22,15 +22,8 @@ public class NetworkUtil {
         if (connectivity == null) {
             return false;
         }
-        NetworkInfo[] allNets = connectivity.getAllNetworkInfo();
-        if (allNets != null) {
-            for (NetworkInfo info : allNets) {
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     /**

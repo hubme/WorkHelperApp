@@ -42,11 +42,11 @@ public class HorizontalTagView extends HorizontalScrollView {
     }
 
     private void init() {
-        setPadding(ExtendUtil.dp2px(getContext(), DEFAULT_TAG_MARGIN), 0, ExtendUtil.dp2px(getContext(), DEFAULT_TAG_MARGIN), 0);
+        setPadding(ExtendUtil.dp2px(DEFAULT_TAG_MARGIN), 0, ExtendUtil.dp2px(DEFAULT_TAG_MARGIN), 0);
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mTagPanel = new LinearLayout(getContext());
         mTagPanel.setOrientation(LinearLayout.HORIZONTAL);
-//        mTagPanel.setPadding(ExtendUtil.dp2px(getContext(), DEFAULT_TAG_MARGIN), 0, ExtendUtil.dp2px(getContext(), DEFAULT_TAG_MARGIN), 0);
+//        mTagPanel.setPadding(ExtendUtil.dp2px(DEFAULT_TAG_MARGIN), 0, ExtendUtil.dp2px(DEFAULT_TAG_MARGIN), 0);
 //        mTagPanel.setLayoutParams(params);
 
         mTagPanel.addView(buildTextView("上海", true));
@@ -95,7 +95,7 @@ public class HorizontalTagView extends HorizontalScrollView {
         final CheckedTextView tagTextView = new CheckedTextView(getContext());
         tagTextView.setChecked(isChecked);
         tagTextView.setTextSize(DEFAULT_TEXT_SIZE);
-        tagTextView.setPadding(ExtendUtil.dp2px(getContext(), 15), ExtendUtil.dp2px(getContext(), 3), ExtendUtil.dp2px(getContext(), 15), ExtendUtil.dp2px(getContext(), 3));
+        tagTextView.setPadding(ExtendUtil.dp2px(15), ExtendUtil.dp2px(3), ExtendUtil.dp2px(15), ExtendUtil.dp2px(3));
         setTagBackground(tagTextView);
         tagTextView.setText(text);
         tagTextView.setOnClickListener(new OnClickListener() {
@@ -108,7 +108,7 @@ public class HorizontalTagView extends HorizontalScrollView {
             }
         });
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, 0, ExtendUtil.dp2px(getContext(), mTagMargin), 0);
+        lp.setMargins(0, 0, ExtendUtil.dp2px(mTagMargin), 0);
         tagTextView.setLayoutParams(lp);
         return tagTextView;
     }
@@ -126,7 +126,7 @@ public class HorizontalTagView extends HorizontalScrollView {
         GradientDrawable drawable = new GradientDrawable();
 //        drawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
         drawable.setShape(GradientDrawable.RECTANGLE);
-        drawable.setCornerRadius(ExtendUtil.dp2px(getContext(), DEFAULT_TAG_RADIUS));
+        drawable.setCornerRadius(ExtendUtil.dp2px(DEFAULT_TAG_RADIUS));
         drawable.setColor(getContext().getResources().getColor(isChecked ? R.color.blue_78b7ff : R.color.gray_f0f0f0));
         return drawable;
     }

@@ -131,8 +131,8 @@ public class ExtendUtil {
     /**
      * 拨打电话
      */
-    public static void makePhoneCall(Context context, String telNumber) {
-        if (context == null || StringUtil.isNullOrEmpty(telNumber)) {
+    public static void makePhoneCall(String telNumber) {
+        if (StringUtil.isNullOrEmpty(telNumber)) {
             return;
         }
         if (!telNumber.toLowerCase().startsWith("tel:")) {
@@ -140,89 +140,85 @@ public class ExtendUtil {
         }
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(telNumber));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent);
+        if (intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null) {
+            ContextUtil.getAppContext().startActivity(intent);
         }
     }
 
     /**
      * 使用浏览器下载文件
      */
-    public static void downloadWithIntent(Context context, String fileUrl) {
-        if (context == null || StringUtil.isNullOrEmpty(fileUrl)) {
+    public static void downloadWithIntent(String fileUrl) {
+        if (StringUtil.isNullOrEmpty(fileUrl)) {
             return;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(fileUrl));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent);
+        if (intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null) {
+            ContextUtil.getAppContext().startActivity(intent);
         }
     }
 
     /**
      * dp转px
      *
-     * @param context 上下文
      * @param dpValue dp值
      * @return px值
      */
-    public static int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    public static int dp2px(float dpValue) {
+        final float scale = ContextUtil.getAppContext().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
     /**
      * px转dp
      *
-     * @param context 上下文
      * @param pxValue px值
      * @return dp值
      */
-    public static int px2dp(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    public static int px2dp(float pxValue) {
+        final float scale = ContextUtil.getAppContext().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
     /**
      * sp转px
      *
-     * @param context 上下文
      * @param spValue sp值
      * @return px值
      */
-    public static int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+    public static int sp2px(float spValue) {
+        final float fontScale = ContextUtil.getAppContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
 
     /**
      * px转sp
      *
-     * @param context 上下文
      * @param pxValue px值
      * @return sp值
      */
-    public static int px2sp(Context context, float pxValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+    public static int px2sp(float pxValue) {
+        final float fontScale = ContextUtil.getAppContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
 
     /**
      * 拷贝字符串
      */
-    private void copyTextToClipboard(Context context, String label, final String text) {
-        if (context == null || StringUtil.isNullOrEmpty(text)) {
+    private void copyTextToClipboard(String label, final String text) {
+        if (StringUtil.isNullOrEmpty(text)) {
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+            ClipboardManager clipboard = (ClipboardManager) ContextUtil.getAppContext().getSystemService(CLIPBOARD_SERVICE);
             if (clipboard != null) {
                 ClipData clip = ClipData.newPlainText(label, text);
                 clipboard.setPrimaryClip(clip);
             }
         } else {
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) ContextUtil.getAppContext().getSystemService(CLIPBOARD_SERVICE);
             if (clipboard != null) {
                 clipboard.setText(text);
             }
@@ -274,11 +270,11 @@ public class ExtendUtil {
     /**
      * 获取状态栏的高度
      */
-    public int getStatusBarHeight(Context context) {
+    public int getStatusBarHeight() {
         int result = 0;
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resourceId = ContextUtil.getAppContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
-            result = context.getResources().getDimensionPixelSize(resourceId);
+            result = ContextUtil.getAppContext().getResources().getDimensionPixelSize(resourceId);
         }
         return result;
     }

@@ -80,7 +80,7 @@ public class StepView extends View {
     }
 
     private void init() {
-        mRadius = ExtendUtil.dp2px(getContext(), 40);
+        mRadius = ExtendUtil.dp2px(40);
         mTextRect = new Rect();
     }
 

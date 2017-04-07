@@ -52,7 +52,7 @@ public class SparkView extends View {
         mAlpha = 255;
         mImage = ContextCompat.getDrawable(getContext(), R.mipmap.spark);
 
-        paddding = ExtendUtil.dp2px(getContext(), 10);
+        paddding = ExtendUtil.dp2px(10);
         for (int i = 0; i < BITMAP_SIZE; i++) {
             Bitmap bitmap = ((BitmapDrawable) ContextCompat.getDrawable(getContext(), R.mipmap.spark)).getBitmap();
             SparkItem sparkItem = new SparkItem(bitmap);
@@ -88,11 +88,11 @@ public class SparkView extends View {
     public void show(Context context) {
         int i = 0;
         //int top = Utility.dip2px(getContext(), 70);
-        int top = (this.getLayoutParams().height / 2) - ExtendUtil.dp2px(getContext(), 44);
+        int top = (this.getLayoutParams().height / 2) - ExtendUtil.dp2px(44);
         /*获取屏幕的像素值*/
         DisplayMetrics metrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int left = (metrics.widthPixels / 2) - ExtendUtil.dp2px(getContext(), 29);
+        int left = (metrics.widthPixels / 2) - ExtendUtil.dp2px(29);
         //int left = Utility.dip2px(getContext(), 80);
         for (SparkItem item : mSparks) {
             i = i + 1;

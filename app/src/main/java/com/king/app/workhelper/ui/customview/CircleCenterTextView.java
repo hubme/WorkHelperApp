@@ -21,8 +21,8 @@ import com.king.applib.util.ExtendUtil;
  */
 
 public class CircleCenterTextView extends View {
-    private final float DEFAULT_CIRCLE_RADIUS = ExtendUtil.dp2px(getContext(), 68);
-    private final int DEFAULT_TEXT_SIZE = ExtendUtil.dp2px(getContext(), 15);
+    private final float DEFAULT_CIRCLE_RADIUS = ExtendUtil.dp2px(68);
+    private final int DEFAULT_TEXT_SIZE = ExtendUtil.dp2px(15);
     private final int DEFAULT_TEXT_COLOR = Color.WHITE;
     private final int DEFAULT_CIRCLE_COLOR = 0xFF03A9F4;
 
