@@ -17,6 +17,7 @@ import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.common.utils.LeakCanaryHelper;
 import com.king.app.workhelper.okhttp.LogInterceptor;
 import com.king.app.workhelper.okhttp.MockInterceptor;
+import com.king.app.workhelper.okhttp.OkHttpUtil;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
@@ -73,6 +74,15 @@ public class WorkHelperApp extends BaseApplication {
         return AppUtil.getCurrentProcessName(this).equals(getPackageName());
     }
 
+    private void initMineOkHttp() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS).build();
+
+        OkHttpUtil.init(okHttpClient);
+    }
+    
     private void initOkHttp() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(AppConfig.HTTP_CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
