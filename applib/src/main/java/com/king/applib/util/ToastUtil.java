@@ -1,16 +1,14 @@
-package com.king.app.workhelper.common.utils;
+package com.king.applib.util;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
-import com.king.applib.util.ContextUtil;
-
 /**
  * Toast工具类
  *
  * @author VanceKing
- * @since 2017/3/20 0020.
+ * @since 2017/3/20.
  */
 
 public class ToastUtil {
