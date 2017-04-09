@@ -2,6 +2,7 @@ package com.king.app.workhelper.okhttp;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 /**
@@ -30,11 +31,11 @@ public class OkHttpUtil {
     }
 
     public static void get(AbstractRequest request) {
-        
+
     }
 
     public static void post(AbstractRequest request) {
-        
+
     }
 
     static int checkDuration(String name, long duration, TimeUnit unit) {
@@ -44,5 +45,18 @@ public class OkHttpUtil {
         if (millis > Integer.MAX_VALUE) throw new IllegalArgumentException(name + " too large.");
         if (millis == 0 && duration > 0) throw new IllegalArgumentException(name + " too small.");
         return (int) millis;
+    }
+
+    public static void chacel(Object tag) {
+        for (Call call : mOkHttpClient.dispatcher().runningCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
+        }
+        for (Call call : mOkHttpClient.dispatcher().queuedCalls()) {
+            if (tag.equals(call.request().tag())) {
+                call.cancel();
+            }
+        }
     }
 }
