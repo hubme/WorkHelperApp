@@ -4,9 +4,11 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,7 +26,7 @@ import okhttp3.Response;
  */
 
 public class OkHttpFragment extends AppBaseFragment {
-    private final String URL = "http://www.baidu.com";
+    private final String URL_BAIDU = "http://www.baidu.com";
     private final String HTML_URL = "http://www.baidu.com";
     private final String IMAGE_URL = "http://192.168.1.106:8080/appupdate/pic.jpg";
     private final String JSON_URL = "http://gjj.9188.com/app/loan/xiaoying_bank.json";
@@ -50,7 +52,7 @@ public class OkHttpFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_okhttp_get)
     public void onOkHttpGetClick() {
-        Request request = new Request.Builder().get().url(URL).build();
+        /*Request request = new Request.Builder().get().url(URL_BAIDU).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -61,6 +63,18 @@ public class OkHttpFragment extends AppBaseFragment {
             public void onResponse(Call call, Response response) throws IOException {
                 String content = response.body().string();
 //                Logger.i("onResponse" + content);
+            }
+        });*/
+
+        Request request = new Request.Builder().get().get().url(URL_BAIDU).build();
+        SimpleOkHttp.getInstance().get().url(URL_BAIDU).tag(this)
+                .setConnectTimeout(10, TimeUnit.SECONDS).build().enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+
             }
         });
     }
@@ -81,5 +95,10 @@ public class OkHttpFragment extends AppBaseFragment {
 //                Logger.i("onResponse" + content);
             }
         });
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        SimpleOkHttp.getInstance().cancel(this);
     }
 }

@@ -1,8 +1,9 @@
 package com.king.app.workhelper.okhttp;
 
-import android.support.annotation.IntDef;
-
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * 基础请求
@@ -11,21 +12,38 @@ import java.util.concurrent.TimeUnit;
  * @since 2017/4/7.
  */
 
-public abstract class AbstractRequest<T> {
-    public static final int GET = 1;
-    public static final int POST = 2;
-    public static final int PUT = 3;
-    public static final int DELETE = 4;
+public abstract class AbstractRequest {
+    protected String url;
+    protected Object tag;
+
+    public AbstractRequest setConnectTimeout(long duration, TimeUnit unit) {
+        SimpleOkHttp.getInstance().getOkHttpClient().newBuilder().connectTimeout(duration, unit);
+        return this;
+    }
     
-    protected long connectTimeOut;
-
-    @IntDef({GET, POST, PUT, DELETE})
-    public @interface RequestMethod {
-
+    public AbstractRequest setReadTimeout(long duration, TimeUnit unit) {
+        SimpleOkHttp.getInstance().getOkHttpClient().newBuilder().readTimeout(duration, unit);
+        return this;
     }
 
-    public void setConnectTimeout(long duration, TimeUnit unit) {
-        connectTimeOut = OkHttpUtil.checkDuration("timeout", duration, unit);
+    public AbstractRequest setWriteTimeout(long duration, TimeUnit unit) {
+        SimpleOkHttp.getInstance().getOkHttpClient().newBuilder().writeTimeout(duration, unit);
+        return this;
+    }
+
+    public AbstractRequest tag(Object tag) {
+        this.tag = tag;
+        return this;
+    }
+
+    public AbstractRequest url(String url) {
+        this.url = url;
+        return this;
+    }
+    
+    public Call build() {
+        Request request = new Request.Builder().tag(tag).url(url).build();
+        return SimpleOkHttp.getInstance().getOkHttpClient().newCall(request);
     }
     
     
