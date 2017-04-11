@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
@@ -27,6 +28,11 @@ public class EntryFragment extends AppBaseFragment {
         return R.layout.fragment_entry;
     }
 
+    @OnClick(R.id.tv_debug_activity)
+    public void debugActivityClick() {
+        openActivity(DebugActivity.class);
+    }
+    
     @OnClick(R.id.tv_main_activity)
     public void mainActivityClick() {
         openActivity(MainActivity.class);

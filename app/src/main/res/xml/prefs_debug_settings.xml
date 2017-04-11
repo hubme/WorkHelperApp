@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="域名">
+        <CheckBoxPreference
+            android:key="key_domain_release"
+            android:title="线上环境"/>
+
+        <CheckBoxPreference
+            android:key="key_domain_debug"
+            android:title="测试环境"/>
+
+        <CheckBoxPreference
+            android:key="key_domain_custom"
+            android:summary="会保存输入"
+            android:title="自定义域名"/>
+
+        <EditTextPreference
+            android:dependency="key_domain_custom"
+            android:key="key_domain_custom"
+            android:title="点击输入自定义域名"/>
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory android:title="双方东方">
+
+        <PreferenceScreen
+            android:key="screen_preference"
+            android:summary="双击风扇"
+            android:title="dsf;lk">
+
+            <CheckBoxPreference
+                android:key="next_screen_checkbox_preference"
+                android:summary="dsfd "
+                android:title="sdfd "/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:summary="dffg"
+            android:title="fgfg">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.baidu.com"/>
+        </PreferenceScreen>
+    </PreferenceCategory>-->
+
+</PreferenceScreen>

@@ -82,7 +82,7 @@ public class WorkHelperApp extends BaseApplication {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS).build();
         
-        SimpleOkHttp.getInstance().init(okHttpClient);
+        SimpleOkHttp.init(okHttpClient);
     }
     
     private void initOkHttp() {

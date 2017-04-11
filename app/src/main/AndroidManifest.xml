@@ -104,6 +104,8 @@
         </activity>
         
         <activity android:name=".activity.RecyclerViewActivity"/>
+        
+        <activity android:name=".activity.DebugActivity"/>
 
         <service android:name=".service.DownloadFileService"/>
 

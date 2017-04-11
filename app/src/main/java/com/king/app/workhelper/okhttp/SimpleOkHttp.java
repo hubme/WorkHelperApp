@@ -28,7 +28,7 @@ public class SimpleOkHttp {
         return HttpClientHolder.okHttp;
     }
 
-    public void init(OkHttpClient okHttpClient) {
+    public static void init(OkHttpClient okHttpClient) {
         mOkHttpClient = okHttpClient;
     }
 
