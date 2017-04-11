@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
 /**
  * 动态设置背景色、圆角等
@@ -59,7 +60,7 @@ public class SimpleDrawable extends GradientDrawable {
 
         private void apply(SimpleDrawable drawable) {
             if (mBackgroundColor > 0) {
-                drawable.setColor(mContext.getResources().getColor(mBackgroundColor));
+                drawable.setColor(ContextCompat.getColor(mContext, mBackgroundColor));
             }
             if (mCornerRadius > 0) {
                 drawable.setCornerRadius(mCornerRadius);
