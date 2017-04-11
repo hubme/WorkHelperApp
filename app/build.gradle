@@ -23,6 +23,11 @@ android {
         }
 
         //resConfigs "zh"//将语言资源限定为中文
+
+        //打包指定cpu架构的so库.
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86"
+        }
     }
 
     //配置签名
@@ -100,10 +105,23 @@ android {
 
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
+
+        //过滤掉指定的so库
+        exclude 'lib/arm64-v8a/libimagepipeline.so'
+        exclude 'lib/x86/libimagepipeline.so'
+        exclude 'lib/x86/libweibosdkcore.so'
+    }
+    
+    //需要去掉自定义的task.https://developer.android.com/studio/build/configure-apk-splits.html?hl=zh-cn#configure-abi-split
+    splits {//拆分apk
+        abi {//根据ABI拆分
+            enable false//是否启用拆分
+            reset()
+            include 'armeabi', 'armeabi-v7a'//包含哪些ABI类型
+            universalApk true//是否生成通用的APK
+        }
     }
 
-    // 'return void' removes the lint error: 'Not all execution paths return a value'.
-    return void
 }
 
 dependencies {
