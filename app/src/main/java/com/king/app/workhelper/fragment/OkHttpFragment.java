@@ -1,5 +1,6 @@
 package com.king.app.workhelper.fragment;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
@@ -102,9 +103,13 @@ public class OkHttpFragment extends AppBaseFragment {
             response = call.execute();
             Logger.i("response: "+response.body().string());
             Logger.i("cache response: "+response.cacheResponse().toString());
-            Logger.i("network response: "+response.networkResponse().toString());
+            Log.i("aaa", "000");
+//            Logger.i("network response: " + response.networkResponse().toString());
+            Log.i("aaa", "network response: " + response.networkResponse().toString());// FIXME: 2017/4/12 0012 此句不运行？？？
+            Log.i("aaa", "111");
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.i("aaa", "222");
+            Logger.i(e.toString());
         }
 
 //        Call newCall = mOkHttpClient.newCall(request);
