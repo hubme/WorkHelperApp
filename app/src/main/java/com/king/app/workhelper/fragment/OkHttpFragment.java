@@ -9,6 +9,9 @@ import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,31 +55,18 @@ public class OkHttpFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_okhttp_get)
     public void onOkHttpGetClick(){
-        Request request = new Request.Builder().get().url(URL_BAIDU).build();
+        Request request = new Request.Builder().get().url(URL_BAIDU)
+                .build();
         Call call = mOkHttpClient.newCall(request);
-        new Thread(){
-            @Override public void run() {
-                super.run();
-                try {
-                    Response response = call.execute();
-                    call.cancel();
-                    Logger.i(call.isCanceled()?"isCanceled":"not canceled");
-                } catch (IOException e) {
-                    Logger.i("IOException");
-                }
-            }
-        }.start();
-
-        /*SimpleOkHttp.getInstance().get().url(URL_BAIDU).tag(this)
-                .setConnectTimeout(10, TimeUnit.SECONDS).build().enqueue(new Callback() {
+        call.enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
-                
+                Logger.i("onFailure");
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
-
+                Logger.i("onResponse." + response.body().string());
             }
-        });*/
+        });
     }
 
     @OnClick(R.id.tv_okhttp_post)
@@ -93,6 +83,43 @@ public class OkHttpFragment extends AppBaseFragment {
             public void onResponse(Call call, Response response) throws IOException {
                 String content = response.body().string();
 //                Logger.i("onResponse" + content);
+            }
+        });
+    }
+
+    @OnClick(R.id.tv_cache)
+    public void onCacheClick() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(this::doRequest);
+    }
+
+    private void doRequest() {
+        final String URL = "http://publicobject.com/helloworld.txt";
+        Request request = new Request.Builder().url(URL).build();
+        Call call = mOkHttpClient.newCall(request);
+        Response response;
+        try {
+            response = call.execute();
+            Logger.i("response: "+response.body().string());
+            Logger.i("cache response: "+response.cacheResponse().toString());
+            Logger.i("network response: "+response.networkResponse().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        Call newCall = mOkHttpClient.newCall(request);
+    }
+    
+    @OnClick(R.id.tv_simple_okhttp)
+    public void onSimpleOKHttpClick() {
+        SimpleOkHttp.getInstance().get().url(URL_BAIDU).tag(this)
+                .setConnectTimeout(10, TimeUnit.SECONDS).build().enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+
             }
         });
     }

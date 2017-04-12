@@ -108,7 +108,6 @@ android {
 
         //过滤掉指定的so库
         exclude 'lib/arm64-v8a/libimagepipeline.so'
-        exclude 'lib/x86/libimagepipeline.so'
         exclude 'lib/x86/libweibosdkcore.so'
     }
     

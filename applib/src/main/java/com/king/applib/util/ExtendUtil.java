@@ -351,4 +351,9 @@ public class ExtendUtil {
     public static Resources getResources() {
         return ContextUtil.getAppContext().getResources();
     }
+
+    /** 是否能正常唤醒intent*/
+    public static boolean canResolveActivity(Intent intent) {
+        return intent != null && intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null;
+    }
 }

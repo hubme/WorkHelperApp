@@ -15,8 +15,13 @@
         android:text="POST"/>
     
     <TextView
-        android:id="@+id/tv_download_file"
+        android:id="@+id/tv_cache"
         style="@style/EntryItem"
-        android:text="POST"/>
+        android:text="Cache"/>
+    
+    <TextView
+        android:id="@+id/tv_simple_okhttp"
+        style="@style/EntryItem"
+        android:text="SimpleOkHttp"/>
 
 </LinearLayout>
