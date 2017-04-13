@@ -16,7 +16,7 @@
             <TextView
                 android:id="@+id/tv_debug_activity"
                 style="@style/EntryItem"
-                android:text="Debug Settings"/>
+                android:text="@string/at_me"/>
 
             <TextView
                 android:id="@+id/tv_main_activity"

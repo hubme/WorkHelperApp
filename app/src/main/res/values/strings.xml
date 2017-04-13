@@ -17,5 +17,6 @@
 
     <string name="test">测试</string>
     <string name="one_more_exit">再按一次退出程序</string>
+    <string name="at_me">\&#064;我的</string>
 
 </resources>
