@@ -3,6 +3,7 @@ package com.king.app.workhelper.app;
 
 import android.content.res.Configuration;
 import android.os.Environment;
+import android.util.Log;
 
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -24,6 +25,7 @@ import com.king.applib.util.AppUtil;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.FileUtil;
 import com.squareup.leakcanary.RefWatcher;
+import com.tencent.smtt.sdk.QbSdk;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -53,7 +55,7 @@ public class WorkHelperApp extends BaseApplication {
         }
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         Logger.i("WorkHelperApp#onCreate()");
-        
+
         ContextUtil.init(this);
         initOkHttp();
         initMineOkHttp();
@@ -66,6 +68,7 @@ public class WorkHelperApp extends BaseApplication {
         Stetho.initialize(Stetho.newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
+        initX5();
 
         initLeakCanary();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
@@ -81,10 +84,10 @@ public class WorkHelperApp extends BaseApplication {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS).build();
-        
+
         SimpleOkHttp.init(okHttpClient);
     }
-    
+
     private void initOkHttp() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(AppConfig.HTTP_CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
@@ -124,11 +127,27 @@ public class WorkHelperApp extends BaseApplication {
             mRefWatcher = LeakCanaryHelper.getEnableRefWatcher(this);
         } else {
             mRefWatcher = LeakCanaryHelper.getDisabledRefWatcher();
-        } 
+        }
     }
+
     public static RefWatcher getRefWatcher() {
         WorkHelperApp application = (WorkHelperApp) ContextUtil.getAppContext().getApplicationContext();
         return application.mRefWatcher;
+    }
+
+    private void initX5() {
+        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+            @Override public void onCoreInitFinished() {
+                Logger.i("onCoreInitFinished");
+                Log.i("aaa", "onCoreInitFinished");
+            }
+
+            @Override public void onViewInitFinished(boolean success) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                Logger.i("x5 init success");
+                Log.i("aaa", "x5 init success");
+            }
+        });
     }
 
     @Override
