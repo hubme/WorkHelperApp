@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView
+    <com.king.applib.base.webview.SimpleWebView
         android:id="@+id/web_my"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

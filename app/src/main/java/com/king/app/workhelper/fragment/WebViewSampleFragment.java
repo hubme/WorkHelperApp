@@ -1,19 +1,16 @@
 package com.king.app.workhelper.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.applib.base.webview.SimpleWebView;
 import com.king.applib.log.Logger;
 import com.king.applib.util.StringUtil;
 
@@ -28,10 +25,11 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class WebViewSampleFragment extends AppBaseFragment {
-    private static String URL = "http://www.baidu.com";
+    private static String BAIDU_URL = "http://www.baidu.com";
+    private static String URL2 = "http://gjj.9188.com/app/material/bj/daikuantiaojian_beijing.html";
 
     @BindView(R.id.web_my)
-    WebView mWebView;
+    SimpleWebView mWebView;
     @BindView(R.id.btn_load_url)
     Button mLoadUrlBtn;
 
@@ -43,32 +41,19 @@ public class WebViewSampleFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        WebSettings webSettings = mWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-//        mWebView.setWebChromeClient(new WebChromeClient());//不写这句,js的alert()无效
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
+    }
 
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-            }
-
-            @Override
-            public void onPageCommitVisible(WebView view, String url) {
-                super.onPageCommitVisible(view, url);
-            }
-        });
-        mWebView.addJavascriptInterface(new JsIntegration(), "control");
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        if (mWebView != null) {
+            mWebView.destroy();
+        }
     }
 
     @OnClick(R.id.btn_load_url)
     public void loadUrl() {
-        loadUrl("file:///android_asset/js_java_interaction.html");
-//        loadUrl(URL);
+//        loadUrl("file:///android_asset/js_java_interaction.html");
+        loadUrl(URL2);
     }
 
     @OnClick(R.id.btn_invoke_js_method1)

@@ -45,6 +45,7 @@ import butterknife.OnClick;
 public class WebActivity extends AppBaseActivity {
     public static final String TAG = "MainActivity";
     public static final String URL_BAI_DU = "http://www.baidu.com";
+    public static final String URL_SINA = "http://www.sina.com";
     public static final String ASSET_JS = "file:///android_asset/jsdemo.html";
     public static final String PREFIX_JS_PROTOCOL = "jsbridge://";
     
@@ -77,8 +78,8 @@ public class WebActivity extends AppBaseActivity {
         WebSettings settings = mWebView.getSettings();
 //        settings.setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0");
         settings.setAppCacheEnabled(true); //启用应用缓存
-        settings.setDomStorageEnabled(true); //启用或禁用DOM缓存。
-        settings.setDatabaseEnabled(true); //启用或禁用DOM缓存。
+        settings.setDomStorageEnabled(true); //启用DOM缓存。
+        settings.setDatabaseEnabled(true); //启用DOM缓存。
         if (NetworkUtil.isNetworkAvailable()) { //判断是否联网
             settings.setCacheMode(WebSettings.LOAD_DEFAULT); //默认的缓存使用模式
         } else {
@@ -294,11 +295,11 @@ public class WebActivity extends AppBaseActivity {
      */
     @OnClick(R.id.btn_js)
     public void onTestClick() {
-        String call = "javascript:sayHello()";//不设置WebChromeClient则alert探不出
+//        String call = "javascript:sayHello()";//不设置WebChromeClient则alert探不出
 //        String call = "javascript:alertMessage(\"" + "哈哈哈" + "\")";//注意对于字符串作为参数值需要进行转义双引号
 //        String call = "javascript:toastMessage(\"" + "哈哈哈" + "\")";
 //        String call = "javascript:sumToJava(1,2)";
-        mWebView.loadUrl(call);
+        mWebView.loadUrl(URL_BAI_DU);
 
     }
 
