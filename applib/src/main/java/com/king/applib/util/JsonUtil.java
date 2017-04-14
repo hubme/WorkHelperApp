@@ -74,6 +74,19 @@ public class JsonUtil {
         }
     }
 
+
+    /**
+     * 将json字符串转换成相应的对象集合
+     *
+     * @param jsonArray JSON Array
+     */
+    public static <T> List<T> decodeToList(JSONArray jsonArray, Class<T> clazz) {
+        if (jsonArray == null || jsonArray.length() == 0) {
+            return null;
+        }
+        return decodeToList(jsonArray.toString(), clazz);
+    }
+
     /**
      * 将一个对象转换成json字符串
      */

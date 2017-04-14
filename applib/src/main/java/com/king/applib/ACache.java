@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * 简单易用的缓存框架.
+ * 缓存框架.
  * https://github.com/yangfuhai/ASimpleCache
  *
  * @author Michael Yang（www.yangfuhai.com） update at 2013.08.07
@@ -196,7 +196,9 @@ public class ACache {
      * @param value 保存的JSON数据
      */
     public void put(String key, JSONObject value) {
-        put(key, value.toString());
+        if (value != null) {
+            put(key, value.toString());
+        }
     }
 
     /**
@@ -207,7 +209,9 @@ public class ACache {
      * @param saveTime 保存的时间，单位：秒
      */
     public void put(String key, JSONObject value, int saveTime) {
-        put(key, value.toString(), saveTime);
+        if (value != null) {
+            put(key, value.toString(), saveTime);
+        }
     }
 
     /**
@@ -218,8 +222,7 @@ public class ACache {
     public JSONObject getAsJSONObject(String key) {
         String JSONString = getAsString(key);
         try {
-            JSONObject obj = new JSONObject(JSONString);
-            return obj;
+            return new JSONObject(JSONString);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -237,7 +240,9 @@ public class ACache {
      * @param value 保存的JSONArray数据
      */
     public void put(String key, JSONArray value) {
-        put(key, value.toString());
+        if (Utils.isJsonArrayNotEmpty(value)) {
+            put(key, value.toString());
+        }
     }
 
     /**
@@ -248,7 +253,9 @@ public class ACache {
      * @param saveTime 保存的时间，单位：秒
      */
     public void put(String key, JSONArray value, int saveTime) {
-        put(key, value.toString(), saveTime);
+        if (Utils.isJsonArrayNotEmpty(value)) {
+            put(key, value.toString(), saveTime);
+        }
     }
 
     /**
@@ -259,8 +266,7 @@ public class ACache {
     public JSONArray getAsJSONArray(String key) {
         String JSONString = getAsString(key);
         try {
-            JSONArray obj = new JSONArray(JSONString);
-            return obj;
+            return new JSONArray(JSONString);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -384,8 +390,11 @@ public class ACache {
             e.printStackTrace();
         } finally {
             try {
-                oos.close();
+                if (oos != null) {
+                    oos.close();
+                }
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -403,8 +412,7 @@ public class ACache {
             try {
                 bais = new ByteArrayInputStream(data);
                 ois = new ObjectInputStream(bais);
-                Object reObject = ois.readObject();
-                return reObject;
+                return ois.readObject();
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -670,6 +678,10 @@ public class ACache {
      * @version 1.0
      */
     private static class Utils {
+
+        private static boolean isJsonArrayNotEmpty(JSONArray array) {
+            return array != null && array.length() != 0;
+        }
 
         /**
          * 判断缓存的String数据是否到期
