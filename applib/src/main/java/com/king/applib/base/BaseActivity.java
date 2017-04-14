@@ -22,7 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        beforeCreate();
+        beforeCreateView();
         super.onCreate(savedInstanceState);
         /*
         去掉Actionbar有两种方式。1.使用NoActionbar主题；
@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 在super.onCreate()之前执行
      */
-    protected void beforeCreate() {
+    protected void beforeCreateView() {
 
     }
 
@@ -127,6 +127,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, cls);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    protected String getStringExtra(String key) {
+        return getStringExtra(key, "");
     }
 
     /**

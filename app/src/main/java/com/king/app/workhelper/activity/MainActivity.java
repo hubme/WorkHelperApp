@@ -18,8 +18,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppBaseActivity {
     @Override
-    protected void beforeCreate() {
-        super.beforeCreate();
+    protected void beforeCreateView() {
+        super.beforeCreateView();
         //因为LayoutInflaterCompat#setFactory()只能设置一次.see also: AppCompatDelegateImplV7#installViewFactory
         LayoutInflaterCompat.setFactory(LayoutInflater.from(this), new LayoutInflaterFactory() {
             @Override public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
