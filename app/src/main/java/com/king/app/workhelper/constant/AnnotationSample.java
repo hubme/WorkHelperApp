@@ -27,6 +27,7 @@ import java.lang.annotation.Target;
 public class AnnotationSample {
 
     @IntDef({SORT_TYPE.ASC, SORT_TYPE.DESC})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface SORT_TYPE {
         int ASC = 0;
         int DESC = 1;
@@ -43,6 +44,7 @@ public class AnnotationSample {
     public static final int SUN = 7;
 
     @IntDef({MON, TUE, WED, THU, FRI, SAT, SUN})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface WeakDay {
 
     }
@@ -52,6 +54,7 @@ public class AnnotationSample {
     public static final String LAYOUT_INFLATER_SERVICE = "layout_inflater";
 
     @StringDef({POWER_SERVICE, WINDOW_SERVICE, LAYOUT_INFLATER_SERVICE})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface ServiceName {
     }
 
