@@ -49,6 +49,11 @@
                 android:text="WebView和JS交互"/>
 
             <TextView
+                android:id="@+id/tv_tbs"
+                style="@style/EntryItem"
+                android:text="tencent browser service"/>
+
+            <TextView
                 android:id="@+id/tv_download_file"
                 style="@style/EntryItem"
                 android:text="文件下载"/>
@@ -142,7 +147,7 @@
                 android:id="@+id/tv_share"
                 style="@style/EntryItem"
                 android:text="Share"/>
-            
+
             <TextView
                 android:id="@+id/tv_recycler_view"
                 style="@style/EntryItem"

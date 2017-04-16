@@ -136,7 +136,7 @@ public class WorkHelperApp extends BaseApplication {
     }
 
     private void initX5() {
-        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+        QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
             @Override public void onCoreInitFinished() {
                 Logger.i("onCoreInitFinished");
                 Log.i("aaa", "onCoreInitFinished");

@@ -11,6 +11,7 @@ import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
+import com.king.app.workhelper.activity.X5BrowserActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
 
 import butterknife.OnClick;
@@ -132,6 +133,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_web_view)
     public void onWebViewClick() {
         WebActivity.openActivity(getContext(), WebActivity.ASSET_JS);
+    }
+
+    @OnClick(R.id.tv_tbs)
+    public void onTbsClick() {
+        openActivity(X5BrowserActivity.class);
     }
 
     @OnClick(R.id.tv_file_provider)
