@@ -152,6 +152,11 @@
                 android:id="@+id/tv_recycler_view"
                 style="@style/EntryItem"
                 android:text="RecyclerView"/>
+            
+            <TextView
+                android:id="@+id/tv_event"
+                style="@style/EntryItem"
+                android:text="Event"/>
 
         </LinearLayout>
 

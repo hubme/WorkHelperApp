@@ -33,7 +33,7 @@ public class EntryFragment extends AppBaseFragment {
     public void debugActivityClick() {
         openActivity(DebugActivity.class);
     }
-    
+
     @OnClick(R.id.tv_main_activity)
     public void mainActivityClick() {
         openActivity(MainActivity.class);
@@ -164,10 +164,15 @@ public class EntryFragment extends AppBaseFragment {
     public void onShare() {
         openActivity(WBShareActivity.class);
     }
-    
+
     @OnClick(R.id.tv_recycler_view)
     public void onRecyclerViewClick() {
         openActivity(RecyclerViewActivity.class);
+    }
+
+    @OnClick(R.id.tv_event)
+    public void onEventClick() {
+        clickedOn(new ViewEventSampleFragment());
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
