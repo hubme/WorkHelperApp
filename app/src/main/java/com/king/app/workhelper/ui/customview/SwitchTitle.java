@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 
@@ -31,6 +31,7 @@ import java.util.List;
  * @since 2014年11月17日
  */
 public class SwitchTitle extends HorizontalScrollView implements OnClickListener {
+    private static final String TAG = "aaa";
     /** 动画持续时间 **/
     private static final int ANIM_DURATION = 300;
     /** 动画延迟时间 **/
@@ -60,7 +61,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
     private TabContainer mTabContainer;
 
     /** 当前选中的位置 **/
-    private int mCurrentSelectedPos = 0;
+    private int mCurrentPosition = 0;
 
     /** ViewPager **/
     private ViewPager mViewPager;
@@ -80,20 +81,20 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
     private ValueAnimator mRightAnim;
     /** 画tab下划线的paint **/
     Paint mTabLinePaint;
-
-    public SwitchTitle(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
+    
+    public SwitchTitle(Context context) {
+        this(context, null);
     }
 
     public SwitchTitle(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SwitchTitle(Context context) {
-        this(context, null);
+    public SwitchTitle(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context, attrs, defStyleAttr);
     }
-
+    
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         mTabContainer = new TabContainer(context);
         addView(mTabContainer, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -113,6 +114,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
                 res.getDimensionPixelSize(R.dimen.SwitchTitleTxtSize));
         mTabPadding = a.getDimensionPixelSize(R.styleable.gjjSwitchTitle_tabsPadding,
                 res.getDimensionPixelSize(R.dimen.SwitchTitleTabsPadding));
+        Log.i(TAG, "mTabPadding: " + mTabPadding);
         mIsShortTabLine = a.getBoolean(R.styleable.gjjSwitchTitle_tabIsShortLine, false);
         mLineTopIndent = -a.getDimensionPixelSize(R.styleable.gjjSwitchTitle_tabLineTopIndent, 0);
 
@@ -146,7 +148,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         super.onSizeChanged(w, h, oldw, oldh);
 
         if (mTabContainer != null && mTabContainer.getChildCount() > 0) {
-            View selTab = mTabContainer.getChildAt(mCurrentSelectedPos);
+            View selTab = mTabContainer.getChildAt(mCurrentPosition);
             mLineLeft = selTab.getLeft();
             mLineRight = selTab.getRight();
             mTabContainer.invalidate();
@@ -189,12 +191,13 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
      * @param titles tab标题
      */
     private void addTabs(List<String> titles) {
-        mExtraPadding = mIsShortTabLine ? mTabPadding : mTabPadding / 2;
-        mTabContainer.removeAllViews();
+        if (mTabContainer.getChildCount() > 0) {
+            mTabContainer.removeAllViews();
+        }
         for (int i = 0; i < titles.size(); i++) {
             TabText tabText = new TabText(getContext(), i);
             tabText.setText(titles.get(i));
-            if (mCurrentSelectedPos == i) {
+            if (mCurrentPosition == i) {
                 tabText.setTextColor(mActiveTextColor);
             } else {
                 tabText.setTextColor(mDisableTextColor);
@@ -214,7 +217,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
      * @return 当前页位置
      */
     public int getNowPageId() {
-        return mCurrentSelectedPos;
+        return mCurrentPosition;
     }
 
     /**
@@ -223,7 +226,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
      * @return 当前页标题
      */
     public CharSequence getNowPageTitle() {
-        return mTabTitles.get(mCurrentSelectedPos);
+        return mTabTitles.get(mCurrentPosition);
     }
 
     /**
@@ -244,7 +247,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         mOnTabClickListener = listener;
         mViewPager = viewPager;
 
-        mViewPager.setCurrentItem(mCurrentSelectedPos);
+        mViewPager.setCurrentItem(mCurrentPosition);
         mViewPager.addOnPageChangeListener(new TabPageChangeListener());
     }
 
@@ -269,24 +272,25 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
     @Override
     public void onClick(View v) {
         if (v instanceof TabText) {
-            int position = ((TabText) v).getPos();
-            if (position == mCurrentSelectedPos) {
+            int newPosition = ((TabText) v).getPos();
+            if (newPosition == mCurrentPosition) {
                 return;
             }
             if (mViewPager != null) {
-                mViewPager.setCurrentItem(position);
+                mViewPager.setCurrentItem(newPosition);
             }
+            changePosition(newPosition);
         }
     }
 
     private void changePosition(int newPosition) {
+        TabText src = ((TabText) mTabContainer.getChildAt(mCurrentPosition));
+        TabText dest = (TabText) mTabContainer.getChildAt(newPosition);
+        runAnimation(src, dest);
+        mCurrentPosition = newPosition;
         if (mOnTabClickListener != null) {
             mOnTabClickListener.onTabTitleClick(newPosition);
         }
-        TabText src = ((TabText) mTabContainer.getChildAt(mCurrentSelectedPos));
-        TabText dest = (TabText) mTabContainer.getChildAt(newPosition);
-        runAnimation(src, dest);
-        mCurrentSelectedPos = newPosition;
     }
 
     /**
@@ -348,9 +352,9 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            if (getChildCount() > mCurrentSelectedPos && mLineLeft <= mLineRight) {
+            if (getChildCount() > mCurrentPosition && mLineLeft <= mLineRight) {
                 if (mLineRight == 0) { // 初始位置时候重新计算
-                    TabText dest = (TabText)getChildAt(mCurrentSelectedPos);
+                    TabText dest = (TabText)getChildAt(mCurrentPosition);
                     mLineLeft = dest.getLeft() + mExtraPadding;
                     mLineRight = dest.getRight() - mExtraPadding;
 
@@ -389,7 +393,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
                 // 动画时候会自动刷新位置，不用调整。若动画进行时，此处invalidate会导致下划线闪到终点再回来继续动画
                 if (exPadding != 0 && !mLeftAnim.isRunning() && !mRightAnim.isRunning()) {
                     mExtraPadding = exPadding / 2 + (mIsShortTabLine ? mTabPadding : mTabPadding / 2);
-                    View dest = getChildAt(mCurrentSelectedPos);
+                    View dest = getChildAt(mCurrentPosition);
                     int left = dest.getLeft() + mExtraPadding;
                     if (left != mLineLeft) { // 由于是均分的，因此判断左边就行了
                         mLineLeft = left;
@@ -402,7 +406,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
     }
 
     /** tab 上的文字 **/
-    public class TabText extends TextView {
+    private class TabText extends android.support.v7.widget.AppCompatTextView {
         /** 该Tab位置 **/
         private int mPos;
 
@@ -438,18 +442,18 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
 
         @Override
         public void onPageScrolled(int currentPage, float pageOffset, int offsetPixels) {
-            if (mCurrentSelectedPos > currentPage) { // idx -
-                TabText src = ((TabText) mTabContainer.getChildAt(mCurrentSelectedPos));
+            if (mCurrentPosition > currentPage) { // idx -
+                TabText src = ((TabText) mTabContainer.getChildAt(mCurrentPosition));
                 TabText dest = ((TabText) mTabContainer.getChildAt(currentPage));
 
                 src.setTextColor(getStateColor(mDisableTextColor, mActiveTextColor, pageOffset));
                 dest.setTextColor(getStateColor(mActiveTextColor, mDisableTextColor, pageOffset));
-            } else if (mCurrentSelectedPos == currentPage) { //idx +
+            } else if (mCurrentPosition == currentPage) { //idx +
                 if (offsetPixels == 0) { // 稳定状态
                     return;
                 }
-                TabText src = ((TabText) mTabContainer.getChildAt(mCurrentSelectedPos));
-                TabText dest = ((TabText) mTabContainer.getChildAt(mCurrentSelectedPos + 1));
+                TabText src = ((TabText) mTabContainer.getChildAt(mCurrentPosition));
+                TabText dest = ((TabText) mTabContainer.getChildAt(mCurrentPosition + 1));
 
                 src.setTextColor(getStateColor(mActiveTextColor, mDisableTextColor, pageOffset));
                 dest.setTextColor(getStateColor(mDisableTextColor, mActiveTextColor, pageOffset));

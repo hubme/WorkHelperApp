@@ -9,7 +9,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieChartView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
+import com.king.app.workhelper.ui.customview.SwitchTitle;
 import com.king.app.workhelper.ui.customview.TagTextView;
 import com.king.app.workhelper.ui.customview.TestView;
 import com.king.applib.log.Logger;
@@ -53,6 +58,8 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.pie_tax) FundFormPieView mFundPieView;
     @BindView(R.id.form_view) FormView mFormView;
     @BindView(R.id.form_view2) FormViewTest mFormView2;
+    @BindView(R.id.switch_title) SwitchTitle mSwitchTitle;
+    @BindView(R.id.tv_test) TextView mTestTv;
 
     private BadgeView mBadgeView;
 
@@ -72,6 +79,33 @@ public class CustomViewFragment extends AppBaseFragment {
         BadgeTextView badgeTextView = new BadgeTextView(mContext);
         badgeTextView.setText("99+");
         badgeTextView.setTargetView(mGradientDrawable);
+        
+        applyBadge();
+    }
+
+    private void applyBadge() {
+        ViewParent parent = mTestTv.getParent();
+        if (parent instanceof ViewGroup) {
+            ViewGroup container = (ViewGroup) parent;
+            int childPosition = ((ViewGroup) parent).indexOfChild(mTestTv);
+            container.removeView(mTestTv);
+
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(10,
+                    10, Gravity.RIGHT | Gravity.TOP);
+
+            View view = new View(mContext);
+            view.setLayoutParams(new ViewGroup.LayoutParams(8, 8));
+            view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.chocolate));
+
+            
+            FrameLayout frameLayout = new FrameLayout(mContext);
+            
+//            frameLayout.setLayoutParams(layoutParams);
+            frameLayout.addView(mTestTv);
+            frameLayout.addView(view);
+
+            container.addView(frameLayout, childPosition);
+        }
     }
 
     @Override
@@ -105,11 +139,17 @@ public class CustomViewFragment extends AppBaseFragment {
         initPieView();
         initPieView2();
         initFormView();
+        initSwitchTitle();
+
+    }
+
+    private void initSwitchTitle() {
+        mSwitchTitle.setParams(Arrays.asList("哈哈哈", "呵呵呵", "哦哦哦", "恩恩嗯", "么么么"), position -> Logger.i("current title: " + mSwitchTitle.getNowPageTitle()));
     }
 
     private void initPieView() {
         List<PieChartView.PieItem> pies = new ArrayList<>();
-        pies.add(new PieChartView.PieItem("8000元", "税后月薪",0.1, ContextCompat.getColor(mContext, R.color.chocolate)));
+        pies.add(new PieChartView.PieItem("8000元", "税后月薪", 0.1, ContextCompat.getColor(mContext, R.color.chocolate)));
         pies.add(new PieChartView.PieItem("700元", "公积金", 0.1, ContextCompat.getColor(mContext, R.color.peru)));
         pies.add(new PieChartView.PieItem("500元", "社保", 0.1, ContextCompat.getColor(mContext, R.color.indianred)));
         pies.add(new PieChartView.PieItem("1000元", "个税", 20, ContextCompat.getColor(mContext, R.color.blue_57a5e2)));
