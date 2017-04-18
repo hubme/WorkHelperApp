@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * 用于构建Intent和启动Activity.
  * see also:{@link android.support.v4.app.ShareCompat.IntentBuilder IntentBuilder}
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/8.
  */
 public class IntentBuilder {
@@ -70,7 +70,7 @@ public class IntentBuilder {
         return this;
     }
 
-    public Intent buildIntent() {
+    public Intent build() {
         return intent;
     }
 

@@ -144,7 +144,18 @@ public class CustomViewFragment extends AppBaseFragment {
     }
 
     private void initSwitchTitle() {
-        mSwitchTitle.setParams(Arrays.asList("哈哈哈", "呵呵呵", "哦哦哦", "恩恩嗯", "么么么"), position -> Logger.i("current title: " + mSwitchTitle.getNowPageTitle()));
+        mSwitchTitle.setParams(Arrays.asList("哈哈哈", "呵呵呵", "哦哦哦", "恩恩嗯", "么么么"), position -> {
+            Logger.i("current title: " + mSwitchTitle.getNowPageTitle());
+            SwitchTitle.TabText tabText = mSwitchTitle.getTabText(position);
+            if (tabText != null) {
+                tabText.showBadge(false);
+            }
+        });
+        SwitchTitle.TabText tabText = mSwitchTitle.getTabText(2);
+        if (tabText != null) {
+            tabText.setBadgePadding(10, 25);
+            tabText.showBadge(true);
+        }
     }
 
     private void initPieView() {

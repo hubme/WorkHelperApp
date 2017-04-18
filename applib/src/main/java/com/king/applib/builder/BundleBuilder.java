@@ -15,6 +15,10 @@ public class BundleBuilder {
 
     private final Bundle bundle = new Bundle();
 
+    public static BundleBuilder get() {
+        return new BundleBuilder();
+    }
+
     public <T extends Serializable> BundleBuilder put(String key, T value) {
         bundle.putSerializable(key, value);
         return this;

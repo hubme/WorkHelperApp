@@ -3,7 +3,6 @@ package com.king.app.workhelper.app;
 
 import android.content.res.Configuration;
 import android.os.Environment;
-import android.util.Log;
 
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -139,13 +138,11 @@ public class WorkHelperApp extends BaseApplication {
         QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
             @Override public void onCoreInitFinished() {
                 Logger.i("onCoreInitFinished");
-                Log.i("aaa", "onCoreInitFinished");
             }
 
             @Override public void onViewInitFinished(boolean success) {
                 //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
                 Logger.i("x5 init success");
-                Log.i("aaa", "x5 init success");
             }
         });
     }

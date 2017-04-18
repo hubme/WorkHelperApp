@@ -7,7 +7,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.support.annotation.ColorInt;
 import android.support.v4.view.ViewPager;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -405,10 +408,25 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         }
     }
 
+    public TabText getTabText(int position) {
+        if (position < 0 || position > mTabContainer.getChildCount() - 1) {
+            return null;
+        }
+        return (TabText) mTabContainer.getChildAt(position);
+    }
+
     /** tab 上的文字 **/
-    private class TabText extends android.support.v7.widget.AppCompatTextView {
+    public class TabText extends android.support.v7.widget.AppCompatTextView {
         /** 该Tab位置 **/
         private int mPos;
+        private Paint mPaint;
+        private float mRadius = 10;
+        private int mBadgePaddingTop = 10;
+        private int mBadgePaddingRight = 10;
+        private boolean mIsShowBadge = false;
+        @ColorInt private int mBadgeColor = Color.RED;
+        private TextPaint mTextPaint;
+        private Rect mTextBounds;
 
         public TabText(Context context, int pos) {
             super(context);
@@ -421,10 +439,64 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
             setGravity(Gravity.CENTER);
             setBackgroundResource(R.drawable.gjj_top_click_selector);
             setPadding(mTabPadding, 0, mTabPadding, 0);
+
+            mPaint = new Paint();
+            mPaint.setAntiAlias(true);
+
+            mTextPaint = new TextPaint();
+            mTextBounds = new Rect();
         }
 
         private int getPos() {
             return mPos;
+        }
+
+        @Override protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            if (mIsShowBadge) {
+                mPaint.setColor(mBadgeColor);
+//                canvas.drawCircle(getWidth() - mRadius - mBadgePaddingRight, mRadius + mBadgePaddingTop, mRadius, mPaint);
+
+                final String text = getText().toString();
+                mTextPaint.getTextBounds(text, 0, text.length(), mTextBounds);
+                float length = mTextPaint.measureText(getText().toString());
+                canvas.drawCircle(getPaddingLeft()+length, Math.abs(mTextBounds.top) - mRadius, mRadius, mPaint);
+            } else {
+                mPaint.setColor(Color.TRANSPARENT);
+                canvas.drawCircle(getWidth() - mRadius - mBadgePaddingRight, mRadius + mBadgePaddingTop, mRadius, mPaint);
+            }
+        }
+
+        public void setRadius(float radius) {
+            if (radius > 0) {
+                mRadius = radius;
+            }
+        }
+
+        //调用该方法才会显示Badge
+        public void showBadge(boolean visible) {
+            if (visible != mIsShowBadge) {
+                mIsShowBadge = visible;
+                invalidate();
+            }
+        }
+        
+        public void setBadgePadding(float top, float right) {
+            if (top > 0) {
+                mBadgePaddingTop = dp2px(top);
+            }
+            if (right > 0) {
+                mBadgePaddingRight = dp2px(right);
+            }
+        }
+
+        public void setBadgeColor(@ColorInt int color) {
+            mBadgeColor = color;
+        }
+
+        private int dp2px(float dpValue) {
+            final float scale = getContext().getResources().getDisplayMetrics().density;
+            return (int) (dpValue * scale + 0.5f);
         }
     }
 
