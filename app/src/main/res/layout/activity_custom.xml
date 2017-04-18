@@ -65,15 +65,15 @@
             <com.king.applib.ui.customview.BadgeButton
                 android:id="@+id/btn_badge"
                 android:layout_width="wrap_content"
-                android:padding="15dp"
-                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="15dp"
                 android:text="带徽标的TextView"
                 android:textSize="@dimen/ts_huge"
                 app:btnBadgeColor="@color/chocolate"
-                app:btnBadgeText="10"
                 app:btnBadgeHeight="@dimen/dp_15"
+                app:btnBadgeText="10"
                 app:btnBadgeVisible="true"/>
 
             <ImageView
@@ -113,7 +113,7 @@
                 android:id="@+id/tv_center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 app:circleColor="@color/blueviolet"
                 app:orientation="vertical"

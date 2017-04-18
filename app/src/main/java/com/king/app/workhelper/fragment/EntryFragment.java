@@ -174,6 +174,11 @@ public class EntryFragment extends AppBaseFragment {
     public void onEventClick() {
         clickedOn(new ViewEventSampleFragment());
     }
+    
+    @OnClick(R.id.tv_drawable)
+    public void onDrawableClick() {
+        clickedOn(new DrawableFragment());
+    }
 
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();

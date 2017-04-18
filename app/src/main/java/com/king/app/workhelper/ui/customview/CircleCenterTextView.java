@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.king.app.workhelper.R;
-import com.king.applib.util.ExtendUtil;
 
 /**
  * 把文字画在圆形中央的TextView
@@ -21,8 +20,8 @@ import com.king.applib.util.ExtendUtil;
  */
 
 public class CircleCenterTextView extends View {
-    private final float DEFAULT_CIRCLE_RADIUS = ExtendUtil.dp2px(68);
-    private final int DEFAULT_TEXT_SIZE = ExtendUtil.dp2px(15);
+    private final int DEFAULT_CIRCLE_RADIUS_IN_DP = 32;
+    private final int DEFAULT_TEXT_SIZE_IN_DP = 15;
     private final int DEFAULT_TEXT_COLOR = Color.WHITE;
     private final int DEFAULT_CIRCLE_COLOR = 0xFF03A9F4;
 
@@ -60,10 +59,10 @@ public class CircleCenterTextView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleCenterTextView);
         mOrientation = typedArray.getInt(R.styleable.CircleCenterTextView_orientation, Horizontal);
         mBackgroundColor = typedArray.getColor(R.styleable.CircleCenterTextView_circleColor, DEFAULT_CIRCLE_COLOR);
-        mRadius = typedArray.getDimension(R.styleable.CircleCenterTextView_radius, DEFAULT_CIRCLE_RADIUS);
+        mRadius = typedArray.getDimension(R.styleable.CircleCenterTextView_radius, dip2Px(DEFAULT_CIRCLE_RADIUS_IN_DP));
         mText = typedArray.getString(R.styleable.CircleCenterTextView_text);
         mTextColor = typedArray.getColor(R.styleable.CircleCenterTextView_textColor, DEFAULT_TEXT_COLOR);
-        mTextSize = typedArray.getDimension(R.styleable.CircleCenterTextView_textSize, DEFAULT_TEXT_SIZE);
+        mTextSize = typedArray.getDimension(R.styleable.CircleCenterTextView_textSize, dip2Px(DEFAULT_TEXT_SIZE_IN_DP));
 
         typedArray.recycle();
 
@@ -83,7 +82,7 @@ public class CircleCenterTextView extends View {
                     mBackgroundColor = typedArray.getColor(attr, DEFAULT_CIRCLE_COLOR);
                     break;
                 case R.styleable.CircleCenterTextView_radius:
-                    mRadius = typedArray.getDimension(attr, DEFAULT_CIRCLE_RADIUS);
+                    mRadius = typedArray.getDimension(attr, dip2Px(DEFAULT_CIRCLE_RADIUS_IN_DP));
                     break;
                 case R.styleable.CircleCenterTextView_text:
                     mText = typedArray.getString(attr);
@@ -92,7 +91,7 @@ public class CircleCenterTextView extends View {
                     mTextColor = typedArray.getColor(attr, DEFAULT_TEXT_COLOR);
                     break;
                 case R.styleable.CircleCenterTextView_textSize:
-                    mTextSize = typedArray.getDimension(attr, DEFAULT_TEXT_SIZE);
+                    mTextSize = typedArray.getDimension(attr, dip2Px(DEFAULT_TEXT_SIZE_IN_DP));
                     break;
                 default:
                     break;
@@ -130,9 +129,9 @@ public class CircleCenterTextView extends View {
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else if (specMode == MeasureSpec.AT_MOST) {
-            result = Math.min((int) DEFAULT_CIRCLE_RADIUS, specSize);
+            result = Math.min((int) DEFAULT_CIRCLE_RADIUS_IN_DP, specSize);
         } else {
-            result = (int) DEFAULT_CIRCLE_RADIUS;
+            result = (int) DEFAULT_CIRCLE_RADIUS_IN_DP;
         }
         return result;
     }
@@ -191,5 +190,9 @@ public class CircleCenterTextView extends View {
             mOrientation = orientation;
             invalidate();
         }
+    }
+
+    private float dip2Px(float dip) {
+        return (dip * getContext().getResources().getDisplayMetrics().density + 0.5f);
     }
 }

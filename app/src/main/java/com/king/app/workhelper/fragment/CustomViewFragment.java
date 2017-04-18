@@ -23,6 +23,7 @@ import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.TagTextView;
 import com.king.app.workhelper.ui.customview.TestView;
 import com.king.applib.log.Logger;
+import com.king.applib.ui.customview.BadgeTextView;
 import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
 import com.king.applib.ui.customview.FormView;
@@ -68,6 +69,9 @@ public class CustomViewFragment extends AppBaseFragment {
         GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{0xFFFF0000, 0xFF00FF00, 0xFF0000FF});
         mGradientDrawable.setImageDrawable(drawable);
 
+        BadgeTextView badgeTextView = new BadgeTextView(mContext);
+        badgeTextView.setText("99+");
+        badgeTextView.setTargetView(mGradientDrawable);
     }
 
     @Override
