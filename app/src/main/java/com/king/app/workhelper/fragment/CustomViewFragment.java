@@ -153,7 +153,7 @@ public class CustomViewFragment extends AppBaseFragment {
         });
         SwitchTitle.TabText tabText = mSwitchTitle.getTabText(2);
         if (tabText != null) {
-            tabText.setBadgePadding(10, 25);
+            tabText.setBadgePadding(10, 15);
             tabText.showBadge(true);
         }
     }

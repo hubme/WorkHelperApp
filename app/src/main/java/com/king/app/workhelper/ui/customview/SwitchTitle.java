@@ -7,10 +7,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.ViewPager;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -421,12 +419,10 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         private int mPos;
         private Paint mPaint;
         private float mRadius = 10;
-        private int mBadgePaddingTop = 10;
-        private int mBadgePaddingRight = 10;
+        private int mBadgePaddingTop = 20;
+        private int mBadgePaddingRight = 30;
         private boolean mIsShowBadge = false;
         @ColorInt private int mBadgeColor = Color.RED;
-        private TextPaint mTextPaint;
-        private Rect mTextBounds;
 
         public TabText(Context context, int pos) {
             super(context);
@@ -442,9 +438,6 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
 
             mPaint = new Paint();
             mPaint.setAntiAlias(true);
-
-            mTextPaint = new TextPaint();
-            mTextBounds = new Rect();
         }
 
         private int getPos() {
@@ -455,12 +448,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
             super.onDraw(canvas);
             if (mIsShowBadge) {
                 mPaint.setColor(mBadgeColor);
-//                canvas.drawCircle(getWidth() - mRadius - mBadgePaddingRight, mRadius + mBadgePaddingTop, mRadius, mPaint);
-
-                final String text = getText().toString();
-                mTextPaint.getTextBounds(text, 0, text.length(), mTextBounds);
-                float length = mTextPaint.measureText(getText().toString());
-                canvas.drawCircle(getPaddingLeft()+length, Math.abs(mTextBounds.top) - mRadius, mRadius, mPaint);
+                canvas.drawCircle(getWidth() - mRadius - mBadgePaddingRight, mRadius + mBadgePaddingTop, mRadius, mPaint);
             } else {
                 mPaint.setColor(Color.TRANSPARENT);
                 canvas.drawCircle(getWidth() - mRadius - mBadgePaddingRight, mRadius + mBadgePaddingTop, mRadius, mPaint);
