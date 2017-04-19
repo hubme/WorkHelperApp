@@ -10,6 +10,15 @@
         <!--<item name="windowActionBar">false</item>-->
     </style>
 
+    <style name="Theme.ToolBar.Base.Title" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white_f5f5f5</item>
+    </style>
+    <style name="Theme.ToolBar.Base.Subtitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/chocolate</item>
+    </style>
+
     <style name="AppTheme.Splash" parent="@style/AppTheme">
         <!--<item name="windowActionBar">false</item>-->
         <!--<item name="windowNoTitle">true</item>-->
