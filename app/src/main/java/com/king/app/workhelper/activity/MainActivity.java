@@ -1,9 +1,10 @@
 package com.king.app.workhelper.activity;
 
-import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.util.AttributeSet;
@@ -54,13 +55,35 @@ public class MainActivity extends AppBaseActivity {
         super.initData();
     }
 
+    @Override 
+    public void onBackPressed() {
+        super.onBackPressed();
+        ActivityCompat.finishAfterTransition(this);
+    }
+
     @OnClick(R.id.tv_main)
     public void onMainClick() {
 //        openActivity(TabSwitchActivity.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             ActivityManager activityManager = (ActivityManager) getApplication().getSystemService(Context.ACTIVITY_SERVICE);
             activityManager.clearApplicationUserData();
-        }
+        }*/
+
+        startActivity();
+    }
+
+    private void startActivityWithAnimation() {
+        Intent intent = new Intent(this, DebugActivity.class);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_from_bottom, R.anim.alpha_disappear);
+        ActivityCompat.startActivity(this, intent, optionsCompat.toBundle());
+    }
+
+    private void startActivity() {
+        Intent intent = new Intent(this, DebugActivity.class);
+        startActivity(intent);
+        //第一个参数作(enterAnim)用于target activity，第二个参数(exitAnim)作用于当前activity。
+        //如果第二个参数不设置或时间小于target activity的动画时间，会出现背景黑屏的现象。
+        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.alpha_disappear);
     }
 
     private Typeface getTypeface() {

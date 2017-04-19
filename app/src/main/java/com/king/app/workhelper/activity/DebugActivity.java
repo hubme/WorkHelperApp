@@ -51,4 +51,11 @@ public class DebugActivity extends PreferenceActivity implements Preference.OnPr
         }
         return false;
     }
+
+    @Override public void finish() {
+        super.finish();
+        //返回上个Activity。
+        //第一个参数作(enterAnim)用于上一个Activity，第二个参数(exitAnim)作用于当前Activity
+        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.alpha_disappear);
+    }
 }
