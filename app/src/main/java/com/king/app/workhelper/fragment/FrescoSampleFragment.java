@@ -12,7 +12,6 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.log.Logger;
-import com.king.applib.util.ContextUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.JsonUtil;
@@ -38,8 +37,8 @@ import okhttp3.ResponseBody;
  */
 
 public class FrescoSampleFragment extends AppBaseFragment {
-//    public static final String PIC_URL = "http://192.168.2.78:8080/appupdate/launch_background.jpg";
-        public static final String PIC_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490190243757&di=3bd3e4eca13d247b62dad6e4dedaccc3&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2016%2Fhxj%2F08%2F16%2F1602%2FChMkJlexsJmIIe8dAAghrgQhdMQAAUdNAJInfYACCHG699.jpg";
+    public static final String PIC_LOCAL_URL = "http://10.0.10.168:8080/appupdate/launch_background.jpg";
+        public static final String PIC_BAIDU_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490190243757&di=3bd3e4eca13d247b62dad6e4dedaccc3&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2016%2Fhxj%2F08%2F16%2F1602%2FChMkJlexsJmIIe8dAAghrgQhdMQAAUdNAJInfYACCHG699.jpg";
     public static final String LOCAL_PIC = Environment.getExternalStorageDirectory().getPath() + "/000test/timg.jpg";
 
     @BindView(R.id.view_pic)
@@ -54,11 +53,12 @@ public class FrescoSampleFragment extends AppBaseFragment {
     protected void initData() {
         super.initData();
 //        mSimpleDraweeView.setImageURI(Uri.fromFile(FileUtil.getFileByPath(LOCAL_PIC)));
-        mSimpleDraweeView.setImageURI(Uri.parse("res://"+ ContextUtil.getAppContext().getPackageName()+"/"+R.mipmap.splash_screen));
+//        mSimpleDraweeView.setImageURI(Uri.parse("res://"+ ContextUtil.getAppContext().getPackageName()+"/"+R.mipmap.splash_screen));
+        mSimpleDraweeView.setImageURI(Uri.parse(PIC_LOCAL_URL));
 
         final AbstractDraweeController build = Fresco.newDraweeControllerBuilder()
                 .setControllerListener(new ImageDownloadListener())
-                .setUri(PIC_URL).build();
+                .setUri(PIC_LOCAL_URL).build();
 
         //一。官网示例,https://www.fresco-cn.org/docs/caching.html.
         // 问题：1.首次进入判断没有缓存，但是无响应，没有回调。返回或查看最近应用再返回时就正常了。
@@ -166,7 +166,7 @@ public class FrescoSampleFragment extends AppBaseFragment {
                 Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test", "launchImage.jpg");
         downloadManager.downloadFile(request);*/
 
-        Request request = new Request.Builder().url(PIC_URL).build();
+        Request request = new Request.Builder().url(PIC_LOCAL_URL).build();
         OkHttpUtils.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 Logger.i("onFailure");

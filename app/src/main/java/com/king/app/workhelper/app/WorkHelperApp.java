@@ -17,6 +17,7 @@ import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.common.utils.LeakCanaryHelper;
 import com.king.app.workhelper.okhttp.LogInterceptor;
 import com.king.app.workhelper.okhttp.MockInterceptor;
+import com.king.app.workhelper.okhttp.MyLogInterceptor;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
@@ -95,7 +96,13 @@ public class WorkHelperApp extends BaseApplication {
                 .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"), AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
 
         if (BuildConfig.LOG_DEBUG) {
-            builder.addInterceptor(new LogInterceptor());
+//            builder.addInterceptor(new LogInterceptor());
+
+            builder.addInterceptor(new MyLogInterceptor());
+            
+//            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//            builder.addInterceptor(interceptor);
             builder.addInterceptor(new MockInterceptor());
         }
         OkHttpClient okHttpClient = builder.build();

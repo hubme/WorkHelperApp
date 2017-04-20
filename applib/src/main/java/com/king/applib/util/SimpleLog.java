@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by HuoGuangxu on 2016/12/6.
  */
 public class SimpleLog {
-    private static final String TAG_DEFAULT = SimpleLog.class.getSimpleName();
+    private static final String TAG_DEFAULT = "SimpleLog";
     private static final char TOP_LEFT_CORNER = '╔';
     private static final char BOTTOM_LEFT_CORNER = '╚';
     private static final char MIDDLE_CORNER = '╟';

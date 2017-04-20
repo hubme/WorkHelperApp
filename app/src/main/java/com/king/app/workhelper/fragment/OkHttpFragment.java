@@ -1,11 +1,14 @@
 package com.king.app.workhelper.fragment;
 
+import android.os.Environment;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.king.applib.log.Logger;
+import com.king.applib.util.FileUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -22,6 +26,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * OkHttp使用
@@ -41,6 +46,7 @@ public class OkHttpFragment extends AppBaseFragment {
     @BindView(R.id.tv_okhttp_get)
     public TextView mOkHttp;
     private OkHttpClient mOkHttpClient;
+    private ExecutorService mExecutorService;
 
     @Override
     protected int getContentLayout() {
@@ -51,12 +57,13 @@ public class OkHttpFragment extends AppBaseFragment {
     protected void initData() {
         super.initData();
         mOkHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
+        mExecutorService = Executors.newSingleThreadExecutor();
     }
 
     @OnClick(R.id.tv_okhttp_get)
-    public void onOkHttpGetClick(){
+    public void onOkHttpGetClick() {
         Request request = new Request.Builder().get().url(URL_BAIDU)
-                .build();
+                .cacheControl(CacheControl.FORCE_NETWORK).build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
@@ -64,7 +71,11 @@ public class OkHttpFragment extends AppBaseFragment {
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
-                Logger.i("onResponse." + response.body().string());
+                if (response != null) {
+                    Logger.i("onResponse." + response.body().string());
+                } else {
+                    Logger.i("onResponse. null @@@@");
+                }
             }
         });
     }
@@ -89,8 +100,7 @@ public class OkHttpFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_cache)
     public void onCacheClick() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.submit(this::doRequest);
+        mExecutorService.submit(this::doRequest);
     }
 
     private void doRequest() {
@@ -100,8 +110,8 @@ public class OkHttpFragment extends AppBaseFragment {
         Response response;
         try {
             response = call.execute();
-            Logger.i("response: "+response.body().string());
-            Logger.i("cache response: "+response.cacheResponse().toString());
+            Logger.i("response: " + response.body().string());
+            Logger.i("cache response: " + response.cacheResponse().toString());
             Logger.i("network response: " + response.networkResponse().toString());
         } catch (Exception e) {
             Logger.e(e.toString());
@@ -109,17 +119,44 @@ public class OkHttpFragment extends AppBaseFragment {
 
 //        Call newCall = mOkHttpClient.newCall(request);
     }
-    
+
     @OnClick(R.id.tv_simple_okhttp)
     public void onSimpleOKHttpClick() {
         SimpleOkHttp.getInstance().get().url(URL_BAIDU).tag(this)
                 .setConnectTimeout(10, TimeUnit.SECONDS).build().enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
-                
+
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
 
+            }
+        });
+    }
+
+    @OnClick(R.id.tv_download_image)
+    public void onDownloadImageClick() {
+        mExecutorService.submit(this::downloadImage);
+    }
+
+    private void downloadImage() {
+        final String dir = Environment.getExternalStorageDirectory().getPath() + "/000test/000.jpg";
+        Log.i("bbb", "dir: " + dir);
+        final String URL = "http://10.0.10.168:8080/appupdate/launch_background.jpg";
+        Request request = new Request.Builder().url(URL).cacheControl(CacheControl.FORCE_NETWORK).build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Log.i("bbb", "啊啊啊啊啊");
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                ResponseBody body = response.body();
+                Log.i("bbb", "000");
+                if (body != null) {
+                    Log.i("bbb", "111");
+                    FileUtil.saveStream(FileUtil.getFileByPath(dir), body.byteStream(), true);
+                }
             }
         });
     }

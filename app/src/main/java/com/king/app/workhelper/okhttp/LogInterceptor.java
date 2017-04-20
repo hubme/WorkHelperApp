@@ -12,6 +12,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
 
 import static java.lang.String.format;
@@ -35,22 +36,20 @@ public class LogInterceptor implements Interceptor {
     private static final String F_REQUEST_WITH_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS + F_BODY + F_BREAK;
     private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAK;
 
-    private boolean mIsPrintRequestHeaders = false;
-    private boolean mIsPrintResponseHeaders = false;
+    private boolean mIsPrintRequestHeaders = true;
+    private boolean mIsPrintResponseHeaders = true;
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        Response response;
-        String time;
         String bodyString = null;
+        long t1 = System.nanoTime();
+        Response response = chain.proceed(request);
+        String time = String.format(Locale.getDefault(), "%.1fms", (System.nanoTime() - t1) / 1e6d);
         try {
-            long t1 = System.nanoTime();
-            response = chain.proceed(request);
-            time = String.format(Locale.getDefault(), "%.1fms", (System.nanoTime() - t1) / 1e6d);
-
             MediaType contentType = null;
             ResponseBody responseBody = response.body();
+            
             if (responseBody != null) {
                 contentType = responseBody.contentType();
                 bodyString = responseBody.string();
@@ -58,8 +57,13 @@ public class LogInterceptor implements Interceptor {
 
             printLog(request, response, time, contentType, bodyString);
 
-            if (bodyString != null) {
-                return chain.proceed(chain.request());
+            if (HttpHeaders.hasBody(response)) {
+                if (isImageType(contentType)) {
+                    return chain.proceed(chain.request());
+                } else {
+                    ResponseBody body = ResponseBody.create(contentType, bodyString);
+                    return response.newBuilder().body(body).build();
+                } 
             } else {
                 return response;
             }
@@ -68,7 +72,7 @@ public class LogInterceptor implements Interceptor {
         } catch (Exception e) {
             printLog(request, null, "失败.可能断网、接口挂了", null, null);
         }
-        return chain.proceed(chain.request());
+        return response;
     }
 
     private void printLog(Request request, Response response, String time, MediaType mediaType, String bodyString) {
@@ -148,5 +152,9 @@ public class LogInterceptor implements Interceptor {
                 return true;
         }
         return false;
+    }
+
+    private boolean isImageType(MediaType mediaType) {
+        return mediaType != null && mediaType.type() != null && mediaType.type().equals("image");
     }
 }
