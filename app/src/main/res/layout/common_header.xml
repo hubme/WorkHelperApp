@@ -14,7 +14,6 @@
         android:fitsSystemWindows="true"
         app:navigationIcon="@mipmap/arrow_left_blue"
         app:title="@string/test"
-        app:subtitle="哈哈"
         app:titleTextAppearance="@style/Theme.ToolBar.Base.Title"
         app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle">
         <!--android:theme="@style/Theme.ToolBar.Base"-->

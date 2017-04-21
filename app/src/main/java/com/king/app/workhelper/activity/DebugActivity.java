@@ -1,12 +1,14 @@
 package com.king.app.workhelper.activity;
 
-import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.support.annotation.Nullable;
+import android.support.annotation.IdRes;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.king.app.workhelper.R;
-import com.king.applib.log.Logger;
+import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.okhttp.OkHttpLogInterceptor;
+
+import butterknife.BindView;
 
 /**
  * Debug设置
@@ -15,47 +17,38 @@ import com.king.applib.log.Logger;
  * @since 2017/4/11.
  */
 
-public class DebugActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener{
+public class DebugActivity extends AppBaseActivity implements RadioGroup.OnCheckedChangeListener {
 
-    @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.prefs_debug_settings);
+    @BindView(R.id.log_group) RadioGroup mDomainGroup;
+    @BindView(R.id.rb_close_log) RadioButton mNoLogRb;
+    @BindView(R.id.rb_basal_log) RadioButton mRequestLogRb;
+    @BindView(R.id.rb_all_log) RadioButton mResponseLogRb;
 
-        initPrefs();
+    @Override
+    public int getContentLayout() {
+        return R.layout.activity_debug;
     }
 
-    private void initPrefs() {
-        Preference key_domain_release = findPreference("key_domain_release");
-        Preference key_domain_debug = findPreference("key_domain_debug");
-        Preference key_domain_custom = findPreference("key_domain_custom");
-
-        key_domain_release.setOnPreferenceChangeListener(this);
-        key_domain_debug.setOnPreferenceChangeListener(this);
-        key_domain_custom.setOnPreferenceChangeListener(this);
+    @Override
+    protected void initContentView() {
+        super.initContentView();
+        mDomainGroup.setOnCheckedChangeListener(this);
     }
 
-    @Override public boolean onPreferenceChange(Preference preference, Object newValue) {
-        boolean checked = (boolean) newValue;
-        switch (preference.getKey()) {
-            case "key_domain_release":
-                Logger.i("key_domain_release: "+checked);
+    @Override
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        switch (checkedId) {
+            case R.id.rb_close_log:
+                OkHttpLogInterceptor.setLogLevel(OkHttpLogInterceptor.NONE);
                 break;
-            case "key_domain_debug":
-                Logger.i("key_domain_debug: "+checked);
-
+            case R.id.rb_basal_log:
+                OkHttpLogInterceptor.setLogLevel(OkHttpLogInterceptor.BASAL);
                 break;
-            case "key_domain_custom":
-                Logger.i("key_domain_custom: "+checked);
-
+            case R.id.rb_all_log:
+                OkHttpLogInterceptor.setLogLevel(OkHttpLogInterceptor.ALL);
+                break;
+            default:
                 break;
         }
-        return false;
-    }
-
-    @Override public void finish() {
-        super.finish();
-        //返回上个Activity。
-        //第一个参数作(enterAnim)用于上一个Activity，第二个参数(exitAnim)作用于当前Activity
-        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.alpha_disappear);
     }
 }
