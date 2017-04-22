@@ -30,6 +30,8 @@ import okio.BufferedSource;
 
 public class OkHttpLogInterceptor implements Interceptor {
     private static final String TAG = AppConfig.LOG_TAG;
+    private static final int CHUNK_SIZE = 4000;
+
     private static final String ONE_SPACE = " ";
     private static final String NEW_LINE = "\n║";
     private static final String LINE_SINGLE_SEPARATE = "║----------------------------------------------------------------------------------------";
@@ -40,7 +42,8 @@ public class OkHttpLogInterceptor implements Interceptor {
     public static final int NONE = 0;//不打印log
     public static final int BASAL = 1;//不包含headers
     public static final int ALL = 2;//包含headers
-    @LogLevel private static int mLevel = BASAL;
+    @LogLevel
+    private static int mLevel = BASAL;
 
     @IntDef({NONE, BASAL, ALL})
     @Retention(RetentionPolicy.SOURCE)
@@ -48,32 +51,50 @@ public class OkHttpLogInterceptor implements Interceptor {
     }
 
 
-    @Override public Response intercept(Chain chain) throws IOException {
+    @Override
+    public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         long start = System.nanoTime();
         Response response;
         try {
             response = chain.proceed(request);
         } catch (SocketTimeoutException e) {
-            Log.i(TAG, request.url().toString() + " 超时");
+            log(request.url().toString() + " 超时");
             return chain.proceed(chain.request());
         } catch (Exception e) {
-            Log.i(TAG, request.url().toString() + " 失败.可能断网、接口挂了");
+            log(request.url().toString() + " 失败.可能断网、接口挂了");
             return chain.proceed(chain.request());
         }
-        long duration = System.nanoTime() - start;
         if (mLevel == NONE) {
             return response;
         }
+        long duration = System.nanoTime() - start;
         String time = String.format(Locale.getDefault(), "%.1fms", duration / 1e6d);
-        Log.i(TAG, String.format(Locale.getDefault(), "%s\n%s\n%s\n%s\n%s",
-                LINE_START,
-                stringifyRequest(request, time),
-                LINE_SINGLE_SEPARATE,
-                stringifyResponse(request.method(), response),
-                LINE_END));
+
+        log(LINE_START);
+        log(stringifyRequest(request, time));
+        log(LINE_SINGLE_SEPARATE);
+        logResponse(request.method(), response);
+        log(LINE_END);
 
         return response;
+    }
+
+    private void logResponse(String method, Response response) {
+        log(LINE_SHORT + "response: " + response.code());
+
+        ResponseBody responseBody = response.body();
+        if (responseBody != null) {
+            long contentLength = responseBody.contentLength();
+            String len = contentLength != -1 ? contentLength + " bytes" : "unknown-length";
+            log(LINE_SHORT + "mime: " + responseBody.contentType().toString() + " length: " + len);
+        }
+
+        if (mLevel == ALL) {
+            log(stringifyResponseHeaders(response));
+        }
+
+        logResponseBody(method, responseBody);
     }
 
     private String stringifyRequest(Request request, String duration) {
@@ -111,56 +132,46 @@ public class OkHttpLogInterceptor implements Interceptor {
         }
     }
 
-    private String stringifyResponse(String method, Response response) {
-        if (response == null) {
-            return "";
-        }
+    private String stringifyResponseHeaders(Response response) {
         StringBuilder sb = new StringBuilder();
-        sb.append(LINE_SHORT).append("response: ").append(response.code()).append(NEW_LINE);
-        ResponseBody responseBody = response.body();
-        if (responseBody != null) {
-            sb.append("mime: ").append(responseBody.contentType().toString()).append(" length: ");
-            long contentLength = responseBody.contentLength();
-            sb.append(contentLength != -1 ? contentLength + " bytes" : "unknown-length").append(NEW_LINE);
-        }
-
-        //response body
-        sb.append(stringifyResponseBody(method, responseBody));
-
-        //headers
-        if (mLevel == ALL) {
-            sb.append(NEW_LINE).append(NEW_LINE);
-            Headers headers = response.headers();
-            for (int i = 0, size = headers.size(); i < size; i++) {
-                sb.append(headers.name(i)).append(": ").append(headers.value(i));
-                if (i != size - 1) {
-                    sb.append(NEW_LINE);
-                }
-            }
+        sb.append(NEW_LINE).append(NEW_LINE);
+        Headers headers = response.headers();
+        for (int i = 0, size = headers.size(); i < size; i++) {
+            sb.append(headers.name(i)).append(": ").append(headers.value(i)).append(NEW_LINE);
         }
         return sb.toString();
     }
 
-    private String stringifyResponseBody(String method, ResponseBody responseBody) {
+    private void logResponseBody(String method, ResponseBody responseBody) {
         if (responseBody == null || "DELETE".equalsIgnoreCase(method)) {
-            return "";
+            return;
         }
-        if (isPlaintext(responseBody.contentType())) {
-            try {
-                // 不要使用responseBody.string(),因为只能使用一次。当执行回调是会出现：IllegalStateException: closed.
-                BufferedSource source = responseBody.source();
-                source.request(Long.MAX_VALUE); // Buffer the entire body.
-                Buffer buffer = source.buffer();
-                return buffer.clone().readString(Charset.defaultCharset());
-            } catch (SocketTimeoutException e) {
-                return "超时";
-            } catch (IOException e) {
-                return "response is null.";
-            } catch (Exception e) {
-                return "失败.可能断网、接口挂了" + e.toString();
+        if (!isPlaintext(responseBody.contentType())) {
+            log("不是文本，不打印log");
+        }
+        try {
+            // 不要使用responseBody.string(),因为只能使用一次。当执行回调是会出错：IllegalStateException: closed.
+            BufferedSource source = responseBody.source();
+            source.request(Long.MAX_VALUE); // Buffer the entire body.
+            Buffer buffer = source.buffer();
+            String results = buffer.clone().readString(Charset.defaultCharset());
+            int size = results.length();
+            if (size <= CHUNK_SIZE) {
+                log(LINE_SHORT + results);
+            } else {//超过log最大长度，分段输入
+                final byte[] bytes = results.getBytes();
+                for (int i = 0; i < size; i += CHUNK_SIZE) {
+                    int count = Math.min(size - i, CHUNK_SIZE);
+                    log(LINE_SHORT + new String(bytes, i, count));
+                }
             }
+        } catch (SocketTimeoutException e) {
+            log("超时");
+        } catch (IOException e) {
+            log("response is null.");
+        } catch (Exception e) {
+            log("失败.可能断网、接口挂了" + e.toString());
         }
-        return "不是文本，不打印log";
     }
 
     /**
@@ -168,7 +179,9 @@ public class OkHttpLogInterceptor implements Interceptor {
      * of code points to detect unicode control characters commonly used in binary file signatures.
      */
     private boolean isPlaintext(MediaType mediaType) {
-        if (mediaType == null) return false;
+        if (mediaType == null) {
+            return false;
+        }
         if (mediaType.type() != null && mediaType.type().equals("text")) {
             return true;
         }
@@ -184,11 +197,11 @@ public class OkHttpLogInterceptor implements Interceptor {
         return false;
     }
 
-    private boolean isImageType(MediaType mediaType) {
-        return mediaType != null && mediaType.type() != null && mediaType.type().equals("image");
-    }
-
     public static void setLogLevel(@LogLevel int level) {
         mLevel = level;
+    }
+
+    private void log(String content) {
+        Log.i(TAG, content);
     }
 }

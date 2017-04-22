@@ -41,7 +41,7 @@ public class OkHttpFragment extends AppBaseFragment {
     private final String JSON_URL2 = "http://gjj.9188.com/user/querySystemMessage.go";
     private final String JSON_URL3 = "https://api.github.com/users/Guolei1130";
     private final String PIC_URL = "http://192.168.1.102:8080/appupdate/pic.jpg";
-    private final String DOU_BAN_URL = "https://api.douban.com/v2/movie/top250?start=0&count=10";
+    private final String DOU_BAN_URL = "https://api.douban.com/v2/movie/top250?start=0&count=5";
 
     @BindView(R.id.tv_okhttp_get)
     public TextView mOkHttp;
@@ -62,20 +62,13 @@ public class OkHttpFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_okhttp_get)
     public void onOkHttpGetClick() {
-        Request request = new Request.Builder().get().url(URL_BAIDU)
-                .cacheControl(CacheControl.FORCE_NETWORK).build();
+        Request request = new Request.Builder().get().url(DOU_BAN_URL).build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
-                Logger.i("onFailure");
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
-                if (response != null) {
-                    Logger.i("onResponse." + response.body().string());
-                } else {
-                    Logger.i("onResponse. null @@@@");
-                }
             }
         });
     }
