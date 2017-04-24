@@ -86,9 +86,7 @@ public class CustomViewFragment extends AppBaseFragment {
         
         applyBadge();
 
-        mSimpleBadger.setTextSize(18);
-        mSimpleBadger.setMarginLeft(-8);
-        mSimpleBadger.setMarginRight(8);
+        mSimpleBadger.show("9");
     }
 
     private void applyBadge() {
