@@ -41,7 +41,9 @@ public class OkHttpFragment extends AppBaseFragment {
     private final String JSON_URL2 = "http://gjj.9188.com/user/querySystemMessage.go";
     private final String JSON_URL3 = "https://api.github.com/users/Guolei1130";
     private final String PIC_URL = "http://192.168.1.102:8080/appupdate/pic.jpg";
-    private final String DOU_BAN_URL = "https://api.douban.com/v2/movie/top250?start=0&count=5";
+    private final String DOU_BAN_URL = "http://api.douban.com/v2/movie/top250?start=0&count=5";
+    //https://andgjj.youyuwo.com
+    private final String CITY_URL = "http://gjj_8095.gs.9188.com/gjj/getOrderedCitys.go?releaseVersion=2.4.0&source=10001&addressCode=021&appId=yuZALOE2017XR04LH2ZA10549EM5611D1&accessToken=%2BNEflO3uj02eOaWPdCVSbDiORgxuKQuyVLKkfCeHMvs1fBwYKw%2FBCF%2B2puc2f%2F6%2FUIWy%2F61%2FBdrnWaWkivUcyU71G%2FB7pOarJNNzFArRnG6rw683ZXw6i1P3IW%2FPLH4CCv9UegXMNZG7i%2BUvpXbE0bxZx5AnGb1yl2PnoYNN9N0vrov7o7DcJg%3D%3D";
 
     @BindView(R.id.tv_okhttp_get)
     public TextView mOkHttp;
@@ -62,13 +64,15 @@ public class OkHttpFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_okhttp_get)
     public void onOkHttpGetClick() {
-        Request request = new Request.Builder().get().url(DOU_BAN_URL).build();
+        Request request = new Request.Builder().get().url(CITY_URL).build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
+                Logger.i("onFailure");
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
+                Logger.i("results: " + response.body().string());
             }
         });
     }

@@ -5,6 +5,7 @@ import com.king.applib.log.Logger;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.nio.charset.Charset;
 import java.util.Locale;
 
 import okhttp3.Interceptor;
@@ -12,8 +13,8 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
+import okio.BufferedSource;
 
 import static java.lang.String.format;
 
@@ -52,25 +53,22 @@ public class LogInterceptor implements Interceptor {
             
             if (responseBody != null) {
                 contentType = responseBody.contentType();
-                bodyString = responseBody.string();
+                
+                // responseBody只能被消费一次。否则执行回调时会出错：IllegalStateException: closed.
+                BufferedSource source = responseBody.source();
+                source.request(Long.MAX_VALUE); // Buffer the entire body.
+                Buffer buffer = source.buffer();
+                bodyString = buffer.clone().readString(Charset.defaultCharset());
             }
 
             printLog(request, response, time, contentType, bodyString);
 
-            if (HttpHeaders.hasBody(response)) {
-                if (isImageType(contentType)) {
-                    return chain.proceed(chain.request());
-                } else {
-                    ResponseBody body = ResponseBody.create(contentType, bodyString);
-                    return response.newBuilder().body(body).build();
-                } 
-            } else {
-                return response;
-            }
         } catch (SocketTimeoutException e) {
             printLog(request, null, "超时", null, null);
+            return chain.proceed(chain.request());
         } catch (Exception e) {
             printLog(request, null, "失败.可能断网、接口挂了", null, null);
+            return chain.proceed(chain.request());
         }
         return response;
     }

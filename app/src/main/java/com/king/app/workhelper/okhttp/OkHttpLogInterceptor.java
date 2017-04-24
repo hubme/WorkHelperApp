@@ -22,7 +22,8 @@ import okio.Buffer;
 import okio.BufferedSource;
 
 /**
- * OkHttp 拦截器
+ * OkHttp 拦截器.
+ * bug: 当log超过CHUNK_SIZE时显示不全。应该是截取字符串的问题，还没找到原因。使用Logger没有问题。
  *
  * @author VanceKing
  * @since 2017/4/20.
