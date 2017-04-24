@@ -33,6 +33,7 @@ import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
 import com.king.applib.ui.customview.FormView;
 import com.king.applib.ui.customview.FormViewTest;
+import com.king.applib.ui.customview.SimpleBadgeTextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.king.app.workhelper.R.id.simple_badge;
 
 /**
  * 自定义View
@@ -60,6 +63,7 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.form_view2) FormViewTest mFormView2;
     @BindView(R.id.switch_title) SwitchTitle mSwitchTitle;
     @BindView(R.id.tv_test) TextView mTestTv;
+    @BindView(simple_badge) SimpleBadgeTextView mSimpleBadger;
 
     private BadgeView mBadgeView;
 
@@ -81,6 +85,10 @@ public class CustomViewFragment extends AppBaseFragment {
         badgeTextView.setTargetView(mGradientDrawable);
         
         applyBadge();
+
+        mSimpleBadger.setTextSize(18);
+        mSimpleBadger.setMarginLeft(-8);
+        mSimpleBadger.setMarginRight(8);
     }
 
     private void applyBadge() {

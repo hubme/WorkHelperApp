@@ -16,6 +16,14 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.applib.ui.customview.SimpleBadgeTextView
+                android:id="@+id/simple_badge"
+                android:layout_width="150dp"
+                android:layout_height="90dp"
+                android:background="@color/chocolate"
+                android:gravity="center"
+                android:text="哈哈哈"/>
+
             <com.king.app.workhelper.ui.customview.SwitchTitle
                 android:id="@+id/switch_title"
                 android:layout_width="match_parent"
@@ -25,14 +33,14 @@
                 app:tabLineHeight="2dp"
                 app:tabTxtDisableColor="@color/black_2c2c2c"
                 app:tabsPadding="20dp"/>
-            
+
             <TextView
                 android:id="@+id/tv_test"
-                android:text="哈哈哈"
-                android:gravity="center"
-                android:background="@color/gray"
                 android:layout_width="100dp"
-                android:layout_height="58dp"/>
+                android:layout_height="58dp"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:text="哈哈哈"/>
 
             <com.king.applib.ui.customview.FormViewTest
                 android:id="@+id/form_view2"
