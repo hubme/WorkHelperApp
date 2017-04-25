@@ -11,28 +11,27 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 
 /**
- * @author huoguangxu
+ * Badge TextView
+ *
+ * @author VanceKing
  * @since 2017/4/24.
  */
 
 public class SimpleBadgeTextView extends android.support.v7.widget.AppCompatTextView {
-    private static final int DEFAULT_RADIUS = 16;
+    private static final int DEFAULT_RADIUS = 8;//in dp
     private Context mContext;
     private String mBadgeText;
-    private boolean mIsShowBadge = true;
+    private boolean mIsShowBadge;
     private TextPaint mTextPaint;
-    @ColorInt
-    private int mBadgeBgColor = Color.RED;
-    @ColorInt
-    private int mBadgeTextColor = Color.WHITE;
-    private float mBadgeTextSize = 26;
+    @ColorInt private int mBadgeBgColor = Color.RED;
+    @ColorInt private int mBadgeTextColor = Color.WHITE;
+    private float mBadgeTextSize = 12;//in sp
 
     private float mMarginLeft = 0;
     private float mMarginRight = 0;
     private RectF mRectF;
 
-    private static final int DEFAULT_CORNER = 14;
-    private int mCorner = DEFAULT_CORNER;
+    private int mCorner = 8;//in dp
 
     private float mRadiusExtra;
     private float mLeftExtra;
@@ -74,10 +73,10 @@ public class SimpleBadgeTextView extends android.support.v7.widget.AppCompatText
         mTextPaint.setTextSize(getTextSize());
         float textWidth = mTextPaint.measureText(getText().toString());
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-        float textHeight = fontMetrics.descent - fontMetrics.ascent;
+        float textHeight = fontMetrics.bottom - fontMetrics.top;
 
-        float badgeX = centerX + textWidth / 2 + DEFAULT_RADIUS * (float) Math.sin(Math.toRadians(45)) + mMarginLeft;
-        float badgeY = centerY - textHeight / 2 - DEFAULT_RADIUS * (float) Math.sin(Math.toRadians(45)) + mMarginRight;
+        float badgeX = centerX + textWidth / 2 + dp2px(DEFAULT_RADIUS) * (float) Math.sin(Math.toRadians(45)) + mMarginLeft;
+        float badgeY = centerY - textHeight / 2 - dp2px(DEFAULT_RADIUS) * (float) Math.sin(Math.toRadians(45)) + mMarginRight;
 
         drawBadgeBg(canvas, badgeX, badgeY);
 
@@ -85,40 +84,44 @@ public class SimpleBadgeTextView extends android.support.v7.widget.AppCompatText
     }
 
     private void drawBadgeBg(Canvas canvas, float badgeX, float badgeY) {
-        mTextPaint.setColor(mBadgeBgColor);
-        mTextPaint.setTextSize(mBadgeTextSize);
+        mTextPaint.setColor(mIsShowBadge ? mBadgeBgColor : Color.TRANSPARENT);
+        mTextPaint.setTextSize(sp2px(mBadgeTextSize));
         float width = mTextPaint.measureText(mBadgeText);
         Paint.FontMetrics metrics = mTextPaint.getFontMetrics();
         float height = metrics.descent - metrics.ascent;
         float radius = Math.max(width, height) / 2;
 
-        int defaultExtra = dp2px(3);
         if (mBadgeText.length() == 1) {
-            canvas.drawCircle(badgeX, badgeY, radius + defaultExtra + mRadiusExtra, mTextPaint);
+            canvas.drawCircle(badgeX, badgeY, radius + dp2px(1) + mRadiusExtra, mTextPaint);
         } else {
-            mRectF.set(badgeX - width / 2 - defaultExtra - mLeftExtra, badgeY - height / 2 - mTopExtra,
-                    badgeX + width / 2 + defaultExtra + mRightExtra, badgeY + height / 2 + mBottomExtra);
-            canvas.drawRoundRect(mRectF, mCorner, mCorner, mTextPaint);
+            mRectF.set(badgeX - width / 2 - dp2px(4) - mLeftExtra, badgeY - height / 2 - mTopExtra,
+                    badgeX + width / 2 + dp2px(4) + mRightExtra, badgeY + height / 2 + mBottomExtra);
+            canvas.drawRoundRect(mRectF, dp2px(mCorner), dp2px(mCorner), mTextPaint);
         }
     }
 
     private void drawBadgeText(Canvas canvas, float centerX, float centerY) {
-        mTextPaint.setColor(mBadgeTextColor);
-        mTextPaint.setTextSize(mBadgeTextSize);
+        mTextPaint.setColor(mIsShowBadge ? mBadgeTextColor : Color.TRANSPARENT);
+        mTextPaint.setTextSize(sp2px(mBadgeTextSize));
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         float baseLine = centerY - (fontMetrics.bottom + fontMetrics.top) / 2;
         float startX = centerX - mTextPaint.measureText(mBadgeText) / 2;
         canvas.drawText(mBadgeText, startX, baseLine, mTextPaint);
     }
 
-    public void setMarginLeft(float marginLeft) {
-        mMarginLeft = dp2px(marginLeft);
+    /**
+     * 以文字右上角为参考点
+     */
+    public void setMargin(float left, float right) {
+        mMarginLeft = dp2px(left);
+        mMarginRight = dp2px(right);
     }
 
-    public void setMarginRight(float marginRight) {
-        mMarginRight = dp2px(marginRight);
-    }
-
+    /**
+     * 设置圆角
+     *
+     * @param corner 圆角大小.dp
+     */
     public void setCorner(int corner) {
         mCorner = corner;
     }
@@ -129,11 +132,19 @@ public class SimpleBadgeTextView extends android.support.v7.widget.AppCompatText
     }
 
     //椭圆.badge text length > 1有效
-    public void setBadgePadding(float left, float top, float right, float bottom) {
+    public void setPadding(float left, float top, float right, float bottom) {
         mLeftExtra = dp2px(left);
         mTopExtra = dp2px(top);
         mRightExtra = dp2px(right);
         mBottomExtra = dp2px(bottom);
+    }
+
+    public void setBadgeBgColor(@ColorInt int color) {
+        mBadgeBgColor = color;
+    }
+
+    public void setBadgeTextColor(@ColorInt int color) {
+        mBadgeTextColor = color;
     }
 
     public void setBadgeTextSize(float textSize) {
@@ -146,12 +157,25 @@ public class SimpleBadgeTextView extends android.support.v7.widget.AppCompatText
         if (text == null || text.length() <= 0) {
             return;
         }
+        mIsShowBadge = true;
         mBadgeText = text;
         invalidate();
     }
 
-    public int dp2px(float dpValue) {
+    public void hidden() {
+        if (mIsShowBadge) {
+            mIsShowBadge = false;
+            invalidate();
+        }
+    }
+
+    private float dp2px(float dpValue) {
         final float scale = mContext.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+        return dpValue * scale + 0.5f;
+    }
+
+    private float sp2px(float spValue) {
+        final float fontScale = mContext.getResources().getDisplayMetrics().scaledDensity;
+        return spValue * fontScale + 0.5f;
     }
 }
