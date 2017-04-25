@@ -38,8 +38,8 @@ public class LogInterceptor implements Interceptor {
     private static final String F_REQUEST_WITH_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS + F_BODY + F_BREAK;
     private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAK;
 
-    private boolean mIsPrintRequestHeaders = true;
-    private boolean mIsPrintResponseHeaders = true;
+    private boolean mIsPrintRequestHeaders = false;
+    private boolean mIsPrintResponseHeaders = false;
 
     @Override
     public Response intercept(Chain chain) throws IOException {

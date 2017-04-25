@@ -9,9 +9,15 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
+import com.king.applib.util.IOUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -35,15 +41,18 @@ import okhttp3.ResponseBody;
 
 public class OkHttpFragment extends AppBaseFragment {
     private final String URL_BAIDU = "http://www.baidu.com";
-    private final String HTML_URL = "http://www.baidu.com";
+    private final String URL_SINA = "http://www.sina.com";
     private final String IMAGE_URL = "http://192.168.1.106:8080/appupdate/pic.jpg";
     private final String JSON_URL = "http://gjj.9188.com/app/loan/xiaoying_bank.json";
     private final String JSON_URL2 = "http://gjj.9188.com/user/querySystemMessage.go";
     private final String JSON_URL3 = "https://api.github.com/users/Guolei1130";
-    private final String PIC_URL = "http://192.168.1.102:8080/appupdate/pic.jpg";
+    private final String PIC_URL = "http://192.168.56.1:8080/appupdate/pic.jpg";
     private final String DOU_BAN_URL = "http://api.douban.com/v2/movie/top250?start=0&count=5";
     //https://andgjj.youyuwo.com
     private final String CITY_URL = "http://gjj_8095.gs.9188.com/gjj/getOrderedCitys.go?releaseVersion=2.4.0&source=10001&addressCode=021&appId=yuZALOE2017XR04LH2ZA10549EM5611D1&accessToken=%2BNEflO3uj02eOaWPdCVSbDiORgxuKQuyVLKkfCeHMvs1fBwYKw%2FBCF%2B2puc2f%2F6%2FUIWy%2F61%2FBdrnWaWkivUcyU71G%2FB7pOarJNNzFArRnG6rw683ZXw6i1P3IW%2FPLH4CCv9UegXMNZG7i%2BUvpXbE0bxZx5AnGb1yl2PnoYNN9N0vrov7o7DcJg%3D%3D";
+    private final String URL_CSDN = "http://blog.csdn.net/briblue";
+    final String URL_PUBLIC = "http://publicobject.com/helloworld.txt";
+
 
     @BindView(R.id.tv_okhttp_get)
     public TextView mOkHttp;
@@ -62,9 +71,45 @@ public class OkHttpFragment extends AppBaseFragment {
         mExecutorService = Executors.newSingleThreadExecutor();
     }
 
+    @OnClick(R.id.tv_url_conn_get)
+    public void onHttpUrlConnectionGet() {
+        mExecutorService.submit(() -> {
+            String results = getResultWithHttpUrlConnection(URL_SINA);
+            Logger.i(results);
+        });
+    }
+
+    private String getResultWithHttpUrlConnection(String url) {
+        StringBuilder sb = new StringBuilder();
+        InputStream inputStream = null;
+        try {
+            URL uri = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) uri.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Accept", "*/*");
+            int responseCode = connection.getResponseCode();
+            Logger.i("responseCode: " + responseCode);
+            inputStream = connection.getInputStream();
+            InputStreamReader inReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inReader);
+            String result;
+            while ((result = bufferedReader.readLine()) != null) {
+                sb.append(result).append("\n");
+            }
+            connection.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtil.close(inputStream);
+        }
+        return sb.toString();
+    }
+
     @OnClick(R.id.tv_okhttp_get)
     public void onOkHttpGetClick() {
-        Request request = new Request.Builder().get().url(CITY_URL).build();
+        Request request = new Request.Builder().get().url(URL_BAIDU).build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
@@ -101,15 +146,29 @@ public class OkHttpFragment extends AppBaseFragment {
     }
 
     private void doRequest() {
-        final String URL = "http://publicobject.com/helloworld.txt";
-        Request request = new Request.Builder().url(URL).build();
+        Request request = new Request.Builder().url(URL_BAIDU)
+//                .cacheControl(new CacheControl.Builder().maxAge(10, TimeUnit.SECONDS).build())
+//                .cacheControl(new CacheControl.Builder().onlyIfCached().build())
+                .build();
         Call call = mOkHttpClient.newCall(request);
         Response response;
         try {
             response = call.execute();
             Logger.i("response: " + response.body().string());
-            Logger.i("cache response: " + response.cacheResponse().toString());
-            Logger.i("network response: " + response.networkResponse().toString());
+
+            Response cacheResponse = response.cacheResponse();
+            if (cacheResponse != null && cacheResponse.body() != null) {
+                Logger.i("cache response: " + cacheResponse.body().string());
+            } else {
+                Logger.i("cacheResponse == null");
+            }
+
+            Response netResponse = response.networkResponse();
+            if (netResponse != null && netResponse.body() != null) {
+                Logger.i("network response: " + netResponse.body().string());
+            } else {
+                Logger.i("netResponse == null");
+            }
         } catch (Exception e) {
             Logger.e(e.toString());
         }

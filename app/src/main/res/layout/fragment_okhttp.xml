@@ -5,14 +5,19 @@
               android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_url_conn_get"
+        style="@style/EntryItem"
+        android:text="HttpUrlConnection GET"/>
+    
+    <TextView
         android:id="@+id/tv_okhttp_get"
         style="@style/EntryItem"
-        android:text="GET"/>
+        android:text="OkHttp GET"/>
 
     <TextView
         android:id="@+id/tv_okhttp_post"
         style="@style/EntryItem"
-        android:text="POST"/>
+        android:text="OkHttp POST"/>
 
     <TextView
         android:id="@+id/tv_cache"
