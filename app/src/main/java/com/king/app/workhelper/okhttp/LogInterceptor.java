@@ -5,6 +5,7 @@ import com.king.applib.log.Logger;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
@@ -115,7 +116,8 @@ public class LogInterceptor implements Interceptor {
             final Request copy = request.newBuilder().build();
             final Buffer buffer = new Buffer();
             copy.body().writeTo(buffer);
-            return buffer.readUtf8();
+            String requestBody = buffer.readUtf8();
+            return URLDecoder.decode(requestBody, "utf-8");
         } catch (IOException e) {
             return "stringify request occur IOException";
         }
