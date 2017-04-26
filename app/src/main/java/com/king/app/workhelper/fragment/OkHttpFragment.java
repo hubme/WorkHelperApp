@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.app.AppConfig;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.king.applib.log.Logger;
@@ -154,20 +155,20 @@ public class OkHttpFragment extends AppBaseFragment {
         Response response;
         try {
             response = call.execute();
-            Logger.i("response: " + response.body().string());
+            Log.i(AppConfig.LOG_TAG, "response: " + response.body().string());
 
             Response cacheResponse = response.cacheResponse();
-            if (cacheResponse != null && cacheResponse.body() != null) {
-                Logger.i("cache response: " + cacheResponse.body().string());
+            if (cacheResponse != null) {
+                Log.i(AppConfig.LOG_TAG, "cache response: " + cacheResponse.toString());
             } else {
-                Logger.i("cacheResponse == null");
+                Log.i(AppConfig.LOG_TAG, "cacheResponse == null");
             }
 
             Response netResponse = response.networkResponse();
-            if (netResponse != null && netResponse.body() != null) {
-                Logger.i("network response: " + netResponse.body().string());
+            if (netResponse != null) {
+                Log.i(AppConfig.LOG_TAG, "network response: " + netResponse.toString());
             } else {
-                Logger.i("netResponse == null");
+                Log.i(AppConfig.LOG_TAG, "netResponse == null");
             }
         } catch (Exception e) {
             Logger.e(e.toString());

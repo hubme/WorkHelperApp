@@ -140,12 +140,12 @@ public class WorkHelperApp extends BaseApplication {
     private void initX5() {
         QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
             @Override public void onCoreInitFinished() {
-                Logger.i("onCoreInitFinished");
+//                Logger.i("onCoreInitFinished");
             }
 
             @Override public void onViewInitFinished(boolean success) {
                 //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                Logger.i("x5 init success");
+//                Logger.i("x5 init success");
             }
         });
     }

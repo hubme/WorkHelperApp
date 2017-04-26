@@ -1,9 +1,13 @@
 package com.king.app.workhelper.okhttp;
 
+import android.support.annotation.IntDef;
+
 import com.king.app.workhelper.app.AppConfig;
 import com.king.applib.log.Logger;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.SocketTimeoutException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
@@ -38,8 +42,16 @@ public class LogInterceptor implements Interceptor {
     private static final String F_REQUEST_WITH_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS + F_BODY + F_BREAK;
     private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAK;
 
-    private boolean mIsPrintRequestHeaders = false;
-    private boolean mIsPrintResponseHeaders = false;
+    public static final int NONE = 0;//不打印log
+    public static final int BASAL = 1;//不包含headers
+    public static final int ALL = 2;//包含headers
+    @LogLevel
+    private static int mLevel = BASAL;
+
+    @IntDef({NONE, BASAL, ALL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LogLevel {
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -47,6 +59,9 @@ public class LogInterceptor implements Interceptor {
         String bodyString = null;
         long t1 = System.nanoTime();
         Response response = chain.proceed(request);
+        if (mLevel == NONE) {
+            return response;
+        }
         String time = String.format(Locale.getDefault(), "%.1fms", (System.nanoTime() - t1) / 1e6d);
         try {
             MediaType contentType = null;
@@ -104,11 +119,11 @@ public class LogInterceptor implements Interceptor {
     }
 
     private String stringifyRequestHeaders(Request request) {
-        return mIsPrintRequestHeaders && request != null ? request.headers().toString() : "";
+        return mLevel == ALL && request != null ? request.headers().toString() : "";
     }
 
     private String stringifyResponseHeaders(Response response) {
-        return mIsPrintResponseHeaders && response != null ? response.headers().toString() : "";
+        return mLevel == ALL && response != null ? response.headers().toString() : "";
     }
 
     private String stringifyRequestBody(Request request) {
@@ -156,5 +171,9 @@ public class LogInterceptor implements Interceptor {
 
     private boolean isImageType(MediaType mediaType) {
         return mediaType != null && mediaType.type() != null && mediaType.type().equals("image");
+    }
+
+    public static void setLogLevel(@LogLevel int level) {
+        mLevel = level;
     }
 }

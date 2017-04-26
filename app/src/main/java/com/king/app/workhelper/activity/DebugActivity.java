@@ -6,7 +6,7 @@ import android.widget.RadioGroup;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.okhttp.OkHttpLogInterceptor;
+import com.king.app.workhelper.okhttp.LogInterceptor;
 
 import butterknife.BindView;
 
@@ -36,16 +36,22 @@ public class DebugActivity extends AppBaseActivity implements RadioGroup.OnCheck
     }
 
     @Override
+    protected void initData() {
+        super.initData();
+        LogInterceptor.setLogLevel(LogInterceptor.BASAL);
+    }
+
+    @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         switch (checkedId) {
             case R.id.rb_close_log:
-                OkHttpLogInterceptor.setLogLevel(OkHttpLogInterceptor.NONE);
+                LogInterceptor.setLogLevel(LogInterceptor.NONE);
                 break;
             case R.id.rb_basal_log:
-                OkHttpLogInterceptor.setLogLevel(OkHttpLogInterceptor.BASAL);
+                LogInterceptor.setLogLevel(LogInterceptor.BASAL);
                 break;
             case R.id.rb_all_log:
-                OkHttpLogInterceptor.setLogLevel(OkHttpLogInterceptor.ALL);
+                LogInterceptor.setLogLevel(LogInterceptor.ALL);
                 break;
             default:
                 break;
