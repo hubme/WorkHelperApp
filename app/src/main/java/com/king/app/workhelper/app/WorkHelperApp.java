@@ -9,6 +9,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
@@ -96,6 +97,7 @@ public class WorkHelperApp extends BaseApplication {
                 .writeTimeout(AppConfig.HTTP_WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
                 .addInterceptor(new NotNetInterceptor())
                 .addNetworkInterceptor(new NetInterceptor())
+                .addNetworkInterceptor(new StethoInterceptor())
                 .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"), AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
 
         if (BuildConfig.LOG_DEBUG) {

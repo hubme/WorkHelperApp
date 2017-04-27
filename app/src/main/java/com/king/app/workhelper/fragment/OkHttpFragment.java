@@ -50,7 +50,7 @@ public class OkHttpFragment extends AppBaseFragment {
     private final String PIC_URL = "http://192.168.56.1:8080/appupdate/pic.jpg";
     private final String DOU_BAN_URL = "http://api.douban.com/v2/movie/top250?start=0&count=5";
     //https://andgjj.youyuwo.com
-    private final String CITY_URL = "http://gjj_8095.gs.9188.com/gjj/getOrderedCitys.go?releaseVersion=2.4.0&source=10001&addressCode=021&appId=yuZALOE2017XR04LH2ZA10549EM5611D1&accessToken=%2BNEflO3uj02eOaWPdCVSbDiORgxuKQuyVLKkfCeHMvs1fBwYKw%2FBCF%2B2puc2f%2F6%2FUIWy%2F61%2FBdrnWaWkivUcyU71G%2FB7pOarJNNzFArRnG6rw683ZXw6i1P3IW%2FPLH4CCv9UegXMNZG7i%2BUvpXbE0bxZx5AnGb1yl2PnoYNN9N0vrov7o7DcJg%3D%3D";
+    private final String CITY_URL = "http://andgjj.youyuwo.com/gjj/getOrderedCitys.go?releaseVersion=2.4.0&source=10001&addressCode=021&appId=yuZALOE2017XR04LH2ZA10549EM5611D1&accessToken=%2BNEflO3uj02eOaWPdCVSbDiORgxuKQuyVLKkfCeHMvs1fBwYKw%2FBCF%2B2puc2f%2F6%2FUIWy%2F61%2FBdrnWaWkivUcyU71G%2FB7pOarJNNzFArRnG6rw683ZXw6i1P3IW%2FPLH4CCv9UegXMNZG7i%2BUvpXbE0bxZx5AnGb1yl2PnoYNN9N0vrov7o7DcJg%3D%3D";
     private final String URL_CSDN = "http://blog.csdn.net/briblue";
     final String URL_PUBLIC = "http://publicobject.com/helloworld.txt";
 
@@ -147,7 +147,7 @@ public class OkHttpFragment extends AppBaseFragment {
     }
 
     private void doRequest() {
-        Request request = new Request.Builder().url(URL_BAIDU)
+        Request request = new Request.Builder().url(CITY_URL)
 //                .cacheControl(new CacheControl.Builder().maxAge(10, TimeUnit.SECONDS).build())
 //                .cacheControl(new CacheControl.Builder().onlyIfCached().build())
                 .build();
