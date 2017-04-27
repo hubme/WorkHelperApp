@@ -208,3 +208,7 @@
 ############################## gson ###############################
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
+
+############################## tencent broswer service ###############################
+-keep class com.tencent.smtt.** { *; }
+-dontwarn com.tencent.smtt.**
