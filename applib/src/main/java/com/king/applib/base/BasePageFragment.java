@@ -19,26 +19,30 @@ public abstract class BasePageFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mIsViewInitiated = true;
-        prepareFetchData(false);
+        prepareFetchData();
     }
 
-    //用在FragmentPagerAdapter
+    //要结合FragmentPagerAdapter使用,普通的Fragment不调用此方法
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         this.mIsVisibleToUser = isVisibleToUser;
-        prepareFetchData(false);
+        prepareFetchData();
     }
 
     protected abstract void fetchData();
 
-    protected boolean prepareFetchData(boolean forceFetch) {
-        if (mIsViewInitiated && mIsVisibleToUser && (!mIsDataInitiated || forceFetch)) {
+    private void prepareFetchData() {
+        if (mIsViewInitiated && mIsVisibleToUser && (!mIsDataInitiated || isForceFetchData())) {
             fetchData();
             mIsDataInitiated = true;
-            return true;
         }
-        return false;
     }
 
+    /**
+     * 子类重写是否定位到当前页面时就加载数据.默认只有第一次到当前页面时加载一次数据
+     */
+    protected boolean isForceFetchData() {
+        return false;
+    }
 }

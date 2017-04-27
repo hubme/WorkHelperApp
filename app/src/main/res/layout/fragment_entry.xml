@@ -162,6 +162,11 @@
                 android:id="@+id/tv_drawable"
                 style="@style/EntryItem"
                 android:text="Drawable"/>
+            
+            <TextView
+                android:id="@+id/tv_fragment_life_circle"
+                style="@style/EntryItem"
+                android:text="Fragment Life Circle"/>
 
         </LinearLayout>
 

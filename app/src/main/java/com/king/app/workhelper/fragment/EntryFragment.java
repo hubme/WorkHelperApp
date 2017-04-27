@@ -180,6 +180,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new DrawableFragment());
     }
 
+    @OnClick(R.id.tv_fragment_life_circle)
+    public void onFragmentLifeCircleClick() {
+        clickedOn(new LifeCircleFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

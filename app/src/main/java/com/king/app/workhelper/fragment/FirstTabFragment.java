@@ -25,4 +25,8 @@ public class FirstTabFragment extends AppBasePageFragment {
         super.setUserVisibleHint(isVisibleToUser);
         Logger.i("setUserVisibleHint " + isVisibleToUser);
     }*/
+
+    @Override protected boolean isForceFetchData() {
+        return true;
+    }
 }
