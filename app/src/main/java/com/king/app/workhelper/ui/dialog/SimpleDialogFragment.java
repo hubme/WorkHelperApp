@@ -18,7 +18,7 @@ import com.king.applib.log.Logger;
  * 简单的弹框封装
  * Created by HuoGuangxu on 2016/11/8.
  */
-
+// TODO: 2017/4/27 同时弹出多个的情况.参考getFragmentManager().executePendingTransactions()
 public class SimpleDialogFragment extends DialogFragment {
 
     private boolean mOutsideCancel;
@@ -103,4 +103,16 @@ public class SimpleDialogFragment extends DialogFragment {
         return this;
     }
 
+    //在时间很短的情况下，会弹出多个Dialog.场景: 收到账户退出广播或event.
+    //解决方法：1.两次弹出的时间间隔长一些.2.用变量自己控制.
+    /*private void showDialog() {
+        if (dialogFragment == null) {//一个实例即可
+            dialogFragment = new SimpleDialogFragment();
+        }
+
+        //在时间很短的情况下isVisible()条件还没有更新,会再show(),此时会报Fragment already added异常
+        if (!dialogFragment.isVisible()) {
+            dialogFragment.show(getFragmentManager(), "aaa");
+        }
+    }*/
 }
