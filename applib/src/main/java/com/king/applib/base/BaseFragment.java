@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -41,6 +42,7 @@ public abstract class BaseFragment extends Fragment {
         mRootView = inflater.inflate(getContentLayout(), container, false);
         initContentView(mRootView);
         initData();
+        fetchData();
         return mRootView;
     }
 
@@ -52,21 +54,25 @@ public abstract class BaseFragment extends Fragment {
     private void getArgumentData() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            getIntentData(bundle);
+            getBundleData(bundle);
         }
     }
 
-    protected void getIntentData(Bundle bundle) {
+    protected void getBundleData(Bundle bundle) {
 
     }
 
-    protected abstract int getContentLayout();
+    @LayoutRes protected abstract int getContentLayout();
 
     protected void initContentView(View view) {
     }
 
     protected void initData() {
 
+    }
+
+    protected void fetchData() {
+        
     }
 
     protected void openActivity(Class<? extends Activity> cls) {

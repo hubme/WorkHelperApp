@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.app.WorkHelperApp;
 import com.king.applib.base.BaseFragment;
+import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -44,13 +45,13 @@ public abstract class AppBaseFragment extends BaseFragment {
 
     protected void showToast(String toast) {
         if (isAdded() && !StringUtil.isNullOrEmpty(toast)) {
-            Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContextUtil.getAppContext(), toast, Toast.LENGTH_SHORT).show();
         }
     }
 
     protected void showToast(@StringRes int resId) {
         if (isAdded()) {
-            Toast.makeText(mContext, resId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContextUtil.getAppContext(), resId, Toast.LENGTH_SHORT).show();
         }
     }
 }
