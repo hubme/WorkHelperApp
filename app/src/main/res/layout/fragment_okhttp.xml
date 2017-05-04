@@ -33,5 +33,10 @@
         android:id="@+id/tv_download_image"
         style="@style/EntryItem"
         android:text="下载图片"/>
+    
+    <TextView
+        android:id="@+id/tv_upload_file"
+        style="@style/EntryItem"
+        android:text="上传文件"/>
 
 </LinearLayout>

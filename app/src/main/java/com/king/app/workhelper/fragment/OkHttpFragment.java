@@ -14,6 +14,7 @@ import com.king.applib.util.IOUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,6 +30,7 @@ import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -213,6 +215,24 @@ public class OkHttpFragment extends AppBaseFragment {
                     Log.i("bbb", "111");
                     FileUtil.saveStream(FileUtil.getFileByPath(dir), body.byteStream(), true);
                 }
+            }
+        });
+    }
+
+    @OnClick(R.id.tv_upload_file)
+    public void onUploadFileClick() {
+        MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
+        File file = new File("");
+        Request request = new Request.Builder().url("")
+                .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, file))
+                .build();
+        mOkHttpClient.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+
             }
         });
     }
