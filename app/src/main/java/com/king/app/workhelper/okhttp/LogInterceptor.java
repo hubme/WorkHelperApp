@@ -3,7 +3,9 @@ package com.king.app.workhelper.okhttp;
 import android.support.annotation.IntDef;
 
 import com.king.app.workhelper.app.AppConfig;
+import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.log.Logger;
+import com.king.applib.util.SPUtil;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -59,7 +61,7 @@ public class LogInterceptor implements Interceptor {
         String bodyString = null;
         long t1 = System.nanoTime();
         Response response = chain.proceed(request);
-        if (mLevel == NONE) {
+        if (SPUtil.getBoolean(GlobalConstant.SP_PARAMS_KEY.INTERCEPTOR_LOG_DISABLE)) {
             return response;
         }
         String time = String.format(Locale.getDefault(), "%.1fms", (System.nanoTime() - t1) / 1e6d);
@@ -119,11 +121,11 @@ public class LogInterceptor implements Interceptor {
     }
 
     private String stringifyRequestHeaders(Request request) {
-        return mLevel == ALL && request != null ? request.headers().toString() : "";
+        return SPUtil.getBoolean(GlobalConstant.SP_PARAMS_KEY.PRINT_REQUEST_HEADER) && request != null ? request.headers().toString() : "";
     }
 
     private String stringifyResponseHeaders(Response response) {
-        return mLevel == ALL && response != null ? response.headers().toString() : "";
+        return SPUtil.getBoolean(GlobalConstant.SP_PARAMS_KEY.PRINT_RESPONSE_HEADER) && response != null ? response.headers().toString() : "";
     }
 
     private String stringifyRequestBody(Request request) {

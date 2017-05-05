@@ -21,34 +21,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"/>
 
-            <RadioGroup
-                android:id="@+id/log_group"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/rb_close_log"
+                <CheckedTextView
+                    android:id="@+id/ctv_request_header"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:drawableLeft="@mipmap/icon_multi_checkbox_unchecked"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="打印请求头"/>
+
+                <CheckedTextView
+                    android:id="@+id/ctv_response_header"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/icon_multi_checkbox_unchecked"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:text="打印响应头"/>
+
+                <CheckedTextView
+                    android:id="@+id/ctv_disable_log"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/icon_multi_checkbox_unchecked"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
                     android:text="关闭log"/>
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/rb_basal_log"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="基本log"/>
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/rb_all_log"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="全部log"/>
-            </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

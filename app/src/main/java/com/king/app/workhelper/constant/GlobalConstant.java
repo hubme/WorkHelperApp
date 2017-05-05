@@ -39,5 +39,11 @@ public class GlobalConstant {
         String DOWNLOAD_SERVER_EXISTS = "DOWNLOAD_SERVER_EXISTS";
         /** 应用上次crash的时间戳 */
         String LAST_CRASH_TIMESTAMP = "LAST_CRASH_TIMESTAMP";
+
+        String PRINT_REQUEST_HEADER = "PRINT_REQUEST_HEADER";
+
+        String PRINT_RESPONSE_HEADER = "PRINT_RESPONSE_HEADER";
+
+        String INTERCEPTOR_LOG_DISABLE = "INTERCEPTOR_LOG_DISABLE";
     }
 }
