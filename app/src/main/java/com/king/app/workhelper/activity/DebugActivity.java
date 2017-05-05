@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
-import com.king.app.workhelper.okhttp.LogInterceptor;
+import com.king.app.workhelper.okhttp.interceptor.LogInterceptor;
 import com.king.applib.util.SPUtil;
 
 import butterknife.BindView;

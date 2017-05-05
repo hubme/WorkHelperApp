@@ -1,4 +1,4 @@
-package com.king.app.workhelper.okhttp;
+package com.king.app.workhelper.okhttp.interceptor;
 
 import android.support.annotation.IntDef;
 import android.util.Log;
