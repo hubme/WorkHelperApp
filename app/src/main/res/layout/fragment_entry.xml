@@ -168,6 +168,11 @@
                 style="@style/EntryItem"
                 android:text="Fragment Life Circle"/>
 
+            <TextView
+                android:id="@+id/tv_banner_simple"
+                style="@style/EntryItem"
+                android:text="Banner"/>
+
         </LinearLayout>
 
 

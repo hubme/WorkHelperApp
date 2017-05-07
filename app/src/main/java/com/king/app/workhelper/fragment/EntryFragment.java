@@ -185,6 +185,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new LifeCircleFragment());
     }
 
+    @OnClick(R.id.tv_banner_simple)
+    public void onBannerSimpleClick() {
+        clickedOn(new ViewPagerSampleFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
