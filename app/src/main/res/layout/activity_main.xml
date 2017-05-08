@@ -29,8 +29,12 @@
         android:layout_height="wrap_content"/>
 
     <com.king.applib.ui.CategoryView
-        android:background="@color/gray"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/gray"/>
 
+    <com.king.applib.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
 </LinearLayout>

@@ -4,7 +4,10 @@ import android.content.Context;
 import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
+import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.StringUtil;
+
+import java.util.Arrays;
 
 /**
  * StringUtils测试类
@@ -24,6 +27,12 @@ public class StringUtilsTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+    
+    public void testArraysCopy() throws Exception {
+        String[] texts = new String[]{"aaa", "bbb", "ccc"};
+        String[] textss = Arrays.copyOf(texts, texts.length);
+        ExtendUtil.printArray(textss);
     }
 
     public void testStringLength() throws Exception {

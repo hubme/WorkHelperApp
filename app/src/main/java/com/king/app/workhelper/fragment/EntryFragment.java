@@ -187,7 +187,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_banner_simple)
     public void onBannerSimpleClick() {
-        clickedOn(new ViewPagerSampleFragment());
+        clickedOn(new ViewPagerSampleFragment2());
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
