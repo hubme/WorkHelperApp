@@ -2,12 +2,8 @@ package com.king.applib.simplebanner;
 
 import android.support.annotation.LayoutRes;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.king.applib.base.ViewHolder;
-import com.king.applib.util.ContextUtil;
 
 /**
  * @author huoguangxu
@@ -29,15 +25,15 @@ public class BannerViewHolder {
     }
 
     public static BannerViewHolder getHolder(View itemView, ViewGroup parent, @LayoutRes int layoutId, int position) {
-        BannerViewHolder holder;
-        if (itemView == null) {
+        BannerViewHolder holder = null;
+        /*if (itemView == null) {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
             holder = new BannerViewHolder(itemView, position);
             holder.mLayoutId = layoutId;
         } else {
             holder = (ViewHolder) itemView.getTag();
         }
-        holder.mPosition = position;
+        holder.mPosition = position;*/
         return holder;
     }
 }

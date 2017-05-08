@@ -15,10 +15,10 @@ import java.util.List;
 public class SLooperViewPager extends ViewPager {
     private SLooperAdapter mAdapter;
     private List<OnPageChangeListener> mOnPageChangeListeners;
+
     public SLooperViewPager(Context context) {
         this(context, null);
     }
-
 
     public SLooperViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -62,8 +62,6 @@ public class SLooperViewPager extends ViewPager {
     public int getCurrentItem() {
         return mAdapter.getInnerAdapterPosition(super.getCurrentItem());
     }
-
-
 
 
     @Override

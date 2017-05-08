@@ -130,6 +130,14 @@ public class MainActivity extends AppBaseActivity {
                 .setOnItemClickListener(position -> showToast(String.valueOf(position)));
     }
 
+    private class MyViewHolder implements CBViewHolderCreator<LocalImageHolderView>{
+
+        @Override
+        public LocalImageHolderView createHolder() {
+            return null;
+        }
+    }
+
     @Override protected void onDestroy() {
         super.onDestroy();
         mBanner.pauseScroll();
