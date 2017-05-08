@@ -139,12 +139,14 @@ public class ViewPagerSampleFragment2 extends AppBaseFragment {
                 position = mActualSize;
                 Log.i("aaa", "first page: "+position);
                 //要设为false.第一页和最后一页切换时内容是一页的，不设置时间差.
-                mViewPager.setCurrentItem(position, false);
+//                mViewPager.setCurrentItem(position, false);
             } else if (position == mFakeSize - 1) {//最后一页
                 position = mActualSize - 1;
                 Log.i("aaa", "last page: "+position);
-                mViewPager.setCurrentItem(position, false);
+//                mViewPager.setCurrentItem(position, false);
             }
+            mViewPager.setCurrentItem(position, false);
+
         }
     }
 
