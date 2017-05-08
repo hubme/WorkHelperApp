@@ -19,6 +19,8 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.model.entity.BannerModel;
 import com.king.applib.banner.Banner;
 import com.king.applib.banner.BannerAdapter;
+import com.king.applib.convenientbanner.ConvenientBanner;
+import com.king.applib.convenientbanner.holder.CBViewHolderCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,10 @@ import butterknife.OnClick;
 public class MainActivity extends AppBaseActivity {
     @BindView(R.id.banner) Banner mBanner;
     private List<BannerModel> mBannerData = new ArrayList<>();
-    
+
+    @BindView(R.id.convenientBanner) ConvenientBanner mConvenientBanner;
+    private ArrayList<Integer> localImages = new ArrayList<>();
+
     @Override
     protected void beforeCreateView() {
         super.beforeCreateView();
@@ -104,9 +109,25 @@ public class MainActivity extends AppBaseActivity {
 
         };
         
-        mBanner.setBannerAdapter(adapter);
+        /*mBanner.setBannerAdapter(adapter);
         mBanner.notifyDataHasChanged();
-        mBanner.goScroll();
+        mBanner.goScroll();*/
+
+        localImages.add(R.mipmap.img_4067);
+        localImages.add(R.mipmap.img_4068);
+        localImages.add(R.mipmap.img_4069);
+        mConvenientBanner.setPages(new CBViewHolderCreator<LocalImageHolderView>() {
+            @Override
+            public LocalImageHolderView createHolder() {
+                return new LocalImageHolderView();
+            }
+        }, localImages)
+                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
+                .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused})
+                //设置指示器的方向
+//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+//                .setOnPageChangeListener(this)//监听翻页事件
+                .setOnItemClickListener(position -> showToast(String.valueOf(position)));
     }
 
     @Override protected void onDestroy() {
@@ -114,7 +135,7 @@ public class MainActivity extends AppBaseActivity {
         mBanner.pauseScroll();
     }
 
-    @Override 
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         ActivityCompat.finishAfterTransition(this);
