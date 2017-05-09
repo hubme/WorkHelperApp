@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.king.applib.convenientbanner.holder.ViewHolder;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,28 +14,32 @@ import java.util.List;
  * @author huoguangxu
  * @since 2017/5/8.
  */
-public abstract class BannerAdapter<T> extends PagerAdapter {
+class BannerAdapter extends PagerAdapter {
     private static final int MULTIPLE_COUNT = 2;
     private boolean canLoop = true;
-    private final List<T> mBannerModels = new ArrayList<>();
-
-    public BannerAdapter(List<T> bannerModels) {
-        if (bannerModels == null || bannerModels.isEmpty()) {
-            return;
-        }
+    private final List<ImageView> mImageViews = new ArrayList<>();
+    private OnBannerClickListener mOnBannerClickListener;
+    
+    BannerAdapter() {
+        
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        int realPosition = convert2RealPosition(position);
-
-        View view = getView(realPosition, null, container);
-        container.addView(view);
-        return view;
+    public Object instantiateItem(ViewGroup container, final int position) {
+        final ImageView imageView = mImageViews.get(position);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if (mOnBannerClickListener != null) {
+                    mOnBannerClickListener.onBannerClick(position);
+                }
+            }
+        });
+        container.addView(imageView);
+        return imageView;
     }
 
     @Override public int getCount() {
-        return mBannerModels.size();
+        return mImageViews.size();
     }
 
     @Override public boolean isViewFromObject(View view, Object object) {
@@ -46,8 +48,20 @@ public abstract class BannerAdapter<T> extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        View view = (View) object;
-        container.removeView(view);
+        container.removeView((View) object);
+    }
+
+    public void update(List<ImageView> imageViews) {
+        mImageViews.addAll(imageViews);
+        notifyDataSetChanged();
+    }
+
+    public interface OnBannerClickListener {
+        void onBannerClick(int position);
+    }
+
+    public void setOnBannerClickListener(OnBannerClickListener listener) {
+        mOnBannerClickListener = listener;
     }
 
     public ImageView getView(int position, View view, ViewGroup container) {
@@ -58,15 +72,14 @@ public abstract class BannerAdapter<T> extends PagerAdapter {
 
     private int convert2RealPosition(int position) {
         final int realCount = getRealSize();
-        if (realCount == 0){
+        if (realCount == 0) {
             return 0;
         }
         return position % realCount;
     }
 
     private int getRealSize() {
-        return mBannerModels == null ? 0 : mBannerModels.size();
+        return 0;
     }
 
-    public abstract void convert(int position, ViewHolder holder, T t);
 }

@@ -12,6 +12,7 @@ import com.king.applib.util.ContextUtil;
  */
 
 abstract class BaseTestCase extends AndroidTestCase {
+    protected static final String TAG = "aaa";
     protected Context mContext;
 
     @Override

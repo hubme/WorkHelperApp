@@ -134,7 +134,7 @@ public class ViewPagerSampleFragment extends AppBaseFragment {
             //IllegalStateException: The specified child already has a parent.
             // You must call removeView() on the child's parent first.
             final int pos = position % DEFAULT_BANNER_SIZE;
-            View view = LayoutInflater.from(mContext).inflate(R.layout.layout_banner, container, false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.applib_layout_banner, container, false);
             final SimpleDraweeView imageView = (SimpleDraweeView) view.findViewById(R.id.banner_image);
             imageView.setImageURI(String.format(Locale.US,"res://%s/%d", AppUtil.getAppInfo().getPackageName(), mImageIds[pos]));
             imageView.setOnClickListener(v -> showToast(String.valueOf(pos)));
