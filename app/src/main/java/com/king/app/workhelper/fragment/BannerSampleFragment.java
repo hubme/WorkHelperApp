@@ -1,10 +1,14 @@
 package com.king.app.workhelper.fragment;
 
-import android.widget.ImageView;
+import android.content.Context;
+import android.support.annotation.DrawableRes;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.applib.simplebanner.BannerModel;
 import com.king.applib.simplebanner.SimpleBanner;
+import com.king.applib.simplebanner.loader.ImageLoaderInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +32,25 @@ public class BannerSampleFragment extends AppBaseFragment {
 
     @Override protected void initData() {
         super.initData();
+        mSimpleBanner.setImageLoader(new ImageLoaderInterface<SimpleDraweeView>() {
+            @Override public void displayImage(Context context, Object uri, SimpleDraweeView imageView) {
+                imageView.setImageURI((String) uri);
+            }
+
+            @Override public SimpleDraweeView createImageView(Context context) {
+                return new SimpleDraweeView(context);
+            }
+        });
         mSimpleBanner.updateBanner(fakeData());
+        mSimpleBanner.setOnBannerClickListener(position -> showToast(String.valueOf(position)));
     }
 
-    private List<ImageView> fakeData() {
-        List<ImageView> images = new ArrayList<>();
-        for (int id : mImageIds) {
-            ImageView imageView = new ImageView(mContext);
-            imageView.setBackgroundResource(id);
-            images.add(imageView);
+    private List<BannerModel> fakeData() {
+        List<BannerModel> banners = new ArrayList<>();
+        for (@DrawableRes int id : mImageIds) {
+            banners.add(new BannerModel(id));
         }
-        return images;
+        return banners;
     }
 
     @OnClick(R.id.tv_start_loop)

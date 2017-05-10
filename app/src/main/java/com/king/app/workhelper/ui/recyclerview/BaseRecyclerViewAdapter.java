@@ -27,7 +27,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
 
     public BaseRecyclerViewAdapter(@LayoutRes int layoutRes, List<E> adapterData) {
         mLayoutRes = layoutRes;
-        if (adapterData != null && adapterData.isEmpty()) {
+        if (adapterData != null && !adapterData.isEmpty()) {
             mAdapterList.addAll(adapterData);
         }
     }

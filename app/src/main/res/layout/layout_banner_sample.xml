@@ -7,7 +7,7 @@
     <com.king.applib.simplebanner.SimpleBanner
         android:id="@+id/simple_banner"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="200dp"/>
 
     <TextView
         android:id="@+id/tv_start_loop"

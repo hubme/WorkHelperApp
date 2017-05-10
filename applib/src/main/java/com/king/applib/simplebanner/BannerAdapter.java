@@ -3,7 +3,8 @@ package com.king.applib.simplebanner;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
+import com.king.applib.simplebanner.listener.OnBannerClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,7 @@ import java.util.List;
  * @since 2017/5/8.
  */
 class BannerAdapter extends PagerAdapter {
-    private static final int MULTIPLE_COUNT = 2;
-    private boolean canLoop = true;
-    private final List<ImageView> mImageViews = new ArrayList<>();
+    private final List<View> mBannerViews = new ArrayList<>();
     private OnBannerClickListener mOnBannerClickListener;
     
     BannerAdapter() {
@@ -26,7 +25,7 @@ class BannerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        final ImageView imageView = mImageViews.get(position);
+        final View imageView = mBannerViews.get(position);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 if (mOnBannerClickListener != null) {
@@ -39,7 +38,7 @@ class BannerAdapter extends PagerAdapter {
     }
 
     @Override public int getCount() {
-        return mImageViews.size();
+        return mBannerViews.size();
     }
 
     @Override public boolean isViewFromObject(View view, Object object) {
@@ -51,35 +50,16 @@ class BannerAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    public void update(List<ImageView> imageViews) {
-        mImageViews.addAll(imageViews);
+    public void update(List<View> bannerViews) {
+        if (bannerViews == null || bannerViews.isEmpty()) {
+            return;
+        }
+        mBannerViews.addAll(bannerViews);
         notifyDataSetChanged();
-    }
-
-    public interface OnBannerClickListener {
-        void onBannerClick(int position);
     }
 
     public void setOnBannerClickListener(OnBannerClickListener listener) {
         mOnBannerClickListener = listener;
-    }
-
-    public ImageView getView(int position, View view, ViewGroup container) {
-        ImageView imageView = new ImageView(container.getContext());
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        return imageView;
-    }
-
-    private int convert2RealPosition(int position) {
-        final int realCount = getRealSize();
-        if (realCount == 0) {
-            return 0;
-        }
-        return position % realCount;
-    }
-
-    private int getRealSize() {
-        return 0;
     }
 
 }

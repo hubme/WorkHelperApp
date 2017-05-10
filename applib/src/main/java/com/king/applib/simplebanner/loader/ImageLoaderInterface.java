@@ -8,7 +8,7 @@ import android.view.View;
  * https://github.com/youth5201314/banner/blob/master/banner/src/main/java/com/youth/banner/loader/ImageLoaderInterface.java
  *
  * @author VanceKing
- * @since 2017/5/8 0008.
+ * @since 2017/5/8.
  */
 public interface ImageLoaderInterface<T extends View> {
     void displayImage(Context context, Object uri, T imageView);

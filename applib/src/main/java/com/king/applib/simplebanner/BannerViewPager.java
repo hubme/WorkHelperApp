@@ -11,8 +11,7 @@ import android.view.MotionEvent;
  */
 
 public class BannerViewPager extends ViewPager {
-    private boolean scrollable = true;
-    private Context mContext;
+    private boolean scrollable = false;
 
     public BannerViewPager(Context context) {
         super(context);
@@ -20,10 +19,8 @@ public class BannerViewPager extends ViewPager {
 
     public BannerViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
     }
-
-
+    
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return this.scrollable && super.onTouchEvent(ev);
@@ -38,14 +35,4 @@ public class BannerViewPager extends ViewPager {
         this.scrollable = scrollable;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(resolveSize(Integer.MAX_VALUE, widthMeasureSpec), resolveSize(dp2px(mContext, 100), heightMeasureSpec));
-    }
-
-    public int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
 }
