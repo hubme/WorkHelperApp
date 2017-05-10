@@ -3,6 +3,7 @@ package com.king.applib.simplebanner;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.king.applib.simplebanner.listener.OnBannerClickListener;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * @since 2017/5/8.
  */
 class BannerAdapter extends PagerAdapter {
-    private final List<View> mBannerViews = new ArrayList<>();
+    private final List<ImageView> mBannerViews = new ArrayList<>();
     private OnBannerClickListener mOnBannerClickListener;
     
     BannerAdapter() {
@@ -25,7 +26,7 @@ class BannerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        final View imageView = mBannerViews.get(position);
+        final ImageView imageView = mBannerViews.get(position);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 if (mOnBannerClickListener != null) {
@@ -50,7 +51,7 @@ class BannerAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    public void update(List<View> bannerViews) {
+    public void update(List<ImageView> bannerViews) {
         if (bannerViews == null || bannerViews.isEmpty()) {
             return;
         }

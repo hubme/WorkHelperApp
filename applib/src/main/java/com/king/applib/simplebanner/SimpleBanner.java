@@ -1,7 +1,13 @@
 package com.king.applib.simplebanner;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -10,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.king.applib.R;
@@ -47,6 +54,11 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private BannerLoopTask mLoopTask;
 
     private ImageLoaderInterface mImageLoader;
+    private LinearLayout mIndicatorPanel;
+    private List<View> mIndicatorViews;
+    private Drawable mSelectedDrawable;
+    private Drawable mUnSelectedDrawable;
+    private int mCurrentPosition;
 
     public SimpleBanner(Context context) {
         this(context, null);
@@ -84,7 +96,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         return super.dispatchTouchEvent(ev);
     }
 
-    @Override protected void onDetachedFromWindow() {
+    @Override
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         stopLoop();
     }
@@ -99,6 +112,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         mBannerAdapter = new BannerAdapter();
         mBanner = (BannerViewPager) view.findViewById(R.id.banner_view_pager);
         mBanner.setAdapter(mBannerAdapter);
+
+        mIndicatorPanel = (LinearLayout) view.findViewById(R.id.indicator_panel);
     }
 
     private void initData() {
@@ -111,28 +126,30 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             return;
         }
 
-//        List<ImageView> imageViews = generateBannerData(images);
-//        mBannerAdapter.update(imageViews);
+        List<ImageView> imageViews = generateBannerData(images);
+        mBannerAdapter.update(imageViews);
         mBannerCount = mBannerAdapter.getCount();
         if (mBannerCount > 1) {
             mBanner.setCurrentItem(1);
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
             startLoop();
+
+            mSelectedDrawable = getIndicatorDrawable(Color.RED);
+            mUnSelectedDrawable = getIndicatorDrawable(Color.BLACK);
+            mIndicatorViews = buildIndicatorView();
+            updateIndicator(mCurrentPosition);
         }
     }
 
     //构造界面。A、B、C--->C、A、B、C、A
-    private List<?> generateBannerData(List<?> images) {
+    private List<ImageView> generateBannerData(List<BannerModel> images) {
         if (images == null || images.isEmpty()) {
             return null;
         }
-        if (mImageLoader != null) {
-            mImageLoader.displayImage(mContext, images.get(0), null);
-        }
-        
+
         List<ImageView> imageViews = new ArrayList<>();
-        /*if (images.size() == 1) {
+        if (images.size() == 1) {
             imageViews.add(getImageView(images.get(0).imageId));
         } else {
             //先添加最后一个
@@ -144,16 +161,13 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
             //最后添加第一个
             imageViews.add(getImageView(images.get(0).imageId));
-        }*/
+        }
         return imageViews;
-    }
-
-    private void loadImage() {
-        
     }
 
     private ImageView getImageView(@DrawableRes int resId) {
         ImageView imageView = new ImageView(mContext);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageResource(resId);
         return imageView;
     }
@@ -179,7 +193,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
     private class BannerLoopTask implements Runnable {
 
-        @Override public void run() {
+        @Override
+        public void run() {
             final int pos = mBanner.getCurrentItem();
             LogUtil.i(TAG, "current position: " + pos);
 
@@ -202,6 +217,36 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         mImageLoader = imageLoader;
     }
 
+    private Drawable getIndicatorDrawable(@ColorInt int color) {
+        OvalShape ovalShape = new OvalShape();
+        ShapeDrawable shape = new ShapeDrawable(ovalShape);
+        shape.getPaint().setColor(color);
+        shape.setIntrinsicHeight(dp2px(mContext, 4));
+        shape.setIntrinsicWidth(dp2px(mContext, 4));
+        return shape;
+    }
+
+    private List<View> buildIndicatorView() {
+        final int size = dp2px(mContext, 4);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+        List<View> indicatorViews = new ArrayList<>();
+        for (int i = 0; i < mBannerCount; i++) {
+            View view = new View(mContext);
+            view.setLayoutParams(params);
+        }
+        return indicatorViews;
+    }
+
+    private void updateIndicator(int position) {
+        for (View view : mIndicatorViews) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                view.setBackground(mCurrentPosition == position ? mSelectedDrawable : mUnSelectedDrawable);
+            } else {
+                view.setBackgroundDrawable(mCurrentPosition == position ? mSelectedDrawable : mUnSelectedDrawable);
+            }
+        }
+    }
+
     private void initViewPagerScroll() {
         try {
             Field mField = ViewPager.class.getDeclaredField("mScroller");
@@ -215,15 +260,20 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     }
 
 
-    @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 //        LogUtil.i(TAG, "onPageScrolled--->position: " + position + " ;positionOffset: " + positionOffset + " ;positionOffsetPixels: " + positionOffsetPixels);
     }
 
-    @Override public void onPageSelected(int position) {
+    @Override
+    public void onPageSelected(int position) {
 //        LogUtil.i(TAG, "onPageSelected--->position: " + position);
+        mCurrentPosition = position;
+        updateIndicator(position);
     }
 
-    @Override public void onPageScrollStateChanged(int state) {
+    @Override
+    public void onPageScrollStateChanged(int state) {
         /*switch (state) {
             case ViewPager.SCROLL_STATE_IDLE://界面完全停止
                 LogUtil.i(TAG, "SCROLL_STATE_IDLE");
