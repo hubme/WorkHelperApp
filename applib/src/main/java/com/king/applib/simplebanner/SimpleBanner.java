@@ -41,8 +41,11 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChangeListener {
     public static final String TAG = "aaa";
-    public static final int DEFAULT_SCROLL_DURATION = 1000;
-    public static final int DEFAULT_DELAY_DURATION = 3000;
+    private static final int DEFAULT_SCROLL_DURATION = 1000;
+    private static final int DEFAULT_DELAY_DURATION = 3000;
+    private static final int DEFAULT_INDICATOR_SIZE = 4;//dp
+    private static final int DEFAULT_INDICATOR_MARGIN = 2;//dp
+
     private Context mContext;
     private BannerViewPager mBanner;
     private BannerAdapter mBannerAdapter;
@@ -58,7 +61,6 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private List<View> mIndicatorViews;
     private Drawable mSelectedDrawable;
     private Drawable mUnSelectedDrawable;
-    private int mCurrentPosition;
 
     public SimpleBanner(Context context) {
         this(context, null);
@@ -133,12 +135,14 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             mBanner.setCurrentItem(1);
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
-            startLoop();
 
             mSelectedDrawable = getIndicatorDrawable(Color.RED);
             mUnSelectedDrawable = getIndicatorDrawable(Color.BLACK);
             mIndicatorViews = buildIndicatorView();
-            updateIndicator(mCurrentPosition);
+            setupIndicator();
+            updateIndicator(mBannerCount - 3);//选中第一个，多加两个-2，下标-1
+
+//            startLoop();
         }
     }
 
@@ -195,9 +199,6 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
         @Override
         public void run() {
-            final int pos = mBanner.getCurrentItem();
-            LogUtil.i(TAG, "current position: " + pos);
-
             int mCurrentItem = mBanner.getCurrentItem();
             mCurrentItem = (mCurrentItem + 1) % mBannerCount;
 
@@ -221,29 +222,52 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         OvalShape ovalShape = new OvalShape();
         ShapeDrawable shape = new ShapeDrawable(ovalShape);
         shape.getPaint().setColor(color);
-        shape.setIntrinsicHeight(dp2px(mContext, 4));
-        shape.setIntrinsicWidth(dp2px(mContext, 4));
+//        shape.setIntrinsicHeight(dp2px(mContext, 4));
+//        shape.setIntrinsicWidth(dp2px(mContext, 4));
         return shape;
     }
 
     private List<View> buildIndicatorView() {
-        final int size = dp2px(mContext, 4);
+        final int size = dp2px(mContext, DEFAULT_INDICATOR_SIZE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
+        params.leftMargin = dp2px(mContext, DEFAULT_INDICATOR_MARGIN);
         List<View> indicatorViews = new ArrayList<>();
-        for (int i = 0; i < mBannerCount; i++) {
+        for (int i = 0; i < mBannerCount - 2; i++) {//由于多生成2个View，要减去
             View view = new View(mContext);
             view.setLayoutParams(params);
+            setViewBackground(view, mUnSelectedDrawable);
+            indicatorViews.add(view);
         }
         return indicatorViews;
     }
 
-    private void updateIndicator(int position) {
+    private void setupIndicator() {
         for (View view : mIndicatorViews) {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-                view.setBackground(mCurrentPosition == position ? mSelectedDrawable : mUnSelectedDrawable);
+            mIndicatorPanel.addView(view);
+        }
+    }
+
+    private void updateIndicator(int position) {
+        final int pos = position - 2;
+        final int count = mIndicatorViews.size();
+        if (pos < 0 || pos > count - 1) {
+            return;
+        }
+        for (int i = 0; i < count - 1; i++) {
+            View view = mIndicatorViews.get(i);
+            if (i == pos) {
+                setViewBackground(view, mSelectedDrawable);
             } else {
-                view.setBackgroundDrawable(mCurrentPosition == position ? mSelectedDrawable : mUnSelectedDrawable);
-            }
+                setViewBackground(view, mUnSelectedDrawable);
+            } 
+        }
+    }
+
+    private void setViewBackground(View view, Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(drawable);
+        } else {
+            view.setBackgroundDrawable(drawable);
         }
     }
 
@@ -267,8 +291,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
     @Override
     public void onPageSelected(int position) {
-//        LogUtil.i(TAG, "onPageSelected--->position: " + position);
-        mCurrentPosition = position;
+        LogUtil.i(TAG, "onPageSelected--->position: " + position);
         updateIndicator(position);
     }
 
@@ -290,10 +313,10 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
 
         int mCurrentItem = mBanner.getCurrentItem();
-        LogUtil.i(TAG, "mCurrentItem: " + mCurrentItem);
+//        LogUtil.i(TAG, "mCurrentItem: " + mCurrentItem);
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE://界面完全停止时，偷换显示的界面.
-                LogUtil.i(TAG, "SCROLL_STATE_IDLE");
+//                LogUtil.i(TAG, "SCROLL_STATE_IDLE");
                 if (mCurrentItem == 0) {//换第一个
                     mBanner.setCurrentItem(mBannerCount - 2, false);
                 } else if (mCurrentItem == mBannerCount - 1) {//换最后一个
@@ -301,10 +324,10 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
                 }
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING://滑动中，手指还没有离开屏幕
-                LogUtil.i(TAG, "SCROLL_STATE_DRAGGING");
+//                LogUtil.i(TAG, "SCROLL_STATE_DRAGGING");
                 break;
             case ViewPager.SCROLL_STATE_SETTLING://滑动中，手指已经离开屏幕
-                LogUtil.i(TAG, "SCROLL_STATE_SETTLING");
+//                LogUtil.i(TAG, "SCROLL_STATE_SETTLING");
                 break;
             default:
                 break;
