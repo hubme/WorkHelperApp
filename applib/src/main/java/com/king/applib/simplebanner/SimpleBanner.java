@@ -61,6 +61,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private List<View> mIndicatorViews;
     private Drawable mSelectedDrawable;
     private Drawable mUnSelectedDrawable;
+    private int mRealCount;
 
     public SimpleBanner(Context context) {
         this(context, null);
@@ -128,6 +129,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             return;
         }
 
+        mRealCount = images.size();
         List<ImageView> imageViews = generateBannerData(images);
         mBannerAdapter.update(imageViews);
         mBannerCount = mBannerAdapter.getCount();
@@ -140,7 +142,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             mUnSelectedDrawable = getIndicatorDrawable(Color.BLACK);
             mIndicatorViews = buildIndicatorView();
             setupIndicator();
-            updateIndicator(mBannerCount - 3);//选中第一个，多加两个-2，下标-1
+            updateIndicator(getFakePosition(0));//选中第一个，多加两个-2，下标-1
 
 //            startLoop();
         }
@@ -183,8 +185,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
 //        mExecutor.scheduleAtFixedRate(new BannerLoopTask(), 3000, 2000, TimeUnit.MILLISECONDS);
 
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
+//        mHandler.removeCallbacksAndMessages(null);
+//        mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
     }
 
     public void stopLoop() {
@@ -248,18 +250,27 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     }
 
     private void updateIndicator(int position) {
-        final int pos = position - 2;
         final int count = mIndicatorViews.size();
-        if (pos < 0 || pos > count - 1) {
+        if (position < 0 || position > count - 1) {
             return;
         }
-        for (int i = 0; i < count - 1; i++) {
-            View view = mIndicatorViews.get(i);
-            if (i == pos) {
+        for (int i = 0; i < count; i++) {
+            final View view = mIndicatorViews.get(i);
+            if (i == position) {
                 setViewBackground(view, mSelectedDrawable);
             } else {
                 setViewBackground(view, mUnSelectedDrawable);
-            } 
+            }
+        }
+    }
+
+    private int getFakePosition(int realPosition) {
+        if (realPosition == 0) {
+            return mRealCount;
+        } else if (realPosition > mRealCount) {
+            return 1;
+        } else {
+            return realPosition;
         }
     }
 
@@ -292,7 +303,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     @Override
     public void onPageSelected(int position) {
         LogUtil.i(TAG, "onPageSelected--->position: " + position);
-        updateIndicator(position);
+        updateIndicator(getFakePosition(position + 1));
     }
 
     @Override
