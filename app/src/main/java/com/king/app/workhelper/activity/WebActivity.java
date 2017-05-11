@@ -80,6 +80,7 @@ public class WebActivity extends AppBaseActivity {
         settings.setAppCacheEnabled(true); //启用应用缓存
         settings.setDomStorageEnabled(true); //启用DOM缓存。
         settings.setDatabaseEnabled(true); //启用DOM缓存。
+        settings.setPluginState(WebSettings.PluginState.ON);
         if (NetworkUtil.isNetworkAvailable()) { //判断是否联网
             settings.setCacheMode(WebSettings.LOAD_DEFAULT); //默认的缓存使用模式
         } else {
@@ -91,7 +92,6 @@ public class WebActivity extends AppBaseActivity {
         //3.注入js对象.第二个参数为注入接口名称。
         mWebView.addJavascriptInterface(new JsInteraction(), "control");
         mWebView.addJavascriptInterface(new WebAppInterface(), "Android");
-
     }
 
     @Override
