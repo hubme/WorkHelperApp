@@ -63,15 +63,11 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-//        View view = mViews.get(position);
         ViewHolder holder = ViewHolder.getHolder(null, container, mLayoutId, position);
         View view = holder.getConvertView();
-        convert(position, holder, getItem(position));
-        
-        /*if (view == null) {
-            view = buildPagerView(position);
-            mViews.put(position, view);
-        }*/
+        if (getItem(position) != null) {
+            convert(position, holder, getItem(position));
+        }
         container.addView(view);
         return view;
     }
