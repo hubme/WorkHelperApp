@@ -1,6 +1,7 @@
 package com.king.app.workhelper.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -17,14 +18,23 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
+ * Banner使用Sample
+ *
  * @author huoguangxu
  * @since 2017/5/9.
  */
 
 public class BannerSampleFragment extends AppBaseFragment {
     @BindView(R.id.simple_banner) SimpleBanner mSimpleBanner;
-    private int[] mImageIds = new int[]{R.mipmap.banner1/*, R.mipmap.banner2, R.mipmap.banner3*/};
+    private int[] mImageIds = new int[]{R.mipmap.banner1, R.mipmap.banner2, R.mipmap.banner3};
+    private String[] mImageUrls = new String[]{"http://pic.qiantucdn.com/58pic/17/56/00/76u58PICsvX_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center",
+            "http://pic.qiantucdn.com/58pic/26/53/41/24T58PICiPW_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS5wbmc=/align/north/repeat/true",
+            "http://pic.qiantucdn.com/58pic/19/93/45/05958PICZvD_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center",
+            "http://pic.qiantucdn.com/58pic/26/53/39/58T58PICt5R_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS5wbmc=/align/north/repeat/true"};
 
+    private String[] newUrls = new String[]{"http://pic.qiantucdn.com/58pic/15/87/10/42N58PICFdP_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center",
+            "http://pic.qiantucdn.com/58pic/23/94/44/87k58PICaT3_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center"};
+    private boolean change = false;
 
     @Override protected int getContentLayout() {
         return R.layout.layout_banner_sample;
@@ -41,16 +51,36 @@ public class BannerSampleFragment extends AppBaseFragment {
                 return new SimpleDraweeView(context);
             }
         });
-        mSimpleBanner.updateBanner(fakeData());
+        mSimpleBanner.setSelectedIndicatorColor(Color.RED)
+                .setUnSelectedIndicatorColor(Color.BLUE)
+                .setIndicatorMargin(10)
+                .setIndicatorSize(8)
+                .updateBanner(fakeRemoteData());
         mSimpleBanner.setOnBannerClickListener(position -> showToast(String.valueOf(position)));
     }
 
-    private List<BannerModel> fakeData() {
+    private List<BannerModel> fakeLocalData() {
         List<BannerModel> banners = new ArrayList<>();
         for (@DrawableRes int id : mImageIds) {
             banners.add(new BannerModel(id));
         }
         return banners;
+    }
+
+    private List<BannerModel> fakeRemoteData() {
+        List<BannerModel> bannerModels = new ArrayList<>();
+        for (String url : mImageUrls) {
+            bannerModels.add(new BannerModel(url));
+        }
+        return bannerModels;
+    }
+
+    private List<BannerModel> newData() {
+        List<BannerModel> bannerModels = new ArrayList<>();
+        for (String url : newUrls) {
+            bannerModels.add(new BannerModel(url));
+        }
+        return bannerModels;
     }
 
     @OnClick(R.id.tv_start_loop)
@@ -61,6 +91,17 @@ public class BannerSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_stop_loop)
     public void onStopLoopClick() {
         mSimpleBanner.stopLoop();
+    }
+
+    @OnClick(R.id.tv_update_banner)
+    public void onUpdateBannerClick() {
+        if (!change) {
+            mSimpleBanner.updateBanner(newData());
+            change = true;
+        } else {
+            mSimpleBanner.updateBanner(fakeRemoteData());
+            change = false;
+        } 
     }
 
     @Override public void onDestroyView() {

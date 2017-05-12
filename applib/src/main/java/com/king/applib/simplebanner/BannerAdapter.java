@@ -55,6 +55,9 @@ class BannerAdapter extends PagerAdapter {
         if (bannerViews == null || bannerViews.isEmpty()) {
             return;
         }
+        if (!mBannerViews.isEmpty()) {
+            mBannerViews.clear();
+        }
         mBannerViews.addAll(bannerViews);
         notifyDataSetChanged();
     }

@@ -9,11 +9,16 @@ import android.support.annotation.DrawableRes;
 
 public class BannerModel {
     @DrawableRes int imageId;
+    public String imageUrl;
 
     public BannerModel() {
     }
 
     public BannerModel(@DrawableRes int imageId) {
         this.imageId = imageId;
+    }
+
+    public BannerModel(String url) {
+        this.imageUrl = url;
     }
 }

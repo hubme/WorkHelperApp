@@ -8,35 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/indicator_panel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="5dp">
-
-        <LinearLayout
-            android:id="@+id/indicator_panel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal">
-
-            <!--<View
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:background="@drawable/circle"/>
-
-            <View
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/circle_gray"/>
-
-            <View
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/circle_gray"/>-->
-        </LinearLayout>
-    </RelativeLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"/>
 </RelativeLayout>

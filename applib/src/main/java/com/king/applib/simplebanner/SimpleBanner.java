@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
@@ -18,10 +19,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.applib.R;
 import com.king.applib.simplebanner.listener.OnBannerClickListener;
 import com.king.applib.simplebanner.loader.ImageLoaderInterface;
-import com.king.applib.util.LogUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -42,13 +43,14 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     public static final String TAG = "aaa";
     private static final int DEFAULT_SCROLL_DURATION = 1000;
     private static final int DEFAULT_DELAY_DURATION = 3000;
-    private static final int DEFAULT_INDICATOR_SIZE = 4;//dp
-    private static final int DEFAULT_INDICATOR_MARGIN = 3;//dp
+    private int mIndicatorSize = 4;//dp
+    private int mIndicatorMargin = 3;//dp
+    @ColorInt private int mSelectedIndicatorColor = Color.parseColor("#77000000");
+    @ColorInt private int mUnselectedIndicatorColor = Color.parseColor("#88ffffff");
 
     private Context mContext;
     private BannerViewPager mBanner;
     private BannerAdapter mBannerAdapter;
-    private OnBannerClickListener mOnBannerClickListener;
     private ScheduledExecutorService mExecutor;
 
     private Handler mHandler = new Handler();
@@ -57,10 +59,10 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
     private ImageLoaderInterface mImageLoader;
     private LinearLayout mIndicatorPanel;
-    private List<View> mIndicatorViews;
-    private Drawable mSelectedDrawable;
-    private Drawable mUnSelectedDrawable;
-    private int mRealCount;
+    private List<View> mIndicatorViews = new ArrayList<>();
+    List<ImageView> mImageViews = new ArrayList<>();
+    private ShapeDrawable mSelectedDrawable;
+    private ShapeDrawable mUnSelectedDrawable;
 
     public SimpleBanner(Context context) {
         this(context, null);
@@ -121,60 +123,79 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private void initData() {
         mExecutor = Executors.newScheduledThreadPool(1);
         mLoopTask = new BannerLoopTask();
+
+        mSelectedDrawable = getIndicatorDrawable();
+        mUnSelectedDrawable = getIndicatorDrawable();
     }
 
+    /**
+     * 放在最后执行
+     */
     public void updateBanner(List<BannerModel> images) {
         if (images == null || images.isEmpty()) {
             return;
         }
 
-        mRealCount = images.size();
-        List<ImageView> imageViews = generateBannerData(images);
-        mBannerAdapter.update(imageViews);
+        generateBannerData(images);
+        mBannerAdapter.update(mImageViews);
         mBannerCount = mBannerAdapter.getCount();
+        setIndicator();
+        setBanner();
+        startLoop();
+    }
+
+    //构造界面。A、B、C--->C、A、B、C、A
+    private void generateBannerData(List<BannerModel> images) {
+        if (images == null || images.isEmpty()) {
+            return;
+        }
+        if (!mImageViews.isEmpty()) {
+            mImageViews.clear();
+        }
+
+        if (images.size() == 1) {
+            mImageViews.add(getImageView(images.get(0).imageUrl));
+        } else {
+            //先添加最后一个
+            mImageViews.add(getImageView(images.get(images.size() - 1).imageUrl));
+
+            for (BannerModel banner : images) {
+                mImageViews.add(getImageView(banner.imageUrl));
+            }
+
+            //最后添加第一个
+            mImageViews.add(getImageView(images.get(0).imageUrl));
+        }
+    }
+
+    private ImageView getImageView(@DrawableRes int resId) {
+        ImageView imageView = new SimpleDraweeView(mContext);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setImageResource(resId);
+        return imageView;
+    }
+    
+    private ImageView getImageView(String imgUrl) {
+        ImageView imageView = new SimpleDraweeView(mContext);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setImageURI(Uri.parse(imgUrl));
+        return imageView;
+    }
+
+    private void setIndicator() {
+        mSelectedDrawable.getPaint().setColor(mSelectedIndicatorColor);
+        mUnSelectedDrawable.getPaint().setColor(mUnselectedIndicatorColor);
+        buildIndicatorViews();
+        setupIndicator();
+        updateIndicator(getFakePosition(1));//选中第一个指示器.因为在前后多加两个View，所以下标应该是1
+    }
+
+    private void setBanner() {
         if (mBannerCount > 1) {
             mBanner.setCurrentItem(1);
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
-
-            mSelectedDrawable = getIndicatorDrawable(Color.RED);
-            mUnSelectedDrawable = getIndicatorDrawable(Color.BLACK);
-            mIndicatorViews = buildIndicatorView();
-            setupIndicator();
-            updateIndicator(getFakePosition(1));//选中第一个指示器.因为在前后多加两个View，所以下标应该是1
-
-//            startLoop();
         }
-    }
-
-    //构造界面。A、B、C--->C、A、B、C、A
-    private List<ImageView> generateBannerData(List<BannerModel> images) {
-        if (images == null || images.isEmpty()) {
-            return null;
-        }
-
-        List<ImageView> imageViews = new ArrayList<>();
-        if (images.size() == 1) {
-            imageViews.add(getImageView(images.get(0).imageId));
-        } else {
-            //先添加最后一个
-            imageViews.add(getImageView(images.get(images.size() - 1).imageId));
-
-            for (BannerModel banner : images) {
-                imageViews.add(getImageView(banner.imageId));
-            }
-
-            //最后添加第一个
-            imageViews.add(getImageView(images.get(0).imageId));
-        }
-        return imageViews;
-    }
-
-    private ImageView getImageView(@DrawableRes int resId) {
-        ImageView imageView = new ImageView(mContext);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setImageResource(resId);
-        return imageView;
     }
 
     public void startLoop() {
@@ -205,13 +226,6 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
             mBanner.setCurrentItem(mCurrentItem);
             mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
-            /*if (mCurrentItem == 1) {
-                mBanner.setCurrentItem(mCurrentItem, false);
-                mHandler.post(mLoopTask);
-            } else {
-                mBanner.setCurrentItem(mCurrentItem);
-                mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
-            }*/
         }
     }
 
@@ -219,30 +233,53 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         mImageLoader = imageLoader;
     }
 
-    private Drawable getIndicatorDrawable(@ColorInt int color) {
+    private ShapeDrawable getIndicatorDrawable() {
         OvalShape ovalShape = new OvalShape();
-        ShapeDrawable shape = new ShapeDrawable(ovalShape);
-        shape.getPaint().setColor(color);
-//        shape.setIntrinsicHeight(dp2px(mContext, 4));
-//        shape.setIntrinsicWidth(dp2px(mContext, 4));
-        return shape;
+        return new ShapeDrawable(ovalShape);
     }
 
-    private List<View> buildIndicatorView() {
-        final int size = dp2px(mContext, DEFAULT_INDICATOR_SIZE);
+    public SimpleBanner setSelectedIndicatorColor(@ColorInt int color) {
+        mSelectedIndicatorColor = color;
+        return this;
+    }
+
+    public SimpleBanner setUnSelectedIndicatorColor(@ColorInt int color) {
+        mUnselectedIndicatorColor = color;
+        return this;
+    }
+
+    public SimpleBanner setIndicatorMargin(int marginInDp) {
+        if (marginInDp > 0) {
+            mIndicatorMargin = marginInDp;
+        }
+        return this;
+    }
+
+    public SimpleBanner setIndicatorSize(int sizeInDp) {
+        mIndicatorSize = sizeInDp;
+        return this;
+    }
+
+    private void buildIndicatorViews() {
+        if (!mIndicatorViews.isEmpty()) {
+            mIndicatorViews.clear();
+        }
+        final int size = dp2px(mContext, mIndicatorSize);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-        params.leftMargin = dp2px(mContext, DEFAULT_INDICATOR_MARGIN);
-        List<View> indicatorViews = new ArrayList<>();
+        params.leftMargin = dp2px(mContext, mIndicatorMargin);
         for (int i = 0; i < mBannerCount - 2; i++) {//由于多生成2个View，要减去
             View view = new View(mContext);
             view.setLayoutParams(params);
             setViewBackground(view, mUnSelectedDrawable);
-            indicatorViews.add(view);
+            mIndicatorViews.add(view);
         }
-        return indicatorViews;
     }
 
     private void setupIndicator() {
+        //避免更新数据后View重复
+        if (mIndicatorPanel.getChildCount() > 0) {
+            mIndicatorPanel.removeAllViews();
+        }
         for (View view : mIndicatorViews) {
             mIndicatorPanel.addView(view);
         }
@@ -295,32 +332,14 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
     @Override
     public void onPageSelected(int position) {
-        LogUtil.i(TAG, "onPageSelected--->position: " + position);
         updateIndicator(getFakePosition(position));
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        /*switch (state) {
-            case ViewPager.SCROLL_STATE_IDLE://界面完全停止
-                LogUtil.i(TAG, "SCROLL_STATE_IDLE");
-                break;
-            case ViewPager.SCROLL_STATE_DRAGGING://滑动中，手指还没有离开屏幕
-                LogUtil.i(TAG, "SCROLL_STATE_DRAGGING");
-                break;
-            case ViewPager.SCROLL_STATE_SETTLING://滑动中，手指已经离开屏幕
-                LogUtil.i(TAG, "SCROLL_STATE_SETTLING");
-                break;
-            default:
-                break;
-        }*/
-
-
         int mCurrentItem = mBanner.getCurrentItem();
-//        LogUtil.i(TAG, "mCurrentItem: " + mCurrentItem);
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE://界面完全停止时，偷换显示的界面.
-//                LogUtil.i(TAG, "SCROLL_STATE_IDLE");
                 if (mCurrentItem == 0) {//换第一个
                     mBanner.setCurrentItem(mBannerCount - 2, false);
                 } else if (mCurrentItem == mBannerCount - 1) {//换最后一个
@@ -328,10 +347,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
                 }
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING://滑动中，手指还没有离开屏幕
-//                LogUtil.i(TAG, "SCROLL_STATE_DRAGGING");
                 break;
             case ViewPager.SCROLL_STATE_SETTLING://滑动中，手指已经离开屏幕
-//                LogUtil.i(TAG, "SCROLL_STATE_SETTLING");
                 break;
             default:
                 break;
@@ -342,7 +359,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         mBannerAdapter.setOnBannerClickListener(listener);
     }
 
-    public int dp2px(Context context, float dpValue) {
+    private int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
