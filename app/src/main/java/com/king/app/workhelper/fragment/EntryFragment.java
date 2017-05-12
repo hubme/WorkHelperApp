@@ -7,7 +7,6 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
-import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
@@ -56,8 +55,8 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_view_pager)
     public void clickViewPager() {
-//        clickedOn(new ViewPagerSampleFragment());
-        openActivity(TabSwitchActivity.class);
+        clickedOn(new ViewPagerSampleFragment());
+//        openActivity(TabSwitchActivity.class);
     }
 
     @OnClick(R.id.tv_web_view_js)

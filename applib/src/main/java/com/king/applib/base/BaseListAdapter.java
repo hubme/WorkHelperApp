@@ -14,7 +14,7 @@ import java.util.List;
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
     protected List<T> mAdapterData;
-    private int mLayoutId;
+    @LayoutRes private int mLayoutId;
 
     public BaseListAdapter(@LayoutRes int layoutId) {
         this.mLayoutId = layoutId;

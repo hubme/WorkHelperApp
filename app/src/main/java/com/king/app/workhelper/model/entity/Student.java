@@ -32,6 +32,11 @@ public class Student implements Serializable {
         this.name = name;
     }
 
+    public Student(int age, String name) {
+        this.age = age;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
