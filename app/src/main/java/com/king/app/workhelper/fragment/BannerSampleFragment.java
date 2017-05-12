@@ -23,7 +23,7 @@ import butterknife.OnClick;
 
 public class BannerSampleFragment extends AppBaseFragment {
     @BindView(R.id.simple_banner) SimpleBanner mSimpleBanner;
-    private int[] mImageIds = new int[]{R.mipmap.banner1, R.mipmap.banner2/*, R.mipmap.banner3*/};
+    private int[] mImageIds = new int[]{R.mipmap.banner1/*, R.mipmap.banner2, R.mipmap.banner3*/};
 
 
     @Override protected int getContentLayout() {

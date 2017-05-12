@@ -19,9 +19,9 @@ import java.util.List;
 class BannerAdapter extends PagerAdapter {
     private final List<ImageView> mBannerViews = new ArrayList<>();
     private OnBannerClickListener mOnBannerClickListener;
-    
+
     BannerAdapter() {
-        
+
     }
 
     @Override
@@ -29,8 +29,8 @@ class BannerAdapter extends PagerAdapter {
         final ImageView imageView = mBannerViews.get(position);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                if (mOnBannerClickListener != null) {
-                    mOnBannerClickListener.onBannerClick(position);
+                if (mOnBannerClickListener != null && !mBannerViews.isEmpty()) {
+                    mOnBannerClickListener.onBannerClick(mBannerViews.size() == 1 ? 0 : position - 1);
                 }
             }
         });

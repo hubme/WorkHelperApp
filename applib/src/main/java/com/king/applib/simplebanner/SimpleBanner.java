@@ -11,7 +11,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,7 +43,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private static final int DEFAULT_SCROLL_DURATION = 1000;
     private static final int DEFAULT_DELAY_DURATION = 3000;
     private static final int DEFAULT_INDICATOR_SIZE = 4;//dp
-    private static final int DEFAULT_INDICATOR_MARGIN = 2;//dp
+    private static final int DEFAULT_INDICATOR_MARGIN = 3;//dp
 
     private Context mContext;
     private BannerViewPager mBanner;
@@ -142,7 +141,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             mUnSelectedDrawable = getIndicatorDrawable(Color.BLACK);
             mIndicatorViews = buildIndicatorView();
             setupIndicator();
-            updateIndicator(getFakePosition(0));//选中第一个，多加两个-2，下标-1
+            updateIndicator(getFakePosition(1));//选中第一个指示器.因为在前后多加两个View，所以下标应该是1
 
 //            startLoop();
         }
@@ -185,8 +184,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
 //        mExecutor.scheduleAtFixedRate(new BannerLoopTask(), 3000, 2000, TimeUnit.MILLISECONDS);
 
-//        mHandler.removeCallbacksAndMessages(null);
-//        mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
+        mHandler.removeCallbacksAndMessages(null);
+        mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
     }
 
     public void stopLoop() {
@@ -264,14 +263,9 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         }
     }
 
+    //获取映射后Banner的下标
     private int getFakePosition(int realPosition) {
-        if (realPosition == 0) {
-            return mRealCount;
-        } else if (realPosition > mRealCount) {
-            return 1;
-        } else {
-            return realPosition;
-        }
+        return realPosition - 1;
     }
 
     private void setViewBackground(View view, Drawable drawable) {
@@ -290,20 +284,19 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             mScroller.setDuration(DEFAULT_SCROLL_DURATION);
             mField.set(mBanner, mScroller);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//        LogUtil.i(TAG, "onPageScrolled--->position: " + position + " ;positionOffset: " + positionOffset + " ;positionOffsetPixels: " + positionOffsetPixels);
     }
 
     @Override
     public void onPageSelected(int position) {
         LogUtil.i(TAG, "onPageSelected--->position: " + position);
-        updateIndicator(getFakePosition(position + 1));
+        updateIndicator(getFakePosition(position));
     }
 
     @Override
