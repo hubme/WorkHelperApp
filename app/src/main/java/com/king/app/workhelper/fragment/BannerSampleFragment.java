@@ -27,13 +27,14 @@ import butterknife.OnClick;
 public class BannerSampleFragment extends AppBaseFragment {
     @BindView(R.id.simple_banner) SimpleBanner mSimpleBanner;
     private int[] mImageIds = new int[]{R.mipmap.banner1, R.mipmap.banner2, R.mipmap.banner3};
-    private String[] mImageUrls = new String[]{"http://pic.qiantucdn.com/58pic/17/56/00/76u58PICsvX_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center",
-            "http://pic.qiantucdn.com/58pic/26/53/41/24T58PICiPW_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS5wbmc=/align/north/repeat/true",
-            "http://pic.qiantucdn.com/58pic/19/93/45/05958PICZvD_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center",
-            "http://pic.qiantucdn.com/58pic/26/53/39/58T58PICt5R_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS5wbmc=/align/north/repeat/true"};
+    private String[] mImageUrls = new String[]{"http://192.168.1.11:8080/banners/banner_520_1.jpg",
+            "http://192.168.1.11:8080/banners/banner_520_2.jpg",
+            "http://192.168.1.11:8080/banners/banner_520_3.jpg",
+            "http://192.168.1.11:8080/banners/banner_520_4.jpg"};
 
-    private String[] newUrls = new String[]{"http://pic.qiantucdn.com/58pic/15/87/10/42N58PICFdP_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center",
-            "http://pic.qiantucdn.com/58pic/23/94/44/87k58PICaT3_1024.jpg!/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center"};
+    private String[] newUrls = new String[]{/*"http://192.168.1.11:8080/banners/banner_e_business.jpg",*/
+            "http://192.168.1.11:8080/banners/banner_mothers_day.jpg",
+            /*"http://192.168.1.11:8080/banners/banner_one.jpg"*/};
     private boolean change = false;
 
     @Override protected int getContentLayout() {
@@ -101,7 +102,7 @@ public class BannerSampleFragment extends AppBaseFragment {
         } else {
             mSimpleBanner.updateBanner(fakeRemoteData());
             change = false;
-        } 
+        }
     }
 
     @Override public void onDestroyView() {

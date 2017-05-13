@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.applib.R;
+import com.king.applib.log.Logger;
 import com.king.applib.simplebanner.listener.OnBannerClickListener;
 import com.king.applib.simplebanner.loader.ImageLoaderInterface;
 
@@ -59,8 +60,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
     private ImageLoaderInterface mImageLoader;
     private LinearLayout mIndicatorPanel;
-    private List<View> mIndicatorViews = new ArrayList<>();
-    List<ImageView> mImageViews = new ArrayList<>();
+    private final List<View> mIndicatorViews = new ArrayList<>();
+    private final List<ImageView> mImageViews = new ArrayList<>();
     private ShapeDrawable mSelectedDrawable;
     private ShapeDrawable mUnSelectedDrawable;
 
@@ -132,6 +133,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
      * 放在最后执行
      */
     public void updateBanner(List<BannerModel> images) {
+        Logger.i("updateBanner");
         if (images == null || images.isEmpty()) {
             return;
         }
@@ -187,12 +189,15 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         mUnSelectedDrawable.getPaint().setColor(mUnselectedIndicatorColor);
         buildIndicatorViews();
         setupIndicator();
-        updateIndicator(getFakePosition(1));//选中第一个指示器.因为在前后多加两个View，所以下标应该是1
+        updateIndicator(0);//选中第一个指示器.因为在前后多加两个View，所以下标应该是1
     }
 
     private void setBanner() {
+        if (mBanner.getChildCount() > 0) {
+            mBanner.removeAllViews();
+        }
         if (mBannerCount > 1) {
-            mBanner.setCurrentItem(1);
+            mBanner.setCurrentItem(1, false);
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
         }
