@@ -72,7 +72,6 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
         return view;
     }
 
-    public abstract View buildPagerView(int position);
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
