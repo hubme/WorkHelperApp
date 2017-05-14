@@ -138,7 +138,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             return;
         }
 
-        generateBannerData(images);
+        generateBannerView(images);
         mBannerAdapter.update(mImageViews);
         mBannerCount = mBannerAdapter.getCount();
         setIndicator();
@@ -147,7 +147,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     }
 
     //构造界面。A、B、C--->C、A、B、C、A
-    private void generateBannerData(List<BannerModel> images) {
+    private void generateBannerView(List<BannerModel> images) {
         if (images == null || images.isEmpty()) {
             return;
         }
@@ -197,10 +197,12 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             mBanner.removeAllViews();
         }
         if (mBannerCount > 1) {
-            mBanner.setCurrentItem(1, false);
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
+        }else{
+            mBanner.setScrollable(false);
         }
+        mBanner.setCurrentItem(1, false);
     }
 
     public void startLoop() {

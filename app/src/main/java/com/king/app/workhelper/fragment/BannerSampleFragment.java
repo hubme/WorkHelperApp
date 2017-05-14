@@ -29,10 +29,10 @@ public class BannerSampleFragment extends AppBaseFragment {
     private int[] mImageIds = new int[]{R.mipmap.banner1, R.mipmap.banner2, R.mipmap.banner3};
     private String[] mImageUrls = new String[]{"http://192.168.1.11:8080/banners/banner_520_1.jpg",
             "http://192.168.1.11:8080/banners/banner_520_2.jpg",
-            "http://192.168.1.11:8080/banners/banner_520_3.jpg",
-            "http://192.168.1.11:8080/banners/banner_520_4.jpg"};
+            /*"http://192.168.1.11:8080/banners/banner_520_3.jpg",
+            "http://192.168.1.11:8080/banners/banner_520_4.jpg"*/};
 
-    private String[] newUrls = new String[]{/*"http://192.168.1.11:8080/banners/banner_e_business.jpg",*/
+    private String[] newUrls = new String[]{"http://192.168.1.11:8080/banners/banner_e_business.jpg",
             "http://192.168.1.11:8080/banners/banner_mothers_day.jpg",
             /*"http://192.168.1.11:8080/banners/banner_one.jpg"*/};
     private boolean change = false;
