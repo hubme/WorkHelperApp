@@ -2,7 +2,9 @@ package com.king.app.workhelper.fragment;
 
 import android.content.Context;
 import android.os.Message;
+import android.os.SystemClock;
 import android.os.UserManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +13,8 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.dialog.ShareBottomDialog;
 import com.king.applib.base.WeakHandler;
+import com.king.applib.log.Logger;
+import com.sina.weibo.sdk.constant.WBConstants;
 
 import java.lang.reflect.Method;
 
@@ -24,10 +28,11 @@ import butterknife.OnClick;
  */
 
 public class UsageFragment extends AppBaseFragment {
-    private static final int MSG_WHAT = 0;
+    private static final int MSG_WHAT = 0x01;
+    private static final int MSG_WAIT = 0x02;
 
-    @BindView(R.id.tv_weak_handler)
-    TextView mTextView;
+    @BindView(R.id.tv_weak_handler) TextView mTextView;
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
 
     private MyHandler mMyHandler = new MyHandler(this);
 
@@ -41,6 +46,9 @@ public class UsageFragment extends AppBaseFragment {
             switch (msg.what) {
                 case MSG_WHAT:
                     target.mTextView.setText("哈哈哈");
+                case MSG_WAIT:
+
+                    target.mRefreshLayout.setRefreshing(false);
                     break;
                 default:
                     break;
@@ -52,6 +60,16 @@ public class UsageFragment extends AppBaseFragment {
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_usage;
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+
+        mRefreshLayout.setOnRefreshListener(() -> {
+            Logger.i("onRefresh");
+            mMyHandler.sendEmptyMessageDelayed(MSG_WAIT, 3000);
+        });
     }
 
     @OnClick(R.id.tv_weak_handler)
