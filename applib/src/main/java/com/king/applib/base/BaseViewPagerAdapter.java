@@ -78,6 +78,11 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
         container.removeView((View) object);
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;//解决notifyDataSetChanged无效
+    }
+
     public T getItem(int position) {
         if (position < 0 || position > mAdapterData.size() - 1) {
             return null;
