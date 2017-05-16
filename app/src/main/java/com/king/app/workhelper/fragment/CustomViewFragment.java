@@ -23,6 +23,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieChartView;
+import com.king.app.workhelper.ui.customview.RiseNumberTextView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.SwitchTitle;
 import com.king.app.workhelper.ui.customview.TagTextView;
@@ -41,8 +42,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.king.app.workhelper.R.id.simple_badge;
 
 /**
  * 自定义View
@@ -63,9 +62,16 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.form_view2) FormViewTest mFormView2;
     @BindView(R.id.switch_title) SwitchTitle mSwitchTitle;
     @BindView(R.id.tv_test) TextView mTestTv;
-    @BindView(simple_badge) SimpleBadgeTextView mSimpleBadger;
+    @BindView(R.id.simple_badge) SimpleBadgeTextView mSimpleBadger;
+    @BindView(R.id.rise_text_view) RiseNumberTextView mRiseTextView;
 
     private BadgeView mBadgeView;
+
+    @OnClick(R.id.rise_text_view)
+    public void onRiseClick(RiseNumberTextView textView) {
+        textView.withNumber(10245.89f);
+        textView.start();
+    }
 
     @Override
     protected int getContentLayout() {
