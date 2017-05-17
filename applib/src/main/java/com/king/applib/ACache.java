@@ -119,7 +119,7 @@ public class ACache {
         try {
             out = new BufferedWriter(new FileWriter(file), 1024);
             out.write(value);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (out != null) {
@@ -516,7 +516,7 @@ public class ACache {
      */
     public File file(String key) {
         File f = mCache.newFile(key);
-        if (f.exists())
+        if (f != null && f.exists())
             return f;
         return null;
     }
@@ -616,7 +616,14 @@ public class ACache {
         }
 
         private File newFile(String key) {
-            return new File(cacheDir, key.hashCode() + "");
+            File file = new File(cacheDir, key.hashCode() + "");
+            File parentFile = file.getParentFile();
+            if (!parentFile.exists()) {
+                if (!parentFile.mkdirs()) {
+                    return null;
+                }
+            }
+            return file;
         }
 
         private boolean remove(String key) {

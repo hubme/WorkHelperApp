@@ -3,6 +3,7 @@ package com.king.applib;
 import com.king.applib.log.Logger;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * @author VanceKing
@@ -11,12 +12,25 @@ import org.json.JSONArray;
 
 public class ACacheTest extends BaseTestCase {
     public static final String JSON_ARRAY = "[\"求助\",\"讨论\",\"政策\"]";
+    public static final String JSON_OBJECT = "{\"name\":[\"aaa\",\"bbb\"],\"age\":\"11\"}";
     private ACache mACache;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mACache = ACache.get();
+    }
+    
+    public void testPutJsonObject() throws Exception {
+        JSONObject jsonObject = new JSONObject(JSON_OBJECT);
+        ACache.get().put("aaabbb", jsonObject, 60);
+    }
+
+    public void testGetJsonObject() throws Exception {
+        JSONObject aaabbb = ACache.get().getAsJSONObject("aaabbb");
+        if (aaabbb != null) {
+            Logger.i(aaabbb.getString("name"));
+        }
     }
 
     public void testPutString() throws Exception {

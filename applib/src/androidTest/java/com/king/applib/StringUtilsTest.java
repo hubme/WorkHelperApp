@@ -8,6 +8,7 @@ import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.StringUtil;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * StringUtils测试类
@@ -27,6 +28,10 @@ public class StringUtilsTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+    
+    public void testStringformat() throws Exception {
+        Logger.i(String.format(Locale.US, "%,.2f", 1234526.123f));
     }
     
     public void testArraysCopy() throws Exception {
