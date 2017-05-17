@@ -7,6 +7,16 @@
 
     <include layout="@layout/common_header"/>
 
+    <CheckedTextView
+        android:id="@+id/ctv_pass"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:background="@color/chocolate"
+        android:text="哈哈哈"
+        android:textSize="30sp"
+        android:layout_height="60dp"/>
+
     <TextView
         android:id="@+id/tv_main"
         android:layout_width="match_parent"

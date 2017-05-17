@@ -7,15 +7,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
+import android.text.method.HideReturnsTransformationMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.common.PassTransformationMethod;
 import com.king.app.workhelper.model.entity.BannerModel;
 import com.king.applib.banner.Banner;
 import com.king.applib.banner.BannerAdapter;
@@ -176,5 +179,18 @@ public class MainActivity extends AppBaseActivity {
 
     private Typeface getTypeface() {
         return Typeface.createFromAsset(getAssets(), "fonts/my_font.ttf");
+    }
+
+    @OnClick(R.id.ctv_pass)
+    public void onPassClick(CheckedTextView textView) {
+        textView.toggle();
+        if (textView.isChecked()) {
+//            textView.getPaint().getFontMetrics()
+            textView.setPadding(0, 50, 0, 0);
+            textView.setTransformationMethod(new PassTransformationMethod());
+        } else {
+            textView.setPadding(0, 0, 0, 0);
+            textView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        }
     }
 }
