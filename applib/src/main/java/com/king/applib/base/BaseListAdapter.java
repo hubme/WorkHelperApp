@@ -36,6 +36,11 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         }
     }
 
+    public void resetAdapterData() {
+        mAdapterData.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return mAdapterData != null ? mAdapterData.size() : 0;

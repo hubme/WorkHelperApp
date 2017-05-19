@@ -54,6 +54,11 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         }
     }
 
+    public void resetAdapterData() {
+        mAdapterList.clear();
+        notifyDataSetChanged();
+    }
+
     public void addData(int position, E entity) {
         if (position >= 0 && position <= mAdapterList.size()) {
             mAdapterList.add(position, entity);

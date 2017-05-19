@@ -51,6 +51,11 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
         notifyDataSetChanged();
     }
 
+    public void resetAdapterData() {
+        mAdapterData.clear();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return mAdapterData.size();
