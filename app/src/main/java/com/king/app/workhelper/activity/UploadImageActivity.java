@@ -33,7 +33,7 @@ public class UploadImageActivity extends AppBaseActivity {
     private ValueCallback<Uri[]> mPhotoCallbacks;
     
     @Override public int getContentLayout() {
-        return R.layout.activity_upload_image;
+        return 0;
     }
 
     @Override protected void initContentView() {
