@@ -1,12 +1,10 @@
 package com.king.app.workhelper.adapter.viewpager;
 
-import android.support.annotation.LayoutRes;
+import android.support.v4.view.PagerAdapter;
+import android.view.View;
+import android.view.ViewGroup;
 
-import com.king.app.workhelper.R;
-import com.king.app.workhelper.model.entity.Student;
-import com.king.applib.base.BaseViewPagerAdapter;
-import com.king.applib.base.ViewHolder;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,18 +12,67 @@ import java.util.List;
  * @since 2017/5/12.
  */
 
-public class MyViewPagerAdapter extends BaseViewPagerAdapter<Student> {
+public class MyViewPagerAdapter extends PagerAdapter {
+    private final List<View> mPagerViews = new ArrayList<>();
 
-    public MyViewPagerAdapter(@LayoutRes int layoutId) {
-        super(layoutId);
+    public MyViewPagerAdapter() {
     }
 
-    public MyViewPagerAdapter(@LayoutRes int layoutId, List<Student> data) {
-        super(layoutId, data);
+    public MyViewPagerAdapter(List<View> pagerViews) {
+        if (pagerViews == null || pagerViews.isEmpty()) {
+            return;
+        }
+        mPagerViews.addAll(pagerViews);
     }
 
-    @Override public void convert(int position, ViewHolder holder, Student student) {
-        holder.setText(R.id.tv_name, student.name);
-        holder.setText(R.id.tv_age, String.valueOf(student.age));
+    public void setAdapterData(List<View> pagerViews) {
+        setAdapterData(pagerViews, false);
+    }
+
+    public void setAdapterData(List<View> pagerViews, boolean isAppend) {
+        if (pagerViews == null || pagerViews.isEmpty()) {
+            return;
+        }
+        if (!isAppend && !mPagerViews.isEmpty()) {
+            mPagerViews.clear();
+        }
+        mPagerViews.addAll(pagerViews);
+        notifyDataSetChanged();
+    }
+
+    public void resetAdapterData() {
+        mPagerViews.clear();
+        notifyDataSetChanged();
+    }
+
+    private List<View> getAdapterData() {
+        return mPagerViews;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;//解决notifyDataSetChanged无效的问题
+    }
+
+    @Override
+    public int getCount() {
+        return mPagerViews.size();
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View) object);
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        View view = mPagerViews.get(position);
+        container.addView(view);
+        return view;
     }
 }
