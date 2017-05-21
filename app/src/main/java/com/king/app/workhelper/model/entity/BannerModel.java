@@ -9,30 +9,15 @@ import android.support.annotation.DrawableRes;
 
 public class BannerModel {
     @DrawableRes public int resId;
-    private String imageUrl;
-    private String mTips;
-
-    public String getTips() {
-        return mTips;
-    }
-
-    public void setTips(String tips) {
-        mTips = tips;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    public String imageUrl;
+    public String mTips;
 
     public BannerModel() {
         
     }
 
-    public BannerModel(@DrawableRes int resId) {
-        this.resId = resId;
+    public BannerModel(String imageUrl, String mTips) {
+        this.imageUrl = imageUrl;
+        this.mTips = mTips;
     }
 }

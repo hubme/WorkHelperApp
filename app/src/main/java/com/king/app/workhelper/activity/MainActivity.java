@@ -12,31 +12,21 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckedTextView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.PassTransformationMethod;
-import com.king.app.workhelper.model.entity.BannerModel;
 import com.king.applib.banner.Banner;
-import com.king.applib.banner.BannerAdapter;
 import com.king.applib.convenientbanner.ConvenientBanner;
-import com.king.applib.convenientbanner.holder.CBViewHolderCreator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppBaseActivity {
     @BindView(R.id.banner) Banner mBanner;
-    private List<BannerModel> mBannerData = new ArrayList<>();
 
     @BindView(R.id.convenientBanner) ConvenientBanner mConvenientBanner;
-    private ArrayList<Integer> localImages = new ArrayList<>();
 
     @Override
     protected void beforeCreateView() {
@@ -73,72 +63,6 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
-
-        BannerModel model = new BannerModel();
-        model.setImageUrl("https://gma.alicdn.com/simba/img/TB1FS.AJpXXXXc_XpXXSutbFXXX.jpg_q50.jpg");
-        model.setTips("这是页面1");
-        mBannerData.add(model);
-        model = new BannerModel();
-        model.setImageUrl("https://gw.alicdn.com/tps/i3/TB1J9GqJXXXXXcZaXXXdIns_XXX-1125-352.jpg_q50.jpg");
-        model.setTips("这是页面2");
-        mBannerData.add(model);
-        model = new BannerModel();
-        model.setImageUrl("https://gma.alicdn.com/simba/img/TB1txffHVXXXXayXVXXSutbFXXX.jpg_q50.jpg");
-        model.setTips("这是页面3");
-        mBannerData.add(model);
-        model = new BannerModel();
-        model.setImageUrl("https://gw.alicdn.com/tps/TB1fW3ZJpXXXXb_XpXXXXXXXXXX-1125-352.jpg_q50.jpg");
-        model.setTips("这是页面4");
-        mBannerData.add(model);
-        model = new BannerModel();
-        model.setImageUrl("https://gw.alicdn.com/tps/i2/TB1ku8oMFXXXXciXpXXdIns_XXX-1125-352.jpg_q50.jpg");
-        model.setTips("这是页面5");
-        mBannerData.add(model);
-
-        BannerAdapter adapter = new BannerAdapter<BannerModel>(mBannerData) {
-            @Override
-            protected void bindTips(TextView tv, BannerModel bannerModel) {
-                tv.setText(bannerModel.getTips());
-            }
-
-            @Override
-            public void bindImage(ImageView imageView, BannerModel bannerModel) {
-                Glide.with(MainActivity.this)
-                        .load(bannerModel.getImageUrl())
-                        .placeholder(R.mipmap.empty)
-                        .error(R.mipmap.error)
-                        .into(imageView);
-            }
-
-        };
-        
-        /*mBanner.setBannerAdapter(adapter);
-        mBanner.notifyDataHasChanged();
-        mBanner.goScroll();*/
-
-        localImages.add(R.mipmap.img_4067);
-        localImages.add(R.mipmap.img_4068);
-        localImages.add(R.mipmap.img_4069);
-        mConvenientBanner.setPages(new CBViewHolderCreator<LocalImageHolderView>() {
-            @Override
-            public LocalImageHolderView createHolder() {
-                return new LocalImageHolderView();
-            }
-        }, localImages)
-                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
-                .setPageIndicator(new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused})
-                //设置指示器的方向
-//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-//                .setOnPageChangeListener(this)//监听翻页事件
-                .setOnItemClickListener(position -> showToast(String.valueOf(position)));
-    }
-
-    private class MyViewHolder implements CBViewHolderCreator<LocalImageHolderView>{
-
-        @Override
-        public LocalImageHolderView createHolder() {
-            return null;
-        }
     }
 
     @Override protected void onDestroy() {

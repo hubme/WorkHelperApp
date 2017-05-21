@@ -2,14 +2,17 @@ package com.king.app.workhelper.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.DrawableRes;
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.applib.simplebanner.BannerModel;
+import com.king.app.workhelper.model.entity.BannerModel;
 import com.king.applib.simplebanner.SimpleBanner;
-import com.king.applib.simplebanner.loader.ImageLoaderInterface;
+import com.king.applib.simplebanner.loader.BannerInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,53 +28,53 @@ import butterknife.OnClick;
  */
 
 public class BannerSampleFragment extends AppBaseFragment {
-    @BindView(R.id.simple_banner) SimpleBanner mSimpleBanner;
+    @BindView(R.id.simple_banner)
+    SimpleBanner mSimpleBanner;
     private int[] mImageIds = new int[]{R.mipmap.banner1, R.mipmap.banner2, R.mipmap.banner3};
-    private String[] mImageUrls = new String[]{"http://172.26.219.1:8080/banners/banner_520_1.jpg",
-            "http://172.26.219.1:8080/banners/banner_520_2.jpg",
-            /*"http://172.26.219.1:8080/banners/banner_520_3.jpg",
-            "http://172.26.219.1:8080/banners/banner_520_4.jpg"*/};
+    private String[] mImageUrls = new String[]{"http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1uplxf0j20kq071jvq.jpg",
+            "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1vl88hqj20sg08w76c.jpg",
+            "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1wffbppj20sg0g00vu.jpg",
+            "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1xan7owj20kt06ygpt.jpg"};
 
-    private String[] newUrls = new String[]{"http://172.26.219.1:8080/banners/banner_e_business.jpg",
-            /*"http://172.26.219.1:8080/banners/banner_mothers_day.jpg",*/
-            /*"http://172.26.219.1:8080/banners/banner_one.jpg"*/};
+    private String[] newUrls = new String[]{"http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1xpvsraj20sg0dvgpe.jpg",
+            "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1y7yloyj20qo08ngqw.jpg",
+            "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1yiuup5j20rs0e3wgv.jpg"};
     private boolean change = false;
 
-    @Override protected int getContentLayout() {
+    @Override
+    protected int getContentLayout() {
         return R.layout.layout_banner_sample;
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
-        mSimpleBanner.setImageLoader(new ImageLoaderInterface<SimpleDraweeView>() {
-            @Override public void displayImage(Context context, Object uri, SimpleDraweeView imageView) {
-                imageView.setImageURI((String) uri);
-            }
-
-            @Override public SimpleDraweeView createImageView(Context context) {
-                return new SimpleDraweeView(context);
-            }
-        });
-        mSimpleBanner.setSelectedIndicatorColor(Color.RED)
+        mSimpleBanner.setBannerLoader(new MyBannerInterface())
+                .setSelectedIndicatorColor(Color.RED)
                 .setUnSelectedIndicatorColor(Color.BLUE)
                 .setIndicatorMargin(10)
                 .setIndicatorSize(8)
+                .setOnBannerClickListener(position -> showToast(String.valueOf(position)))
                 .updateBanner(fakeRemoteData());
-        mSimpleBanner.setOnBannerClickListener(position -> showToast(String.valueOf(position)));
     }
 
-    private List<BannerModel> fakeLocalData() {
-        List<BannerModel> banners = new ArrayList<>();
-        for (@DrawableRes int id : mImageIds) {
-            banners.add(new BannerModel(id));
+    private static class MyBannerInterface implements BannerInterface<BannerModel> {
+        @Override
+        public void displayBanner(Context context, BannerModel bannerModel, View bannerView) {
+            ((SimpleDraweeView) bannerView.findViewById(R.id.banner_image)).setImageURI(Uri.parse(bannerModel.imageUrl));
+            ((TextView) bannerView.findViewById(R.id.tv_banner_desc)).setText(bannerModel.imageUrl);
         }
-        return banners;
+
+        @Override
+        public View createBannerView(Context context) {
+            return LayoutInflater.from(context).inflate(R.layout.layout_banner_item, null);
+        }
     }
 
     private List<BannerModel> fakeRemoteData() {
         List<BannerModel> bannerModels = new ArrayList<>();
         for (String url : mImageUrls) {
-            bannerModels.add(new BannerModel(url));
+            bannerModels.add(new BannerModel(url, "呵呵呵"));
         }
         return bannerModels;
     }
@@ -79,7 +82,7 @@ public class BannerSampleFragment extends AppBaseFragment {
     private List<BannerModel> newData() {
         List<BannerModel> bannerModels = new ArrayList<>();
         for (String url : newUrls) {
-            bannerModels.add(new BannerModel(url));
+            bannerModels.add(new BannerModel(url, "哈哈哈"));
         }
         return bannerModels;
     }
@@ -87,6 +90,7 @@ public class BannerSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_start_loop)
     public void onStartLoopClick() {
         mSimpleBanner.startLoop();
+
     }
 
     @OnClick(R.id.tv_stop_loop)
@@ -105,7 +109,8 @@ public class BannerSampleFragment extends AppBaseFragment {
         }
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         if (mSimpleBanner != null) {
             mSimpleBanner.stopLoop();

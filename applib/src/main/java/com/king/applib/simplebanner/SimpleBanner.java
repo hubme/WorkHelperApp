@@ -5,25 +5,20 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.applib.R;
-import com.king.applib.log.Logger;
 import com.king.applib.simplebanner.listener.OnBannerClickListener;
-import com.king.applib.simplebanner.loader.ImageLoaderInterface;
+import com.king.applib.simplebanner.loader.BannerInterface;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -46,8 +41,10 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private static final int DEFAULT_DELAY_DURATION = 3000;
     private int mIndicatorSize = 4;//dp
     private int mIndicatorMargin = 3;//dp
-    @ColorInt private int mSelectedIndicatorColor = Color.parseColor("#77000000");
-    @ColorInt private int mUnselectedIndicatorColor = Color.parseColor("#88ffffff");
+    @ColorInt
+    private int mSelectedIndicatorColor = Color.parseColor("#77000000");
+    @ColorInt
+    private int mUnselectedIndicatorColor = Color.parseColor("#88ffffff");
 
     private Context mContext;
     private BannerViewPager mBanner;
@@ -58,10 +55,10 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private int mBannerCount;
     private BannerLoopTask mLoopTask;
 
-    private ImageLoaderInterface mImageLoader;
+    private BannerInterface mBannerLoader;
     private LinearLayout mIndicatorPanel;
     private final List<View> mIndicatorViews = new ArrayList<>();
-    private final List<SimpleDraweeView> mImageViews = new ArrayList<>();
+    private final List<View> mBannerViews = new ArrayList<>();
     private ShapeDrawable mSelectedDrawable;
     private ShapeDrawable mUnSelectedDrawable;
 
@@ -132,14 +129,16 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     /**
      * 放在最后执行
      */
-    public void updateBanner(List<BannerModel> images) {
-        Logger.i("updateBanner");
+    public <T> void updateBanner(List<T> images) {
+        if (mBannerLoader == null) {
+            throw new NullPointerException("please set up a BannerInterface.");
+        }
         if (images == null || images.isEmpty()) {
             return;
         }
 
         generateBannerView(images);
-        mBannerAdapter.update(mImageViews);
+        mBannerAdapter.update(mBannerViews);
         mBannerCount = mBannerAdapter.getCount();
         setIndicator();
         setBanner();
@@ -147,41 +146,33 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     }
 
     //构造界面。A、B、C--->C、A、B、C、A
-    private void generateBannerView(List<BannerModel> images) {
+    private <T> void generateBannerView(List<T> images) {
         if (images == null || images.isEmpty()) {
             return;
         }
-        if (!mImageViews.isEmpty()) {
-            mImageViews.clear();
+        if (!mBannerViews.isEmpty()) {
+            mBannerViews.clear();
         }
 
         if (images.size() == 1) {
-            mImageViews.add(getImageView(images.get(0).imageUrl));
+            mBannerViews.add(buildBannerView(images.get(0)));
         } else {
             //先添加最后一个
-            mImageViews.add(getImageView(images.get(images.size() - 1).imageUrl));
+            mBannerViews.add(buildBannerView(images.get(images.size() - 1)));
 
-            for (BannerModel banner : images) {
-                mImageViews.add(getImageView(banner.imageUrl));
+            for (T banner : images) {
+                mBannerViews.add(buildBannerView(banner));
             }
 
             //最后添加第一个
-            mImageViews.add(getImageView(images.get(0).imageUrl));
+            mBannerViews.add(buildBannerView(images.get(0)));
         }
     }
 
-    private ImageView getImageView(@DrawableRes int resId) {
-        ImageView imageView = new SimpleDraweeView(mContext);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setImageResource(resId);
-        return imageView;
-    }
-    
-    private SimpleDraweeView getImageView(String imgUrl) {
-        SimpleDraweeView imageView = new SimpleDraweeView(mContext);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setImageURI(Uri.parse(imgUrl));
-        return imageView;
+    private <T> View buildBannerView(T t) {
+        View view = mBannerLoader.createBannerView(getContext());
+        mBannerLoader.displayBanner(getContext(), t, view);
+        return view;
     }
 
     private void setIndicator() {
@@ -189,18 +180,15 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         mUnSelectedDrawable.getPaint().setColor(mUnselectedIndicatorColor);
         buildIndicatorViews();
         setupIndicator();
-        updateIndicator(0);//选中第一个指示器.因为在前后多加两个View，所以下标应该是1
+        updateIndicator(0);
     }
 
     private void setBanner() {
-        if (mBanner.getChildCount() > 0) {
-            mBanner.removeAllViews();
-        }
         if (mBannerCount > 1) {
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
             mBanner.setCurrentItem(1, false);
-        }else{
+        } else {
             mBanner.setScrollable(false);
             mBanner.setCurrentItem(0, false);
         }
@@ -237,8 +225,9 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         }
     }
 
-    public void setImageLoader(ImageLoaderInterface imageLoader) {
-        mImageLoader = imageLoader;
+    public SimpleBanner setBannerLoader(BannerInterface imageLoader) {
+        mBannerLoader = imageLoader;
+        return this;
     }
 
     private ShapeDrawable getIndicatorDrawable() {
@@ -325,7 +314,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         try {
             Field mField = ViewPager.class.getDeclaredField("mScroller");
             mField.setAccessible(true);
-            BannerScroller mScroller = new BannerScroller(mContext);
+            ViewPagerScroller mScroller = new ViewPagerScroller(mContext);
             mScroller.setDuration(DEFAULT_SCROLL_DURATION);
             mField.set(mBanner, mScroller);
         } catch (Exception e) {
@@ -363,8 +352,9 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         }
     }
 
-    public void setOnBannerClickListener(OnBannerClickListener listener) {
+    public SimpleBanner setOnBannerClickListener(OnBannerClickListener listener) {
         mBannerAdapter.setOnBannerClickListener(listener);
+        return this;
     }
 
     private int dp2px(Context context, float dpValue) {
