@@ -2,7 +2,6 @@ package com.king.applib.base;
 
 import android.support.annotation.LayoutRes;
 import android.support.v4.view.PagerAdapter;
-import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,8 +16,8 @@ import java.util.List;
  */
 
 public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
-    protected final List<T> mAdapterData = new ArrayList<>();
-    private SparseArray<View> mViews = new SparseArray<>();
+    private final List<T> mAdapterData = new ArrayList<>();
+//    private SparseArray<View> mViews = new SparseArray<>();
     @LayoutRes private int mLayoutId;
 
     public BaseViewPagerAdapter(@LayoutRes int layoutId) {
@@ -49,6 +48,10 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
             mAdapterData.addAll(data);
         }
         notifyDataSetChanged();
+    }
+
+    public List<T> getAdapterData() {
+        return mAdapterData;
     }
 
     public void resetAdapterData() {

@@ -13,27 +13,37 @@ import java.util.List;
  * created by HuoGuangXu at 2016/5/27.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
-    protected List<T> mAdapterData;
+    private final List<T> mAdapterData = new ArrayList<>();
     @LayoutRes private int mLayoutId;
 
     public BaseListAdapter(@LayoutRes int layoutId) {
         this.mLayoutId = layoutId;
-        mAdapterData = new ArrayList<>();
     }
 
     public BaseListAdapter(@LayoutRes int layoutId, List<T> dataList) {
-        this.mAdapterData = dataList;
         this.mLayoutId = layoutId;
-        if (mAdapterData == null) {
-            mAdapterData = new ArrayList<>();
+        if (!isDataListEmpty(dataList)) {
+            mAdapterData.addAll(dataList);
         }
     }
 
     public void setAdapterData(List<T> adapterData) {
-        if (adapterData != null) {
-            mAdapterData = adapterData;
-            notifyDataSetChanged();
+        setAdapterData(adapterData, false);
+    }
+
+    public void setAdapterData(List<T> adapterData, boolean isAppend) {
+        if (isDataListEmpty(adapterData)) {
+            return;
         }
+        if (isAppend) {
+            mAdapterData.addAll(adapterData);
+        } else {
+            if (!isDataListEmpty(mAdapterData)) {
+                mAdapterData.clear();
+            }
+            mAdapterData.addAll(adapterData);
+        }
+        notifyDataSetChanged();
     }
 
     public void resetAdapterData() {
@@ -41,14 +51,22 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    private boolean isDataListEmpty(List<T> dataData) {
+        return dataData == null || dataData.isEmpty();
+    }
+
+    public List<T> getAdapterData() {
+        return mAdapterData;
+    }
+
     @Override
     public int getCount() {
-        return mAdapterData != null ? mAdapterData.size() : 0;
+        return mAdapterData.size();
     }
 
     @Override
     public T getItem(int position) {
-        if (mAdapterData != null && position >= 0 && position < mAdapterData.size()) {
+        if (position >= 0 && position < mAdapterData.size()) {
             return mAdapterData.get(position);
         }
         return null;

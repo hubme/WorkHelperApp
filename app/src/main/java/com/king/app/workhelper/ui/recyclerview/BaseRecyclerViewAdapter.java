@@ -19,15 +19,15 @@ import java.util.List;
 public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
     //不允许赋值，防止NPE.
     private final List<E> mAdapterList = new ArrayList<>();
-    @LayoutRes private int mLayoutRes;
+    @LayoutRes private int mLayoutResId;
 
     public BaseRecyclerViewAdapter(@LayoutRes int layoutRes) {
-        mLayoutRes = layoutRes;
+        mLayoutResId = layoutRes;
     }
 
     public BaseRecyclerViewAdapter(@LayoutRes int layoutRes, List<E> adapterData) {
-        mLayoutRes = layoutRes;
-        if (adapterData != null && !adapterData.isEmpty()) {
+        mLayoutResId = layoutRes;
+        if (!isListEmpty(adapterData)) {
             mAdapterList.addAll(adapterData);
         }
     }
@@ -41,17 +41,18 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
     }
 
     public void setAdapterData(List<E> adapterData, boolean append) {
-        if (adapterData == null) {
+        if (isListEmpty(adapterData)) {
             return;
         }
         if (append) {
             mAdapterList.addAll(adapterData);
         } else {
-            if (!mAdapterList.isEmpty()) {
+            if (!isListEmpty(mAdapterList)) {
                 mAdapterList.clear();
             }
             mAdapterList.addAll(adapterData);
         }
+        notifyDataSetChanged();
     }
 
     public void resetAdapterData() {
@@ -59,8 +60,12 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         notifyDataSetChanged();
     }
 
+    private boolean isListEmpty(List<E> list) {
+        return list == null || list.isEmpty();
+    }
+
     public void addData(int position, E entity) {
-        if (position >= 0 && position <= mAdapterList.size()) {
+        if (checkPosition(position)) {
             mAdapterList.add(position, entity);
             notifyItemInserted(position);
         }
@@ -89,7 +94,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
 
     @Override
     public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutRes, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutResId, parent, false);
         return new RecyclerHolder(view);
     }
 
