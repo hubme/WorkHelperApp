@@ -61,7 +61,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     private ImageLoaderInterface mImageLoader;
     private LinearLayout mIndicatorPanel;
     private final List<View> mIndicatorViews = new ArrayList<>();
-    private final List<ImageView> mImageViews = new ArrayList<>();
+    private final List<SimpleDraweeView> mImageViews = new ArrayList<>();
     private ShapeDrawable mSelectedDrawable;
     private ShapeDrawable mUnSelectedDrawable;
 
@@ -177,8 +177,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         return imageView;
     }
     
-    private ImageView getImageView(String imgUrl) {
-        ImageView imageView = new SimpleDraweeView(mContext);
+    private SimpleDraweeView getImageView(String imgUrl) {
+        SimpleDraweeView imageView = new SimpleDraweeView(mContext);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageURI(Uri.parse(imgUrl));
         return imageView;
@@ -199,10 +199,11 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         if (mBannerCount > 1) {
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
+            mBanner.setCurrentItem(1, false);
         }else{
             mBanner.setScrollable(false);
+            mBanner.setCurrentItem(0, false);
         }
-        mBanner.setCurrentItem(1, false);
     }
 
     public void startLoop() {
