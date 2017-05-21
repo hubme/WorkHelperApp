@@ -10,21 +10,18 @@ import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.king.applib.R;
 import com.king.applib.simplebanner.listener.OnBannerClickListener;
 import com.king.applib.simplebanner.loader.BannerInterface;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author huoguangxu
@@ -39,17 +36,16 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     public static final String TAG = "aaa";
     private static final int DEFAULT_SCROLL_DURATION = 1000;
     private static final int DEFAULT_DELAY_DURATION = 3000;
-    private int mIndicatorSize = 4;//dp
-    private int mIndicatorMargin = 3;//dp
+    private int mIndicatorSize = 6;//dip
+    private int mIndicatorMargin = 6;//dip
     @ColorInt
     private int mSelectedIndicatorColor = Color.parseColor("#77000000");
     @ColorInt
     private int mUnselectedIndicatorColor = Color.parseColor("#88ffffff");
 
-    private Context mContext;
     private BannerViewPager mBanner;
     private BannerAdapter mBannerAdapter;
-    private ScheduledExecutorService mExecutor;
+//    private ScheduledExecutorService mExecutor;
 
     private Handler mHandler = new Handler();
     private int mBannerCount;
@@ -72,13 +68,53 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
     public SimpleBanner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
 
-        View view = LayoutInflater.from(context).inflate(R.layout.applib_layout_banner, this, true);
-        initView(view);
+        initView();
         initData();
-
         initViewPagerScroll();
+    }
+
+    private void initView() {
+        RelativeLayout view = new RelativeLayout(getContext());
+
+        mBanner = buildViewPager();
+        view.addView(mBanner);
+
+        mIndicatorPanel = buildIndicatorPanel();
+        view.addView(mIndicatorPanel);
+
+        addView(view);
+    }
+
+    private void initData() {
+        mBannerAdapter = new BannerAdapter();
+        mBanner.setAdapter(mBannerAdapter);
+
+//        mExecutor = Executors.newScheduledThreadPool(1);
+        mLoopTask = new BannerLoopTask();
+
+        mSelectedDrawable = getIndicatorDrawable();
+        mUnSelectedDrawable = getIndicatorDrawable();
+    }
+
+    private BannerViewPager buildViewPager() {
+        BannerViewPager banner = new BannerViewPager(getContext());
+        banner.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        return banner;
+    }
+
+    private LinearLayout buildIndicatorPanel() {
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//        layoutParams.setMargins(0, 0, 0, dp2px(getContext(), 18));//没有效果
+
+        LinearLayout indicatorPanel = new LinearLayout(getContext());
+        indicatorPanel.setOrientation(LinearLayout.HORIZONTAL);
+        indicatorPanel.setLayoutParams(layoutParams);
+        indicatorPanel.setPadding(0, 0, 0, dp2px(mIndicatorMargin));
+
+        return indicatorPanel;
     }
 
     @Override
@@ -107,23 +143,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(resolveSize(Integer.MAX_VALUE, widthMeasureSpec), resolveSize(dp2px(mContext, 200), heightMeasureSpec));
-    }
-
-    private void initView(View view) {
-        mBannerAdapter = new BannerAdapter();
-        mBanner = (BannerViewPager) view.findViewById(R.id.banner_view_pager);
-        mBanner.setAdapter(mBannerAdapter);
-
-        mIndicatorPanel = (LinearLayout) view.findViewById(R.id.indicator_panel);
-    }
-
-    private void initData() {
-        mExecutor = Executors.newScheduledThreadPool(1);
-        mLoopTask = new BannerLoopTask();
-
-        mSelectedDrawable = getIndicatorDrawable();
-        mUnSelectedDrawable = getIndicatorDrawable();
+        setMeasuredDimension(resolveSize(Integer.MAX_VALUE, widthMeasureSpec), resolveSize(dp2px(200), heightMeasureSpec));
     }
 
     /**
@@ -261,11 +281,11 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         if (!mIndicatorViews.isEmpty()) {
             mIndicatorViews.clear();
         }
-        final int size = dp2px(mContext, mIndicatorSize);
+        final int size = dp2px(mIndicatorSize);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
-        params.leftMargin = dp2px(mContext, mIndicatorMargin);
+        params.leftMargin = dp2px(mIndicatorMargin);
         for (int i = 0; i < mBannerCount - 2; i++) {//由于多生成2个View，要减去
-            View view = new View(mContext);
+            View view = new View(getContext());
             view.setLayoutParams(params);
             setViewBackground(view, mUnSelectedDrawable);
             mIndicatorViews.add(view);
@@ -314,7 +334,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         try {
             Field mField = ViewPager.class.getDeclaredField("mScroller");
             mField.setAccessible(true);
-            ViewPagerScroller mScroller = new ViewPagerScroller(mContext);
+            ViewPagerScroller mScroller = new ViewPagerScroller(getContext());
             mScroller.setDuration(DEFAULT_SCROLL_DURATION);
             mField.set(mBanner, mScroller);
         } catch (Exception e) {
@@ -357,8 +377,8 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         return this;
     }
 
-    private int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    private int dp2px(float dpValue) {
+        final float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 }
