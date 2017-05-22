@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -33,7 +32,6 @@ import java.util.List;
 当position==4(A)时，设置setCurrentItem==1(也是A界面),可以向左滑,达到循环的目的.
  */
 public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChangeListener {
-    public static final String TAG = "aaa";
     private static final int DEFAULT_SCROLL_DURATION = 1000;
     private static final int DEFAULT_DELAY_DURATION = 3000;
     private int mIndicatorSize = 6;//dip
@@ -45,9 +43,6 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
 
     private BannerViewPager mBanner;
     private BannerAdapter mBannerAdapter;
-//    private ScheduledExecutorService mExecutor;
-
-    private Handler mHandler = new Handler();
     private int mBannerCount;
     private BannerLoopTask mLoopTask;
 
@@ -90,7 +85,6 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
         mBannerAdapter = new BannerAdapter();
         mBanner.setAdapter(mBannerAdapter);
 
-//        mExecutor = Executors.newScheduledThreadPool(1);
         mLoopTask = new BannerLoopTask();
 
         mSelectedDrawable = getIndicatorDrawable();
@@ -215,22 +209,15 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
     }
 
     public void startLoop() {
+        removeCallbacks(mLoopTask);
         if (mBannerCount <= 1) {
             return;
         }
-
-//        mExecutor.scheduleAtFixedRate(new BannerLoopTask(), 3000, 2000, TimeUnit.MILLISECONDS);
-
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
+        postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
     }
 
     public void stopLoop() {
-        if (mBannerCount <= 1) {
-            return;
-        }
-//        mExecutor.shutdown();
-        mHandler.removeCallbacksAndMessages(null);
+        removeCallbacks(mLoopTask);
     }
 
     private class BannerLoopTask implements Runnable {
@@ -241,7 +228,7 @@ public class SimpleBanner extends RelativeLayout implements ViewPager.OnPageChan
             mCurrentItem = (mCurrentItem + 1) % mBannerCount;
 
             mBanner.setCurrentItem(mCurrentItem);
-            mHandler.postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
+            postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
         }
     }
 
