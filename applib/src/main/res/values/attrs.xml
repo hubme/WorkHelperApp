@@ -52,4 +52,31 @@
     <declare-styleable name="ConvenientBanner">
         <attr name="canLoop" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="NoticeView">
+        <!-- 图标 -->
+        <attr name="nvIcon" format="reference"/>
+        <!-- 图标与内容的间隙 -->
+        <attr name="nvIconPadding" format="dimension"/>
+        <!-- 图标颜色 -->
+        <attr name="nvIconTint" format="color"/>
+
+        <!-- 文本尺寸 -->
+        <attr name="nvTextSize" format="dimension"/>
+        <!-- 文本颜色 -->
+        <attr name="nvTextColor" format="color"/>
+        <!-- 文本最大行数 -->
+        <attr name="nvTextMaxLines" format="integer"/>
+        <!-- 文本对齐方式 -->
+        <attr name="nvTextGravity" format="integer">
+            <enum name="left" value="3"/>
+            <enum name="center" value="17"/>
+            <enum name="right" value="5"/>
+        </attr>
+
+        <!-- 切换动画间隔时间，毫秒 -->
+        <attr name="nvInterval" format="integer"/>
+        <!-- 切换动画持续时间，毫秒 -->
+        <attr name="nvDuration" format="integer"/>
+    </declare-styleable>
 </resources>

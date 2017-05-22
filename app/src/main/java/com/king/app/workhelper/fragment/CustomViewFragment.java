@@ -34,6 +34,7 @@ import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
 import com.king.applib.ui.customview.FormView;
 import com.king.applib.ui.customview.FormViewTest;
+import com.king.applib.ui.customview.NoticeView;
 import com.king.applib.ui.customview.SimpleBadgeTextView;
 
 import java.util.ArrayList;
@@ -49,7 +50,12 @@ import butterknife.OnClick;
  */
 
 public class CustomViewFragment extends AppBaseFragment {
-
+    public static final String[] notices = new String[]{
+            "风萧萧兮易水寒",
+            "壮士一去兮不复还",
+            "不返就不返",
+    };
+    
     @BindView(R.id.tv_haha) public TextView mTextViewHaHa;
     @BindView(R.id.gradient_drawable) public ImageView mGradientDrawable;
     @BindView(R.id.my_badge) public TextView myBadgeTextView;
@@ -64,6 +70,7 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.tv_test) TextView mTestTv;
     @BindView(R.id.simple_badge) SimpleBadgeTextView mSimpleBadger;
     @BindView(R.id.rise_text_view) RiseNumberTextView mRiseTextView;
+    @BindView(R.id.notice) NoticeView mNoticeView;
 
     private BadgeView mBadgeView;
 
@@ -93,6 +100,9 @@ public class CustomViewFragment extends AppBaseFragment {
         applyBadge();
 
         mSimpleBadger.show("9");
+
+        mNoticeView.setNotices(Arrays.asList(notices));
+        mNoticeView.setOnClickListener(v -> showToast(notices[mNoticeView.getIndex()]));
     }
 
     private void applyBadge() {

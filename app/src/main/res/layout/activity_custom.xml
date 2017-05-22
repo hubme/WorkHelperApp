@@ -16,11 +16,26 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.applib.ui.customview.NoticeView
+                android:id="@+id/notice"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:nvIcon="@mipmap/ad_notification"
+                app:nvIconPadding="5dp"
+                android:background="@color/gray_666666"
+                app:nvIconTint="@android:color/white"
+                app:nvTextColor="@color/chocolate"
+                app:nvTextGravity="left"
+                app:nvTextSize="14sp"/>
+
             <com.king.app.workhelper.ui.customview.RiseNumberTextView
                 android:id="@+id/rise_text_view"
                 android:layout_width="wrap_content"
-                android:text="12345.68"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="12345.68"/>
 
             <com.king.applib.ui.customview.SimpleBadgeTextView
                 android:id="@+id/simple_badge"
