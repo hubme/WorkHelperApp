@@ -1,8 +1,10 @@
 package com.king.applib;
 
 import com.king.applib.log.Logger;
+import com.king.applib.model.Student;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.JsonUtil;
+import com.king.applib.util.SPUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,6 +56,22 @@ public class JsonUtilTest extends BaseTestCase {
             "  },\n" +
             "  \"desc\": \"ok\"\n" +
             "}";
+    
+    public void testEncode() throws Exception {
+        Student student = new Student("VanceKing", 28);
+        Logger.i(JsonUtil.encode(student));
+
+        Student decode = JsonUtil.decode("{\"name\":\"VanceKing\",\"age\":28}", Student.class);
+        Logger.i(decode.toString());
+    }
+    
+    public void testPutObject() throws Exception {
+        Student student = new Student("VanceKing", 28);
+        SPUtil.putObject("aaa", student);
+
+        Student aaa = SPUtil.getObject("aaa", Student.class);
+        Logger.i(aaa.toString());
+    }
 
 
     public void testGetJsonObject() throws Exception {

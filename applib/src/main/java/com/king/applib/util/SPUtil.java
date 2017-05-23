@@ -201,4 +201,14 @@ public class SPUtil {
         }
         return list;
     }
+
+    /** 保存对象到SP */
+    public static void putObject(String key, Object obj) {
+        getSP().edit().putString(key, JsonUtil.encode(obj)).apply();
+    }
+
+    /** 从SP中获取相应的对象 */
+    public static <T> T getObject(String key, Class<T> clazz) {
+        return JsonUtil.decode(SPUtil.getString(key), clazz);
+    }
 }
