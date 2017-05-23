@@ -18,15 +18,12 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.PassTransformationMethod;
 import com.king.applib.banner.Banner;
-import com.king.applib.convenientbanner.ConvenientBanner;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppBaseActivity {
     @BindView(R.id.banner) Banner mBanner;
-
-    @BindView(R.id.convenientBanner) ConvenientBanner mConvenientBanner;
 
     @Override
     protected void beforeCreateView() {
