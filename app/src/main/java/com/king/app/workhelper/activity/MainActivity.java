@@ -17,14 +17,10 @@ import android.widget.TextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.PassTransformationMethod;
-import com.king.applib.banner.Banner;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppBaseActivity {
-    @BindView(R.id.banner) Banner mBanner;
-
     @Override
     protected void beforeCreateView() {
         super.beforeCreateView();
@@ -64,7 +60,6 @@ public class MainActivity extends AppBaseActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        mBanner.pauseScroll();
     }
 
     @Override
