@@ -1,10 +1,11 @@
 package com.king.app.workhelper.fragment;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
@@ -12,6 +13,8 @@ import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
 import com.king.app.workhelper.activity.X5BrowserActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.applib.util.AppUtil;
+import com.king.applib.util.ContextUtil;
 
 import butterknife.OnClick;
 
@@ -30,7 +33,14 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_debug_activity)
     public void debugActivityClick() {
-        openActivity(DebugActivity.class);
+//        openActivity(DebugActivity.class);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        ComponentName cn = new ComponentName(AppUtil.getAppInfo().getPackageName(), AppUtil.getAppInfo().getPackageName()+".activity.MainActivity");
+        intent.setComponent(cn);
+        if (intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     @OnClick(R.id.tv_main_activity)
