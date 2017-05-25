@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.AnyRes;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
@@ -378,5 +379,10 @@ public class ExtendUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /** 打印Exception信息 */
+    public static void logException(Exception e) {
+        Logger.e(Log.getStackTraceString(e));
     }
 }
