@@ -15,5 +15,5 @@ public class AppConfig {
     /** http写数据超时时间 */
     public static final long HTTP_WRITE_TIME_OUT = 20 * 1000L;
     /** http最大响应缓存大小 */
-    public static final long HTTP_RESPONSE_DISK_CACHE_MAX_SIZE = 10 * 1004 * 1024L;
+    public static final long HTTP_RESPONSE_DISK_CACHE_MAX_SIZE = 10 * 1024 * 1024L;
 }
