@@ -8,10 +8,15 @@ import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.api.GitHubApi;
 import com.king.app.workhelper.api.MovieApi;
+import com.king.app.workhelper.retrofit.RetrofitManager;
+import com.king.app.workhelper.retrofit.callback.OnResponseCallback;
+import com.king.app.workhelper.retrofit.model.HttpResults;
+import com.king.app.workhelper.retrofit.subscriber.HttpSubscriber;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -29,6 +34,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitSampleFragment extends AppBaseFragment {
+
+    private HttpSubscriber<GitHubUser> subscriber;
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_sample_retrofit;
@@ -82,5 +90,28 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                     }
                 });
 
+    }
+
+    @OnClick(R.id.tv_rx_retrofit_aaa)
+    public void aaa() {
+        subscriber = new HttpSubscriber<>(new OnResponseCallback<GitHubUser>() {
+            @Override public void onSuccess(GitHubUser results) {
+                Logger.i(results.toString());
+            }
+
+            @Override public void onFailure(int code, String msg) {
+                Logger.i("code" + code + ";msg: " + msg);
+            }
+        });
+
+        final GitHubApi service = RetrofitManager.getInstance().getRetrofit().create(GitHubApi.class);
+
+        Observable<HttpResults<GitHubUser>> guolei1130 = service.getUserEx("Guolei1130");
+        RetrofitManager.getInstance().toSubscribe(guolei1130, subscriber);
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        subscriber.unSubscribe();
     }
 }

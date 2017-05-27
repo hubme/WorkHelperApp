@@ -2,6 +2,7 @@ package com.king.app.workhelper.api;
 
 import com.king.app.workhelper.model.entity.Contributor;
 import com.king.app.workhelper.model.entity.GitHubUser;
+import com.king.app.workhelper.retrofit.model.HttpResults;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface GitHubApi {
     /** See https://developer.github.com/v3/users/ */
     @GET("/users/{user}")
     Observable<GitHubUser> getUser(@Path("user") String user);
+
+    @GET("/users/{user}")
+    Observable<HttpResults<GitHubUser>> getUserEx(@Path("user") String user);
 
     /** See https://developer.github.com/v3/users/ */
     @GET("/users/{user}")

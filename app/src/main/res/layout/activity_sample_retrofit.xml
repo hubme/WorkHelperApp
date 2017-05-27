@@ -14,4 +14,9 @@
         style="@style/EntryItem"
         android:text="rx retrofit"/>
 
+    <TextView
+        android:id="@+id/tv_rx_retrofit_aaa"
+        style="@style/EntryItem"
+        android:text="rx retrofit aaa"/>
+
 </LinearLayout>
