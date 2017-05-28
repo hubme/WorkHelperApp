@@ -76,7 +76,7 @@ public class MainActivity extends AppBaseActivity {
             activityManager.clearApplicationUserData();
         }*/
 
-        startActivity();
+        startActivityWithAnimation();
     }
 
     private void startActivityWithAnimation() {
