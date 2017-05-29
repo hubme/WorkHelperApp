@@ -89,4 +89,11 @@
         <attr name="progress" format="float"/>
         <attr name="maxProgress" format="float"/>
     </declare-styleable>
+
+    <style name="BaseLineStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/gray_f0f0f0</item>
+    </style>
+
 </resources>

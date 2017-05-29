@@ -71,4 +71,20 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
         }
         return this;
     }
+
+    public RecyclerHolder setViewVisibility(int viewId, int visibility) {
+        View view = getView(viewId);
+        if (view != null) {
+            view.setVisibility(visibility);
+        }
+        return this;
+    }
+
+    public RecyclerHolder setOnClickListener(int viewId, View.OnClickListener l) {
+        View view = getView(viewId);
+        if (view != null) {
+            view.setOnClickListener(l);
+        }
+        return this;
+    }
 }

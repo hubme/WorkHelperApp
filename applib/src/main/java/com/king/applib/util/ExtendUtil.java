@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -42,8 +43,18 @@ public class ExtendUtil {
         throw new UnsupportedOperationException("No instances!");
     }
 
+    /**
+     * 判断List集合是否为null/empty
+     */
     public static boolean isListNullOrEmpty(List list) {
         return list == null || list.isEmpty();
+    }
+
+    /**
+     * 判断List集合不为null/empty
+     */
+    public static boolean isListNotNullOrEmpty(List list) {
+        return !isListNullOrEmpty(list);
     }
 
     public static <E> boolean isArrayNullOrEmpty(E[] array) {
@@ -384,5 +395,13 @@ public class ExtendUtil {
     /** 打印Exception信息 */
     public static void logException(Exception e) {
         Logger.e(Log.getStackTraceString(e));
+    }
+
+    public static void setViewBackground(View view, Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(drawable);
+        } else {
+            view.setBackgroundDrawable(drawable);
+        }
     }
 }

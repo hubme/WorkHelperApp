@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initContentView();
         setViewListeners();
         initData();
-        loadingData();
+        fetchData();
     }
 
     /**
@@ -77,7 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 访问网络数据。
      */
-    protected void loadingData() {
+    protected void fetchData() {
 
     }
 
