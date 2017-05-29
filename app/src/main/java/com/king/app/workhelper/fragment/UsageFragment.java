@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.UserManager;
+import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.TextView;
 import android.widget.Toast;
 
