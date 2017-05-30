@@ -15,8 +15,13 @@
         android:text="rx retrofit"/>
 
     <TextView
-        android:id="@+id/tv_rx_retrofit_aaa"
+        android:id="@+id/tv_rx_retrofit_package"
         style="@style/EntryItem"
-        android:text="rx retrofit aaa"/>
+        android:text="retrofit package"/>
+
+    <TextView
+        android:id="@+id/tv_common_service"
+        style="@style/EntryItem"
+        android:text="common service"/>
 
 </LinearLayout>

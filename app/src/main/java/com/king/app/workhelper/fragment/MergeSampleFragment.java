@@ -1,7 +1,7 @@
 package com.king.app.workhelper.fragment;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.api.GitHubApi;
+import com.king.app.workhelper.api.GitHubService;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.Contributor;
 import com.king.applib.log.Logger;
@@ -143,9 +143,9 @@ public class MergeSampleFragment extends AppBaseFragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://api.github.com")
                 .build();
-        GitHubApi gitHubApi = retrofit.create(GitHubApi.class);
+        GitHubService gitHubService = retrofit.create(GitHubService.class);
 
-        return gitHubApi.contributors("square", "retrofit").flatMap(new Function<List<Contributor>, ObservableSource<Contributor>>() {
+        return gitHubService.contributors("square", "retrofit").flatMap(new Function<List<Contributor>, ObservableSource<Contributor>>() {
             @Override public ObservableSource<Contributor> apply(@NonNull List<Contributor> contributors) throws Exception {
                 return Observable.fromIterable(contributors);
             }

@@ -18,7 +18,7 @@ import retrofit2.http.Query;
  * Created by VanceKing on 2016/12/6 0006.
  */
 
-public interface MovieApi {
+public interface MovieService {
     //https://api.douban.com/v2/movie/top250?start=0&count=10
     @GET("top250")
     Call<MovieEntity> getTopMovie(@Query("start") int start, @Query("count") int count);
