@@ -36,8 +36,6 @@ public interface GitHubService {
     @GET("/users/{user}")
     Observable<GitHubUser> getUser(@Path("user") String user);
 
-    Observable<HttpResults<GitHubUser>> getUserAAA(@Path("user") String user);
-
     @GET("/users/{user}")
     Single<HttpResults<GitHubUser>> getUserEx(@Path("user") String user);
 
