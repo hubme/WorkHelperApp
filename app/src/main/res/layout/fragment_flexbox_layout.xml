@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/flex_box_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:alignContent="flex_start"
+        app:alignItems="flex_start"
+        app:flexWrap="wrap">
+
+        <TextView
+            android:id="@+id/textview1"
+            style="@style/FlexItem"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:text="1"/>
+
+        <TextView
+            android:id="@+id/textview2"
+            style="@style/FlexItem"
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:text="2"/>
+
+        <TextView
+            android:id="@+id/textview3"
+            style="@style/FlexItem"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="3"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/icon_plus_add_new"/>
+</RelativeLayout>
+

@@ -172,6 +172,11 @@
                 android:id="@+id/tv_banner_simple"
                 style="@style/EntryItem"
                 android:text="Banner"/>
+            
+            <TextView
+                android:id="@+id/tv_flexbox_layout"
+                style="@style/EntryItem"
+                android:text="Flexbox Layout"/>
 
         </LinearLayout>
 

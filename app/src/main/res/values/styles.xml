@@ -96,4 +96,8 @@
         <item name="android:background">@color/gray_f0f0f0</item>
     </style>
 
+    <style name="FlexItem">
+        <item name="android:background">@drawable/flex_item_background</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

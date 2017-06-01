@@ -198,6 +198,11 @@ public class EntryFragment extends AppBaseFragment {
     public void onBannerSimpleClick() {
         clickedOn(new BannerSampleFragment());
     }
+    
+    @OnClick(R.id.tv_flexbox_layout)
+    public void onFlexBoxLayoutClick() {
+        clickedOn(new FlexBoxLayoutFragment());
+    }
 
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
