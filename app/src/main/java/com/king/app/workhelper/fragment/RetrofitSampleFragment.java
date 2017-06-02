@@ -9,8 +9,9 @@ import com.king.app.workhelper.api.MovieService;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
-import com.king.app.workhelper.retrofit.ServiceFactory;
+import com.king.app.workhelper.retrofit.ApiServiceFactory;
 import com.king.app.workhelper.retrofit.subscriber.HttpResultSubscriber;
+import com.king.app.workhelper.retrofit.subscriber.ResultSubscriberManger;
 import com.king.app.workhelper.rx.RxUtil;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -89,41 +90,41 @@ public class RetrofitSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_rx_retrofit_package)
     public void aaa() {
-        GitHubService gitHubService = ServiceFactory.getInstance().createService(GitHubService.class);
+        GitHubService gitHubService = ApiServiceFactory.getInstance().createService(GitHubService.class);
         gitHubService.getUserEx("Guolei1130")
                 .compose(RxUtil.defaultSingleSchedulers())
-                .subscribe(new HttpResultSubscriber<GitHubUser>() {
-                    @Override
-                    public void onSuccessFull(GitHubUser gitHubUser) {
+                .subscribe(ResultSubscriberManger.create(new HttpResultSubscriber<GitHubUser>() {
+                    @Override public void onSuccess(GitHubUser gitHubUser, String msg) {
                         Logger.i(gitHubUser.toString());
                     }
 
-                    @Override
-                    public void onFailure(int errorCode, String msg) {
+                    @Override public void onFailure(int errorCode, String msg) {
                         Logger.i("errorCode: " + errorCode + ";msg: " + msg);
                     }
-                });
+                }));
     }
 
     @OnClick(R.id.tv_common_service)
     public void onCommonServiceClick() {
         final String URL_PUBLIC = "https://publicobject.com/helloworld.txt/";
-        CommonService commonService = ServiceFactory.getInstance().createService(URL_PUBLIC, CommonService.class);
-        commonService.loadUrl(URL_PUBLIC).compose(RxUtil.defaultSingleSchedulers()).subscribe(new DisposableSingleObserver<ResponseBody>() {
-            @Override
-            public void onSuccess(@NonNull ResponseBody responseBody) {
-                try {
-                    Logger.i(responseBody.string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        CommonService commonService = ApiServiceFactory.getInstance().createService(URL_PUBLIC, CommonService.class);
+        commonService.loadUrl(URL_PUBLIC)
+                .compose(RxUtil.defaultSingleSchedulers())
+                .subscribe(new DisposableSingleObserver<ResponseBody>() {
+                    @Override
+                    public void onSuccess(@NonNull ResponseBody responseBody) {
+                        try {
+                            Logger.i(responseBody.string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
-            @Override
-            public void onError(@NonNull Throwable e) {
-                Logger.e(e.toString());
-            }
-        });
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Logger.e(e.toString());
+                    }
+                });
 
 
     }

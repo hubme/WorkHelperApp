@@ -14,20 +14,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @since 2017/5/30 0030.
  */
 
-public class ServiceFactory {
+public class ApiServiceFactory {
     public static final String DEFAULT_BASE_URL = "https://api.github.com";
     //缓存Retrofit
     private final HashMap<String, Retrofit> mRetrofits;
 
-    private ServiceFactory() {
+    private ApiServiceFactory() {
         mRetrofits = new HashMap<>();
     }
 
     private static class SingletonHolder {
-        private static final ServiceFactory INSTANCE = new ServiceFactory();
+        private static final ApiServiceFactory INSTANCE = new ApiServiceFactory();
     }
 
-    public static ServiceFactory getInstance() {
+    public static ApiServiceFactory getInstance() {
         return SingletonHolder.INSTANCE;
     }
 

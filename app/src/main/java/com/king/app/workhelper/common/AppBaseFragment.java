@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.king.app.workhelper.app.WorkHelperApp;
+import com.king.app.workhelper.retrofit.subscriber.ResultSubscriberManger;
 import com.king.applib.base.BaseFragment;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
@@ -33,6 +34,7 @@ public abstract class AppBaseFragment extends BaseFragment {
         if (unbinder != null) {
             unbinder.unbind();
         }
+        ResultSubscriberManger.unSubscribe();
     }
 
     @Override
