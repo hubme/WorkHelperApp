@@ -1,5 +1,6 @@
 package com.king.app.workhelper.fragment;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
@@ -13,7 +14,6 @@ import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
 import com.king.app.workhelper.retrofit.subscriber.HttpResultSubscriber;
-import com.king.app.workhelper.retrofit.subscriber.ResultSubscriberManger;
 import com.king.app.workhelper.rx.RxUtil;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -94,18 +94,23 @@ public class RetrofitSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_rx_retrofit_package)
     public void aaa() {
-        GitHubService gitHubService = ApiServiceFactory.getInstance().createService(GitHubService.class);
-        gitHubService.getUserEx("Guolei1130")
-                .compose(RxUtil.defaultSingleSchedulers())
-                .subscribe(ResultSubscriberManger.create(new HttpResultSubscriber<GitHubUser>() {
-                    @Override public void onSuccess(GitHubUser gitHubUser, String msg) {
-                        Logger.i(gitHubUser.toString());
-                    }
+        final DisposableSingleObserver<GitHubUser> singleObserver = new DisposableSingleObserver<GitHubUser>() {
+            @Override
+            public void onSuccess(@NonNull GitHubUser gitHubUser) {
+                Logger.i(gitHubUser.toString());
+            }
 
-                    @Override public void onFailure(int errorCode, String msg) {
-                        Logger.i("errorCode: " + errorCode + ";msg: " + msg);
-                    }
-                }));
+            @Override
+            public void onError(@NonNull Throwable e) {
+                Logger.i(Log.getStackTraceString(e));
+            }
+        };
+
+        GitHubService gitHubService = ApiServiceFactory.getInstance().createService(GitHubService.class);
+        gitHubService.getUserEx("VanceKing")
+                .compose(RxUtil.defaultSingleSchedulers())
+                .subscribe(singleObserver);
+        Logger.i(singleObserver.isDisposed() + "");
     }
 
     @OnClick(R.id.tv_common_service)
