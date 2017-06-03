@@ -26,11 +26,12 @@ public abstract class HttpResultSubscriber<T> implements SingleObserver<HttpResu
 
     @Override
     public void onSubscribe(Disposable d) {
-        mDisposable = d;
+        mDisposable = d;//成功或失败时才不为null.
     }
 
     @Override
     public void onSuccess(HttpResults<T> httpResults) {
+//        ResultSubscriberManger.addDisposable(mDisposable);
         if (httpResults != null) {
             if (httpResults.code == HttpResponseCode.SUCCESS) {
                 onSuccess(httpResults.results, httpResults.desc != null ? httpResults.desc : "");
@@ -40,10 +41,12 @@ public abstract class HttpResultSubscriber<T> implements SingleObserver<HttpResu
         } else {
             onFailure(-1, "results is null");
         }
+        unSubscribe();
     }
 
     @Override
     public void onError(Throwable e) {
+//        ResultSubscriberManger.addDisposable(mDisposable);
         if (e != null) {
             if (!(e instanceof CancellationException)) {
                 if (e instanceof SocketTimeoutException) {
@@ -61,6 +64,7 @@ public abstract class HttpResultSubscriber<T> implements SingleObserver<HttpResu
         } else {
             onFailure(ApiException.CODE_ERROR_DEFAULT, ApiException.MSG_ERROR_EMPTY);
         }
+        unSubscribe();
     }
 
     public abstract void onSuccess(T t, String msg);
@@ -71,5 +75,9 @@ public abstract class HttpResultSubscriber<T> implements SingleObserver<HttpResu
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();
         }
+    }
+
+    public Disposable getDisposable() {
+        return mDisposable;
     }
 }

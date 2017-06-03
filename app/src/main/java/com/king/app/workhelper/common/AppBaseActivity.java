@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.retrofit.subscriber.ResultSubscriberManger;
 import com.king.applib.base.BaseActivity;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
@@ -64,7 +63,6 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
         }
-        ResultSubscriberManger.unSubscribe();
     }
 
     @Override

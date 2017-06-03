@@ -5,8 +5,10 @@ import android.widget.TextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.api.CommonService;
 import com.king.app.workhelper.api.GitHubService;
+import com.king.app.workhelper.api.HomeService;
 import com.king.app.workhelper.api.MovieService;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.model.ServiceModel;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
@@ -39,6 +41,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitSampleFragment extends AppBaseFragment {
+    public static final String RELEASE_DOMAIN = "http://andgjj.youyuwo.com";//or https
+    public static final String DEBUG_DOMAIN = "http://gjj_8095.gs.9188.com";
 
     @Override
     protected int getContentLayout() {
@@ -125,8 +129,22 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                         Logger.e(e.toString());
                     }
                 });
+    }
 
+    @OnClick(R.id.tv_banner)
+    public void onBannerClick() {
+        HomeService homeService = ApiServiceFactory.getInstance().createService(RELEASE_DOMAIN, HomeService.class);
+        homeService.getBanners(3)
+                .compose(RxUtil.defaultSingleSchedulers())
+                .subscribe(new HttpResultSubscriber<ServiceModel>() {
+                    @Override public void onSuccess(ServiceModel serviceModel, String msg) {
+                        Logger.i("success: " + serviceModel.toString() + ";msg: " + msg);
+                    }
 
+                    @Override public void onFailure(int errorCode, String msg) {
+                        Logger.i("errorCode: " + errorCode + ";msg: " + msg);
+                    }
+                });
     }
 
     @Override

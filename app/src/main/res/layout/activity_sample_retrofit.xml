@@ -24,4 +24,9 @@
         style="@style/EntryItem"
         android:text="common service"/>
 
+    <TextView
+        android:id="@+id/tv_banner"
+        style="@style/EntryItem"
+        android:text="Banner Data"/>
+
 </LinearLayout>
