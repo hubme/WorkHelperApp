@@ -88,11 +88,12 @@ public class RxJavaTest extends BaseTestCase {
                     @Override
                     public void onSubscribe(Subscription s) {
                         //当订阅后，会首先调用这个方法，其实就相当于onStart()，尽量在request之前进行初始化.
-                        //传入的Subscription s参数可以用于请求数据或者取消订阅
+                        //传入的Subscription s参数可以用于请求数据或者取消订阅.
+                        //不调用request不会发射数据.
                         Logger.i("start");
                         sub = s;
                         sub.request(1);
-                        Logger.i("end");//为什么不像网上说的最后执行?
+                        Logger.i("end");
                     }
 
                     @Override
