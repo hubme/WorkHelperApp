@@ -197,6 +197,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
             @Override
             public void subscribe(FlowableEmitter<String> e) throws Exception {
                 e.onNext("Hello RxJava");
+                e.onComplete();
             }
         }, BackpressureStrategy.BUFFER).subscribe(subscriber);
 
