@@ -25,8 +25,13 @@
         android:text="common service"/>
 
     <TextView
-        android:id="@+id/tv_banner"
+        android:id="@+id/tv_banner_observer"
         style="@style/EntryItem"
-        android:text="Banner Data"/>
+        android:text="Banner Data (Observer)"/>
+
+    <TextView
+        android:id="@+id/tv_banner_subscriber"
+        style="@style/EntryItem"
+        android:text="Banner Data (Subscriber)"/>
 
 </LinearLayout>

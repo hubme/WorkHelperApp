@@ -13,13 +13,16 @@ import com.king.app.workhelper.model.ServiceModel;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
-import com.king.app.workhelper.retrofit.subscriber.HttpResultSubscriber;
+import com.king.app.workhelper.retrofit.observer.HttpResultObserver;
+import com.king.app.workhelper.retrofit.subscriber.HttpResultsSubscriber;
 import com.king.app.workhelper.rx.RxUtil;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -43,6 +46,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitSampleFragment extends AppBaseFragment {
     public static final String RELEASE_DOMAIN = "http://andgjj.youyuwo.com";//or https
     public static final String DEBUG_DOMAIN = "http://gjj_8095.gs.9188.com";
+
+    @BindView(R.id.tv_banner_observer)
+    TextView mObserverTextView;
+
+    @BindView(R.id.tv_banner_subscriber)
+    TextView mSubscriberTextView;
 
     @Override
     protected int getContentLayout() {
@@ -136,17 +145,42 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                 });
     }
 
-    @OnClick(R.id.tv_banner)
+    @OnClick(R.id.tv_banner_observer)
     public void onBannerClick() {
         HomeService homeService = ApiServiceFactory.getInstance().createService(RELEASE_DOMAIN, HomeService.class);
         homeService.getBanners(3)
+                .delay(5, TimeUnit.SECONDS)
                 .compose(RxUtil.defaultSingleSchedulers())
-                .subscribe(new HttpResultSubscriber<ServiceModel>() {
-                    @Override public void onSuccess(ServiceModel serviceModel, String msg) {
+                .subscribe(new HttpResultObserver<ServiceModel>() {
+                    @Override
+                    public void onSuccess(ServiceModel serviceModel, String msg) {
                         Logger.i("success: " + serviceModel.toString() + ";msg: " + msg);
+                        mObserverTextView.setText("哈哈哈");
                     }
 
-                    @Override public void onFailure(int errorCode, String msg) {
+                    @Override
+                    public void onFailure(int errorCode, String msg) {
+                        Logger.i("errorCode: " + errorCode + ";msg: " + msg);
+                    }
+                });
+
+    }
+
+    @OnClick(R.id.tv_banner_subscriber)
+    public void onBannerClick2() {
+        HomeService homeService = ApiServiceFactory.getInstance().createService(RELEASE_DOMAIN, HomeService.class);
+        homeService.getHomeBanners(3)
+                .delay(6, TimeUnit.SECONDS)
+                .compose(RxUtil.defaultFlowableSchedulers())
+                .subscribe(new HttpResultsSubscriber<ServiceModel>() {
+                    @Override
+                    public void onSuccess(ServiceModel serviceModel, String msg) {
+                        Logger.i("success: " + serviceModel.toString() + ";msg: " + msg);
+                        mSubscriberTextView.setText("哈哈哈");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String msg) {
                         Logger.i("errorCode: " + errorCode + ";msg: " + msg);
                     }
                 });

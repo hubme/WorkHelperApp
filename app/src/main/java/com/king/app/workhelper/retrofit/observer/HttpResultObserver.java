@@ -1,4 +1,4 @@
-package com.king.app.workhelper.retrofit.subscriber;
+package com.king.app.workhelper.retrofit.observer;
 
 
 import com.google.gson.stream.MalformedJsonException;
@@ -17,21 +17,21 @@ import io.reactivex.disposables.Disposable;
 /**
  * 网络回调订阅者.
  *
- * @author HuoGuangXu
+ * @author VanceKing
  * @since 2017/5/30.
  */
 
-public abstract class HttpResultSubscriber<T> implements SingleObserver<HttpResults<T>> {
+public abstract class HttpResultObserver<T> implements SingleObserver<HttpResults<T>> {
     private Disposable mDisposable;
 
     @Override
     public void onSubscribe(Disposable d) {
-        mDisposable = d;//成功或失败时才不为null.
+        mDisposable = d;
+        ResultsObserverManger.addDisposable(d);
     }
 
     @Override
     public void onSuccess(HttpResults<T> httpResults) {
-//        ResultSubscriberManger.addDisposable(mDisposable);
         if (httpResults != null) {
             if (httpResults.code == HttpResponseCode.SUCCESS) {
                 onSuccess(httpResults.results, httpResults.desc != null ? httpResults.desc : "");
@@ -39,14 +39,12 @@ public abstract class HttpResultSubscriber<T> implements SingleObserver<HttpResu
                 onFailure(httpResults.code, httpResults.desc);
             }
         } else {
-            onFailure(-1, "results is null");
+            onFailure(ApiException.CODE_ERROR_DEFAULT, ApiException.MSG_RESULTS_NULL);
         }
-        unSubscribe();
     }
 
     @Override
     public void onError(Throwable e) {
-//        ResultSubscriberManger.addDisposable(mDisposable);
         if (e != null) {
             if (!(e instanceof CancellationException)) {
                 if (e instanceof SocketTimeoutException) {
@@ -64,7 +62,6 @@ public abstract class HttpResultSubscriber<T> implements SingleObserver<HttpResu
         } else {
             onFailure(ApiException.CODE_ERROR_DEFAULT, ApiException.MSG_ERROR_EMPTY);
         }
-        unSubscribe();
     }
 
     public abstract void onSuccess(T t, String msg);

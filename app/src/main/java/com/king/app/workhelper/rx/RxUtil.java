@@ -1,5 +1,9 @@
 package com.king.app.workhelper.rx;
 
+import org.reactivestreams.Publisher;
+
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.SingleTransformer;
@@ -19,6 +23,15 @@ public class RxUtil {
         return new SingleTransformer<T, T>() {
             @Override
             public SingleSource<T> apply(@NonNull Single<T> upstream) {
+                return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
+    public static <T> FlowableTransformer<T, T> defaultFlowableSchedulers() {
+        return new FlowableTransformer<T, T>() {
+            @Override
+            public Publisher<T> apply(@NonNull Flowable<T> upstream) {
                 return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }
         };

@@ -8,9 +8,10 @@ package com.king.app.workhelper.retrofit.exception;
  */
 
 public class ApiException extends RuntimeException {
-    public static final int CODE_ERROR_DEFAULT = 999;
+    public static final int CODE_ERROR_DEFAULT = -1;
 
     public static final String MSG_ERROR_EMPTY = "empty error msg";
+    public static final String MSG_RESULTS_NULL = "results is null";
 
     public static final int CODE_ERROR_TIMEOUT = 1000;
     public static final String MSG_ERROR_SOCKET_TIMEOUT = "网络连接超时，请检查您的网络状态，稍后重试";
