@@ -9,6 +9,7 @@ import com.king.applib.util.SPUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.king.applib.util.JsonUtil.decodeToList;
@@ -63,6 +64,25 @@ public class JsonUtilTest extends BaseTestCase {
 
         Student decode = JsonUtil.decode("{\"name\":\"VanceKing\",\"age\":28}", Student.class);
         Logger.i(decode.toString());
+    }
+    
+    public void testEncodeListObject() throws Exception {
+        List<Student> students = new ArrayList<>();
+        students.add(new Student("aaa", 20));
+        students.add(new Student("bbb", 28));
+
+        String str = JsonUtil.encode(students);
+        Logger.i("str: "+str);
+    }
+
+    public void testEncodeListInteger() throws Exception {
+        List<Integer> integers = new ArrayList<>();
+        integers.add(10);
+        integers.add(99);
+        integers.add(0);
+
+        String str = JsonUtil.encode(integers);
+        Logger.i("str: "+str);
     }
     
     public void testPutObject() throws Exception {

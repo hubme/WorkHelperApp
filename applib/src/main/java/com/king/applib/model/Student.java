@@ -1,11 +1,13 @@
 package com.king.applib.model;
 
+import java.io.Serializable;
+
 /**
  * @author huoguangxu
  * @since 2017/5/23.
  */
 
-public class Student {
+public class Student implements Serializable{
     public String name;
     public int age;
 

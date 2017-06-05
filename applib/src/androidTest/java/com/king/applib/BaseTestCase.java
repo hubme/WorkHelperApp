@@ -5,6 +5,9 @@ import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.ContextUtil;
+import com.king.applib.util.ExtendUtil;
+
+import java.util.List;
 
 /**
  * TestCase基础类
@@ -26,5 +29,13 @@ abstract class BaseTestCase extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    protected <E> void printList(List<E> list) {
+        ExtendUtil.printList(list);
+    }
+
+    protected <E> void printArray(E[] array) {
+        ExtendUtil.printArray(array);
     }
 }

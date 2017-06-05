@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -96,6 +97,17 @@ public class JsonUtil {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    /**
+     * 将List列表转换成json字符串
+     */
+    public static <T> String encode(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            return "";
+        }
+        Type listType = new TypeToken<List<T>>() {}.getType();
+        return GSON.toJson(list, listType);
     }
 
     /**
