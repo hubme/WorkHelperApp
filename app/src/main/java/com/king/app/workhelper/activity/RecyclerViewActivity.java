@@ -46,6 +46,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
 //        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mMineRv.setLayoutManager(layoutManager);
+        mMineRv.setNestedScrollingEnabled(false);
 //        StringAdapter mStringAdapter = new StringAdapter();
         TypeStringAdapter mStringAdapter = new TypeStringAdapter(R.layout.layout_simple_text_view);
         mStringAdapter.setAdapterData(fakeData());
