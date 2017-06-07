@@ -2,7 +2,7 @@ package com.king.app.workhelper.activity;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,10 +43,12 @@ public class RecyclerViewActivity extends AppBaseActivity {
         super.initData();
 
 //        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-//        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+        //6.0设置setNestedScrollingEnabled(false)只显示一行，ScrollView换成NestedScrollView即可.
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mMineRv.setLayoutManager(layoutManager);
-        mMineRv.setNestedScrollingEnabled(false);
+        mMineRv.setNestedScrollingEnabled(false);//解决滑动冲突
 //        StringAdapter mStringAdapter = new StringAdapter();
         TypeStringAdapter mStringAdapter = new TypeStringAdapter(R.layout.layout_simple_text_view);
         mStringAdapter.setAdapterData(fakeData());
@@ -58,7 +60,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
         RecyclerDivider itemDecoration = new RecyclerDivider();//RVDivider.VERTICAL
         mMineRv.addItemDecoration(itemDecoration);
         itemDecoration.setMargin(15, 0, 15, 0);
-        
+
         mMineRv.setItemAnimator(new DefaultItemAnimator()); //即使不设置,默认也是这个动画
 
     }
@@ -122,7 +124,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
                     textView.setText(entity.text);
                 }
             }
-            
+
         }
 
         @Override public int getItemViewType(int position) {
@@ -136,14 +138,15 @@ public class RecyclerViewActivity extends AppBaseActivity {
 
     //封装后的Adapter
     private class TypeStringAdapter extends BaseRecyclerViewAdapter<StringEntity> {
-        
+
         public TypeStringAdapter(@LayoutRes int layoutRes) {
             super(layoutRes);
         }
 
         @Override public void convert(RecyclerHolder holder, StringEntity item, int position) {
             holder.setText(R.id.tv_item_input, item.text);
-            holder.getView(R.id.tv_item_input).setOnClickListener(v -> {});
+            holder.getView(R.id.tv_item_input).setOnClickListener(v -> {
+            });
         }
 
         /*@Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -171,7 +174,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
             return getAdapterData().get(position).type;
         }
     }
-    
+
     private static class ContentViewHolder extends RecyclerView.ViewHolder {
         private final TextView content;
         private final TextView categoryName;
@@ -181,6 +184,6 @@ public class RecyclerViewActivity extends AppBaseActivity {
             content = (TextView) itemView.findViewById(R.id.tv_item_input);
             categoryName = (TextView) itemView.findViewById(R.id.tv_category_name);
         }
-        
+
     }
 }
