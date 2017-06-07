@@ -46,9 +46,16 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void resetAdapterData() {
+    public void clearData() {
         mAdapterData.clear();
         notifyDataSetChanged();
+    }
+
+    public void removeData(T t) {
+        if (t != null) {
+            mAdapterData.remove(t);
+            notifyDataSetChanged();
+        }
     }
 
     private boolean isDataListEmpty(List<T> dataData) {
