@@ -326,6 +326,13 @@ public class ExtendUtil {
         return getResources().getResourceEntryName(resId);
     }
 
+    /**
+     * 根据drawable名称获取id
+     */
+    public static int getDrawableResId(String drawableResName) {
+        return getResources().getIdentifier(drawableResName, "drawable", AppUtil.getAppInfo().getPackageName());
+    }
+
     /** 获取屏幕宽度 */
     public static int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;

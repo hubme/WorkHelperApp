@@ -23,4 +23,10 @@ public class ExtentUtilTest extends BaseTestCase {
     public void testGetResourceName() throws Exception {
         Logger.i(ExtendUtil.getResourceName(R.string.app_name)+"==="+ExtendUtil.isXhdpi());
     }
+    
+    public void testGetResourceId() throws Exception {
+        Logger.i(ExtendUtil.getDrawableResId("app_name")+"");
+        Logger.i(ExtendUtil.getDrawableResId("home")+"");
+        Logger.i(ExtendUtil.getDrawableResId("")+"");
+    }
 }
