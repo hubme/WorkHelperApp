@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.AnyRes;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -410,5 +411,11 @@ public class ExtendUtil {
         } else {
             view.setBackgroundDrawable(drawable);
         }
+    }
+
+    /** 判断通知是否可用 */
+    public static boolean isNotificationEnable(Context context) {
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
+        return managerCompat.areNotificationsEnabled();
     }
 }

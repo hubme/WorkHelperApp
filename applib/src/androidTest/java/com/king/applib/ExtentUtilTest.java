@@ -19,14 +19,18 @@ public class ExtentUtilTest extends BaseTestCase {
         Logger.i("width: " + ExtendUtil.getScreenWidth() + "");
         Logger.i("height: " + ExtendUtil.getScreenHeight() + "");
     }
-    
+
     public void testGetResourceName() throws Exception {
-        Logger.i(ExtendUtil.getResourceName(R.string.app_name)+"==="+ExtendUtil.isXhdpi());
+        Logger.i(ExtendUtil.getResourceName(R.string.app_name) + "===" + ExtendUtil.isXhdpi());
     }
-    
+
     public void testGetResourceId() throws Exception {
-        Logger.i(ExtendUtil.getDrawableResId("app_name")+"");
-        Logger.i(ExtendUtil.getDrawableResId("home")+"");
-        Logger.i(ExtendUtil.getDrawableResId("")+"");
+        Logger.i(ExtendUtil.getDrawableResId("app_name") + "");
+        Logger.i(ExtendUtil.getDrawableResId("home") + "");
+        Logger.i(ExtendUtil.getDrawableResId("") + "");
+    }
+
+    public void testIsNotificationEnable() throws Exception {
+        Logger.i(ExtendUtil.isNotificationEnable(mContext) ? "可用" : "不可用");
     }
 }
