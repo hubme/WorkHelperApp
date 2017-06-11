@@ -38,8 +38,11 @@ public abstract class BaseBottomDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getDialog().setCanceledOnTouchOutside(getCancelOutside());
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+        }
+        getDialog().setCanceledOnTouchOutside(true);
 
         View v = inflater.inflate(getLayoutRes(), container, false);
         bindView(v);
@@ -51,6 +54,9 @@ public abstract class BaseBottomDialog extends DialogFragment {
         super.onStart();
 
         Window window = getDialog().getWindow();
+        if (window == null) {
+            return;
+        }
         WindowManager.LayoutParams params = window.getAttributes();
         params.dimAmount = getDimAmount();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
