@@ -83,4 +83,21 @@ public class StringUtilsTest extends AndroidTestCase {
         Logger.i(String.valueOf(StringUtil.isNoneEmpty("0a", text)));
         Logger.i(String.valueOf(StringUtil.isNoneEmpty("0a", "ab")));
     }
+
+    public void testStringBuffer() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        sb.append("aaa").append("bbb");
+        Logger.i(sb.toString());
+
+        sb.delete(0, sb.length());
+        Logger.i("results: "+sb.toString());
+
+        sb.append("111");
+        Logger.i(sb.toString());
+    }
+
+    public void testConcat() throws Exception {
+        String text = "";
+        Logger.i(text.concat("aaa").concat("bbb"));
+    }
 }
