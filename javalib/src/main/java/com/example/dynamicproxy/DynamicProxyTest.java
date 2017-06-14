@@ -50,5 +50,9 @@ public class DynamicProxyTest {
         hello.sayHello();
         //命名方式固定，以$开头，proxy为中，最后一个数字表示对象的标号。
         System.out.println(hello.getClass().getName());//com.example.$Proxy0
+
+        // save proxy class to root of this project, you can use jd-gui to see content of the saved file 
+        String saveFileName = "$Proxy0.class";
+        ProxyUtil.saveProxyClass(saveFileName, helloImpl.getClass().getSimpleName(), helloImpl.getClass().getInterfaces());
     }
 }
