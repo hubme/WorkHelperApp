@@ -66,9 +66,9 @@
             <!--@drawable/normal_selector.只有默认点击效果，5.0没有波纹效果-->
             <TextView
                 android:id="@+id/tv_ripple_effect"
+                style="@style/SelectableItemBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                style="@style/SelectableItemBackground"
                 android:gravity="center"
                 android:text="点击波纹效果(可修改点击颜色)"/>
 
@@ -76,6 +76,35 @@
                 android:id="@+id/tv_dialog_fragment"
                 style="@style/EntryItem"
                 android:text="Dialog Fragment"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.king.applib.ui.customview.SwitchButton
+                    android:id="@+id/switch_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.king.applib.ui.customview.SwitchButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:sb_checked="true"
+                    app:sb_show_indicator="false"/>
+
+                <com.king.applib.ui.customview.SwitchButton
+                    android:id="@+id/btn_switch"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    app:sb_background="#FFF"
+                    app:sb_button_color="#db99c7"
+                    app:sb_checked_color="#A36F95"
+                    app:sb_checkline_color="#a5dc88"
+                    app:sb_shadow_color="#A36F95"
+                    app:sb_uncheckcircle_color="#A36F95"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

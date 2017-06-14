@@ -22,31 +22,31 @@
     <!--banner-->
     <declare-styleable name="SivinBanner">
         <!-- 指示点容器背景 -->
-        <attr name="banner_pointContainerBackground" format="reference|color" />
+        <attr name="banner_pointContainerBackground" format="reference|color"/>
         <!-- 指示点背景 -->
-        <attr name="banner_pointDrawable" format="reference" />
+        <attr name="banner_pointDrawable" format="reference"/>
         <!-- 指示点容器左右内间距 -->
-        <attr name="banner_pointContainerLeftRightPadding" format="dimension" />
+        <attr name="banner_pointContainerLeftRightPadding" format="dimension"/>
         <!-- 指示点上下外间距 -->
-        <attr name="banner_pointTopBottomMargin" format="dimension" />
+        <attr name="banner_pointTopBottomMargin" format="dimension"/>
         <!-- 指示点左右外间距 -->
-        <attr name="banner_pointLeftRightMargin" format="dimension" />
+        <attr name="banner_pointLeftRightMargin" format="dimension"/>
         <!-- 指示点的位置 -->
         <attr name="banner_pointGravity">
-            <flag name="top" value="0x30" />
-            <flag name="bottom" value="0x50" />
-            <flag name="left" value="0x03" />
-            <flag name="right" value="0x05" />
-            <flag name="center_horizontal" value="0x01" />
+            <flag name="top" value="0x30"/>
+            <flag name="bottom" value="0x50"/>
+            <flag name="left" value="0x03"/>
+            <flag name="right" value="0x05"/>
+            <flag name="center_horizontal" value="0x01"/>
         </attr>
         <!-- 自动轮播的时间间隔 -->
-        <attr name="banner_pointAutoPlayInterval" format="integer" />
+        <attr name="banner_pointAutoPlayInterval" format="integer"/>
         <!-- 页码切换过程的时间长度 -->
-        <attr name="banner_pageChangeDuration" format="integer" />
+        <attr name="banner_pageChangeDuration" format="integer"/>
         <!-- 提示文案的文字颜色 -->
-        <attr name="banner_tipTextColor" format="reference|color" />
+        <attr name="banner_tipTextColor" format="reference|color"/>
         <!-- 提示文案的文字大小 -->
-        <attr name="banner_tipTextSize" format="dimension" />
+        <attr name="banner_tipTextSize" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="NoticeView">
@@ -82,5 +82,28 @@
         <attr name="sl_shadowColor" format="color"/>
         <attr name="sl_dx" format="dimension"/>
         <attr name="sl_dy" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="SwitchButton">
+        <attr name="sb_shadow_radius" format="reference|dimension"/>
+        <attr name="sb_shadow_offset" format="reference|dimension"/>
+        <attr name="sb_shadow_color" format="reference|color"/>
+        <attr name="sb_uncheck_color" format="reference|color"/>
+        <attr name="sb_checked_color" format="reference|color"/>
+
+        <attr name="sb_border_width" format="reference|dimension"/>
+        <attr name="sb_checkline_color" format="reference|color"/>
+        <attr name="sb_checkline_width" format="reference|dimension"/>
+        <attr name="sb_uncheckcircle_color" format="reference|color"/>
+        <attr name="sb_uncheckcircle_width" format="reference|dimension"/>
+        <attr name="sb_uncheckcircle_radius" format="reference|dimension"/>
+
+        <attr name="sb_checked" format="reference|boolean"/>
+        <attr name="sb_shadow_effect" format="reference|boolean"/>
+        <attr name="sb_effect_duration" format="reference|integer"/>
+        <attr name="sb_button_color" format="reference|color"/>
+        <attr name="sb_show_indicator" format="reference|boolean"/>
+        <attr name="sb_background" format="reference|color"/>
+        <attr name="sb_enable_effect" format="reference|boolean"/>
     </declare-styleable>
 </resources>
