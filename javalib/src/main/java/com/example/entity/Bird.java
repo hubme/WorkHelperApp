@@ -8,11 +8,26 @@ package com.example.entity;
 public class Bird {
     public String name;
 
+    public int age;
+
     public Bird() {
     }
 
     public Bird(String name) {
         this.name = name;
+    }
+
+    public Bird(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    private void fly(String type) {
+        System.out.println("fly method--->" + type);
+    }
+
+    public void eat(String food) {
+        System.out.println("I can eat " + food);
     }
 
     @Override public int hashCode() {
@@ -24,8 +39,6 @@ public class Bird {
     }
 
     @Override public String toString() {
-        return "bird{" +
-                "name='" + name + '\'' +
-                '}';
+        return "I am a " + name + " bird.";
     }
 }
