@@ -1,6 +1,8 @@
 package com.king.app.workhelper.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Message;
 import android.os.UserManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -76,6 +78,7 @@ public class UsageFragment extends AppBaseFragment {
         mMyHandler.sendEmptyMessage(MSG_WHAT);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @OnClick(R.id.tv_reflect)
     public void reflectClick() {
         try {
