@@ -10,19 +10,8 @@ import java.lang.reflect.Proxy;
  */
 
 public class DynamicProxyTest {
-    interface IHello {
-        void sayHello();
-    }
-
-    private static class Hello implements IHello {
-
-        @Override
-        public void sayHello() {
-            System.out.println("hello world!");
-        }
-    }
-
     /**
+     * InvocationHandler负责连接代理类和委托类的中间类必须实现的接口.
      * public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h) throws IllegalArgumentException
      * loader:　　一个ClassLoader对象，定义了由哪个ClassLoader对象来对生成的代理对象进行加载
      * interfaces:　　一个Interface对象的数组，表示的是我将要给我需要代理的对象提供一组什么接口，
@@ -55,9 +44,11 @@ public class DynamicProxyTest {
     }
 
     public static void main(String[] args) {
-        IHello hello = (IHello) new DynamicProxy().bind(new Hello());
+        //委托类(被代理类)
+        HelloImpl helloImpl = new HelloImpl();
+        IHello hello = (IHello) new DynamicProxy().bind(helloImpl);
         hello.sayHello();
-        //命名方式都是这样的形式，以$开头，proxy为中，最后一个数字表示对象的标号。
+        //命名方式固定，以$开头，proxy为中，最后一个数字表示对象的标号。
         System.out.println(hello.getClass().getName());//com.example.$Proxy0
     }
 }
