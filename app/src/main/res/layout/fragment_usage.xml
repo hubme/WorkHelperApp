@@ -62,6 +62,16 @@
 
             </com.king.applib.ui.ShadowLayout>
 
+            <!--?attr/selectableItemBackground.<5.0默认点击效果，>=5.0有波纹效果-->
+            <!--@drawable/normal_selector.只有默认点击效果，5.0没有波纹效果-->
+            <TextView
+                android:id="@+id/tv_ripple_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                style="@style/SelectableItemBackground"
+                android:gravity="center"
+                android:text="点击波纹效果(可修改点击颜色)"/>
+
         </LinearLayout>
 
     </ScrollView>

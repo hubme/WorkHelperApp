@@ -116,4 +116,9 @@ public class UsageFragment extends AppBaseFragment {
             }
         });
     }
+
+    @OnClick(R.id.tv_ripple_effect)
+    public void onRippleEffect() {
+        
+    }
 }
