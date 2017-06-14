@@ -64,9 +64,10 @@
 
             <!--?attr/selectableItemBackground.<5.0默认点击效果，>=5.0有波纹效果-->
             <!--@drawable/normal_selector.只有默认点击效果，5.0没有波纹效果-->
+            <!--style="@style/SelectableItemBackground"-->
             <TextView
                 android:id="@+id/tv_ripple_effect"
-                style="@style/SelectableItemBackground"
+                android:background="@drawable/ripple_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:gravity="center"
