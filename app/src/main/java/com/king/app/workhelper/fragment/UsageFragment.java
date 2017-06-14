@@ -2,21 +2,18 @@ package com.king.app.workhelper.fragment;
 
 import android.content.Context;
 import android.os.Message;
-import android.os.SystemClock;
 import android.os.UserManager;
-import android.support.v4.view.ViewConfigurationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.dialog.ShareBottomDialog;
+import com.king.app.workhelper.ui.dialog.SimpleDialogFragment;
 import com.king.applib.base.WeakHandler;
 import com.king.applib.log.Logger;
-import com.sina.weibo.sdk.constant.WBConstants;
 
 import java.lang.reflect.Method;
 
@@ -120,5 +117,13 @@ public class UsageFragment extends AppBaseFragment {
     @OnClick(R.id.tv_ripple_effect)
     public void onRippleEffect() {
         
+    }
+
+    @OnClick(R.id.tv_dialog_fragment)
+    public void onDialogFragmentClick() {
+        SimpleDialogFragment dialogFragment = new SimpleDialogFragment.Builder().create();
+        if (!dialogFragment.isVisible()) {
+            dialogFragment.show(getFragmentManager(), "aaa");
+        }
     }
 }

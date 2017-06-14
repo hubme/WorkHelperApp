@@ -111,4 +111,9 @@
     <style name="SelectableItemTheme">
         <item name="colorControlHighlight">@color/chocolate</item>
     </style>
+
+    <style name="dialogEnter">
+        <item name="android:windowEnterAnimation">@anim/alpha_appear</item>
+        <item name="android:windowExitAnimation">@anim/alpha_disappear</item>
+    </style>
 </resources>

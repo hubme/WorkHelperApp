@@ -12,7 +12,6 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
-import com.king.applib.log.Logger;
 
 /**
  * 简单的弹框封装
@@ -34,16 +33,25 @@ public class SimpleDialogFragment extends DialogFragment {
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        initDialog();
         View view = inflater.inflate(R.layout.layout_simple_dialog_fragment, container);
         initView(view);
         getDialog().setCanceledOnTouchOutside(mOutsideCancel);
         return view;
     }
 
+    @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initDialog();
+    }
+
+    @Override public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     private void initView(View view) {
@@ -61,6 +69,9 @@ public class SimpleDialogFragment extends DialogFragment {
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             window.setLayout((int) (dm.widthPixels * 0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            window.setWindowAnimations(R.style.dialogEnter);
+
         }
     }
 
@@ -91,7 +102,6 @@ public class SimpleDialogFragment extends DialogFragment {
     }
 
     public SimpleDialogFragment setLeftIcon(@DrawableRes int resId) {
-        Logger.i("setLeftIcon()");
         if (mLeftIconIv != null) {
             mLeftIconIv.setBackgroundResource(resId);
         }
