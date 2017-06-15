@@ -67,9 +67,9 @@
             <!--style="@style/SelectableItemBackground"-->
             <TextView
                 android:id="@+id/tv_ripple_effect"
-                android:background="@drawable/ripple_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:text="点击波纹效果(可修改点击颜色)"/>
 
@@ -106,6 +106,15 @@
                     app:sb_uncheckcircle_color="#A36F95"/>
 
             </LinearLayout>
+
+            <com.king.applib.ui.customview.ProgressWheel
+                android:id="@+id/progress_wheel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                app:matProg_barColor="@color/chocolate"
+                app:matProg_fillRadius="false"
+                app:matProg_progressIndeterminate="true"/>
 
         </LinearLayout>
 
