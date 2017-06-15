@@ -1,5 +1,7 @@
 package com.king.applib.util;
 
+import android.util.Base64;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -285,5 +287,12 @@ public class FileUtil {
             IOUtil.close(outputStream);
             IOUtil.close(inputStream);
         }
+    }
+
+    public static String encodeToString(byte[] bytes) {
+        if (bytes == null || bytes.length <= 0) {
+            return null;
+        }
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 }

@@ -21,7 +21,7 @@ import com.king.applib.R;
  */
 public abstract class BaseBottomDialog extends DialogFragment {
     private static final String TAG = "BaseBottomDialog";
-    private static final float DEFAULT_DIM = 0.2f;
+    private static final float DEFAULT_DIM = 0.4f;
     protected Context mContext;
 
     @Override
@@ -93,6 +93,8 @@ public abstract class BaseBottomDialog extends DialogFragment {
     }
 
     public void show(FragmentManager fragmentManager) {
-        show(fragmentManager, getFragmentTag());
+        if (!isVisible()) {
+            show(fragmentManager, getFragmentTag());
+        }
     }
 }

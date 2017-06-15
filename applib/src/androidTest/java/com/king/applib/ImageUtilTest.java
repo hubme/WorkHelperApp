@@ -14,9 +14,11 @@ import java.io.File;
 import static com.king.applib.util.ImageUtil.compressByQuality;
 
 /**
- * Created by HuoGuangxu on 2016/11/22.
+ * ImageUtil 测试类
+ *
+ * @author huoguangxu
+ * @since 2016/11/22.
  */
-
 public class ImageUtilTest extends AndroidTestCase {
 
     private Context mContext;
@@ -29,7 +31,7 @@ public class ImageUtilTest extends AndroidTestCase {
         mContext = getContext();
         Logger.init("aaa").methodCount(1).hideThreadInfo();
 
-        mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/compress_before.jpg";
+        mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/aaa.jpg";
         mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/compress_100k.jpg";
     }
 
@@ -37,13 +39,13 @@ public class ImageUtilTest extends AndroidTestCase {
         super.tearDown();
     }
 
-    public void testCompressBySize() throws Exception{
+    public void testCompressBySize() throws Exception {
 //        Bitmap bitmap = ImageUtil.getBitmap(mContext, R.drawable.home);
         Bitmap bitmap = ImageUtil.getBitmap(FileUtil.getFileByPath(mImagePath));
         long t1 = System.currentTimeMillis();
         Bitmap compressedBitmap = ImageUtil.compressByQuality(bitmap, 100 * 1024L, false);
         if (compressedBitmap != null) {
-            Logger.i("width: "+compressedBitmap.getWidth()+" ;height: "+compressedBitmap.getHeight());
+            Logger.i("width: " + compressedBitmap.getWidth() + " ;height: " + compressedBitmap.getHeight());
         }
 
         Logger.i((System.currentTimeMillis() - t1) + " millis");
@@ -89,5 +91,17 @@ public class ImageUtilTest extends AndroidTestCase {
 
         Logger.i("getImageWidth(): " + ImageUtil.getImageWidth(mContext, mImagePath));//2448
         Logger.i("getImageHeight(): " + ImageUtil.getImageHeight(mContext, mImagePath));//3264
+    }
+
+    public void testGetBytes() throws Exception {
+        byte[] bytes = ImageUtil.getBytes(mImagePath);
+        Logger.i(bytes == null ? "bytes == null" : "图片大小:" + bytes.length);
+        String encodeToString = FileUtil.encodeToString(bytes);
+        Logger.i("encodeToString: " + encodeToString);
+    }
+
+    public void testReadPictureDegree() throws Exception{
+        int degree = ImageUtil.readPictureDegree(mImagePath);
+        Logger.i("degree: " + degree);
     }
 }

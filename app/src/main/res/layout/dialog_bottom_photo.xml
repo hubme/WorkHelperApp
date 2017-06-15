@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:divider="@drawable/ll_h_divider"
+              android:orientation="vertical"
+              android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/tv_photo_camera"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="拍摄照片"
+        android:textColor="@color/gray_666666"
+        android:textSize="@dimen/ts_big"/>
+
+    <TextView
+        android:id="@+id/tv_photo_album"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="从相册选取"
+        android:textColor="@color/gray_666666"
+        android:textSize="@dimen/ts_big"/>
+
+</LinearLayout>

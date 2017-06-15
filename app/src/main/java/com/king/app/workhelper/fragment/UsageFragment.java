@@ -2,6 +2,7 @@ package com.king.app.workhelper.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Message;
 import android.os.UserManager;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.dialog.PhotoBottomDialog;
 import com.king.app.workhelper.dialog.ShareBottomDialog;
 import com.king.app.workhelper.ui.dialog.SimpleDialogFragment;
 import com.king.applib.base.WeakHandler;
@@ -22,6 +24,8 @@ import java.lang.reflect.Method;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * WeakHandler
@@ -71,6 +75,23 @@ public class UsageFragment extends AppBaseFragment {
             Logger.i("onRefresh");
             mMyHandler.sendEmptyMessageDelayed(MSG_WAIT, 3000);
         });
+    }
+
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case PhotoBottomDialog.REQ_CODE_CAMERA:
+                Logger.i("相机");
+                break;
+            case PhotoBottomDialog.REQ_CODE_ALBUM:
+                Logger.i("相册");
+                break;
+            default:
+                break;
+        }
     }
 
     @OnClick(R.id.tv_weak_handler)
@@ -128,5 +149,12 @@ public class UsageFragment extends AppBaseFragment {
         if (!dialogFragment.isVisible()) {
             dialogFragment.show(getFragmentManager(), "aaa");
         }
+    }
+
+    @OnClick(R.id.tv_dialog_photo)
+    public void onPhotoDialogClick() {
+        PhotoBottomDialog dialog = new PhotoBottomDialog();
+        dialog.setHost(this);
+        dialog.show(getFragmentManager());
     }
 }

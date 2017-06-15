@@ -243,25 +243,23 @@ public class ImageUtil {
      * @return degree旋转的角度
      */
     public static int readPictureDegree(String path) {
-        int degree = 0;
         try {
             ExifInterface exifInterface = new ExifInterface(path);
             int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
             switch (orientation) {
                 case ExifInterface.ORIENTATION_ROTATE_90:
-                    degree = 90;
-                    break;
+                    return 90;
                 case ExifInterface.ORIENTATION_ROTATE_180:
-                    degree = 180;
-                    break;
+                    return 180;
                 case ExifInterface.ORIENTATION_ROTATE_270:
-                    degree = 270;
-                    break;
+                    return 270;
+                default:
+                    return 0;
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return 0;
         }
-        return degree;
     }
 
     /**
@@ -497,4 +495,29 @@ public class ImageUtil {
         view.draw(c);
         return screenshot;
     }
+
+    /**
+     * 获取图片的字节流
+     *
+     * @param imagePath 图片路径
+     * @return 字节数组
+     */
+    public static byte[] getBytes(String imagePath) {
+        if (StringUtil.isNullOrEmpty(imagePath)) {
+            return null;
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        try {
+            out.flush();
+            return out.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            IOUtil.close(out);
+        }
+    }
+    
 }
