@@ -58,14 +58,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 获取从上个页面传递来的数据
      */
-    public void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent) {
 
     }
 
     /**
      * 获取布局资源的id.
      */
-    public abstract @LayoutRes int getContentLayout();
+    protected abstract @LayoutRes int getContentLayout();
 
     /**
      * 给View填充数据。

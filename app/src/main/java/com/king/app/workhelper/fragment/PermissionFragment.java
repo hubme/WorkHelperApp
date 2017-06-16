@@ -85,7 +85,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
     /**
      * 打开相机
      */
-    private void takePhotoFromCamera(int requestCode) {
+    private void takePhotoFromCamera() {
         String mCameraPhotoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera/" +
                 DateTimeUtil.formatDate(new Date(), "yyyyMMdd_HHmmss") + ".jpg";
         Uri uri = Uri.fromFile(FileUtil.createFile(mCameraPhotoPath));
@@ -93,7 +93,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            startActivityForResult(intent, requestCode);
+            startActivityForResult(intent, REQ_CODE_ACTIVITY_CAMERA);
         } else {
             Toast.makeText(getContext(), "手机中未安装拍照应用", Toast.LENGTH_SHORT).show();
         }
@@ -107,7 +107,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
                 break;
             case REQ_CODE_PERMISSION_CAMERA:
                 Logger.i("相机权限已授权，打开相机");
-                takePhotoFromCamera(REQ_CODE_ACTIVITY_CAMERA);
+                takePhotoFromCamera();
                 break;
             case REQ_CODE_PERMISSION_PHONE_SMS:
                 Logger.i("电话短信已授权");

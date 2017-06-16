@@ -34,6 +34,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getArgumentData();
+        initInitialData();
     }
 
     @Nullable
@@ -60,6 +61,13 @@ public abstract class BaseFragment extends Fragment {
 
     protected void getBundleData(Bundle bundle) {
 
+    }
+
+    /**
+     * 初始化不耗时的数据,为了在View初始化以后直接使用<br/>
+     * eg:设置默认值、从SP读取数据等。
+     */
+    protected void initInitialData() {
     }
 
     @LayoutRes protected abstract int getContentLayout();

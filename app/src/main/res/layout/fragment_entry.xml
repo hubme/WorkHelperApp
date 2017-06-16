@@ -152,17 +152,17 @@
                 android:id="@+id/tv_recycler_view"
                 style="@style/EntryItem"
                 android:text="RecyclerView"/>
-            
+
             <TextView
                 android:id="@+id/tv_event"
                 style="@style/EntryItem"
                 android:text="Event"/>
-            
+
             <TextView
                 android:id="@+id/tv_drawable"
                 style="@style/EntryItem"
                 android:text="Drawable"/>
-            
+
             <TextView
                 android:id="@+id/tv_fragment_life_circle"
                 style="@style/EntryItem"
@@ -172,11 +172,16 @@
                 android:id="@+id/tv_banner_simple"
                 style="@style/EntryItem"
                 android:text="Banner"/>
-            
+
             <TextView
                 android:id="@+id/tv_flexbox_layout"
                 style="@style/EntryItem"
                 android:text="Flexbox Layout"/>
+
+            <TextView
+                android:id="@+id/tv_update_photo"
+                style="@style/EntryItem"
+                android:text="上传照片"/>
 
         </LinearLayout>
 

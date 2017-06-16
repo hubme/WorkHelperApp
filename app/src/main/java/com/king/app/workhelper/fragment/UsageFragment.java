@@ -151,10 +151,4 @@ public class UsageFragment extends AppBaseFragment {
         }
     }
 
-    @OnClick(R.id.tv_dialog_photo)
-    public void onPhotoDialogClick() {
-        PhotoBottomDialog dialog = new PhotoBottomDialog();
-        dialog.setHost(this);
-        dialog.show(getFragmentManager());
-    }
 }

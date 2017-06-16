@@ -116,11 +116,6 @@
                 app:matProg_fillRadius="false"
                 app:matProg_progressIndeterminate="true"/>
 
-            <TextView
-                android:id="@+id/tv_dialog_photo"
-                style="@style/EntryItem"
-                android:text="拍照"/>
-
         </LinearLayout>
 
     </ScrollView>

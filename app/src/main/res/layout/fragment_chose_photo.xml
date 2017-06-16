@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_open_camera"
+        style="@style/EntryItem"
+        android:text="拍照"/>
+
+    <TextView
+        android:id="@+id/tv_open_video"
+        style="@style/EntryItem"
+        android:text="录像"/>
+
+    <TextView
+        android:id="@+id/tv_open_album"
+        style="@style/EntryItem"
+        android:text="相册"/>
+
+</LinearLayout>

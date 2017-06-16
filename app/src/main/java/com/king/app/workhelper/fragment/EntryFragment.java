@@ -204,6 +204,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new FlexBoxLayoutFragment());
     }
 
+    @OnClick(R.id.tv_update_photo)
+    public void onChosePhotoClick() {
+        clickedOn(new ChosePhotoFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
