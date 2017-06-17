@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 
 /**
  * 基础Fragment
- * Created by VanceKing on 2016/9/29.
+ *
+ * @author VanceKing
+ * @since 2016/9/29
  */
-
 public abstract class BaseFragment extends Fragment {
 
     protected View mRootView;
@@ -47,7 +48,7 @@ public abstract class BaseFragment extends Fragment {
         return mRootView;
     }
 
-    @Override 
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
     }
@@ -80,7 +81,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void fetchData() {
-        
+
     }
 
     protected void openActivity(Class<? extends Activity> cls) {
