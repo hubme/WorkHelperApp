@@ -22,7 +22,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
     public BaseListAdapter(@LayoutRes int layoutId, List<T> dataList) {
         this.mLayoutId = layoutId;
-        if (!isDataListEmpty(dataList)) {
+        if (!isListEmpty(dataList)) {
             mAdapterData.addAll(dataList);
         }
     }
@@ -32,13 +32,13 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     public void setAdapterData(List<T> adapterData, boolean isAppend) {
-        if (isDataListEmpty(adapterData)) {
+        if (isListEmpty(adapterData)) {
             return;
         }
         if (isAppend) {
             mAdapterData.addAll(adapterData);
         } else {
-            if (!isDataListEmpty(mAdapterData)) {
+            if (!isListEmpty(mAdapterData)) {
                 mAdapterData.clear();
             }
             mAdapterData.addAll(adapterData);
@@ -58,8 +58,8 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         }
     }
 
-    private boolean isDataListEmpty(List<T> dataData) {
-        return dataData == null || dataData.isEmpty();
+    private boolean isListEmpty(List<T> dataList) {
+        return dataList == null || dataList.isEmpty();
     }
 
     public List<T> getAdapterData() {
