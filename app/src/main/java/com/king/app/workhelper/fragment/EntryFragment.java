@@ -209,6 +209,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new ChosePhotoFragment());
     }
 
+    @OnClick(R.id.tv_bottom_sheets)
+    public void ontvBottomSheetsClick() {
+        clickedOn(new BottomSheetsFragment());
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

@@ -183,6 +183,11 @@
                 style="@style/EntryItem"
                 android:text="上传照片"/>
 
+            <TextView
+                android:id="@+id/tv_bottom_sheets"
+                style="@style/EntryItem"
+                android:text="BottomSheets"/>
+
         </LinearLayout>
 
 

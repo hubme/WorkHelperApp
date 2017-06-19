@@ -481,7 +481,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     /*
     doOnNext()允许我们在每次输出一个元素之前做一些额外的事情
-    doOnNext() allows us to add extra behavior each time an item is emitted, in this case saving the title.
+    doOnNext() allows us to add extra mBottomSheetBehavior each time an item is emitted, in this case saving the title.
      */
     @OnClick(R.id.tv_doOnNext)
     public void onDoOnNext() {
