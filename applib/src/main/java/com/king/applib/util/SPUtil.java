@@ -172,8 +172,10 @@ public class SPUtil {
     }
 
     /***
-     * 把List数据保存到SP
+     * 把List数据保存到SP<br/>
+     * see: {@link #putList2Sp(String, List)}
      */
+    @Deprecated
     public static <T> void putListToSp(String key, List<T> list) {
         if (ExtendUtil.isListNullOrEmpty(list)) {
             return;
@@ -186,11 +188,13 @@ public class SPUtil {
     }
 
     /***
-     * 从SP中获取List类型的数据
+     * 从SP中获取List类型的数据<br/>
+     * see: {@link #getList(String, Class)}
      */
+    @Deprecated
     public static <T> List<T> getListFromSp(String key, Class<T> clazz) {
         List<T> list = new ArrayList<>();
-        String text = SPUtil.getString(key);
+        final String text = SPUtil.getString(key);
         String[] classArray = text.trim().split(SP_SEPARATOR);
         for (String value : classArray) {
             T t = JsonUtil.decode(value, clazz);
@@ -200,6 +204,20 @@ public class SPUtil {
             list.add(t);
         }
         return list;
+    }
+
+    /** 把List转换成Json字符串保存到SP */
+    public static <T> void putList2Sp(String key, List<T> list) {
+        if (ExtendUtil.isListNullOrEmpty(list)) {
+            return;
+        }
+        getSP().edit().putString(key, JsonUtil.encode(list)).apply();
+    }
+
+    /** 把Json字符串传换成相应的List集合 */
+    public static <T> List<T> getList(String key, Class<T> clazz) {
+        final String text = SPUtil.getString(key);
+        return JsonUtil.decodeToList(text, clazz);
     }
 
     /** 保存对象到SP */

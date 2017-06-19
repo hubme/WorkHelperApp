@@ -74,7 +74,7 @@ public class SPUtilTest extends BaseTestCase {
     }
 
     public void testPutSp() throws Exception {
-        
+
         //不要连续put
         /*SPUtil.putBoolean("aaaaaaaaa", true);
         SPUtil.putBoolean("boolean", false);
@@ -82,7 +82,7 @@ public class SPUtilTest extends BaseTestCase {
         SPUtil.putInt("int", 100);
         SPUtil.putLong("long", 321651);
         SPUtil.putString("string", "双方而上方的");*/
-        
+
         //这样做
         SPUtil.getSP().edit()
                 .putBoolean("aaaaaaaaa", true)
@@ -94,7 +94,7 @@ public class SPUtilTest extends BaseTestCase {
                 .apply();
 
     }
-    
+
     public void testPutSet() throws Exception {
         Set<String> texts = new HashSet<>();
         texts.add("董藩");
@@ -105,11 +105,11 @@ public class SPUtilTest extends BaseTestCase {
         texts.add("哈哈哈");
         SPUtil.getSP().edit().putStringSet("list_set", texts).apply();
     }
-    
+
     public void testGetSet() throws Exception {
         Set<String> list_set = SPUtil.getSP().getStringSet("list_set", null);
     }
-    
+
     public void testAnotherSP() throws Exception {
         SPUtil.getSP("spname").edit().putBoolean("aaa", false).putInt("ccc", 1).putString("bbb", "bbb").apply();
     }
@@ -136,7 +136,17 @@ public class SPUtilTest extends BaseTestCase {
                 .remove("aaaaaaaaa")
                 .remove("boolean")
                 .apply();
-        
+
+    }
+
+    public void testPutList2Sp() throws Exception {
+        List<String> stringList = Arrays.asList("哈哈哈", "呵呵呵", "哦哦哦");
+        SPUtil.putList2Sp("stringList", stringList);
+    }
+
+    public void testGetList() throws Exception {
+        List<String> stringList = SPUtil.getList("stringList", String.class);
+        printList(stringList);
     }
 
 }
