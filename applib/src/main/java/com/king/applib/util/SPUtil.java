@@ -3,8 +3,6 @@ package com.king.applib.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,7 +15,6 @@ import java.util.List;
 
 public class SPUtil {
     public static final String DEFAULT_SP_NAME = "KingSP";
-    public static final String SP_SEPARATOR = ";##;";
 
     private SPUtil() {
         throw new UnsupportedOperationException("No instances!");
@@ -102,108 +99,9 @@ public class SPUtil {
         getSP().edit().remove(key).apply();
     }
 
-    /**
-     * 清空sp
-     */
+    /** 清空sp */
     public static void clear() {
         getSP().edit().clear().apply();
-    }
-
-    /**
-     * 保存List<String>到sp.以{@link #SP_SEPARATOR}分割,所以字符串中不要包含{@link #SP_SEPARATOR},否则保存的和读取的不一致。
-     */
-    public static void putStringList(String key, List<String> list) {
-        if (ExtendUtil.isListNullOrEmpty(list)) {
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String str : list) {
-            if (StringUtil.isNullOrEmpty(str)) {
-                sb.append(" ");
-            } else {
-                sb.append(str);
-            }
-            sb.append(SP_SEPARATOR);
-        }
-        getSP().edit().putString(key, sb.toString()).apply();
-    }
-
-    /**
-     * 获取指定key的List<String>
-     */
-    public static List<String> getStringList(String key) {
-        String textList = getString(key);
-        if (StringUtil.isNullOrEmpty(textList)) {
-            return null;
-        }
-        String[] stringArray = textList.trim().split(SP_SEPARATOR);
-        return Arrays.asList(stringArray);
-    }
-
-    /**
-     * 保存List<Integer>到sp.以{@link #SP_SEPARATOR}分割,所以字符串中不要包含{@link #SP_SEPARATOR},否则保存的和读取的不一致。
-     */
-    public static void putIntList(String key, List<Integer> list) {
-        if (ExtendUtil.isListNullOrEmpty(list)) {
-            return;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (int value : list) {
-            sb.append(value).append(SP_SEPARATOR);
-        }
-        getSP().edit().putString(key, sb.toString()).apply();
-    }
-
-    /**
-     * 获取指定key的List<Integer>
-     */
-    public static List<Integer> getIntList(String key) {
-        String intList = getString(key);
-        if (StringUtil.isNullOrEmpty(intList)) {
-            return null;
-        }
-        List<Integer> values = new ArrayList<>();
-        String[] intArray = intList.trim().split(SP_SEPARATOR);
-        for (String value : intArray) {
-            values.add(NumberUtil.getInt(value));
-        }
-        return values;
-    }
-
-    /***
-     * 把List数据保存到SP<br/>
-     * see: {@link #putList2Sp(String, List)}
-     */
-    @Deprecated
-    public static <T> void putListToSp(String key, List<T> list) {
-        if (ExtendUtil.isListNullOrEmpty(list)) {
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (T t : list) {
-            sb.append(JsonUtil.encode(t)).append(SP_SEPARATOR);
-        }
-        getSP().edit().putString(key, sb.toString()).apply();
-    }
-
-    /***
-     * 从SP中获取List类型的数据<br/>
-     * see: {@link #getList(String, Class)}
-     */
-    @Deprecated
-    public static <T> List<T> getListFromSp(String key, Class<T> clazz) {
-        List<T> list = new ArrayList<>();
-        final String text = SPUtil.getString(key);
-        String[] classArray = text.trim().split(SP_SEPARATOR);
-        for (String value : classArray) {
-            T t = JsonUtil.decode(value, clazz);
-            if (t == null) {
-                continue;
-            }
-            list.add(t);
-        }
-        return list;
     }
 
     /** 把List转换成Json字符串保存到SP */
