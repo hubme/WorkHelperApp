@@ -16,16 +16,23 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.applib.ui.customview.InsLoadingView
+                android:id="@+id/ins_loading_view"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/img_4071"
+                app:status="loading"/>
+
             <com.king.applib.ui.customview.NoticeView
                 android:id="@+id/notice"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="20dp"
+                android:background="@color/gray_666666"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 app:nvIcon="@mipmap/ad_notification"
                 app:nvIconPadding="5dp"
-                android:background="@color/gray_666666"
                 app:nvIconTint="@android:color/white"
                 app:nvTextColor="@color/chocolate"
                 app:nvTextGravity="left"

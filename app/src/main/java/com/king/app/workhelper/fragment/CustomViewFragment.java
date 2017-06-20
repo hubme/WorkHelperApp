@@ -34,6 +34,7 @@ import com.king.applib.ui.customview.BadgeView;
 import com.king.applib.ui.customview.BadgeView2;
 import com.king.applib.ui.customview.FormView;
 import com.king.applib.ui.customview.FormViewTest;
+import com.king.applib.ui.customview.InsLoadingView;
 import com.king.applib.ui.customview.NoticeView;
 import com.king.applib.ui.customview.SimpleBadgeTextView;
 
@@ -71,6 +72,7 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.simple_badge) SimpleBadgeTextView mSimpleBadger;
     @BindView(R.id.rise_text_view) RiseNumberTextView mRiseTextView;
     @BindView(R.id.notice) NoticeView mNoticeView;
+    @BindView(R.id.ins_loading_view) InsLoadingView mInsLoadingView;
 
     private BadgeView mBadgeView;
 
@@ -103,6 +105,23 @@ public class CustomViewFragment extends AppBaseFragment {
 
         mNoticeView.setNotices(Arrays.asList(notices));
         mNoticeView.setOnClickListener(v -> showToast(notices[mNoticeView.getIndex()]));
+
+        mInsLoadingView.setCircleDuration(2000);
+        mInsLoadingView.setRotateDuration(10000);
+        mInsLoadingView.setStartColor(Color.YELLOW);
+        mInsLoadingView.setEndColor(Color.BLUE);
+        mInsLoadingView.setOnClickListener(v -> {
+            switch (mInsLoadingView.getStatus()) {
+                case UNCLICKED:
+                    mInsLoadingView.setStatus(InsLoadingView.Status.LOADING);
+                    break;
+                case LOADING:
+                    mInsLoadingView.setStatus(InsLoadingView.Status.CLICKED);
+                    break;
+                case CLICKED:
+                    mInsLoadingView.setStatus(InsLoadingView.Status.UNCLICKED);
+            }
+        });
     }
 
     private void applyBadge() {
