@@ -1,6 +1,7 @@
 package com.king.applib.ui.customview;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,9 +16,10 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -43,23 +45,21 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
     private static final float arcChangeAngle = 0.2f;
     private static final int sClickedColor = Color.LTGRAY;
 
-    public enum Status {LOADING, CLICKED, UNCLICKED}
+    public static final int LOADING = 0;
+    public static final int CLICKED = 1;
+    public static final int UN_CLICKED = 2;
 
-    private static SparseArray<Status> sStatusArray;
-
-    static {
-        sStatusArray = new SparseArray<>(3);
-        sStatusArray.put(0, Status.LOADING);
-        sStatusArray.put(1, Status.CLICKED);
-        sStatusArray.put(2, Status.UNCLICKED);
+    @IntDef({LOADING, CLICKED, UN_CLICKED})
+    public @interface STATUS {
     }
 
-    private Status mStatus = Status.LOADING;
+    @STATUS
+    private int mStatus = LOADING;
     private int mRotateDuration = 10000;
     private int mCircleDuration = 2000;
     private float bitmapDia = circleDia - strokeWidth;
     private float degress;
-    private float cricleWidth;
+    private float circleWidth;
     private boolean isFirstCircle = true;
     private ValueAnimator mRotateAnim;
     private ValueAnimator mCircleAnim;
@@ -73,13 +73,11 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
     private RectF mTrackRectF;
 
     public InsLoadingView(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public InsLoadingView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public InsLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -87,23 +85,54 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
         init(context, attrs);
     }
 
+    private void init(Context context, AttributeSet attrs) {
+        parseAttrs(context, attrs);
+        onCreateAnimators();
+    }
+
+    private void parseAttrs(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.InsLoadingViewAttr);
+        int startColor = typedArray.getColor(R.styleable.InsLoadingViewAttr_start_color, mStartColor);
+        int endColor = typedArray.getColor(R.styleable.InsLoadingViewAttr_start_color, mEndColor);
+        int circleDuration = typedArray.getInt(R.styleable.InsLoadingViewAttr_circle_duration, mCircleDuration);
+        int rotateDuration = typedArray.getInt(R.styleable.InsLoadingViewAttr_rotate_duration, mRotateDuration);
+        @STATUS int status = typedArray.getInt(R.styleable.InsLoadingViewAttr_status, mStatus);
+        typedArray.recycle();
+        if (DEBUG) {
+            Log.d(TAG, "parseAttrs start_color: " + startColor);
+            Log.d(TAG, "parseAttrs end_color: " + endColor);
+            Log.d(TAG, "parseAttrs rotate_duration: " + rotateDuration);
+            Log.d(TAG, "parseAttrs circle_duration: " + circleDuration);
+            Log.d(TAG, "parseAttrs status: " + status);
+        }
+        setCircleDuration(circleDuration);
+        setRotateDuration(rotateDuration);
+        setStartColor(startColor);
+        setEndColor(endColor);
+        setStatus(status);
+    }
+
     public InsLoadingView setCircleDuration(int circleDuration) {
-        this.mCircleDuration = circleDuration;
-        mCircleAnim.setDuration(mCircleDuration);
+        if (circleDuration > 0 && mCircleDuration != circleDuration) {
+            mCircleDuration = circleDuration;
+            mCircleAnim.setDuration(mCircleDuration);
+        }
         return this;
     }
 
     public InsLoadingView setRotateDuration(int rotateDuration) {
-        this.mRotateDuration = rotateDuration;
-        mRotateAnim.setDuration(mRotateDuration);
+        if (rotateDuration > 0 && rotateDuration != mRotateDuration) {
+            mRotateDuration = rotateDuration;
+            mRotateAnim.setDuration(mRotateDuration);
+        }
         return this;
     }
 
-    public void setStatus(Status status) {
-        this.mStatus = status;
+    public void setStatus(@STATUS int status) {
+        mStatus = status;
     }
 
-    public Status getStatus() {
+    public int getStatus() {
         return mStatus;
     }
 
@@ -147,17 +176,17 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
             case LOADING:
                 drawTrack(canvas, mTrackPaint);
                 break;
-            case UNCLICKED:
+            case UN_CLICKED:
                 drawCircle(canvas, mTrackPaint);
                 break;
             case CLICKED:
-                drawClickedircle(canvas);
+                drawClickedCircle(canvas);
                 break;
         }
     }
 
     @Override
-    protected void onVisibilityChanged(View changedView, int visibility) {
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         if (DEBUG) {
             Log.d(TAG, "onVisibilityChanged");
         }
@@ -214,38 +243,6 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
         super.setImageDrawable(drawable);
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        if (attrs != null) {
-            praseAttrs(context, attrs);
-        }
-        onCreateAnimators();
-    }
-
-    private void praseAttrs(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.InsLoadingViewAttr);
-        int startColor = typedArray.getColor(R.styleable.InsLoadingViewAttr_start_color, mStartColor);
-        int endColor = typedArray.getColor(R.styleable.InsLoadingViewAttr_start_color, mEndColor);
-        int circleDuration = typedArray.getInt(R.styleable.InsLoadingViewAttr_circle_duration, mCircleDuration);
-        int rotateDuration = typedArray.getInt(R.styleable.InsLoadingViewAttr_rotate_duration, mRotateDuration);
-        int status = typedArray.getInt(R.styleable.InsLoadingViewAttr_status, 0);
-        if (DEBUG) {
-            Log.d(TAG, "praseAttrs start_color: " + startColor);
-            Log.d(TAG, "praseAttrs end_color: " + endColor);
-            Log.d(TAG, "praseAttrs rotate_duration: " + rotateDuration);
-            Log.d(TAG, "praseAttrs circle_duration: " + circleDuration);
-            Log.d(TAG, "praseAttrs status: " + status);
-        }
-        if (circleDuration != mCircleDuration) {
-            setCircleDuration(circleDuration);
-        }
-        if (rotateDuration != mRotateDuration) {
-            setRotateDuration(rotateDuration);
-        }
-        setStartColor(startColor);
-        setEndColor(endColor);
-        setStatus(sStatusArray.get(status));
-    }
-
     private void initPaints() {
         if (mBitmapPaint == null) {
             mBitmapPaint = getmBitmapPaint();
@@ -294,29 +291,14 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (isFirstCircle) {
-                    cricleWidth = (float) animation.getAnimatedValue();
+                    circleWidth = (float) animation.getAnimatedValue();
                 } else {
-                    cricleWidth = (float) animation.getAnimatedValue() - 360;
+                    circleWidth = (float) animation.getAnimatedValue() - 360;
                 }
                 postInvalidate();
             }
         });
-        mCircleAnim.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
+        mCircleAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationRepeat(Animator animation) {
                 isFirstCircle = !isFirstCircle;
@@ -344,39 +326,37 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
         canvas.rotate(ARC_WIDTH, centerX(), centerY());
 
         if (DEBUG) {
-            Log.d(TAG, "cricleWidth:" + cricleWidth);
+            Log.d(TAG, "circleWidth:" + circleWidth);
         }
-        if (cricleWidth < 0) {
-            //a
-            float startArg = cricleWidth + 360;
+        if (circleWidth < 0) {
+            float startArg = circleWidth + 360;
             canvas.drawArc(mTrackRectF, startArg, 360 - startArg, false, paint);
-            float adjustCricleWidth = cricleWidth + 360;
+            float adjustCircleWidth = circleWidth + 360;
             float width = 8;
-            while (adjustCricleWidth > ARC_WIDTH) {
+            while (adjustCircleWidth > ARC_WIDTH) {
                 width = width - arcChangeAngle;
-                adjustCricleWidth = adjustCricleWidth - ARC_WIDTH;
-                canvas.drawArc(mTrackRectF, adjustCricleWidth, width, false, paint);
+                adjustCircleWidth = adjustCircleWidth - ARC_WIDTH;
+                canvas.drawArc(mTrackRectF, adjustCircleWidth, width, false, paint);
             }
         } else {
-            //b
             for (int i = 0; i <= 4; i++) {
-                if (ARC_WIDTH * i > cricleWidth) {
+                if (ARC_WIDTH * i > circleWidth) {
                     break;
                 }
-                canvas.drawArc(mTrackRectF, cricleWidth - ARC_WIDTH * i, 8 + i, false, paint);
+                canvas.drawArc(mTrackRectF, circleWidth - ARC_WIDTH * i, 8 + i, false, paint);
             }
-            if (cricleWidth > ARC_WIDTH * 4) {
-                canvas.drawArc(mTrackRectF, 0, cricleWidth - ARC_WIDTH * 4, false, paint);
+            if (circleWidth > ARC_WIDTH * 4) {
+                canvas.drawArc(mTrackRectF, 0, circleWidth - ARC_WIDTH * 4, false, paint);
             }
-            float adjustCricleWidth = 360;
-            float width = 8 * (360 - cricleWidth) / 360;
+            float adjustCircleWidth = 360;
+            float width = 8 * (360 - circleWidth) / 360;
             if (DEBUG) {
                 Log.d(TAG, "width:" + width);
             }
-            while (width > 0 && adjustCricleWidth > ARC_WIDTH) {
+            while (width > 0 && adjustCircleWidth > ARC_WIDTH) {
                 width = width - arcChangeAngle;
-                adjustCricleWidth = adjustCricleWidth - ARC_WIDTH;
-                canvas.drawArc(mTrackRectF, adjustCricleWidth, width, false, paint);
+                adjustCircleWidth = adjustCircleWidth - ARC_WIDTH;
+                canvas.drawArc(mTrackRectF, adjustCircleWidth, width, false, paint);
             }
         }
     }
@@ -387,7 +367,7 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
         canvas.drawOval(rectF, paint);
     }
 
-    private void drawClickedircle(Canvas canvas) {
+    private void drawClickedCircle(Canvas canvas) {
         Paint paintClicked = new Paint();
         paintClicked.setColor(sClickedColor);
         setPaintStroke(paintClicked);

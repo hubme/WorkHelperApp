@@ -112,14 +112,14 @@ public class CustomViewFragment extends AppBaseFragment {
         mInsLoadingView.setEndColor(Color.BLUE);
         mInsLoadingView.setOnClickListener(v -> {
             switch (mInsLoadingView.getStatus()) {
-                case UNCLICKED:
-                    mInsLoadingView.setStatus(InsLoadingView.Status.LOADING);
+                case InsLoadingView.UN_CLICKED:
+                    mInsLoadingView.setStatus(InsLoadingView.LOADING);
                     break;
-                case LOADING:
-                    mInsLoadingView.setStatus(InsLoadingView.Status.CLICKED);
+                case InsLoadingView.LOADING:
+                    mInsLoadingView.setStatus(InsLoadingView.CLICKED);
                     break;
-                case CLICKED:
-                    mInsLoadingView.setStatus(InsLoadingView.Status.UNCLICKED);
+                case InsLoadingView.CLICKED:
+                    mInsLoadingView.setStatus(InsLoadingView.UN_CLICKED);
             }
         });
     }
