@@ -79,7 +79,7 @@ public class ViewSampleFragment extends AppBaseFragment {
     private RippleConfig initRippleConfig() {
         RippleConfig config = new RippleConfig();
         config.setIsEnablePalette(true);
-        config.setIsFull(true);
+        config.setIsFull(false);
         config.setIsSpin(true);
         config.setType(RippleCompatDrawable.Type.CIRCLE);
         return config;
