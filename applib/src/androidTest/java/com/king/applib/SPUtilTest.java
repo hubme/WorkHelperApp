@@ -2,7 +2,6 @@ package com.king.applib;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.ContextUtil;
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.SPUtil;
 
 import java.util.Arrays;
@@ -36,30 +35,6 @@ public class SPUtilTest extends BaseTestCase {
                     ", age=" + age +
                     '}';
         }
-    }
-
-    //其实还是putString
-    public void testPutStringList() throws Exception {
-        List<String> stringList = Arrays.asList("哈哈哈", "呵呵呵", "哦哦哦");
-        SPUtil.putStringList("1111", stringList);
-    }
-
-    public void testGetStringList() throws Exception {
-        List<String> stringList = SPUtil.getStringList("1111");
-        ExtendUtil.printList(stringList);
-    }
-
-    public void testPutListToSp() throws Exception {
-        List<TestOo> listOo = Arrays.asList(new TestOo("1111", 1111), new TestOo("2222", 2222), new TestOo("3333", 3333));
-        SPUtil.putListToSp("2222", listOo);
-//        SPUtil.putListToSp("3333", Arrays.asList(1, 2, 3));
-//        List<Integer> listFromSp = SPUtil.getListFromSp("3333", Integer.class);
-//        ExtendUtil.printList(listFromSp);
-    }
-
-    public void testGetListFromSp() throws Exception {
-        List<TestOo> listFromSp = SPUtil.getListFromSp("2222", TestOo.class);
-        ExtendUtil.printList(listFromSp);
     }
 
     //同时操作多个sp文件，后者无效。

@@ -36,6 +36,7 @@
                 <TextView
                     android:id="@+id/tv_ripple"
                     android:layout_width="match_parent"
+                    android:background="@color/chocolate"
                     android:layout_height="45dp"
                     android:gravity="center"
                     android:text="水波纹"
@@ -54,10 +55,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_centerInParent="true"
-                        android:background="@android:color/holo_green_light"
                         android:gravity="center"
                         android:text="水波纹"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:textSize="18sp"/>
 
                 </com.king.app.workhelper.ui.customview.RippleView>
