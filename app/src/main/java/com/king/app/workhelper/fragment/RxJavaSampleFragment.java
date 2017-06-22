@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +50,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.internal.util.AppendOnlyLinkedArrayList;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 
@@ -223,6 +226,34 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                     }
                 });
         mCompositeDisposable.add(resourceSubscriber);*/
+
+    }
+
+    private void sample1() {
+        File[] files = new File[]{};
+        Flowable.fromArray(files)
+                //遍历文件数组，筛选出png文件
+                .filter(new AppendOnlyLinkedArrayList.NonThrowingPredicate<File>() {
+                    @Override public boolean test(File file) {
+                        return file != null && file.getName().toLowerCase().endsWith(".png");
+                    }
+                })
+                //将这每一个png文件都转成Bitmap传递
+                .map(new Function<File, Bitmap>() {
+                    @Override public Bitmap apply(@NonNull File file) throws Exception {
+                        return null;
+                    }
+                })
+                //耗时操作运行在子线程
+                .subscribeOn(Schedulers.io())
+                //修改UI的操作放在主线程
+                .observeOn(AndroidSchedulers.mainThread())
+                //订阅，展示
+                .subscribe(new Consumer<Bitmap>() {
+                    @Override public void accept(@NonNull Bitmap bitmap) throws Exception {
+                        //处理bitmap
+                    }
+                });
     }
 
     @OnClick(R.id.tv_just_operator)
@@ -594,7 +625,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_network_changed)
     public void onNetworkChanged() {
-
+        
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

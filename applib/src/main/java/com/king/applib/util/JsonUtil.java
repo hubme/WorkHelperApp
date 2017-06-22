@@ -1,6 +1,7 @@
 package com.king.applib.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -158,5 +159,15 @@ public class JsonUtil {
     /** 从JSONObject中获取name的值 */
     public static int getInt(JSONObject jsonObject, String name, int defaultValue) {
         return jsonObject == null ? defaultValue : jsonObject.optInt(name, defaultValue);
+    }
+
+    public static String formatPrettyJson(String json) {
+        if (StringUtil.isNullOrEmpty(json)) {
+            return "";
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser jp = new JsonParser();
+        JsonElement je = jp.parse(json);
+        return gson.toJson(je);
     }
 }

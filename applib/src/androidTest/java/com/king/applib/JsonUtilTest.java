@@ -122,4 +122,10 @@ public class JsonUtilTest extends BaseTestCase {
         List<String> texts = JsonUtil.decodeToList(description, String.class);
         ExtendUtil.printList(texts);
     }
+
+    public void testFormatPrettyJson() throws Exception{
+        final String uglyJSONString = "{\"code\":1,\"results\":{\"nearbyOrgList\":[{\"corgname\":\"上海市\",\"ccitycode\":\"021\"}],\"list\":[{\"sectiontitle\":\"安徽省\",\"sectionorgs\":[{\"corgname\":\"安徽省直\",\"ccitycode\":\"05512\"},{\"corgname\":\"安徽省直\",\"ccitycode\":\"05512\"}]}]},\"desc\":\"查询城市列表成功\"}";
+        String prettyJson = JsonUtil.formatPrettyJson(uglyJSONString);
+        Logger.i("prettyJson: " + prettyJson);
+    }
 }
