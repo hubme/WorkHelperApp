@@ -585,7 +585,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(@NonNull Long aLong) throws Exception {
-                        Logger.i("哈哈哈");
+                        Logger.i("哈哈哈."+aLong.toString());
                     }
                 });
         mCompositeDisposable.add(intervalDisposable);
