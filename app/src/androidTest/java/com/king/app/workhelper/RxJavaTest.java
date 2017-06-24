@@ -206,22 +206,6 @@ public class RxJavaTest extends BaseTestCase {
 
     }
 
-    public void testDoOnCancelSubscribe() throws Exception {
-        Flowable.just(1, 2, 3)
-                .doOnCancel(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Logger.i("cancel");
-                    }
-                })
-                .take(2)//take新操符会取消后面那些还未被发送的事件，因而会触发doOnCancel
-                .subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(@NonNull Integer integer) throws Exception {
-                        Logger.i(integer.toString());
-                    }
-                });
-    }
 
     public void testDoOnDisposeSubscribe() throws Exception {
         Single.just(true)

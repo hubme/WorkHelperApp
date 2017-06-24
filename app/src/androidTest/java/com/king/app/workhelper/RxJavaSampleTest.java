@@ -14,6 +14,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -131,6 +133,21 @@ public class RxJavaSampleTest extends BaseTestCase {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> result(aLong.toString()));
 
+    }
+
+    public void testDoOnCancelSubscribe() throws Exception {
+        Flowable.just(1, 2, 3)
+                .doOnCancel(new Action() {
+                    @Override public void run() throws Exception {
+                        Logger.i("cancel");
+                    }
+                })
+                .take(2)//take新操符会取消后面那些还未被发送的事件，因而会触发doOnCancel
+                .subscribe(new Consumer<Integer>() {
+                    @Override public void accept(@NonNull Integer integer) throws Exception {
+                        Logger.i(integer.toString());
+                    }
+                });
     }
 
     private void result(String result) {
