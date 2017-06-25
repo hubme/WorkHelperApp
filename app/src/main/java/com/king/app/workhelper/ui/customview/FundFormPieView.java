@@ -83,6 +83,7 @@ public class FundFormPieView extends View {
         a.recycle();
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setDither(true);//防抖动
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setTextSize(mImageTextSize);
 
