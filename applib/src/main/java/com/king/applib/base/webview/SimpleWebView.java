@@ -2,6 +2,7 @@ package com.king.applib.base.webview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -54,5 +55,13 @@ public class SimpleWebView extends WebView {
         } else {
             settings.setCacheMode(WebSettings.LOAD_CACHE_ONLY); //不从网络加载数据，只从缓存加载数据。
         }
+
+        settings.setUseWideViewPort(true); // 将图片调整到适合WebView的大小
+        settings.setLoadWithOverviewMode(true); // 自适应屏幕
+
+        setHorizontalScrollBarEnabled(false);
+        setScrollbarFadingEnabled(true);
+        setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        setOverScrollMode(View.OVER_SCROLL_NEVER); // 取消WebView中滚动或拖动到顶部、底部时的阴影
     }
 }
