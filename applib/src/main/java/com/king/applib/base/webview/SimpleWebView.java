@@ -36,7 +36,16 @@ public class SimpleWebView extends WebView {
     private void initSettings() {
         WebSettings settings = getSettings();
 //        settings.setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0");
-        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptEnabled(true); // 默认false，设置true后我们才能在WebView里与我们的JS代码进行交互
+        settings.setJavaScriptCanOpenWindowsAutomatically(true); // 设置JS是否可以打开WebView新窗口
+
+        settings.setSupportZoom(true); // 支持缩放
+        settings.setBuiltInZoomControls(true); // 支持手势缩放
+        settings.setDisplayZoomControls(false); // 不显示缩放按钮
+        
+        settings.setGeolocationEnabled(true);
+
+        settings.setSaveFormData(true);
         settings.setAppCacheEnabled(true); //启用应用缓存
         settings.setDomStorageEnabled(true); //启用或禁用DOM缓存。
         settings.setDatabaseEnabled(true); //启用或禁用DOM缓存。
