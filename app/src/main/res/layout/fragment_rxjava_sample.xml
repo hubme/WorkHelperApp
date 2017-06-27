@@ -142,6 +142,11 @@
                 android:id="@+id/tv_network_changed"
                 style="@style/EntryItem"
                 android:text="监听网络变化"/>
+            
+            <TextView
+                android:id="@+id/tv_timeInterval"
+                style="@style/EntryItem"
+                android:text="timeInterval"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

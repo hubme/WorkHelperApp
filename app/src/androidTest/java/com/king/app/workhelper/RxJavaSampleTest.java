@@ -1,5 +1,6 @@
 package com.king.app.workhelper;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.king.applib.log.Logger;
@@ -8,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,6 +20,8 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.schedulers.Timed;
 
 /**
  * http://www.jianshu.com/p/e3a4dbd748fd
@@ -146,6 +150,26 @@ public class RxJavaSampleTest extends BaseTestCase {
                 .subscribe(new Consumer<Integer>() {
                     @Override public void accept(@NonNull Integer integer) throws Exception {
                         Logger.i(integer.toString());
+                    }
+                });
+    }
+
+    public void testTimeInterval() {
+        Observable.create(new ObservableOnSubscribe<String>() {
+            @Override public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+                for (int i = 0; i < 3; i++) {
+                    e.onNext(i + "");
+//                    Thread.sleep(1000);
+                    SystemClock.sleep(1000);
+                }
+                e.onComplete();
+            }
+        })
+                .subscribeOn(Schedulers.newThread())
+                .timeInterval()
+                .subscribe(new Consumer<Timed<String>>() {
+                    @Override public void accept(@NonNull Timed<String> stringTimed) throws Exception {
+                        result(String.valueOf(stringTimed.time()));
                     }
                 });
     }

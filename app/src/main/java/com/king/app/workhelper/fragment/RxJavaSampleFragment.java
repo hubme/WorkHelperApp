@@ -53,6 +53,9 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.internal.util.AppendOnlyLinkedArrayList;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.schedulers.Timed;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * RxJavaSample.http://blog.csdn.net/lzyzsd/article/details/41833541
@@ -589,6 +592,18 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                     }
                 });
         mCompositeDisposable.add(intervalDisposable);
+
+        Subject<Object> objectSubject = PublishSubject.create().toSerialized();
+        objectSubject.throttleFirst(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Object>() {
+                    @Override public void accept(@NonNull Object o) throws Exception {
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override public void accept(@NonNull Throwable throwable) throws Exception {
+
+                    }
+                });
     }
 
     @OnClick(R.id.tv_buffer)
@@ -626,6 +641,31 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     @OnClick(R.id.tv_network_changed)
     public void onNetworkChanged() {
         
+    }
+    
+    /*
+    将一个发射数据的Observable转换为发射那些数据发射时间间隔的Observable.
+    操作符拦截原始Observable发射的数据项，替换为发射表示相邻发射物时间间隔的对象。
+     */
+    @OnClick(R.id.tv_timeInterval)
+    public void onTimeInterval() {
+        Observable.create(new ObservableOnSubscribe<String>() {
+            @Override public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+                for (int i = 0; i < 3; i++) {
+                    e.onNext(i + "");
+//                    Thread.sleep(1000);
+                    SystemClock.sleep(1000);
+                }
+                e.onComplete();
+            }
+        })
+                .subscribeOn(Schedulers.newThread())
+                .timeInterval()
+                .subscribe(new Consumer<Timed<String>>() {
+                    @Override public void accept(@NonNull Timed<String> stringTimed) throws Exception {
+                        Logger.i(String.valueOf(stringTimed.time()));
+                    }
+                });
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
