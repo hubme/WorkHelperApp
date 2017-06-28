@@ -2,7 +2,7 @@ package com.king.app.workhelper.activity;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,7 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.model.entity.StringEntity;
 import com.king.app.workhelper.ui.recyclerview.BaseRecyclerViewAdapter;
-import com.king.app.workhelper.ui.recyclerview.RecyclerDivider;
+import com.king.app.workhelper.ui.recyclerview.MyItemDivider;
 import com.king.app.workhelper.ui.recyclerview.RecyclerHolder;
 
 import java.util.ArrayList;
@@ -45,21 +45,22 @@ public class RecyclerViewActivity extends AppBaseActivity {
 //        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
 
         //6.0设置setNestedScrollingEnabled(false)只显示一行，ScrollView换成NestedScrollView即可.
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+//        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mMineRv.setLayoutManager(layoutManager);
         mMineRv.setNestedScrollingEnabled(false);//解决滑动冲突
-//        StringAdapter mStringAdapter = new StringAdapter();
-        TypeStringAdapter mStringAdapter = new TypeStringAdapter(R.layout.layout_simple_text_view);
+        StringAdapter mStringAdapter = new StringAdapter();
+//        TypeStringAdapter mStringAdapter = new TypeStringAdapter(R.layout.layout_simple_text_view);
         mStringAdapter.setAdapterData(fakeData());
         mMineRv.setAdapter(mStringAdapter);
 
 //        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 //        itemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.ll_h_divider));
 
-        RecyclerDivider itemDecoration = new RecyclerDivider();//RVDivider.VERTICAL
+//        RecyclerDivider itemDecoration = new RecyclerDivider(RecyclerDivider.VERTICAL, ContextCompat.getColor(this, R.color.chocolate));
+//        itemDecoration.setMargin(15, 0, 15, 0);
+        MyItemDivider itemDecoration = new MyItemDivider(20);
         mMineRv.addItemDecoration(itemDecoration);
-        itemDecoration.setMargin(15, 0, 15, 0);
 
         mMineRv.setItemAnimator(new DefaultItemAnimator()); //即使不设置,默认也是这个动画
 
@@ -68,11 +69,13 @@ public class RecyclerViewActivity extends AppBaseActivity {
     private List<StringEntity> fakeData() {
         List<StringEntity> data = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
-            if (i % 5 == 0) {
+            /*if (i % 5 == 0) {
                 data.add(new StringEntity("category" + i, StringEntity.ItemType.CATEGORY));
             } else {
                 data.add(new StringEntity("item " + i, StringEntity.ItemType.CONTENT));
-            }
+            }*/
+            data.add(new StringEntity("item " + i, StringEntity.ItemType.CONTENT));
+
         }
         return data;
     }
