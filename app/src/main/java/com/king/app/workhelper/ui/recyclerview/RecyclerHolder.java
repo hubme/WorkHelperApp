@@ -1,6 +1,7 @@
 package com.king.app.workhelper.ui.recyclerview;
 
 import android.graphics.Bitmap;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -28,7 +29,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
      * 通过控件的Id获取对于的控件，如果没有则加入views
      */
     @SuppressWarnings("unchecked")
-    public <T extends View> T getView(int viewId) {
+    public <T extends View> T getView(@IdRes int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {
             view = itemView.findViewById(viewId);
@@ -42,7 +43,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
     /**
      * 为TextView设置字符串
      */
-    public RecyclerHolder setText(int viewId, String text) {
+    public RecyclerHolder setText(@IdRes int viewId, String text) {
         TextView view = getView(viewId);
         if (view != null) {
             view.setText(text);
@@ -53,7 +54,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
     /**
      * 为ImageView设置图片
      */
-    public RecyclerHolder setImageResource(int viewId, int drawableId) {
+    public RecyclerHolder setImageResource(@IdRes int viewId, int drawableId) {
         ImageView view = getView(viewId);
         if (view != null) {
             view.setImageResource(drawableId);
@@ -64,7 +65,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
     /**
      * 为ImageView设置图片
      */
-    public RecyclerHolder setImageBitmap(int viewId, Bitmap bm) {
+    public RecyclerHolder setImageBitmap(@IdRes int viewId, Bitmap bm) {
         ImageView view = getView(viewId);
         if (view != null) {
             view.setImageBitmap(bm);
@@ -72,7 +73,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public RecyclerHolder setViewVisibility(int viewId, int visibility) {
+    public RecyclerHolder setViewVisibility(@IdRes int viewId, int visibility) {
         View view = getView(viewId);
         if (view != null) {
             view.setVisibility(visibility);
@@ -80,7 +81,7 @@ public class RecyclerHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public RecyclerHolder setOnClickListener(int viewId, View.OnClickListener l) {
+    public RecyclerHolder setOnClickListener(@IdRes int viewId, View.OnClickListener l) {
         View view = getView(viewId);
         if (view != null) {
             view.setOnClickListener(l);
