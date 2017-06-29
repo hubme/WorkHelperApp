@@ -32,15 +32,15 @@ public class ContentDelegate implements AdapterDelegate<List<StringEntity>>{
     }
 
     @Override public void onBindViewHolder(@NonNull List<StringEntity> items, int position, @NonNull RecyclerView.ViewHolder holder) {
-        ((CategoryViewHolder)holder).categoryName.setText(items.get(position).text);
+        ((CategoryViewHolder)holder).content.setText(items.get(position).text);
     }
     
     public static class CategoryViewHolder extends RecyclerView.ViewHolder{
-        private final TextView categoryName;
+        private final TextView content;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            categoryName = (TextView) itemView.findViewById(R.id.tv_category_name);
+            content = (TextView) itemView.findViewById(R.id.tv_item_input);
         }
     }
 }

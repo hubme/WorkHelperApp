@@ -50,6 +50,11 @@ public class BasicMultiRecyclerAdapter3 extends RecyclerView.Adapter {
         return mItems.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return mItems.get(position).type;
+    }
+
     public static List<StringEntity> fakeMultiTypeData() {
         List<StringEntity> data = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
