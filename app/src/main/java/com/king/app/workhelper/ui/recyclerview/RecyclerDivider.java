@@ -11,8 +11,9 @@ import android.view.View;
 
 /**
  * 分割线<br/>
- * https://github.com/kymjs/RecyclerViewDemo/blob/master/RecyclerViewDemo/recycler/src/main/java/com/kymjs/recycler/Divider.java
- *
+ * https://github.com/kymjs/RecyclerViewDemo/blob/master/RecyclerViewDemo/recycler/src/main/java/com/kymjs/recycler/Divider.java <br/>
+ * also see {@link android.support.v7.widget.DividerItemDecoration v7.DividerItemDecoration}
+ * 
  * @author huoguangxu
  * @since 2017/3/31.
  */
