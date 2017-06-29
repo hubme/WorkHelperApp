@@ -100,7 +100,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
 
     @Override
     public void onBindViewHolder(RecyclerHolder holder, int position) {
-        E e = mAdapterList.get(position);
+        final E e = mAdapterList.get(position);
         if (e != null) {
             convert(holder, e, position);
         }
