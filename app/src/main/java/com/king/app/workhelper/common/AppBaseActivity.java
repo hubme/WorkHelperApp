@@ -24,8 +24,7 @@ import butterknife.ButterKnife;
 
 public abstract class AppBaseActivity extends BaseActivity implements View.OnClickListener {
     //子类可能没有引用common_header.xml
-    @Nullable
-    @BindView(R.id.toolbar)
+    @Nullable @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
     protected com.king.applib.base.WeakHandler mHandler = new WeakHandler(AppBaseActivity.this);
     
@@ -53,7 +52,10 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
     protected void initContentView() {
         super.initContentView();
         ButterKnife.bind(this);
-        initToolbar();
+        
+        if (mToolbar != null) {
+            initToolbar(mToolbar);
+        }
     }
 
     @Override
@@ -70,19 +72,16 @@ public abstract class AppBaseActivity extends BaseActivity implements View.OnCli
 
     }
 
-    protected void initToolbar() {
-        if (mToolbar != null) {
-            mToolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
-            mToolbar.setTitle(getActivityTitle());
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            //setSupportActionBar(mToolbar);
-        }
-
+    protected void initToolbar(Toolbar toolbar) {
+        toolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
+        toolbar.setTitle(getActivityTitle());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //setSupportActionBar(mToolbar);
     }
 
     protected String getActivityTitle() {

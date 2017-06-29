@@ -66,8 +66,8 @@ public class ToolbarActivity extends AppBaseActivity {
     }
 
     @Override
-    protected void initToolbar() {
-        super.initToolbar();
+    protected void initToolbar(Toolbar toolbar) {
+        super.initToolbar(toolbar);
         mCustomToolbar.setLayoutResource(R.layout.toolbar_custom);
         View view = mCustomToolbar.inflate();
 
