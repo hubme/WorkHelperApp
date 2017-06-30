@@ -1,4 +1,4 @@
-package com.king.app.workhelper.ui.guaid;
+package com.king.app.workhelper.ui.guide;
 
 import android.content.Context;
 import android.util.AttributeSet;
