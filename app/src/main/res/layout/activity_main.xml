@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/myLayout"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -10,12 +9,12 @@
     <CheckedTextView
         android:id="@+id/ctv_pass"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:textAlignment="center"
+        android:layout_height="60dp"
         android:background="@color/chocolate"
+        android:gravity="center"
         android:text="哈哈哈"
-        android:textSize="30sp"
-        android:layout_height="60dp"/>
+        android:textAlignment="center"
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/tv_main"
