@@ -6,7 +6,6 @@ import android.util.SparseArray;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
-import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
@@ -110,11 +109,6 @@ public class LibTest extends BaseTestCase {
     public void testScreen() throws Exception {
         Logger.i("屏幕宽度：" + ScreenUtil.getScreenWidth(mContext) + "; 屏幕高度: " + ScreenUtil.getScreenHeight(mContext));
 
-    }
-
-    public void testBetweenDays() throws Exception {
-        long day = DateTimeUtil.betweenDays("yyyy-MM-dd", "2011-10-23", "2011-10-23")/* / DateUtils.DAY_IN_MILLIS*/;
-        Logger.i(day + "");
     }
 
     public void testEmpty() throws Exception {

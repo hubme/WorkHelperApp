@@ -25,9 +25,11 @@ public class DateTimeUtil {
 
     private static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(INTL_DATE_FORMAT, Locale.US);
     private static final Date DATE = new Date();
+    private static final Calendar CALENDAR = Calendar.getInstance();
 
     /**
      * 把日期格式化为指定格式
+     *
      * @param date 日期
      * @return 格式化后的字符串
      */
@@ -41,6 +43,7 @@ public class DateTimeUtil {
 
     /**
      * 字符串转化为Date,转换出错返回null.使用返回的对象时要判null
+     *
      * @param dateText 日期字符串
      * @param template 日期格式
      * @return 日期
@@ -60,6 +63,7 @@ public class DateTimeUtil {
 
     /**
      * 获取手机当前时间
+     *
      * @param template 日期格式
      * @return 手机当前时间
      */
@@ -75,9 +79,10 @@ public class DateTimeUtil {
     }
 
     /**
-     * 计算两个日期之间的毫秒数.异常返回-1.<br/>
-     * secondDay > firstDay返回正数;secondDay < firstDay返回负数;相等返回0;异常返回-1.
+     * 计算两个日期之间的毫秒数.
+     *
      * @param template 日期格式
+     * @return 相隔的毫秒数;相等返回0;异常返回-1.
      */
     public static long betweenDays(String template, String firstDay, String secondDay) {
         if (StringUtil.isAnyEmpty(template, firstDay, secondDay)) {
@@ -89,11 +94,44 @@ public class DateTimeUtil {
         if (firstDate == null || secondDate == null) {
             return -1;
         }
-        return secondDate.getTime() - firstDate.getTime();
+        return Math.abs(secondDate.getTime() - firstDate.getTime());
+    }
+
+    /**
+     * 计算两个日期之间的毫秒数.
+     *
+     * @return 相隔的毫秒数;相等返回0;异常返回-1.
+     */
+    public static long betweenDays(String template, Date firstDate, Date secondDate) {
+        if (StringUtil.isNullOrEmpty(template) || firstDate == null || secondDate == null) {
+            return -1;
+        }
+        DATE_FORMATTER.applyPattern(template);
+        return betweenDays(template, DATE_FORMATTER.format(firstDate), DATE_FORMATTER.format(secondDate));
+    }
+
+    /**
+     * 计算两个日期之间的毫秒数.<br/>
+     * eg: betweenDurations(DateTimeUtil.INTL_DATE_FORMAT, "yyyy-MM-dd HH:mm:ss", "2017-10-23 13:01:01", "2017-10-23 12:00:00") ---> 3661000
+     * betweenDurations(DateTimeUtil.INTL_DATE_FORMAT, "yyyy-MM-dd HH", "2017-10-23 12:00:00", "2017-10-23 13:01:01") ---> 3600000
+     * betweenDurations(DateTimeUtil.INTL_DATE_FORMAT, "mm", "2017-10-23 12:00:00", "2017-10-23 13:01:01") --> 60000
+     *
+     * @param template         firstDate和secondDate的日期格式
+     * @param comparedTemplate 比较时的日期格式
+     * @param firstDate        第一个日期
+     * @param secondDate       第二个日期
+     * @return 相隔的毫秒数;相等返回0;异常返回-1.
+     */
+    public static long betweenDurations(String template, String comparedTemplate, String firstDate, String secondDate) {
+        if (StringUtil.isAnyEmpty(template, comparedTemplate, firstDate, secondDate)) {
+            return -1;
+        }
+        return betweenDays(comparedTemplate, parseDate(firstDate, template), parseDate(secondDate, template));
     }
 
     /**
      * 毫秒时间格式化
+     *
      * @param time 时间，单位毫秒
      */
     public static String getUnitTime(long time) {
@@ -120,10 +158,9 @@ public class DateTimeUtil {
         if (date == null) {
             return null;
         }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(field, amount);
-        return calendar.getTime();
+        CALENDAR.setTime(date);
+        CALENDAR.add(field, amount);
+        return CALENDAR.getTime();
     }
 
 }
