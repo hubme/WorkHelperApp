@@ -1,10 +1,8 @@
 package com.king.applib;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.StringUtil;
 
 import java.util.Arrays;
@@ -15,7 +13,7 @@ import java.util.Locale;
  * Created by HuoGuangxu on 2016/11/30.
  */
 
-public class StringUtilsTest extends AndroidTestCase {
+public class StringUtilsTest extends BaseTestCase {
     public Context mContext;
 
     @Override
@@ -37,7 +35,7 @@ public class StringUtilsTest extends AndroidTestCase {
     public void testArraysCopy() throws Exception {
         String[] texts = new String[]{"aaa", "bbb", "ccc"};
         String[] textss = Arrays.copyOf(texts, texts.length);
-        ExtendUtil.printArray(textss);
+        printArray(textss);
     }
 
     public void testStringLength() throws Exception {

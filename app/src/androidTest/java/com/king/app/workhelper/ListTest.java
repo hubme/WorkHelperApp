@@ -1,7 +1,6 @@
 package com.king.app.workhelper;
 
 import com.king.applib.log.Logger;
-import com.king.applib.util.ExtendUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +47,7 @@ public class ListTest extends BaseTestCase {
         stringList.addAll(hasNullList);
         hasNullList = Arrays.asList("哈哈哈", "呵呵呵");
 
-        ExtendUtil.printList(stringList);
-        ExtendUtil.printList(hasNullList);
+        printList(stringList);
+        printList(hasNullList);
     }
 }

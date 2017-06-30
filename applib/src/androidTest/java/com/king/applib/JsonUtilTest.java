@@ -2,7 +2,6 @@ package com.king.applib;
 
 import com.king.applib.log.Logger;
 import com.king.applib.model.Student;
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.JsonUtil;
 import com.king.applib.util.SPUtil;
 
@@ -109,7 +108,7 @@ public class JsonUtilTest extends BaseTestCase {
     public void testDecodeToListArray() throws Exception {
         JSONArray jsonArray = new JSONArray(JSON_ARRAY);
         List<String> strings = decodeToList(jsonArray, String.class);
-        ExtendUtil.printList(strings);
+        printList(strings);
 
     }
 
@@ -120,7 +119,7 @@ public class JsonUtilTest extends BaseTestCase {
         JSONObject item = (JSONObject) loanidnex.get(0);
         JSONArray description = JsonUtil.getJsonArray(item, "description");
         List<String> texts = JsonUtil.decodeToList(description, String.class);
-        ExtendUtil.printList(texts);
+        printList(texts);
     }
 
     public void testFormatPrettyJson() throws Exception{

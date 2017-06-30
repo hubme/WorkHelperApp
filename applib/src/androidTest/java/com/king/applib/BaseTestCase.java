@@ -32,10 +32,24 @@ abstract class BaseTestCase extends AndroidTestCase {
     }
 
     protected <E> void printList(List<E> list) {
-        ExtendUtil.printList(list);
+        if (ExtendUtil.isListNullOrEmpty(list)) {
+            return;
+        }
+        for (E e : list) {
+            if (e != null) {
+                Logger.i(e.toString());
+            }
+        }
     }
 
     protected <E> void printArray(E[] array) {
-        ExtendUtil.printArray(array);
+        if (ExtendUtil.isArrayNullOrEmpty(array)) {
+            return;
+        }
+        for (E element : array) {
+            if (element != null) {
+                Logger.i(element.toString());
+            }
+        }
     }
 }

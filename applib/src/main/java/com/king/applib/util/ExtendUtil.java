@@ -62,16 +62,22 @@ public class ExtendUtil {
         return array == null || array.length == 0;
     }
 
-    public static <E> void printArray(E[] array) {
-        if (ExtendUtil.isArrayNullOrEmpty(array)) {
-            return;
+    /** 判断对象中是否有null值 */
+    public static boolean isAnyNull(Object... objects) {
+        if (objects == null) {
+            return true;
         }
-        for (E element : array) {
-            if (element != null) {
-                Logger.i(element.toString());
+        for (Object object : objects) {
+            if (object == null) {
+                return true;
             }
         }
+        return false;
+    }
 
+    /** 判断对象都不为null */
+    public static boolean isNoneNull(Object... objects) {
+        return !isAnyNull(objects);
     }
 
     /**
@@ -111,20 +117,6 @@ public class ExtendUtil {
             }
         }
         return false;
-    }
-
-    /**
-     * 打印List
-     */
-    public static <T> void printList(List<T> list) {
-        if (ExtendUtil.isListNullOrEmpty(list)) {
-            return;
-        }
-        for (T t : list) {
-            if (t != null) {
-                Logger.i(t.toString());
-            }
-        }
     }
 
     /**

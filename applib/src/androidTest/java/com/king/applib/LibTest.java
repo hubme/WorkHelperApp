@@ -6,7 +6,6 @@ import android.util.SparseArray;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
 import com.king.applib.util.NetworkUtil;
@@ -42,7 +41,7 @@ public class LibTest extends BaseTestCase {
                 iterator.remove();
             }
         }
-        ExtendUtil.printList(list);
+        printList(list);
     }
 
     public void testDoubleArray() throws Exception {
@@ -123,8 +122,8 @@ public class LibTest extends BaseTestCase {
     }
 
     public void testPrintArray() throws Exception {
-        ExtendUtil.printArray(new String[]{"我", "也", "不", "知", "道"});
-        ExtendUtil.printArray(new Integer[]{1, 1, 5, 2, 0});
+        printArray(new String[]{"我", "也", "不", "知", "道"});
+        printArray(new Integer[]{1, 1, 5, 2, 0});
     }
 
     public void testGetFileExtension() throws Exception {
