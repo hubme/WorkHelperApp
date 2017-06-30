@@ -4,6 +4,7 @@ import android.text.format.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -18,10 +19,12 @@ public class DateTimeUtil {
     }
 
     public static final String INTL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String SORT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String FULL_DATE_FORMAT = "yyyy年M月d日 HH:00";
     public static final String MONTH_DAY_HOUR_FORMAT = "MM月dd日 HH:00";
 
     private static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(INTL_DATE_FORMAT, Locale.US);
+    private static final Date DATE = new Date();
 
     /**
      * 把日期格式化为指定格式
@@ -61,7 +64,14 @@ public class DateTimeUtil {
      * @return 手机当前时间
      */
     public static String getCurrentTime(String template) {
-        return formatDate(new Date(), template);
+        DATE.setTime(System.currentTimeMillis());
+        return formatDate(DATE, template);
+    }
+
+    /** 获取当前日期 */
+    public static Date getCurrentTime() {
+        DATE.setTime(System.currentTimeMillis());
+        return DATE;
     }
 
     /**
@@ -97,4 +107,23 @@ public class DateTimeUtil {
             return String.format(Locale.getDefault(), "%d小时", time / DateUtils.HOUR_IN_MILLIS);
         }
     }
+
+    /**
+     * 在指定的日期上加上一定的时间
+     *
+     * @param date   指定的日期
+     * @param field  日期的字段
+     * @param amount 增加的时间
+     * @return 增加后的日期
+     */
+    public static Date addDate(Date date, int field, int amount) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(field, amount);
+        return calendar.getTime();
+    }
+
 }
