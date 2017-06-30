@@ -1,5 +1,6 @@
 package com.king.app.workhelper.adapter.recyclerview.delegate;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,25 +19,27 @@ import java.util.List;
  * @since 2017/6/29.
  */
 
-public class ContentDelegate extends AdapterDelegate<List<StringEntity>> {
+public class UnknownDelegate extends AdapterDelegate<List<StringEntity>> {
     @Override protected boolean isForViewType(@NonNull List<StringEntity> items, int position) {
-        return items.get(position).type == StringEntity.ItemType.CONTENT;
+        return items.get(position).type == StringEntity.ItemType.UNKNOWN;
     }
 
     @NonNull @Override protected RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent) {
-        return new CategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_simple_text_view, parent, false));
+        return new UnknownViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_text_category, parent, false));
     }
 
     @Override protected void onBindViewHolder(@NonNull List<StringEntity> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
-        ((CategoryViewHolder)holder).content.setText(items.get(position).text);
+        UnknownViewHolder unknownHolder = ((UnknownViewHolder) holder);
+        unknownHolder.unknown.setText("nothing");
+        unknownHolder.unknown.setBackgroundColor(Color.GRAY);
     }
-    
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder{
-        private final TextView content;
 
-        public CategoryViewHolder(View itemView) {
+    public static class UnknownViewHolder extends RecyclerView.ViewHolder {
+        private final TextView unknown;
+
+        public UnknownViewHolder(View itemView) {
             super(itemView);
-            content = (TextView) itemView.findViewById(R.id.tv_item_input);
+            unknown = (TextView) itemView.findViewById(R.id.tv_category_name);
         }
     }
 }

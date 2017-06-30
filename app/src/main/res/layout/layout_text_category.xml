@@ -8,7 +8,7 @@
         android:id="@+id/tv_category_name"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/chocolate"
+        android:background="@color/mediumorchid"
         android:gravity="center_vertical"
         android:lines="1"
         android:paddingLeft="15dp"

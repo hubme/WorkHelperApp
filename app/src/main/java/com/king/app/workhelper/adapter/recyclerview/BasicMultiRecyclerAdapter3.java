@@ -3,6 +3,9 @@ package com.king.app.workhelper.adapter.recyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.king.app.workhelper.adapter.recyclerview.delegate.CategoryDelegate;
+import com.king.app.workhelper.adapter.recyclerview.delegate.ContentDelegate;
+import com.king.app.workhelper.adapter.recyclerview.delegate.UnknownDelegate;
 import com.king.app.workhelper.model.entity.Advertisement;
 import com.king.app.workhelper.model.entity.Cat;
 import com.king.app.workhelper.model.entity.DisplayableItem;
@@ -10,8 +13,7 @@ import com.king.app.workhelper.model.entity.Dog;
 import com.king.app.workhelper.model.entity.Gecko;
 import com.king.app.workhelper.model.entity.Snake;
 import com.king.app.workhelper.model.entity.StringEntity;
-import com.king.app.workhelper.adapter.recyclerview.delegate.CategoryDelegate;
-import com.king.app.workhelper.adapter.recyclerview.delegate.ContentDelegate;
+import com.king.applib.ui.recyclerview.multiitemdelegate.AdapterDelegatesManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,33 +26,25 @@ import java.util.List;
 
 public class BasicMultiRecyclerAdapter3 extends RecyclerView.Adapter {
 
-    private final CategoryDelegate categoryDelegate;
-    private final ContentDelegate contentDelegate;
     private final List<StringEntity> mItems;
+    private final AdapterDelegatesManager<List<StringEntity>> mDelegatesManager;
 
     public BasicMultiRecyclerAdapter3(List<StringEntity> items) {
         mItems = items;
 
-        categoryDelegate = new CategoryDelegate();
-        contentDelegate = new ContentDelegate();
+        mDelegatesManager = new AdapterDelegatesManager<>();
+        mDelegatesManager.addDelegate(new CategoryDelegate())
+                .addDelegate(new ContentDelegate())
+                .addDelegate(new UnknownDelegate());
     }
 
 
     @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == StringEntity.ItemType.CATEGORY) {
-            return categoryDelegate.onCreateViewHolder(parent);
-        } else if (viewType == StringEntity.ItemType.CONTENT) {
-            return contentDelegate.onCreateViewHolder(parent);
-        }
-        throw new IllegalArgumentException("不支持的item type");
+        return mDelegatesManager.onCreateViewHolder(parent, viewType);
     }
 
     @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CategoryDelegate.CategoryViewHolder) {
-            categoryDelegate.onBindViewHolder(mItems, position, holder);
-        } else if (holder instanceof ContentDelegate.CategoryViewHolder) {
-            contentDelegate.onBindViewHolder(mItems, position, holder);
-        }
+        mDelegatesManager.onBindViewHolder(mItems, position, holder);
     }
 
     @Override public int getItemCount() {
@@ -59,7 +53,7 @@ public class BasicMultiRecyclerAdapter3 extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        return mItems.get(position).type;
+        return mDelegatesManager.getItemViewType(mItems, position);
     }
 
     public static List<StringEntity> fakeMultiTypeData() {
@@ -71,6 +65,11 @@ public class BasicMultiRecyclerAdapter3 extends RecyclerView.Adapter {
                 data.add(new StringEntity("item " + i, StringEntity.ItemType.CONTENT));
             }
         }
+        for (int i = 0; i < 6; i++) {
+            data.add(new StringEntity("", StringEntity.ItemType.UNKNOWN));
+        }
+
+        Collections.shuffle(data);
         return data;
     }
 

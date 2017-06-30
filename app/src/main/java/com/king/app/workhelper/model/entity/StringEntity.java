@@ -8,8 +8,9 @@ import android.support.annotation.IntDef;
  */
 
 public class StringEntity {
-    @IntDef({ItemType.CONTENT, ItemType.CATEGORY})
+    @IntDef({ItemType.UNKNOWN, ItemType.CONTENT, ItemType.CATEGORY})
     public @interface ItemType {
+        int UNKNOWN = -1;
         int CONTENT = 1;
         int CATEGORY = 2;
     }

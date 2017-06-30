@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
-import com.king.applib.adapterdelegate.AdapterDelegate;
+import com.king.applib.ui.recyclerview.multiitemdelegate.AdapterDelegate;
 
 import java.util.List;
 
@@ -18,23 +18,18 @@ import java.util.List;
  * @since 2017/6/29.
  */
 
-public class CategoryDelegate implements AdapterDelegate<List<StringEntity>> {
-    @Override public int getItemViewType() {
-        return StringEntity.ItemType.CATEGORY;
-    }
-
-    @Override public boolean isForViewType(@NonNull List<StringEntity> items, int position) {
+public class CategoryDelegate extends AdapterDelegate<List<StringEntity>> {
+    @Override protected boolean isForViewType(@NonNull List<StringEntity> items, int position) {
         return items.get(position).type == StringEntity.ItemType.CATEGORY;
     }
 
-    @NonNull @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
+    @NonNull @Override protected RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent) {
         return new CategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_text_category, parent, false));
     }
 
-    @Override public void onBindViewHolder(@NonNull List<StringEntity> items, int position, @NonNull RecyclerView.ViewHolder holder) {
+    @Override protected void onBindViewHolder(@NonNull List<StringEntity> items, int position, @NonNull RecyclerView.ViewHolder holder, @NonNull List<Object> payloads) {
         ((CategoryViewHolder)holder).categoryName.setText(items.get(position).text);
     }
-    
     public static class CategoryViewHolder extends RecyclerView.ViewHolder{
         private final TextView categoryName;
 

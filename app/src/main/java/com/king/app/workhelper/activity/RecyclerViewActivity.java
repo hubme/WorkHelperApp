@@ -52,7 +52,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
 //        itemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.ll_h_divider));
 
         RecyclerDivider itemDecoration = new RecyclerDivider(RecyclerDivider.VERTICAL, ContextCompat.getColor(this, R.color.chocolate));
-        itemDecoration.setMargin(15, 0, 15, 0);
+//        itemDecoration.setMargin(15, 0, 15, 0);
 //        MyItemDivider itemDecoration = new MyItemDivider(20);
         mMineRv.addItemDecoration(itemDecoration);
 
