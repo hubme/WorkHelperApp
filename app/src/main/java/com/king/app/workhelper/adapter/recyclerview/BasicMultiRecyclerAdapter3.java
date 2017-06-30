@@ -3,11 +3,18 @@ package com.king.app.workhelper.adapter.recyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.king.app.workhelper.model.entity.Advertisement;
+import com.king.app.workhelper.model.entity.Cat;
+import com.king.app.workhelper.model.entity.DisplayableItem;
+import com.king.app.workhelper.model.entity.Dog;
+import com.king.app.workhelper.model.entity.Gecko;
+import com.king.app.workhelper.model.entity.Snake;
 import com.king.app.workhelper.model.entity.StringEntity;
-import com.king.app.workhelper.ui.recyclerview.CategoryDelegate;
-import com.king.app.workhelper.ui.recyclerview.ContentDelegate;
+import com.king.app.workhelper.adapter.recyclerview.delegate.CategoryDelegate;
+import com.king.app.workhelper.adapter.recyclerview.delegate.ContentDelegate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -65,5 +72,36 @@ public class BasicMultiRecyclerAdapter3 extends RecyclerView.Adapter {
             }
         }
         return data;
+    }
+
+    private List<DisplayableItem> getAnimals() {
+        List<DisplayableItem> animals = new ArrayList<>();
+
+        animals.add(new Cat("American Curl"));
+        animals.add(new Cat("Baliness"));
+        animals.add(new Cat("Bengal"));
+        animals.add(new Cat("Corat"));
+        animals.add(new Cat("Manx"));
+        animals.add(new Cat("Nebelung"));
+        animals.add(new Dog("Aidi"));
+        animals.add(new Dog("Chinook"));
+        animals.add(new Dog("Appenzeller"));
+        animals.add(new Dog("Collie"));
+        animals.add(new Snake("Mub Adder", "Adder"));
+        animals.add(new Snake("Texas Blind Snake", "Blind snake"));
+        animals.add(new Snake("Tree Boa", "Boa"));
+        animals.add(new Gecko("Fat-tailed", "Hemitheconyx"));
+        animals.add(new Gecko("Stenodactylus", "Dune Gecko"));
+        animals.add(new Gecko("Leopard Gecko", "Eublepharis"));
+        animals.add(new Gecko("Madagascar Gecko", "Phelsuma"));
+        animals.add(new Advertisement());
+        animals.add(new Advertisement());
+        animals.add(new Advertisement());
+        animals.add(new Advertisement());
+        animals.add(new Advertisement());
+
+        //随机打乱
+        Collections.shuffle(animals);
+        return animals;
     }
 }

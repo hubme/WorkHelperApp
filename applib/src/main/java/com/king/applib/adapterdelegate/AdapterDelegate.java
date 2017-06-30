@@ -1,4 +1,4 @@
-package com.king.app.workhelper.ui.recyclerview;
+package com.king.applib.adapterdelegate;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

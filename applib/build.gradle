@@ -34,4 +34,6 @@ dependencies {
     //json解析
     compile 'com.google.code.gson:gson:2.7'
     provided 'com.facebook.fresco:fresco:0.12.0'
+    provided "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
+
 }

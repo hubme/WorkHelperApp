@@ -14,7 +14,7 @@ import com.king.app.workhelper.adapter.recyclerview.BasicMultipleRecyclerAdapter
 import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.model.entity.StringEntity;
-import com.king.app.workhelper.ui.recyclerview.RecyclerDivider;
+import com.king.applib.ui.recyclerview.RecyclerDivider;
 
 import butterknife.BindView;
 

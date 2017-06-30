@@ -4,8 +4,8 @@ import android.support.annotation.LayoutRes;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
-import com.king.app.workhelper.ui.recyclerview.BaseRecyclerViewAdapter;
-import com.king.app.workhelper.ui.recyclerview.RecyclerHolder;
+import com.king.applib.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.king.applib.ui.recyclerview.RecyclerHolder;
 
 import java.util.ArrayList;
 import java.util.List;

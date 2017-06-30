@@ -1,4 +1,4 @@
-package com.king.app.workhelper.ui.recyclerview;
+package com.king.app.workhelper.adapter.recyclerview.delegate;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
+import com.king.applib.adapterdelegate.AdapterDelegate;
 
 import java.util.List;
 
@@ -17,29 +18,30 @@ import java.util.List;
  * @since 2017/6/29.
  */
 
-public class CategoryDelegate implements AdapterDelegate<List<StringEntity>>{
+public class ContentDelegate implements AdapterDelegate<List<StringEntity>> {
+    
     @Override public int getItemViewType() {
-        return StringEntity.ItemType.CATEGORY;
+        return StringEntity.ItemType.CONTENT;
     }
 
     @Override public boolean isForViewType(@NonNull List<StringEntity> items, int position) {
-        return items.get(position).type == StringEntity.ItemType.CATEGORY;
+        return items.get(position).type == StringEntity.ItemType.CONTENT;
     }
 
     @NonNull @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
-        return new CategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_text_category, parent, false));
+        return new CategoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_simple_text_view, parent, false));
     }
 
     @Override public void onBindViewHolder(@NonNull List<StringEntity> items, int position, @NonNull RecyclerView.ViewHolder holder) {
-        ((CategoryViewHolder)holder).categoryName.setText(items.get(position).text);
+        ((CategoryViewHolder)holder).content.setText(items.get(position).text);
     }
     
     public static class CategoryViewHolder extends RecyclerView.ViewHolder{
-        private final TextView categoryName;
+        private final TextView content;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            categoryName = (TextView) itemView.findViewById(R.id.tv_category_name);
+            content = (TextView) itemView.findViewById(R.id.tv_item_input);
         }
     }
 }

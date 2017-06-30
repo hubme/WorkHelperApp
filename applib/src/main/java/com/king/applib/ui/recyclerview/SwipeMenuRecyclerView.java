@@ -1,4 +1,4 @@
-package com.king.app.workhelper.ui.recyclerview;
+package com.king.applib.ui.recyclerview;
 
 import android.content.Context;
 import android.graphics.Rect;

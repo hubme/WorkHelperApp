@@ -1,4 +1,4 @@
-package com.king.app.workhelper.ui.recyclerview;
+package com.king.applib.ui.recyclerview;
 
 /**
  * @author huoguangxu
