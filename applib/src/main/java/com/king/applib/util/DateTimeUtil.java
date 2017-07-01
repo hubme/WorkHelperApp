@@ -19,9 +19,7 @@ public class DateTimeUtil {
     }
 
     public static final String INTL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final String SORT_DATE_FORMAT = "yyyy-MM-dd";
-    public static final String FULL_DATE_FORMAT = "yyyy年M月d日 HH:00";
-    public static final String MONTH_DAY_HOUR_FORMAT = "MM月dd日 HH:00";
+    public static final String YMD_FORMAT = "yyyy-MM-dd";
 
     private static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(INTL_DATE_FORMAT, Locale.US);
     private static final Date DATE = new Date();
