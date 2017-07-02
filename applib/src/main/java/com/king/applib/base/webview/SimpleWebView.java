@@ -3,6 +3,8 @@ package com.king.applib.base.webview;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -63,5 +65,14 @@ public class SimpleWebView extends WebView {
         setScrollbarFadingEnabled(true);
         setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         setOverScrollMode(View.OVER_SCROLL_NEVER); // 取消WebView中滚动或拖动到顶部、底部时的阴影
+    }
+
+    public void destroyWebView(){
+        removeAllViews();
+        final ViewParent parent = getParent();
+        if (parent != null) {
+            ((ViewGroup)parent).removeView(this);//5.1 内存泄漏
+        }
+        destroy();
     }
 }

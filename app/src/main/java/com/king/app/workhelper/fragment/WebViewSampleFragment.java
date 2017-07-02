@@ -46,7 +46,8 @@ public class WebViewSampleFragment extends AppBaseFragment {
     @Override public void onDestroyView() {
         super.onDestroyView();
         if (mWebView != null) {
-            mWebView.destroy();
+            mWebView.destroyWebView();
+            mWebView = null;
         }
     }
 
