@@ -1,6 +1,7 @@
 package com.king.app.workhelper;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.BusProvider;
 import com.king.app.workhelper.model.entity.Student;
+import com.king.applib.builder.BundleBuilder;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ExtendUtil;
@@ -170,5 +172,12 @@ public class AppTest extends BaseTestCase {
         Logger.i(ExtendUtil.px2dp(20) + "");
         Logger.i(ExtendUtil.sp2px(20) + "");
         Logger.i(ExtendUtil.px2sp(20) + "");
+    }
+
+    public void testBundle() throws Exception {
+        Bundle bundle = BundleBuilder.create().put("aaa", "000").put("bbb", 111).build();
+        Logger.i(bundle.getString("aaa") + "---" + bundle.getInt("bbb"));
+        Bundle bundle1 = BundleBuilder.create(bundle).put("ccc", "VanceKing").build();
+        Logger.i(bundle1.getString("aaa") + "---" + bundle1.getInt("bbb")+"---"+bundle1.getString("ccc"));
     }
 }

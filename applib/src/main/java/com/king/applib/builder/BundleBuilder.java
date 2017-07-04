@@ -13,28 +13,40 @@ import java.io.Serializable;
  */
 public class BundleBuilder {
 
-    private final Bundle bundle = new Bundle();
+    private final Bundle mBundle;
 
-    public static BundleBuilder get() {
+    public static BundleBuilder create() {
         return new BundleBuilder();
     }
 
+    public static BundleBuilder create(Bundle bundle) {
+        return new BundleBuilder(bundle);
+    }
+
+    private BundleBuilder() {
+        mBundle = new Bundle();
+    }
+
+    private BundleBuilder(Bundle bundle) {
+        mBundle = new Bundle(bundle);
+    }
+
     public <T extends Serializable> BundleBuilder put(String key, T value) {
-        bundle.putSerializable(key, value);
+        mBundle.putSerializable(key, value);
         return this;
     }
 
     public BundleBuilder put(String key, Parcelable value) {
-        bundle.putParcelable(key, value);
+        mBundle.putParcelable(key, value);
         return this;
     }
 
     @SuppressWarnings("unchecked")
     public <T> T get(String key) {
-        return (T) bundle.getSerializable(key);
+        return (T) mBundle.getSerializable(key);
     }
 
     public Bundle build() {
-        return bundle;
+        return mBundle;
     }
 }
