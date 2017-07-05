@@ -32,14 +32,14 @@ public class ApiServiceFactory {
     }
 
     public <S> S createService(Class<S> serviceClass) {
-        return getRetrofit(DEFAULT_BASE_URL).create(serviceClass);
+        return createService(DEFAULT_BASE_URL, serviceClass);
     }
 
     public <S> S createService(final String baseUrl, Class<S> serviceClass) {
         return getRetrofit(baseUrl).create(serviceClass);
     }
 
-    private Retrofit getRetrofit(final String baseUrl) {
+    public Retrofit getRetrofit(final String baseUrl) {
         if (StringUtil.isNullOrEmpty(baseUrl)) {
             throw new RuntimeException("Base URL required.");
         }
