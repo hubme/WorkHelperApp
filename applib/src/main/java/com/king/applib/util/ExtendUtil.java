@@ -62,7 +62,7 @@ public class ExtendUtil {
         return array == null || array.length == 0;
     }
 
-    /** 判断对象中是否有null值 */
+    /** 判断参数中是否有null值 */
     public static boolean isAnyNull(Object... objects) {
         if (objects == null) {
             return true;
@@ -75,7 +75,7 @@ public class ExtendUtil {
         return false;
     }
 
-    /** 判断对象都不为null */
+    /** 判断参数都不为null */
     public static boolean isNoneNull(Object... objects) {
         return !isAnyNull(objects);
     }

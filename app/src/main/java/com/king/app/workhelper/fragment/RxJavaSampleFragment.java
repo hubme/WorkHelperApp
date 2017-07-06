@@ -16,6 +16,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.common.RxCountDownHelper;
 import com.king.app.workhelper.model.entity.Course;
 import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
@@ -54,8 +55,6 @@ import io.reactivex.internal.util.AppendOnlyLinkedArrayList;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.Timed;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 
 /**
  * RxJavaSample.http://blog.csdn.net/lzyzsd/article/details/41833541
@@ -111,8 +110,8 @@ public class RxJavaSampleFragment extends AppBaseFragment {
             mCompositeDisposable.clear();
         }
     }
-    
-    private void listenToNetworkConnectivity(){
+
+    private void listenToNetworkConnectivity() {
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override public void onReceive(Context context, Intent intent) {
                 mNetworkChangedProcessor.onNext(NetworkUtil.isNetworkAvailable());
@@ -133,7 +132,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
         };
     }
 
-//    @OnClick(R.id.tv_basal_use)
+    //    @OnClick(R.id.tv_basal_use)
     public void onBasalUse() {
         //1.创建观察者
         Observer<String> observer = new Observer<String>() {
@@ -583,17 +582,17 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     }
 
     @OnClick(R.id.tv_interval)
-    public void onIntervalOperator() {
-        Disposable intervalDisposable = Observable.interval(1, TimeUnit.SECONDS)
+    public void onIntervalOperator(TextView textView) {
+        /*Disposable intervalDisposable = Observable.interval(1, TimeUnit.SECONDS)
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(@NonNull Long aLong) throws Exception {
                         Logger.i("哈哈哈."+aLong.toString());
                     }
                 });
-        mCompositeDisposable.add(intervalDisposable);
+        mCompositeDisposable.add(intervalDisposable);*/
 
-        Subject<Object> objectSubject = PublishSubject.create().toSerialized();
+        /*Subject<Object> objectSubject = PublishSubject.create().toSerialized();
         objectSubject.throttleFirst(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Object>() {
                     @Override public void accept(@NonNull Object o) throws Exception {
@@ -603,7 +602,10 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                     @Override public void accept(@NonNull Throwable throwable) throws Exception {
 
                     }
-                });
+                });*/
+
+        Disposable disposable = RxCountDownHelper.startCountDown(textView, 10, "结束", value -> textView.setText(String.valueOf(value + "秒")));
+        mCompositeDisposable.add(disposable);
     }
 
     @OnClick(R.id.tv_buffer)
@@ -640,9 +642,9 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_network_changed)
     public void onNetworkChanged() {
-        
+
     }
-    
+
     /*
     将一个发射数据的Observable转换为发射那些数据发射时间间隔的Observable.
     操作符拦截原始Observable发射的数据项，替换为发射表示相邻发射物时间间隔的对象。

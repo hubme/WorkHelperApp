@@ -5,22 +5,27 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.text.method.HideReturnsTransformationMethod;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.PassTransformationMethod;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppBaseActivity {
+    @BindView(R.id.ll_panel) LinearLayout mPanel;
     @Override
     protected void beforeCreateView() {
         super.beforeCreateView();
@@ -56,6 +61,7 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
+        populatePanel();
     }
 
     @Override protected void onDestroy() {
@@ -77,6 +83,26 @@ public class MainActivity extends AppBaseActivity {
         }*/
 
         startActivityWithAnimation();
+    }
+
+    private void populatePanel() {
+        mPanel.addView(buildTextView("aaa"));
+        mPanel.addView(buildTextView("bbb"));
+        mPanel.addView(buildTextView("ccc"));
+        mPanel.addView(buildTextView("ddd"));
+    }
+
+    private TextView buildTextView(String text) {
+        TextView textView = new TextView(this);
+        textView.setTextSize(15);
+        textView.setText(text);
+        textView.setGravity(Gravity.CENTER);//CheckedTextView不水平居中
+        textView.setTextColor(ContextCompat.getColor(this, R.color.chocolate));
+        
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
+        params.weight = 1;
+        textView.setLayoutParams(params);
+        return textView;
     }
 
     private void startActivityWithAnimation() {
