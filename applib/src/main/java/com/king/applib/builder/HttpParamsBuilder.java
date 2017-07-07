@@ -11,7 +11,15 @@ import java.util.Map;
  */
 
 public class HttpParamsBuilder {
-    public static final Map<String, String> PARAMS_MAP = new HashMap<>();
+    public final Map<String, String> PARAMS_MAP;
+
+    private HttpParamsBuilder() {
+        PARAMS_MAP = new HashMap<>();
+    }
+
+    public static HttpParamsBuilder create() {
+        return new HttpParamsBuilder();
+    }
 
     public HttpParamsBuilder addDefaultParams() {
         PARAMS_MAP.put("releaseVersion", "1.0.0");
