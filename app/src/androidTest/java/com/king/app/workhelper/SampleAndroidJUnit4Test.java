@@ -5,6 +5,7 @@ import com.king.applib.log.Logger;
 import org.junit.Test;
 
 /**
+ * https://google.github.io/android-testing-support-library/docs/ <br/>
  * https://github.com/googlesamples/android-testing
  *
  * @author VanceKing
