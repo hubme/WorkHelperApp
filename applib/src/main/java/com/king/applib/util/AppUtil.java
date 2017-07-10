@@ -12,7 +12,10 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import com.king.applib.log.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -218,5 +221,24 @@ public class AppUtil {
     public static String getFileProviderAuthor() {
         String pkgName = AppUtil.getAppInfo().getPackageName();
         return StringUtil.isNullOrEmpty(pkgName) ? "com.fund.app.fileprovider" : pkgName + ".fileprovider";
+    }
+
+    /**
+     * 根据Activity名称打开Activity.<br/>
+     * 注意:Activity 的所在路径已写死，全路径一定要保持一致。否则打开失败.
+     *
+     * @param activity       上下文
+     * @param shortClassName activity 短名称
+     */
+    public static boolean openActivity(Activity activity, String shortClassName) {
+        try {
+            Intent intent = new Intent();
+            intent.setClassName(activity.getPackageName(), "com.king.app.workhelper.activity." + shortClassName);
+            activity.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            Logger.e(Log.getStackTraceString(e));
+            return false;
+        }
     }
 }

@@ -21,11 +21,9 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.PassTransformationMethod;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppBaseActivity {
-    @BindView(R.id.ll_panel) LinearLayout mPanel;
     @Override
     protected void beforeCreateView() {
         super.beforeCreateView();
@@ -61,7 +59,6 @@ public class MainActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        populatePanel();
     }
 
     @Override protected void onDestroy() {
@@ -83,13 +80,6 @@ public class MainActivity extends AppBaseActivity {
         }*/
 
         startActivityWithAnimation();
-    }
-
-    private void populatePanel() {
-        mPanel.addView(buildTextView("aaa"));
-        mPanel.addView(buildTextView("bbb"));
-        mPanel.addView(buildTextView("ccc"));
-        mPanel.addView(buildTextView("ddd"));
     }
 
     private TextView buildTextView(String text) {

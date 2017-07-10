@@ -4,20 +4,6 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
     
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="sdfsd"
-        android:minWidth="45dp"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:id="@+id/ll_panel"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:divider="@drawable/ll_v_divider"
-        android:orientation="horizontal"
-        android:showDividers="middle"/>
-
     <include layout="@layout/common_header"/>
 
     <CheckedTextView
