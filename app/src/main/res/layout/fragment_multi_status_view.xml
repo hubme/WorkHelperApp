@@ -4,8 +4,25 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.king.applib.ui.customview.MultiStatusView
-        android:id="@+id/multi_status_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="400dp">
+
+        <com.king.applib.ui.customview.MultiStatusView
+            android:id="@+id/multi_status_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    <TextView
+        android:id="@+id/tv_status_view_error"
+        style="@style/EntryItem"
+        android:text="错误布局"/>
+
+    <TextView
+        android:id="@+id/tv_status_view_empty"
+        style="@style/EntryItem"
+        android:text="空布局"/>
 </LinearLayout>

@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="呵呵呵"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:text="错误布局"
         android:textSize="@dimen/ts_huger"/>
 </RelativeLayout>
