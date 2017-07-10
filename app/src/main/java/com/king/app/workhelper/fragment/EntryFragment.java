@@ -214,6 +214,11 @@ public class EntryFragment extends AppBaseFragment {
     public void ontvBottomSheetsClick() {
         clickedOn(new BottomSheetsFragment());
     }
+    
+    @OnClick(R.id.tv_multi_status_view)
+    public void onMultiStatusViewClick() {
+        clickedOn(new MultiStatusViewFragment());
+    }
 
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();

@@ -187,6 +187,11 @@
                 android:id="@+id/tv_bottom_sheets"
                 style="@style/EntryItem"
                 android:text="BottomSheets"/>
+            
+            <TextView
+                android:id="@+id/tv_multi_status_view"
+                style="@style/EntryItem"
+                android:text="Multi Status View"/>
 
         </LinearLayout>
 
