@@ -15,8 +15,8 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.dialog.PhotoBottomDialog;
 import com.king.app.workhelper.dialog.ShareBottomDialog;
-import com.king.app.workhelper.ui.dialog.SimpleDialogFragment;
 import com.king.applib.base.WeakHandler;
+import com.king.applib.dialog.BottomDialog;
 import com.king.applib.log.Logger;
 
 import java.lang.reflect.Method;
@@ -40,6 +40,8 @@ public class UsageFragment extends AppBaseFragment {
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
 
     private MyHandler mMyHandler = new MyHandler(this);
+    private PhotoBottomDialog mPhotoBottomDialog;
+    private ShareBottomDialog mShareBottomDialog;
 
     private static class MyHandler extends WeakHandler<UsageFragment> {
         public MyHandler(UsageFragment target) {
@@ -113,19 +115,16 @@ public class UsageFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_bottom_dialog)
     public void onBottomDialogClick() {
-        /*BottomDialog.create(getActivity().getSupportFragmentManager())
-                .setViewListener(new BottomDialog.ViewListener() {
-                    @Override
-                    public void bindView(View v) {
+        BottomDialog bottomDialog = BottomDialog.create(getActivity().getSupportFragmentManager());
+        bottomDialog.setViewListener(new BottomDialog.ViewListener() {
+                    @Override public void bindView(View v) {
                         initBottomDialogView(v);
                     }
                 })
-                .setLayoutRes(R.layout.dialog_layout)
+                .setLayoutRes(R.layout.dialog_share)
                 .setDimAmount(0.2f)
                 .setTag("BottomDialog")
-                .show();*/
-        ShareBottomDialog dialog = new ShareBottomDialog();
-        dialog.show(getActivity().getSupportFragmentManager());
+                .show();
     }
 
     private void initBottomDialogView(View v) {
@@ -145,10 +144,21 @@ public class UsageFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_dialog_fragment)
     public void onDialogFragmentClick() {
-        SimpleDialogFragment dialogFragment = new SimpleDialogFragment.Builder().create();
-        if (!dialogFragment.isVisible()) {
-            dialogFragment.show(getFragmentManager(), "aaa");
-        }
+        showShareBottomDialog();
     }
 
+    private void showPhotoBottomDialog() {
+        if (mPhotoBottomDialog == null) {
+            mPhotoBottomDialog = new PhotoBottomDialog();
+        }
+        mPhotoBottomDialog.showDialog(getFragmentManager());
+    }
+
+
+    private void showShareBottomDialog() {
+        if (mShareBottomDialog == null) {
+            mShareBottomDialog = new ShareBottomDialog();
+        }
+        mShareBottomDialog.showDialog(getFragmentManager());
+    }
 }

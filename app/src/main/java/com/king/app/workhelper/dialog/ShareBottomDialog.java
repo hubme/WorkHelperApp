@@ -10,7 +10,7 @@ public class ShareBottomDialog extends BaseBottomDialog {
 
     @Override
     public int getLayoutRes() {
-        return R.layout.dialog_layout;
+        return R.layout.dialog_share;
     }
 
     @Override

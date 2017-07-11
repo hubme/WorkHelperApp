@@ -42,7 +42,7 @@ public abstract class BaseBottomDialog extends DialogFragment {
         if (window != null) {
             window.requestFeature(Window.FEATURE_NO_TITLE);
         }
-        getDialog().setCanceledOnTouchOutside(true);
+        getDialog().setCanceledOnTouchOutside(getCancelOutside());
 
         View v = inflater.inflate(getLayoutRes(), container, false);
         bindView(v);
@@ -92,9 +92,15 @@ public abstract class BaseBottomDialog extends DialogFragment {
         return TAG;
     }
 
-    public void show(FragmentManager fragmentManager) {
+    public void showDialog(FragmentManager fragmentManager) {
         if (!isVisible()) {
             show(fragmentManager, getFragmentTag());
+        }
+    }
+
+    public void showDialog(FragmentManager fragmentManager, String tag) {
+        if (!isVisible()) {
+            show(fragmentManager, tag);
         }
     }
 }
