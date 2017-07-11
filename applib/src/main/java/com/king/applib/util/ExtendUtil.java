@@ -423,4 +423,22 @@ public class ExtendUtil {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(intent, "分享到"));
     }
+
+    /**
+     * Compares two {@code boolean} values.
+     * The value returned is identical to what would be returned by:
+     * <pre>
+     *    Boolean.valueOf(x).compareTo(Boolean.valueOf(y))
+     * </pre>
+     *
+     * @param  x the first {@code boolean} to compare
+     * @param  y the second {@code boolean} to compare
+     * @return the value {@code 0} if {@code x == y};
+     *         a value less than {@code 0} if {@code !x && y}; and
+     *         a value greater than {@code 0} if {@code x && !y}
+     * @since 1.7
+     */
+    public static int compareBoolean(boolean x, boolean y) {
+        return (x == y) ? 0 : (x ? 1 : -1);
+    }
 }
