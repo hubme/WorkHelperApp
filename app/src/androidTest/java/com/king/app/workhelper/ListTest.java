@@ -1,5 +1,7 @@
 package com.king.app.workhelper;
 
+import android.util.SparseArray;
+
 import com.king.applib.log.Logger;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class ListTest extends BaseTestCase {
 
     private List<String> stringList;
     private List<String> hasNullList;
+    private SparseArray<String> mStringSparseArray;
 
     @Override protected void setUp() throws Exception {
         super.setUp();
@@ -27,12 +30,14 @@ public class ListTest extends BaseTestCase {
         hasNullList.add("4");
 //        hasNullList.add(null);
         hasNullList.add("5");
+
+        mStringSparseArray = new SparseArray<>();
     }
 
     //List是否可以添加null，是否会抛异常。
     public void testList() throws Exception {
         stringList.addAll(hasNullList);//strings1的内容可以为null，但是string1不能为null.
-        for (int i = 0, size = stringList.size(); i<size; i++) {
+        for (int i = 0, size = stringList.size(); i < size; i++) {
             final String s = stringList.get(i);
             if (s == null) {
                 Logger.i("第" + i + "个是null");
@@ -49,5 +54,15 @@ public class ListTest extends BaseTestCase {
 
         printList(stringList);
         printList(hasNullList);
+    }
+
+    public void testSArray() throws Exception {
+        mStringSparseArray.append(0, "000");
+        mStringSparseArray.append(1, "aaa");
+        mStringSparseArray.append(1, "bbb");//key相同时，把前面的值给覆盖了
+
+        for (int i = 0, size = mStringSparseArray.size(); i < size; i++) {
+            Logger.i("index: " + i + ";results: " + mStringSparseArray.get(mStringSparseArray.keyAt(i)));
+        }
     }
 }
