@@ -116,6 +116,11 @@
                 app:matProg_barColor="@color/chocolate"
                 app:matProg_fillRadius="false"
                 app:matProg_progressIndeterminate="true"/>
+            
+            <TextView
+                android:id="@+id/tv_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

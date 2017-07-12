@@ -3,10 +3,13 @@ package com.king.app.workhelper.fragment;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Message;
 import android.os.UserManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Layout;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ import com.king.app.workhelper.dialog.SampleBottomDialog;
 import com.king.app.workhelper.dialog.SampleDialog;
 import com.king.applib.base.WeakHandler;
 import com.king.applib.log.Logger;
+import com.king.applib.util.SpannableStringUtils;
 
 import java.lang.reflect.Method;
 
@@ -35,6 +39,7 @@ public class UsageFragment extends AppBaseFragment {
     private static final int MSG_WHAT = 0x01;
     private static final int MSG_WAIT = 0x02;
 
+    @BindView(R.id.tv_text) TextView mTextSampleTv;
     @BindView(R.id.tv_weak_handler) TextView mTextView;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
 
@@ -66,6 +71,17 @@ public class UsageFragment extends AppBaseFragment {
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_usage;
+    }
+
+    @Override protected void initContentView(View rootView) {
+        super.initContentView(rootView);
+        SpannableStringBuilder builder = SpannableStringUtils.getBuilder("测试SpannableStringUtils")
+                .setBold().setForegroundColor(Color.YELLOW).setBackgroundColor(Color.GRAY)
+                .setAlign(Layout.Alignment.ALIGN_CENTER).append("测试")
+                .append("前景色").setForegroundColor(Color.GREEN)
+                .append("背景色").setBackgroundColor(Color.RED)
+                .create();
+        mTextSampleTv.setText(builder);
     }
 
     @Override
