@@ -1,10 +1,12 @@
-package com.king.applib.dialog;
+package com.king.applib.base.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +16,15 @@ import android.view.WindowManager;
 
 import com.king.applib.R;
 
+
 /**
- * 底部弹框抽象类.
- * Created by shaohui on 16/10/11.
- * see also:https://github.com/shaohui10086/BottomDialog
+ * 弹窗抽象类.
+ *
+ * @author VanceKing
+ * @since 2017/7/12.
  */
-public abstract class BaseBottomDialog extends DialogFragment {
-    private static final String TAG = "BaseBottomDialog";
+public abstract class BaseDialogFragment extends DialogFragment {
+    private static final String TAG = "BaseDialog";
     private static final float DEFAULT_DIM = 0.4f;
     protected Context mContext;
 
@@ -33,7 +37,7 @@ public abstract class BaseBottomDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BottomDialog);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.SimpleDialog);
     }
 
     @Override
@@ -49,10 +53,12 @@ public abstract class BaseBottomDialog extends DialogFragment {
         return v;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    @Override public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initWindow();
+    }
 
+    private void initWindow() {
         Window window = getDialog().getWindow();
         if (window == null) {
             return;
@@ -60,21 +66,38 @@ public abstract class BaseBottomDialog extends DialogFragment {
         WindowManager.LayoutParams params = window.getAttributes();
         params.dimAmount = getDimAmount();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        if (getWidth() > 0) {
+            params.width = getWidth();
+        } else {
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        }
+
         if (getHeight() > 0) {
             params.height = getHeight();
         } else {
             params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         }
-        params.gravity = Gravity.BOTTOM;
+        params.gravity = getGravity();
 
         window.setAttributes(params);
+        if (getAnimationRes() != -1) {
+            window.setWindowAnimations(getAnimationRes());
+        }
     }
 
     @LayoutRes
-    public abstract int getLayoutRes();
+    protected abstract int getLayoutRes();
+
+    @StyleRes protected int getAnimationRes() {
+        return -1;
+    }
 
     /** 返回View给client,可以动态添加View、设置监听事件等 */
-    public abstract void bindView(View v);
+    protected abstract void bindView(View v);
+
+    public int getWidth() {
+        return -1;
+    }
 
     public int getHeight() {
         return -1;
@@ -86,6 +109,10 @@ public abstract class BaseBottomDialog extends DialogFragment {
 
     public boolean getCancelOutside() {
         return true;
+    }
+
+    protected int getGravity() {
+        return Gravity.CENTER;
     }
 
     public String getFragmentTag() {
@@ -102,5 +129,11 @@ public abstract class BaseBottomDialog extends DialogFragment {
         if (!isVisible()) {
             show(fragmentManager, tag);
         }
+    }
+
+    public DisplayMetrics getDisplayMetrics() {
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm;
     }
 }

@@ -30,6 +30,11 @@
                 style="@style/EntryItem"
                 android:text="BottomDialog"/>
 
+            <TextView
+                android:id="@+id/tv_dialog_fragment"
+                style="@style/EntryItem"
+                android:text="Dialog Fragment"/>
+
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/refresh_layout"
                 android:layout_width="match_parent"
@@ -73,10 +78,6 @@
                 android:gravity="center"
                 android:text="点击波纹效果(可修改点击颜色)"/>
 
-            <TextView
-                android:id="@+id/tv_dialog_fragment"
-                style="@style/EntryItem"
-                android:text="Dialog Fragment"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

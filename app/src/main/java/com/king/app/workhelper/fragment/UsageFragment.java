@@ -13,10 +13,9 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.dialog.PhotoBottomDialog;
-import com.king.app.workhelper.dialog.ShareBottomDialog;
+import com.king.app.workhelper.dialog.SampleBottomDialog;
+import com.king.app.workhelper.dialog.SampleDialog;
 import com.king.applib.base.WeakHandler;
-import com.king.applib.dialog.BottomDialog;
 import com.king.applib.log.Logger;
 
 import java.lang.reflect.Method;
@@ -40,8 +39,8 @@ public class UsageFragment extends AppBaseFragment {
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
 
     private MyHandler mMyHandler = new MyHandler(this);
-    private PhotoBottomDialog mPhotoBottomDialog;
-    private ShareBottomDialog mShareBottomDialog;
+    private SampleDialog mSampleDialog;
+    private SampleBottomDialog mSampleBottomDialog;
 
     private static class MyHandler extends WeakHandler<UsageFragment> {
         public MyHandler(UsageFragment target) {
@@ -84,16 +83,6 @@ public class UsageFragment extends AppBaseFragment {
         if (resultCode != RESULT_OK) {
             return;
         }
-        switch (requestCode) {
-            case PhotoBottomDialog.REQ_CODE_CAMERA:
-                Logger.i("相机");
-                break;
-            case PhotoBottomDialog.REQ_CODE_ALBUM:
-                Logger.i("相册");
-                break;
-            default:
-                break;
-        }
     }
 
     @OnClick(R.id.tv_weak_handler)
@@ -115,16 +104,12 @@ public class UsageFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_bottom_dialog)
     public void onBottomDialogClick() {
-        BottomDialog bottomDialog = BottomDialog.create(getActivity().getSupportFragmentManager());
-        bottomDialog.setViewListener(new BottomDialog.ViewListener() {
-                    @Override public void bindView(View v) {
-                        initBottomDialogView(v);
-                    }
-                })
-                .setLayoutRes(R.layout.dialog_share)
-                .setDimAmount(0.2f)
-                .setTag("BottomDialog")
-                .show();
+        showBottomDialog();
+    }
+
+    @OnClick(R.id.tv_dialog_fragment)
+    public void onDialogFragmentClick() {
+        showDialog();
     }
 
     private void initBottomDialogView(View v) {
@@ -142,23 +127,18 @@ public class UsageFragment extends AppBaseFragment {
 
     }
 
-    @OnClick(R.id.tv_dialog_fragment)
-    public void onDialogFragmentClick() {
-        showShareBottomDialog();
+
+    private void showDialog() {
+        if (mSampleDialog == null) {
+            mSampleDialog = new SampleDialog();
+        }
+        mSampleDialog.showDialog(getFragmentManager());
     }
 
-    private void showPhotoBottomDialog() {
-        if (mPhotoBottomDialog == null) {
-            mPhotoBottomDialog = new PhotoBottomDialog();
+    private void showBottomDialog() {
+        if (mSampleBottomDialog == null) {
+            mSampleBottomDialog = new SampleBottomDialog();
         }
-        mPhotoBottomDialog.showDialog(getFragmentManager());
-    }
-
-
-    private void showShareBottomDialog() {
-        if (mShareBottomDialog == null) {
-            mShareBottomDialog = new ShareBottomDialog();
-        }
-        mShareBottomDialog.showDialog(getFragmentManager());
+        mSampleBottomDialog.showDialog(getFragmentManager());
     }
 }
