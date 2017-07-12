@@ -1,18 +1,20 @@
 package com.king.applib.ui.customview;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-
-import com.king.applib.util.ViewIdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 多状态View。<br/>
+ * 每个状态View添加到此ViewGroup下，同时只显示一个View，其它 GONE.
+ *
  * @author VanceKing
  * @since 2017/7/10.
  */
@@ -21,9 +23,8 @@ public class MultiStatusView extends FrameLayout {
     private final SparseArray<View> mStatusViews = new SparseArray<>();
     private final List<View> mContentViews = new ArrayList<>();
 
-    private static final RelativeLayout.LayoutParams MATCH_PARENT_LAYOUT_PARAMS =
-            new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.MATCH_PARENT);
+    private static final FrameLayout.LayoutParams MATCH_PARENT_LAYOUT_PARAMS = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT);
 
     public MultiStatusView(Context context) {
         this(context, null);
@@ -50,27 +51,25 @@ public class MultiStatusView extends FrameLayout {
         super.onDetachedFromWindow();
     }
 
-    public void showStatusView(View content) {
-        final int contentId = content.getId();
-        if (contentId <= 0) {
-            content.setId(ViewIdGenerator.generateViewId());
-        }
-        View currentView = mStatusViews.get(content.getId());
-        if (currentView == null) {
-            addView(content, 0, MATCH_PARENT_LAYOUT_PARAMS);
-            mStatusViews.append(content.getId(), content);
+    public View showStatusView(@LayoutRes int layoutRes) {
+        View statusView = mStatusViews.get(layoutRes);
+        if (statusView == null) {
+            statusView = generateView(layoutRes);
+            addView(statusView, MATCH_PARENT_LAYOUT_PARAMS);
+            mStatusViews.put(layoutRes, statusView);
         }
 
         hiddenContentView();
         for (int i = 0, size = mStatusViews.size(); i < size; i++) {
-            int key = mStatusViews.keyAt(i);
+            final int key = mStatusViews.keyAt(i);
             final View view = mStatusViews.get(key);
-            if (key == content.getId()) {
+            if (layoutRes == key) {
                 setViewVisibility(view, View.VISIBLE);
             } else {
-                setViewVisibility(view, View.INVISIBLE);
+                setViewVisibility(view, View.GONE);
             }
         }
+        return statusView;
     }
 
     public void showContentView() {
@@ -97,5 +96,9 @@ public class MultiStatusView extends FrameLayout {
         if (view.getVisibility() != visibility) {
             view.setVisibility(visibility);
         }
+    }
+
+    private View generateView(@LayoutRes int layoutRes) {
+        return LayoutInflater.from(getContext()).inflate(layoutRes, null);
     }
 }

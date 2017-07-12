@@ -21,8 +21,6 @@ import butterknife.OnClick;
 public class MultiStatusViewFragment extends AppBaseFragment {
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.multi_status_view) MultiStatusView mMultiStatusView;
-    private View mEmptyView;
-    private View mErrorView;
 
     @Override protected int getContentLayout() {
         return R.layout.fragment_multi_status_view;
@@ -44,18 +42,12 @@ public class MultiStatusViewFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_status_view_error)
     public void onStatusViewErrorClick() {
-        if (mErrorView == null) {
-            mErrorView = inflateView(mContext, R.layout.layout_statsu_view_error);
-        }
-        mMultiStatusView.showStatusView(mErrorView);
+        mMultiStatusView.showStatusView(R.layout.layout_statsu_view_error);
     }
 
     @OnClick(R.id.tv_status_view_empty)
     public void onStatusViewEmptyClick() {
-        if (mEmptyView == null) {
-            mEmptyView = inflateView(mContext, R.layout.layout_statsu_view_empty);
-        }
-        mMultiStatusView.showStatusView(mEmptyView);
+        mMultiStatusView.showStatusView(R.layout.layout_statsu_view_empty);
     }
     
     @OnClick(R.id.tv_content_view)
