@@ -2,7 +2,6 @@ package com.king.app.workhelper.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Message;
@@ -27,8 +26,6 @@ import java.lang.reflect.Method;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * WeakHandler
@@ -92,13 +89,6 @@ public class UsageFragment extends AppBaseFragment {
             Logger.i("onRefresh");
             mMyHandler.sendEmptyMessageDelayed(MSG_WAIT, 3000);
         });
-    }
-
-    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            return;
-        }
     }
 
     @OnClick(R.id.tv_weak_handler)

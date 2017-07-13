@@ -1,10 +1,11 @@
 package com.king.app.workhelper.activity;
 
-import android.content.Intent;
+import android.view.KeyEvent;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.EntryFragment;
+import com.king.applib.util.ToastUtil;
 
 /**
  * 测试入口界面
@@ -29,18 +30,11 @@ public class HomeActivity extends AppBaseActivity {
     }
 
     @Override
-    public void getIntentData(Intent intent) {
-        super.getIntentData(intent);
-//        String value = getStringExtra("aaa", "000");
-//        Logger.i(value);
-    }
-
-    @Override
     protected String getActivityTitle() {
         return "测试";
     }
 
-    /*@Override
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - exitTime) > 1500) {
@@ -52,5 +46,5 @@ public class HomeActivity extends AppBaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }*/
+    }
 }
