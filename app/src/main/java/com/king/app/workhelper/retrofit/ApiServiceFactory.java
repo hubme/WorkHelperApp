@@ -1,6 +1,6 @@
 package com.king.app.workhelper.retrofit;
 
-import com.king.app.workhelper.common.OkHttpProvider;
+import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.applib.util.StringUtil;
 
 import java.util.HashMap;

@@ -1,10 +1,12 @@
-package com.king.app.workhelper.common;
+package com.king.app.workhelper.okhttp;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 
 /**
+ * OkHttpClient提供者
+ *
  * @author VanceKing
  * @since 2017/5/30.
  */
