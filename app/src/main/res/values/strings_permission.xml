@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="grant_permission_phone_call">请到设置中开启途牛旅游的电话权限</string>
-    <string name="grant_permission_camera">请到设置中开启途牛旅游的摄像头权限</string>
-    <string name="grant_permission_audio">请到设置中开启途牛旅游的麦克风权限</string>
-    <string name="grant_permission_read_contact">请到设置中开启途牛旅游的通讯录权限</string>
-    <string name="grant_permission_location">获取位置信息失败，请到设置中开启途牛旅游的位置信息权限</string>
-</resources>
