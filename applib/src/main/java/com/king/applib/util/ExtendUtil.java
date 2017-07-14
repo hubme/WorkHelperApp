@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
+import android.os.storage.StorageManager;
 import android.support.annotation.AnyRes;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.king.applib.log.Logger;
 
 import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -431,14 +433,34 @@ public class ExtendUtil {
      *    Boolean.valueOf(x).compareTo(Boolean.valueOf(y))
      * </pre>
      *
-     * @param  x the first {@code boolean} to compare
-     * @param  y the second {@code boolean} to compare
+     * @param x the first {@code boolean} to compare
+     * @param y the second {@code boolean} to compare
      * @return the value {@code 0} if {@code x == y};
-     *         a value less than {@code 0} if {@code !x && y}; and
-     *         a value greater than {@code 0} if {@code x && !y}
+     * a value less than {@code 0} if {@code !x && y}; and
+     * a value greater than {@code 0} if {@code x && !y}
      * @since 1.7
      */
     public static int compareBoolean(boolean x, boolean y) {
         return (x == y) ? 0 : (x ? 1 : -1);
     }
+
+    /**
+     * 获取所有挂载的路径.<br/>
+     * StorageManager#getVolumeList
+     */
+    @Deprecated
+    public String[] getVolumnPaths(Context context) {
+        StorageManager mStorageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
+        String[] paths = null;
+        try {
+            Method mMethodGetPaths = mStorageManager.getClass().getMethod("getVolumePaths");
+            mMethodGetPaths.setAccessible(true);
+            paths = (String[]) mMethodGetPaths.invoke(mStorageManager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return paths;
+    }
+
 }
