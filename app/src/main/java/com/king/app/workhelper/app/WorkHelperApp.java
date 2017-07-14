@@ -178,5 +178,9 @@ public class WorkHelperApp extends BaseApplication {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
         //Logger.i("WorkHelperApp#onTrimMemory()");
+        switch (level) {
+            case TRIM_MEMORY_UI_HIDDEN: // 进行资源释放操作  
+                break;
+        }
     }
 }
