@@ -58,4 +58,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/fill_in_heart"/>-->
+
+    <ImageView
+        android:id="@+id/image_3d"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/banner1"/>
 </LinearLayout>

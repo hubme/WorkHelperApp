@@ -3,12 +3,15 @@ package com.king.app.workhelper.fragment;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.applib.animation.Rotate3dAnimation;
 import com.king.applib.util.AnimationUtil;
 
 import butterknife.BindView;
@@ -84,5 +87,37 @@ public class AnimationFragment extends AppBaseFragment {
         super.onDestroyView();
         //此时View已销毁,mAdVf == null;
 //        mAdVf.stopFlipping();
+    }
+
+    @OnClick(R.id.image_3d)
+    public void on3DImageClick(ImageView view) {
+        applyRotation(view, 0, 180);
+    }
+
+    private void applyRotation(ImageView view, float start, float end) {
+        // 计算中心点
+        final float centerX = view.getWidth() / 2.0f;
+        final float centerY = view.getHeight() / 2.0f;
+
+        final Rotate3dAnimation rotation = new Rotate3dAnimation(mActivity, start, end, centerX, centerY, 1.0f, true);
+        rotation.setDuration(1500);
+        rotation.setFillAfter(true);
+        rotation.setInterpolator(new AccelerateInterpolator());
+        rotation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setImageResource(R.mipmap.banner2);
+            }
+        });
+        view.startAnimation(rotation);
     }
 }
