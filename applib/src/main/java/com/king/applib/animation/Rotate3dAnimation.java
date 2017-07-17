@@ -96,8 +96,7 @@ public class Rotate3dAnimation extends Animation {
         camera.getMatrix(matrix);
         camera.restore();
 
-        //----------------------------------------------------------------------------
-        /**
+        /*
          * 修复打脸问题		(￣ε(#￣)☆╰╮(￣▽￣///)
          * 简要介绍：
          * 原来的3D翻转会由于屏幕像素密度问题而出现效果相差很大
@@ -114,9 +113,6 @@ public class Rotate3dAnimation extends Animation {
         matrix.getValues(mValues);            //获取数值
         mValues[6] = mValues[6] / scale;      //数值修正
         matrix.setValues(mValues);            //重新赋值
-
-        //		Log.e("TAG", "mValues["+0+"]="+mValues[0]+"------------\t"+"mValues["+6+"]="+mValues[6]);
-        //----------------------------------------------------------------------------
 
         matrix.preTranslate(-centerX, -centerY);
         matrix.postTranslate(centerX, centerY);
