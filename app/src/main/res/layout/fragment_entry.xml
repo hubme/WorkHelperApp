@@ -144,7 +144,7 @@
                 android:text="Mul Process"/>
 
             <TextView
-                android:id="@+id/tv_share"
+                android:id="@+id/tv_menu_share"
                 style="@style/EntryItem"
                 android:text="Share"/>
 
@@ -187,11 +187,16 @@
                 android:id="@+id/tv_bottom_sheets"
                 style="@style/EntryItem"
                 android:text="BottomSheets"/>
-            
+
             <TextView
                 android:id="@+id/tv_multi_status_view"
                 style="@style/EntryItem"
                 android:text="Multi Status View"/>
+
+            <TextView
+                android:id="@+id/tv_swipe_menu"
+                style="@style/EntryItem"
+                android:text="滑动删除"/>
 
         </LinearLayout>
 

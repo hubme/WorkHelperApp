@@ -170,7 +170,7 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new MulProcessFragment());
     }
 
-    @OnClick(R.id.tv_share)
+    @OnClick(R.id.tv_menu_share)
     public void onShare() {
         openActivity(WBShareActivity.class);
     }
@@ -218,6 +218,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_multi_status_view)
     public void onMultiStatusViewClick() {
         clickedOn(new MultiStatusViewFragment());
+    }
+    
+    @OnClick(R.id.tv_swipe_menu)
+    public void onSwipeMenuClick() {
+        clickedOn(new SwipeMenuSampleFragment());
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
