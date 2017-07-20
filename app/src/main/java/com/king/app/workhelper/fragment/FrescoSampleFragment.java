@@ -15,6 +15,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.common.utils.FrescoUtil;
+import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
@@ -48,6 +49,7 @@ public class FrescoSampleFragment extends AppBaseFragment {
     public static final String PIC_BAIDU_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490190243757&di=3bd3e4eca13d247b62dad6e4dedaccc3&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2016%2Fhxj%2F08%2F16%2F1602%2FChMkJlexsJmIIe8dAAghrgQhdMQAAUdNAJInfYACCHG699.jpg";
     public static final String PIC_REMOTE_SNOW = "http://pic1.win4000.com/wallpaper/7/4fcec6cc47d34.jpg";
     public static final String LOCAL_PIC = Environment.getExternalStorageDirectory().getPath() + "/000test/gjj_splash.jpg";
+    public static final String PIC_PATH = Environment.getExternalStorageDirectory().getPath() + "/000test/000aaa.jpg";
 
     @BindView(R.id.view_pic)
     SimpleDraweeView mSimpleDraweeView;
@@ -294,5 +296,25 @@ public class FrescoSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_update_image)
     public void onImageUpdateClick() {
+        long a1 = System.currentTimeMillis();
+        Request request = new Request.Builder().url(PIC_LOCAL_URL).build();
+        OkHttpProvider.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Logger.i("time: "+(System.currentTimeMillis() -a1));
+                FileUtil.saveStream(FileUtil.createFile(PIC_PATH), response.body().byteStream(), true);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSimpleDraweeView.setImageURI(Uri.fromFile(FileUtil.getFileByPath(PIC_PATH)));
+                    }
+                });
+            }
+        });
     }
 }

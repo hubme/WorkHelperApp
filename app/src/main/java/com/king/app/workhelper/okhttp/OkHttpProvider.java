@@ -1,7 +1,11 @@
 package com.king.app.workhelper.okhttp;
 
+import android.os.Environment;
+
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 /**
@@ -32,6 +36,7 @@ public class OkHttpProvider {
 
     private void initOkHttp() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .cache(new Cache(new File(Environment.getExternalStorageDirectory().getPath()+"/000test/cache"), 5 * 1024 * 1024L))
                 .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_WRITE_TIMEOUT, TimeUnit.SECONDS);
