@@ -7,24 +7,18 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.webkit.URLUtil;
 
-import com.facebook.binaryresource.BinaryResource;
-import com.facebook.binaryresource.FileBinaryResource;
-import com.facebook.cache.common.CacheKey;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.AbstractDraweeController;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.cache.DefaultCacheKeyFactory;
-import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.imagepipeline.image.ImageInfo;
-import com.facebook.imagepipeline.request.ImageRequest;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.common.utils.FrescoUtil;
 import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.JsonUtil;
-import com.king.applib.util.StringUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.json.JSONException;
@@ -50,7 +44,7 @@ import okhttp3.ResponseBody;
  */
 
 public class FrescoSampleFragment extends AppBaseFragment {
-    public static final String PIC_LOCAL_URL = "http://10.0.10.168:8080/appupdate/launch_background.jpg";
+    public static final String PIC_LOCAL_URL = "http://172.26.219.1:8080/banners/banner_520_2.jpg";
     public static final String PIC_BAIDU_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490190243757&di=3bd3e4eca13d247b62dad6e4dedaccc3&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2016%2Fhxj%2F08%2F16%2F1602%2FChMkJlexsJmIIe8dAAghrgQhdMQAAUdNAJInfYACCHG699.jpg";
     public static final String PIC_REMOTE_SNOW = "http://pic1.win4000.com/wallpaper/7/4fcec6cc47d34.jpg";
     public static final String LOCAL_PIC = Environment.getExternalStorageDirectory().getPath() + "/000test/gjj_splash.jpg";
@@ -227,7 +221,22 @@ public class FrescoSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_download_image)
     public void downloadImage() {
-        
+        FrescoUtil.downloadImage(mContext, PIC_LOCAL_URL, new FrescoUtil.ImageDownloadListener() {
+            @Override
+            public void onSuccess(File file) {
+                mSimpleDraweeView.setImageURI(Uri.fromFile(file));
+            }
+
+            @Override
+            public void onFail(String url) {
+
+            }
+
+            @Override
+            public void onProgress(float progress) {
+
+            }
+        });
     }
 
     /**
@@ -270,7 +279,7 @@ public class FrescoSampleFragment extends AppBaseFragment {
         if (path == null) {
             return false;
         }
-        File file = getFileFromDiskCache(context, url);
+        File file = FrescoUtil.getFileFromDiskCache(context, url);
         if (file == null) {
             return false;
         }
@@ -281,24 +290,6 @@ public class FrescoSampleFragment extends AppBaseFragment {
         boolean isSuccess = file.renameTo(path);
 
         return isSuccess;
-    }
-
-    /**
-     * 从fresco的本地缓存拿到图片,注意文件的结束符并不是常见的.jpg,.png等，如果需要另存，可自行另存
-     */
-    public static File getFileFromDiskCache(Context context, String url) {
-        if (context == null || StringUtil.isNullOrEmpty(url)) {
-            return null;
-        }
-        CacheKey cacheKey = DefaultCacheKeyFactory.getInstance().getEncodedCacheKey(ImageRequest.fromUri(url), context);
-        if (ImagePipelineFactory.getInstance().getMainFileCache().hasKey(cacheKey)) {
-            BinaryResource resource = ImagePipelineFactory.getInstance().getMainFileCache().getResource(cacheKey);
-            return ((FileBinaryResource) resource).getFile();
-        } else if (ImagePipelineFactory.getInstance().getSmallImageFileCache().hasKey(cacheKey)) {
-            BinaryResource resource = ImagePipelineFactory.getInstance().getSmallImageFileCache().getResource(cacheKey);
-            return ((FileBinaryResource) resource).getFile();
-        }
-        return null;
     }
 
     @OnClick(R.id.tv_update_image)

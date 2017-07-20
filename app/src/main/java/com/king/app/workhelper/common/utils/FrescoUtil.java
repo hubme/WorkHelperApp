@@ -42,8 +42,9 @@ public class FrescoUtil {
         dataSource.subscribe(new BaseDataSubscriber<Void>() {
             @Override protected void onNewResultImpl(DataSource<Void> dataSource) {
                 Logger.i("onSuccess.是否在主线程：" + ExtendUtil.isInMainThread());
-                if (listener != null) {
-                    listener.onSuccess(getFileFromDiskCache(context, url));
+                final File file = getFileFromDiskCache(context, url);
+                if (listener != null && file != null) {
+                    listener.onSuccess(file);
                 }
                 
                 //当CallerThreadExecutor.getInstance()时
