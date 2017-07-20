@@ -8,9 +8,18 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/view_pic"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:placeholderImage="@mipmap/beautiful_girl"/>
+        android:layout_width="300dp"
+        android:layout_height="300dp"/>
+    
+    <TextView
+        android:id="@+id/tv_download_image"
+        android:text="下载图片"
+        style="@style/EntryItem"/>
+    
+    <TextView
+        android:id="@+id/tv_update_image"
+        android:text="更新图片"
+        style="@style/EntryItem"/>
 
     <!--<ScrollView
         android:layout_width="match_parent"
