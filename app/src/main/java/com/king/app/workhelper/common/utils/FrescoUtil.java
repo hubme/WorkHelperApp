@@ -17,7 +17,7 @@ import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.king.applib.log.Logger;
-import com.king.applib.util.ExtendUtil;
+import com.king.applib.util.FileUtil;
 import com.king.applib.util.StringUtil;
 
 import java.io.File;
@@ -28,6 +28,8 @@ import java.io.File;
  */
 
 public class FrescoUtil {
+    public static final String TAG = "FrescoUtil";
+    
     private FrescoUtil() {
 
     }
@@ -40,11 +42,17 @@ public class FrescoUtil {
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         DataSource<Void> dataSource = imagePipeline.prefetchToDiskCache(imageRequest, context, Priority.HIGH);
         dataSource.subscribe(new BaseDataSubscriber<Void>() {
+            //图片地址不正确,下载失败竟然也走这里.有缓存文件，但是文件大小为0，所以要判断图片文件的合法性
             @Override protected void onNewResultImpl(DataSource<Void> dataSource) {
-                Logger.i("onSuccess.是否在主线程：" + ExtendUtil.isInMainThread());
-                final File file = getFileFromDiskCache(context, url);
-                if (listener != null && file != null) {
-                    listener.onSuccess(file);
+                Logger.log(Logger.INFO, TAG, "hasFailed: " + dataSource.hasFailed() + ";isClosed: " + dataSource.isClosed()+";hasResult: "+dataSource.hasResult()+";isFinished: "+dataSource.isFinished());
+                if (listener != null) {
+                    final File file = getFileFromDiskCache(context, url);
+                    if (FileUtil.isLegalFile(file)) {
+                        listener.onSuccess(file);
+                        Logger.log(Logger.INFO, TAG, "图片下载成功");
+                    } else {
+                        listener.onFail(new Throwable("缓存图片为null/length == 0"));
+                    }
                 }
                 
                 //当CallerThreadExecutor.getInstance()时
@@ -59,7 +67,7 @@ public class FrescoUtil {
             @Override
             public void onProgressUpdate(DataSource<Void> dataSource) {
                 super.onProgressUpdate(dataSource);
-                Logger.i("progress: " + dataSource.getProgress());
+                Logger.log(Logger.INFO, TAG, "progress: " + dataSource.getProgress());
                 if (listener != null) {
                     listener.onProgress(dataSource.getProgress());
                 }
@@ -67,9 +75,9 @@ public class FrescoUtil {
 
             @Override
             protected void onFailureImpl(DataSource<Void> dataSource) {
-                Logger.i("onFailure");
+                Logger.log(Logger.INFO, TAG, "图片下载失败。url: " + url, dataSource.getFailureCause());
                 if (listener != null) {
-                    listener.onFail(url);
+                    listener.onFail(dataSource.getFailureCause());
                 }
             }
         }, UiThreadImmediateExecutorService.getInstance());//CallerThreadExecutor.getInstance()
@@ -96,7 +104,7 @@ public class FrescoUtil {
     public interface ImageDownloadListener {
         void onSuccess(File file);
 
-        void onFail(String url);
+        void onFail(Throwable tr);
 
         void onProgress(float progress);
     }

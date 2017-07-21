@@ -42,6 +42,15 @@ public class FileUtil {
     }*/
 
     /**
+     * 是否是合法的文件
+     *
+     * @param file 文件对象，不是目录对象.
+     */
+    public static boolean isLegalFile(File file) {
+        return isFileExists(file) && file.length() > 0;
+    }
+
+    /**
      * 根据文件路径判断文件是否存在
      */
     public static boolean isFileExists(String filePath) {

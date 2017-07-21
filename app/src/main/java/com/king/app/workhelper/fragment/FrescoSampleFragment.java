@@ -45,7 +45,7 @@ import okhttp3.ResponseBody;
  */
 
 public class FrescoSampleFragment extends AppBaseFragment {
-    public static final String PIC_LOCAL_URL = "http://172.26.219.1:8080/banners/banner_520_2.jpg";
+    public static final String PIC_LOCAL_URL = "http://192.168.89.2:8080/pic/aaa.jpg";
     public static final String PIC_BAIDU_URL = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490190243757&di=3bd3e4eca13d247b62dad6e4dedaccc3&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2016%2Fhxj%2F08%2F16%2F1602%2FChMkJlexsJmIIe8dAAghrgQhdMQAAUdNAJInfYACCHG699.jpg";
     public static final String PIC_REMOTE_SNOW = "http://pic1.win4000.com/wallpaper/7/4fcec6cc47d34.jpg";
     public static final String LOCAL_PIC = Environment.getExternalStorageDirectory().getPath() + "/000test/gjj_splash.jpg";
@@ -223,15 +223,19 @@ public class FrescoSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_download_image)
     public void downloadImage() {
-        FrescoUtil.downloadImage(mContext, PIC_LOCAL_URL, new FrescoUtil.ImageDownloadListener() {
+        FrescoUtil.downloadImage(mContext, PIC_REMOTE_SNOW, new FrescoUtil.ImageDownloadListener() {
             @Override
             public void onSuccess(File file) {
-                mSimpleDraweeView.setImageURI(Uri.fromFile(file));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override public void run() {
+                        mSimpleDraweeView.setImageURI(Uri.fromFile(file));
+                    }
+                });
             }
 
             @Override
-            public void onFail(String url) {
-
+            public void onFail(Throwable tr) {
+                Logger.log(Logger.ERROR, FrescoUtil.TAG, "失败：", tr);
             }
 
             @Override
