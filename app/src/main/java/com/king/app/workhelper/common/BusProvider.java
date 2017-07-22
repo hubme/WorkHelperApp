@@ -5,9 +5,10 @@ import com.squareup.otto.Bus;
 
 /**
  * 获取Bus的单例类
- * Created by HuoGuangxu on 2016/9/29.
+ *
+ * @author VanceKing
+ * @since 2016/9/29
  */
-
 public class BusProvider {
     private BusProvider() {
 
