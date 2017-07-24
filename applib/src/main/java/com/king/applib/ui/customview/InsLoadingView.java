@@ -27,6 +27,9 @@ import android.view.animation.LinearInterpolator;
 
 import com.king.applib.R;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import static android.graphics.Shader.TileMode.CLAMP;
 
 /**
@@ -50,6 +53,7 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
     public static final int UN_CLICKED = 2;
 
     @IntDef({LOADING, CLICKED, UN_CLICKED})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface STATUS {
     }
 

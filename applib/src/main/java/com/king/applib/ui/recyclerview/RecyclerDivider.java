@@ -9,6 +9,9 @@ import android.support.annotation.IntDef;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * 分割线<br/>
  * https://github.com/kymjs/RecyclerViewDemo/blob/master/RecyclerViewDemo/recycler/src/main/java/com/kymjs/recycler/Divider.java <br/>
@@ -22,6 +25,7 @@ public class RecyclerDivider extends RecyclerView.ItemDecoration {
     public static final int VERTICAL = 1;
 
     @IntDef({HORIZONTAL, VERTICAL})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {
     }
 
