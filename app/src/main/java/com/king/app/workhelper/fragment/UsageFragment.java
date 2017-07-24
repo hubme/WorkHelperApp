@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.dialog.SampleBottomDialog;
-import com.king.app.workhelper.dialog.SampleDialog;
+import com.king.app.workhelper.dialog.SimpleDialog;
 import com.king.applib.base.WeakHandler;
 import com.king.applib.log.Logger;
 import com.king.applib.util.SpannableStringUtils;
@@ -41,7 +41,7 @@ public class UsageFragment extends AppBaseFragment {
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
 
     private MyHandler mMyHandler = new MyHandler(this);
-    private SampleDialog mSampleDialog;
+    private SimpleDialog mSimpleDialog;
     private SampleBottomDialog mSampleBottomDialog;
 
     private static class MyHandler extends WeakHandler<UsageFragment> {
@@ -135,10 +135,10 @@ public class UsageFragment extends AppBaseFragment {
 
 
     private void showDialog() {
-        if (mSampleDialog == null) {
-            mSampleDialog = new SampleDialog();
+        if (mSimpleDialog == null) {
+            mSimpleDialog = new SimpleDialog();
         }
-        mSampleDialog.showDialog(getFragmentManager());
+        mSimpleDialog.showDialog(getFragmentManager());
     }
 
     private void showBottomDialog() {

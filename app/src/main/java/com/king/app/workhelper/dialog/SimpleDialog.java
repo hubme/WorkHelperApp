@@ -10,7 +10,7 @@ import com.king.applib.base.dialog.BaseCenterDialog;
  * @since 2017/7/12.
  */
 
-public class SampleDialog extends BaseCenterDialog {
+public class SimpleDialog extends BaseCenterDialog {
     @Override public int getLayoutRes() {
         return R.layout.common_empty_view;
     }
