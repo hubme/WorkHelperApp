@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.king.applib.util.ExtendUtil;
  * Author: HuoGuangXu
  * Date: 2016/5/19
  */
+
+@Deprecated
 public class SimpleDialog extends Dialog implements DialogInterface {
 
     private Context mContext;
@@ -45,13 +48,13 @@ public class SimpleDialog extends Dialog implements DialogInterface {
 
     private Button mRightBtn;
 
-    private static SimpleDialog mInstance;
+    private SimpleDialog mInstance;
 
-    private SimpleDialog(Context context) {
-        this(context, 0);
+    public SimpleDialog(Context context) {
+        this(context, R.style.DialogStyle);
     }
 
-    private SimpleDialog(Context context, int theme) {
+    public SimpleDialog(Context context, int theme) {
         super(context, theme);
         mContext = context;
         init(context);
@@ -64,24 +67,13 @@ public class SimpleDialog extends Dialog implements DialogInterface {
         if (getWindow() != null) {
             DisplayMetrics dm = new DisplayMetrics();
             getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            getWindow().setLayout((int) (dm.widthPixels * 0.75), ViewGroup.LayoutParams.WRAP_CONTENT);
+            getWindow().setLayout((int) (dm.widthPixels * 0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }
 
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-    }
-
-    public static SimpleDialog getInstance(Context context) {
-        if (mInstance == null) {
-            synchronized (SimpleDialog.class) {
-                if (mInstance == null) {
-                    mInstance = new SimpleDialog(context, R.style.DialogStyle);
-                }
-            }
-        }
-        return mInstance;
     }
 
     private void init(Context context) {
@@ -102,10 +94,10 @@ public class SimpleDialog extends Dialog implements DialogInterface {
     }
 
     public void toDefault() {
-        mTitleTv.setTextColor(mContext.getResources().getColor(R.color.black));
-        mDividerView.setBackgroundColor(mContext.getResources().getColor(R.color.divider));
-        mMessageTv.setTextColor(mContext.getResources().getColor(R.color.gray_666666));
-        mParentPanelLl.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        mTitleTv.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+        mDividerView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.divider));
+        mMessageTv.setTextColor(ContextCompat.getColor(mContext, R.color.gray_666666));
+        mParentPanelLl.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
     }
 
     public SimpleDialog withDividerColor(String colorString) {
