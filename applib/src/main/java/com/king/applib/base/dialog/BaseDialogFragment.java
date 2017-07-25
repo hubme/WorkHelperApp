@@ -1,6 +1,7 @@
 package com.king.applib.base.dialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
@@ -8,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,16 +40,27 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.SimpleDialog);
+        Bundle arguments = getArguments();
+        if (arguments != null && !arguments.isEmpty()) {
+            getArguments(arguments);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Window window = getDialog().getWindow();
         if (window != null) {
-            window.requestFeature(Window.FEATURE_NO_TITLE);
+            window.requestFeature(Window.FEATURE_NO_TITLE);//must be called before adding content
         }
-        getDialog().setCanceledOnTouchOutside(getCancelOutside());
-
+        
+        getDialog().setCanceledOnTouchOutside(getCancelOutside() && getCancelable());
+        getDialog().setCancelable(getCancelable());
+        getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_BACK && !getCancelable();
+            }
+        });
+        
         View v = inflater.inflate(getLayoutRes(), container, false);
         bindView(v);
         return v;
@@ -85,6 +98,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
         }
     }
 
+    protected void getArguments(Bundle bundle) {
+        
+    }
+
     @LayoutRes
     protected abstract int getLayoutRes();
 
@@ -108,6 +125,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     public boolean getCancelOutside() {
+        return true;
+    }
+    
+    public boolean getCancelable() {
         return true;
     }
 

@@ -3,8 +3,10 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@drawable/bg_white_corner_5dp"
+              android:divider="@drawable/ll_h_divider"
               android:gravity="center_horizontal"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:showDividers="middle">
 
     <RelativeLayout
         android:id="@+id/dialog_top_panel"
@@ -17,7 +19,8 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_dialog_title"
@@ -36,15 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher"
+            android:visibility="gone"/>
 
-        <View
-            android:id="@+id/title_divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/divider"
-            android:visibility="visible"/>
     </RelativeLayout>
 
     <TextView
@@ -55,15 +52,9 @@
         android:layout_marginTop="15dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="赛扥就爱"
+        android:text="发动机分开爽翻了龙江发老三扥龙江劳烦双兰分龙岛教父龙丹凤双方双兰分晾晒发赛丹佛"
         android:textColor="@color/gray_666666"
         android:textSize="@dimen/ts_normal"/>
-
-    <FrameLayout
-        android:id="@+id/layout_custom_panel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
 
     <LinearLayout
         android:id="@+id/dialog_btn_panel"
@@ -71,13 +62,7 @@
         android:layout_height="48dp"
         android:orientation="horizontal">
 
-        <View
-            android:id="@+id/btn_divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/red"/>
-
-        <Button
+        <TextView
             android:id="@+id/btn_dialog_confirm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -94,7 +79,7 @@
             android:layout_height="match_parent"
             android:background="@color/divider"/>
 
-        <Button
+        <TextView
             android:id="@+id/btn_right"
             android:layout_width="0dp"
             android:layout_height="match_parent"

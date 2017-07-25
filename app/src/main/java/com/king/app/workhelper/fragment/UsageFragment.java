@@ -18,6 +18,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.dialog.SampleBottomDialog;
 import com.king.app.workhelper.dialog.SimpleDialog;
 import com.king.applib.base.WeakHandler;
+import com.king.applib.base.dialog.BaseDialogFragment;
 import com.king.applib.log.Logger;
 import com.king.applib.util.SpannableStringUtils;
 
@@ -41,7 +42,7 @@ public class UsageFragment extends AppBaseFragment {
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
 
     private MyHandler mMyHandler = new MyHandler(this);
-    private SimpleDialog mSimpleDialog;
+    private BaseDialogFragment mSimpleDialog;
     private SampleBottomDialog mSampleBottomDialog;
 
     private static class MyHandler extends WeakHandler<UsageFragment> {
@@ -136,7 +137,7 @@ public class UsageFragment extends AppBaseFragment {
 
     private void showDialog() {
         if (mSimpleDialog == null) {
-            mSimpleDialog = new SimpleDialog();
+            mSimpleDialog = new SimpleDialog.Builder().setTitle("哈哈哈").setMessage("赛扥就哦哦囧扥龙扥").build();
         }
         mSimpleDialog.showDialog(getFragmentManager());
     }
