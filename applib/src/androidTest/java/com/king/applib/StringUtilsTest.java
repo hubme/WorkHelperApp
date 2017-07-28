@@ -50,18 +50,6 @@ public class StringUtilsTest extends BaseTestCase {
         Logger.i(String.valueOf("&".length()));
     }
 
-    public void testIsNumber() throws Exception {
-        Logger.i(String.valueOf(StringUtil.isNumber("")));
-        Logger.i(String.valueOf(StringUtil.isNumber(" ")));
-        Logger.i(String.valueOf(StringUtil.isNumber("a")));
-        Logger.i(String.valueOf(StringUtil.isNumber("1")));
-        Logger.i(String.valueOf(StringUtil.isNumber("0a")));
-        Logger.i(String.valueOf(StringUtil.isNumber(" 1 d 0")));
-        Logger.i(String.valueOf(StringUtil.isNumber("0123")));
-        Logger.i(String.valueOf(StringUtil.isNumber("%$012df")));
-        Logger.i(String.valueOf(StringUtil.isNumber("%%&**)")));
-    }
-
     public void testIsNotEmpty() throws Exception {
         String text = null;
         Logger.i(String.valueOf(StringUtil.isNotEmpty(text)));
@@ -97,5 +85,11 @@ public class StringUtilsTest extends BaseTestCase {
     public void testConcat() throws Exception {
         String text = "";
         Logger.i(text.concat("aaa").concat("bbb"));
+    }
+    
+    
+    public void testStringFormatter() throws Exception {
+        float aFloat = 0;
+        Logger.i(String.format(Locale.US, "%,.2f", aFloat));
     }
 }

@@ -1,11 +1,18 @@
 package com.king.applib.util;
 
-/**
- * 数字操作工具类
- * Created by HuoGuangXu on 2016/9/14.
- */
+import java.text.DecimalFormat;
+import java.util.regex.Pattern;
 
+/**
+ * 数字相关工具类
+ * https://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html
+ *
+ * @author VanceKing
+ * @since 2016/9/14.
+ */
 public class NumberUtil {
+    public static final DecimalFormat DECIMAL_FORMATTER = new DecimalFormat();
+
     private NumberUtil() {
         throw new UnsupportedOperationException("No instances!");
     }
@@ -93,4 +100,72 @@ public class NumberUtil {
             return defaultValue;
         }
     }
+
+    /**
+     * 判断字符串是否为整数。不包含符号<br/>
+     *
+     * @param number 传入的字符串
+     * @return 是整数返回true, 否则返回false
+     */
+    public static boolean isInteger(final String number) {
+        return isInteger(number, false);
+    }
+
+    /**
+     * 判断字符串是否为整数。<br/>
+     *
+     * @param number 传入的字符串
+     *               @param symbol 是否包含符号
+     * @return 是整数返回true, 否则返回false
+     */
+    public static boolean isInteger(final String number, boolean symbol) {
+        if (StringUtil.isNullOrEmpty(number)) {
+            return false;
+        }
+        if (symbol) {
+            return Pattern.compile("^[-+]?\\d+$").matcher(number).matches();
+        } else {
+            return Pattern.compile("^\\d+$").matcher(number).matches();
+        }
+    }
+
+    /**
+     * 判断字符串是否为小数。不包含符号<br/>
+     *
+     * @param number 传入的字符串
+     * @return 是整数返回true, 否则返回false
+     */
+    public static boolean isDecimal(String number) {
+        return isDecimal(number, false);
+    }
+
+    /**
+     * 判断字符串是否为小数。<br/>
+     *
+     * @param number 传入的字符串
+     * @param symbol 是否包含符号
+     * @return 是整数返回true, 否则返回false
+     */
+    public static boolean isDecimal(String number, boolean symbol) {
+        if (StringUtil.isNullOrEmpty(number)) {
+            return false;
+        }
+        if (symbol) {
+            return Pattern.compile("^[-+]?\\d+\\.\\d+$").matcher(number).matches();
+        } else {
+            return Pattern.compile("^\\d+\\.\\d+$").matcher(number).matches();
+        }
+    }
+
+    public static synchronized String format(double number, String pattern) {
+        DECIMAL_FORMATTER.applyPattern(pattern);
+        return DECIMAL_FORMATTER.format(number);
+    }
+
+    public static synchronized String formatFloat(float number, String pattern) {
+        DECIMAL_FORMATTER.applyPattern(pattern);
+        return DECIMAL_FORMATTER.format(number);
+    }
+
+
 }

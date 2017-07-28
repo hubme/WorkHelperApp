@@ -50,7 +50,7 @@ public class UserUtil {
                 return false;
             }
         }
-        if (!StringUtil.isNumber(idcard.substring(0, 17))) {
+        if (!NumberUtil.isInteger(idcard.substring(0, 17))) {
             return false;
         }
         // 获取输入身份证上的最后一位，它是校验码

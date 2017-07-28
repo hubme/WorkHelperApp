@@ -75,20 +75,6 @@ public final class StringUtil {
     }
 
     /**
-     * 判断字符串是否为数字
-     *
-     * @param str 传入的字符串
-     * @return 是整数返回true, 否则返回false
-     */
-    public static boolean isNumber(final String str) {
-        if (isNullOrEmpty(str)) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
-        return pattern.matcher(str).matches();
-    }
-
-    /**
      * 设置字符串中指定字符的样式
      *
      * @param context 上下文
