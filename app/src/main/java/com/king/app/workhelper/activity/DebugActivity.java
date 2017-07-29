@@ -15,12 +15,11 @@ import butterknife.OnClick;
 /**
  * Debug设置
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/11.
  */
 
 public class DebugActivity extends AppBaseActivity {
-
     @BindView(R.id.ctv_disable_log) CheckedTextView mLogDisableCtv;
     @BindView(R.id.ctv_request_header) CheckedTextView mRequestHeaderCtv;
     @BindView(R.id.ctv_response_header) CheckedTextView mResponseHeaderCtv;
