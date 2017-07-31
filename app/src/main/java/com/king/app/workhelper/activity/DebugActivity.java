@@ -93,10 +93,7 @@ public class DebugActivity extends AppBaseActivity {
     }
 
     private void refreshView(TextView textView, boolean isChecked) {
-        if (isChecked) {
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_multi_checkbox_checked, 0, 0, 0);
-        } else {
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_multi_checkbox_unchecked, 0, 0, 0);
-        }
+        textView.setCompoundDrawablesWithIntrinsicBounds(isChecked ?
+                R.mipmap.icon_multi_checkbox_checked : R.mipmap.icon_multi_checkbox_unchecked, 0, 0, 0);
     }
 }
