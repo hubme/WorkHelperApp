@@ -12,7 +12,7 @@ public class ThirdTabFragment extends AppBasePageFragment {
     }
 
     @Override 
-    protected void fetchData() {
+    protected void lazyData() {
         Logger.i("ThirdTabFragment fetchData");
     }
 

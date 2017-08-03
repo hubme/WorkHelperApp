@@ -22,19 +22,20 @@ public abstract class BasePageFragment extends BaseFragment {
         prepareFetchData();
     }
 
-    //要结合FragmentPagerAdapter使用,普通的Fragment不调用此方法
+    //要结合FragmentPagerAdapter使用才调用此方法
+    //setUserVisibleHint(false)->setUserVisibleHint(true)->onActivityCreated()
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        this.mIsVisibleToUser = isVisibleToUser;
+        mIsVisibleToUser = isVisibleToUser;
         prepareFetchData();
     }
 
-    protected abstract void fetchData();
+    protected abstract void lazyData();
 
     private void prepareFetchData() {
         if (mIsViewInitiated && mIsVisibleToUser && (!mIsDataInitiated || isForceFetchData())) {
-            fetchData();
+            lazyData();
             mIsDataInitiated = true;
         }
     }

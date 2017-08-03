@@ -11,7 +11,7 @@ public class SecondTabFragment extends AppBasePageFragment {
     }
 
     @Override 
-    protected void fetchData() {
+    protected void lazyData() {
         Logger.i("SecondTabFragment fetchData");
 
     }

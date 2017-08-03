@@ -12,7 +12,7 @@ public class FirstTabFragment extends AppBasePageFragment {
     }
 
     @Override
-    protected void fetchData() {
+    protected void lazyData() {
         Logger.i("FirstTabFragment fetchData");
     }
 
