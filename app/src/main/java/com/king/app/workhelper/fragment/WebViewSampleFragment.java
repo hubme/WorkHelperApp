@@ -12,6 +12,7 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.base.webview.SimpleWebView;
 import com.king.applib.log.Logger;
+import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.StringUtil;
 
 import butterknife.BindView;
@@ -45,10 +46,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        if (mWebView != null) {
-            mWebView.destroyWebView();
-            mWebView = null;
-        }
+        ExtendUtil.destroyWebView(mWebView);
     }
 
     @OnClick(R.id.btn_load_url)

@@ -102,10 +102,7 @@ public class WebActivity extends AppBaseActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        if (mWebView != null) {
-            mWebView.destroy();
-            mWebView = null;
-        }
+        ExtendUtil.destroyWebView(mWebView);
     }
 
     private class DefaultWebViewClient extends WebViewClient {
