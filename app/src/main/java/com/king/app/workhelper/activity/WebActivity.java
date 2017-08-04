@@ -169,6 +169,8 @@ public class WebActivity extends AppBaseActivity {
             super.onProgressChanged(view, newProgress);
             if (newProgress > 0 && newProgress < 100) {
                 mWebProgress.setProgress(newProgress);
+            } else {
+                mWebProgress.setVisibility(View.GONE);
             }
         }
 

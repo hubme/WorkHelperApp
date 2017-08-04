@@ -47,6 +47,8 @@ public class WebViewSampleFragment extends AppBaseFragment {
     @Override public void onDestroyView() {
         super.onDestroyView();
         ExtendUtil.destroyWebView(mWebView);
+        mWebView.destroySelf(true);
+        mWebView = null;
     }
 
     @OnClick(R.id.btn_load_url)

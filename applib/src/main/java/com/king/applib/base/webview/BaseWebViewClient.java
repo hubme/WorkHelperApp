@@ -1,6 +1,13 @@
 package com.king.applib.base.webview;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -25,12 +32,13 @@ public class BaseWebViewClient extends WebViewClient {
         return false;
     }
 
-        /*@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) 
-        @Override 
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return true;
-        }*/
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        return true;
+    }
 
+    //回调不准确
     @Override public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
         Logger.i("网页加载完成.url: " + url);
@@ -59,5 +67,22 @@ public class BaseWebViewClient extends WebViewClient {
             }
         }*/
         return response;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        super.onReceivedError(view, request, error);
+        Log.i("aaa", "onReceivedError(LoanWebFragment.java:125) ");
+    }
+
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        Log.i("aaa", "onReceivedError(LoanWebFragment.java:129) " + "errorCode: " + errorCode + ";description: " + description + ";failingUrl: " + failingUrl);
+    }
+
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed();
     }
 }
