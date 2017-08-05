@@ -1,5 +1,6 @@
 package com.king.applib.base.webview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -46,6 +47,7 @@ public class SimpleWebView extends WebView {
     }
 
     // TODO: 2017/8/4 WebSettings 使用Builder模式，提供给外部使用
+    @SuppressLint("SetJavaScriptEnabled")
     private void initSettings() {
         WebSettings settings = getSettings();
 //        settings.setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0");

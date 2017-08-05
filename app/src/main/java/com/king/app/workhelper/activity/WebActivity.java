@@ -65,7 +65,7 @@ public class WebActivity extends AppBaseActivity {
 
     @Override public void getIntentData(Intent intent) {
         super.getIntentData(intent);
-        mUrl = intent.getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL);
+        mUrl = getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.WEB_URL);
     }
 
     @Override @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
@@ -124,7 +124,7 @@ public class WebActivity extends AppBaseActivity {
         @Override public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             Logger.i("网页加载完成.url: " + url);
-            mWebProgress.setVisibility(View.GONE);
+            mWebProgress.setVisibility(View.INVISIBLE);
         }
 
         @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -170,7 +170,7 @@ public class WebActivity extends AppBaseActivity {
             if (newProgress > 0 && newProgress < 100) {
                 mWebProgress.setProgress(newProgress);
             } else {
-                mWebProgress.setVisibility(View.GONE);
+                mWebProgress.setVisibility(View.INVISIBLE);
             }
         }
 
