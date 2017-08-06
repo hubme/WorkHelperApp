@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.king.applib.util.ContextUtil;
 
@@ -21,6 +23,10 @@ import com.king.applib.util.ContextUtil;
  */
 public class SimpleWebView extends WebView {
     public static final String URL_BLANK = "about:blank";
+    private View mErrorView;
+    private int mWebViewIndex = -1;
+    private LinearLayout.LayoutParams mErrorLayoutParams;
+    private ViewGroup mParent;
 
     public SimpleWebView(Context context) {
         this(context, null);
@@ -36,15 +42,27 @@ public class SimpleWebView extends WebView {
     }
 
     private void initWebView() {
+
+        TextView textView = new TextView(getContext());
+        textView.setText("出错啦");
+
+        BaseWebViewClient webViewClient = new BaseWebViewClient(this);
+
         setWebChromeClient(new BaseWebChromeClient());//不写这句,js的alert()无效
-        setWebViewClient(new BaseWebViewClient());//不设置将跳转到系统浏览器
+        setWebViewClient(webViewClient);//不设置将跳转到系统浏览器
         initSettings();
     }
 
-    @Override protected void onDetachedFromWindow() {
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mParent = (ViewGroup) getParent();
+    }
+
+    /*@Override protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         destroySelf(false);
-    }
+    }*/
 
     // TODO: 2017/8/4 WebSettings 使用Builder模式，提供给外部使用
     @SuppressLint("SetJavaScriptEnabled")
@@ -106,6 +124,41 @@ public class SimpleWebView extends WebView {
         destroyDrawingCache();
 
         destroy();
+    }
+
+    public void setErrorView(View errorView) {
+        mErrorView = errorView;
+    }
+
+    public void showErrorView2() {
+        ViewGroup parent = (ViewGroup) getParent();
+        parent.addView(mErrorView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    public void hiddenErrorView2() {
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.GONE);
+        }
+    }
+
+    public void showErrorView() {
+        if (mErrorView == null) {
+            return;
+        }
+        ViewGroup parent = (ViewGroup) getParent();
+        int index = parent.indexOfChild(this);
+        if (index < 0) {
+            return;
+        }
+        mParent.removeViewAt(index);
+        if (mErrorLayoutParams == null) {
+            mErrorLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        }
+        mParent.addView(mErrorView, index, mErrorLayoutParams);
+    }
+
+    public void hiddenErrorView() {
+
     }
 
     private boolean isNetworkAvailable() {

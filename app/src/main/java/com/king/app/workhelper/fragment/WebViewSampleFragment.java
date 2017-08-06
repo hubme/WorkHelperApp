@@ -3,16 +3,19 @@ package com.king.app.workhelper.fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.base.webview.SimpleWebView;
 import com.king.applib.log.Logger;
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.StringUtil;
 
 import butterknife.BindView;
@@ -45,15 +48,22 @@ public class WebViewSampleFragment extends AppBaseFragment {
     }
 
     @Override public void onDestroyView() {
+        if (mWebView != null) {
+            mWebView.destroySelf(true);
+            mWebView = null;
+        }
         super.onDestroyView();
-        ExtendUtil.destroyWebView(mWebView);
-        mWebView.destroySelf(true);
-        mWebView = null;
     }
 
     @OnClick(R.id.btn_load_url)
     public void loadUrl() {
 //        loadUrl("file:///android_asset/js_java_interaction.html");
+        TextView textView = new TextView(mContext);
+        textView.setText("出错啦！");
+        textView.setGravity(Gravity.CENTER);
+        textView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.chocolate));
+        textView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+        mWebView.setErrorView(textView);
         loadUrl(URL2);
     }
 

@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -14,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.king.applib.log.Logger;
+import com.king.applib.util.NetworkUtil;
 
 /**
  * @author huoguangxu
@@ -22,9 +22,17 @@ import com.king.applib.log.Logger;
 
 public class BaseWebViewClient extends WebViewClient {
     public static final String PREFIX_JS_PROTOCOL = "jsbridge://";
+    private final SimpleWebView mSimpleWebView;
+
+    public BaseWebViewClient(SimpleWebView webView) {
+        mSimpleWebView = webView;
+    }
 
     //js2java 1
     @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if (!NetworkUtil.isNetworkAvailable()) {
+            return true;
+        }
         if (url != null && url.contains(PREFIX_JS_PROTOCOL)) {
             return true;
         }
@@ -41,12 +49,14 @@ public class BaseWebViewClient extends WebViewClient {
     //回调不准确
     @Override public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        Logger.i("网页加载完成.url: " + url);
+        Logger.i("finished url: " + url);
 //        mWebProgress.setVisibility(View.GONE);
+        mSimpleWebView.hiddenErrorView2();
     }
 
     @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
+        Logger.i("started url: " + url);
 //        mWebProgress.setVisibility(View.VISIBLE);
     }
 
@@ -73,12 +83,18 @@ public class BaseWebViewClient extends WebViewClient {
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
-        Log.i("aaa", "onReceivedError(LoanWebFragment.java:125) ");
+        Logger.e("onReceivedError(>=Build.VERSION_CODES.M)");
+//        mSimpleWebView.showErrorView2();
     }
 
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-        Log.i("aaa", "onReceivedError(LoanWebFragment.java:129) " + "errorCode: " + errorCode + ";description: " + description + ";failingUrl: " + failingUrl);
+        Logger.e("onReceivedError. " + "errorCode: " + errorCode + ";description: " + description + ";failingUrl: " + failingUrl);
+        //用javascript隐藏系统定义的404页面信息
+//        String data = "Page NO FOUND！";
+//        view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
+
+        mSimpleWebView.showErrorView2();
     }
 
     @Override
