@@ -46,10 +46,8 @@ public class SimpleWebView extends WebView {
         TextView textView = new TextView(getContext());
         textView.setText("出错啦");
 
-        BaseWebViewClient webViewClient = new BaseWebViewClient(this);
-
         setWebChromeClient(new BaseWebChromeClient());//不写这句,js的alert()无效
-        setWebViewClient(webViewClient);//不设置将跳转到系统浏览器
+        setWebViewClient(new BaseWebViewClient(getContext()));//不设置将跳转到系统浏览器
         initSettings();
     }
 

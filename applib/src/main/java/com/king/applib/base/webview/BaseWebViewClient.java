@@ -1,6 +1,7 @@
 package com.king.applib.base.webview;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
@@ -13,7 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.king.applib.log.Logger;
-import com.king.applib.util.NetworkUtil;
+import com.king.applib.util.ExtendUtil;
 
 /**
  * @author huoguangxu
@@ -22,27 +23,34 @@ import com.king.applib.util.NetworkUtil;
 
 public class BaseWebViewClient extends WebViewClient {
     public static final String PREFIX_JS_PROTOCOL = "jsbridge://";
-    private final SimpleWebView mSimpleWebView;
+    private final Context mContext;
 
-    public BaseWebViewClient(SimpleWebView webView) {
-        mSimpleWebView = webView;
+    public BaseWebViewClient(Context context) {
+        mContext = context;
     }
 
-    //js2java 1
+    //js2java 1. 注意：单独打开一个网页不执行该方法，只有点击该网页内的链接时才执行.
     @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (!NetworkUtil.isNetworkAvailable()) {
+        Logger.i("shouldOverrideUrlLoading(<LOLLIPOP).url: " + url);
+        if (url.contains(PREFIX_JS_PROTOCOL)) {
             return true;
         }
-        if (url != null && url.contains(PREFIX_JS_PROTOCOL)) {
+        if (ExtendUtil.isTelUri(url)) {//处理"tel:"协议
+            ExtendUtil.makeCall(mContext, url);
             return true;
         }
-        view.loadUrl(url);
-        return false;
+        if (url.startsWith("https:") || url.startsWith("http:")) {//只处理基本的http请求
+            view.loadUrl(url);
+            return true;
+        } else {//其它自定义协议(bdvideo: baiduboxapp: tmast:)一般是下载交给系统处理
+            return false;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        Logger.i("shouldOverrideUrlLoading(>=LOLLIPOP)");
         return true;
     }
 
@@ -51,7 +59,6 @@ public class BaseWebViewClient extends WebViewClient {
         super.onPageFinished(view, url);
         Logger.i("finished url: " + url);
 //        mWebProgress.setVisibility(View.GONE);
-        mSimpleWebView.hiddenErrorView2();
     }
 
     @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -94,7 +101,6 @@ public class BaseWebViewClient extends WebViewClient {
 //        String data = "Page NO FOUND！";
 //        view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
 
-        mSimpleWebView.showErrorView2();
     }
 
     @Override

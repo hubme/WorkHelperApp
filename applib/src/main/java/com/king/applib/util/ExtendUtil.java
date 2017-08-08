@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.king.applib.log.Logger;
 
@@ -497,6 +498,29 @@ public class ExtendUtil {
 
             webView.destroy();
             webView = null;
+        }
+    }
+
+    /**
+     * 判断是否是手机uri(tel:)
+     */
+    public static boolean isTelUri(String uri) {
+        return !StringUtil.isNullOrEmpty(uri) && uri.toLowerCase().startsWith("tel:");
+    }
+
+    public static void makeCall(Context context, String telNumber) {
+        if (context == null || StringUtil.isNullOrEmpty(telNumber)) {
+            return;
+        }
+        if (!telNumber.toLowerCase().startsWith("tel:")) {
+            telNumber = "tel:" + telNumber;
+        }
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(telNumber));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, "抱歉，未找到打电话的应用", Toast.LENGTH_SHORT).show();
         }
     }
 }
