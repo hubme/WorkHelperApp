@@ -13,8 +13,8 @@ import com.king.app.workhelper.model.ServiceModel;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
+import com.king.app.workhelper.retrofit.FragmentLifeEvent;
 import com.king.app.workhelper.retrofit.observer.HttpResultObserver;
-import com.king.app.workhelper.retrofit.subscriber.HttpResultsSubscriber;
 import com.king.app.workhelper.rx.RxUtil;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -147,28 +148,38 @@ public class RetrofitSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_banner_observer)
     public void onBannerClick() {
+        HttpResultObserver<ServiceModel> observer = new HttpResultObserver<ServiceModel>() {
+            @Override
+            public void onSuccess(ServiceModel serviceModel, String msg) {
+                Logger.i("success: " + serviceModel.toString() + ";msg: " + msg);
+                mObserverTextView.setText("哈哈哈");
+            }
+
+            @Override
+            public void onFailure(int errorCode, String msg) {
+                Logger.i("errorCode: " + errorCode + ";msg: " + msg);
+            }
+        };
+
         HomeService homeService = ApiServiceFactory.getInstance().createService(RELEASE_DOMAIN, HomeService.class);
         homeService.getBanners(3)
                 .delay(5, TimeUnit.SECONDS)
+                .doOnDispose(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Logger.i("取消订阅");
+                        observer.unSubscribe();
+                    }
+                })
+                .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
                 .compose(RxUtil.defaultSingleSchedulers())
-                .subscribe(new HttpResultObserver<ServiceModel>() {
-                    @Override
-                    public void onSuccess(ServiceModel serviceModel, String msg) {
-                        Logger.i("success: " + serviceModel.toString() + ";msg: " + msg);
-                        mObserverTextView.setText("哈哈哈");
-                    }
-
-                    @Override
-                    public void onFailure(int errorCode, String msg) {
-                        Logger.i("errorCode: " + errorCode + ";msg: " + msg);
-                    }
-                });
+                .subscribe(observer);
 
     }
 
     @OnClick(R.id.tv_banner_subscriber)
     public void onBannerClick2() {
-        HomeService homeService = ApiServiceFactory.getInstance().createService(RELEASE_DOMAIN, HomeService.class);
+        /*HomeService homeService = ApiServiceFactory.getInstance().createService(RELEASE_DOMAIN, HomeService.class);
         homeService.getHomeBanners(3)
                 .delay(6, TimeUnit.SECONDS)
                 .compose(RxUtil.defaultFlowableSchedulers())
@@ -182,6 +193,28 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                     @Override
                     public void onFailure(int errorCode, String msg) {
                         Logger.i("errorCode: " + errorCode + ";msg: " + msg);
+                    }
+                });*/
+
+        GitHubService gitHubService = ApiServiceFactory.getInstance().createService(GitHubService.class);
+        gitHubService.getUserWrapper("VanceKing")
+                .doOnDispose(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Logger.i("取消订阅.释放资源，取消网络请求.");
+                    }
+                })
+                .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
+                .compose(RxUtil.defaultSingleSchedulers())
+                .subscribe(new HttpResultObserver<GitHubUser>() {
+                    @Override
+                    public void onSuccess(GitHubUser gitHubUser, String msg) {
+                        Logger.i("success");
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode, String msg) {
+                        Logger.i("failure");
                     }
                 });
     }

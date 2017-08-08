@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.king.app.workhelper.app.WorkHelperApp;
+import com.king.app.workhelper.retrofit.FragmentLifeEvent;
+import com.king.app.workhelper.retrofit.LifecycleTransformer;
+import com.king.app.workhelper.retrofit.RxLifecycle;
 import com.king.app.workhelper.retrofit.observer.ResultsObserverManger;
 import com.king.app.workhelper.retrofit.subscriber.ResultsSubscriberManger;
 import com.king.applib.base.BaseFragment;
@@ -14,6 +17,7 @@ import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * App基础Fragment
@@ -21,6 +25,7 @@ import butterknife.Unbinder;
  */
 
 public abstract class AppBaseFragment extends BaseFragment {
+    protected final BehaviorSubject<FragmentLifeEvent> mFragmentLifeEvent = BehaviorSubject.create();
     private Unbinder unbinder;
 
     @Override
@@ -31,6 +36,7 @@ public abstract class AppBaseFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        mFragmentLifeEvent.onNext(FragmentLifeEvent.DESTROY_VIEW);
         super.onDestroyView();
         if (unbinder != null) {
             unbinder.unbind();
@@ -58,4 +64,9 @@ public abstract class AppBaseFragment extends BaseFragment {
             Toast.makeText(ContextUtil.getAppContext(), resId, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public <T> LifecycleTransformer<T> bindUntilEvent(FragmentLifeEvent event) {
+        return RxLifecycle.bindUntilEvent(mFragmentLifeEvent, event);
+    }
+
 }

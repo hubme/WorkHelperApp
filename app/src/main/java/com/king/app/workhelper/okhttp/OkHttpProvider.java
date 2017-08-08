@@ -2,6 +2,9 @@ package com.king.app.workhelper.okhttp;
 
 import android.os.Environment;
 
+import com.king.app.workhelper.BuildConfig;
+import com.king.app.workhelper.okhttp.interceptor.OkHttpLogInterceptor;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +43,9 @@ public class OkHttpProvider {
                 .connectTimeout(DEFAULT_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_WRITE_TIMEOUT, TimeUnit.SECONDS);
+        if (BuildConfig.LOG_DEBUG) {
+            builder.addInterceptor(new OkHttpLogInterceptor());
+        }
         mOkHttpClient = builder.build();
     }
 
