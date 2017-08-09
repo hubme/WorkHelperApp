@@ -68,7 +68,7 @@ public class WorkHelperApp extends BaseApplication {
         Stetho.initialize(Stetho.newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
-        initX5();
+//        initX5();
 
         initLeakCanary();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
