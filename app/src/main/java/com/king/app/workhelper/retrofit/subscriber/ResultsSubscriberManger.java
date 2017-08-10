@@ -22,6 +22,7 @@ public class ResultsSubscriberManger {
         }
     }
 
+    /** 注意：会取消当前所有的网络请求 */
     public static void cancelAllSubscriptions() {
         if (SUBSCRIPTIONS.isEmpty()) {
             return;

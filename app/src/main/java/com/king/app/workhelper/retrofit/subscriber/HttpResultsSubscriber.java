@@ -27,7 +27,7 @@ public abstract class HttpResultsSubscriber<T> implements Subscriber<HttpResults
     public void onSubscribe(Subscription s) {
         mSubscription = s;
         s.request(Long.MAX_VALUE);
-        ResultsSubscriberManger.add(s);
+//        ResultsSubscriberManger.add(s);
     }
 
     @Override

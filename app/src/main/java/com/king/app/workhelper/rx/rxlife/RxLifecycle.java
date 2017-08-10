@@ -1,4 +1,4 @@
-package com.king.app.workhelper.retrofit;
+package com.king.app.workhelper.rx.rxlife;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Predicate;

@@ -5,27 +5,21 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.king.app.workhelper.app.WorkHelperApp;
-import com.king.app.workhelper.retrofit.FragmentLifeEvent;
-import com.king.app.workhelper.retrofit.LifecycleTransformer;
-import com.king.app.workhelper.retrofit.RxLifecycle;
-import com.king.app.workhelper.retrofit.observer.ResultsObserverManger;
-import com.king.app.workhelper.retrofit.subscriber.ResultsSubscriberManger;
-import com.king.applib.base.BaseFragment;
+import com.king.app.workhelper.rx.rxlife.components.RxLifeFragment;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
 import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.subjects.BehaviorSubject;
 
 /**
- * App基础Fragment
- * Created by VanceKing on 2016/9/29.
+ * App Fragment 基类。
+ *
+ * @author VanceKing
+ * @since 2016/9/29.
  */
-
-public abstract class AppBaseFragment extends BaseFragment {
-    protected final BehaviorSubject<FragmentLifeEvent> mFragmentLifeEvent = BehaviorSubject.create();
+public abstract class AppBaseFragment extends RxLifeFragment {
     private Unbinder unbinder;
 
     @Override
@@ -36,13 +30,12 @@ public abstract class AppBaseFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-        mFragmentLifeEvent.onNext(FragmentLifeEvent.DESTROY_VIEW);
         super.onDestroyView();
         if (unbinder != null) {
             unbinder.unbind();
         }
-        ResultsSubscriberManger.cancelAllSubscriptions();
-        ResultsObserverManger.disposeAll();
+//        ResultsSubscriberManger.cancelAllSubscriptions();
+//        ResultsObserverManger.disposeAll();
     }
 
     @Override
@@ -63,10 +56,6 @@ public abstract class AppBaseFragment extends BaseFragment {
         if (isAdded()) {
             Toast.makeText(ContextUtil.getAppContext(), resId, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public <T> LifecycleTransformer<T> bindUntilEvent(FragmentLifeEvent event) {
-        return RxLifecycle.bindUntilEvent(mFragmentLifeEvent, event);
     }
 
 }

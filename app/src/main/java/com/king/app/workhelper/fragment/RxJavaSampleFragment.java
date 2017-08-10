@@ -670,6 +670,16 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 });
     }
 
+    public void testPublishSubject() {
+        Flowable.interval(0, 2, TimeUnit.SECONDS)
+                .takeUntil(Flowable.timer(5, TimeUnit.SECONDS))
+                .subscribe(new Consumer<Long>() {
+                    @Override public void accept(@NonNull Long aLong) throws Exception {
+                        Logger.i(aLong.toString());
+                    }
+                });
+    }
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

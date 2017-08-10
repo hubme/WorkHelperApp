@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
-import com.king.applib.base.BaseActivity;
+import com.king.app.workhelper.rx.rxlife.components.RxLifeActivity;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
 
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by VanceKing on 2016/9/29.
  */
 
-public abstract class AppBaseActivity extends BaseActivity implements View.OnClickListener {
+public abstract class AppBaseActivity extends RxLifeActivity implements View.OnClickListener {
     //子类可能没有引用common_header.xml
     @Nullable @BindView(R.id.toolbar)
     protected Toolbar mToolbar;

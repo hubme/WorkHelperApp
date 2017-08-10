@@ -1,5 +1,6 @@
 package com.king.app.workhelper.api;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
@@ -16,6 +17,9 @@ public interface CommonService {
 
     @GET
     Single<ResponseBody> loadUrl(@Url String url);
+
+    @GET
+    Observable<ResponseBody> loadUrlObservable(@Url String url);
 
     @GET
     @Streaming

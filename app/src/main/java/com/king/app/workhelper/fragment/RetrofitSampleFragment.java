@@ -13,13 +13,12 @@ import com.king.app.workhelper.model.ServiceModel;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
-import com.king.app.workhelper.retrofit.FragmentLifeEvent;
 import com.king.app.workhelper.retrofit.observer.HttpResultObserver;
 import com.king.app.workhelper.rx.RxUtil;
+import com.king.app.workhelper.rx.rxlife.event.FragmentLifeEvent;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -125,9 +124,18 @@ public class RetrofitSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_common_service)
     public void onCommonServiceClick() {
-        final String URL_PUBLIC = "https://publicobject.com/helloworld.txt/";
+        //1.网络请求成功，会调用"doOnDispose"；2.在网络返回之前执行onDestoryView()方法(返回上一页面),会doOnDispose()-->onError()
+        // 报java.util.concurrent.CancellationException异常。判断是mObservable.firstOrError()引起的.
+        // 使用Single<ResponseBody>报错，Observable<ResponseBody>不报错
+        /*final String URL_PUBLIC = "https://publicobject.com/helloworld.txt/";
         CommonService commonService = ApiServiceFactory.getInstance().createService(URL_PUBLIC, CommonService.class);
         commonService.loadUrl(URL_PUBLIC)
+                .doOnDispose(new Action() {
+                    @Override public void run() throws Exception {
+                        Logger.i("doOnDispose");
+                    }
+                })
+                .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
                 .compose(RxUtil.defaultSingleSchedulers())
                 .subscribe(new DisposableSingleObserver<ResponseBody>() {
                     @Override
@@ -142,6 +150,31 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Logger.e(e.toString());
+                    }
+                });*/
+
+        final String URL_PUBLIC = "https://publicobject.com/helloworld.txt/";
+        CommonService commonService = ApiServiceFactory.getInstance().createService(URL_PUBLIC, CommonService.class);
+        commonService.loadUrlObservable(URL_PUBLIC)
+                .doOnDispose(new Action() {
+                    @Override public void run() throws Exception {
+                        Logger.i("doOnDispose");//放在compose(RxUtil.defaultObservableSchedulers())不回调
+                    }
+                })
+                .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
+                .compose(RxUtil.defaultObservableSchedulers())
+                .subscribe(new DisposableObserver<ResponseBody>() {
+
+                    @Override public void onNext(ResponseBody responseBody) {
+                        Logger.i("onNext");
+                    }
+
+                    @Override public void onError(Throwable e) {
+                        Logger.i("onError");
+                    }
+
+                    @Override public void onComplete() {
+                        Logger.i("onComplete");
                     }
                 });
     }
@@ -168,7 +201,6 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                     @Override
                     public void run() throws Exception {
                         Logger.i("取消订阅");
-                        observer.unSubscribe();
                     }
                 })
                 .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
@@ -196,7 +228,7 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                     }
                 });*/
 
-        GitHubService gitHubService = ApiServiceFactory.getInstance().createService(GitHubService.class);
+        /*GitHubService gitHubService = ApiServiceFactory.getInstance().createService(GitHubService.class);
         gitHubService.getUserWrapper("VanceKing")
                 .doOnDispose(new Action() {
                     @Override
@@ -216,7 +248,7 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                     public void onFailure(int errorCode, String msg) {
                         Logger.i("failure");
                     }
-                });
+                });*/
     }
 
     @Override
