@@ -103,6 +103,11 @@ public class BaseWebViewClient extends WebViewClient {
 
     }
 
+    /*
+     webview加载的网页是http请求的 ，如果网页里有一张图片，并且该图片的地址是https请求的，这时候用webview加载网页，图片是不显示的。
+    报错:Mixed Content as loaded over HTTPS, but requested an insecure image .http请求和https请求混淆了 
+    注意： 用webview加载网页，一定用同一种请求
+     */
     @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
         handler.proceed();

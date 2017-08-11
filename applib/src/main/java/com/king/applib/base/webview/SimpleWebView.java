@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,11 @@ public class SimpleWebView extends WebView {
         settings.setDisplayZoomControls(false); // 不显示缩放按钮
 
         settings.setGeolocationEnabled(true);
+
+        //解决url是http但是连接内的图片时https,图片不显示的问题
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
 
         settings.setSaveFormData(true);
         settings.setAppCacheEnabled(true); //启用应用缓存
