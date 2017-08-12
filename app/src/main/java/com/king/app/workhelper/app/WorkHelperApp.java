@@ -17,6 +17,7 @@ import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.common.utils.LeakCanaryHelper;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
+import com.king.app.workhelper.okhttp.interceptor.HeadersInterceptor;
 import com.king.app.workhelper.okhttp.interceptor.LogInterceptor;
 import com.king.app.workhelper.okhttp.interceptor.MockInterceptor;
 import com.king.applib.base.BaseApplication;
@@ -93,11 +94,12 @@ public class WorkHelperApp extends BaseApplication {
                 .connectTimeout(AppConfig.HTTP_CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
                 .readTimeout(AppConfig.HTTP_READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(AppConfig.HTTP_WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-//                .addInterceptor(new HeadersInterceptor())
+                .addInterceptor(new HeadersInterceptor())
 //                .addInterceptor(new NotNetInterceptor())
 //                .addNetworkInterceptor(new NetInterceptor())
                 .addNetworkInterceptor(new StethoInterceptor())
-                .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"), AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
+                .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"),
+                        AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
 
         if (BuildConfig.LOG_DEBUG) {
             builder.addInterceptor(new LogInterceptor());
