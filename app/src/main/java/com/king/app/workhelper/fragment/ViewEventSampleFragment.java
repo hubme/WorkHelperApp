@@ -6,7 +6,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 /**
  * 事件拦截
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/17.
  */
 

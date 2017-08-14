@@ -19,7 +19,6 @@ import com.king.app.workhelper.dialog.SampleBottomDialog;
 import com.king.app.workhelper.dialog.SimpleDialog;
 import com.king.applib.base.WeakHandler;
 import com.king.applib.base.dialog.BaseDialogFragment;
-import com.king.applib.log.Logger;
 import com.king.applib.util.SpannableStringUtils;
 
 import java.lang.reflect.Method;
@@ -56,7 +55,6 @@ public class UsageFragment extends AppBaseFragment {
                 case MSG_WHAT:
                     target.mTextView.setText("哈哈哈");
                 case MSG_WAIT:
-
                     target.mRefreshLayout.setRefreshing(false);
                     break;
                 default:
@@ -87,7 +85,6 @@ public class UsageFragment extends AppBaseFragment {
         super.initData();
 
         mRefreshLayout.setOnRefreshListener(() -> {
-            Logger.i("onRefresh");
             mMyHandler.sendEmptyMessageDelayed(MSG_WAIT, 3000);
         });
     }
@@ -133,8 +130,7 @@ public class UsageFragment extends AppBaseFragment {
     public void onRippleEffect() {
 
     }
-
-
+    
     private void showDialog() {
         if (mSimpleDialog == null) {
             mSimpleDialog = new SimpleDialog.Builder().setTitle("哈哈哈").setMessage("赛扥就哦哦囧扥龙扥").build();

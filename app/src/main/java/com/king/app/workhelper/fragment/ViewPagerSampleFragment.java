@@ -19,9 +19,9 @@ import butterknife.BindView;
 
 /**
  * ViewPager相关
- * Created by VanceKing on 2016/11/26 0026.
+ * @author huoguangxu
+ * @since 2016/11/26.
  */
-
 public class ViewPagerSampleFragment extends AppBaseFragment {
     @BindView(R.id.king_view_pager)
     ViewPager mViewPager;
