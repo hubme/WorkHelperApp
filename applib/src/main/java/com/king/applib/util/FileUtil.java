@@ -14,9 +14,10 @@ import java.util.Locale;
 
 /**
  * 文件工具类。读写sdcard记得申请权限.
- * Created by HuoGuangxu on 2016/10/19.
+ *
+ * @author VanceKing
+ * @since 2016/10/19.
  */
-
 public class FileUtil {
     private FileUtil() {
         throw new UnsupportedOperationException("No instances!");
@@ -47,18 +48,27 @@ public class FileUtil {
      * @param file 文件对象，不是目录对象.
      */
     public static boolean isLegalFile(File file) {
-        return isFileExists(file) && file.length() > 0;
+        return isFileExists(file) && file.isFile() && file.length() > 0;
     }
 
     /**
-     * 根据文件路径判断文件是否存在
+     * 判断是否是文件夹
+     *
+     * @param file 文件夹对象，不是文件对象.
+     */
+    public static boolean isLegalDir(File file) {
+        return isFileExists(file) && file.isDirectory();
+    }
+
+    /**
+     * 判断文件/目录是否存在
      */
     public static boolean isFileExists(String filePath) {
         return isFileExists(getFileByPath(filePath));
     }
 
     /**
-     * 判断文件是否存在
+     * 判断文件/目录是否存在
      */
     public static boolean isFileExists(File file) {
         return file != null && file.exists();
@@ -99,16 +109,16 @@ public class FileUtil {
      * @return 文件对象
      */
     public static File createFile(String path) {
-        if (!ExtendUtil.isSDCardAvailable() || StringUtil.isNullOrEmpty(path)) {
+        if (StringUtil.isNullOrEmpty(path)) {
             return null;
         }
-        File file = new File(path);
+        final File file = new File(path);
         if (isFileExists(file)) {
             if (!file.delete()) {
                 return null;
             }
         }
-        File parentFile = file.getParentFile();
+        final File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
             if (!parentFile.mkdirs()) {
                 return null;
@@ -156,7 +166,7 @@ public class FileUtil {
         if (StringUtil.isNullOrEmpty(dir)) {
             return null;
         }
-        File dirFile = new File(dir);
+        final File dirFile = new File(dir);
         if (!dirFile.exists()) {
             if (!dirFile.mkdirs()) {
                 return null;
@@ -219,6 +229,7 @@ public class FileUtil {
 
     /**
      * 删除目录下的全部文件,删除成功只留下空目录。有一个删除不成功返回false
+     * note: 文件较多时要开线程.
      */
     public static boolean deleteDir(File dir) {
         if (dir == null || !dir.isDirectory()) {
@@ -227,7 +238,7 @@ public class FileUtil {
         if (!dir.exists()) {
             return true;
         }
-        File[] files = dir.listFiles();
+        final File[] files = dir.listFiles();
         for (File file : files) {
             if (file == null) {
                 continue;
@@ -242,6 +253,7 @@ public class FileUtil {
                 }
             }
         }
+        deleteFile(dir);
         return true;
     }
 
@@ -254,7 +266,7 @@ public class FileUtil {
     }
 
     /**
-     * 删除文件.文件不存在返回{@code true}.
+     * 删除文件(不是目录).文件不存在返回{@code true}.
      */
     public static boolean deleteFile(File file) {
         return file != null && (!file.exists() || file.isFile() && file.delete());
