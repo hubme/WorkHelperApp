@@ -178,6 +178,8 @@ dependencies {
     compile 'com.google.android:flexbox:0.2.6'
     
     compile(name: 'weibosdk-1.0.0', ext: 'aar')
+    
+//    compile 'com.alibaba:fastjson:1.1.61.android'
 }
 
 checkstyle {

@@ -1,5 +1,6 @@
 package com.king.app.workhelper.fragment;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +24,10 @@ import butterknife.BindView;
  * @since 2016/11/26.
  */
 public class ViewPagerSampleFragment extends AppBaseFragment {
-    @BindView(R.id.king_view_pager)
-    ViewPager mViewPager;
+    
+    @BindView(R.id.tab_title) TabLayout mTabLayout;
+    @BindView(R.id.king_view_pager) ViewPager mViewPager;
+    
     private MyViewPagerAdapter mViewPagerAdapter;
 
     @Override
@@ -39,12 +42,17 @@ public class ViewPagerSampleFragment extends AppBaseFragment {
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPagerAdapter.setAdapterData(buildPagerView(fakeData()));
         mViewPager.addOnPageChangeListener(new MyOnPageChangeListener());
+
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
     private List<Student> fakeData() {
         List<Student> students = new ArrayList<>(2);
         students.add(new Student(20, "哈哈哈"));
         students.add(new Student(30, "呵呵呵"));
+        students.add(new Student(40, "哦哦哦"));
+        students.add(new Student(50, "嗷嗷嗷"));
         return students;
     }
 

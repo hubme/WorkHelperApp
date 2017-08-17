@@ -75,4 +75,9 @@ public class MyViewPagerAdapter extends PagerAdapter {
         container.addView(view);
         return view;
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return "标题";
+    }
 }
