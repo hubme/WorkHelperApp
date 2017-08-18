@@ -78,10 +78,14 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onNavigationClicked();
             }
         });
         //setSupportActionBar(mToolbar);
+    }
+
+    protected void onNavigationClicked() {
+        finish();
     }
 
     protected String getActivityTitle() {
