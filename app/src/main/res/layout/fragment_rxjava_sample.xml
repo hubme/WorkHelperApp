@@ -147,6 +147,11 @@
                 android:id="@+id/tv_timeInterval"
                 style="@style/EntryItem"
                 android:text="timeInterval"/>
+
+            <TextView
+                android:id="@+id/tv_count_down"
+                style="@style/EntryItem"
+                android:text="倒计时"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

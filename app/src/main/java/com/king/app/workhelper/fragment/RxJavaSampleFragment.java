@@ -70,6 +70,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private CompositeDisposable mCompositeDisposable;
     /** 网络变化发布者 */
     private PublishProcessor<Boolean> mNetworkChangedProcessor;
+    private Disposable subscribe;
 
     @Override
     public int getContentLayout() {
@@ -668,6 +669,26 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                         Logger.i(String.valueOf(stringTimed.time()));
                     }
                 });
+    }
+
+    @OnClick(R.id.tv_count_down)
+    public void onCountDown(TextView textView) {
+        final int duration = 6;
+        subscribe = Observable.interval(1, 1, TimeUnit.SECONDS)
+                .doOnDispose(() -> Logger.i("doOnDispose"))
+                .doOnNext(aLong -> {
+                    Logger.i("onOnNext: " + aLong.toString());
+                    if (aLong == 3) {
+                        subscribe.dispose();
+                    }
+                })
+                .doOnComplete(() -> Logger.i("doOnComplete"))
+                .doFinally(() -> Logger.i("doFinally"))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .takeUntil(aLong -> aLong.intValue() == duration)
+                .map(aLong -> duration - aLong)
+                .subscribe(aLong -> textView.setText(String.valueOf(aLong.intValue())));
     }
 
     public void testPublishSubject() {
