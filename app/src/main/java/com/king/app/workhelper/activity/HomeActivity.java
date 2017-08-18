@@ -36,9 +36,12 @@ public class HomeActivity extends AppBaseActivity {
     }
 
     @Override public void onBackPressed() {
-//        super.onBackPressed();
-        //isTaskRoot();//用来判断该Activity是否为任务栈中的根Activity，即启动应用的第一个Activity
-        moveTaskToBack(true);//将应用退到后台，不是finish
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            super.onBackPressed();
+        } else {
+            //isTaskRoot();//用来判断该Activity是否为任务栈中的根Activity，即启动应用的第一个Activity
+            moveTaskToBack(true);//将应用退到后台，不是finish
+        }
     }
 
     // TODO: 2017/7/16 Fragment返回
