@@ -1,5 +1,6 @@
 package com.king.applib.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -105,6 +106,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void openActivity(@NonNull Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+    }
+
+    protected void openActivityFinish(Class<? extends Activity> cls) {
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
+        finish();
     }
 
     /**

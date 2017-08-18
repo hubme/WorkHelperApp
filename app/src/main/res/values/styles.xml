@@ -21,10 +21,11 @@
     </style>
 
     <style name="AppTheme.Splash" parent="@style/AppTheme">
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="windowNoTitle">true</item>-->
-        <!--<item name="android:windowIsTranslucent">false</item>-->
-        <item name="android:windowBackground">@mipmap/splash</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
     <style name="BottomDialogStyle" parent="android:style/Theme.Dialog">
