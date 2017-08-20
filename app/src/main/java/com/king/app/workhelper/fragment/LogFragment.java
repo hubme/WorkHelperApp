@@ -49,11 +49,8 @@ import butterknife.OnClick;
 public class LogFragment extends AppBaseFragment {
     public static final String TAG = LogFragment.class.getSimpleName();
 
-    @BindView(R.id.tv_origin_log)
-    public TextView mOriginLogTv;
-
-    @BindView(R.id.tv_log)
-    public TextView mLogTv;
+    @BindView(R.id.tv_origin_log) public TextView mOriginLogTv;
+    @BindView(R.id.tv_log) public TextView mLogTv;
 
     @Override
     protected int getContentLayout() {
@@ -111,11 +108,11 @@ public class LogFragment extends AppBaseFragment {
     }
 
     private static String buildLogMsg(String msg) {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         if (stackTrace == null || stackTrace.length < 3) {
             return "";
         }
-        StackTraceElement trace = stackTrace[2];
+        final StackTraceElement trace = stackTrace[2];
         StringBuilder sb = new StringBuilder();
         sb.append("(")
                 .append(trace.getFileName())
@@ -126,6 +123,5 @@ public class LogFragment extends AppBaseFragment {
                 .append(msg);
         return sb.toString();
     }
-
 
 }
