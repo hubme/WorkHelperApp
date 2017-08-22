@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.activity.MainActivity;
+import com.king.app.workhelper.activity.ImageActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
@@ -45,7 +45,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_main_activity)
     public void mainActivityClick() {
-        openActivity(MainActivity.class);
+        openActivity(ImageActivity.class);
     }
 
     @OnClick(R.id.tv_permission)

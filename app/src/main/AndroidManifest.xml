@@ -112,6 +112,8 @@
         <activity android:name=".activity.DebugActivity"/>
 
         <activity android:name=".activity.X5BrowserActivity"/>
+        
+        <activity android:name=".activity.ImageActivity"/>
 
         <service android:name=".service.DownloadFileService"/>
 
