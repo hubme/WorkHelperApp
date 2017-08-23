@@ -12,10 +12,11 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
         android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@mipmap/arrow_left_blue"
+        app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle"
         app:title="@string/test"
-        app:titleTextAppearance="@style/Theme.ToolBar.Base.Title"
-        app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle">
+        app:titleTextAppearance="@style/Theme.ToolBar.Base.Title">
         <!--android:theme="@style/Theme.ToolBar.Base"-->
         <!--android:theme="@style/OverflowMenuStyle"-->
 
