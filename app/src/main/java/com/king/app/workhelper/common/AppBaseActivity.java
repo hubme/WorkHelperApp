@@ -19,27 +19,30 @@ import butterknife.ButterKnife;
 
 /**
  * 应用基础Activity
- * Created by VanceKing on 2016/9/29.
+ *
+ * @author VanceKing
+ * @since 2017/8/21
  */
-
 public abstract class AppBaseActivity extends RxLifeActivity implements View.OnClickListener {
     //子类可能没有引用common_header.xml
-    @Nullable @BindView(R.id.toolbar)
+    @Nullable
+    @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
     protected com.king.applib.base.WeakHandler mHandler = new WeakHandler(AppBaseActivity.this);
-    
-    private static class WeakHandler extends com.king.applib.base.WeakHandler<AppBaseActivity>{
+
+    private static class WeakHandler extends com.king.applib.base.WeakHandler<AppBaseActivity> {
 
         private WeakHandler(AppBaseActivity target) {
             super(target);
         }
 
-        @Override public void handle(AppBaseActivity target, Message msg) {
+        @Override
+        public void handle(AppBaseActivity target, Message msg) {
             target.handleMessage(msg);
         }
     }
 
-    protected void handleMessage(Message msg){
+    protected void handleMessage(Message msg) {
     }
 
     @Override
@@ -52,7 +55,7 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
     protected void initContentView() {
         super.initContentView();
         ButterKnife.bind(this);
-        
+
         if (mToolbar != null) {
             initToolbar(mToolbar);
         }
