@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.os.Environment;
 import android.os.Looper;
 import android.os.storage.StorageManager;
 import android.support.annotation.AnyRes;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.SparseArray;
@@ -39,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
+import static com.king.applib.ui.recyclerview.MyItemDivider.TAG;
 
 /**
  * 扩展工具类
@@ -521,6 +524,19 @@ public class ExtendUtil {
             context.startActivity(intent);
         } else {
             Toast.makeText(context, "抱歉，未找到打电话的应用", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @ColorInt
+    public static int parseColor(String color, @ColorInt int defaultColor) {
+        if (StringUtil.isNullOrEmpty(color)) {
+            return defaultColor;
+        }
+        try {
+            return Color.parseColor(color);
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+            return defaultColor;
         }
     }
 }

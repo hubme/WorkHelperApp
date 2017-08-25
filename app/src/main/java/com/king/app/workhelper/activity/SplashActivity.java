@@ -43,7 +43,7 @@ public class SplashActivity extends AppBaseActivity {
         super.initContentView();
         mSplashImage.setBackgroundResource(R.mipmap.img_4073);
 
-        startCountDown(3, 0);
+        startCountDown(2, 0);
         setViewClickListeners(mSplashImage, mSkipTv);
     }
 

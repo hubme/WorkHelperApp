@@ -19,10 +19,21 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginTop="10dp"
-                android:textSize="@dimen/ts_smaller"
                 android:gravity="center"
+                android:text="9"
                 android:textColor="@color/white"
-                android:text="9"/>
+                android:textSize="@dimen/ts_smaller"/>
+
+            <TextView
+                android:id="@+id/tv_drawable_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:paddingTop="6dp"
+                android:text="哈哈哈"
+                android:textColor="@color/chocolate"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
