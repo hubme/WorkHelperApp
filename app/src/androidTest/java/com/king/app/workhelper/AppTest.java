@@ -30,7 +30,14 @@ import static com.king.applib.util.FileUtil.createFile;
  */
 
 public class AppTest extends BaseTestCase {
-    
+
+    private Random random;
+
+    @Override protected void setUp() throws Exception {
+        super.setUp();
+        random = new Random();
+    }
+
     //计算SDCard的大小、可用空间等。
     public void testSdCardState() throws Exception {
         String path = Environment.getExternalStorageDirectory().getPath();
@@ -125,8 +132,11 @@ public class AppTest extends BaseTestCase {
     }
 
     public void testRandom() throws Exception {
-        Random random = new Random();
-        Logger.i(random.nextInt(2) + "");
+        int max=20;
+        int min=10;
+        for (int i = 0; i < 10; i++) {
+            Log.i(TAG, random.nextInt((max - min) + 1) + min + "");
+        }
     }
 
     public void testBusProvider() throws Exception {
