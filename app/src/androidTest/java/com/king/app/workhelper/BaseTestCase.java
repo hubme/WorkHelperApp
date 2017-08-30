@@ -15,6 +15,7 @@ import java.util.List;
  */
 
 public class BaseTestCase extends AndroidTestCase {
+    protected static final String TAG = "aaa";
     protected Context mContext;
 
     @Override
