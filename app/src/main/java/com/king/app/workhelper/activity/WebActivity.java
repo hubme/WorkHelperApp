@@ -116,10 +116,11 @@ public class WebActivity extends AppBaseActivity {
             return super.shouldOverrideUrlLoading(view, url);
         }
 
-        /*@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override 
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) 
+        @Override 
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             return true;
-        }*/
+        }
 
         @Override public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
