@@ -241,4 +241,17 @@ public class AppUtil {
             return false;
         }
     }
+
+    /**
+     * 获取文件的MIME类型.
+     */
+    public static String getMIMEType(File file) {
+        if (file == null || !file.isFile()) {
+            return "";
+        }
+
+        final String fileName = file.getName();
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+    }
 }

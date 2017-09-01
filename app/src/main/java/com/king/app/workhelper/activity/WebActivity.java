@@ -155,7 +155,7 @@ public class WebActivity extends AppBaseActivity {
 
     private class DefaultWebChromeClient extends WebChromeClient {
         @Override public void onReceivedTitle(WebView view, String title) {//获取网页的标题
-            super.onReceivedTitle(view, title);
+            super.onReceivedTitle(view, title);      
             Logger.i("web title: " + title);
             if (mToolbar != null) {
                 mToolbar.setTitle(title);

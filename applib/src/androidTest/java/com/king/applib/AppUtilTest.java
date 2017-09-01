@@ -7,9 +7,11 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
+import android.os.Environment;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
+import com.king.applib.util.FileUtil;
 
 /**
  * AppUtil测试类
@@ -39,5 +41,10 @@ public class AppUtilTest extends BaseTestCase {
         } catch (CameraAccessException e) {
             //
         }
+    }
+    
+    public void testGetMIMEType() throws Exception {
+        Logger.i("app 安装包：" + AppUtil.getMIMEType(FileUtil.getFileByPath(Environment.getExternalStorageDirectory().getPath() + "/000test/update.apk")));// application/vnd.android.package-archive
+        Logger.i("图片 ：" + AppUtil.getMIMEType(FileUtil.getFileByPath(Environment.getExternalStorageDirectory().getPath() + "/000test/000aaa.jpg")));// image/jpeg
     }
 }

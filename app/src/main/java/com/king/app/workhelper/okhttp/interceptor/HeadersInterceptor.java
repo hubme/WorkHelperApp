@@ -4,6 +4,7 @@ import com.king.applib.util.AppUtil;
 
 import java.io.IOException;
 
+import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -25,9 +26,29 @@ public class HeadersInterceptor implements Interceptor {
 
     @Override public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
-        Request request = originalRequest.newBuilder().header("releaseVersion", mAppVersion)
+        final Request.Builder headerRequestBuilder = originalRequest.newBuilder();
+        
+        Request headerRequest = headerRequestBuilder.header("releaseVersion", mAppVersion)
                 .header("source", SOURCE)
                 .build();
-        return chain.proceed(request);
+
+        //Post参数
+        if (headerRequest.body() instanceof FormBody) {
+            final FormBody.Builder newFormBuilder = new FormBody.Builder();
+            final FormBody oldFormBody = (FormBody) headerRequest.body();
+            for (int i = 0; i < oldFormBody.size(); i++) {
+                final String key = oldFormBody.encodedName(i);
+                newFormBuilder.addEncoded(key, oldFormBody.encodedValue(i));
+            }
+
+            newFormBuilder.add("releaseVersion", mAppVersion)
+                    .add("source", SOURCE);
+            
+
+            headerRequestBuilder.method(headerRequest.method(), newFormBuilder.build());
+        }
+
+        final Request newRequest = headerRequestBuilder.build();
+        return chain.proceed(newRequest);
     }
 }
