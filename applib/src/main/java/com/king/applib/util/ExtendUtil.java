@@ -414,7 +414,12 @@ public class ExtendUtil {
         }
     }
 
-    /** 判断通知是否可用 */
+    /**
+     * 判断通知是否可用.<br/>
+     * from support library, to check if notifications are blocked on API 19+. The versions below API 19 will return true (notifications are enabled).
+     *
+     * @see <a href="https://stackoverflow.com/questions/11649151/android-4-1-how-to-check-notifications-are-disabled-for-the-application">stackoverflow</a>
+     */
     public static boolean isNotificationEnable(Context context) {
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
         return managerCompat.areNotificationsEnabled();

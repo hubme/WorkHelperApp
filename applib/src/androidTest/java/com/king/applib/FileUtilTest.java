@@ -74,10 +74,14 @@ public class FileUtilTest extends AndroidTestCase {
 
     public void testFileDir() throws Exception {
         Logger.i("getPackageName(): " + mContext.getPackageName());//  com.king.applib.test
+        
         Logger.i("getFilesDir(): " + mContext.getFilesDir());//  /data/data/com.king.applib.test/files
-        Logger.i("getExternalCacheDir(): " + mContext.getExternalCacheDir());// /storage/sdcard0/Android/data/com.king.applib.test/cache
         Logger.i("getCacheDir(): " + mContext.getCacheDir());//  /data/data/com.king.applib.test/cache
-        Logger.i("getObbDir(): " + mContext.getObbDir());
+
+        Logger.i("getObbDir(): " + mContext.getObbDir());// /storage/emulated/0/Android/obb/com.king.applib.test
+        Logger.i("getExternalCacheDir(): " + mContext.getExternalCacheDir());// /storage/sdcard0/Android/data/com.king.applib.test/cache
+        Logger.i("getExternalStorageDirectory(): "+Environment.getExternalStorageDirectory().getPath());// /storage/emulated/0
+        Logger.i("getExternalStorageDirectory(): "+mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES));// /storage/emulated/0/Android/data/com.king.applib.test/files/Pictures
     }
     
     public void testIsLegalFile() throws Exception {
