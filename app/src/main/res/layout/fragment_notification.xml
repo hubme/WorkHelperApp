@@ -13,4 +13,9 @@
         android:id="@+id/tv_remote_view"
         style="@style/EntryItem"
         android:text="RemoteViews通知"/>
+
+    <TextView
+        android:id="@+id/tv_notice_download"
+        style="@style/EntryItem"
+        android:text="通知栏下载"/>
 </LinearLayout>

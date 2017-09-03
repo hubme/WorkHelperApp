@@ -28,4 +28,9 @@ public class GlobalConstants {
         int PARTIAL_CONTENT = 206;
     }
 
+    //SharedPreference的key
+    public interface SP_PARAMS_KEY {
+        String APK_DOWNLOAD_SUCCESS = "APK_DOWNLOAD_SUCCESS";
+    }
+
 }

@@ -55,7 +55,7 @@ public class DownloadFileService extends IntentService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        DownloadManager downloadManager = new DownloadManager(this);
+        DownloadManager downloadManager = DownloadManager.getInstance(this);
         DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(url,
                 Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test", "app_update.apk")
                 .showNotification(true)

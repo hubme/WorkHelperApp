@@ -10,17 +10,19 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.applib.constant.GlobalConstants;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.IOUtil;
+import com.king.applib.util.SPUtil;
 import com.king.applib.util.StringUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,7 +35,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
+import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -43,12 +45,11 @@ import okhttp3.Response;
  */
 // TODO: 2016/10/21 1.多文件下载 2.暂停 3.多线程
 public class DownloadManager {
-    public static final String TAG = DownloadManager.class.getSimpleName();
+    public static final String TAG = "DownloadManager";
 
     // 下载进度消息发送间隔时间(ms)
     private static final int DOWNLOAD_MSG_INTERVAL = 400;
     private Context mContext;
-    private final OkHttpClient mOkHttpClient;
     private DownloadCallback mDownloadCallback;
 
     private Notification mNotification;
@@ -57,10 +58,22 @@ public class DownloadManager {
     private File mDestFile;
     private File mTempFile;
     private FileDownloadRequest mDownloadRequest;
+    private static DownloadManager INSTANCE;
+    private boolean mDownloading;
 
-    public DownloadManager(Context context) {
+    private DownloadManager(Context context) {
         mContext = context.getApplicationContext();
-        mOkHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
+    }
+
+    public static DownloadManager getInstance(Context context) {
+        if (INSTANCE == null) {
+            synchronized (DownloadManager.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new DownloadManager(context);
+                }
+            }
+        }
+        return INSTANCE;
     }
 
     public void setDownloadCallback(DownloadCallback callback) {
@@ -176,6 +189,12 @@ public class DownloadManager {
         mRemoteViews.setTextViewText(R.id.progress_text, "100%");
         mRemoteViews.setTextViewText(R.id.status, "下载完成，点击安装");
         mNoticeManager.notify(mDownloadRequest.notificationId, mNotification);
+    }
+
+
+    //是否正在下载文件
+    public boolean isDownloading() {
+        return mDownloading;
     }
 
     /**
@@ -304,7 +323,7 @@ public class DownloadManager {
         String lastTag = getLastTag(mDestFile);
         Logger.log(Logger.INFO, TAG, "startLen: " + startLen + "; lastTag: " + lastTag);
 
-        okhttp3.Request.Builder reqBuilder = new okhttp3.Request.Builder();
+        Request.Builder reqBuilder = new Request.Builder();
         if (!TextUtils.isEmpty(lastTag)) {
             if (fileExists) { //如果原文件存在，则比较ETag值，不同则重新下载
                 reqBuilder.header("If-None-Match", lastTag);
@@ -315,42 +334,20 @@ public class DownloadManager {
         reqBuilder.header("Range", "bytes=" + startLen + "-");
 
         Request request = reqBuilder.get().url(mDownloadRequest.url).tag(mDownloadRequest.url).build();
-
-        mOkHttpClient.newCall(request).enqueue(new okhttp3.Callback() {
+        //异步方法，不会阻塞当前线程。
+        OkHttpProvider.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
-                Logger.log(Logger.INFO, TAG, Thread.currentThread().toString());
-                Logger.log(Logger.INFO, TAG, "onFailure");
                 onDownloadFailed();
             }
 
-            @Override public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                Logger.log(Logger.INFO, TAG, Thread.currentThread().toString());
+            @Override public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Logger.log(Logger.INFO, TAG, "receivedContent start");
                     receivedContent(startLen, response);
-                    Logger.log(Logger.INFO, TAG, "receivedContent end");
                 } else {
                     unreceivedContent(response.code());
-                    Logger.log(Logger.INFO, TAG, "unreceivedContent");
                 }
             }
         });
-
-        /*try {
-            Response response = mOkHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                Logger.log(Logger.INFO, TAG, "receivedContent start");
-                receivedContent(startLen, response);
-                Logger.log(Logger.INFO, TAG, "receivedContent end");
-            } else {
-                unreceivedContent(response.code());
-                Logger.log(Logger.INFO, TAG, "unreceivedContent");
-            }
-
-        } catch (IOException e) {
-
-        }*/
-
     }
 
     private void unreceivedContent(int responseCode) {
@@ -367,6 +364,8 @@ public class DownloadManager {
                 onDownloadSuccess();
                 break;
             default:
+                clearTempFiles();
+                downloadFileTask();
                 break;
         }
     }
@@ -380,7 +379,7 @@ public class DownloadManager {
      * 下载文件,断点下载
      */
     public void downloadFile(FileDownloadRequest request) {
-        if (!checkRequest(request)) {//检查下载请求
+        if (!checkRequest(request) || mDownloading) {//检查下载请求
             return;
         }
         mDownloadRequest = request;
@@ -416,7 +415,7 @@ public class DownloadManager {
                 initDownloadProgress(totalLength);
             }
 
-            final int BUF_SIZE = 1024;
+            final int BUF_SIZE = 1024 * 4;
             byte[] buffer = new byte[BUF_SIZE];
             final long beginTime = System.currentTimeMillis();//记录下载开始时间
             long lastTime = beginTime;//记录上次更新时间
@@ -437,9 +436,7 @@ public class DownloadManager {
                         updateNotificationProgress(mDownloadRequest.notificationId, progress, totalLength, startLength, nt - beginTime);
                         Logger.log(Logger.INFO, TAG, "totalLength: " + totalLength + "bytes; startLength: "
                                 + startLength + "bytes; costTime: " + (nt - beginTime) + "millis; percent: " + (float) startLength / totalLength);
-                        if (mDownloadCallback != null) {
-                            mDownloadCallback.downloading();
-                        }
+                        onDownloading();
                     }
                 }
             }
@@ -459,6 +456,7 @@ public class DownloadManager {
                 downloadFileTask();
             }
         } catch (Exception e) {
+            Logger.e(Log.getStackTraceString(e));
             onDownloadFailed();
         } finally {
             IOUtil.close(inputStream);
@@ -469,18 +467,29 @@ public class DownloadManager {
     //文件下载成功。1.文件没有改变，但是没有下载.2.文件下载成功
     private void onDownloadSuccess() {
         cancelNotification(mDownloadRequest.notificationId);
-        if (mDownloadRequest.showNotification) {//通知栏提示自动安装
+        if (mDownloadRequest.showNotification) {//通知栏提示时自动安装
             AppUtil.installApk(mContext, mDestFile);
         }
         if (mDownloadCallback != null) {
             mDownloadCallback.complete();
         }
+        SPUtil.putBoolean(GlobalConstants.SP_PARAMS_KEY.APK_DOWNLOAD_SUCCESS, true);
+        mDownloading = false;
     }
 
     private void onDownloadFailed() {
+        cancelNotification(mDownloadRequest.notificationId);
         if (mDownloadCallback != null) {
             mDownloadCallback.failed();
         }
+        mDownloading = false;
+    }
+
+    private void onDownloading() {
+        if (mDownloadCallback != null) {
+            mDownloadCallback.downloading();
+        }
+        mDownloading = true;
     }
 
     /** 获取保存的下载文件的ETag值 */

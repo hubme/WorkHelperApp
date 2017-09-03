@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.format.Formatter;
@@ -13,6 +15,8 @@ import android.widget.RemoteViews;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.HomeActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.common.DownloadManager;
+import com.king.app.workhelper.model.UpdateModel;
 
 import butterknife.OnClick;
 
@@ -50,14 +54,10 @@ public class NotificationFragment extends AppBaseFragment {
                 new Runnable() {
                     @Override
                     public void run() {
-                        for (int progress = 0; progress <= 100; progress += 1) {
+                        for (int progress = 0; progress <= 100; progress += 5) {
                             mBuilder.setProgress(100, progress, false);
                             mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
-                            try {
-                                // Sleep for 5 seconds
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                            }
+                            SystemClock.sleep(1000);
                         }
                         mBuilder.setContentText("下载完成")
                                 .setProgress(0, 0, false)
@@ -73,7 +73,7 @@ public class NotificationFragment extends AppBaseFragment {
     public void onRemoteViewsClick() {
         initDownloadProgress(1024);
     }
-
+    
     private void initDownloadProgress(long fileSize) {
         final Context mContext = getContext();
         NotificationManagerCompat mNoticeManager = NotificationManagerCompat.from(mContext);
@@ -93,5 +93,20 @@ public class NotificationFragment extends AppBaseFragment {
                 .build();
 
         mNoticeManager.notify(1024, notification);
+    }
+
+    @OnClick(R.id.tv_notice_download)
+    public void onNoticeDownloadClick() {
+        UpdateModel model = new UpdateModel(0, "update", "https://qd.myapp.com/myapp/qqteam/AndroidQQ/mobileqq_android.apk", "3.0.0");
+        downloadUpdatedApk(mContext, model);
+    }
+    
+    public static void downloadUpdatedApk(Context context, UpdateModel updateModel) {
+        String path = Environment.getExternalStorageDirectory().getPath() + "/Download";
+        DownloadManager downloadManager = DownloadManager.getInstance(context);
+        DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(updateModel.url, path, "update_app.apk");
+        request.showNotification(true).setNotificationId(1024);
+        downloadManager.downloadFile(request);
+
     }
 }
