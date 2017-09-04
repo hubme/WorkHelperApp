@@ -3,22 +3,23 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
+                android:paddingBottom="6dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingRight="10dp"
+                android:paddingTop="6dp">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
-        android:padding="5dp"
         android:src="@mipmap/ic_launcher"/>
 
     <ProgressBar
         android:id="@+id/progress"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        style="@style/SProgressBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/logo"
@@ -31,28 +32,32 @@
     -->
     <TextView
         android:id="@+id/file_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/progress"
-        android:layout_marginTop="7dp"
-        android:layout_toLeftOf="@+id/file_size"
-        android:ellipsize="end"
+        android:layout_alignLeft="@id/progress"
+        android:textColor="@color/gray_666666"
+        android:textSize="@dimen/ts_big"
+        tools:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/file_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/file_name"
+        android:layout_alignParentRight="true"
         android:maxLines="1"
-        android:textAppearance="@style/Notification_title"
-        android:textSize="15dp"
-        tools:text="jz_1.7.1.apk"/>
+        android:textColor="@color/gray_666666"
+        android:textSize="@dimen/ts_smaller"
+        tools:text="12Mb"/>
 
     <TextView
         android:id="@+id/status"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/progress"
-        android:layout_marginTop="40dp"
-        android:layout_toLeftOf="@+id/progress_text"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="@style/Notification_line2"
-        android:textSize="12dp"
+        android:layout_alignLeft="@id/progress"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/gray_666666"
+        android:textSize="@dimen/ts_smaller"
         tools:text="下载进度"/>
 
     <TextView
@@ -62,18 +67,7 @@
         android:layout_alignBaseline="@+id/status"
         android:layout_alignParentRight="true"
         android:text="0%"
-        android:textAppearance="@style/Notification_line2"
-        android:textSize="12dp"/>
-
-    <TextView
-        android:id="@+id/file_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/file_name"
-        android:layout_alignParentRight="true"
-        android:maxLines="1"
-        android:textAppearance="@style/Notification_time"
-        android:textSize="12dp"
-        tools:text="12Mb"/>
+        android:textColor="@color/gray_666666"
+        android:textSize="@dimen/ts_smaller"/>
 
 </RelativeLayout>
