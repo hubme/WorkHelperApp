@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -136,20 +137,20 @@ public class AppUtil {
     }
 
     /**
-     * 安装apk(支持6.0)
+     * 安装apk(支持7.0)
      */
     public static void installApk(Context context, File file) {
-        Intent intent = getInstallAppIntent(file);
+        Intent intent = getInstallAppIntent(context, file);
         if (intent != null) {
             context.startActivity(intent);
         }
     }
 
     /**
-     * 安装apk(支持6.0)
+     * 安装apk(支持7.0)
      */
     public static void installApk(Activity activity, File file, int requestCode) {
-        Intent intent = getInstallAppIntent(file);
+        Intent intent = getInstallAppIntent(activity, file);
         if (intent != null) {
             activity.startActivityForResult(intent, requestCode);
         }
@@ -158,19 +159,19 @@ public class AppUtil {
     /**
      * 获取安装Intent
      */
-    public static Intent getInstallAppIntent(File file) {
-        if (file == null || !file.exists() || !file.isFile()) {
+    public static Intent getInstallAppIntent(Context context, File file) {
+        if (context == null || file == null || !file.exists() || !file.isFile()) {
             return null;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        String type;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            type = "application/vnd.android.package-archive";
-        } else {
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(FileUtil.getFileExtension(file));
-        }
-        intent.setDataAndType(Uri.fromFile(file), type);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri apkUri = FileProvider.getUriForFile(context, AppUtil.getFileProviderAuthor(), file);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        }
         return intent;
     }
 
