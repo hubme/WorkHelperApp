@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -101,8 +100,8 @@ public class NotificationFragment extends AppBaseFragment {
         downloadUpdatedApk(mContext, model);
     }
     
-    public static void downloadUpdatedApk(Context context, UpdateModel updateModel) {
-        String path = Environment.getExternalStorageDirectory().getPath() + "/Download";
+    public void downloadUpdatedApk(Context context, UpdateModel updateModel) {
+        String path = mContext.getCacheDir().getPath();//Environment.getExternalStorageDirectory().getPath() + "/Download";
         DownloadManager downloadManager = DownloadManager.getInstance(context);
         DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(updateModel.url, path, "update_app.apk");
         request.showNotification(true).setNotificationId(1024);

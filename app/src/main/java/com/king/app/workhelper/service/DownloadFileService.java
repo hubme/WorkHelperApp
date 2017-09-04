@@ -1,14 +1,14 @@
 package com.king.app.workhelper.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 
 import com.king.app.workhelper.common.DownloadManager;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.model.UpdateModel;
 import com.king.applib.log.Logger;
 import com.king.applib.util.SPUtil;
-import com.king.applib.util.StringUtil;
 
 /**
  * 下载大文件的service
@@ -35,10 +35,8 @@ public class DownloadFileService extends IntentService {
             return;
         }
         if (ACTION_DOWNLOAD_FILE.equals(intent.getAction())) {
-            String fileUrl = intent.getStringExtra(GlobalConstant.INTENT_PARAMS_KEY.FILE_DOWNLOAD_URL);
-            if (!StringUtil.isNullOrEmpty(fileUrl)) {
-                downloadFile(fileUrl);
-            }
+            UpdateModel model = (UpdateModel) intent.getSerializableExtra(GlobalConstant.INTENT_PARAMS_KEY.FILE_DOWNLOAD_KEY);
+            downloadUpdatedApk(this, model);
         }
     }
 
@@ -49,17 +47,11 @@ public class DownloadFileService extends IntentService {
         SPUtil.putBoolean(GlobalConstant.SP_PARAMS_KEY.DOWNLOAD_SERVER_EXISTS, false);
     }
 
-    private void downloadFile(String url) {
-        try {
-            Thread.sleep(5 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        DownloadManager downloadManager = DownloadManager.getInstance(this);
-        DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(url,
-                Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test", "app_update.apk")
-                .showNotification(true)
-                .setNotificationClickIntent(null);
-        downloadManager.downloadFile(request);
+    public void downloadUpdatedApk(Context context, UpdateModel updateModel) {
+        String path = context.getCacheDir().getPath();//Environment.getExternalStorageDirectory().getPath() + "/Download";
+        DownloadManager.FileDownloadRequest request = new DownloadManager.FileDownloadRequest(updateModel.url, path, "update_app.apk");
+        request.showNotification(true).setNotificationId(1024);
+        DownloadManager.getInstance(context).downloadFile(request);
+
     }
 }

@@ -13,7 +13,7 @@ public class GlobalConstant {
     }
 
     public interface INTENT_PARAMS_KEY {
-        String FILE_DOWNLOAD_URL = "FILE_DOWNLOAD_URL";
+        String FILE_DOWNLOAD_KEY = "FILE_DOWNLOAD_KEY";
         String WEB_URL = "WEB_URL";
     }
 

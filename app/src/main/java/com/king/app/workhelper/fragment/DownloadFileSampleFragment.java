@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.model.UpdateModel;
 import com.king.app.workhelper.service.DownloadFileService;
 import com.king.applib.log.Logger;
 import com.king.applib.util.SPUtil;
@@ -50,10 +51,12 @@ public class DownloadFileSampleFragment extends AppBaseFragment {
             return;
         }
         Logger.i("服务不存在，重新下载");
+        
+        UpdateModel model = new UpdateModel(0, "update", "https://qd.myapp.com/myapp/qqteam/AndroidQQ/mobileqq_android.apk", "3.0.0");
 
         Intent intent = new Intent(mContext, DownloadFileService.class);
         intent.setAction(DownloadFileService.ACTION_DOWNLOAD_FILE);
-        intent.putExtra(GlobalConstant.INTENT_PARAMS_KEY.FILE_DOWNLOAD_URL, APK_DOWNLOAD_URL);
+        intent.putExtra(GlobalConstant.INTENT_PARAMS_KEY.FILE_DOWNLOAD_KEY, model);
         mContext.startService(intent);
     }
 }
