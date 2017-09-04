@@ -1,7 +1,6 @@
 package com.king.app.workhelper.okhttp.interceptor;
 
 import android.support.annotation.IntDef;
-import android.util.Log;
 
 import com.king.app.workhelper.app.AppConfig;
 import com.king.app.workhelper.constant.GlobalConstant;
@@ -67,27 +66,24 @@ public class LogInterceptor implements Interceptor {
         }
         String time = String.format(Locale.getDefault(), "%.1fms", (System.nanoTime() - t1) / 1e6d);
         try {
-            MediaType contentType = null;
+            MediaType mediaType = null;
             ResponseBody responseBody = response.body();
             
             if (responseBody != null) {
-                contentType = responseBody.contentType();
+                mediaType = responseBody.contentType();
             }
 
-            if (contentType != null) {
-                Log.i("aaa", "MediaType : " + contentType.toString());
-            } else {
-                Log.i("aaa", "MediaType == null");
-            } 
-            if (isPlaintext(contentType)) {
+            if (isPlaintext(mediaType)) {
                 // responseBody只能被消费一次。否则执行回调时会出错：IllegalStateException: closed.
                 BufferedSource source = responseBody.source();
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
                 Buffer buffer = source.buffer();
                 bodyString = buffer.clone().readString(Charset.defaultCharset());
-                printLog(request, response, time, contentType, bodyString);
+                printLog(request, response, time, mediaType, bodyString);
+            } else {
+                String mime = (mediaType == null ? "null" : mediaType.toString());
+                Logger.log(Logger.INFO, AppConfig.LOG_TAG, "url: " + request.url().toString() + "  MIME类型是：" + mime + ",不打印log.");
             }
-
 
         } catch (SocketTimeoutException e) {
             printLog(request, null, "超时", null, null);
