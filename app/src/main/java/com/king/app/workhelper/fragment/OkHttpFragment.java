@@ -5,9 +5,16 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.api.UserApiService;
 import com.king.app.workhelper.app.AppConfig;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.model.EmptyModel;
+import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
+import com.king.app.workhelper.retrofit.ApiServiceFactory;
+import com.king.app.workhelper.retrofit.observer.HttpResultObserver;
+import com.king.app.workhelper.rx.RxUtil;
+import com.king.app.workhelper.rx.rxlife.event.FragmentLifeEvent;
 import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.IOUtil;
@@ -20,6 +27,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +42,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -233,6 +245,71 @@ public class OkHttpFragment extends AppBaseFragment {
 
             @Override public void onResponse(Call call, Response response) throws IOException {
 
+            }
+        });
+    }
+
+    /** retrofit 上传图片 */
+    private void uploadPhoto(final String filePath) {
+        Map<String, String> params = new HashMap<>();//后端需要的参数(token等)
+        final File file = new File(filePath);
+        MultipartBody.Part imageBodyPart = MultipartBody.Part.createFormData("PhotoFile", file.getName(), RequestBody.create(MediaType.parse("image/png"), file));
+        UserApiService userApiService = ApiServiceFactory.getInstance().createService(UserApiService.class);
+        userApiService.uploadPhoto(imageBodyPart, params)
+                .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
+                .compose(RxUtil.defaultObservableSchedulers())
+                .subscribe(new HttpResultObserver<EmptyModel>() {
+                    @Override public void onSuccess(EmptyModel emptyModel, String msg) {
+                        
+                    }
+                });
+    }
+    
+    /** retrofit 多图片上传 */
+    private void uploadMultiPhoto(final String filePath) {
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("appId", "appId");
+                
+        List<String> filePaths = new ArrayList<>();
+        for (String path : filePaths) {
+            File file = new File(path);
+            RequestBody imageBody = RequestBody.create(MediaType.parse("image/png"), file);
+            builder.addFormDataPart("imagefile" + file.getName(), file.getName(), imageBody);
+        }
+        
+        UserApiService userApiService = ApiServiceFactory.getInstance().createService(UserApiService.class);
+        userApiService.uploadMultiPhoto(builder.build().parts())
+                .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
+                .compose(RxUtil.defaultObservableSchedulers())
+                .subscribe(new HttpResultObserver<EmptyModel>() {
+                    @Override public void onSuccess(EmptyModel emptyModel, String msg) {
+
+                    }
+                });
+    }
+
+    /** okhttp 上传图片 */
+    private void uploadPhoto2(String filePath) {
+        File file = new File(filePath);
+        final MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("photo", file.getName(), okhttp3.RequestBody.create(okhttp3.MediaType.parse("image/png"), file))
+                .addFormDataPart("appId", "appId")
+                .addFormDataPart("token", "token")
+                .build();
+        final Request request = new Request.Builder()
+                .url("")
+                .tag("UploadPhoto")
+                .post(requestBody)
+                .build();
+        OkHttpProvider.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                Logger.e(Log.getStackTraceString(e));
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                Logger.i("上传成功。"+response.body().string());
             }
         });
     }

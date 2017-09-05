@@ -5,13 +5,14 @@ import com.google.gson.stream.MalformedJsonException;
 import com.king.app.workhelper.retrofit.HttpResponseCode;
 import com.king.app.workhelper.retrofit.exception.ApiException;
 import com.king.app.workhelper.retrofit.model.HttpResults;
+import com.king.applib.log.Logger;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.concurrent.CancellationException;
 
-import io.reactivex.SingleObserver;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -21,17 +22,17 @@ import io.reactivex.disposables.Disposable;
  * @since 2017/5/30.
  */
 
-public abstract class HttpResultObserver<T> implements SingleObserver<HttpResults<T>> {
+public abstract class HttpResultObserver<T> implements Observer<HttpResults<T>> {
     private Disposable mDisposable;
 
     @Override
     public void onSubscribe(Disposable d) {
         mDisposable = d;
-        ResultsObserverManger.addDisposable(d);
+//        ResultsObserverManger.addDisposable(d);
     }
 
     @Override
-    public void onSuccess(HttpResults<T> httpResults) {
+    public void onNext(HttpResults<T> httpResults) {
         if (httpResults != null) {
             if (httpResults.code == HttpResponseCode.SUCCESS) {
                 onSuccess(httpResults.results, httpResults.desc != null ? httpResults.desc : "");
@@ -64,17 +65,20 @@ public abstract class HttpResultObserver<T> implements SingleObserver<HttpResult
         }
     }
 
+    //The Observable will not call this method if it calls onError.
+    @Override
+    public void onComplete() {
+    }
+
     public abstract void onSuccess(T t, String msg);
 
-    public abstract void onFailure(int errorCode, String msg);
+    public void onFailure(int errorCode, String msg) {
+        Logger.e("errorCode: " + errorCode + ", errorMsg: " + msg);
+    }
 
-    public void unSubscribe() {
+    public void dispose() {
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();
         }
-    }
-
-    public Disposable getDisposable() {
-        return mDisposable;
     }
 }
