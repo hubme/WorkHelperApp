@@ -204,7 +204,7 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                     }
                 })
                 .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
-                .compose(RxUtil.defaultSingleSchedulers())
+                .compose(RxUtil.defaultObservableSchedulers())
                 .subscribe(observer);
 
     }
