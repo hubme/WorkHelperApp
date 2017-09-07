@@ -1,6 +1,5 @@
 package com.king.app.workhelper.fragment;
 
-import android.support.annotation.LayoutRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +35,7 @@ public class SwipeMenuSampleFragment extends AppBaseFragment {
         RecyclerDivider divider = new RecyclerDivider(RecyclerDivider.VERTICAL, ContextCompat.getColor(mContext, R.color.chocolate));
         mRecyclerView.addItemDecoration(divider);
 
-        mRecyclerView.setAdapter(new SwipeMenuAdapter(R.layout.item_swipe_menu, fakeData()));
+        mRecyclerView.setAdapter(new SwipeMenuAdapter(fakeData()));
     }
 
     private List<String> fakeData() {
@@ -48,9 +47,8 @@ public class SwipeMenuSampleFragment extends AppBaseFragment {
     }
 
     private static class SwipeMenuAdapter extends BaseRecyclerViewAdapter<String> {
-
-        public SwipeMenuAdapter(@LayoutRes int layoutRes, List<String> adapterData) {
-            super(layoutRes, adapterData);
+        public SwipeMenuAdapter(List<String> adapterData) {
+            super(adapterData);
         }
 
         @Override public void convert(RecyclerHolder holder, String item, int position) {
@@ -59,6 +57,10 @@ public class SwipeMenuSampleFragment extends AppBaseFragment {
 
             holder.setOnClickListener(R.id.tv_menu_share, v -> ToastUtil.showShort("分享"));
             holder.setOnClickListener(R.id.tv_menu_collection, v -> ToastUtil.showShort("收藏"));
+        }
+
+        @Override public int getItemLayoutRes() {
+            return R.layout.item_swipe_menu;
         }
     }
 }

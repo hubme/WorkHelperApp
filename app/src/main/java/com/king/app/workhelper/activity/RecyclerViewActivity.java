@@ -5,12 +5,16 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter2;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter3;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultipleRecyclerAdapter;
+import com.king.app.workhelper.adapter.recyclerview.AdvanceRecyclerAdapter;
+import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterAdapter;
 import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.model.entity.StringEntity;
@@ -28,6 +32,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
 
     @BindView(R.id.rv_mine) RecyclerView mMineRv;
     private SimpleRecyclerAdapter mRecyclerAdapter;
+    private LinearLayoutManager layoutManager;
 
     @Override public int getContentLayout() {
         return R.layout.activity_recycler_view;
@@ -41,12 +46,16 @@ public class RecyclerViewActivity extends AppBaseActivity {
         super.initData();
 
         //6.0设置setNestedScrollingEnabled(false)只显示一行，ScrollView换成NestedScrollView即可.
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         mMineRv.setLayoutManager(layoutManager);
         mMineRv.setNestedScrollingEnabled(false);//解决滑动冲突
-        
-//        mRecyclerAdapter = getAdapter2();
-        mMineRv.setAdapter(getDelegateAdapter());
+        mMineRv.addOnScrollListener(new MyRecyclerViewScrollListener());
+
+        mRecyclerAdapter = getSimpleAdapter();
+        AdvanceRecyclerAdapter mHeaderFooterAdapter = getHeaderFooterAdapter();
+        mHeaderFooterAdapter.addHeaderView(LayoutInflater.from(this).inflate(R.layout.layout_recycler_header, null, false));
+        mHeaderFooterAdapter.addFooterView(LayoutInflater.from(this).inflate(R.layout.layout_recycler_footer, null, false));
+        mMineRv.setAdapter(mHeaderFooterAdapter);
 
 //        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 //        itemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.ll_h_divider));
@@ -81,8 +90,12 @@ public class RecyclerViewActivity extends AppBaseActivity {
         });
     }
 
-    private SimpleRecyclerAdapter getAdapter2() {
-        return new SimpleRecyclerAdapter(R.layout.layout_simple_text_view, SimpleRecyclerAdapter.fakeData());
+    private SimpleRecyclerAdapter getSimpleAdapter() {
+        return new SimpleRecyclerAdapter(SimpleRecyclerAdapter.fakeData());
+    }
+
+    private HeaderAndFooterAdapter getHeaderFooterAdapter() {
+        return new HeaderAndFooterAdapter(HeaderAndFooterAdapter.fakeData());
     }
 
     private BasicMultipleRecyclerAdapter getStringAdapter() {
@@ -95,5 +108,43 @@ public class RecyclerViewActivity extends AppBaseActivity {
 
     private BasicMultiRecyclerAdapter3 getDelegateAdapter() {
         return new BasicMultiRecyclerAdapter3(BasicMultiRecyclerAdapter3.fakeMultiTypeData());
+    }
+
+    private class MyRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
+        @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            switch (newState) {
+                case RecyclerView.SCROLL_STATE_IDLE://表示当前并处于静止状态
+                    String result = "";
+                    int visibleCount = layoutManager.getChildCount();
+                    int lastPos = layoutManager.findLastVisibleItemPosition();
+                    int totalCount = layoutManager.getItemCount();
+                    if (visibleCount > 0 && lastPos >= totalCount - 1) {
+                        result = "滑动到最后了。";// TODO: 2017/9/7 经常触发多次导致数据重复 
+                    }
+                    Log.i("aaa", "SCROLL_STATE_IDLE." + result);
+                    break;
+                case RecyclerView.SCROLL_STATE_DRAGGING://标识当前RecyclerView处于滑动状态（手指在屏幕上）
+                    Log.i("aaa", "SCROLL_STATE_DRAGGING");
+                    break;
+                case RecyclerView.SCROLL_STATE_SETTLING://表示当前RecyclerView处于从滑动状态到静止状态（手已经离开屏幕）
+                    Log.i("aaa", "SCROLL_STATE_SETTLING.");
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            Log.i("aaa", "第一个可见View的下标: " + layoutManager.findFirstVisibleItemPosition() +
+                    ";第一个完全可见View的下标: " + layoutManager.findFirstCompletelyVisibleItemPosition() +
+                    ";最后一个可见View的下标: " + layoutManager.findLastVisibleItemPosition() +
+                    ";最后一个完全可见View的下标: " + layoutManager.findLastCompletelyVisibleItemPosition() +
+                    ";当前屏幕中显示的View个数: " + layoutManager.getChildCount() +
+                    ";总个数: " + layoutManager.getItemCount());
+
+        }
     }
 }
