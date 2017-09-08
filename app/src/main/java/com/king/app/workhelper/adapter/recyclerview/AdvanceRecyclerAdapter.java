@@ -1,5 +1,6 @@
 package com.king.app.workhelper.adapter.recyclerview;
 
+import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
@@ -36,8 +36,14 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
     private LinearLayout mHeaderPanel;//添加 Header View 的容器
     private LinearLayout mFooterPanel;//添加 Footer View 的容器
-
-    public AdvanceRecyclerAdapter(List<E> dataList) {
+    private Context mContext;
+    
+    public AdvanceRecyclerAdapter(Context context) {
+        mContext = context;
+    }
+    
+    public AdvanceRecyclerAdapter(Context context, List<E> dataList) {
+        mContext = context;
         if (dataList == null || dataList.isEmpty()) {
             return;
         }
@@ -68,7 +74,13 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
                 break;
             default:
-                convert(holder, getItem(position - getHeaderViewCount()), position - getHeaderViewCount());
+                int listPosition = position - getHeaderViewCount();
+                if (listPosition >= 0 && listPosition < mAdapterList.size()) {
+                    E item = getItem(listPosition);
+                    if (item != null) {
+                        convert(holder, item, listPosition);
+                    }
+                }
                 break;
         }
     }
@@ -80,7 +92,7 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
     @Override public int getItemViewType(int position) {
         if (position < getHeaderViewCount()) {
             return VIEW_TYPE_HEADER;
-        } else if (position >= getItemCount() + getHeaderViewCount()) {
+        } else if (position >= mAdapterList.size() + getHeaderViewCount()) {
             return VIEW_TYPE_FOOTER;
         } else {
             return 0;
@@ -95,50 +107,64 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
         return mAdapterList.get(position);
     }
 
+    private void checkHeaderPanel() {
+        if (mHeaderPanel == null) {
+            mHeaderPanel = new LinearLayout(mContext);
+            mHeaderPanel.setOrientation(LinearLayout.VERTICAL);
+            mHeaderPanel.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+    }
+
     public void addHeaderView(View header) {
         addHeaderView(header, 0);
     }
 
     public void addHeaderView(View header, int index) {
-        if (mHeaderPanel == null) {
-            mHeaderPanel = new LinearLayout(header.getContext());
-            mHeaderPanel.setOrientation(LinearLayout.VERTICAL);
-            mHeaderPanel.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        }
+        checkHeaderPanel();
         if (index >= 0 && index <= mHeaderPanel.getChildCount()) {
             mHeaderPanel.addView(header, index);
             notifyDataSetChanged();
         }
     }
 
+    public void addHeaderViews(List<View> headers) {
+        checkHeaderPanel();
+        for (View header : headers) {
+            if (header == null) {
+                continue;
+            }
+            addHeaderView(header);
+        }
+        notifyDataSetChanged();
+    }
+
+    private void checkFooterPanel() {
+        if (mFooterPanel == null) {
+            mFooterPanel = new LinearLayout(mContext);
+            mFooterPanel.setOrientation(LinearLayout.VERTICAL);
+            mFooterPanel.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+    }
+    
     public void addFooterView(View header) {
         addFooterView(header, 0);
     }
     
     public void addFooterView(View header, int index) {
-        if (mFooterPanel == null) {
-            mFooterPanel = new LinearLayout(header.getContext());
-            mFooterPanel.setOrientation(LinearLayout.VERTICAL);
-            mFooterPanel.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        }
+        checkFooterPanel();
         if (index >= 0 && index <= mFooterPanel.getChildCount()) {
             mFooterPanel.addView(header, index);
             notifyDataSetChanged();
         }
     }
 
-    private static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    private static class StringViewHolder extends RecyclerView.ViewHolder {
-        TextView stringTv;
-
-        public StringViewHolder(View itemView) {
-            super(itemView);
-            stringTv = (TextView) itemView.findViewById(R.id.tv_item_input);
+    public void addFooterViews(List<View> footers) {
+        checkFooterPanel();
+        for (View footer : footers) {
+            if (footer == null) {
+                continue;
+            }
+            addFooterView(footer);
         }
     }
 

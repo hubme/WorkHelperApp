@@ -1,5 +1,7 @@
 package com.king.app.workhelper.adapter.recyclerview;
 
+import android.content.Context;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
@@ -13,8 +15,13 @@ import java.util.List;
  */
 
 public class HeaderAndFooterAdapter extends AdvanceRecyclerAdapter<StringEntity> {
-    public HeaderAndFooterAdapter(List<StringEntity> dataList) {
-        super(dataList);
+    
+    public HeaderAndFooterAdapter(Context context) {
+        super(context);
+    }
+
+    public HeaderAndFooterAdapter(Context context, List<StringEntity> dataList) {
+        super(context, dataList);
     }
 
     @Override public int getItemLayoutRes() {

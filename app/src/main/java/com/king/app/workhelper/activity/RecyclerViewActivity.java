@@ -1,24 +1,29 @@
 package com.king.app.workhelper.activity;
 
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.Space;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.adapter.recyclerview.AdvanceRecyclerAdapter;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter2;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter3;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultipleRecyclerAdapter;
-import com.king.app.workhelper.adapter.recyclerview.AdvanceRecyclerAdapter;
 import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterAdapter;
 import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.model.entity.StringEntity;
 import com.king.applib.ui.recyclerview.RecyclerDivider;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 
@@ -53,8 +58,9 @@ public class RecyclerViewActivity extends AppBaseActivity {
 
         mRecyclerAdapter = getSimpleAdapter();
         AdvanceRecyclerAdapter mHeaderFooterAdapter = getHeaderFooterAdapter();
-        mHeaderFooterAdapter.addHeaderView(LayoutInflater.from(this).inflate(R.layout.layout_recycler_header, null, false));
-        mHeaderFooterAdapter.addFooterView(LayoutInflater.from(this).inflate(R.layout.layout_recycler_footer, null, false));
+        
+        mHeaderFooterAdapter.addHeaderViews(Arrays.asList(buildHeaderView("Header One"), buildSpaceView(), buildHeaderView("Header Two")));
+        mHeaderFooterAdapter.addFooterViews(Arrays.asList(buildFooterView("Footer One"), buildSpaceView(), buildFooterView("Footer Two")));
         mMineRv.setAdapter(mHeaderFooterAdapter);
 
 //        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -95,7 +101,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
     }
 
     private HeaderAndFooterAdapter getHeaderFooterAdapter() {
-        return new HeaderAndFooterAdapter(HeaderAndFooterAdapter.fakeData());
+        return new HeaderAndFooterAdapter(this, HeaderAndFooterAdapter.fakeData());
     }
 
     private BasicMultipleRecyclerAdapter getStringAdapter() {
@@ -122,13 +128,13 @@ public class RecyclerViewActivity extends AppBaseActivity {
                     if (visibleCount > 0 && lastPos >= totalCount - 1) {
                         result = "滑动到最后了。";// TODO: 2017/9/7 经常触发多次导致数据重复 
                     }
-                    Log.i("aaa", "SCROLL_STATE_IDLE." + result);
+//                    Log.i("aaa", "SCROLL_STATE_IDLE." + result);
                     break;
                 case RecyclerView.SCROLL_STATE_DRAGGING://标识当前RecyclerView处于滑动状态（手指在屏幕上）
-                    Log.i("aaa", "SCROLL_STATE_DRAGGING");
+//                    Log.i("aaa", "SCROLL_STATE_DRAGGING");
                     break;
                 case RecyclerView.SCROLL_STATE_SETTLING://表示当前RecyclerView处于从滑动状态到静止状态（手已经离开屏幕）
-                    Log.i("aaa", "SCROLL_STATE_SETTLING.");
+//                    Log.i("aaa", "SCROLL_STATE_SETTLING.");
                     break;
                 default:
 
@@ -138,13 +144,41 @@ public class RecyclerViewActivity extends AppBaseActivity {
 
         @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            Log.i("aaa", "第一个可见View的下标: " + layoutManager.findFirstVisibleItemPosition() +
+            /*Log.i("aaa", "第一个可见View的下标: " + layoutManager.findFirstVisibleItemPosition() +
                     ";第一个完全可见View的下标: " + layoutManager.findFirstCompletelyVisibleItemPosition() +
                     ";最后一个可见View的下标: " + layoutManager.findLastVisibleItemPosition() +
                     ";最后一个完全可见View的下标: " + layoutManager.findLastCompletelyVisibleItemPosition() +
                     ";当前屏幕中显示的View个数: " + layoutManager.getChildCount() +
-                    ";总个数: " + layoutManager.getItemCount());
+                    ";总个数: " + layoutManager.getItemCount());*/
 
         }
+    }
+
+    private View buildHeaderView(String headerText) {
+        View panel = LayoutInflater.from(this).inflate(R.layout.layout_recycler_header, null, false);
+        ((TextView)panel.findViewById(R.id.tv_header)).setText(headerText);
+        panel.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                showToast(headerText);
+            }
+        });
+        return panel;
+    }
+
+    private View buildFooterView(String footerText) {
+        View panel = LayoutInflater.from(this).inflate(R.layout.layout_recycler_footer, null, false);
+        ((TextView)panel.findViewById(R.id.tv_footer)).setText(footerText);
+        panel.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                showToast(footerText);
+            }
+        });
+        return panel;
+    }
+
+    private View buildSpaceView() {
+        Space space = new Space(this);
+        space.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80));
+        return space;
     }
 }

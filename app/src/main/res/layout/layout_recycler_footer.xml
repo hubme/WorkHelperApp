@@ -2,29 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="40dp"
-              android:background="#FFDDFF"
+              android:background="@color/gray_f0f0f0"
               android:gravity="center"
               android:orientation="horizontal">
 
     <View
         android:layout_width="72dp"
         android:layout_height="1dp"
-        android:background="#8A000000"/>
+        android:background="@color/chocolate"/>
 
     <TextView
-        android:id="@+id/person_video_list_honey_count"
+        android:id="@+id/tv_footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:text="The Footer"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/chocolate"
         android:textSize="@dimen/ts_bigger"
         android:textStyle="bold"/>
 
     <View
         android:layout_width="72dp"
         android:layout_height="1dp"
-        android:background="#8A000000"/>
+        android:background="@color/chocolate"/>
 
 </LinearLayout>
