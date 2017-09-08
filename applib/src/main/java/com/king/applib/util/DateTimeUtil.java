@@ -18,6 +18,7 @@ public class DateTimeUtil {
         throw new UnsupportedOperationException("No instances!");
     }
 
+    public static final String I18N_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String INTL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String YMD_FORMAT = "yyyy-MM-dd";
 
