@@ -6,7 +6,7 @@ import android.widget.ImageView;
  * 定义图片加载接口，隔离具体的实现，解耦。
  *
  * @author VanceKing
- * @since 2017/3/20 0020.
+ * @since 2017/3/20.
  */
 
 // TODO: 2017/3/20 完成图片加载接口

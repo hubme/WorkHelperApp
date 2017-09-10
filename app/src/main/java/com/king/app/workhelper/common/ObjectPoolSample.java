@@ -6,7 +6,7 @@ import android.support.v4.util.Pools;
  * 对象池的使用
  *
  * @author VanceKing
- * @since 2017/4/16 0016.
+ * @since 2017/4/16.
  */
 
 public class ObjectPoolSample {

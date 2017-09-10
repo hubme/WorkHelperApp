@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/7/6.
  */
 
@@ -39,6 +39,7 @@ public class RxCountDownHelper {
         Observable.interval(0, 1, TimeUnit.SECONDS)
                 .take(duration + 1)
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(disposableObserver);
         return disposableObserver;
     }

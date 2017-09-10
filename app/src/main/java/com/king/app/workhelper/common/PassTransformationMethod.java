@@ -6,7 +6,7 @@ import android.view.View;
 
 /**
  * @author VanceKing
- * @since 2017/5/18 0018.
+ * @since 2017/5/18.
  */
 
 public class PassTransformationMethod implements TransformationMethod{

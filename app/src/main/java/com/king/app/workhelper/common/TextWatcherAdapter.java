@@ -6,7 +6,7 @@ import android.text.TextWatcher;
 /**
  * TextWatcher抽象实现类，避免每次都要实现三个接口。
  * see also:{@link android.animation.AnimatorListenerAdapter AnimatorListenerAdapter}
- * Created by HuoGuangxu on 2016/11/1.
+ * Created by WorkHelperApp on 2016/11/1.
  */
 
 public abstract class TextWatcherAdapter implements TextWatcher {

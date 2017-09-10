@@ -41,7 +41,8 @@ import okhttp3.Response;
 
 /**
  * 文件下载管理类。目前只支持单线程单文件下载，包含通知栏提示。
- * Created by HuoGuangxu on 2016/10/20.
+ * @author VanceKing
+ * @since 2016/10/20
  */
 // TODO: 2016/10/21 1.多文件下载 2.暂停 3.多线程
 public class DownloadManager {
