@@ -244,6 +244,63 @@ public class AppUtil {
     }
 
     /**
+     * 根据类全名启动Activity
+     *
+     * @param context       上下文
+     * @param fullClassPath Activity全名
+     */
+    public static boolean openActivity(Context context, String fullClassPath) {
+        if (context == null || StringUtil.isNullOrEmpty(fullClassPath)) {
+            return false;
+        }
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        final String packageName = AppUtil.getAppInfo().getPackageName();
+        try {
+            ComponentName cn = new ComponentName(packageName, fullClassPath);
+            intent.setComponent(cn);
+            context.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean openThirdApp(Context context, String packageName) {
+        if (context == null || StringUtil.isNullOrEmpty(packageName)) {
+            return false;
+        }
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (intent != null) {
+            context.startActivity(intent);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /** 是否能正常唤醒intent */
+    public static boolean canResolveActivity(Intent intent) {
+        return intent != null && intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null;
+    }
+
+    /**
+     * 打开能处理此uri的应用.tel:// http:// market://
+     */
+    public static boolean openAppByUri(Context context, String uri) {
+        if (StringUtil.isNullOrEmpty(uri)) {
+            return false;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 获取文件的MIME类型.
      */
     public static String getMIMEType(File file) {

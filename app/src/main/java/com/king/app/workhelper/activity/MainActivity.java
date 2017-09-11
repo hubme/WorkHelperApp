@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.PassTransformationMethod;
+import com.king.applib.util.AppUtil;
 
 import butterknife.OnClick;
 
@@ -79,7 +80,9 @@ public class MainActivity extends AppBaseActivity {
             activityManager.clearApplicationUserData();
         }*/
 
-        startActivityWithAnimation();
+//        startActivityWithAnimation();
+//        AppUtil.openThirdApp(this, "com.speedsoftware.rootexplo");
+        AppUtil.openAppByUri(this, "market://details?id=com.speedsoftware.rootexplorer");
     }
 
     private TextView buildTextView(String text) {

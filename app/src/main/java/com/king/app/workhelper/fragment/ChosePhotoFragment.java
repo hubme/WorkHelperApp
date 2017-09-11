@@ -16,7 +16,6 @@ import com.king.applib.util.AppUtil;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.DateTimeUtil;
 import com.king.applib.util.EasyPermission;
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ToastUtil;
 
@@ -144,7 +143,7 @@ public class ChosePhotoFragment extends AppBaseFragment implements EasyPermissio
             intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(ContextUtil.getAppContext(), AppUtil.getFileProviderAuthor(), mCameraPhotoFile));
         }
 
-        if (ExtendUtil.canResolveActivity(intent)) {
+        if (AppUtil.canResolveActivity(intent)) {
             startActivityForResult(intent, REQ_CODE_CAMERA);
         } else {
             ToastUtil.showLong("手机中未安装拍照应用");
@@ -171,7 +170,7 @@ public class ChosePhotoFragment extends AppBaseFragment implements EasyPermissio
             intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(ContextUtil.getAppContext(), AppUtil.getFileProviderAuthor(), mCameraVideoFile));
         }
 
-        if (ExtendUtil.canResolveActivity(intent)) {
+        if (AppUtil.canResolveActivity(intent)) {
             startActivityForResult(intent, REQ_CODE_VIDEO);
         } else {
             ToastUtil.showLong("手机中未安装拍照应用");
@@ -182,7 +181,7 @@ public class ChosePhotoFragment extends AppBaseFragment implements EasyPermissio
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setType("image/*");
-        if (ExtendUtil.canResolveActivity(intent)) {
+        if (AppUtil.canResolveActivity(intent)) {
             startActivityForResult(intent, REQ_CODE_ALBUM);
         } else {
             ToastUtil.showLong("手机中未安装相册应用");

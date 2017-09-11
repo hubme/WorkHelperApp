@@ -2,7 +2,6 @@ package com.king.applib.util;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -39,9 +38,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import static android.content.Context.CLIPBOARD_SERVICE;
-import static com.king.applib.ui.recyclerview.MyItemDivider.TAG;
 
 /**
  * 扩展工具类
@@ -226,17 +222,10 @@ public class ExtendUtil {
         if (StringUtil.isNullOrEmpty(text)) {
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            ClipboardManager clipboard = (ClipboardManager) ContextUtil.getAppContext().getSystemService(CLIPBOARD_SERVICE);
-            if (clipboard != null) {
-                ClipData clip = ClipData.newPlainText(label, text);
-                clipboard.setPrimaryClip(clip);
-            }
-        } else {
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) ContextUtil.getAppContext().getSystemService(CLIPBOARD_SERVICE);
-            if (clipboard != null) {
-                clipboard.setText(text);
-            }
+        ClipboardManager clipboard = (ClipboardManager) ContextUtil.getAppContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard != null) {
+            ClipData clip = ClipData.newPlainText(label, text);
+            clipboard.setPrimaryClip(clip);
         }
     }
 
@@ -373,34 +362,7 @@ public class ExtendUtil {
     public static Resources getResources() {
         return ContextUtil.getAppContext().getResources();
     }
-
-    /** 是否能正常唤醒intent */
-    public static boolean canResolveActivity(Intent intent) {
-        return intent != null && intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null;
-    }
-
-    /**
-     * 根据类全名启动Activity
-     *
-     * @param context       上下文
-     * @param fullClassPath Activity全名
-     */
-    public static boolean openActivity(Context context, String fullClassPath) {
-        if (context == null || StringUtil.isNullOrEmpty(fullClassPath)) {
-            return false;
-        }
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        final String packageName = AppUtil.getAppInfo().getPackageName();
-        try {
-            ComponentName cn = new ComponentName(packageName, fullClassPath);
-            intent.setComponent(cn);
-            context.startActivity(intent);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
+    
     /** 打印Exception信息 */
     public static void logException(Exception e) {
         Logger.e(Log.getStackTraceString(e));
@@ -540,7 +502,6 @@ public class ExtendUtil {
         try {
             return Color.parseColor(color);
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
             return defaultColor;
         }
     }
