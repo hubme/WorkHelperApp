@@ -37,11 +37,11 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
     private LinearLayout mHeaderPanel;//添加 Header View 的容器
     private LinearLayout mFooterPanel;//添加 Footer View 的容器
     private Context mContext;
-    
+
     public AdvanceRecyclerAdapter(Context context) {
         mContext = context;
     }
-    
+
     public AdvanceRecyclerAdapter(Context context, List<E> dataList) {
         mContext = context;
         if (dataList == null || dataList.isEmpty()) {
@@ -138,6 +138,21 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
         notifyDataSetChanged();
     }
 
+    public void removeHeaderView(View header) {
+        if (mHeaderPanel != null && header != null) {
+            mHeaderPanel.removeView(header);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void removeHeaderView(int index) {
+        if (mHeaderPanel == null || index < 0 || index >= mHeaderPanel.getChildCount()) {
+            return;
+        }
+        mHeaderPanel.removeViewAt(index);
+        notifyDataSetChanged();
+    }
+
     private void checkFooterPanel() {
         if (mFooterPanel == null) {
             mFooterPanel = new LinearLayout(mContext);
@@ -145,11 +160,11 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
             mFooterPanel.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
     }
-    
+
     public void addFooterView(View header) {
         addFooterView(header, 0);
     }
-    
+
     public void addFooterView(View header, int index) {
         checkFooterPanel();
         if (index >= 0 && index <= mFooterPanel.getChildCount()) {
@@ -166,6 +181,21 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
             }
             addFooterView(footer);
         }
+    }
+
+    public void removeFooterView(View footer) {
+        if (mFooterPanel != null && footer != null) {
+            mFooterPanel.removeView(footer);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void removeFooterView(int index) {
+        if (mFooterPanel == null || index < 0 || index >= mFooterPanel.getChildCount()) {
+            return;
+        }
+        mFooterPanel.removeViewAt(index);
+        notifyDataSetChanged();
     }
 
     public int getHeaderViewCount() {

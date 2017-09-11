@@ -38,6 +38,7 @@ public class RecyclerViewActivity extends AppBaseActivity {
     @BindView(R.id.rv_mine) RecyclerView mMineRv;
     private SimpleRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager layoutManager;
+    private AdvanceRecyclerAdapter mHeaderFooterAdapter;
 
     @Override public int getContentLayout() {
         return R.layout.activity_recycler_view;
@@ -57,8 +58,8 @@ public class RecyclerViewActivity extends AppBaseActivity {
         mMineRv.addOnScrollListener(new MyRecyclerViewScrollListener());
 
         mRecyclerAdapter = getSimpleAdapter();
-        AdvanceRecyclerAdapter mHeaderFooterAdapter = getHeaderFooterAdapter();
-        
+        mHeaderFooterAdapter = getHeaderFooterAdapter();
+
         mHeaderFooterAdapter.addHeaderViews(Arrays.asList(buildHeaderView("Header One"), buildSpaceView(), buildHeaderView("Header Two")));
         mHeaderFooterAdapter.addFooterViews(Arrays.asList(buildFooterView("Footer One"), buildSpaceView(), buildFooterView("Footer Two")));
         mMineRv.setAdapter(mHeaderFooterAdapter);
@@ -85,7 +86,8 @@ public class RecyclerViewActivity extends AppBaseActivity {
                         mRecyclerAdapter.addData(2, new StringEntity("哈哈哈"));
                         return true;
                     case R.id.delete:
-                        mRecyclerAdapter.deleteData(2);
+//                        mRecyclerAdapter.deleteData(2);
+                        mHeaderFooterAdapter.removeFooterView(0);
                         return true;
                     case R.id.modify:
                         mRecyclerAdapter.modifyData(6, new StringEntity("哈哈哈"));
