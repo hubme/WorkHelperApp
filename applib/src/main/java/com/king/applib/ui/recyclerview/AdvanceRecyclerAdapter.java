@@ -1,4 +1,4 @@
-package com.king.app.workhelper.adapter.recyclerview;
+package com.king.applib.ui.recyclerview;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
@@ -8,9 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
-import com.king.app.workhelper.R;
-import com.king.applib.ui.recyclerview.RecyclerHolder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -38,6 +35,10 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
     private LinearLayout mFooterPanel;//添加 Footer View 的容器
     private Context mContext;
 
+    public AdvanceRecyclerAdapter() {
+        
+    }
+
     public AdvanceRecyclerAdapter(Context context) {
         mContext = context;
     }
@@ -53,6 +54,38 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
         mAdapterList.addAll(dataList);
     }
 
+    public List<E> getAdapterData() {
+        return mAdapterList;
+    }
+
+    public void setAdapterData(List<E> adapterData) {
+        setAdapterData(adapterData, false);
+    }
+
+    public void setAdapterData(List<E> adapterData, boolean append) {
+        if (isListEmpty(adapterData)) {
+            return;
+        }
+        if (append) {
+            mAdapterList.addAll(adapterData);
+        } else {
+            if (!isListEmpty(mAdapterList)) {
+                mAdapterList.clear();
+            }
+            mAdapterList.addAll(adapterData);
+        }
+        notifyDataSetChanged();
+    }
+
+    private boolean isListEmpty(List<E> list) {
+        return list == null || list.isEmpty();
+    }
+
+    public void resetAdapterData() {
+        mAdapterList.clear();
+        notifyDataSetChanged();
+    }
+
     @Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_HEADER:
@@ -60,7 +93,7 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
             case VIEW_TYPE_FOOTER:
                 return new RecyclerHolder(mFooterPanel);
             default:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_simple_text_view, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
                 return new RecyclerHolder(view);
         }
     }
@@ -105,6 +138,32 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
     public E getItem(int position) {
         return mAdapterList.get(position);
+    }
+
+    public void addData(int position, E entity) {
+        if (position >= 0 && position <= mAdapterList.size()) {
+            mAdapterList.add(position, entity);
+            notifyItemInserted(position);
+        }
+    }
+
+    public void deleteData(int position) {
+        if (checkPosition(position)) {
+            mAdapterList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void modifyData(int position, E e) {
+        if (checkPosition(position)) {
+            mAdapterList.remove(position);
+            mAdapterList.add(position, e);
+            notifyItemChanged(position);
+        }
+    }
+
+    private boolean checkPosition(int position) {
+        return position >= 0 && position < mAdapterList.size();
     }
 
     private void checkHeaderPanel() {

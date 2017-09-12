@@ -21,7 +21,7 @@ import butterknife.BindView;
  * @since 2017/7/18.
  */
 
-public class SwipeMenuSampleFragment extends AppBaseFragment {
+public class RecyclerSwipeMenuFragment extends AppBaseFragment {
     @BindView(R.id.tv_recycler_view) RecyclerView mRecyclerView;
 
     @Override protected int getContentLayout() {

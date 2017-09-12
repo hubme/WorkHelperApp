@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
+import com.king.applib.ui.recyclerview.AdvanceRecyclerAdapter;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
 
 import java.util.ArrayList;

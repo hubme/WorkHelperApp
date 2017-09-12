@@ -12,14 +12,14 @@ import java.util.List;
 /**
  * 基础RecyclerView.Adapter
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/30.
  */
 
 public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
     //不允许赋值，防止NPE.
     private final List<E> mAdapterList = new ArrayList<>();
-    
+
     public BaseRecyclerViewAdapter(List<E> adapterData) {
         if (!isListEmpty(adapterData)) {
             mAdapterList.addAll(adapterData);
@@ -59,7 +59,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
     }
 
     public void addData(int position, E entity) {
-        if (checkPosition(position)) {
+        if (position >= 0 && position <= mAdapterList.size()) {
             mAdapterList.add(position, entity);
             notifyItemInserted(position);
         }
@@ -84,8 +84,6 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         return position >= 0 && position < mAdapterList.size();
     }
 
-    public abstract void convert(RecyclerHolder holder, E item, int position);
-
     @Override
     public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
@@ -99,6 +97,8 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
             convert(holder, e, position);
         }
     }
+
+    public abstract void convert(RecyclerHolder holder, E item, int position);
 
     @Override
     public int getItemCount() {

@@ -220,11 +220,6 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new MultiStatusViewFragment());
     }
     
-    @OnClick(R.id.tv_swipe_menu)
-    public void onSwipeMenuClick() {
-        clickedOn(new SwipeMenuSampleFragment());
-    }
-
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
