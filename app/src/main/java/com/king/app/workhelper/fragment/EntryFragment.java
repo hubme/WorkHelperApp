@@ -86,8 +86,8 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_custom_view)
     public void clickCustomView() {
-//        clickedOn(new CustomViewFragment());
-        clickedOn(new CustomViewFragment1());
+        clickedOn(new CustomViewFragment());
+//        clickedOn(new CustomViewFragment1());
     }
 
     @OnClick(R.id.tv_usage)

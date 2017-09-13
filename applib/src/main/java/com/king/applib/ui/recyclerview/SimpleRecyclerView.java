@@ -170,7 +170,7 @@ public class SimpleRecyclerView extends RecyclerView {
         }
 
         @Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            
+            return null;
         }
 
         @Override public void onBindViewHolder(ViewHolder holder, int position) {
@@ -194,7 +194,7 @@ public class SimpleRecyclerView extends RecyclerView {
         }
 
         private int isFooterView(int position) {
-            return getItemCount()
+            return 0;
         }
     }
 }
