@@ -46,8 +46,10 @@ public class RecyclerRefreshMoreFragment extends AppBaseFragment {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
         mMineRecycler.setHasFixedSize(true);
         mMineRecycler.setLayoutManager(mLinearLayoutManager);
-        mMineRecycler.setOnLoadMoreListener(this::delayLoadMoreData);
 
+        mMineRecycler.setOnLoadMoreListener(currentPage -> delayNoMoreData());
+        mMineRecycler.setDefaultLoadMoreView();
+        mMineRecycler.setAutoLoadMore(true);
     }
 
     private void delayRefreshData() {
@@ -63,7 +65,17 @@ public class RecyclerRefreshMoreFragment extends AppBaseFragment {
         mHandler.postDelayed(() -> {
             mAdapter.setAdapterData(fakeLoadMoreData(page, 2), true);
             mMineRecycler.setLoadMoreComplete();
-        }, 3000);
+        }, 2000);
+    }
+
+    private void delayLoadError() {
+        mMineRecycler.setLoadingMore();
+        mHandler.postDelayed(() -> mMineRecycler.setLoadMoreError(-1, "加载失败"), 2000);
+    }
+
+    private void delayNoMoreData() {
+        mMineRecycler.setLoadingMore();
+        mHandler.postDelayed(() -> mMineRecycler.setNoMoreData("- 我是有底线的 -"), 2000);
     }
 
     private List<StringEntity> fakeLoadMoreData(int page, int size) {

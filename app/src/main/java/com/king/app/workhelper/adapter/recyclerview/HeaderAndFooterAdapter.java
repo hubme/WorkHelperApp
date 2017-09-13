@@ -35,7 +35,7 @@ public class HeaderAndFooterAdapter extends AdvanceRecyclerAdapter<StringEntity>
 
     public static List<StringEntity> fakeData() {
         List<StringEntity> data = new ArrayList<>();
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 20; i++) {
             data.add(new StringEntity("item " + i, StringEntity.ItemType.CONTENT));
         }
         return data;

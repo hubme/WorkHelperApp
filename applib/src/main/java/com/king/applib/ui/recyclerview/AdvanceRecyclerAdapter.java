@@ -20,10 +20,11 @@ import java.util.List;
  */
 
 public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
+    public static final int VIEW_TYPE_CONTENT = 0x0000;
     public static final int VIEW_TYPE_HEADER = 0x0010;
     public static final int VIEW_TYPE_FOOTER = 0x0011;
 
-    @IntDef({VIEW_TYPE_HEADER, VIEW_TYPE_FOOTER})
+    @IntDef({VIEW_TYPE_CONTENT, VIEW_TYPE_HEADER, VIEW_TYPE_FOOTER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ViewType {
 

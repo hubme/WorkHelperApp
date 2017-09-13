@@ -5,29 +5,27 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.king.applib.ui.recyclerview.listener.OnLoadMoreHandler;
 
 /**
+ * 必须结合AdvanceRecyclerAdapter使用
+ *
  * @author VanceKing
  * @since 2017/9/12.
  */
 
 public class SimpleRecyclerView extends RecyclerView {
-    private static final String TAG = "aaa";
-
 
     private boolean mLoadMoreEnable = true;
     private boolean mIsLoadingMore = false;
+    private boolean mIsAutoLoadMore = true;
+
+    private View mRefreshHeaderView;
     private View mLoadingMoreView;
 
-
     private OnLoadMoreListener mLoadMoreListener;
-    private InternalAdapter mInternalAdapter;
-
 
     public SimpleRecyclerView(Context context) {
         this(context, null);
@@ -48,16 +46,6 @@ public class SimpleRecyclerView extends RecyclerView {
         addOnScrollListener(new SimpleRecyclerScrollListener());
     }
 
-    @Override public void setAdapter(Adapter adapter) {
-        super.setAdapter(adapter);
-        if (adapter instanceof AdvanceRecyclerAdapter) {
-            mInternalAdapter = new InternalAdapter(adapter);
-            super.setAdapter(mInternalAdapter);
-        } else {
-            super.setAdapter(adapter);
-        }
-    }
-
     private class SimpleRecyclerScrollListener extends RecyclerView.OnScrollListener {
         private int currentPage = 1;
 
@@ -69,25 +57,26 @@ public class SimpleRecyclerView extends RecyclerView {
             }
             LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
             switch (newState) {
-                case RecyclerView.SCROLL_STATE_IDLE://表示当前并处于静止状态
-                    if (!mLoadMoreEnable || mIsLoadingMore) {
+                case RecyclerView.SCROLL_STATE_IDLE://当前并处于静止状态
+                    if (!mLoadMoreEnable || mIsLoadingMore || !mIsAutoLoadMore) {
                         break;
                     }
+                    AdvanceRecyclerAdapter adapter = (AdvanceRecyclerAdapter) getAdapter();
                     int visibleCount = layoutManager.getChildCount();
-                    int totalCount = layoutManager.getItemCount();
+                    int totalCount = layoutManager.getItemCount() - adapter.getFooterViewCount();
+                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                     if (visibleCount > 0
-                            && layoutManager.findLastVisibleItemPosition() >= totalCount - 1
+                            && lastVisibleItemPosition >= totalCount - adapter.getFooterViewCount()
                             && totalCount > visibleCount//不满一屏时
                             && mLoadMoreListener != null) {
-                        Log.i(TAG, "滑动到最后了");
                         mIsLoadingMore = true;
                         currentPage++;
                         mLoadMoreListener.loadMore(currentPage);
                     }
                     break;
-                case RecyclerView.SCROLL_STATE_DRAGGING://标识当前RecyclerView处于滑动状态（手指在屏幕上）
+                case RecyclerView.SCROLL_STATE_DRAGGING://当前RecyclerView处于滑动状态（手指在屏幕上）
                     break;
-                case RecyclerView.SCROLL_STATE_SETTLING://表示当前RecyclerView处于从滑动状态到静止状态（手已经离开屏幕）
+                case RecyclerView.SCROLL_STATE_SETTLING://当前RecyclerView处于从滑动状态到静止状态（手已经离开屏幕）
                     break;
                 default:
                     break;
@@ -99,51 +88,72 @@ public class SimpleRecyclerView extends RecyclerView {
         }
     }
 
+    public void setAutoLoadMore(boolean autoLoadMore) {
+        mIsAutoLoadMore = autoLoadMore;
+    }
+
     public void setLoadMoreEnabled(boolean enable) {
         mLoadMoreEnable = enable;
     }
 
     public void setLoadingMore() {
         mIsLoadingMore = true;
-        mLoadingMoreView.setVisibility(View.VISIBLE);
+        if (mLoadingMoreView instanceof OnLoadMoreHandler) {
+            ((OnLoadMoreHandler) mLoadingMoreView).onLoading();
+        } else {
+            mLoadingMoreView.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setLoadMoreComplete() {
         mIsLoadingMore = false;
-        mLoadingMoreView.setVisibility(View.GONE);
+        if (mLoadingMoreView instanceof OnLoadMoreHandler) {
+            ((OnLoadMoreHandler) mLoadingMoreView).onLoadComplete();
+        } else {
+            mLoadingMoreView.setVisibility(View.INVISIBLE);
+        }
     }
 
-    public void setLoadMoreError() {
+    public void setLoadMoreError(int code, String desc) {
         mIsLoadingMore = false;
-        mLoadingMoreView.setVisibility(View.GONE);
+        if (mLoadingMoreView instanceof OnLoadMoreHandler) {
+            ((OnLoadMoreHandler) mLoadingMoreView).onLoadError(code, desc);
+        } else {
+            mLoadingMoreView.setVisibility(View.INVISIBLE);
+        }
     }
 
-    public void setNoMoreData() {
-        mLoadingMoreView.setVisibility(View.GONE);
+    public void setNoMoreData(String desc) {
+        mIsLoadingMore = false;
+        if (mLoadingMoreView instanceof OnLoadMoreHandler) {
+            ((OnLoadMoreHandler) mLoadingMoreView).onNoMoreData(desc);
+        } else {
+            mLoadingMoreView.setVisibility(View.INVISIBLE);
+        }
     }
-
-    // TODO: 2017/9/12 没有设置View的情况下，设置默认的More View
 
     /**
-     * 设置加载更多的View.注意在setAdapter()之前调用.
+     * 设置加载更多的View.注意在setAdapter()之后调用.
+     */
+    public void setDefaultLoadMoreView() {
+        setLoadMoreView(mLoadingMoreView);
+    }
+
+    /**
+     * 设置加载更多的View.注意在setAdapter()之后调用.
      */
     public void setLoadMoreView(View view) {
         Adapter adapter = getAdapter();
         if (!(adapter instanceof AdvanceRecyclerAdapter)) {
-            throw new IllegalStateException("must be AdvanceRecyclerAdapter");
+            throw new IllegalStateException("adapter must be instance of AdvanceRecyclerAdapter");
         }
         AdvanceRecyclerAdapter recyclerAdapter = (AdvanceRecyclerAdapter) adapter;
         recyclerAdapter.addFooterView(view);
         mLoadingMoreView = view;
     }
 
-    private TextView buildLoadingMoreView() {
-        TextView textView = new TextView(getContext());
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
-        textView.setLayoutParams(layoutParams);
-        textView.setGravity(Gravity.CENTER);
-        textView.setText("加载中...");
-        return textView;
+    private View buildLoadingMoreView() {
+        return new LoadMoreView(getContext());
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
@@ -152,49 +162,5 @@ public class SimpleRecyclerView extends RecyclerView {
 
     public interface OnLoadMoreListener {
         void loadMore(int currentPage);
-    }
-
-    private class InternalAdapter extends AdvanceRecyclerAdapter {
-        RecyclerView.Adapter mAdapter;
-
-        public InternalAdapter(RecyclerView.Adapter adapter) {
-            mAdapter = adapter;
-        }
-
-        @Override public int getItemLayoutRes() {
-            return 0;
-        }
-
-        @Override public void convert(RecyclerHolder holder, Object item, int position) {
-
-        }
-
-        @Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override public void onBindViewHolder(ViewHolder holder, int position) {
-
-        }
-
-        @Override public int getItemViewType(int position) {
-            return super.getItemViewType(position);
-        }
-
-        @Override public int getItemCount() {
-            if (mLoadMoreEnable) {
-                return mAdapter != null ? mAdapter.getItemCount() + getFooterViewCount() : getFooterViewCount();
-            } else {
-                return mAdapter != null ? mAdapter.getItemCount() : 0;
-            }
-        }
-
-        private int isHeaderView(int position) {
-            return position = 0;
-        }
-
-        private int isFooterView(int position) {
-            return 0;
-        }
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="60dp"
+             android:orientation="vertical">
+
+    <com.king.applib.ui.customview.ProgressWheel
+        android:id="@+id/loading_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        app:matProg_barColor="@color/chocolate"
+        app:matProg_fillRadius="false"
+        app:matProg_progressIndeterminate="true"/>
+
+    <TextView
+        android:id="@+id/tv_load_more_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="没有更多了"
+        android:textSize="@dimen/ts_bigger"
+        android:visibility="invisible"/>
+
+    <!--<ProgressBar
+        android:id="@+id/listview_foot_progress"
+        android:layout_width="50dip"
+        android:layout_height="50dip"/>-->
+</FrameLayout>
