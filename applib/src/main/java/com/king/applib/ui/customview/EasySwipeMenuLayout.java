@@ -102,8 +102,6 @@ public class EasySwipeMenuLayout extends ViewGroup {
                 }
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             typedArray.recycle();
         }
@@ -306,16 +304,16 @@ public class EasySwipeMenuLayout extends ViewGroup {
                 //滑动时拦截点击事件
                 if (mCurrMenuState == MENU_LEFT_OPENED || mCurrMenuState == MENU_RIGHT_OPENED) {
                     // 当手指拖动值大于mScaledTouchSlop值时，认为应该进行滚动，拦截子控件的事件
-                    Log.i(TAG,"onInterceptTouchEvent(EasySwipeMenuLayout.java:308) ACTION_MOVE true");
+                    Log.i(TAG, "onInterceptTouchEvent(EasySwipeMenuLayout.java:308) ACTION_MOVE true");
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                Log.i(TAG,"onInterceptTouchEvent(EasySwipeMenuLayout.java:314) ACTION_UP/ACTION_CANCEL");
+                Log.i(TAG, "onInterceptTouchEvent(EasySwipeMenuLayout.java:314) ACTION_UP/ACTION_CANCEL");
                 //滑动后不触发contentView的点击事件
                 if (mCurrMenuState == MENU_LEFT_OPENED || mCurrMenuState == MENU_RIGHT_OPENED) {
-                    Log.i(TAG,"onInterceptTouchEvent(EasySwipeMenuLayout.java:308) ACTION_UP/ACTION_CANCEL true");
+                    Log.i(TAG, "onInterceptTouchEvent(EasySwipeMenuLayout.java:308) ACTION_UP/ACTION_CANCEL true");
                     return true;
                 }
                 break;

@@ -56,6 +56,7 @@ public class RecyclerSwipeMenuFragment extends AppBaseFragment {
             holder.setOnClickListener(R.id.tv_item_content, v -> ToastUtil.showShort(item));
 
             holder.setOnClickListener(R.id.tv_menu_share, v -> ToastUtil.showShort("分享"));
+            holder.setOnClickListener(R.id.tv_menu_delete, v -> ToastUtil.showShort("删除"));
             holder.setOnClickListener(R.id.tv_menu_collection, v -> ToastUtil.showShort("收藏"));
         }
 

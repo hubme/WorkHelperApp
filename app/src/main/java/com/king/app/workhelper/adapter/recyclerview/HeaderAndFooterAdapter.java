@@ -6,6 +6,8 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
 import com.king.applib.ui.recyclerview.AdvanceRecyclerAdapter;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
+import com.king.applib.ui.recyclerview.SwipeMenuLayout;
+import com.king.applib.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.List;
  */
 
 public class HeaderAndFooterAdapter extends AdvanceRecyclerAdapter<StringEntity> {
-    
+
     public HeaderAndFooterAdapter(Context context) {
         super(context);
     }
@@ -31,6 +33,15 @@ public class HeaderAndFooterAdapter extends AdvanceRecyclerAdapter<StringEntity>
 
     @Override public void convert(RecyclerHolder holder, StringEntity item, int position) {
         holder.setText(R.id.tv_item_input, item.text);
+        holder.setOnClickListener(R.id.tv_item_input, v -> ToastUtil.showShort(item.text));
+        SwipeMenuLayout swipeMenuLayout = holder.getView(R.id.swipe_layout);
+
+        holder.setOnClickListener(R.id.btnTop, v -> ToastUtil.showShort("置顶"));
+        holder.setOnClickListener(R.id.btnUnRead, v -> ToastUtil.showShort("未读"));
+        holder.setOnClickListener(R.id.btnDelete, v -> {
+            ToastUtil.showShort("删除");
+            swipeMenuLayout.smoothClose();
+        });
     }
 
     public static List<StringEntity> fakeData() {

@@ -75,7 +75,7 @@ public class RecyclerRefreshMoreFragment extends AppBaseFragment {
 
     private void delayNoMoreData() {
         mMineRecycler.setLoadingMore();
-        mHandler.postDelayed(() -> mMineRecycler.setNoMoreData("- 我是有底线的 -"), 2000);
+        mHandler.postDelayed(() -> mMineRecycler.setNoMoreData("- 没有更多内容 -"), 2000);
     }
 
     private List<StringEntity> fakeLoadMoreData(int page, int size) {
