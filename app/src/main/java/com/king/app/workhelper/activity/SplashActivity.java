@@ -7,7 +7,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.rx.rxlife.event.ActivityLifeEvent;
-import com.king.applib.log.Logger;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +18,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * Splash页面
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/16.
  */
 
@@ -69,14 +68,14 @@ public class SplashActivity extends AppBaseActivity {
 
     private void startCountDown(final long duration, long initialDelay) {
         mCountDownDispose = Observable.interval(initialDelay, 1, TimeUnit.SECONDS)
-                .doOnDispose(() -> Logger.i("doOnDispose"))
+//                .doOnDispose(() -> Logger.i("doOnDispose"))
                 .compose(bindUntilEvent(ActivityLifeEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .takeUntil(aLong -> {
                     boolean result = (aLong.intValue() == duration);
                     if (result) {
-                        Logger.i("倒计时结束，进入主页");
+//                        Logger.i("倒计时结束，进入主页");
                         goHomePage();
                     }
                     return result;
