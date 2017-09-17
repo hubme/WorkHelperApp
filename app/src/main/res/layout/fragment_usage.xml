@@ -13,10 +13,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:clipChildren="false"
             android:clipToPadding="false"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
+
+            <com.king.app.workhelper.ui.customview.DrawableCenterTextView
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:background="@color/chocolate"
+                android:clickable="true"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/icon_delete"
+                android:gravity="center_horizontal"
+                android:text="水波纹效果"/>
 
             <ImageView
                 android:id="@+id/image"
