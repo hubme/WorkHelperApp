@@ -11,7 +11,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 
 /**
- * Badge TextView
+ * Badge TextView.以文字右上角为参考点。
  *
  * @author VanceKing
  * @since 2017/4/24.
@@ -75,8 +75,8 @@ public class SimpleBadgeTextView extends android.support.v7.widget.AppCompatText
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         float textHeight = fontMetrics.bottom - fontMetrics.top;
 
-        float badgeX = centerX + textWidth / 2 + dp2px(DEFAULT_RADIUS) * (float) Math.sin(Math.toRadians(45)) + mMarginLeft;
-        float badgeY = centerY - textHeight / 2 - dp2px(DEFAULT_RADIUS) * (float) Math.sin(Math.toRadians(45)) + mMarginRight;
+        float badgeX = centerX + textWidth / 2 + dp2px(DEFAULT_RADIUS) * (float) Math.sin(Math.toRadians(45)) + mMarginLeft + getCompoundDrawablePadding() + getPaddingLeft();
+        float badgeY = centerY - textHeight / 2 - dp2px(DEFAULT_RADIUS) * (float) Math.sin(Math.toRadians(45)) + mMarginRight + getCompoundDrawablePadding() + getPaddingTop();
 
         drawBadgeBg(canvas, badgeX, badgeY);
 
