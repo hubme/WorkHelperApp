@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -261,8 +262,31 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_just_operator)
     public void onJustOperator() {
-        Disposable subscribe = Observable.just("Hello", "RxJava").subscribe(mSubscriber);
-        mCompositeDisposable.add(subscribe);
+//        Disposable subscribe = Observable.just("Hello", "RxJava").subscribe(mSubscriber);
+//        mCompositeDisposable.add(subscribe);
+
+        testMerge();
+    }
+
+    public void testMerge() {
+        Observable o1 = Observable.create((ObservableOnSubscribe<Integer>) e -> new Thread(() -> {
+            SystemClock.sleep(1000);
+            e.onNext(1);
+            e.onComplete();
+        }).start());
+
+        Observable o2 = Observable.create((ObservableOnSubscribe<Integer>) e -> {
+            e.onNext(2);
+            e.onComplete();
+        });
+
+        Observable.merge(o1, o2)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(@NonNull Integer o) throws Exception {
+                        Log.i("aaa", o.toString());
+                    }
+                });
     }
 
     @OnClick(R.id.tv_from_operator)
