@@ -53,4 +53,11 @@
         <attr name="rv_zoomScale" format="float"/>
 
     </declare-styleable>
+
+    <declare-styleable name="DrawableCenterTextView">
+        <attr name="imageLeft" format="reference|color"/>
+        <attr name="imageTop" format="reference|color"/>
+        <attr name="imageRight" format="reference|color"/>
+        <attr name="imageBottom" format="reference|color"/>
+    </declare-styleable>
 </resources>

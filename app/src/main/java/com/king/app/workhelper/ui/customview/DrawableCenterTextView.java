@@ -1,79 +1,93 @@
-/**
- * Copyright (C) 2006-2015 Tuniu All rights reserved
- */
 package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.Gravity;
 
+import com.king.app.workhelper.R;
+
+/**
+ * 文字和Left、Top、Right、Bottom Drawable都居中的TextView.
+ *
+ * @author VanceKing
+ * @since 2017/9/20.
+ */
 public class DrawableCenterTextView extends android.support.v7.widget.AppCompatTextView {
+    private Drawable drawableLeft = null;
+    private Drawable drawableTop = null;
+    private Drawable drawableRight = null;
+    private Drawable drawableBottom = null;
 
-    public DrawableCenterTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public DrawableCenterTextView(Context context) {
+        this(context, null);
     }
 
     public DrawableCenterTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
-    public DrawableCenterTextView(Context context) {
-        super(context);
+    public DrawableCenterTextView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        TypedArray typedArray = null;
+        try {
+            typedArray = context.obtainStyledAttributes(attrs, R.styleable.DrawableCenterTextView);
+            drawableLeft = typedArray.getDrawable(R.styleable.DrawableCenterTextView_imageLeft);
+            drawableTop = typedArray.getDrawable(R.styleable.DrawableCenterTextView_imageTop);
+            drawableRight = typedArray.getDrawable(R.styleable.DrawableCenterTextView_imageRight);
+            drawableBottom = typedArray.getDrawable(R.styleable.DrawableCenterTextView_imageBottom);
+        } finally {
+            if (typedArray != null) {
+                typedArray.recycle();
+            }
+        }
+
+        setIncludeFontPadding(false);
+        setGravity(Gravity.START | Gravity.TOP);//避免canvas.translate()不正常
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Drawable[] drawables = getCompoundDrawables();
-        Drawable drawableLeft = drawables[0];
-        Drawable drawableTop = drawables[1];
-        Drawable drawableRight = drawables[2];
-        Drawable drawableBottom = drawables[3];
-
-        int drawablePadding = getCompoundDrawablePadding();
-
-        int drawableWidth = (drawableLeft == null ? 0 : drawableLeft.getIntrinsicWidth()) + (drawableRight == null ? 0 : drawableRight.getIntrinsicWidth());
-        int drawableHeight = (drawableTop == null ? 0 : drawableTop.getIntrinsicWidth()) + (drawableBottom == null ? 0 : drawableBottom.getIntrinsicWidth());
+        final int drawablePadding = getCompoundDrawablePadding();
+        final int width = getWidth();
+        final int height = getHeight();
 
         final TextPaint textPaint = getPaint();
-        float textWidth = textPaint.measureText(getText().toString());
+        final float textWidth = textPaint.measureText(getText().toString());
 
         Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
         float textHeight = fontMetrics.descent - fontMetrics.ascent;
 
-        float contentHeight = textHeight + drawableHeight + drawablePadding;
-        
-        float dy = (contentHeight - getHeight())/2;
-        Log.i("aaa", "contentHeight: " + contentHeight + ";getHeight(): " + getHeight() + ";dy: " + dy);
-//        canvas.translate(0, -dy);
-        if (drawableTop != null) {
-            canvas.drawBitmap(((BitmapDrawable)drawableTop).getBitmap(), 20, 20, null);
+        int extraDy = 0;
+        if (drawableTop != null && drawableBottom != null) {
+            canvas.drawBitmap(((BitmapDrawable) drawableTop).getBitmap(), (width - drawableTop.getIntrinsicWidth()) / 2, height / 2 - textHeight / 2 - drawableTop.getIntrinsicHeight() - drawablePadding, null);
+            canvas.drawBitmap(((BitmapDrawable) drawableBottom).getBitmap(), (width - drawableBottom.getIntrinsicWidth()) / 2, height / 2 + textHeight / 2 + drawablePadding, null);
+        } else if (drawableTop != null && drawableTop instanceof BitmapDrawable) {//只有顶部Drawable
+            canvas.drawBitmap(((BitmapDrawable) drawableTop).getBitmap(), (width - drawableTop.getIntrinsicWidth()) / 2, height / 2 - drawableTop.getIntrinsicHeight() - drawablePadding, null);
+            extraDy = drawablePadding + (int) textHeight / 2;
+        } else if (drawableBottom != null && drawableBottom instanceof BitmapDrawable) {//只有底部Drawable
+            canvas.drawBitmap(((BitmapDrawable) drawableBottom).getBitmap(), (width - drawableBottom.getIntrinsicWidth()) / 2, height / 2 + textHeight / 2 + drawablePadding, null);
+            extraDy = drawablePadding - (int) textHeight / 2;
         }
+
+        int extraDx = 0;
+        if (drawableLeft != null && drawableRight != null) {
+            canvas.drawBitmap(((BitmapDrawable) drawableLeft).getBitmap(), width / 2 - textWidth / 2 - drawableLeft.getIntrinsicWidth() - drawablePadding, (height - drawableLeft.getIntrinsicHeight()) / 2, null);
+            canvas.drawBitmap(((BitmapDrawable) drawableRight).getBitmap(), width / 2 + textWidth / 2 + drawablePadding, (height - drawableRight.getIntrinsicHeight()) / 2, null);
+        } else if (drawableLeft != null) {
+            canvas.drawBitmap(((BitmapDrawable) drawableLeft).getBitmap(), width / 2 - textWidth / 2 - drawableLeft.getIntrinsicWidth() - drawablePadding, (height - drawableLeft.getIntrinsicHeight()) / 2, null);
+        } else if (drawableRight != null) {
+            canvas.drawBitmap(((BitmapDrawable) drawableRight).getBitmap(), width / 2 + textWidth / 2 + drawablePadding, (height - drawableRight.getIntrinsicHeight()) / 2, null);
+        }
+
+        canvas.save();
+        canvas.translate((width - textWidth) / 2 + extraDx, (height - textHeight) / 2 + extraDy);
         super.onDraw(canvas);
-        
-    }
-
-    private Canvas getTopCanvas(Canvas canvas) {
-        Drawable[] drawables = getCompoundDrawables();
-        Drawable drawable = drawables[1];// 上面的drawable  
-        if(drawable == null){
-            drawable = drawables[3];// 下面的drawable  
-        }
-
-        float textSize = getPaint().getTextSize();
-        int drawHeight = drawable.getIntrinsicHeight();
-        int drawPadding = getCompoundDrawablePadding();
-        float contentHeight = textSize + drawHeight + drawPadding;
-        int topPadding = (int) (getHeight() - contentHeight);
-        setPadding(0, topPadding , 0, 0);
-        float dy = (contentHeight - getHeight())/2;
-        canvas.translate(0, dy);
-        Log.i("DrawableTopButton", "setPadding(0,"+topPadding+",0,0");
-        Log.i("DrawableTopButton", "translate(0,"+dy+")");
-        return canvas;
+        canvas.restore();
     }
 }

@@ -23,10 +23,9 @@
                 android:layout_height="170dp"
                 android:background="@color/chocolate"
                 android:clickable="true"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_delete"
-                android:gravity="center_horizontal"
-                android:text="水波纹效果"/>
+                android:drawablePadding="5dp"
+                android:text="Drawable 文字居中"
+                app:imageTop="@drawable/icon_delete"/>
 
             <ImageView
                 android:id="@+id/image"
@@ -41,8 +40,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:src="@mipmap/ic_launcher"
-                android:tint="#FFCDD2"
-                />
+                android:tint="#FFCDD2"/>
 
             <TextView
                 android:id="@+id/tv_weak_handler"
