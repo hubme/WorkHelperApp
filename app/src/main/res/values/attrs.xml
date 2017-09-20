@@ -60,4 +60,12 @@
         <attr name="imageRight" format="reference|color"/>
         <attr name="imageBottom" format="reference|color"/>
     </declare-styleable>
+
+    <declare-styleable name="DashView">
+        <attr name="dashColor" format="color"/>
+        <attr name="dashWidth" format="dimension"/>
+        <attr name="dashHeight" format="dimension"/>
+        <attr name="intervalWidth" format="dimension"/>
+        <attr name="dashOffset" format="dimension"/>
+    </declare-styleable>
 </resources>

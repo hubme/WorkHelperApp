@@ -20,11 +20,14 @@
 
             <com.king.app.workhelper.ui.customview.DrawableCenterTextView
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="120dp"
                 android:background="@color/chocolate"
                 android:clickable="true"
                 android:drawablePadding="5dp"
                 android:text="Drawable 文字居中"
+                app:imageBottom="@drawable/icon_6"
+                app:imageLeft="@mipmap/icon_3"
+                app:imageRight="@mipmap/icon_4"
                 app:imageTop="@drawable/icon_delete"/>
 
             <ImageView
@@ -33,6 +36,15 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:src="@mipmap/ic_launcher"/>
+
+            <com.king.app.workhelper.ui.customview.DashView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:dashColor="@color/chocolate"
+                app:dashHeight="0.5dp"
+                app:dashOffset="5dp"
+                app:dashWidth="15dp"
+                app:intervalWidth="5dp"/>
 
             <ImageView
                 android:id="@+id/image2"
