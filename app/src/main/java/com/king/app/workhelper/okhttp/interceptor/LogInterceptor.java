@@ -58,7 +58,7 @@ public class LogInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        String bodyString = null;
+        String bodyString;
         long t1 = System.nanoTime();
         Response response = chain.proceed(request);
         if (SPUtil.getBoolean(GlobalConstant.SP_PARAMS_KEY.INTERCEPTOR_LOG_DISABLE)) {
@@ -68,7 +68,7 @@ public class LogInterceptor implements Interceptor {
         try {
             MediaType mediaType = null;
             ResponseBody responseBody = response.body();
-            
+
             if (responseBody != null) {
                 mediaType = responseBody.contentType();
             }
@@ -116,8 +116,8 @@ public class LogInterceptor implements Interceptor {
                         url, time, requestHeaders, request.body().toString(), responseCode, responseHeaders, responseBody));
                 break;
             case "DELETE":
-                Logger.log(Logger.INFO, AppConfig.LOG_TAG, format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITHOUT_BODY,
-                        url, time, requestHeaders, responseCode, responseHeaders));
+                Logger.log(Logger.INFO, AppConfig.LOG_TAG, format("DELETE " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY,
+                        url, time, requestHeaders, responseCode, responseHeaders, responseBody));
                 break;
             default:
                 break;
