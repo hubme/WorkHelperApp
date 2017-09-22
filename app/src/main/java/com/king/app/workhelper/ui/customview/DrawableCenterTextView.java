@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -90,4 +91,18 @@ public class DrawableCenterTextView extends android.support.v7.widget.AppCompatT
         super.onDraw(canvas);
         canvas.restore();
     }
+    public void setImageDrawable(Drawable left, Drawable top, Drawable right, Drawable bottom) {
+        drawableLeft = left;
+        drawableTop = top;
+        drawableRight = right;
+        drawableBottom = bottom;
+    }
+
+    public void setImageDrawableRes(@DrawableRes int left, @DrawableRes int top, @DrawableRes int right, @DrawableRes int bottom) {
+        drawableLeft = left == 0 ? null : getResources().getDrawable(left);
+        drawableTop = top == 0 ? null : getResources().getDrawable(top);
+        drawableRight = right == 0 ? null : getResources().getDrawable(right);
+        drawableBottom = bottom == 0 ? null : getResources().getDrawable(bottom);
+    }
+    
 }
