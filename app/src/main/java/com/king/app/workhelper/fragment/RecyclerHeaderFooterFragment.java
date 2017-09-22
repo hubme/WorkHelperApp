@@ -2,22 +2,24 @@ package com.king.app.workhelper.fragment;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.Space;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
-import com.king.applib.ui.recyclerview.AdvanceRecyclerAdapter;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter2;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter3;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultipleRecyclerAdapter;
 import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterAdapter;
 import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.applib.ui.recyclerview.AdvanceRecyclerAdapter;
 import com.king.applib.ui.recyclerview.RecyclerDivider;
 
 import java.util.Arrays;
@@ -30,12 +32,14 @@ import butterknife.BindView;
  */
 
 public class RecyclerHeaderFooterFragment extends AppBaseFragment {
+    @BindView(R.id.swipe_layout) SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_mine) RecyclerView mMineRv;
     private SimpleRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager layoutManager;
     private AdvanceRecyclerAdapter mHeaderFooterAdapter;
-    
-    
+    private View mEmptyView;
+
+
     @Override protected int getContentLayout() {
         return R.layout.fragment_recycler_view;
     }
@@ -46,6 +50,7 @@ public class RecyclerHeaderFooterFragment extends AppBaseFragment {
         //6.0设置setNestedScrollingEnabled(false)只显示一行，ScrollView换成NestedScrollView即可.
         layoutManager = new LinearLayoutManager(mContext);
         mMineRv.setLayoutManager(layoutManager);
+        mMineRv.setHasFixedSize(true);
         mMineRv.setNestedScrollingEnabled(false);//解决滑动冲突
         mMineRv.addOnScrollListener(new MyRecyclerViewScrollListener());
 
@@ -65,6 +70,28 @@ public class RecyclerHeaderFooterFragment extends AppBaseFragment {
         mMineRv.addItemDecoration(itemDecoration);
 
         mMineRv.setItemAnimator(new DefaultItemAnimator()); //即使不设置,默认也是这个动画
+    }
+
+    @Override protected void initContentView(View rootView) {
+        super.initContentView(rootView);
+        mEmptyView = buildEmptyView();
+
+        mRefreshLayout.setColorSchemeResources(R.color.chocolate);
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override public void onRefresh() {
+//                mHeaderFooterAdapter.resetAdapterData();
+                mHeaderFooterAdapter.setViewState(AdvanceRecyclerAdapter.STATE_EMPTY, mEmptyView);
+                mRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private View buildEmptyView() {
+        ImageView imageView = new ImageView(mContext);
+        imageView.setImageResource(R.drawable.empty_data);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        imageView.setLayoutParams(params);
+        return imageView;
     }
 
     private SimpleRecyclerAdapter getSimpleAdapter() {

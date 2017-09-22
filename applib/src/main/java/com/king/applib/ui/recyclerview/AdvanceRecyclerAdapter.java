@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 支持 Header、 Footer、RecyclerView 多状态的Adapter.
+ *
  * @author VanceKing
  * @since 2017/9/6.
  */
@@ -30,18 +32,41 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
     }
 
+    public static final int STATE_NORMAL = 0;
+    public static final int STATE_LOADING = 1;
+    public static final int STATE_EMPTY = 2;
+    public static final int STATE_ERROR = 3;
+
+    @IntDef({STATE_NORMAL, STATE_LOADING, STATE_EMPTY, STATE_ERROR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ViewState {
+    }
+
+    @ViewState private int mViewState = STATE_NORMAL;
+
     private final List<E> mAdapterList = new ArrayList<>();
 
+    private View mEmptyDataView;
     private LinearLayout mHeaderPanel;//添加 Header View 的容器
     private LinearLayout mFooterPanel;//添加 Footer View 的容器
-    private Context mContext;
+    protected Context mContext;
 
     public AdvanceRecyclerAdapter() {
-        
+
     }
 
     public AdvanceRecyclerAdapter(Context context) {
         mContext = context;
+    }
+
+    public AdvanceRecyclerAdapter(List<E> dataList) {
+        if (dataList == null || dataList.isEmpty()) {
+            return;
+        }
+        if (!mAdapterList.isEmpty()) {
+            mAdapterList.clear();
+        }
+        mAdapterList.addAll(dataList);
     }
 
     public AdvanceRecyclerAdapter(Context context, List<E> dataList) {
@@ -89,25 +114,30 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
     @Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case VIEW_TYPE_HEADER:
-                return new RecyclerHolder(mHeaderPanel);
-            case VIEW_TYPE_FOOTER:
-                return new RecyclerHolder(mFooterPanel);
+            case STATE_EMPTY:
+            case STATE_ERROR:
+            case STATE_LOADING:
+                return new RecyclerHolder(mEmptyDataView);
+            case STATE_NORMAL:
             default:
-                View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
-                return new RecyclerHolder(view);
+                if (viewType == VIEW_TYPE_HEADER) {
+                    return new RecyclerHolder(mHeaderPanel);
+                } else if (viewType == VIEW_TYPE_FOOTER) {
+                    return new RecyclerHolder(mFooterPanel);
+                } else {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
+                    return new RecyclerHolder(view);
+                }
+
         }
     }
 
     @Override public void onBindViewHolder(RecyclerHolder holder, int position) {
         switch (getItemViewType(position)) {
-            case VIEW_TYPE_HEADER:
-
+            case STATE_EMPTY:
+                onBindEmptyViewHolder(holder, position);
                 break;
-            case VIEW_TYPE_FOOTER:
-
-                break;
-            default:
+            case STATE_NORMAL:
                 int listPosition = position - getHeaderViewCount();
                 if (listPosition >= 0 && listPosition < mAdapterList.size()) {
                     E item = getItem(listPosition);
@@ -116,24 +146,76 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
                     }
                 }
                 break;
+            default:
+                break;
         }
     }
 
     @Override public int getItemCount() {
-        return mAdapterList.size() + getHeaderViewCount() + getFooterViewCount();
+        switch (mViewState) {
+            case STATE_EMPTY:
+            case STATE_ERROR:
+            case STATE_LOADING:
+                return 1;
+            case STATE_NORMAL:
+            default:
+                return mAdapterList.size() + getHeaderViewCount() + getFooterViewCount();
+        }
     }
 
     @Override public int getItemViewType(int position) {
-        if (position < getHeaderViewCount()) {
-            return VIEW_TYPE_HEADER;
-        } else if (position >= mAdapterList.size() + getHeaderViewCount()) {
-            return VIEW_TYPE_FOOTER;
-        } else {
-            return 0;
+        switch (mViewState) {
+            case STATE_EMPTY:
+                return STATE_EMPTY;
+            case STATE_ERROR:
+                return STATE_ERROR;
+            case STATE_LOADING:
+                return STATE_LOADING;
+            case STATE_NORMAL:
+            default:
+                if (position < getHeaderViewCount()) {
+                    return VIEW_TYPE_HEADER;
+                } else if (position >= mAdapterList.size() + getHeaderViewCount()) {
+                    return VIEW_TYPE_FOOTER;
+                } else {
+                    return STATE_NORMAL;
+                }
         }
     }
 
     @LayoutRes public abstract int getItemLayoutRes();
+
+    @ViewState public int getViewState() {
+        return mViewState;
+    }
+
+    public void setViewState(@ViewState int viewState, View view) {
+        if (mViewState == viewState) {
+            return;
+        }
+        mViewState = viewState;
+        switch (mViewState) {
+            case STATE_NORMAL:
+
+                break;
+            case STATE_EMPTY:
+                mEmptyDataView = view;
+                break;
+            case STATE_ERROR:
+
+                break;
+            case STATE_LOADING:
+
+                break;
+            default:
+
+                break;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void onBindEmptyViewHolder(RecyclerHolder holder, int position) {
+    }
 
     public abstract void convert(RecyclerHolder holder, E item, int position);
 
