@@ -22,9 +22,9 @@ import java.util.List;
  */
 
 public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
-    public static final int VIEW_TYPE_CONTENT = 0x0000;
-    public static final int VIEW_TYPE_HEADER = 0x0010;
-    public static final int VIEW_TYPE_FOOTER = 0x0011;
+    public static final int VIEW_TYPE_CONTENT = 0;
+    public static final int VIEW_TYPE_HEADER = 1000;
+    public static final int VIEW_TYPE_FOOTER = 1001;
 
     @IntDef({VIEW_TYPE_CONTENT, VIEW_TYPE_HEADER, VIEW_TYPE_FOOTER})
     @Retention(RetentionPolicy.SOURCE)
@@ -71,13 +71,7 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
     public AdvanceRecyclerAdapter(Context context, List<E> dataList) {
         mContext = context;
-        if (dataList == null || dataList.isEmpty()) {
-            return;
-        }
-        if (!mAdapterList.isEmpty()) {
-            mAdapterList.clear();
-        }
-        mAdapterList.addAll(dataList);
+        addDataLis(dataList, false);
     }
 
     public List<E> getAdapterData() {
@@ -89,6 +83,11 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
     }
 
     public void setAdapterData(List<E> adapterData, boolean append) {
+        addDataLis(adapterData, append);
+        notifyDataSetChanged();
+    }
+
+    private void addDataLis(List<E> adapterData, boolean append) {
         if (isListEmpty(adapterData)) {
             return;
         }
@@ -100,14 +99,13 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
             }
             mAdapterList.addAll(adapterData);
         }
-        notifyDataSetChanged();
     }
 
     private boolean isListEmpty(List<E> list) {
         return list == null || list.isEmpty();
     }
 
-    public void resetAdapterData() {
+    public void clearAdapterData() {
         mAdapterList.clear();
         notifyDataSetChanged();
     }

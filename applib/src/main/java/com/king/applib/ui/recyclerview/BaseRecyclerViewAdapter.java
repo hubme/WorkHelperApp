@@ -17,13 +17,10 @@ import java.util.List;
  */
 
 public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
-    //不允许赋值，防止NPE.
     private final List<E> mAdapterList = new ArrayList<>();
 
     public BaseRecyclerViewAdapter(List<E> adapterData) {
-        if (!isListEmpty(adapterData)) {
-            mAdapterList.addAll(adapterData);
-        }
+        addDataLis(adapterData, false);
     }
 
     public List<E> getAdapterData() {
@@ -35,6 +32,11 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
     }
 
     public void setAdapterData(List<E> adapterData, boolean append) {
+        addDataLis(adapterData, append);
+        notifyDataSetChanged();
+    }
+
+    private void addDataLis(List<E> adapterData, boolean append) {
         if (isListEmpty(adapterData)) {
             return;
         }
@@ -46,10 +48,9 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
             }
             mAdapterList.addAll(adapterData);
         }
-        notifyDataSetChanged();
     }
 
-    public void resetAdapterData() {
+    public void clearAdapterData() {
         mAdapterList.clear();
         notifyDataSetChanged();
     }
