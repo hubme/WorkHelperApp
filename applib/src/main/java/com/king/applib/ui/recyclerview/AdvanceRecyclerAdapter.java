@@ -71,7 +71,7 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
     public AdvanceRecyclerAdapter(Context context, List<E> dataList) {
         mContext = context;
-        addDataLis(dataList, false);
+        addDataList(dataList, false);
     }
 
     public List<E> getAdapterData() {
@@ -83,11 +83,11 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
     }
 
     public void setAdapterData(List<E> adapterData, boolean append) {
-        addDataLis(adapterData, append);
+        addDataList(adapterData, append);
         notifyDataSetChanged();
     }
 
-    private void addDataLis(List<E> adapterData, boolean append) {
+    private void addDataList(List<E> adapterData, boolean append) {
         if (isListEmpty(adapterData)) {
             return;
         }
@@ -209,6 +209,16 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
                 break;
         }
+        notifyDataSetChanged();
+    }
+
+    public void setContentState(List<E> adapterData) {
+        setContentState(adapterData, false);
+    }
+
+    public void setContentState(List<E> adapterData, boolean append) {
+        mViewState = STATE_NORMAL;
+        addDataList(adapterData, append);
         notifyDataSetChanged();
     }
 
