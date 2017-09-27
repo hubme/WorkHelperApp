@@ -61,7 +61,7 @@ public class SimpleRecyclerView extends RecyclerView {
                     if (!mLoadMoreEnable || mIsLoadingMore || !mIsAutoLoadMore) {
                         break;
                     }
-                    AdvanceRecyclerAdapter adapter = (AdvanceRecyclerAdapter) getAdapter();
+                    SimpleRecyclerAdapter adapter = (SimpleRecyclerAdapter) getAdapter();
                     int visibleCount = layoutManager.getChildCount();
                     int totalCount = layoutManager.getItemCount() - adapter.getFooterViewCount();
                     int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
@@ -85,6 +85,18 @@ public class SimpleRecyclerView extends RecyclerView {
 
         @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
+        }
+    }
+
+    @Override public void setAdapter(Adapter adapter) {
+        super.setAdapter(adapter);
+        checkAdapter();
+    }
+
+    private void checkAdapter() {
+        Adapter adapter = getAdapter();
+        if (!(adapter instanceof SimpleRecyclerAdapter)) {
+            throw new IllegalStateException("adapter must be instance of SimpleRecyclerAdapter");
         }
     }
 
@@ -143,11 +155,7 @@ public class SimpleRecyclerView extends RecyclerView {
      * 设置加载更多的View.注意在setAdapter()之后调用.
      */
     public void setLoadMoreView(View view) {
-        Adapter adapter = getAdapter();
-        if (!(adapter instanceof AdvanceRecyclerAdapter)) {
-            throw new IllegalStateException("adapter must be instance of AdvanceRecyclerAdapter");
-        }
-        AdvanceRecyclerAdapter recyclerAdapter = (AdvanceRecyclerAdapter) adapter;
+        SimpleRecyclerAdapter recyclerAdapter = (SimpleRecyclerAdapter) getAdapter();
         recyclerAdapter.addFooterView(view);
         mLoadingMoreView = view;
     }

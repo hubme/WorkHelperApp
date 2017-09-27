@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterAdapter;
+import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterSampleAdapter;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.StringEntity;
 import com.king.applib.ui.recyclerview.SimpleRecyclerView;
@@ -27,7 +27,7 @@ public class RecyclerRefreshMoreFragment extends AppBaseFragment {
     @BindView(R.id.rv_mine) SimpleRecyclerView mMineRecycler;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private HeaderAndFooterAdapter mAdapter;
+    private HeaderAndFooterSampleAdapter mAdapter;
     private List<StringEntity> mDataList;
 
     @Override protected int getContentLayout() {
@@ -39,8 +39,8 @@ public class RecyclerRefreshMoreFragment extends AppBaseFragment {
         mRefreshLayout.setColorSchemeResources(R.color.chocolate, R.color.tomato, R.color.gold);
         mRefreshLayout.setOnRefreshListener(this::delayRefreshData);
 
-        mDataList = HeaderAndFooterAdapter.fakeData();
-        mAdapter = new HeaderAndFooterAdapter(mContext, mDataList);
+        mDataList = HeaderAndFooterSampleAdapter.fakeData();
+        mAdapter = new HeaderAndFooterSampleAdapter(mContext, mDataList);
         mMineRecycler.setAdapter(mAdapter);
 
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);

@@ -13,8 +13,8 @@ import java.util.List;
  * @since 2017/6/29.
  */
 
-public class SimpleRecyclerAdapter extends BaseRecyclerViewAdapter<StringEntity>{
-    public SimpleRecyclerAdapter(List<StringEntity> adapterData) {
+public class MyRecyclerAdapter extends BaseRecyclerViewAdapter<StringEntity>{
+    public MyRecyclerAdapter(List<StringEntity> adapterData) {
         super(adapterData);
     }
 

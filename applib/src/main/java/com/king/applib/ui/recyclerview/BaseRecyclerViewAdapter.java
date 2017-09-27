@@ -18,9 +18,13 @@ import java.util.List;
 
 public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
     private final List<E> mAdapterList = new ArrayList<>();
+    private OnItemClickListener<E> mOnItemClickListener;
 
+    public BaseRecyclerViewAdapter() {
+    }
+    
     public BaseRecyclerViewAdapter(List<E> adapterData) {
-        addDataLis(adapterData, false);
+        addDataList(adapterData, false);
     }
 
     public List<E> getAdapterData() {
@@ -32,11 +36,10 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
     }
 
     public void setAdapterData(List<E> adapterData, boolean append) {
-        addDataLis(adapterData, append);
-        notifyDataSetChanged();
+        addDataList(adapterData, append);
     }
 
-    private void addDataLis(List<E> adapterData, boolean append) {
+    protected void addDataList(List<E> adapterData, boolean append) {
         if (isListEmpty(adapterData)) {
             return;
         }
@@ -48,6 +51,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
             }
             mAdapterList.addAll(adapterData);
         }
+        notifyDataSetChanged();
     }
 
     public void clearAdapterData() {
@@ -85,6 +89,10 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         return position >= 0 && position < mAdapterList.size();
     }
 
+    public E getItem(int position) {
+        return mAdapterList.get(position);
+    }
+
     @Override
     public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
@@ -97,6 +105,14 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         if (e != null) {
             convert(holder, e, position);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(e);
+                }
+            }
+        });
     }
 
     public abstract void convert(RecyclerHolder holder, E item, int position);
@@ -107,4 +123,13 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
     }
 
     @LayoutRes public abstract int getItemLayoutRes();
+
+    public void setOnItemClickListener(OnItemClickListener<E> listener) {
+        mOnItemClickListener = listener;
+    }
+
+
+    public interface OnItemClickListener<E> {
+        void onItemClick(E e);
+    }
 }

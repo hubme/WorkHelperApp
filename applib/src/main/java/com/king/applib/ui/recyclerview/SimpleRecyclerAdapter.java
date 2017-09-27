@@ -2,8 +2,8 @@ package com.king.applib.ui.recyclerview;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
-import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +11,14 @@ import android.widget.LinearLayout;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 支持 Header、 Footer、RecyclerView 多状态的Adapter.
- *
  * @author VanceKing
- * @since 2017/9/6.
+ * @since 2017/9/27.
  */
 
-public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
+public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E> {
     public static final int VIEW_TYPE_CONTENT = 0;
     public static final int VIEW_TYPE_HEADER = 1000;
     public static final int VIEW_TYPE_FOOTER = 1001;
@@ -44,70 +41,24 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
 
     @ViewState private int mViewState = STATE_NORMAL;
 
-    private final List<E> mAdapterList = new ArrayList<>();
-
     private View mEmptyDataView;
     private LinearLayout mHeaderPanel;//添加 Header View 的容器
     private LinearLayout mFooterPanel;//添加 Footer View 的容器
-    protected Context mContext;
 
-    public AdvanceRecyclerAdapter() {
+    private Context mContext;
 
-    }
-
-    public AdvanceRecyclerAdapter(Context context) {
+    public SimpleRecyclerAdapter(Context context) {
         mContext = context;
     }
 
-    public AdvanceRecyclerAdapter(List<E> dataList) {
-        if (dataList == null || dataList.isEmpty()) {
-            return;
-        }
-        if (!mAdapterList.isEmpty()) {
-            mAdapterList.clear();
-        }
-        mAdapterList.addAll(dataList);
+    public SimpleRecyclerAdapter(List<E> adapterData) {
+        super(adapterData);
     }
 
-    public AdvanceRecyclerAdapter(Context context, List<E> dataList) {
+    public SimpleRecyclerAdapter(Context context, List<E> adapterData) {
+        super(adapterData);
         mContext = context;
-        addDataList(dataList, false);
-    }
-
-    public List<E> getAdapterData() {
-        return mAdapterList;
-    }
-
-    public void setAdapterData(List<E> adapterData) {
-        setAdapterData(adapterData, false);
-    }
-
-    public void setAdapterData(List<E> adapterData, boolean append) {
-        addDataList(adapterData, append);
-        notifyDataSetChanged();
-    }
-
-    private void addDataList(List<E> adapterData, boolean append) {
-        if (isListEmpty(adapterData)) {
-            return;
-        }
-        if (append) {
-            mAdapterList.addAll(adapterData);
-        } else {
-            if (!isListEmpty(mAdapterList)) {
-                mAdapterList.clear();
-            }
-            mAdapterList.addAll(adapterData);
-        }
-    }
-
-    private boolean isListEmpty(List<E> list) {
-        return list == null || list.isEmpty();
-    }
-
-    public void clearAdapterData() {
-        mAdapterList.clear();
-        notifyDataSetChanged();
+        registerAdapterDataObserver(mDataObserver);
     }
 
     @Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -126,7 +77,6 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
                     View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
                     return new RecyclerHolder(view);
                 }
-
         }
     }
 
@@ -137,7 +87,7 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
                 break;
             case STATE_NORMAL:
                 int listPosition = position - getHeaderViewCount();
-                if (listPosition >= 0 && listPosition < mAdapterList.size()) {
+                if (listPosition >= 0 && listPosition < super.getItemCount()) {
                     E item = getItem(listPosition);
                     if (item != null) {
                         convert(holder, item, listPosition);
@@ -157,23 +107,23 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
                 return 1;
             case STATE_NORMAL:
             default:
-                return mAdapterList.size() + getHeaderViewCount() + getFooterViewCount();
+                return super.getItemCount() + getHeaderViewCount() + getFooterViewCount();
         }
     }
 
     @Override public int getItemViewType(int position) {
         switch (mViewState) {
+            case STATE_LOADING:
+                return STATE_LOADING;
             case STATE_EMPTY:
                 return STATE_EMPTY;
             case STATE_ERROR:
                 return STATE_ERROR;
-            case STATE_LOADING:
-                return STATE_LOADING;
             case STATE_NORMAL:
             default:
                 if (position < getHeaderViewCount()) {
                     return VIEW_TYPE_HEADER;
-                } else if (position >= mAdapterList.size() + getHeaderViewCount()) {
+                } else if (position >= super.getItemCount() + getHeaderViewCount()) {
                     return VIEW_TYPE_FOOTER;
                 } else {
                     return STATE_NORMAL;
@@ -181,11 +131,44 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
         }
     }
 
-    @LayoutRes public abstract int getItemLayoutRes();
-
     @ViewState public int getViewState() {
         return mViewState;
     }
+
+    private RecyclerView.AdapterDataObserver mDataObserver = new RecyclerView.AdapterDataObserver() {
+
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+            super.onItemRangeChanged(positionStart, itemCount);
+//            notifyItemRangeChanged(positionStart + getHeaderViewCount(), itemCount);
+        }
+
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+//            notifyItemRangeInserted(positionStart + getHeaderViewCount(), itemCount);
+            Log.i("aaa", "positionStart: " + positionStart + ";itemCount: " + itemCount);
+        }
+
+        @Override
+        public void onItemRangeRemoved(int positionStart, int itemCount) {
+            super.onItemRangeRemoved(positionStart, itemCount);
+//            notifyItemRangeRemoved(positionStart + getHeaderViewCount(), itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+            int headerViewsCountCount = getHeaderViewCount();
+//            notifyItemRangeChanged(fromPosition + headerViewsCountCount, toPosition + headerViewsCountCount + itemCount);
+        }
+    };
 
     public void setViewState(@ViewState int viewState, View view) {
         if (mViewState == viewState) {
@@ -223,38 +206,6 @@ public abstract class AdvanceRecyclerAdapter<E> extends RecyclerView.Adapter<Rec
     }
 
     public void onBindEmptyViewHolder(RecyclerHolder holder, int position) {
-    }
-
-    public abstract void convert(RecyclerHolder holder, E item, int position);
-
-    public E getItem(int position) {
-        return mAdapterList.get(position);
-    }
-
-    public void addData(int position, E entity) {
-        if (position >= 0 && position <= mAdapterList.size()) {
-            mAdapterList.add(position, entity);
-            notifyItemInserted(position);
-        }
-    }
-
-    public void deleteData(int position) {
-        if (checkPosition(position)) {
-            mAdapterList.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public void modifyData(int position, E e) {
-        if (checkPosition(position)) {
-            mAdapterList.remove(position);
-            mAdapterList.add(position, e);
-            notifyItemChanged(position);
-        }
-    }
-
-    private boolean checkPosition(int position) {
-        return position >= 0 && position < mAdapterList.size();
     }
 
     private void checkHeaderPanel() {

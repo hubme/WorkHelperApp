@@ -16,11 +16,12 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter2;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultiRecyclerAdapter3;
 import com.king.app.workhelper.adapter.recyclerview.BasicMultipleRecyclerAdapter;
-import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterAdapter;
-import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter;
+import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterSampleAdapter;
+import com.king.app.workhelper.adapter.recyclerview.MyRecyclerAdapter;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.applib.ui.recyclerview.AdvanceRecyclerAdapter;
 import com.king.applib.ui.recyclerview.RecyclerDivider;
+import com.king.applib.ui.recyclerview.SimpleRecyclerAdapter;
+import com.king.applib.ui.recyclerview.SimpleRecyclerView;
 
 import java.util.Arrays;
 
@@ -33,10 +34,10 @@ import butterknife.BindView;
 
 public class RecyclerHeaderFooterFragment extends AppBaseFragment {
     @BindView(R.id.swipe_layout) SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.rv_mine) RecyclerView mMineRv;
-    private SimpleRecyclerAdapter mRecyclerAdapter;
+    @BindView(R.id.rv_mine) SimpleRecyclerView mMineRv;
+    private MyRecyclerAdapter mRecyclerAdapter;
     private LinearLayoutManager layoutManager;
-    private AdvanceRecyclerAdapter mHeaderFooterAdapter;
+    private SimpleRecyclerAdapter mHeaderFooterAdapter;
     private View mEmptyView;
 
 
@@ -80,7 +81,7 @@ public class RecyclerHeaderFooterFragment extends AppBaseFragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override public void onRefresh() {
 //                mHeaderFooterAdapter.resetAdapterData();
-                mHeaderFooterAdapter.setViewState(AdvanceRecyclerAdapter.STATE_EMPTY, mEmptyView);
+                mHeaderFooterAdapter.setViewState(SimpleRecyclerAdapter.STATE_EMPTY, mEmptyView);
                 mRefreshLayout.setRefreshing(false);
             }
         });
@@ -94,12 +95,12 @@ public class RecyclerHeaderFooterFragment extends AppBaseFragment {
         return imageView;
     }
 
-    private SimpleRecyclerAdapter getSimpleAdapter() {
-        return new SimpleRecyclerAdapter(SimpleRecyclerAdapter.fakeData());
+    private MyRecyclerAdapter getSimpleAdapter() {
+        return new MyRecyclerAdapter(MyRecyclerAdapter.fakeData());
     }
 
-    private HeaderAndFooterAdapter getHeaderFooterAdapter() {
-        return new HeaderAndFooterAdapter(mContext, HeaderAndFooterAdapter.fakeData());
+    private HeaderAndFooterSampleAdapter getHeaderFooterAdapter() {
+        return new HeaderAndFooterSampleAdapter(mContext, HeaderAndFooterSampleAdapter.fakeData());
     }
 
     private BasicMultipleRecyclerAdapter getStringAdapter() {

@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
-import com.king.applib.ui.recyclerview.AdvanceRecyclerAdapter;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
+import com.king.applib.ui.recyclerview.SimpleRecyclerAdapter;
 import com.king.applib.ui.recyclerview.SwipeMenuLayout;
 import com.king.applib.util.ToastUtil;
 
@@ -17,13 +17,13 @@ import java.util.List;
  * @since 2017/9/7.
  */
 
-public class HeaderAndFooterAdapter extends AdvanceRecyclerAdapter<StringEntity> {
+public class HeaderAndFooterSampleAdapter extends SimpleRecyclerAdapter<StringEntity> {
 
-    public HeaderAndFooterAdapter(Context context) {
+    public HeaderAndFooterSampleAdapter(Context context) {
         super(context);
     }
 
-    public HeaderAndFooterAdapter(Context context, List<StringEntity> dataList) {
+    public HeaderAndFooterSampleAdapter(Context context, List<StringEntity> dataList) {
         super(context, dataList);
     }
 
