@@ -283,6 +283,11 @@ public class AppUtil {
         return intent != null && intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null;
     }
 
+    /** 是否能正常唤醒Activity */
+    public static boolean canResolveActivity(Context context, Intent intent) {
+        return intent != null && intent.resolveActivityInfo(context.getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null;
+    }
+
     /**
      * 打开能处理此uri的应用.tel:// http:// market://
      */
