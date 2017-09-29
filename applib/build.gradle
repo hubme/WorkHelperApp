@@ -29,11 +29,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
     testCompile "junit:junit:$rootProject.ext.junitVersion"
+    provided "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+    provided "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
+    provided "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
+    provided "com.android.support:design:$rootProject.ext.supportLibVersion"
     //json解析
     compile 'com.google.code.gson:gson:2.7'
     provided 'com.facebook.fresco:fresco:0.12.0'
-    provided "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
 
 }
