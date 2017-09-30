@@ -17,12 +17,12 @@ import butterknife.BindView;
 
 /**
  * Fragment+ViewPager+Tab
- * Created by VanceKing on 2016/12/20 0020.
+ * Created by VanceKing on 2016/12/20.
  */
 
 public class TabSwitchActivity extends AppBaseActivity {
-    @BindView(R.id.view_pager)
-    public ViewPager mViewPager;
+    @BindView(R.id.viewpager) ViewPager mViewPager;
+
 
     @Override
     public int getContentLayout() {
@@ -45,6 +45,6 @@ public class TabSwitchActivity extends AppBaseActivity {
 
         TabFragmentAdapter mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mTabFragmentAdapter);
-        mViewPager.setOffscreenPageLimit(1);//缓存当前页面前后各1个，之外的将销毁。
+        mViewPager.setOffscreenPageLimit(1);//缓存当前页面前后各1个，之外的将销毁
     }
 }
