@@ -46,10 +46,6 @@
 
         </activity>
         
-        <activity android:name=".activity.UploadImageActivity">
-
-        </activity>
-
         <activity android:name=".activity.MainActivity">
 
         </activity>
