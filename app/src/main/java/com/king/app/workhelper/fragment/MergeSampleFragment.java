@@ -40,7 +40,8 @@ concat()操作符只有需要数据的时候才会订阅所有的Observable数�
 concat()和merge()区别：concat的数据源never interleave(交叉)，而merge的数据源maybe interleave.
  */
 public class MergeSampleFragment extends AppBaseFragment {
-    @Override protected int getContentLayout() {
+    @Override
+    protected int getContentLayout() {
         return R.layout.fragment_merge_sample;
     }
 
@@ -51,15 +52,18 @@ public class MergeSampleFragment extends AppBaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .take(4)
                 .subscribe(new DisposableObserver<Contributor>() {
-                    @Override public void onNext(Contributor contributor) {
+                    @Override
+                    public void onNext(Contributor contributor) {
                         Logger.i(contributor.login + "---" + contributor.contributions);
                     }
 
-                    @Override public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
                         Logger.i("something went wrong");
                     }
 
-                    @Override public void onComplete() {
+                    @Override
+                    public void onComplete() {
                         Logger.i("done loading all data");
                     }
                 });
@@ -73,15 +77,18 @@ public class MergeSampleFragment extends AppBaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .take(4)
                 .subscribe(new DisposableObserver<Contributor>() {
-                    @Override public void onNext(Contributor contributor) {
+                    @Override
+                    public void onNext(Contributor contributor) {
                         Logger.i(contributor.login + "---" + contributor.contributions);
                     }
 
-                    @Override public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
                         Logger.i("arr something went wrong" + e.toString());
                     }
 
-                    @Override public void onComplete() {
+                    @Override
+                    public void onComplete() {
                         Logger.i("done loading all data");
                     }
                 });
@@ -95,15 +102,18 @@ public class MergeSampleFragment extends AppBaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .take(4)
                 .subscribe(new DisposableObserver<Contributor>() {
-                    @Override public void onNext(Contributor contributor) {
+                    @Override
+                    public void onNext(Contributor contributor) {
                         Logger.i(contributor.login + "---" + contributor.contributions);
                     }
 
-                    @Override public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
                         Logger.i("arr something went wrong" + e.toString());
                     }
 
-                    @Override public void onComplete() {
+                    @Override
+                    public void onComplete() {
                         Logger.i("done loading all data");
                     }
                 });
@@ -117,47 +127,60 @@ public class MergeSampleFragment extends AppBaseFragment {
             contributors.add(new Contributor(username.getKey(), username.getValue()));
         }
 
-        return Observable.fromIterable(contributors).doOnSubscribe(new Consumer<Disposable>() {
-            @Override public void accept(@NonNull Disposable disposable) throws Exception {
-                Logger.i("(disk) cache subscribed");
-            }
-        }).doOnComplete(new Action() {
-            @Override public void run() throws Exception {
-                Logger.i("(disk) cache completed");
-            }
-        });
+        return Observable.fromIterable(contributors)
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        Logger.i("(disk) cache subscribed");
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Logger.i("(disk) cache completed");
+                    }
+                });
     }
 
     //从缓存获取数据,模拟耗时.getFreshNetworkData()和getSlowCachedDiskData()会出现数据交叉的情况
     private Observable<Contributor> getSlowCachedDiskData() {
-        return Observable.timer(1, TimeUnit.SECONDS).flatMap(new Function<Long, ObservableSource<Contributor>>() {
-            @Override public ObservableSource<Contributor> apply(@NonNull Long aLong) throws Exception {
-                return getCachedDiskData();
-            }
-        });
+        return Observable.timer(1, TimeUnit.SECONDS)
+                .flatMap(new Function<Long, ObservableSource<Contributor>>() {
+                    @Override
+                    public ObservableSource<Contributor> apply(@NonNull Long aLong) throws Exception {
+                        return getCachedDiskData();
+                    }
+                });
     }
 
     //从网络获取数据
     private Observable<Contributor> getFreshNetworkData() {
-        Retrofit retrofit = new Retrofit.Builder().addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://api.github.com")
                 .build();
         GitHubService gitHubService = retrofit.create(GitHubService.class);
 
-        return gitHubService.contributors("square", "retrofit").flatMap(new Function<List<Contributor>, ObservableSource<Contributor>>() {
-            @Override public ObservableSource<Contributor> apply(@NonNull List<Contributor> contributors) throws Exception {
-                return Observable.fromIterable(contributors);
-            }
-        }).doOnSubscribe(new Consumer<Disposable>() {
-            @Override public void accept(@NonNull Disposable disposable) throws Exception {
-                Logger.i("(network) subscribed");
-            }
-        }).doOnComplete(new Action() {
-            @Override public void run() throws Exception {
-                Logger.i("(network) completed");
-            }
-        });
+        return gitHubService.contributors("square", "retrofit")
+                .flatMap(new Function<List<Contributor>, ObservableSource<Contributor>>() {
+                    @Override
+                    public ObservableSource<Contributor> apply(@NonNull List<Contributor> contributors) throws Exception {
+                        return Observable.fromIterable(contributors);
+                    }
+                })
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+                        Logger.i("(network) subscribed");
+                    }
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Logger.i("(network) completed");
+                    }
+                });
     }
 
     //假数据
