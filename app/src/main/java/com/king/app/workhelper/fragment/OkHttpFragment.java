@@ -51,9 +51,9 @@ import okhttp3.ResponseBody;
 
 /**
  * OkHttp使用
- * Created by HuoGuangxu on 2016/12/8.
+ * @author VanceKing
+ * @since 2017/10/5
  */
-
 public class OkHttpFragment extends AppBaseFragment {
     public static final String URL_BAIDU = "http://www.baidu.com";
     public static final String URL_SINA = "http://www.sina.com";
@@ -240,7 +240,7 @@ public class OkHttpFragment extends AppBaseFragment {
                 .build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
-                
+
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
@@ -260,24 +260,24 @@ public class OkHttpFragment extends AppBaseFragment {
                 .compose(RxUtil.defaultObservableSchedulers())
                 .subscribe(new HttpResultObserver<EmptyModel>() {
                     @Override public void onSuccess(EmptyModel emptyModel, String msg) {
-                        
+
                     }
                 });
     }
-    
+
     /** retrofit 多图片上传 */
     private void uploadMultiPhoto(final String filePath) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("appId", "appId");
-                
+
         List<String> filePaths = new ArrayList<>();
         for (String path : filePaths) {
             File file = new File(path);
             RequestBody imageBody = RequestBody.create(MediaType.parse("image/png"), file);
             builder.addFormDataPart("imagefile" + file.getName(), file.getName(), imageBody);
         }
-        
+
         UserApiService userApiService = ApiServiceFactory.getInstance().createService(UserApiService.class);
         userApiService.uploadMultiPhoto(builder.build().parts())
                 .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))

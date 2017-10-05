@@ -26,11 +26,6 @@ public class MultiStatusViewFragment extends AppBaseFragment {
         return R.layout.fragment_multi_status_view;
     }
 
-    @Override protected void initContentView(View rootView) {
-        super.initContentView(rootView);
-       
-    }
-
     @Override
     protected void initData() {
         super.initData();

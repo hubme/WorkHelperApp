@@ -21,7 +21,7 @@ import butterknife.OnClick;
 
 /**
  * @author VanceKing
- * @since 2017/1/31 0031.
+ * @since 2017/1/31.
  */
 
 public class MulProcessFragment extends AppBaseFragment {
@@ -32,8 +32,7 @@ public class MulProcessFragment extends AppBaseFragment {
     private boolean mBindSuccess = false;
 
     private class MessengerHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
+        @Override public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_CODE_FROM_SERVER:
                     Log.i(AppConfig.LOG_TAG, "receive msg from Service: " + msg.getData().getString("reply"));
@@ -56,7 +55,6 @@ public class MulProcessFragment extends AppBaseFragment {
     }
 
     private class MessengerServiceConnection implements ServiceConnection {
-
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Messenger mMessenger = new Messenger(service);
