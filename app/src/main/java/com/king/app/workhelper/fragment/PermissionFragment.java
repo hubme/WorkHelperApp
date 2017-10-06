@@ -22,9 +22,10 @@ import butterknife.OnClick;
 
 /**
  * 6.0权限.在模拟器上Manifest.permission.CALL_PHONE，无法弹出授权弹窗
- * Created by HuoGuangxu on 2016/11/10.
+ *
+ * @author VanceKing
+ * @since 2016/11/10
  */
-
 public class PermissionFragment extends AppBaseFragment implements EasyPermission.PermissionCallback {
     public static final int REQ_CODE_PERMISSION_CAMERA = 0;
     public static final int REQ_CODE_PERMISSION_STORAGE = 1;

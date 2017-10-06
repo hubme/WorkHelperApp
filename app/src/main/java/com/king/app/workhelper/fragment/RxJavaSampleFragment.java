@@ -662,7 +662,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_retry)
     public void onRetryWhenClick() {
-        clickedOn(new RetryFragment());
+        clickedOn(new RxRetryFragment());
     }
 
     @OnClick(R.id.tv_network_changed)

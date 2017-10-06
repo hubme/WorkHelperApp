@@ -19,9 +19,10 @@ import butterknife.OnClick;
 
 /**
  * RoundedBitmapDrawable使用
- * Created by VanceKing on 2016/12/7 0007.
+ *
+ * @author VanceKing
+ * @since 2016/12/7
  */
-
 public class RoundDrawableFragment extends AppBaseFragment {
     @BindView(R.id.iv_image1)
     public ImageView mImage1;

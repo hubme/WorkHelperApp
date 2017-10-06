@@ -13,11 +13,11 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
 /**
- * @author huoguangxu
- * @since 2017/3/29.
+ *
+ * @author VanceKing
+ * @since 2017/10/6
  */
-
-public class RetryFragment extends AppBaseFragment {
+public class RxRetryFragment extends AppBaseFragment {
 
     @Override protected int getContentLayout() {
         return R.layout.fragment_retry;
