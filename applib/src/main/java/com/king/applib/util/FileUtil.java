@@ -239,6 +239,12 @@ public class FileUtil {
             return true;
         }
         final File[] files = dir.listFiles();
+        if (files == null) {//没权限访问,返回null
+            return false;
+        }
+        if (files.length <= 0) {//该目录已经为空
+            return true;
+        }
         for (File file : files) {
             if (file == null) {
                 continue;
