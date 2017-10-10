@@ -32,7 +32,7 @@ public class DateTimeUtil {
      * @param date 日期
      * @return 格式化后的字符串
      */
-    public static String formatDate(Date date, String template) {
+    public static synchronized String formatDate(Date date, String template) {
         if (date == null || StringUtil.isNullOrEmpty(template)) {
             return "";
         }
@@ -47,7 +47,7 @@ public class DateTimeUtil {
      * @param template 日期格式
      * @return 日期
      */
-    public static Date parseDate(String dateText, String template) {
+    public static synchronized Date parseDate(String dateText, String template) {
         if (StringUtil.isNullOrEmpty(dateText) || StringUtil.isNullOrEmpty(template)) {
             return null;
         }
@@ -83,7 +83,7 @@ public class DateTimeUtil {
      * @param template 日期格式
      * @return 相隔的毫秒数;相等返回0;异常返回-1.
      */
-    public static long betweenDays(String template, String firstDay, String secondDay) {
+    public static synchronized long betweenDays(String template, String firstDay, String secondDay) {
         if (StringUtil.isAnyEmpty(template, firstDay, secondDay)) {
             return -1;
         }
@@ -101,7 +101,7 @@ public class DateTimeUtil {
      *
      * @return 相隔的毫秒数;相等返回0;异常返回-1.
      */
-    public static long betweenDays(String template, Date firstDate, Date secondDate) {
+    public static synchronized long betweenDays(String template, Date firstDate, Date secondDate) {
         if (StringUtil.isNullOrEmpty(template) || firstDate == null || secondDate == null) {
             return -1;
         }
@@ -153,7 +153,7 @@ public class DateTimeUtil {
      * @param amount 增加的时间
      * @return 增加后的日期
      */
-    public static Date addDate(Date date, int field, int amount) {
+    public static synchronized Date addDate(Date date, int field, int amount) {
         if (date == null) {
             return null;
         }
