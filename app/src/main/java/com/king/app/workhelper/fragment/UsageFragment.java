@@ -17,11 +17,15 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.dialog.SampleBottomDialog;
 import com.king.app.workhelper.dialog.SimpleDialog;
+import com.king.app.workhelper.ui.customview.TabLayout;
 import com.king.applib.base.WeakHandler;
 import com.king.applib.base.dialog.BaseDialogFragment;
+import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.SpannableStringUtils;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +43,7 @@ public class UsageFragment extends AppBaseFragment {
     @BindView(R.id.tv_text) TextView mTextSampleTv;
     @BindView(R.id.tv_weak_handler) TextView mTextView;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.tabLayout) TabLayout mTabLayout;
 
     private MyHandler mMyHandler = new MyHandler(this);
     private BaseDialogFragment mSimpleDialog;
@@ -87,6 +92,30 @@ public class UsageFragment extends AppBaseFragment {
         mRefreshLayout.setOnRefreshListener(() -> {
             mMyHandler.sendEmptyMessageDelayed(MSG_WAIT, 3000);
         });
+
+        List<TabLayout.TabItem> tabs = new ArrayList<>(3);
+        TabLayout.TabItem tab1 = new TabLayout.TabItem(0, "首页", R.drawable.tab_home_select, R.drawable.tab_home_unselect);
+        TabLayout.TabItem tab2 = new TabLayout.TabItem(1, "首页2", R.drawable.tab_mine_select, R.drawable.tab_mine_unselect);
+        TabLayout.TabItem tabEmpty = new TabLayout.TabItem(2);
+        tabEmpty.width = ExtendUtil.dp2px(64);
+        TabLayout.TabItem tab3 = new TabLayout.TabItem(3, "首页3", R.drawable.icon_3, R.drawable.icon_4);
+        tabs.add(tab1);
+        tabs.add(tab2);
+        tabs.add(tabEmpty);
+        tabs.add(tab3);
+        mTabLayout.setupTabs(tabs);
+        mTabLayout.setOnTabClickListener(new TabLayout.OnTabClickListener() {
+            @Override public void onTabSelected(int position, TabLayout.TabItem tabItem, TabLayout.TabView tabView) {
+                mTabLayout.setSelectedTab(position);
+            }
+        });
+        mTabLayout.setSelectedTab(0);
+
+        /*mTabLayout.getTab(0).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mTabLayout.setSelectedTab(0);
+            }
+        });*/
     }
 
     @OnClick(R.id.tv_weak_handler)

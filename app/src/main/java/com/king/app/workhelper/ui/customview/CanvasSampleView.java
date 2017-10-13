@@ -156,7 +156,7 @@ public class CanvasSampleView extends View {
     }
 
     private void drawBitmap(Canvas canvas) {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_4);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_4);
 //        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.beautiful_girl), 10, 10, null);
         canvas.drawBitmap(getRoundCornerBitmap(bitmap, 10), 50, 50, null);
     }

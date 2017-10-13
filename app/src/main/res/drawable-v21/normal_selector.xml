@@ -2,17 +2,7 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
         android:color="#ebebeb">
 
-    <!--正常情况下的颜色-->
-    <item android:drawable="@color/chocolate"/>
+    <!--https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html-->
+    <item android:drawable="@color/white"/>
 
-    <!--<item>
-        <shape android:shape="oval">
-            <solid android:color="@color/chocolate"/>
-        </shape>
-    </item>-->
-
-    <!--<item
-        android:id="@android:id/mask"
-        android:drawable="@drawable/circular_button"/>
-    <item android:drawable="@drawable/circular_button_selector"/>-->
 </ripple>

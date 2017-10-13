@@ -68,4 +68,14 @@
         <attr name="intervalWidth" format="dimension"/>
         <attr name="dashOffset" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="TabLayout">
+        <attr name="tabSelectedTitleColor" format="color"/>
+        <attr name="tabUnselectedTitleColor" format="color"/>
+        <attr name="tabTitleSize" format="reference"/>
+        <attr name="tabImageWidth" format="dimension"/>
+        <attr name="tabImageHeight" format="dimension"/>
+        <attr name="tabTitleTopMargin" format="dimension"/>
+        <attr name="tabBackgroundRes" format="reference"/>
+    </declare-styleable>
 </resources>

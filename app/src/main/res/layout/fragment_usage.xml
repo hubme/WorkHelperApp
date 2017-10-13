@@ -18,6 +18,18 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.app.workhelper.ui.customview.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:tabBackgroundRes="@drawable/normal_selector"
+                app:tabImageHeight="27dp"
+                app:tabImageWidth="27dp"
+                app:tabSelectedTitleColor="@color/blue_78b7ff"
+                app:tabTitleSize="@dimen/ts_small"
+                app:tabTitleTopMargin="3dp"
+                app:tabUnselectedTitleColor="@color/black"/>
+
             <com.king.app.workhelper.ui.customview.DrawableCenterTextView
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
@@ -26,8 +38,8 @@
                 android:drawablePadding="5dp"
                 android:text="Drawable 文字居中"
                 app:imageBottom="@drawable/icon_6"
-                app:imageLeft="@mipmap/icon_3"
-                app:imageRight="@mipmap/icon_4"
+                app:imageLeft="@drawable/icon_3"
+                app:imageRight="@drawable/icon_4"
                 app:imageTop="@drawable/icon_delete"/>
 
             <ImageView
