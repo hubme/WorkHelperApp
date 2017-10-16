@@ -39,7 +39,9 @@ public class RecyclerDivider extends RecyclerView.ItemDecoration {
     private int leftMargin, rightMargin, topMargin, bottomMargin;
 
     private int width, height;
-    
+
+    private boolean mSkipLast = false;
+
     public RecyclerDivider() {
         this(VERTICAL);
     }
@@ -103,6 +105,9 @@ public class RecyclerDivider extends RecyclerView.ItemDecoration {
 
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
+            if (i == parent.getAdapter().getItemCount() - 1 && mSkipLast) {
+                continue;
+            }
             final View child = parent.getChildAt(i);
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
                     .getLayoutParams();
@@ -119,6 +124,9 @@ public class RecyclerDivider extends RecyclerView.ItemDecoration {
 
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
+            if (i == parent.getAdapter().getItemCount() - 1 && mSkipLast) {
+                continue;
+            }
             final View child = parent.getChildAt(i);
             final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             final int top = child.getBottom() + params.bottomMargin + topMargin;
@@ -131,10 +139,17 @@ public class RecyclerDivider extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
+        if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1 && mSkipLast) {
+            return;
+        }
         if (mOrientation == HORIZONTAL) {
             outRect.set(0, 0, leftMargin + width + rightMargin, 0);
         } else {
             outRect.set(0, 0, 0, topMargin + height + bottomMargin);
         }
+    }
+
+    public void skipLastDivider() {
+        mSkipLast = true;
     }
 }
