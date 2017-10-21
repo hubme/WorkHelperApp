@@ -16,6 +16,7 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
+import com.king.applib.util.StringUtil;
 
 import java.io.File;
 import java.util.Random;
@@ -189,5 +190,32 @@ public class AppTest extends BaseTestCase {
         Logger.i(bundle.getString("aaa") + "---" + bundle.getInt("bbb"));
         Bundle bundle1 = BundleBuilder.create(bundle).put("ccc", "VanceKing").build();
         Logger.i(bundle1.getString("aaa") + "---" + bundle1.getInt("bbb")+"---"+bundle1.getString("ccc"));
+    }
+    
+    public void testAAA() throws Exception {
+        String text = "一卡在手|全球通行|全球货币0兑换费|全球支付|aaaa";//
+        String[] desc = buildDesc(text);
+        Logger.i(desc[0] + "===" + desc[1]);
+    }
+
+    private String[] buildDesc(String tags) {
+        String[] tag = {"", ""};
+        if (StringUtil.isNullOrEmpty(tags)) {
+            return tag;
+        }
+        String[] split = tags.split("\\|");
+        if (split.length <= 0) {
+            return tag;
+        } else if (split.length == 1) {
+            tag[0] = split[0];
+        } else if (split.length == 2) {
+            tag[0] = split[0] + " " + split[1];
+        } else {
+            tag[0] = split[0] + " " + split[1];
+            for (int i = 2, size = split.length; i < size; i++) {
+                tag[1] += split[i] + " ";
+            }
+        }
+        return tag;
     }
 }
