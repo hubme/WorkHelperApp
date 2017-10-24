@@ -37,6 +37,7 @@ import com.king.applib.ui.customview.FormViewTest;
 import com.king.applib.ui.customview.InsLoadingView;
 import com.king.applib.ui.customview.NoticeView;
 import com.king.applib.ui.customview.SimpleBadgeTextView;
+import com.king.applib.ui.customview.TitleImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +74,8 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.rise_text_view) RiseNumberTextView mRiseTextView;
     @BindView(R.id.notice) NoticeView mNoticeView;
     @BindView(R.id.ins_loading_view) InsLoadingView mInsLoadingView;
-
+    @BindView(R.id.title_image_view) TitleImageView mTitleImageView;
+    
     private BadgeView mBadgeView;
 
     @OnClick(R.id.rise_text_view)
@@ -122,6 +124,15 @@ public class CustomViewFragment extends AppBaseFragment {
                     mInsLoadingView.setStatus(InsLoadingView.UN_CLICKED);
             }
         });
+
+//        mTitleImageView.setImageUrl("http://gjj.9188.com/image/home/index/checkshebao_2_6.png");
+        mTitleImageView.setImageRes(R.drawable.icon_3);
+        mTitleImageView.setBackgroundResource(R.drawable.normal_selector);
+        mTitleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                showToast("哈哈哈");
+            }
+        });
     }
 
     private void applyBadge() {
@@ -137,7 +148,6 @@ public class CustomViewFragment extends AppBaseFragment {
             View view = new View(mContext);
             view.setLayoutParams(new ViewGroup.LayoutParams(8, 8));
             view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.chocolate));
-
             
             FrameLayout frameLayout = new FrameLayout(mContext);
             

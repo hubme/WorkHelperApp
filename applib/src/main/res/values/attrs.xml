@@ -146,4 +146,13 @@
         <attr name="ios" format="boolean"/>
         <attr name="leftSwipe" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="TitleImageView">
+        <attr name="titleText" format="string"/>
+        <attr name="titleColor" format="color"/>
+        <attr name="titleSize" format="reference"/>
+        <attr name="imageWidth" format="dimension"/>
+        <attr name="imageHeight" format="dimension"/>
+        <attr name="titleTopMargin" format="dimension"/>
+    </declare-styleable>
 </resources>
