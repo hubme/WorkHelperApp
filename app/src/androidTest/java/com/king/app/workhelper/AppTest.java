@@ -1,6 +1,7 @@
 package com.king.app.workhelper;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
@@ -190,6 +191,14 @@ public class AppTest extends BaseTestCase {
         Logger.i(bundle.getString("aaa") + "---" + bundle.getInt("bbb"));
         Bundle bundle1 = BundleBuilder.create(bundle).put("ccc", "VanceKing").build();
         Logger.i(bundle1.getString("aaa") + "---" + bundle1.getInt("bbb")+"---"+bundle1.getString("ccc"));
+    }
+    
+    public void testIntentUri() throws Exception {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.putExtra("aaa", "111");
+        intent.putExtra("bbb", "222");
+        Logger.i("result: " + intent.toURI());//#Intent;action=android.intent.action.MAIN;S.aaa=111;S.bbb=222;end 使用 Intent.parseUri()解析
+        
     }
     
     public void testAAA() throws Exception {
