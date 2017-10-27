@@ -17,7 +17,13 @@
             android:clipToPadding="false"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
+            
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+            
             <com.king.app.workhelper.ui.customview.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"

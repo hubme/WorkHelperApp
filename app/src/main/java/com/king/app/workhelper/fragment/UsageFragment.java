@@ -5,11 +5,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Message;
+import android.os.SystemClock;
 import android.os.UserManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,7 @@ public class UsageFragment extends AppBaseFragment {
     @BindView(R.id.tv_weak_handler) TextView mTextView;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.tabLayout) TabLayout mTabLayout;
+    @BindView(R.id.chronometer) Chronometer mChronometer;
 
     private MyHandler mMyHandler = new MyHandler(this);
     private BaseDialogFragment mSimpleDialog;
@@ -83,6 +86,22 @@ public class UsageFragment extends AppBaseFragment {
                 .append("背景色").setBackgroundColor(Color.RED)
                 .create();
         mTextSampleTv.setText(builder);
+
+        mChronometer.setOnClickListener(v -> {
+            mChronometer.setEnabled(false);
+            //设置开始计时时间
+            mChronometer.setBase(SystemClock.elapsedRealtime());
+            //启动计时器
+            mChronometer.start();
+        });
+        mChronometer.setOnChronometerTickListener(ch -> {
+            // 如果从开始计时到现在超过了60s
+            if (SystemClock.elapsedRealtime() - ch.getBase() > 60 * 1000) {
+                ch.stop();
+                mChronometer.setEnabled(true);
+            }
+        });
+        
     }
 
     @Override
