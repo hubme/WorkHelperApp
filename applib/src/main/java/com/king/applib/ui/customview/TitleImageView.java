@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -16,11 +18,12 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.applib.R;
+import com.king.applib.util.StringUtil;
 
 /**
- * 顶部 SimpleDraweeView，底部 TextView 的包装View.
+ * 包含一个TextView 和一个 SimpleDraweeView的包装View.
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/10/23.
  */
 
@@ -31,10 +34,11 @@ public class TitleImageView extends LinearLayout {
     private CharSequence mTitleText;
     private int mTitleColor;
     private float mTitleSize;
-    private int mTitleTopMargin;
+    private int mTitleMargin;
     private int mImageWidth;
     private int mImageHeight;
-    
+    private int mImagePosition;
+
     public TitleImageView(Context context) {
         this(context, null);
     }
@@ -52,10 +56,11 @@ public class TitleImageView extends LinearLayout {
             mTitleText = typedArray.getText(R.styleable.TitleImageView_titleText);
             mTitleColor = typedArray.getColor(R.styleable.TitleImageView_titleColor, Color.BLACK);
             mTitleSize = typedArray.getDimension(R.styleable.TitleImageView_titleSize, dip2px(14));
-            mTitleTopMargin = typedArray.getDimensionPixelSize(R.styleable.TitleImageView_titleTopMargin, 0);
+            mTitleMargin = typedArray.getDimensionPixelSize(R.styleable.TitleImageView_titleMargin, 0);
 
             mImageWidth = typedArray.getDimensionPixelSize(R.styleable.TitleImageView_imageWidth, -1);
             mImageHeight = typedArray.getDimensionPixelSize(R.styleable.TitleImageView_imageHeight, -1);
+            mImagePosition = typedArray.getInt(R.styleable.TitleImageView_imagePosition, 1);
         } finally {
             if (typedArray != null) {
                 typedArray.recycle();
@@ -69,20 +74,43 @@ public class TitleImageView extends LinearLayout {
     }
 
     private void init() {
-        setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER);
 
         mImageView.setLayoutParams(new ViewGroup.LayoutParams(mImageWidth, mImageHeight));
-        addView(mImageView);
 
         LayoutParams titleParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        titleParams.setMargins(0, mTitleTopMargin, 0, 0);
+        titleParams.setMargins(mImagePosition == 0 ? mTitleMargin : 0,
+                mImagePosition == 1 ? mTitleMargin : 0,
+                mImagePosition == 2 ? mTitleMargin : 0,
+                mImagePosition == 3 ? mTitleMargin : 0);
         mTextView.setLayoutParams(titleParams);
         mTextView.setText(mTitleText);
         mTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
         mTextView.setTextColor(mTitleColor);
 
-        addView(mTextView);
+        switch (mImagePosition) {
+            case 0: //left
+                setOrientation(LinearLayout.HORIZONTAL);
+                addView(mImageView);
+                addView(mTextView);
+                break;
+            case 2: //right
+                setOrientation(LinearLayout.HORIZONTAL);
+                addView(mTextView);
+                addView(mImageView);
+                break;
+            case 3: //bottom
+                setOrientation(LinearLayout.VERTICAL);
+                addView(mTextView);
+                addView(mImageView);
+                break;
+            case 1: //top
+            default:
+                setOrientation(LinearLayout.VERTICAL);
+                addView(mImageView);
+                addView(mTextView);
+                break;
+        }
     }
 
     public TitleImageView setImageUrl(String url) {
@@ -94,6 +122,23 @@ public class TitleImageView extends LinearLayout {
 
     public TitleImageView setImageRes(@DrawableRes int resId) {
         mImageView.setImageURI(Uri.parse("res://" + getContext().getPackageName() + "/" + resId));
+        return this;
+    }
+
+    public TitleImageView setTitle(String title) {
+        if (StringUtil.isNotNullOrEmpty(title)) {
+            mTextView.setText(title);
+        }
+        return this;
+    }
+
+    public TitleImageView setTitleColor(int colorInt) {
+        mTextView.setTextColor(colorInt);
+        return this;
+    }
+
+    public TitleImageView setTitleColorRes(@ColorRes int colorRes) {
+        mTextView.setTextColor(ContextCompat.getColor(getContext(), colorRes));
         return this;
     }
 
@@ -113,5 +158,4 @@ public class TitleImageView extends LinearLayout {
     private static boolean isTextEmpty(String text) {
         return text == null || TextUtils.isEmpty(text.trim());
     }
-    
 }

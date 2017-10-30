@@ -22,12 +22,12 @@
                 android:layout_height="85dp"
                 android:background="@color/gray_fbfbfb"
                 app:imageHeight="20dp"
+                app:imagePosition="right"
                 app:imageWidth="20dp"
-                
                 app:titleColor="@color/chocolate"
                 app:titleSize="@dimen/ts_big"
                 app:titleText="哈哈哈"
-                app:titleTopMargin="5dp"/>
+                app:titleMargin="5dp"/>
 
             <com.king.applib.ui.customview.LoadingDrawableView
                 android:layout_width="50dp"
