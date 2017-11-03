@@ -1,6 +1,7 @@
 package com.king.app.workhelper.retrofit;
 
 import com.king.app.workhelper.okhttp.OkHttpProvider;
+import com.king.applib.util.JsonUtil;
 import com.king.applib.util.StringUtil;
 
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class ApiServiceFactory {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(OkHttpProvider.getInstance().getOkHttpClient())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }

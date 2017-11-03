@@ -37,6 +37,10 @@ public class JsonUtil {
         throw new UnsupportedOperationException("No instances!");
     }
 
+    public static Gson getGson() {
+        return GSON;
+    }
+
     /**
      * 将json字符串转换成相应的对象
      */
