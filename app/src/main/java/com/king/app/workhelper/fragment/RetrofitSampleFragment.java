@@ -4,22 +4,16 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
-import com.king.app.workhelper.api.CommonService;
 import com.king.app.workhelper.api.GitHubService;
-import com.king.app.workhelper.api.HomeService;
 import com.king.app.workhelper.api.MovieService;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.model.ServiceModel;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
-import com.king.app.workhelper.retrofit.observer.HttpResultObserver;
 import com.king.app.workhelper.rx.RxUtil;
 import com.king.app.workhelper.rx.rxlife.event.FragmentLifeEvent;
 import com.king.applib.log.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
-
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -154,8 +148,8 @@ public class RetrofitSampleFragment extends AppBaseFragment {
                 });*/
 
         final String URL_PUBLIC = "https://publicobject.com/helloworld.txt/";
-        CommonService commonService = ApiServiceFactory.getInstance().createService(URL_PUBLIC, CommonService.class);
-        commonService.loadUrlObservable(URL_PUBLIC)
+//        CommonService commonService = ApiServiceFactory.getInstance().createService(URL_PUBLIC, CommonService.class);
+        ApiServiceFactory.getCommonApiService(URL_PUBLIC).loadUrlObservable(URL_PUBLIC)
                 .doOnDispose(new Action() {
                     @Override public void run() throws Exception {
                         Logger.i("doOnDispose");//放在compose(RxUtil.defaultObservableSchedulers())不回调
@@ -181,31 +175,6 @@ public class RetrofitSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_banner_observer)
     public void onBannerClick() {
-        HttpResultObserver<ServiceModel> observer = new HttpResultObserver<ServiceModel>() {
-            @Override
-            public void onSuccess(ServiceModel serviceModel, String msg) {
-                Logger.i("success: " + serviceModel.toString() + ";msg: " + msg);
-                mObserverTextView.setText("哈哈哈");
-            }
-
-            @Override
-            public void onFailure(int errorCode, String msg) {
-                Logger.i("errorCode: " + errorCode + ";msg: " + msg);
-            }
-        };
-
-        HomeService homeService = ApiServiceFactory.getInstance().createService(RELEASE_DOMAIN, HomeService.class);
-        homeService.getBanners(3)
-                .delay(5, TimeUnit.SECONDS)
-                .doOnDispose(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Logger.i("取消订阅");
-                    }
-                })
-                .compose(bindUntilEvent(FragmentLifeEvent.DESTROY_VIEW))
-                .compose(RxUtil.defaultObservableSchedulers())
-                .subscribe(observer);
 
     }
 

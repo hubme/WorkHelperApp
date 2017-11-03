@@ -1,5 +1,7 @@
 package com.king.app.workhelper.retrofit;
 
+import com.king.app.workhelper.api.CommonService;
+import com.king.app.workhelper.api.GitHubService;
 import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.applib.util.JsonUtil;
 import com.king.applib.util.StringUtil;
@@ -19,6 +21,8 @@ public class ApiServiceFactory {
     public static final String DEFAULT_BASE_URL = "https://api.github.com";
     //缓存Retrofit
     private final HashMap<String, Retrofit> mRetrofits;
+    private static CommonService mCommonApiService;
+    private static GitHubService mGitHubService;
 
     private ApiServiceFactory() {
         mRetrofits = new HashMap<>();
@@ -60,5 +64,23 @@ public class ApiServiceFactory {
                 .addConverterFactory(GsonConverterFactory.create(JsonUtil.getGson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+    }
+
+    public static CommonService getCommonApiService() {
+        return getCommonApiService(DEFAULT_BASE_URL);
+    }
+
+    public static CommonService getCommonApiService(String hostName) {
+        if (mCommonApiService == null) {
+            mCommonApiService = ApiServiceFactory.getInstance().createService(hostName, CommonService.class);
+        }
+        return mCommonApiService;
+    }
+
+    public static GitHubService getGitHubService() {
+        if (mGitHubService == null) {
+            mGitHubService = ApiServiceFactory.getInstance().createService(DEFAULT_BASE_URL, GitHubService.class);
+        }
+        return mGitHubService;
     }
 }
