@@ -30,6 +30,10 @@ android {
         }
     }
 
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     //配置签名
     signingConfigs {
         config {
