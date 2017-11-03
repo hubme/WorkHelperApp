@@ -20,43 +20,35 @@ import static com.king.applib.util.JsonUtil.getJsonObject;
  */
 
 public class JsonUtilTest extends BaseTestCase {
-    public static final String JSON_ARRAY = "[\"求助\",\"讨论\",\"政策\"]";
-    public static final String AAA = "{\n" +
-            "  \"code\": 1,\n" +
-            "  \"results\": {\n" +
-            "    \"loanidnex\": [\n" +
-            "      {\n" +
-            "        \"logoUrl\": \"http://192.168.1.51:9007/gjj/image/home/skin/chexian/gjj_banner20170210_daijiao.png\",\n" +
-            "        \"largestAmount\": \"50万\",\n" +
-            "        \"supplierCode\": 1,\n" +
-            "        \"supplierName\": \"有鱼贷款\",\n" +
-            "        \"description\": [\n" +
-            "          \"额度高\",\n" +
-            "          \"放款快\",\n" +
-            "          \"利息低\"\n" +
-            "        ],\n" +
-            "        \"h5Url\": \"http://www.baidu.com\"\n" +
-            "      }\n" +
-            "    ],\n" +
-            "    \"creditidnex\": [\n" +
-            "      {\n" +
-            "        \"cardUrl\": \"http://192.168.1.51:9007/gjj/image/home/skin/chexian/gjj_banner20170210_daijiao.png\",\n" +
-            "        \"largestAmount\": \"30万\",\n" +
-            "        \"applyAmount\": \"1200\",\n" +
-            "        \"cardCode\": 1,\n" +
-            "        \"cardName\": \"浦发银联梦之白金卡\",\n" +
-            "        \"h5Url\": \"http://www.baidu.com\",\n" +
-            "        \"description\": [\n" +
-            "          \"大额现金分期\",\n" +
-            "          \"白金卡\",\n" +
-            "          \"卡组织\"\n" +
-            "        ]\n" +
-            "      }\n" +
-            "    ]\n" +
-            "  },\n" +
-            "  \"desc\": \"ok\"\n" +
-            "}";
-    
+    public static final String JSON_ARRAY = "[\"北京\",\"上海\",\"广州\"]";
+
+    @Override protected void setUp() throws Exception {
+        super.setUp();
+    }
+
+    public static class JsonTestModel {
+        public int code;
+        public float codeFloat;
+        public double codeDouble;
+        public String uniqueId;
+        public String results;
+        public String desc;
+        public Student student;
+
+        @Override public String toString() {
+            return "JsonTestModel{" +
+                    "code=" + code +
+                    ", codeFloat=" + codeFloat +
+                    ", codeDouble=" + codeDouble +
+                    ", uniqueId='" + uniqueId + '\'' +
+                    ", results='" + results + '\'' +
+                    ", desc='" + desc + '\'' +
+                    ", student=" + student +
+                    '}';
+        }
+    }
+
+
     public void testEncode() throws Exception {
         Student student = new Student("VanceKing", 28);
         Logger.i(JsonUtil.encode(student));
@@ -64,14 +56,14 @@ public class JsonUtilTest extends BaseTestCase {
         Student decode = JsonUtil.decode("{\"name\":\"VanceKing\",\"age\":28}", Student.class);
         Logger.i(decode.toString());
     }
-    
+
     public void testEncodeListObject() throws Exception {
         List<Student> students = new ArrayList<>();
         students.add(new Student("aaa", 20));
         students.add(new Student("bbb", 28));
 
         String str = JsonUtil.encode(students);
-        Logger.i("str: "+str);
+        Logger.i("str: " + str);
     }
 
     public void testEncodeListInteger() throws Exception {
@@ -81,9 +73,9 @@ public class JsonUtilTest extends BaseTestCase {
         integers.add(0);
 
         String str = JsonUtil.encode(integers);
-        Logger.i("str: "+str);
+        Logger.i("str: " + str);
     }
-    
+
     public void testPutObject() throws Exception {
         Student student = new Student("VanceKing", 28);
         SPUtil.putObject("aaa", student);
@@ -112,19 +104,19 @@ public class JsonUtilTest extends BaseTestCase {
 
     }
 
-    public void testAAA() throws Exception {
-        JSONObject jsonObject = new JSONObject(AAA);
-        JSONObject results = JsonUtil.getJsonObject(jsonObject, "results");
-        JSONArray loanidnex = JsonUtil.getJsonArray(results, "loanidnex");
-        JSONObject item = (JSONObject) loanidnex.get(0);
-        JSONArray description = JsonUtil.getJsonArray(item, "description");
-        List<String> texts = JsonUtil.decodeToList(description, String.class);
-        printList(texts);
-    }
-
-    public void testFormatPrettyJson() throws Exception{
+    public void testFormatPrettyJson() throws Exception {
         final String uglyJSONString = "{\"code\":1,\"results\":{\"nearbyOrgList\":[{\"corgname\":\"上海市\",\"ccitycode\":\"021\"}],\"list\":[{\"sectiontitle\":\"安徽省\",\"sectionorgs\":[{\"corgname\":\"安徽省直\",\"ccitycode\":\"05512\"},{\"corgname\":\"安徽省直\",\"ccitycode\":\"05512\"}]}]},\"desc\":\"查询城市列表成功\"}";
         String prettyJson = JsonUtil.formatPrettyJson(uglyJSONString);
         Logger.i("prettyJson: " + prettyJson);
+    }
+
+    public void testNullTest() throws Exception {
+        String text = "{\"code\":1,\"codeFloat\":1024,\"codeDouble\":1024.1024,\"results\":\"results\",\"desc\":\"desc\",\"uniqueId\":\"aaabbbccc\",\"student\":null}";
+        JsonTestModel model = JsonUtil.decode(text, JsonTestModel.class);
+        Logger.i("results: " + model.toString());
+
+        String text2 = "{\"code\":null,\"codeFloat\":null,\"codeDouble\":null,\"results\":null,\"desc\":null,\"uniqueId\":null,\"student\":null}";
+        JsonTestModel model1 = JsonUtil.decode(text2, JsonTestModel.class);
+        Logger.i("results: " + model1.toString());
     }
 }

@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.king.applib.gson.NullToEmptyStringAdapterFactory;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,8 +22,17 @@ import java.util.List;
  */
 
 public class JsonUtil {
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON;
 
+    static {
+        GSON = new GsonBuilder()
+                .registerTypeAdapterFactory(new NullToEmptyStringAdapterFactory())
+//                .serializeNulls()
+//                .registerTypeAdapter(String.class, new StringJsonDeserializer())
+//                .registerTypeAdapter(String.class, new NullJsonDeserializer())
+                .create();
+    }
+    
     private JsonUtil() {
         throw new UnsupportedOperationException("No instances!");
     }
