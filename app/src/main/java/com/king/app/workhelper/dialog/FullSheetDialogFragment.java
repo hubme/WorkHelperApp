@@ -12,7 +12,7 @@ import com.king.app.workhelper.R;
 
 /**
  * @author VanceKing
- * @since 2017/6/19 0019.
+ * @since 2017/6/19.
  */
 
 public class FullSheetDialogFragment extends BottomSheetDialogFragment {

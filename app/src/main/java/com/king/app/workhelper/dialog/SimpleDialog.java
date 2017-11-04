@@ -10,7 +10,7 @@ import com.king.applib.base.dialog.BaseCenterDialog;
 import com.king.applib.util.StringUtil;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/7/12.
  */
 
@@ -39,10 +39,6 @@ public class SimpleDialog extends BaseCenterDialog {
 
         if (StringUtil.isNotNullOrEmpty(message)) {
             mMessageTv.setText(message);
-        }
-
-        if (StringUtil.isNotNullOrEmpty(negativeText)) {
-            
         }
     }
 

@@ -6,7 +6,7 @@ import com.king.app.workhelper.R;
 import com.king.applib.base.dialog.BaseBottomDialog;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/7/12.
  */
 
