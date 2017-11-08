@@ -3,7 +3,6 @@ package com.king.app.workhelper.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ import butterknife.OnClick;
 
 public class BannerSampleFragment extends AppBaseFragment {
     @BindView(R.id.simple_banner)
-    SimpleBanner<BannerModel> mSimpleBanner;
+    SimpleBanner<BannerModel, View> mSimpleBanner;
     private int[] mImageIds = new int[]{R.mipmap.banner1, R.mipmap.banner2, R.mipmap.banner3};
     private String[] mImageUrls = new String[]{"http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1uplxf0j20kq071jvq.jpg",
             "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1vl88hqj20sg08w76c.jpg",
@@ -58,7 +57,7 @@ public class BannerSampleFragment extends AppBaseFragment {
                 .updateBanner(fakeRemoteData());
     }
 
-    private static class MyBannerInterface implements BannerInterface<BannerModel> {
+    private static class MyBannerInterface implements BannerInterface<BannerModel, View> {
         @Override
         public void displayBanner(Context context, BannerModel bannerModel, View bannerView) {
             ((SimpleDraweeView) bannerView.findViewById(R.id.banner_image)).setImageURI(Uri.parse(bannerModel.imageUrl));
@@ -67,7 +66,7 @@ public class BannerSampleFragment extends AppBaseFragment {
 
         @Override
         public View createBannerView(Context context) {
-            return LayoutInflater.from(context).inflate(R.layout.layout_banner_item, null);
+            return View.inflate(context, R.layout.layout_banner_item, null);
         }
     }
 

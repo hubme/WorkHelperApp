@@ -33,7 +33,7 @@ import java.util.List;
 假设原始界面是:A、B、C.则构造成C、A、B、C、A.当position==0(C界面)时，设置setCurrentItem==3(也是C界面),可以向右滑.
 当position==4(A)时，设置setCurrentItem==1(也是A界面),可以向左滑,达到循环的目的.
  */
-public class SimpleBanner<T> extends RelativeLayout implements ViewPager.OnPageChangeListener {
+public class SimpleBanner<T, V extends View> extends RelativeLayout implements ViewPager.OnPageChangeListener {
     private static final int DEFAULT_SCROLL_DURATION = 1000;
     private static final int DEFAULT_DELAY_DURATION = 3000;
     private int mIndicatorSize = 6;//dip
@@ -48,7 +48,7 @@ public class SimpleBanner<T> extends RelativeLayout implements ViewPager.OnPageC
     private int mBannerCount;
     private BannerLoopTask mLoopTask;
 
-    private BannerInterface<T> mBannerLoader;
+    private BannerInterface<T, V> mBannerLoader;
     private LinearLayout mIndicatorPanel;
     private final List<View> mIndicatorViews = new ArrayList<>();
     private final List<View> mBannerViews = new ArrayList<>();
@@ -186,7 +186,7 @@ public class SimpleBanner<T> extends RelativeLayout implements ViewPager.OnPageC
     }
 
     private View buildBannerView(T t) {
-        View view = mBannerLoader.createBannerView(getContext());
+        final V view = mBannerLoader.createBannerView(getContext());
         mBannerLoader.displayBanner(getContext(), t, view);
         return view;
     }
@@ -234,7 +234,7 @@ public class SimpleBanner<T> extends RelativeLayout implements ViewPager.OnPageC
         }
     }
 
-    public SimpleBanner<T> setBannerLoader(BannerInterface<T> imageLoader) {
+    public SimpleBanner<T, V> setBannerLoader(BannerInterface<T, V> imageLoader) {
         mBannerLoader = imageLoader;
         return this;
     }
@@ -244,24 +244,24 @@ public class SimpleBanner<T> extends RelativeLayout implements ViewPager.OnPageC
         return new ShapeDrawable(ovalShape);
     }
 
-    public SimpleBanner<T> setSelectedIndicatorColor(@ColorInt int color) {
+    public SimpleBanner<T, V> setSelectedIndicatorColor(@ColorInt int color) {
         mSelectedIndicatorColor = color;
         return this;
     }
 
-    public SimpleBanner<T> setUnSelectedIndicatorColor(@ColorInt int color) {
+    public SimpleBanner<T, V> setUnSelectedIndicatorColor(@ColorInt int color) {
         mUnselectedIndicatorColor = color;
         return this;
     }
 
-    public SimpleBanner<T> setIndicatorMargin(int marginInDp) {
+    public SimpleBanner<T, V> setIndicatorMargin(int marginInDp) {
         if (marginInDp > 0) {
             mIndicatorMargin = marginInDp;
         }
         return this;
     }
 
-    public SimpleBanner<T> setIndicatorSize(int sizeInDp) {
+    public SimpleBanner<T, V> setIndicatorSize(int sizeInDp) {
         mIndicatorSize = sizeInDp;
         return this;
     }
@@ -361,7 +361,7 @@ public class SimpleBanner<T> extends RelativeLayout implements ViewPager.OnPageC
         }
     }
 
-    public SimpleBanner<T> setOnBannerClickListener(OnBannerClickListener listener) {
+    public SimpleBanner<T, V> setOnBannerClickListener(OnBannerClickListener listener) {
         mBannerAdapter.setOnBannerClickListener(listener);
         return this;
     }

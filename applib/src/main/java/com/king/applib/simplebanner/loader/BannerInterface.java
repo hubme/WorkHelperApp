@@ -9,8 +9,8 @@ import android.view.View;
  * @author VanceKing
  * @since 2017/5/8.
  */
-public interface BannerInterface<T> {
-    void displayBanner(Context context, T bannerModel, View bannerView);
+public interface BannerInterface<T, V extends View> {
+    void displayBanner(Context context, T bannerModel, V bannerView);
 
-    View createBannerView(Context context);
+    V createBannerView(Context context);
 }
