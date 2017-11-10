@@ -95,7 +95,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
 
     @Override
     public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(viewType), parent, false);
         return new RecyclerHolder(view);
     }
 
@@ -122,7 +122,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         return mAdapterList.size();
     }
 
-    @LayoutRes public abstract int getItemLayoutRes();
+    @LayoutRes public abstract int getItemLayoutRes(int viewType);
 
     public void setOnItemClickListener(OnItemClickListener<E> listener) {
         mOnItemClickListener = listener;

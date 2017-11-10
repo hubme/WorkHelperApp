@@ -74,7 +74,7 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
                 } else if (viewType == VIEW_TYPE_FOOTER) {
                     return new RecyclerHolder(mFooterPanel);
                 } else {
-                    View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(), parent, false);
+                    View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(viewType), parent, false);
                     return new RecyclerHolder(view);
                 }
         }

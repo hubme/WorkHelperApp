@@ -60,7 +60,7 @@ public class RecyclerSwipeMenuFragment extends AppBaseFragment {
             holder.setOnClickListener(R.id.tv_menu_collection, v -> ToastUtil.showShort("收藏"));
         }
 
-        @Override public int getItemLayoutRes() {
+        @Override public int getItemLayoutRes(int viewType) {
             return R.layout.item_swipe_menu;
         }
     }
