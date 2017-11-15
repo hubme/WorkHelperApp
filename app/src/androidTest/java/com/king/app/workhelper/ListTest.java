@@ -65,4 +65,13 @@ public class ListTest extends BaseTestCase {
             Logger.i("index: " + i + ";results: " + mStringSparseArray.get(mStringSparseArray.keyAt(i)));
         }
     }
+    
+    public void testListSub() throws Exception {
+        List<String> subList = stringList.subList(1, 2);
+//        subList.add("aaa");//修改sublist会影响原来的list
+//        stringList.add("4");//修改原list,则sublist的所有操作会报错。java.util.ConcurrentModificationException
+        stringList.clear();
+        printList(stringList);
+        printList(subList);
+    }
 }
