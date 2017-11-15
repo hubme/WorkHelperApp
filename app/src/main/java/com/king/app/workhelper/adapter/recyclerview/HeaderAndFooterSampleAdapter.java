@@ -27,7 +27,7 @@ public class HeaderAndFooterSampleAdapter extends SimpleRecyclerAdapter<StringEn
         super(context, dataList);
     }
 
-    @Override public int getItemLayoutRes() {
+    @Override public int getItemLayoutRes(int viewType) {
         return R.layout.layout_simple_text_view;
     }
 
