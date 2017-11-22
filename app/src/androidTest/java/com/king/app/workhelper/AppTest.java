@@ -227,4 +227,13 @@ public class AppTest extends BaseTestCase {
         }
         return tag;
     }
+    
+    public void testMathRound() throws Exception {
+        Logger.i("" + Math.round(0));//0
+        Logger.i("" + Math.round(0.4));//0
+        Logger.i("" + Math.round(0.6));//1
+        Logger.i("" + Math.round(-0.4));//0
+        Logger.i("" + Math.round(-0.6));//-1
+
+    }
 }
