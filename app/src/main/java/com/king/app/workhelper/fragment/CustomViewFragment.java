@@ -63,8 +63,7 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.my_badge) public TextView myBadgeTextView;
     @BindView(R.id.htv_tag) public HorizontalTagView mTagView;
     @BindView(R.id.tag_view) public TagTextView mTagTextView;
-    @BindView(R.id.pie_view)
-    PieChartView mPieView;
+    @BindView(R.id.pie_view) PieChartView mPieView;
     @BindView(R.id.pie_tax) FundFormPieView mFundPieView;
     @BindView(R.id.form_view) FormView mFormView;
     @BindView(R.id.form_view2) FormViewTest mFormView2;

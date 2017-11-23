@@ -1,4 +1,4 @@
-package android.support.v4.widget;
+package com.king.applib.ui.loading;
 
 import android.content.Context;
 import android.graphics.Color;

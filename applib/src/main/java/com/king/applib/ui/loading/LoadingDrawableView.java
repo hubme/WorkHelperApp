@@ -1,29 +1,29 @@
 package com.king.applib.ui.loading;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * loading View
- */
-public class LoadingProgress extends View {
+public class LoadingDrawableView extends View {
     private Animatable mDrawable;
 
-    public LoadingProgress(Context context) {
+    public LoadingDrawableView(Context context) {
         this(context, null);
     }
 
-    public LoadingProgress(Context context, AttributeSet attrs) {
+    public LoadingDrawableView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public LoadingProgress(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LoadingDrawableView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+    }
+
+    private void init(Context context) {
+        setBackgroundDrawable(new LoadingDrawable(context, this));
     }
 
     @Override
@@ -41,10 +41,8 @@ public class LoadingProgress extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (getVisibility() == View.VISIBLE) {
-            if (mDrawable != null) {
-                mDrawable.start();
-            }
+        if (mDrawable != null) {
+            mDrawable.start();
         }
     }
 
@@ -54,13 +52,6 @@ public class LoadingProgress extends View {
         if (mDrawable != null) {
             mDrawable.stop();
         }
-    }
-
-    private void init(Context context) {
-        MaterialProgressDrawable background = new MaterialProgressDrawable(context, this);
-        background.setColorSchemeColors(Color.BLACK);
-        background.setAlpha(255);
-        setBackgroundDrawable(background);
     }
 
     @Override
@@ -75,7 +66,6 @@ public class LoadingProgress extends View {
 
             if (background instanceof Animatable) {
                 mDrawable = (Animatable) background;
-                mDrawable.start();
             } else {
                 mDrawable = null;
             }

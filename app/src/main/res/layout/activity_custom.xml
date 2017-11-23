@@ -29,7 +29,7 @@
                 app:titleText="哈哈哈"
                 app:titleMargin="5dp"/>
 
-            <com.king.applib.ui.customview.LoadingDrawableView
+            <com.king.applib.ui.loading.LoadingDrawableView
                 android:layout_width="50dp"
                 android:layout_height="50dp"/>
 
