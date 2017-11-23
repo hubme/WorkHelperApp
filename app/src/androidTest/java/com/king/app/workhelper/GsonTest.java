@@ -27,9 +27,18 @@ public class GsonTest extends BaseAndroidJUnit4Test {
     }
 
     @Test
-    public void sample1() {
+    public void sampleDecode() {
         Logger.i(mGson.fromJson("VanceKing", String.class));
+        
         Logger.i("" + mGson.fromJson("1024.123", Double.class));
+        Logger.i("" + mGson.fromJson("\"1024.123\"", Double.class));
+        
+        
         Logger.i("" + mGson.fromJson("100", Integer.class));
+        Logger.i("" + mGson.fromJson("\"100\"", Integer.class));
+        
+        
+        Logger.i(""+mGson.fromJson("true", Boolean.class));
+        Logger.i(""+mGson.fromJson("false", Boolean.class));
     }
 }
