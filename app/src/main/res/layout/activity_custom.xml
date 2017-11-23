@@ -15,6 +15,11 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+            
+            <com.king.app.workhelper.ui.customview.CircleImageView
+                android:src="@drawable/icon_4"
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
 
             <com.king.applib.ui.customview.TitleImageView
                 android:id="@+id/title_image_view"
