@@ -2,23 +2,26 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
        xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--title、subtitle等要使用app/toolbar命名空间.app:title="123"-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/bg_while_bottom_line"
-        android:gravity="center"
-        app:contentInsetStart="0dp"
-        app:layout_scrollFlags="scroll|snap"
-        app:theme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextColor="@color/chocolate">
+        android:background="@color/colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@mipmap/arrow_left_blue"
+        app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle"
+        app:title="@string/test"
+        app:titleTextAppearance="@style/Theme.ToolBar.Base.Title">
+        <!--android:theme="@style/Theme.ToolBar.Base"-->
+        <!--android:theme="@style/OverflowMenuStyle"-->
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+        <ViewStub
+            android:id="@+id/vs_toolbar_custom"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/chocolate"
-            android:textSize="@dimen/ts_bigger"/>
+            android:inflatedId="@+id/toolbar_panel"/>
+
     </android.support.v7.widget.Toolbar>
 </merge>
