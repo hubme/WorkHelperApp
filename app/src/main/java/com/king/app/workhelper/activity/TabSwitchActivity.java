@@ -1,5 +1,6 @@
 package com.king.app.workhelper.activity;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
@@ -22,7 +23,7 @@ import butterknife.BindView;
 
 public class TabSwitchActivity extends AppBaseActivity {
     @BindView(R.id.viewpager) ViewPager mViewPager;
-
+    @BindView(R.id.tab_layout) TabLayout mTabLayout;
 
     @Override
     public int getContentLayout() {
@@ -32,6 +33,14 @@ public class TabSwitchActivity extends AppBaseActivity {
     @Override
     protected String getActivityTitle() {
         return "Tab切换";
+    }
+
+    @Override protected void initContentView() {
+        super.initContentView();
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.addTab(mTabLayout.newTab().setText("First"), 0, true);
+        mTabLayout.addTab(mTabLayout.newTab().setText("Second"), 1, false);
+        mTabLayout.addTab(mTabLayout.newTab().setText("Third"), false);
     }
 
     @Override
