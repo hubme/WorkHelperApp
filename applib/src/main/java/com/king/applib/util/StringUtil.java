@@ -75,6 +75,28 @@ public final class StringUtil {
     }
 
     /**
+     * 判断是否所有字符串都为空(null/empty)
+     */
+    public static boolean isAllEmpty(final String... strings) {
+        if (strings == null || strings.length <= 0) {
+            return true;
+        }
+        for (String str : strings) {
+            if (isNotNullOrEmpty(str)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 如果字符串为 null 返回"",否则返回字符串.
+     */
+    public static String getEmptyIfNull(String text) {
+        return text == null ? "" : text;
+    }
+
+    /**
      * 设置字符串中指定字符的样式
      *
      * @param context 上下文
