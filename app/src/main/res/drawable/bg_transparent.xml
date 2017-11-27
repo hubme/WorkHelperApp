@@ -3,12 +3,12 @@
     <!--透明遮罩。设置TextView Button的src, 正常情况下全透明,点击后变灰色。方便复用。-->
     
     <item android:state_pressed="true">
-        <shape android:shape="oval">
+        <shape android:shape="rectangle">
             <solid android:color="#21000000"/>
         </shape>
     </item>
     <item>
-        <shape android:shape="oval">
+        <shape android:shape="rectangle">
             <solid android:color="#00000000"/>
         </shape>
     </item>

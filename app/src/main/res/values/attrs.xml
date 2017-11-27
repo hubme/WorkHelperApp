@@ -12,15 +12,16 @@
         <attr name="step_steps" format="integer"/>
     </declare-styleable>
 
-    <declare-styleable name="gjjSwitchTitle">
+    <declare-styleable name="SwitchTitle">
         <attr name="tabTxtActiveColor" format="color"/>
         <attr name="tabTxtDisableColor" format="color"/>
         <attr name="tabLineColor" format="color"/>
         <attr name="tabTxtSize" format="dimension"/>
         <attr name="tabLineHeight" format="dimension"/>
         <attr name="tabsPadding" format="dimension"/>
-        <attr name="tabIsShortLine" format="boolean"/>
         <attr name="tabLineTopIndent" format="dimension"/>
+        <attr name="tabLinePaddingFraction" format="fraction"/>
+        <attr name="tabPadding" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="CircleCenterTextView">

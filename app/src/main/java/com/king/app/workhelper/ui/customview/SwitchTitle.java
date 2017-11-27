@@ -2,19 +2,16 @@ package com.king.app.workhelper.ui.customview;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.ColorInt;
+import android.graphics.Paint.Style;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.HorizontalScrollView;
@@ -31,58 +28,52 @@ import java.util.List;
  * @author CJL
  * @since 2014年11月17日
  */
-public class SwitchTitle extends HorizontalScrollView implements OnClickListener {
-    private static final String TAG = "aaa";
+public class SwitchTitle extends HorizontalScrollView {
     /** 动画持续时间 **/
     private static final int ANIM_DURATION = 300;
     /** 动画延迟时间 **/
     private static final int ANIM_DELAY = 100;
 
     /** tab 文字选中状态颜色 **/
-    private int mActiveTextColor;
+    private int mTxtActiveColor;
     /** tab 文字未选中状态颜色 **/
-    private int mDisableTextColor;
+    private int mTxtDisableColor;
     /** tab 下划线高度 **/
     private int mTabLineHeight;
     /** tab 下划线颜色 **/
     private int mTabLineColor;
     /** 文字大小(px) **/
-    private int mTabTextSize;
-    /** tab 文字padding **/
-    private int mTabPadding;
-
+    private int mTxtSize;
     /** 下划线左边坐标 **/
     private int mLineLeft = 0;
     /** 下划线右边坐标 **/
     private int mLineRight = 0;
     /** 下划线相对于上方文字的缩进值. */
     private int mLineTopIndent = 0;
+    /** 下划线的长度的偏移量 */
+    private float mLinePaddingFraction;
+    /** 每个 tab 的 左边和右边的 padding */
+    private int mTabPadding;
 
     /** LinearLayout, 包含所有tab **/
-    private TabContainer mTabContainer;
+    private final TabContainer mTabContainer;
 
     /** 当前选中的位置 **/
     private int mCurrentPosition = 0;
 
-    /** ViewPager **/
     private ViewPager mViewPager;
+    private OnTabClickListener mOnTabClickListener;
 
-    /** 没有ViewPager时候点击事件回调 **/
-    private OnTabTitleClickListener mOnTabClickListener;
-    /** 除文字宽度外的padding值 **/
-    private int mExtraPadding = 0;
-    /** tab line显示样式，true为短线，false为长线. */
-    private boolean mIsShortTabLine = false;
     /** tab标题 **/
-    private List<String> mTabTitles = new ArrayList<>();
+    private final List<String> mTabTitles = new ArrayList<>();
 
     /** 下划线左边动画 **/
     private ValueAnimator mLeftAnim;
     /** 下划线右边动画 **/
     private ValueAnimator mRightAnim;
     /** 画tab下划线的paint **/
-    Paint mTabLinePaint;
-    
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
     public SwitchTitle(Context context) {
         this(context, null);
     }
@@ -91,40 +82,38 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         this(context, attrs, 0);
     }
 
+
     public SwitchTitle(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
-    }
-    
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        mTabContainer = new TabContainer(context);
-        addView(mTabContainer, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
+        init(context, attrs, defStyleAttr);
+
+        mTabContainer = new TabContainer(context);
+        mTabContainer.setPadding(0, 0, 0, mLineTopIndent);
+        addView(mTabContainer, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+
+    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         setDrawingCacheBackgroundColor(Color.TRANSPARENT);
 
-        Resources res = context.getResources();
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.gjjSwitchTitle, defStyleAttr, 0);
-        mActiveTextColor = a.getColor(R.styleable.gjjSwitchTitle_tabTxtActiveColor,
-                res.getColor(R.color.gjjSwitchTitleTxtActive));
-        mDisableTextColor = a.getColor(R.styleable.gjjSwitchTitle_tabTxtDisableColor,
-                res.getColor(R.color.gjjSwitchTitleTxtDisable));
-        mTabLineHeight = a.getDimensionPixelSize(R.styleable.gjjSwitchTitle_tabLineHeight,
-                res.getDimensionPixelSize(R.dimen.SwitchTitleLineHeight));
-        mTabLineColor = a.getColor(R.styleable.gjjSwitchTitle_tabLineColor, res.getColor(R.color.gjjSwitchTitleLine));
-        mTabTextSize = a.getDimensionPixelSize(R.styleable.gjjSwitchTitle_tabTxtSize,
-                res.getDimensionPixelSize(R.dimen.SwitchTitleTxtSize));
-        mTabPadding = a.getDimensionPixelSize(R.styleable.gjjSwitchTitle_tabsPadding,
-                res.getDimensionPixelSize(R.dimen.SwitchTitleTabsPadding));
-        Log.i(TAG, "mTabPadding: " + mTabPadding);
-        mIsShortTabLine = a.getBoolean(R.styleable.gjjSwitchTitle_tabIsShortLine, false);
-        mLineTopIndent = -a.getDimensionPixelSize(R.styleable.gjjSwitchTitle_tabLineTopIndent, 0);
+        final TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SwitchTitle, defStyleAttr, 0);
+        mTxtActiveColor = typedArray.getColor(R.styleable.SwitchTitle_tabTxtActiveColor, Color.parseColor("#ff27A5E2"));
+        mTxtDisableColor = typedArray.getColor(R.styleable.SwitchTitle_tabTxtDisableColor, Color.parseColor("#ffb0b0b0"));
+        mTabLineHeight = typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabLineHeight, dpToPx(2));
+        mTabLineColor = typedArray.getColor(R.styleable.SwitchTitle_tabLineColor, Color.BLACK);
+        mTxtSize = typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabTxtSize, sp2px(17));
+        mLinePaddingFraction = typedArray.getFraction(R.styleable.SwitchTitle_tabLinePaddingFraction, 1, 1, 0f);
+        mTabPadding = typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabPadding, dpToPx(5));
+        mLineTopIndent = -typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabLineTopIndent, 0);
+        typedArray.recycle();
 
-        mTabContainer.setPadding(0, 0, 0, mLineTopIndent);
-        mExtraPadding = mIsShortTabLine ? mTabPadding : mTabPadding / 2;
-        a.recycle();
+        initPaint();
+        initAnimations();
+    }
 
-        initLinePaint();
-        initLineAnimations();
+    private void initPaint() {
+        mPaint.setColor(mTabLineColor);
+        mPaint.setStyle(Style.FILL);
     }
 
     @Override
@@ -148,42 +137,12 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        if (mTabContainer != null && mTabContainer.getChildCount() > 0) {
+        if (mTabContainer.getChildCount() > 0) {
             View selTab = mTabContainer.getChildAt(mCurrentPosition);
             mLineLeft = selTab.getLeft();
             mLineRight = selTab.getRight();
             mTabContainer.invalidate();
         }
-    }
-
-    private void initLinePaint() {
-        mTabLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mTabLinePaint.setColor(mTabLineColor);
-        mTabLinePaint.setStyle(Paint.Style.FILL);
-    }
-
-    private void initLineAnimations() {
-        mLeftAnim = new ValueAnimator();
-        mLeftAnim.setDuration(ANIM_DURATION);
-        mLeftAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-        mLeftAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mLineLeft = (Integer) animation.getAnimatedValue();
-                mTabContainer.invalidate(0, getHeight() - mTabLineHeight, mTabContainer.getWidth(), getHeight());
-            }
-        });
-
-        mRightAnim = new ValueAnimator();
-        mRightAnim.setDuration(ANIM_DURATION);
-        mRightAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-        mRightAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mLineRight = (Integer) animation.getAnimatedValue();
-                mTabContainer.invalidate(0, getHeight() - mTabLineHeight, mTabContainer.getWidth(), getHeight());
-            }
-        });
     }
 
     /**
@@ -195,21 +154,28 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
         if (mTabContainer.getChildCount() > 0) {
             mTabContainer.removeAllViews();
         }
-        for (int i = 0; i < titles.size(); i++) {
-            TabText tabText = new TabText(getContext(), i);
-            tabText.setText(titles.get(i));
-            if (mCurrentPosition == i) {
-                tabText.setTextColor(mActiveTextColor);
-            } else {
-                tabText.setTextColor(mDisableTextColor);
-            }
-            tabText.setOnClickListener(this);
-            mTabContainer.addView(tabText, LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        }
-    }
 
-    public TabContainer getTabContainer() {
-        return mTabContainer;
+        for (int i = 0; i < titles.size(); i++) {
+            final TabSwitchTitle tabTitle = new TabSwitchTitle(getContext());
+            tabTitle.setPadding(mTabPadding, 0, mTabPadding, 0);
+            tabTitle.setPosition(i);
+            tabTitle.setText(titles.get(i));
+            tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTxtSize);
+            if (mCurrentPosition == i) {
+                tabTitle.setTextColor(mTxtActiveColor);
+            } else {
+                tabTitle.setTextColor(mTxtDisableColor);
+            }
+            tabTitle.setOnClickListener(new OnClickListener() {
+                @Override public void onClick(View v) {
+                    final int position = tabTitle.getPosition();
+                    if (position >= 0 && position < mTabTitles.size() && mCurrentPosition != position) {
+                        refreshPosition(position);
+                    }
+                }
+            });
+            mTabContainer.addView(tabTitle, LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        }
     }
 
     /**
@@ -217,7 +183,7 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
      *
      * @return 当前页位置
      */
-    public int getNowPageId() {
+    public int getCurrentPosition() {
         return mCurrentPosition;
     }
 
@@ -226,89 +192,100 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
      *
      * @return 当前页标题
      */
-    public CharSequence getNowPageTitle() {
+    public CharSequence getCurrentTabTitle() {
         return mTabTitles.get(mCurrentPosition);
     }
 
     /**
-     * 设置标题
+     * 设置当前title选中的位置
      *
-     * @param titles    tab标题
-     * @param viewPager ViewPager
-     * @param listener  ViewPager 的OnPageChangeListener
+     * @param desPos 目标位置
      */
-    public void setParams(ViewPager viewPager, List<String> titles, OnTabTitleClickListener listener) {
-        if (viewPager == null || titles == null || titles.isEmpty()) {
-            throw new IllegalArgumentException("viewPager 或 title不能为null");
+    public void refreshPosition(final int desPos) {
+        if (desPos < 0 || desPos > mTabTitles.size() - 1 || mCurrentPosition == desPos) {
+            return;
         }
-        mTabTitles.clear();
-        mTabTitles.addAll(titles);
-        addTabs(mTabTitles);
+        TabSwitchTitle src = ((TabSwitchTitle) mTabContainer.getChildAt(mCurrentPosition));
+        TabSwitchTitle dest = (TabSwitchTitle) mTabContainer.getChildAt(desPos);
+        src.setTextColor(mTxtDisableColor);
+        dest.setTextColor(mTxtActiveColor);
 
-        mOnTabClickListener = listener;
-        mViewPager = viewPager;
+        int scrollPos = dest.getLeft() - (getWidth() - dest.getWidth()) / 2;
+        smoothScrollTo(scrollPos, 0);
+        final int leftTabHalfWidth = src.getMeasuredWidth() / 2;
+        final int rightTabHalfWidth = dest.getMeasuredWidth() / 2;
+        runAnimation(src.getLeft() + (int) (mLinePaddingFraction * leftTabHalfWidth), src.getRight() - (int) (mLinePaddingFraction * leftTabHalfWidth),
+                dest.getLeft() + (int) (mLinePaddingFraction * rightTabHalfWidth), dest.getRight() - (int) (mLinePaddingFraction * rightTabHalfWidth));
 
-        mViewPager.setCurrentItem(mCurrentPosition);
-        mViewPager.addOnPageChangeListener(new TabPageChangeListener());
-    }
-
-    /**
-     * 设置独立的参数，与viewpager 无关
-     *
-     * @param titles titles
-     * @param cl     click callback
-     */
-    public void setParams(List<String> titles, OnTabTitleClickListener cl) {
-        if (titles == null || titles.isEmpty()) {
-            throw new IllegalArgumentException("title不能为null");
-        }
-        mTabTitles.clear();
-        mTabTitles.addAll(titles);
-
-        addTabs(mTabTitles);
-        mViewPager = null;
-        mOnTabClickListener = cl;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v instanceof TabText) {
-            int newPosition = ((TabText) v).getPos();
-            if (newPosition == mCurrentPosition) {
-                return;
-            }
-            if (mViewPager != null) {
-                mViewPager.setCurrentItem(newPosition);
-            }
-            changePosition(newPosition);
-        }
-    }
-
-    private void changePosition(int newPosition) {
-        TabText src = ((TabText) mTabContainer.getChildAt(mCurrentPosition));
-        TabText dest = (TabText) mTabContainer.getChildAt(newPosition);
-        runAnimation(src, dest);
-        mCurrentPosition = newPosition;
         if (mOnTabClickListener != null) {
-            mOnTabClickListener.onTabTitleClick(newPosition);
+            mOnTabClickListener.onTabClicked(desPos, dest);
         }
+
+        if (mViewPager != null) {
+            mViewPager.setCurrentItem(desPos);//会调用refreshPosition方法更新tab
+        }
+        mCurrentPosition = desPos;
     }
 
-    /**
-     * 开始动画
-     *
-     * @param srcTabText 开始tab
-     * @param desTabText 结束tab
-     */
-    private void runAnimation(TabText srcTabText, TabText desTabText) {
-        if (srcTabText != desTabText && getWidth() != 0) { // getWidth=0表示还未调用onMeasure,view还未显示,不用动画
-            int scrollPos = desTabText.getLeft() - (SwitchTitle.this.getWidth() - desTabText.getWidth()) / 2;
-            smoothScrollTo(scrollPos, 0);
-            runAnimation(srcTabText.getLeft() + mExtraPadding, srcTabText.getRight() - mExtraPadding,
-                    desTabText.getLeft() + mExtraPadding, desTabText.getRight() - mExtraPadding);
+    public void setParams(ViewPager viewPager, List<String> titles) {
+        if (viewPager == null) {
+            throw new IllegalArgumentException("ViewPager must not be null");
         }
-        srcTabText.setTextColor(mDisableTextColor);
-        desTabText.setTextColor(mActiveTextColor);
+        if (titles == null || titles.isEmpty()) {
+            return;
+        }
+        if (!mTabTitles.isEmpty()) {
+            mTabTitles.clear();
+        }
+        mTabTitles.addAll(titles);
+        addTabs(mTabTitles);
+
+        mViewPager = viewPager;
+        mViewPager.setCurrentItem(mCurrentPosition);
+        mViewPager.addOnPageChangeListener(new OnPageChangeListener());
+    }
+
+    public void setTabTitles(List<String> titles) {
+        if (titles == null || titles.isEmpty()) {
+            return;
+        }
+        if (!mTabTitles.isEmpty()) {
+            mTabTitles.clear();
+        }
+        mTabTitles.addAll(titles);
+        addTabs(mTabTitles);
+    }
+
+    public void setViewPager(ViewPager viewPager) {
+        if (viewPager == null) {
+            throw new IllegalArgumentException("ViewPager must not be null");
+        }
+        mViewPager = viewPager;
+        mViewPager.setCurrentItem(mCurrentPosition);
+        mViewPager.addOnPageChangeListener(new OnPageChangeListener());
+    }
+
+    /** 初始化ValueAnimator **/
+    private void initAnimations() {
+        mLeftAnim = new ValueAnimator();
+        mLeftAnim.setDuration(ANIM_DURATION);
+        mLeftAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        mLeftAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator animation) {
+                mLineLeft = (Integer) animation.getAnimatedValue();
+                mTabContainer.invalidate(0, getHeight() - mTabLineHeight, mTabContainer.getWidth(), getHeight());
+            }
+        });
+
+        mRightAnim = new ValueAnimator();
+        mRightAnim.setDuration(ANIM_DURATION);
+        mRightAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        mRightAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator animation) {
+                mLineRight = (Integer) animation.getAnimatedValue();
+                mTabContainer.invalidate(0, getHeight() - mTabLineHeight, mTabContainer.getWidth(), getHeight());
+            }
+        });
     }
 
     /**
@@ -341,30 +318,13 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
     }
 
     /** tab 容器， 选中的项底部含有下划线 **/
-    public class TabContainer extends LinearLayout {
-
+    private class TabContainer extends LinearLayout {
         public TabContainer(Context context) {
             super(context);
+
             setOrientation(HORIZONTAL);
-            setFillViewport(true);//让子View的高度填满父元素
-            setWillNotDraw(false);//设置绘制View
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            if (getChildCount() > mCurrentPosition && mLineLeft <= mLineRight) {
-                if (mLineRight == 0) { // 初始位置时候重新计算
-                    TabText dest = (TabText)getChildAt(mCurrentPosition);
-                    mLineLeft = dest.getLeft() + mExtraPadding;
-                    mLineRight = dest.getRight() - mExtraPadding;
-
-                    // 若要显示的View未完全显示，则滚动scrollView使其在屏幕中间
-                    int scrollPos = dest.getLeft() - (SwitchTitle.this.getWidth() - dest.getWidth()) / 2;
-                    smoothScrollTo(scrollPos, 0);
-                }
-                canvas.drawRect(mLineLeft, getHeight() - mTabLineHeight, mLineRight, getHeight(), mTabLinePaint);
-            }
+            setFillViewport(true);
+            setWillNotDraw(false);
         }
 
         @Override
@@ -374,154 +334,82 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             } else if (widthMode == MeasureSpec.EXACTLY && getChildCount() > 0) {
                 // MeasureSpec.EXACTLY 仅当所有tab宽度之和小于屏幕宽度时候会调用，此处调整加大每个tab宽度
-
-                final int w = MeasureSpec.getSize(widthMeasureSpec);
+                final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
                 final int childCount = getChildCount();
-                int exPadding = (w - getMeasuredWidth()) / childCount;
+                int exPadding = (widthSize - getMeasuredWidth()) / childCount;
 
                 for (int i = 0; i < childCount; i++) {
-                    View child = getChildAt(i);
-
-                    int childHMeasureSpec = getChildMeasureSpec(heightMeasureSpec,
+                    final View child = getChildAt(i);
+                    int childHeightSpec = getChildMeasureSpec(heightMeasureSpec,
                             getPaddingTop() + getPaddingBottom(), child.getLayoutParams().height);
-                    int childWMeasureSpec = MeasureSpec.makeMeasureSpec(child.getMeasuredWidth() + exPadding,
-                            MeasureSpec.EXACTLY);
-                    child.measure(childWMeasureSpec, childHMeasureSpec);
+                    int childWidthSpec = MeasureSpec.makeMeasureSpec(child.getMeasuredWidth() + exPadding, MeasureSpec.EXACTLY);
+                    child.measure(childWidthSpec, childHeightSpec);
                 }
 
-                setMeasuredDimension(w, MeasureSpec.getSize(heightMeasureSpec));
+                setMeasuredDimension(widthSize, MeasureSpec.getSize(heightMeasureSpec));
+            }
+        }
 
-                // 动画时候会自动刷新位置，不用调整。若动画进行时，此处invalidate会导致下划线闪到终点再回来继续动画
-                if (exPadding != 0 && !mLeftAnim.isRunning() && !mRightAnim.isRunning()) {
-                    mExtraPadding = exPadding / 2 + (mIsShortTabLine ? mTabPadding : mTabPadding / 2);
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            if (mCurrentPosition < getChildCount() && mLineLeft <= mLineRight) {
+                if (mLineRight == 0) { // 初始位置时候重新计算
                     View dest = getChildAt(mCurrentPosition);
-                    int left = dest.getLeft() + mExtraPadding;
-                    if (left != mLineLeft) { // 由于是均分的，因此判断左边就行了
-                        mLineLeft = left;
-                        mLineRight = dest.getRight() - mExtraPadding;
-                        postInvalidate(dest.getLeft(), getHeight() - mTabLineHeight, dest.getRight(), getHeight());
-                    }
+                    mLineLeft = dest.getLeft() + (int) (mLinePaddingFraction * dest.getMeasuredWidth() / 2);
+                    mLineRight = dest.getRight() - (int) (mLinePaddingFraction * dest.getMeasuredWidth() / 2);
+
+                    // 若要显示的View未完全显示，则滚动scrollView使其在屏幕中间
+                    int scrollPos = dest.getLeft() - (getWidth() - dest.getWidth()) / 2;
+                    smoothScrollTo(scrollPos, 0);
                 }
+                canvas.drawRect(mLineLeft, getHeight() - mTabLineHeight, mLineRight, getHeight(), mPaint);
             }
         }
     }
 
-    public TabText getTabText(int position) {
+    public TabSwitchTitle getTabText(int position) {
         if (position < 0 || position > mTabContainer.getChildCount() - 1) {
             return null;
         }
-        return (TabText) mTabContainer.getChildAt(position);
+        return (TabSwitchTitle) mTabContainer.getChildAt(position);
     }
 
-    /** tab 上的文字 **/
-    public class TabText extends android.support.v7.widget.AppCompatTextView {
-        /** 该Tab位置 **/
-        private int mPos;
-        private Paint mPaint;
-        private float mRadius = 10;
-        private int mBadgePaddingTop = 20;
-        private int mBadgePaddingRight = 30;
-        private boolean mIsShowBadge = false;
-        @ColorInt private int mBadgeColor = Color.RED;
-
-        public TabText(Context context, int pos) {
-            super(context);
-            mPos = pos;
-            init();
-        }
-
-        private void init() {
-            setTextSize(TypedValue.COMPLEX_UNIT_PX, mTabTextSize);
-            setGravity(Gravity.CENTER);
-            setBackgroundResource(R.drawable.gjj_top_click_selector);
-            setPadding(mTabPadding, 0, mTabPadding, 0);
-
-            mPaint = new Paint();
-            mPaint.setAntiAlias(true);
-        }
-
-        private int getPos() {
-            return mPos;
-        }
-
-        @Override protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            if (mIsShowBadge) {
-                mPaint.setColor(mBadgeColor);
-                canvas.drawCircle(getWidth() - mRadius - mBadgePaddingRight, mRadius + mBadgePaddingTop, mRadius, mPaint);
-            } else {
-                mPaint.setColor(Color.TRANSPARENT);
-                canvas.drawCircle(getWidth() - mRadius - mBadgePaddingRight, mRadius + mBadgePaddingTop, mRadius, mPaint);
-            }
-        }
-
-        public void setRadius(float radius) {
-            if (radius > 0) {
-                mRadius = radius;
-            }
-        }
-
-        //调用该方法才会显示Badge
-        public void showBadge(boolean visible) {
-            if (visible != mIsShowBadge) {
-                mIsShowBadge = visible;
-                invalidate();
-            }
-        }
-        
-        public void setBadgePadding(float top, float right) {
-            if (top > 0) {
-                mBadgePaddingTop = dp2px(top);
-            }
-            if (right > 0) {
-                mBadgePaddingRight = dp2px(right);
-            }
-        }
-
-        public void setBadgeColor(@ColorInt int color) {
-            mBadgeColor = color;
-        }
-
-        private int dp2px(float dpValue) {
-            final float scale = getContext().getResources().getDisplayMetrics().density;
-            return (int) (dpValue * scale + 0.5f);
-        }
-    }
-
-    /**
-     * ViewPager OnPageChangeListener
-     *
-     * @author CJL
-     * @since 2014年11月17日
-     */
-    private class TabPageChangeListener implements ViewPager.OnPageChangeListener {
+    private class OnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
         @Override
         public void onPageSelected(int position) {
-            changePosition(position);
+            refreshPosition(position);
         }
 
         @Override
         public void onPageScrolled(int currentPage, float pageOffset, int offsetPixels) {
-            if (mCurrentPosition > currentPage) { // idx -
-                TabText src = ((TabText) mTabContainer.getChildAt(mCurrentPosition));
-                TabText dest = ((TabText) mTabContainer.getChildAt(currentPage));
+            /*if (currentPage < mCurrentPosition) {//左滑,即使滑动一点currentPage也会减小。但是右滑不会
+                TabSwitchTitle src = ((TabSwitchTitle) mTabContainer.getChildAt(mCurrentPosition));
+                TabSwitchTitle dest = ((TabSwitchTitle) mTabContainer.getChildAt(currentPage));
 
-                src.setTextColor(getStateColor(mDisableTextColor, mActiveTextColor, pageOffset));
-                dest.setTextColor(getStateColor(mActiveTextColor, mDisableTextColor, pageOffset));
-            } else if (mCurrentPosition == currentPage) { //idx +
-                if (offsetPixels == 0) { // 稳定状态
+                src.setTextColor(getStateColor(mTxtDisableColor, mTxtActiveColor, pageOffset));
+                dest.setTextColor(getStateColor(mTxtActiveColor, mTxtDisableColor, pageOffset));
+            } else {//右滑和静止状态
+                TabSwitchTitle src = ((TabSwitchTitle) mTabContainer.getChildAt(mCurrentPosition));
+                Log.i("aaa", src.getText().toString());
+                TabSwitchTitle dest = ((TabSwitchTitle) mTabContainer.getChildAt(mCurrentPosition + 1));
+
+                if (offsetPixels == 0) { //静止状态
                     return;
                 }
-                TabText src = ((TabText) mTabContainer.getChildAt(mCurrentPosition));
-                TabText dest = ((TabText) mTabContainer.getChildAt(mCurrentPosition + 1));
-
-                src.setTextColor(getStateColor(mActiveTextColor, mDisableTextColor, pageOffset));
-                dest.setTextColor(getStateColor(mDisableTextColor, mActiveTextColor, pageOffset));
+                //右滑
+                src.setTextColor(getStateColor(mTxtActiveColor, mTxtDisableColor, pageOffset));
+                dest.setTextColor(getStateColor(mTxtDisableColor, mTxtActiveColor, pageOffset));
+                if (currentPage != mCurrentPosition) {
+                    src.setTextColor(getStateColor(mTxtActiveColor, mTxtDisableColor, pageOffset));
+                }
+            }*/
+            if (offsetPixels == 0) { //静止状态
+                TabSwitchTitle src = ((TabSwitchTitle) mTabContainer.getChildAt(mCurrentPosition));
+                TabSwitchTitle dest = ((TabSwitchTitle) mTabContainer.getChildAt(currentPage));
+                src.setTextColor(mTxtDisableColor);
+                dest.setTextColor(mTxtActiveColor);
             }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int status) {
         }
 
         /**
@@ -536,11 +424,56 @@ public class SwitchTitle extends HorizontalScrollView implements OnClickListener
             int r = (int) (Color.red(cf) + (Color.red(ct) - Color.red(cf)) * pageOffset);
             int g = (int) (Color.green(cf) + (Color.green(ct) - Color.green(cf)) * pageOffset);
             int b = (int) (Color.blue(cf) + (Color.blue(ct) - Color.blue(cf)) * pageOffset);
-            return Color.argb(255, r, g, b); // SUPPRESS CHECKSTYLE
+            return Color.argb(255, r, g, b);
         }
     }
 
-    public interface OnTabTitleClickListener {
-        void onTabTitleClick(int position);
+    public void setOnTabClickListener(OnTabClickListener listener) {
+        mOnTabClickListener = listener;
+    }
+
+    public interface OnTabClickListener {
+        void onTabClicked(int position, TabSwitchTitle tab);
+    }
+
+    public static class TabSwitchTitle extends android.support.v7.widget.AppCompatTextView {
+        private int mPosition;
+
+        public TabSwitchTitle(Context context) {
+            this(context, null);
+        }
+
+        public TabSwitchTitle(Context context, AttributeSet attrs) {
+            this(context, attrs, 0);
+        }
+
+        public TabSwitchTitle(Context context, AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+            init();
+        }
+
+        public TabSwitchTitle setPosition(int position) {
+            if (position > 0) {
+                mPosition = position;
+            }
+            return this;
+        }
+
+        public int getPosition() {
+            return mPosition;
+        }
+
+        private void init() {
+            setGravity(Gravity.CENTER);
+            setBackgroundResource(R.drawable.bg_transparent);
+        }
+    }
+
+    private int dpToPx(int dpValue) {
+        return Math.round(getResources().getDisplayMetrics().density * dpValue);
+    }
+
+    private int sp2px(float spValue) {
+        return Math.round(getResources().getDisplayMetrics().scaledDensity * spValue);
     }
 }
