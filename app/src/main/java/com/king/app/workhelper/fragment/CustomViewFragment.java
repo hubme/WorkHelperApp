@@ -195,7 +195,7 @@ public class CustomViewFragment extends AppBaseFragment {
 
     private void initSwitchTitle() {
         mSwitchTitle.setTabTitles(Arrays.asList("哈哈哈", "呵呵呵", "哦哦哦", "恩恩嗯", "么么么"));
-        mSwitchTitle.setOnTabClickListener((position, tab) -> showToast(tab.getText().toString()));
+        mSwitchTitle.setOnTabClickListener((tab, position) -> showToast(tab.getText().toString()));
     }
 
     private void initPieView() {

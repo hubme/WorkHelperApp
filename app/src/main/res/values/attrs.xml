@@ -17,6 +17,8 @@
         <attr name="tabTxtDisableColor" format="color"/>
         <attr name="tabLineColor" format="color"/>
         <attr name="tabTxtSize" format="dimension"/>
+        <attr name="tabTxtActiveSize" format="dimension"/>
+        <attr name="tabTxtBold" format="boolean"/>
         <attr name="tabLineHeight" format="dimension"/>
         <attr name="tabsPadding" format="dimension"/>
         <attr name="tabLineTopIndent" format="dimension"/>

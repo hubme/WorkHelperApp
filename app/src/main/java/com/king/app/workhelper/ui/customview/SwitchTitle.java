@@ -44,6 +44,10 @@ public class SwitchTitle extends HorizontalScrollView {
     private int mTabLineColor;
     /** 文字大小(px) **/
     private int mTxtSize;
+    /** 选中的文字大小(px) **/
+    private int mTxtActiveSize;
+    /** 文字是否加粗 **/
+    private boolean mIsTextBold;
     /** 下划线左边坐标 **/
     private int mLineLeft = 0;
     /** 下划线右边坐标 **/
@@ -102,6 +106,8 @@ public class SwitchTitle extends HorizontalScrollView {
         mTabLineHeight = typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabLineHeight, dpToPx(2));
         mTabLineColor = typedArray.getColor(R.styleable.SwitchTitle_tabLineColor, Color.BLACK);
         mTxtSize = typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabTxtSize, sp2px(17));
+        mTxtActiveSize = typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabTxtActiveSize, sp2px(17));
+        mIsTextBold = typedArray.getBoolean(R.styleable.SwitchTitle_tabTxtBold, false);
         mLinePaddingFraction = typedArray.getFraction(R.styleable.SwitchTitle_tabLinePaddingFraction, 1, 1, 0f);
         mTabPadding = typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabPadding, dpToPx(5));
         mLineTopIndent = -typedArray.getDimensionPixelSize(R.styleable.SwitchTitle_tabLineTopIndent, 0);
@@ -160,11 +166,13 @@ public class SwitchTitle extends HorizontalScrollView {
             tabTitle.setPadding(mTabPadding, 0, mTabPadding, 0);
             tabTitle.setPosition(i);
             tabTitle.setText(titles.get(i));
-            tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTxtSize);
+            tabTitle.getPaint().setFakeBoldText(mIsTextBold);
             if (mCurrentPosition == i) {
                 tabTitle.setTextColor(mTxtActiveColor);
+                tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTxtActiveSize);
             } else {
                 tabTitle.setTextColor(mTxtDisableColor);
+                tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTxtSize);
             }
             tabTitle.setOnClickListener(new OnClickListener() {
                 @Override public void onClick(View v) {
@@ -202,23 +210,37 @@ public class SwitchTitle extends HorizontalScrollView {
      * @param desPos 目标位置
      */
     public void refreshPosition(final int desPos) {
-        if (desPos < 0 || desPos > mTabTitles.size() - 1 || mCurrentPosition == desPos) {
+        if (desPos < 0 || desPos >= mTabTitles.size() || mCurrentPosition == desPos) {
             return;
         }
-        TabSwitchTitle src = ((TabSwitchTitle) mTabContainer.getChildAt(mCurrentPosition));
-        TabSwitchTitle dest = (TabSwitchTitle) mTabContainer.getChildAt(desPos);
+        final TabSwitchTitle src = ((TabSwitchTitle) mTabContainer.getChildAt(mCurrentPosition));
+        final TabSwitchTitle dest = (TabSwitchTitle) mTabContainer.getChildAt(desPos);
+        
         src.setTextColor(mTxtDisableColor);
+        src.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTxtSize);
+        src.getPaint().setFakeBoldText(mIsTextBold);
+        
         dest.setTextColor(mTxtActiveColor);
+        dest.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTxtActiveSize);
+        dest.getPaint().setFakeBoldText(mIsTextBold);
 
         int scrollPos = dest.getLeft() - (getWidth() - dest.getWidth()) / 2;
         smoothScrollTo(scrollPos, 0);
-        final int leftTabHalfWidth = src.getMeasuredWidth() / 2;
-        final int rightTabHalfWidth = dest.getMeasuredWidth() / 2;
-        runAnimation(src.getLeft() + (int) (mLinePaddingFraction * leftTabHalfWidth), src.getRight() - (int) (mLinePaddingFraction * leftTabHalfWidth),
-                dest.getLeft() + (int) (mLinePaddingFraction * rightTabHalfWidth), dest.getRight() - (int) (mLinePaddingFraction * rightTabHalfWidth));
+
+        //字体变化后setTextSize宽高会变化
+        dest.post(new Runnable() {
+            @Override public void run() {
+                final int leftTabHalfWidth = src.getMeasuredWidth() / 2;
+                final int rightTabHalfWidth = dest.getMeasuredWidth() / 2;
+                runAnimation(src.getLeft() + (int) (mLinePaddingFraction * leftTabHalfWidth),
+                        src.getRight() - (int) (mLinePaddingFraction * leftTabHalfWidth),
+                        dest.getLeft() + (int) (mLinePaddingFraction * rightTabHalfWidth),
+                        dest.getRight() - (int) (mLinePaddingFraction * rightTabHalfWidth));
+            }
+        });
 
         if (mOnTabClickListener != null) {
-            mOnTabClickListener.onTabClicked(desPos, dest);
+            mOnTabClickListener.onTabClicked(dest, desPos);
         }
 
         if (mViewPager != null) {
@@ -433,7 +455,7 @@ public class SwitchTitle extends HorizontalScrollView {
     }
 
     public interface OnTabClickListener {
-        void onTabClicked(int position, TabSwitchTitle tab);
+        void onTabClicked(TabSwitchTitle tab, int position);
     }
 
     public static class TabSwitchTitle extends android.support.v7.widget.AppCompatTextView {
