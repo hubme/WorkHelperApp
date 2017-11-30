@@ -2,6 +2,7 @@ package com.king.applib.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,12 +22,17 @@ import com.king.applib.log.Logger;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 
 /**
  * App相关工具类.
  * Created by HuoGuangXu on 2016/10/19.
  */
 public class AppUtil {
+    public static final String PKG_NAME_QQ = "com.tencent.mobileqq";
+    public static final String PKG_NAME_WEIXIN = "com.tencent.mm";
+    public static final String PKG_name_WEIBO = "com.sina.weibo";
+    public static final String PKG_NAME_ALIPAY = "com.eg.android.AlipayGphone";
 
     private AppUtil() {
         throw new UnsupportedOperationException("No instances!");
@@ -125,8 +131,11 @@ public class AppUtil {
      * 清除本应用内部数据(/data/data/PackageName/)和外部数据(/Android/data/PackageName/)<br/>
      * 应用会自动关闭,下次打开和第一次安装效果一样.
      */
-    public static boolean clearUserData() {
-        ActivityManager activityManager = (ActivityManager) ContextUtil.getAppContext().getSystemService(Context.ACTIVITY_SERVICE);
+    public static boolean clearUserData(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager == null) {
+            return false;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             return activityManager.clearApplicationUserData();
         } else {
@@ -181,8 +190,11 @@ public class AppUtil {
             return "";
         }
         int pid = android.os.Process.myPid();
-        ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager.getRunningAppProcesses()) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager == null) {
+            return "";
+        }
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
             if (appProcess.pid == pid) {
                 return appProcess.processName;
             }
@@ -316,5 +328,37 @@ public class AppUtil {
         final String fileName = file.getName();
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+    }
+
+    public static boolean isAppClientInstall(Context context, String pkgName) {
+        if (context == null || StringUtil.isNullOrEmpty(pkgName)) {
+            return false;
+        }
+        List<PackageInfo> installedPackages = context.getPackageManager().getInstalledPackages(0);
+        if (installedPackages == null || installedPackages.isEmpty()) {
+            return false;
+        }
+        for (PackageInfo info : installedPackages) {
+            if (info.packageName.equalsIgnoreCase(pkgName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isServiceRunning(Context context, Class<? extends Service> serviceClass) {
+        if (context == null || serviceClass == null) {
+            return false;
+        }
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager == null) {
+            return false;
+        }
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
