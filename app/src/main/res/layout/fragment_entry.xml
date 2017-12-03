@@ -193,6 +193,11 @@
                 style="@style/EntryItem"
                 android:text="Multi Status View"/>
 
+            <TextView
+                android:id="@+id/tv_vector_sample"
+                style="@style/EntryItem"
+                android:text="Vector"/>
+
         </LinearLayout>
 
 

@@ -220,6 +220,11 @@ public class EntryFragment extends AppBaseFragment {
     public void onMultiStatusViewClick() {
         clickedOn(new MultiStatusViewFragment());
     }
+
+    @OnClick(R.id.tv_vector_sample)
+    public void onVectorSampleClick() {
+        clickedOn(new VectorFragment());
+    }
     
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();

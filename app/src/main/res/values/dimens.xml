@@ -7,14 +7,4 @@
     <dimen name="dp_11">11dp</dimen>
     <dimen name="dp_15">15dp</dimen>
 
-    <!-- switchTitle -->
-    <dimen name="switch_title_height">46dp</dimen>
-    <dimen name="SwitchTitleTxtSize">17dp</dimen>
-    <dimen name="SwitchTitleLineHeight">3dp</dimen>
-    <dimen name="SwitchTitleTabsPadding">20dp</dimen>
-    <dimen name="ShadowHeight">6dp</dimen>
-    <dimen name="ShadowHeightReverse">-6dp</dimen>
-
-    <dimen name="icon_size">100dp</dimen>
-    <dimen name="dp_test">20.25dp</dimen>
 </resources>
