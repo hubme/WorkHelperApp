@@ -28,6 +28,7 @@ import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.SwitchTitle;
 import com.king.app.workhelper.ui.customview.TagTextView;
 import com.king.app.workhelper.ui.customview.TestView;
+import com.king.app.workhelper.ui.customview.ValueBar;
 import com.king.applib.log.Logger;
 import com.king.applib.ui.customview.BadgeTextView;
 import com.king.applib.ui.customview.BadgeView;
@@ -57,7 +58,7 @@ public class CustomViewFragment extends AppBaseFragment {
             "壮士一去兮不复还",
             "不返就不返",
     };
-    
+
     @BindView(R.id.tv_haha) public TextView mTextViewHaHa;
     @BindView(R.id.gradient_drawable) public ImageView mGradientDrawable;
     @BindView(R.id.my_badge) public TextView myBadgeTextView;
@@ -74,7 +75,8 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.notice) NoticeView mNoticeView;
     @BindView(R.id.ins_loading_view) InsLoadingView mInsLoadingView;
     @BindView(R.id.title_image_view) TitleImageView mTitleImageView;
-    
+    @BindView(R.id.valueBar) ValueBar mValueBar;
+
     private BadgeView mBadgeView;
 
     @OnClick(R.id.rise_text_view)
@@ -99,7 +101,7 @@ public class CustomViewFragment extends AppBaseFragment {
         BadgeTextView badgeTextView = new BadgeTextView(mContext);
         badgeTextView.setText("99+");
         badgeTextView.setTargetView(mGradientDrawable);
-        
+
         applyBadge();
 
         mSimpleBadger.show("9");
@@ -132,6 +134,11 @@ public class CustomViewFragment extends AppBaseFragment {
                 showToast("哈哈哈");
             }
         });
+
+        mValueBar.setMaxValue(100);
+        mValueBar.setAnimated(true);
+        mValueBar.setAnimationDuration(4000);
+        mValueBar.setValue(10);
     }
 
     private void applyBadge() {
@@ -147,9 +154,9 @@ public class CustomViewFragment extends AppBaseFragment {
             View view = new View(mContext);
             view.setLayoutParams(new ViewGroup.LayoutParams(8, 8));
             view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.chocolate));
-            
+
             FrameLayout frameLayout = new FrameLayout(mContext);
-            
+
 //            frameLayout.setLayoutParams(layoutParams);
             frameLayout.addView(mTestTv);
             frameLayout.addView(view);
@@ -308,6 +315,11 @@ public class CustomViewFragment extends AppBaseFragment {
     @OnClick(R.id.test_view)
     public void onTestViewClick(TestView view) {
         view.startAnim();
+    }
+
+    @OnClick(R.id.valueBar)
+    public void onValueBarClick(ValueBar valueBar) {
+        valueBar.setValue(valueBar.getValue() + 24);
     }
 
 }

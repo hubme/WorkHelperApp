@@ -16,6 +16,27 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <com.king.app.workhelper.ui.customview.ValueBar
+                android:id="@+id/valueBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                app:barHeight="15dp"
+                app:baseColor="@color/navy"
+                app:circleRadius="12dp"
+                app:spaceAfterBar="14dp"
+                app:circleTextColor="@color/white"
+                app:circleTextSize="14sp"
+                app:fillColor="@color/red"
+                app:labelText="CURRENT VALUE"
+                app:labelTextColor="@color/navy"
+                app:labelTextSize="18sp"
+                app:maxValueTextColor="@color/navy"
+                app:maxValueTextSize="24sp"
+                />
+
             <com.king.app.workhelper.ui.customview.BoxGridLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
