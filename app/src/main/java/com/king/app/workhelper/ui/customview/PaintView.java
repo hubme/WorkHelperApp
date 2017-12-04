@@ -54,8 +54,12 @@ public class PaintView extends View {
         float textWidth = mPaint.measureText(TEXT);
 
         Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
-        float textHeight = -fontMetrics.ascent - fontMetrics.descent;
-        canvas.drawText(TEXT, centerWidth - textWidth / 2, centerHeight + textHeight / 2, mPaint);
+        //注意：fontMetrics.descent > 0; fontMetrics.ascent <0
+        float textHeight = fontMetrics.descent - fontMetrics.ascent;//文字的高度
+        //textHeight / 2 - fontMetrics.descent = BaseLine的偏移量
+        float centerBaseLine = centerHeight + textHeight / 2 - fontMetrics.descent;
+        canvas.drawText(TEXT, centerWidth - textWidth / 2, centerBaseLine, mPaint);
+
     }
 
     private void drawAnchorLine(Canvas canvas, int width, int height) {
