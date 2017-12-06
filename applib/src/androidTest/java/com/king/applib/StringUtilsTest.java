@@ -27,11 +27,11 @@ public class StringUtilsTest extends BaseTestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     public void testStringformat() throws Exception {
         Logger.i(String.format(Locale.US, "%,.2f", 1234526.123f));
     }
-    
+
     public void testArraysCopy() throws Exception {
         String[] texts = new String[]{"aaa", "bbb", "ccc"};
         String[] textss = Arrays.copyOf(texts, texts.length);
@@ -76,7 +76,7 @@ public class StringUtilsTest extends BaseTestCase {
         Logger.i(sb.toString());
 
         sb.delete(0, sb.length());
-        Logger.i("results: "+sb.toString());
+        Logger.i("results: " + sb.toString());
 
         sb.append("111");
         Logger.i(sb.toString());
@@ -86,10 +86,18 @@ public class StringUtilsTest extends BaseTestCase {
         String text = "";
         Logger.i(text.concat("aaa").concat("bbb"));
     }
-    
-    
+
+
     public void testStringFormatter() throws Exception {
         float aFloat = 0;
         Logger.i(String.format(Locale.US, "%,.2f", aFloat));
+    }
+
+    public void testTrimAllSpace() throws Exception {
+        Logger.i("result: " + StringUtil.trimAllSpace(null));
+        Logger.i("result: " + StringUtil.trimAllSpace(""));
+        Logger.i("result: " + StringUtil.trimAllSpace(" a "));
+        Logger.i("result: " + StringUtil.trimAllSpace(" a a "));
+        Logger.i("result: " + StringUtil.trimAllSpace(" a\tb\rc\nd "));
     }
 }

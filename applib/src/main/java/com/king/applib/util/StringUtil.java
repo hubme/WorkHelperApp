@@ -259,4 +259,13 @@ public final class StringUtil {
             sp.setSpan(stSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         }
     }
+
+    /** 去掉字符串中的空格。包括回车、换行和制表符。 */
+    public static String trimAllSpace(String text) {
+        if (text == null) {
+            return "";
+        }
+        final String temp = text.trim();
+        return temp.isEmpty() ? "" : temp.replaceAll("\\s*|\t|\r|\n", "");
+    }
 }
