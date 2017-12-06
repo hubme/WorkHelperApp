@@ -2,14 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:gravity="center_horizontal"
               android:orientation="vertical">
 
     <ProgressBar
-        android:id="@+id/progressbar"
+        android:id="@+id/progress_bar_flower"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@drawable/flower_loading"/>
+
+    <ProgressBar
         style="?android:progressBarStyleInverse"
         android:layout_width="100dp"
         android:layout_height="110dp"
-        android:layout_gravity="center"
         android:indeterminateDrawable="@drawable/loading_list"/>
 
     <Button
@@ -28,7 +34,7 @@
         android:id="@+id/vf_ad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autoStart="true"
+        android:autoStart="false"
         android:flipInterval="3000"
         android:inAnimation="@anim/anim_marquee_in"
         android:outAnimation="@anim/anim_marquee_out"

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -25,11 +26,9 @@ import butterknife.OnClick;
  */
 
 public class AnimationFragment extends AppBaseFragment {
-    @BindView(R.id.tv_expandable)
-    TextView mExpandableTv;
-
-    @BindView(R.id.vf_ad)
-    ViewFlipper mAdVf;
+    @BindView(R.id.tv_expandable) TextView mExpandableTv;
+    @BindView(R.id.vf_ad) ViewFlipper mAdVf;
+    @BindView(R.id.progress_bar_flower) ProgressBar mFlowerLoading;
 
     @Override
     protected int getContentLayout() {
