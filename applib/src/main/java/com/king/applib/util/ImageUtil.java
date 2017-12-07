@@ -34,7 +34,9 @@ import static android.graphics.BitmapFactory.decodeFile;
 
 /**
  * 文件工具类
- * Created by HuoGuangxu on 2016/10/18.
+ *
+ * @author VanceKing
+ * @since 2016/10/18.
  */
 
 public class ImageUtil {
@@ -519,5 +521,5 @@ public class ImageUtil {
             IOUtil.close(out);
         }
     }
-    
+
 }

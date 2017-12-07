@@ -10,7 +10,9 @@ import java.util.Locale;
 
 /**
  * 日期、时间工具类
- * Created by HuoGuangxu on 2016/9/25.
+ *
+ * @author VanceKing
+ * @since 2016/9/25.
  */
 
 public class DateTimeUtil {

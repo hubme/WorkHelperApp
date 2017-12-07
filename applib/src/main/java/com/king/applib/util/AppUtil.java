@@ -26,7 +26,9 @@ import java.util.List;
 
 /**
  * App相关工具类.
- * Created by HuoGuangXu on 2016/10/19.
+ *
+ * @author VanceKing
+ * @since 2016/10/19.
  */
 public class AppUtil {
     public static final String PKG_NAME_QQ = "com.tencent.mobileqq";

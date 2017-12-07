@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * 上下文工具类
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/2/20.
  */
 

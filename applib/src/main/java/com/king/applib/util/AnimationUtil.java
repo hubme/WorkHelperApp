@@ -5,9 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * 动画工具在
+ * 动画工具类。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/1/17.
  */
 

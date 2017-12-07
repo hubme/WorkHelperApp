@@ -3,6 +3,8 @@ package com.king.app.workhelper.http;
 import java.util.ArrayList;
 
 /**
+ * see {@link java.net.HttpURLConnection HttpURLConnection}
+ *
  * @author huoguangxu
  * @since 2017/12/1.
  */

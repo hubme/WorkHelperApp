@@ -239,10 +239,12 @@ public class FileUtil {
             return true;
         }
         final File[] files = dir.listFiles();
-        if (files == null) {//没权限访问,返回null
+        //没权限访问,返回null
+        if (files == null) {
             return false;
         }
-        if (files.length <= 0) {//该目录已经为空
+        //该目录已经为空
+        if (files.length <= 0) {
             return true;
         }
         for (File file : files) {
@@ -289,9 +291,12 @@ public class FileUtil {
         if (inputStream == null) {
             return false;
         }
-        if (isFileExists(file)) {//文件存在
-            if (forceSave) {//要强制删除
-                if (!deleteFile(file)) {//删除失败
+        //文件存在
+        if (isFileExists(file)) {
+            //要强制删除
+            if (forceSave) {
+                //删除失败
+                if (!deleteFile(file)) {
                     return false;
                 }
             } else {
@@ -301,9 +306,9 @@ public class FileUtil {
         OutputStream outputStream = null;
         try {
             outputStream = new BufferedOutputStream(new FileOutputStream(file));
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[512];
             int len;
-            while ((len = inputStream.read(buffer, 0, 1024)) != -1) {
+            while ((len = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, len);
             }
             outputStream.flush();

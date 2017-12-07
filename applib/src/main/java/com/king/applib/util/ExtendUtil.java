@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -137,23 +138,6 @@ public class ExtendUtil {
     public static boolean checkExternalSDExists() {
         Map<String, String> evn = System.getenv();
         return evn.containsKey("SECONDARY_STORAGE");
-    }
-
-    /**
-     * 拨打电话
-     */
-    public static void makePhoneCall(String telNumber) {
-        if (StringUtil.isNullOrEmpty(telNumber)) {
-            return;
-        }
-        if (!telNumber.toLowerCase().startsWith("tel:")) {
-            telNumber = "tel:" + telNumber;
-        }
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(telNumber));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null) {
-            ContextUtil.getAppContext().startActivity(intent);
-        }
     }
 
     /**
@@ -478,6 +462,9 @@ public class ExtendUtil {
         return !StringUtil.isNullOrEmpty(uri) && uri.toLowerCase().startsWith("tel:");
     }
 
+    /**
+     * 拨打电话
+     */
     public static void makeCall(Context context, String telNumber) {
         if (context == null || StringUtil.isNullOrEmpty(telNumber)) {
             return;
@@ -487,7 +474,7 @@ public class ExtendUtil {
         }
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(telNumber));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
+        if (intent.resolveActivityInfo(context.getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null) {
             context.startActivity(intent);
         } else {
             Toast.makeText(context, "抱歉，未找到打电话的应用", Toast.LENGTH_SHORT).show();
