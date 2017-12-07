@@ -182,7 +182,10 @@ dependencies {
     compile 'com.google.android:flexbox:0.2.6'
     
     compile(name: 'weibosdk-1.0.0', ext: 'aar')
-    
+
+    //NPE检测工具 https://github.com/uber/NullAway
+    annotationProcessor "com.uber.nullaway:nullaway:0.2.1"
+
 //    compile 'com.alibaba:fastjson:1.1.61.android'
 }
 
