@@ -202,6 +202,11 @@ public class InsLoadingView extends android.support.v7.widget.AppCompatImageView
         super.onVisibilityChanged(changedView, visibility);
     }
 
+    @Override protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        endAnim();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean result = false;
