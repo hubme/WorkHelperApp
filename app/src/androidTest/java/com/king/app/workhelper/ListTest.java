@@ -7,6 +7,7 @@ import com.king.applib.log.Logger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * @author huoguangxu
@@ -73,5 +74,25 @@ public class ListTest extends BaseTestCase {
         stringList.clear();
         printList(stringList);
         printList(subList);
+    }
+    
+    public void testArraysAsList() throws Exception {
+        //基本类型是不能作为泛型参数的,所以Arrays.asList()只能接收引用类型，自然为了编译通过编译器就把上面的 int[] 数组当做了一个引用参数
+        int[] arrays1 = {1, 2, 3};
+        List<int[]> list1 = Arrays.asList(arrays1);
+        Logger.i("arrays1 size: " + list1.size());//size == 1
+        
+        Integer[] arrays2 = {1, 2, 3};
+        List<Integer> list2 = Arrays.asList(arrays2);
+        Logger.i("arrays2 size: " + list2.size());//size == 3
+        //抛出 java.lang.UnsupportedOperationException 异常。因为Arrays.asList返回的是 Arrays 的静态私有内部类实现，不是java.util.ArrayList。有的方法(add、remove等)没有实现。
+//        list2.add(4);
+//        ArrayList<Integer> integers = Arrays.asList(1, 2, 3);//编译不通过无法转换成。java.util.ArrayList
+
+        ArrayList<String> list3 = new ArrayList<>();
+        list3.add("android");
+        Vector<String> vector1 = new Vector<>();
+        vector1.add("android");
+        Logger.i("is equals ? " + list3.equals(vector1));
     }
 }
