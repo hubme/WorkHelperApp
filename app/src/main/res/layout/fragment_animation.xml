@@ -5,6 +5,11 @@
               android:gravity="center_horizontal"
               android:orientation="vertical">
 
+    <com.king.applib.ui.loading.FlowerLoadingView
+        android:id="@+id/flower_loading"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"/>
+
     <ProgressBar
         android:id="@+id/progress_bar_flower"
         android:layout_width="30dp"
