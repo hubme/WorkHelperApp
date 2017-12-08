@@ -6,24 +6,24 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class LoadingDrawableView extends View {
+public class MaterialLoadingView extends View {
     private Animatable mDrawable;
 
-    public LoadingDrawableView(Context context) {
+    public MaterialLoadingView(Context context) {
         this(context, null);
     }
 
-    public LoadingDrawableView(Context context, AttributeSet attrs) {
+    public MaterialLoadingView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public LoadingDrawableView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MaterialLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     private void init(Context context) {
-        setBackgroundDrawable(new LoadingDrawable(context, this));
+        setBackgroundDrawable(new MaterialLoadingDrawable(context, this));
     }
 
     @Override

@@ -104,7 +104,7 @@
                 app:titleSize="@dimen/ts_big"
                 app:titleText="哈哈哈"/>
 
-            <com.king.applib.ui.loading.LoadingDrawableView
+            <com.king.applib.ui.loading.MaterialLoadingView
                 android:layout_width="50dp"
                 android:layout_height="50dp"/>
 
