@@ -33,6 +33,17 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"/>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="哈哈哈"/>
+
+    </android.support.design.widget.TextInputLayout>
+
     <SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"
