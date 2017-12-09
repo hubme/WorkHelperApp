@@ -1,18 +1,12 @@
 package com.king.app.workhelper.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.view.LayoutInflaterFactory;
 import android.text.method.HideReturnsTransformationMethod;
-import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,18 +23,17 @@ public class MainActivity extends AppBaseActivity {
     protected void beforeCreateView() {
         super.beforeCreateView();
         //因为LayoutInflaterCompat#setFactory()只能设置一次.see also: AppCompatDelegateImplV7#installViewFactory
-        LayoutInflaterCompat.setFactory(LayoutInflater.from(this), new LayoutInflaterFactory() {
+        /*LayoutInflaterCompat.setFactory(LayoutInflater.from(this), new LayoutInflaterFactory() {
             @Override public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-//                Logger.i("name: " + name);//look log
-                /*int size = attrs.getAttributeCount();
+                int size = attrs.getAttributeCount();
                 for (int i = 0; i < size; i++) {
                     Logger.i(attrs.getAttributeName(i) + "---" + attrs.getAttributeValue(i));
-                }*/
+                }
 
                 //统一把TextView替换成Button
-                /*if (name.equals("TextView")) {
+                if (name.equals("TextView")) {
                     return new AppCompatButton(context, attrs);
-                }*/
+                }
 
                 //返回null将不能使用兼容包里的新特性。
                 View view = getDelegate().createView(parent, name, context, attrs);
@@ -49,21 +42,12 @@ public class MainActivity extends AppBaseActivity {
                 }
                 return view;
             }
-        });
+        });*/
     }
 
     @Override
     public int getContentLayout() {
         return R.layout.activity_main;
-    }
-
-    @Override
-    protected void initData() {
-        super.initData();
-    }
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
