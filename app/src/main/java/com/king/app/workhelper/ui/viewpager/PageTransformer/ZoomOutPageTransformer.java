@@ -1,25 +1,26 @@
-package com.king.app.workhelper.ui.viewpager;
+package com.king.app.workhelper.ui.viewpager.PageTransformer;
 
 import android.annotation.SuppressLint;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 
-public class ZoomOutPageTransformer implements ViewPager.PageTransformer
-{
+/**
+ * @author VanceKing
+ * @since 2017/12/10
+ */
+public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
     public static final float MIN_SCALE = 0.85f;
     public static final float MIN_ALPHA = 0.5f;
 
     @SuppressLint("NewApi")
-    public void transformPage(View view, float position)
-    {
+    public void transformPage(View view, float position) {
         int pageWidth = view.getWidth();
         int pageHeight = view.getHeight();
 
         Log.e("TAG", view + " , " + position + "");
 
-        if (position < -1)
-        { // [-Infinity,-1)
+        if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
             view.setAlpha(MIN_ALPHA);
 
@@ -29,11 +30,9 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer
             float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
             float vertMargin = pageHeight * (1 - scaleFactor) / 2;
             float horzMargin = pageWidth * (1 - scaleFactor) / 2;
-            if (position < 0)
-            {
+            if (position < 0) {
                 view.setTranslationX(horzMargin - vertMargin / 2);
-            } else
-            {
+            } else {
                 view.setTranslationX(-horzMargin + vertMargin / 2);
             }
 
@@ -45,8 +44,7 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer
             view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE)
                     / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
 
-        } else
-        { // (1,+Infinity]
+        } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(MIN_ALPHA);
         }
