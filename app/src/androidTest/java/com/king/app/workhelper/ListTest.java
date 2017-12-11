@@ -6,6 +6,8 @@ import com.king.applib.log.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -94,5 +96,20 @@ public class ListTest extends BaseTestCase {
         Vector<String> vector1 = new Vector<>();
         vector1.add("android");
         Logger.i("is equals ? " + list3.equals(vector1));
+    }
+    
+    public void testCollectionsMax() throws Exception {
+        List<Integer> data = Arrays.asList(1, 20, 3);
+        int aaa = Collections.max(data, new Comparator<Integer>() {
+            @Override public int compare(Integer o1, Integer o2) {
+                if (o1 < o2) {
+                    return -1;
+                } else if (o1 > o2) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        Logger.i("" + aaa);
     }
 }
