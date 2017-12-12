@@ -136,8 +136,23 @@ public class ImageUtil {
      * @param drawable drawable对象
      * @return bitmap
      */
-    public static Bitmap drawable2Bitmap(Drawable drawable) {
-        return drawable == null ? null : ((BitmapDrawable) drawable).getBitmap();
+    public static Bitmap drawable2Bitmap(Drawable drawable, int width, int height) {
+        if (drawable == null) {
+            return null;
+        }
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+        if (width <= 0 || height <= 0) {
+            return null;
+        }
+        int bitmapWidth = drawable.getIntrinsicWidth();
+        int bitmapHeight = drawable.getIntrinsicHeight();
+        Bitmap bitmap = Bitmap.createBitmap(bitmapWidth > 0 ? bitmapWidth : width, bitmapHeight > 0 ? bitmapHeight : height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     /**
