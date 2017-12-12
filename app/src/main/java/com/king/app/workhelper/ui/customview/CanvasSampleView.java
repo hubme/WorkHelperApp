@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -12,6 +13,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -62,15 +64,37 @@ public class CanvasSampleView extends View {
     protected void onDraw(Canvas canvas) {
 //        drawBitmap(canvas);
 //        drawDrawable(canvas);
-        drawRect(canvas);
+//        drawRect(canvas);
 //        drawRoundRect(canvas);
 //        drawPath(canvas);
 //        drawBezierCurvePath(canvas);
 //        drawPoint(canvas);
 //        drawOval(canvas);
 //        drawCircle(canvas);
+        drawGradient(canvas);
     }
 
+    //画一个渐变矩形
+    private void drawGradient(Canvas canvas) {
+        int width = 200;
+        int height = 200;
+        /*
+        bitmapShader    位图平铺
+        linearGradient  线性渐变
+        radialGradient  圆形渐变
+        sweepGradient   角度渐变
+        composeShader   组合效果（组合以上几种）
+         */
+        //垂直渐变.在(x0, y0)和(x1, y1)连线上做渐变.最后一个参数是模式。
+        Shader vShader = new LinearGradient(0, 50, 0, 50 + height, new int[]{Color.parseColor("#3b7aff"), Color.parseColor("#b8d6ff")}, null, Shader.TileMode.CLAMP);
+        mPaint.setShader(vShader);
+        mPaint.setStyle(Paint.Style.FILL);
+        canvas.drawRect(50, 50, 50 + width, 50 + height, mPaint);
+
+        Shader hShader = new LinearGradient(400, 0, 400 + width, 0, new int[]{Color.parseColor("#3b7aff"), Color.parseColor("#b8d6ff")}, null, Shader.TileMode.CLAMP);
+        mPaint.setShader(hShader);
+        canvas.drawRect(400, 50, 400 + width, 50 + height, mPaint);
+    }
 
     private void drawCircle(Canvas canvas) {
         mPaint.setStrokeWidth(5);
