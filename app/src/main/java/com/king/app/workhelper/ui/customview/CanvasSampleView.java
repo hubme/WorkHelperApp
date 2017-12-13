@@ -3,6 +3,7 @@ package com.king.app.workhelper.ui.customview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -15,10 +16,12 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.king.app.workhelper.R;
+import com.king.applib.util.ImageUtil;
 
 import static android.graphics.Bitmap.createBitmap;
 
@@ -94,6 +97,13 @@ public class CanvasSampleView extends View {
         Shader hShader = new LinearGradient(400, 0, 400 + width, 0, new int[]{Color.parseColor("#3b7aff"), Color.parseColor("#b8d6ff")}, null, Shader.TileMode.CLAMP);
         mPaint.setShader(hShader);
         canvas.drawRect(400, 50, 400 + width, 50 + height, mPaint);
+
+        //创建一个宽高都是200px的渐变Bitmap
+        Bitmap bitmap = ImageUtil.drawable2Bitmap(ContextCompat.getDrawable(getContext(), R.drawable.blue_white_v_gradient), 200, 200);//getResources().getDrawable(R.drawable.blue_white_v_gradient)
+        BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        mPaint.setShader(bitmapShader);
+        canvas.drawRect(0, 0, width+200, height+200, mPaint);//正常显示的渐变
+        canvas.drawRect(450, 100, 450+200, 300+200, mPaint);//对比发现 bitmap的渐变是固定的。
     }
 
     private void drawCircle(Canvas canvas) {
