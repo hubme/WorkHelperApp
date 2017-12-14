@@ -197,6 +197,11 @@
                 android:id="@+id/tv_vector_sample"
                 style="@style/EntryItem"
                 android:text="Vector"/>
+            
+            <TextView
+                android:id="@+id/tv_view_slide"
+                style="@style/EntryItem"
+                android:text="View滑动的六种方法"/>
 
         </LinearLayout>
 

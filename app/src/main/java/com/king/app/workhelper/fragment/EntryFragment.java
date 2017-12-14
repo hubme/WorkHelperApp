@@ -216,6 +216,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new VectorFragment());
     }
     
+    @OnClick(R.id.tv_view_slide)
+    public void onViewSlideClick() {
+        clickedOn(new ViewSlideFragment());
+    }
+    
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()
