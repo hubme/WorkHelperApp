@@ -19,7 +19,7 @@ import com.king.applib.util.ScreenUtil;
  * @since 2017/12/14.
  */
 
-public class SlideTestView extends View {
+public class SlideTestView2 extends View {
     private static final String TAG = "aaa";
     private static final String TEXT = "00000000000000000000000哈哈哈111111111111111111111111122222222222222222";
 
@@ -30,17 +30,18 @@ public class SlideTestView extends View {
     private int mOffsetX;
     private int mOffsetY;
 
-    private int mScreenWidth = ScreenUtil.getScreenWidth(getContext());
+    private int mLeftSide = 0;
+    private int mRightSide = ScreenUtil.getScreenWidth(getContext());
 
-    public SlideTestView(Context context) {
+    public SlideTestView2(Context context) {
         this(context, null);
     }
 
-    public SlideTestView(Context context, @Nullable AttributeSet attrs) {
+    public SlideTestView2(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SlideTestView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SlideTestView2(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         init();
@@ -83,20 +84,18 @@ public class SlideTestView extends View {
                 mOffsetX = (int)event.getX() - mStartX;
                 mOffsetY = (int)event.getY() - mStartY;
 
-                /*if (getRight() > mScreenWidth && mOffsetX < 0) {// 左滑
-                    Log.i(TAG, "左滑。"+"mOffsetX: " + mOffsetX + "; mScreenWidth: " + mScreenWidth + "; getLeft(): " + getLeft() + "; getRight(): " + getRight());
-                    layout(getLeft() + (int) mOffsetX, getTop(),  Math.max(getRight() + (int) mOffsetX, mScreenWidth), getBottom());
+                /*if (getRight() > mRightSide && mOffsetX < 0) {// 左滑
+                    Log.i(TAG, "左滑。"+"mOffsetX: " + mOffsetX + "; mRightSide: " + mRightSide + "; getLeft(): " + getLeft() + "; getRight(): " + getRight());
+                    layout(getLeft() + (int) mOffsetX, getTop(),  Math.max(getRight() + (int) mOffsetX, mRightSide), getBottom());
                 }
 
-                if (getLeft() < 0 && mOffsetX > 0) {// 右滑
-                    Log.i(TAG, "右滑。"+"mOffsetX: " + mOffsetX + "; mScreenWidth: " + mScreenWidth + "; getLeft(): " + getLeft() + "; getRight(): " + getRight());
+                if (getLeft() < mLeftSide && mOffsetX > 0) {// 右滑
+                    Log.i(TAG, "右滑。"+"mOffsetX: " + mOffsetX + "; mRightSide: " + mRightSide + "; getLeft(): " + getLeft() + "; getRight(): " + getRight());
                     layout(Math.min(getLeft() + (int) mOffsetX, 0), getTop(), getRight() + (int) mOffsetX, getBottom());
                 }*/
 
-//                layout(getLeft() + mOffsetX, getTop() + mOffsetY, getRight() + mOffsetX, getBottom() + mOffsetY);
+                layout(getLeft() + mOffsetX, getTop() + mOffsetY, getRight() + mOffsetX, getBottom() + mOffsetY);
 
-                offsetLeftAndRight(mOffsetX);
-                offsetTopAndBottom(mOffsetY);
                 break;
             case MotionEvent.ACTION_UP:
                 break;
