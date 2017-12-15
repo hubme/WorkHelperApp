@@ -18,9 +18,11 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.king.app.workhelper.R;
+import com.king.applib.log.Logger;
 import com.king.applib.util.ImageUtil;
 
 import static android.graphics.Bitmap.createBitmap;
@@ -31,12 +33,15 @@ import static android.graphics.Bitmap.createBitmap;
  */
 
 public class CanvasSampleView extends View {
+    private static final String TAG = "aaa";
     private final String TEXT = "邢雁啡";
 
     private Drawable mDrawable;
     private Paint mPaint;
     private Path mPath;
     private Rect mTextRect;
+    private int mWidth;
+    private int mHeight;
 
     public CanvasSampleView(Context context) {
         this(context, null);
@@ -63,8 +68,16 @@ public class CanvasSampleView extends View {
         mTextRect = new Rect();
     }
 
+    @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        Logger.i("onSizeChanged");
+        super.onSizeChanged(w, h, oldw, oldh);
+        mWidth = w;
+        mHeight = h;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
+        Logger.i("onDraw");
 //        drawBitmap(canvas);
 //        drawDrawable(canvas);
 //        drawRect(canvas);
@@ -74,7 +87,44 @@ public class CanvasSampleView extends View {
 //        drawPoint(canvas);
 //        drawOval(canvas);
 //        drawCircle(canvas);
-        drawGradient(canvas);
+//        drawGradient(canvas);
+        scrollTest(canvas);
+    }
+
+    private float startX;
+    private float distance;
+    private float perDistance;
+    @Override public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startX = event.getX();
+                break;
+                
+            case MotionEvent.ACTION_MOVE:
+                distance = event.getX() - startX;
+                layout(getLeft() + (int) distance, getTop(), getRight() + (int) distance, getBottom());
+                break;
+            case MotionEvent.ACTION_UP:
+                perDistance = event.getX() - startX;
+                break;
+        }
+        return true;
+    }
+
+    private void scrollTest(Canvas canvas) {
+        String text = "AAAAAAAAAAAAAAAAAABBBBBBBBBBBBBCCCCCCCCCCCCCCCCCDDDDDDDDDDD";
+        mPaint.setTextSize(60);
+
+//        Rect textBounds = getTextBounds(text, mPaint);
+//        Log.i(TAG, "-distance: " + (-distance) + "; textBounds.right: "+textBounds.right);
+        
+        canvas.drawText(text, 0, mHeight / 2, mPaint);
+    }
+
+    //获取文本的位置
+    private Rect getTextBounds(String text, Paint paint) {
+        paint.getTextBounds(text, 0, text.length(), mTextRect);
+        return mTextRect;
     }
 
     //画一个渐变矩形
@@ -102,8 +152,8 @@ public class CanvasSampleView extends View {
         Bitmap bitmap = ImageUtil.drawable2Bitmap(ContextCompat.getDrawable(getContext(), R.drawable.blue_white_v_gradient), 200, 200);//getResources().getDrawable(R.drawable.blue_white_v_gradient)
         BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         mPaint.setShader(bitmapShader);
-        canvas.drawRect(0, 0, width+200, height+200, mPaint);//正常显示的渐变
-        canvas.drawRect(450, 100, 450+200, 300+200, mPaint);//对比发现 bitmap的渐变是固定的。
+        canvas.drawRect(0, 0, width + 200, height + 200, mPaint);//正常显示的渐变
+        canvas.drawRect(450, 100, 450 + 200, 300 + 200, mPaint);//对比发现 bitmap的渐变是固定的。
     }
 
     private void drawCircle(Canvas canvas) {
