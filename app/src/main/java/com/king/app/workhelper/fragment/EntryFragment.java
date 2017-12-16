@@ -8,6 +8,7 @@ import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
+import com.king.app.workhelper.activity.TestActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
@@ -29,6 +30,11 @@ public class EntryFragment extends AppBaseFragment {
         return R.layout.fragment_entry;
     }
 
+    @OnClick(R.id.tv_test_activity)
+    public void testActivityClick() {
+        openActivity(TestActivity.class);
+    }
+    
     @OnClick(R.id.tv_debug_activity)
     public void debugActivityClick() {
         openActivity(DebugActivity.class);

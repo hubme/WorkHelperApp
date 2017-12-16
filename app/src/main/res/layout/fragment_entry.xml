@@ -14,6 +14,11 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_test_activity"
+                style="@style/EntryItem"
+                android:text="Test Activity"/>
+            
+            <TextView
                 android:id="@+id/tv_debug_activity"
                 style="@style/EntryItem"
                 android:text="Debug Settings"/>
