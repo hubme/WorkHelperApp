@@ -130,12 +130,6 @@
                 app:nvTextGravity="left"
                 app:nvTextSize="14sp"/>
 
-            <com.king.app.workhelper.ui.customview.RiseNumberTextView
-                android:id="@+id/rise_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="12345.68"/>
-
             <com.king.applib.ui.customview.SimpleBadgeTextView
                 android:id="@+id/simple_badge"
                 android:layout_width="150dp"

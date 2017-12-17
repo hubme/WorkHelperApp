@@ -23,7 +23,6 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.ui.customview.FundFormPieView;
 import com.king.app.workhelper.ui.customview.HorizontalTagView;
 import com.king.app.workhelper.ui.customview.PieChartView;
-import com.king.app.workhelper.ui.customview.RiseNumberTextView;
 import com.king.app.workhelper.ui.customview.SimpleDrawable;
 import com.king.app.workhelper.ui.customview.SwitchTitle;
 import com.king.app.workhelper.ui.customview.TagTextView;
@@ -71,19 +70,12 @@ public class CustomViewFragment extends AppBaseFragment {
     @BindView(R.id.switch_title) SwitchTitle mSwitchTitle;
     @BindView(R.id.tv_test) TextView mTestTv;
     @BindView(R.id.simple_badge) SimpleBadgeTextView mSimpleBadger;
-    @BindView(R.id.rise_text_view) RiseNumberTextView mRiseTextView;
     @BindView(R.id.notice) NoticeView mNoticeView;
     @BindView(R.id.ins_loading_view) InsLoadingView mInsLoadingView;
     @BindView(R.id.title_image_view) TitleImageView mTitleImageView;
     @BindView(R.id.valueBar) ValueBar mValueBar;
 
     private BadgeView mBadgeView;
-
-    @OnClick(R.id.rise_text_view)
-    public void onRiseClick(RiseNumberTextView textView) {
-        textView.withNumber(10245.89f);
-        textView.start();
-    }
 
     @Override
     protected int getContentLayout() {
