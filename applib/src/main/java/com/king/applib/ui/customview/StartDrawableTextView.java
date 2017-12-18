@@ -76,7 +76,7 @@ public class StartDrawableTextView extends android.support.v7.widget.AppCompatTe
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (bitmap != null) {
-            canvas.drawBitmap(bitmap, getPaddingLeft() + drawableMarginLeft - drawableWidth - drawableMarginRight, getPaddingTop() + drawableMarginTop + (textHeight - drawableHeight) / 2, null);
+            canvas.drawBitmap(bitmap, getPaddingLeft() + drawableMarginLeft - drawableWidth - drawableMarginRight, getPaddingTop() + drawableMarginTop + Math.max(textHeight - drawableHeight, 0) / 2, null);
         }
     }
 
