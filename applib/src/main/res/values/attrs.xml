@@ -173,4 +173,13 @@
         <attr name="cit_iconHeight" format="dimension" />
         <attr name="cit_iconColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="StartDrawableTextView">
+        <attr name="imageDrawable" format="reference"/>
+        <attr name="imageDrawableWidth" format="dimension"/>
+        <attr name="imageDrawableHeight" format="dimension"/>
+        <attr name="imageMarginTop" format="dimension"/>
+        <attr name="imageMarginLeft" format="dimension"/>
+        <attr name="imageMarginRight" format="dimension"/>
+    </declare-styleable>
 </resources>

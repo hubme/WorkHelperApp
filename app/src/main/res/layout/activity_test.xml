@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white"
               android:orientation="vertical">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
+    <com.king.applib.ui.customview.StartDrawableTextView
+        android:id="@+id/start_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:scrollbars="none">
-
-        <com.king.app.workhelper.ui.customview.PaymentChart
-            android:id="@+id/chart_payment"
-            android:background="@color/gray_fbfbfb"
-            android:layout_width="wrap_content"
-            android:layout_height="430dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
-    </HorizontalScrollView>
+        android:paddingLeft="10dp"
+        android:paddingTop="@dimen/dp_50"
+        android:text="哈航啊啊哈\n双啃进龙矿积分"
+        android:textSize="35sp"
+        app:imageMarginRight="10dp"/>
 
 </LinearLayout>
