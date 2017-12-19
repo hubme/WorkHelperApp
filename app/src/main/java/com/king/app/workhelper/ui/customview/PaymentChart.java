@@ -114,10 +114,11 @@ public class PaymentChart extends View {
         mRoundRect = new RectF();
     }
 
-    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    /*@Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        //这里可能设置宽度不成功。onMeasure()->setData()->onDraw()(此时宽度没更新)。使用setMinimumWidth()解决。
         setMeasuredDimension(Math.max(mXInterval * mDataList.size() + getPaddingLeft() + getPaddingRight(), ScreenUtil.getScreenWidth(getContext())), 
                 MeasureSpec.getSize(heightMeasureSpec));
-    }
+    }*/
 
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -297,6 +298,7 @@ public class PaymentChart extends View {
         Log.i(TAG, "最大值：" + mMaxModel.toString());
         dealYValueData();
 
+        setMinimumWidth(Math.max(mXInterval * mDataList.size() + getPaddingLeft() + getPaddingRight(), ScreenUtil.getScreenWidth(getContext())));
         invalidate();
     }
 
