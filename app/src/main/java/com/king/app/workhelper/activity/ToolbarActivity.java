@@ -7,7 +7,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,9 +17,11 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import butterknife.BindView;
 
 /**
- * Toolbar 使用.
  * see also:http://www.jianshu.com/p/79604c3ddcae
- * Created by HuoGuangxu on 2016/12/5.
+ * Toolbar 使用.
+ *
+ * @author huoguangxu
+ * @since 2016/12/5.
  */
 
 public class ToolbarActivity extends AppBaseActivity {
@@ -29,11 +30,6 @@ public class ToolbarActivity extends AppBaseActivity {
 
     @BindView(R.id.vs_toolbar_custom)
     public ViewStub mCustomToolbar;
-
-    @Override
-    protected void initInitialData() {
-        super.initInitialData();
-    }
 
     @Override
     public int getContentLayout() {
@@ -68,29 +64,22 @@ public class ToolbarActivity extends AppBaseActivity {
     @Override
     protected void initToolbar(Toolbar toolbar) {
         super.initToolbar(toolbar);
-        mCustomToolbar.setLayoutResource(R.layout.toolbar_custom);
-        View view = mCustomToolbar.inflate();
+//        mCustomToolbar.setLayoutResource(R.layout.toolbar_custom);
+//        View view = mCustomToolbar.inflate();
 
         TextView subView = new TextView(this);
         subView.setText("我的订单");
         subView.setTextColor(getResources().getColor(R.color.white_f5f5f5));
         subView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.ts_huge));
-        subView.setLayoutParams(new Toolbar.LayoutParams(
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER));
+        subView.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
 //        mToolbar.addView(subView);
 
-        Toolbar.LayoutParams params = new Toolbar.LayoutParams(
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT,
-                Gravity.RIGHT);
+        Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.END);
         params.setMargins(3, 3, 50, 4);//设置外边界
-
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(R.mipmap.ic_search);
         imageView.setLayoutParams(params);
-//        mToolbar.addView(imageView);
+        mToolbar.addView(imageView);
 
         //方式一添加菜单，屏幕右上角
         /*mToolbar.inflateMenu(R.menu.menu_toolbar);
@@ -98,8 +87,7 @@ public class ToolbarActivity extends AppBaseActivity {
         menu.add("添加");*/
 
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            @Override public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.editor:
                         showToast("编辑");
@@ -115,7 +103,7 @@ public class ToolbarActivity extends AppBaseActivity {
 
     @Override
     protected String getActivityTitle() {
-        return "";
+        return super.getActivityTitle();
     }
 
     private void toolbarUseSapmle() {
