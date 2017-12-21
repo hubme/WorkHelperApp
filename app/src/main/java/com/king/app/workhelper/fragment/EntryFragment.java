@@ -227,6 +227,11 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new ViewSlideFragment());
     }
     
+    @OnClick(R.id.tv_expandable_list_view)
+    public void onExpandableListViewClick() {
+        clickedOn(new ExpandableListViewFragment());
+    }
+    
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

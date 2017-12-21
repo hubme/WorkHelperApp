@@ -207,6 +207,11 @@
                 android:id="@+id/tv_view_slide"
                 style="@style/EntryItem"
                 android:text="View滑动的六种方法"/>
+            
+            <TextView
+                android:id="@+id/tv_expandable_list_view"
+                style="@style/EntryItem"
+                android:text="ExpandableListView"/>
 
         </LinearLayout>
 
