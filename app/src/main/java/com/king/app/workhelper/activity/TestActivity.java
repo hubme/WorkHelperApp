@@ -1,12 +1,15 @@
 package com.king.app.workhelper.activity;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
+import android.widget.CheckedTextView;
+import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.applib.ui.customview.StartDrawableTextView;
-import com.king.applib.util.ExtendUtil;
+import com.king.app.workhelper.ui.customview.ExpandableTextViewGroup;
+import com.king.applib.log.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -16,7 +19,7 @@ import butterknife.BindView;
  */
 
 public class TestActivity extends AppBaseActivity {
-    @BindView(R.id.start_text_view) StartDrawableTextView textView;
+    @BindView(R.id.expand_group) ExpandableTextViewGroup mExpandableTextViewGroup;
 
     @Override protected int getContentLayout() {
         return R.layout.activity_test;
@@ -24,9 +27,24 @@ public class TestActivity extends AppBaseActivity {
     
     @Override protected void initContentView() {
         super.initContentView();
-        
-        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#3b7aff"), Color.parseColor("#b8d6ff")});
-//        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.aaa);
-        textView.setStartImage(drawable, ExtendUtil.dp2px(10), ExtendUtil.dp2px(10));
+
+        List<ExpandableTextViewGroup.ExpandModel> models = new ArrayList<ExpandableTextViewGroup.ExpandModel>(){
+            {
+                add(new ExpandableTextViewGroup.ExpandModel("哈哈哈", "111111", false));
+                add(new ExpandableTextViewGroup.ExpandModel("呵呵呵", "2222222\n222", false));
+                add(new ExpandableTextViewGroup.ExpandModel("喔喔喔", "333333\n333\n333", false));
+            }
+        };
+        mExpandableTextViewGroup.setExpandData(models);
+        mExpandableTextViewGroup.setOnContentClickListener(new ExpandableTextViewGroup.OnContentClickListener() {
+            @Override public void onSubTitleClick(int position, CheckedTextView parent, TextView textView) {
+                Logger.i("position"+position + textView.getText().toString() + " "+parent.getText().toString());
+            }
+        });
+        mExpandableTextViewGroup.setOnTitleClickListener(new ExpandableTextViewGroup.OnTitleClickListener() {
+            @Override public void onTitleClick(int position, CheckedTextView parent, TextView textView) {
+//                Log.i("aaa", "height: " + (int) textView.getTag());
+            }
+        });
     }
 }

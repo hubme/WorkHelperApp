@@ -6,14 +6,11 @@
               android:background="@color/white"
               android:orientation="vertical">
 
-    <com.king.applib.ui.customview.StartDrawableTextView
-        android:id="@+id/start_text_view"
-        android:layout_width="wrap_content"
+    <com.king.app.workhelper.ui.customview.ExpandableTextViewGroup
+        android:id="@+id/expand_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingTop="@dimen/dp_50"
-        android:text="哈航啊啊哈\n双啃进龙矿积分"
-        android:textSize="35sp"
-        app:imageMarginRight="10dp"/>
+        android:divider="@drawable/ll_h_divider"
+        android:showDividers="beginning|middle|end"/>
 
 </LinearLayout>
