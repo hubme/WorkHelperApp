@@ -1,80 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_horizontal"
-              android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.king.applib.ui.loading.FlowerLoadingView
-        android:id="@+id/flower_loading"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"/>
-
-    <ProgressBar
-        android:id="@+id/progress_bar_flower"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:indeterminateBehavior="repeat"
-        android:indeterminateDrawable="@drawable/flower_loading"/>
-
-    <ProgressBar
-        style="?android:progressBarStyleInverse"
-        android:layout_width="100dp"
-        android:layout_height="110dp"
-        android:indeterminateDrawable="@drawable/loading_list"/>
-
-    <Button
-        android:id="@+id/btn_show_anim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="显示/隐藏"/>
-
-    <TextView
-        android:id="@+id/tv_expandable"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/tan"/>
-
-    <ViewFlipper
-        android:id="@+id/vf_ad"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autoStart="false"
-        android:flipInterval="3000"
-        android:inAnimation="@anim/anim_marquee_in"
-        android:outAnimation="@anim/anim_marquee_out"
-        android:paddingLeft="15dp"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_icon_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/icon_edit"
-        android:src="@drawable/bg_transparent"/>
+        <com.king.applib.ui.loading.FlowerLoadingView
+            android:id="@+id/flower_loading"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"/>
 
-    <!--<ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/ic_arrow_back_black_24dp"/>-->
+        <ProgressBar
+            android:id="@+id/progress_bar_flower"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateDrawable="@drawable/flower_loading"/>
 
-    <!--<ImageView
-        android:id="@+id/iv_animated_vector_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/vector_line_animated"/>-->
+        <ProgressBar
+            style="?android:progressBarStyleInverse"
+            android:layout_width="100dp"
+            android:layout_height="110dp"
+            android:indeterminateDrawable="@drawable/loading_list"/>
 
-    <!--<ImageView
-        android:id="@+id/iv_animated_vector_heart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fill_in_heart"/>-->
+        <Button
+            android:id="@+id/btn_show_anim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示/隐藏"/>
 
-    <ImageView
-        android:id="@+id/image_3d"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/banner1"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_expandable"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/tan"/>
+
+        <ViewFlipper
+            android:id="@+id/vf_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoStart="false"
+            android:flipInterval="3000"
+            android:inAnimation="@anim/anim_marquee_in"
+            android:outAnimation="@anim/anim_marquee_out"
+            android:paddingLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/iv_icon_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/clock_dial"
+            android:src="@drawable/bg_transparent"/>
+
+        <TextView
+            android:id="@+id/tv_haha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="哈哈哈"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:tint="@color/violet"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/ic_arrow_back"/>
+
+        <ImageView
+            android:id="@+id/iv_animated_vector_heart"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/heart_selected"/>
+
+        <ImageView
+            android:id="@+id/image_3d"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/banner1"/>
+    </LinearLayout>
+</ScrollView>
+

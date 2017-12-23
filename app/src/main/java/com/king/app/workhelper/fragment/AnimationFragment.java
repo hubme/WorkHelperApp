@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -31,6 +32,7 @@ import butterknife.OnClick;
  */
 
 public class AnimationFragment extends AppBaseFragment {
+    @BindView(R.id.tv_haha) TextView mHaHa;
     @BindView(R.id.tv_expandable) TextView mExpandableTv;
     @BindView(R.id.vf_ad) ViewFlipper mAdVf;
     @BindView(R.id.progress_bar_flower) ProgressBar mFlowerLoading;
@@ -41,12 +43,21 @@ public class AnimationFragment extends AppBaseFragment {
     }
 
     @Override
+    protected void initContentView(View rootView) {
+        super.initContentView(rootView);
+
+        //解决无法使用app:srcCompact属性的情况
+        VectorDrawableCompat drawableCompat = VectorDrawableCompat.create(getResources(), R.drawable.ic_location, null);
+        mHaHa.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableCompat, null);
+    }
+
+    @Override
     protected void initData() {
         super.initData();
         mAdVf.addView(LayoutInflater.from(mContext).inflate(R.layout.layout_notice_board, null));
         mAdVf.addView(LayoutInflater.from(mContext).inflate(R.layout.layout_notice_board, null));
         mAdVf.addView(LayoutInflater.from(mContext).inflate(R.layout.layout_notice_board, null));
-//        mAdVf.startFlipping();
+        mAdVf.startFlipping();
     }
 
     @OnClick(R.id.btn_show_anim)
@@ -59,6 +70,7 @@ public class AnimationFragment extends AppBaseFragment {
         alpahAnimator(view);
     }
 
+    //点击阴影效果
     @OnClick(R.id.iv_icon_edit)
     public void onEditImageClick() {
 
@@ -72,7 +84,7 @@ public class AnimationFragment extends AppBaseFragment {
         }
     }
 
-    //    @OnClick(R.id.iv_animated_vector_heart)
+    @OnClick(R.id.iv_animated_vector_heart)
     public void onAnimatedHeartClick(ImageView imageView) {
         Drawable drawable = imageView.getDrawable();
         if (drawable instanceof Animatable) {
@@ -80,17 +92,6 @@ public class AnimationFragment extends AppBaseFragment {
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //此时View已销毁,mAdVf == null;
-//        mAdVf.stopFlipping();
-    }
 
     @OnClick(R.id.image_3d)
     public void on3DImageClick(ImageView view) {
