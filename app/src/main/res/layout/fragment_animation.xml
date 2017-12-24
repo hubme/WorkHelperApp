@@ -84,6 +84,12 @@
             app:srcCompat="@drawable/heart_selected"/>
 
         <ImageView
+            android:id="@+id/iv_animated_arrow"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/anim_v_sample"/>
+
+        <ImageView
             android:id="@+id/image_3d"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

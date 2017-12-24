@@ -39,6 +39,8 @@ public class AnimationFragment extends AppBaseFragment {
     @BindView(R.id.progress_bar_flower) ProgressBar mFlowerLoading;
     @BindView(R.id.btn_vector) Button mVectorBtn;
 
+    private boolean isRunAnim;
+
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_animation;
@@ -53,6 +55,7 @@ public class AnimationFragment extends AppBaseFragment {
         mHaHa.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableCompat, null);
 
 //        mVectorBtn.setBackgroundDrawable(VectorDrawableCompat.create(getResources(), R.drawable.ic_v_not, null));
+
     }
 
     @Override
@@ -78,6 +81,19 @@ public class AnimationFragment extends AppBaseFragment {
     @OnClick(R.id.iv_icon_edit)
     public void onEditImageClick() {
 
+    }
+
+    @OnClick(R.id.iv_animated_arrow)
+    public void onVectorDoubleArrowClick(ImageView animArrow) {
+        isRunAnim = !isRunAnim;
+        Animatable drawable = (Animatable) animArrow.getDrawable();
+//        AnimatedVectorDrawableCompat animVectorDrawable = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.anim_v_sample);
+//        animArrow.setImageDrawable(animVectorDrawable);
+        if (isRunAnim) {
+            drawable.stop();
+        } else {
+            drawable.start();
+        }
     }
 
     //    @OnClick(R.id.iv_animated_vector_line)
