@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class AnimationFragment extends AppBaseFragment {
     @BindView(R.id.tv_expandable) TextView mExpandableTv;
     @BindView(R.id.vf_ad) ViewFlipper mAdVf;
     @BindView(R.id.progress_bar_flower) ProgressBar mFlowerLoading;
+    @BindView(R.id.btn_vector) Button mVectorBtn;
 
     @Override
     protected int getContentLayout() {
@@ -49,6 +51,8 @@ public class AnimationFragment extends AppBaseFragment {
         //解决无法使用app:srcCompact属性的情况
         VectorDrawableCompat drawableCompat = VectorDrawableCompat.create(getResources(), R.drawable.ic_location, null);
         mHaHa.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableCompat, null);
+
+//        mVectorBtn.setBackgroundDrawable(VectorDrawableCompat.create(getResources(), R.drawable.ic_v_not, null));
     }
 
     @Override

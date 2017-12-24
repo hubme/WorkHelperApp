@@ -70,6 +70,13 @@
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_arrow_back"/>
 
+        <Button
+            android:id="@+id/btn_vector"
+            android:layout_width="100dp"
+            android:tint="@color/violet"
+            android:background="@drawable/selector1"
+            android:layout_height="100dp"/>
+
         <ImageView
             android:id="@+id/iv_animated_vector_heart"
             android:layout_width="100dp"

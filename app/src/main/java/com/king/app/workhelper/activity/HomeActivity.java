@@ -1,5 +1,7 @@
 package com.king.app.workhelper.activity;
 
+import android.support.v7.app.AppCompatDelegate;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.EntryFragment;
@@ -11,6 +13,11 @@ import com.king.app.workhelper.fragment.EntryFragment;
 
 public class HomeActivity extends AppBaseActivity {
     private long exitTime;
+
+    //解决Button无法使用Vector的问题
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Override
     public int getContentLayout() {
