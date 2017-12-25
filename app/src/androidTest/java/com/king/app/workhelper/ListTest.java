@@ -50,13 +50,22 @@ public class ListTest extends BaseTestCase {
         }
     }
 
-    //测试List.addAll()是深拷贝还是浅拷贝.结论：深复制.
+    //测试List.addAll()是深拷贝还是浅拷贝.结论：浅复制.
     public void testAddAll() throws Exception {
-        stringList.addAll(hasNullList);
-        hasNullList = Arrays.asList("哈哈哈", "呵呵呵");
+        List<Person> list1 = new ArrayList<>();
+        list1.add(new Person("aaa"));
+        list1.add(new Person("bbb"));
 
-        printList(stringList);
-        printList(hasNullList);
+        List<Person> list2 = new ArrayList<>();
+        Person person111 = new Person("111");
+        list2.add(person111);
+        list2.add(new Person("222"));
+        
+        list1.addAll(list2);
+
+        person111.setName("哈哈哈");
+        printList(list1);
+        printList(list2);
     }
 
     public void testSArray() throws Exception {
@@ -111,5 +120,30 @@ public class ListTest extends BaseTestCase {
             }
         });
         Logger.i("" + aaa);
+    }
+    
+    private static class Person{
+        private String name;
+
+        public Person() {
+        }
+
+        public Person(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override public String toString() {
+            return "Person{" +
+                    "name='" + name + '\'' +
+                    '}';
+        }
     }
 }
