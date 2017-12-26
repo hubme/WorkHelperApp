@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_sample_web_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.king.applib.base.webview.SimpleWebView
         android:id="@+id/web_my"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/btn_load_url"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-    <Button
-        android:id="@+id/btn_load_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="load url"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btn_invoke_js_method1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/btn_load_url"
-        android:layout_toRightOf="@id/btn_load_url"
-        android:text="java调js"/>
-</RelativeLayout>
+        <Button
+            android:id="@+id/btn_load_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="load url"/>
+
+        <Button
+            android:id="@+id/btn_invoke_js_method1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="java调js"/>
+
+        <Button
+            android:id="@+id/btn_screen_shot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WebView截图"/>
+
+    </LinearLayout>
+</LinearLayout>
