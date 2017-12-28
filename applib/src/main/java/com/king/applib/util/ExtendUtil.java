@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Picture;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -491,5 +494,19 @@ public class ExtendUtil {
         } catch (Exception e) {
             return defaultColor;
         }
+    }
+
+    /**
+     * 截取整个WebView的内容。但是7.0+ 需要在Activity 的 setContentView()前添加如下代码。否则只会截取显示的部分
+     * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+     *      WebView.enableSlowWholeDocumentDraw();
+     * }
+     */
+    private Bitmap captureWholeWebView(WebView webView){
+        Picture snapShot = webView.capturePicture();
+        Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(),snapShot.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bmp);
+        snapShot.draw(canvas);
+        return bmp;
     }
 }
