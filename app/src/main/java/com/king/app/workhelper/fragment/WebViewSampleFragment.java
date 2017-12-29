@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Picture;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
@@ -46,6 +47,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
 
     @BindView(R.id.web_my) SimpleWebView mWebView;
     @BindView(R.id.btn_load_url) Button mLoadUrlBtn;
+    @BindView(R.id.btn_show_page) Button mShowSharePageBtn;
 
     @Override
     protected int getContentLayout() {
@@ -55,6 +57,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
+        loadUrl(URL3);
     }
 
     @Override public void onDestroyView() {
@@ -66,27 +69,31 @@ public class WebViewSampleFragment extends AppBaseFragment {
     }
 
     @OnClick(R.id.btn_load_url)
-    public void loadUrl() {
-//        loadUrl("file:///android_asset/js_java_interaction.html");
+    public void openUrl() {
+        loadUrl(URL3);
+    }
+
+    @OnClick(R.id.btn_show_page)
+    public void showPage() {
+        invokeScript("indexPage.showSharePage()");
+    }
+
+    public void invokeScript(String script) {
+        mWebView.loadUrl("javascript:" + script);
+    }
+    
+    private void showWebErrorView() {
         TextView textView = new TextView(mContext);
         textView.setText("出错啦！");
         textView.setGravity(Gravity.CENTER);
         textView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.chocolate));
         textView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
         mWebView.setErrorView(textView);
-        loadUrl(URL3);
     }
 
     @OnClick(R.id.btn_invoke_js_method1)
     public void invokeJsMethod1() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                test();
-
-            }
-        }).start();
-
+        loadUrl(URL2);
     }
 
     private void test() {
@@ -101,6 +108,10 @@ public class WebViewSampleFragment extends AppBaseFragment {
         if (!StringUtil.isNullOrEmpty(url)) {
             mWebView.loadUrl(url);
         }
+    }
+
+    private void loadLocalUrl(String urlName) {
+        loadUrl("file:///android_asset/"+urlName);
     }
 
     /*
@@ -181,8 +192,9 @@ public class WebViewSampleFragment extends AppBaseFragment {
 //        Bitmap bitmap = ImageUtil.loadBitmapFromView(mWebView);
 //        Bitmap bitmap = captureScreen(getActivity());
 //        Bitmap bitmap = getViewBitmapWithoutBottom(mWebView);
-        Bitmap bitmap = getWebViewBitmap(mWebView);
-        File file = ImageUtil.saveBitmap(bitmap, imageUrl, Bitmap.CompressFormat.JPEG, 100);
+//        Bitmap bitmap = getWebViewBitmap(mWebView);
+        Bitmap bitmap = captureWholeWebView2(mWebView);
+        File file = ImageUtil.saveBitmap(bitmap, imageUrl, Bitmap.CompressFormat.JPEG, 90);
         if (FileUtil.isLegalFile(file)) {
             showToast("保存成功");
         } else {
@@ -226,7 +238,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
         // 可见高度
         int viewHeight = view.getHeight();
         // 容器内容实际高度
-        int th = (int)(view.getContentHeight()*view.getScale());
+        int th = (int) (view.getContentHeight() * view.getScale());
         Bitmap temp;
         if (th > viewHeight) {
             int w = ExtendUtil.getScreenWidth();
@@ -259,7 +271,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
         }
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
-        view.measure(View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY), 
+        view.measure(View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(view.getHeight(), View.MeasureSpec.EXACTLY));
         view.layout((int) view.getX(), (int) view.getY(), (int) view.getX() + view.getMeasuredWidth(), (int) view.getY() + view.getMeasuredHeight());
         Bitmap screenBitmap = Bitmap.createBitmap(view.getDrawingCache(), 0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
@@ -278,6 +290,66 @@ public class WebViewSampleFragment extends AppBaseFragment {
         cv.drawBitmap(foreground, foreX, foreY, null);
         cv.save(Canvas.ALL_SAVE_FLAG);
         cv.restore();
+        return bitmap;
+    }
+
+    /*
+    方式一:
+    可以截取整个WebView的内容。但是7.0+ 需要在Activity 的 setContentView()前添加如下代码。否则只会截取显示的部分
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WebView.enableSlowWholeDocumentDraw();
+        }
+     */
+    private Bitmap captureWholeWebView(WebView webView){
+        Picture snapShot = webView.capturePicture();
+        Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(),snapShot.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bmp);
+        snapShot.draw(canvas);
+        return bmp;
+    }
+
+    //方式一: WebView#capturePicture 过时。4.4中废弃掉了。同样要开启WebView.enableSlowWholeDocumentDraw()
+    private Bitmap captureWholeWebView2(WebView webView) {
+        //获取webview缩放率
+        float scale = webView.getScale();
+        //得到缩放后webview内容的高度
+        int webViewHeight = (int) (webView.getContentHeight() * scale);
+        Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), webViewHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        webView.draw(canvas);
+        return bitmap;
+    }
+
+    /**
+     * 截取webView可视区域的截图   
+     */
+    private Bitmap captureWebViewVisibleSize(WebView webView){
+        webView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = webView.getDrawingCache();
+        webView.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
+    /**
+     * 截取webView可视区域的截图   
+     */
+    public Bitmap captureWebViewVisibleSize2(WebView webView) {
+        webView.setDrawingCacheEnabled(true);
+        webView.buildDrawingCache();
+        webView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(webView.getHeight(), View.MeasureSpec.EXACTLY));
+        webView.layout((int) webView.getX(), (int) webView.getY(), (int) webView.getX() + webView.getMeasuredWidth(), (int) webView.getY() + webView.getMeasuredHeight());
+        Bitmap bp = Bitmap.createBitmap(webView.getDrawingCache(), 0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight() - webView.getPaddingBottom());
+        webView.setDrawingCacheEnabled(false);
+        webView.destroyDrawingCache();
+        return bp;
+    }
+
+    /** 截取整个 Activity 页面 */
+    public Bitmap captureActivity(Activity activity) {
+        View view  = activity.getWindow().getDecorView();
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
         return bitmap;
     }
 }

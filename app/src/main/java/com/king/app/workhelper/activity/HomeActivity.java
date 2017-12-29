@@ -1,6 +1,8 @@
 package com.king.app.workhelper.activity;
 
+import android.os.Build;
 import android.support.v7.app.AppCompatDelegate;
+import android.webkit.WebView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
@@ -17,6 +19,13 @@ public class HomeActivity extends AppBaseActivity {
     //解决Button无法使用Vector的问题
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    @Override protected void beforeCreateView() {
+        super.beforeCreateView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WebView.enableSlowWholeDocumentDraw();
+        }
     }
 
     @Override

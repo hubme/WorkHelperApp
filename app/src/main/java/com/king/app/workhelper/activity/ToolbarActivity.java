@@ -2,6 +2,7 @@ package com.king.app.workhelper.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -13,8 +14,10 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.applib.util.ExtendUtil;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * see also:http://www.jianshu.com/p/79604c3ddcae
@@ -99,6 +102,24 @@ public class ToolbarActivity extends AppBaseActivity {
                 return false;
             }
         });
+    }
+
+    @OnClick(R.id.image_view)
+    public void onsdljf() {
+        mToolbar.addView(buildToolbarRightMenu());
+    }
+
+    private TextView buildToolbarRightMenu() {
+        TextView rightMenu = new TextView(this);
+        rightMenu.setText("哈哈哈");
+        Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.MATCH_PARENT, Gravity.END | Gravity.CENTER_VERTICAL);
+        rightMenu.setBackgroundResource(R.drawable.normal_selector);
+        rightMenu.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
+        rightMenu.setGravity(Gravity.CENTER);
+        rightMenu.setCompoundDrawablePadding(ExtendUtil.dp2px(10));
+        rightMenu.setPadding(ExtendUtil.dp2px(15), 0, ExtendUtil.dp2px(15), 0);
+        rightMenu.setLayoutParams(params);
+        return rightMenu;
     }
 
     @Override

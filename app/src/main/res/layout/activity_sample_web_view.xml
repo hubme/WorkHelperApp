@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_sample_web_view"
     android:layout_width="match_parent"
@@ -9,10 +9,10 @@
     <com.king.applib.base.webview.SimpleWebView
         android:id="@+id/web_my"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"/>
 
     <LinearLayout
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -34,5 +34,11 @@
             android:layout_height="wrap_content"
             android:text="WebView截图"/>
 
+        <Button
+            android:id="@+id/btn_show_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="showSharePage"/>
+
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
