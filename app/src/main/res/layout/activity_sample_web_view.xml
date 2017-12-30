@@ -12,6 +12,7 @@
         android:layout_height="match_parent"/>
 
     <LinearLayout
+        android:id="@+id/panel_bottom_content"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -33,12 +34,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WebView截图"/>
-
-        <Button
-            android:id="@+id/btn_show_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="showSharePage"/>
 
     </LinearLayout>
 </RelativeLayout>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Picture;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
@@ -23,6 +22,7 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.base.webview.SimpleWebView;
 import com.king.applib.log.Logger;
+import com.king.applib.util.CaptureUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
@@ -47,7 +47,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
 
     @BindView(R.id.web_my) SimpleWebView mWebView;
     @BindView(R.id.btn_load_url) Button mLoadUrlBtn;
-    @BindView(R.id.btn_show_page) Button mShowSharePageBtn;
+    @BindView(R.id.panel_bottom_content) View mBottonContent;
 
     @Override
     protected int getContentLayout() {
@@ -57,7 +57,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        loadUrl(URL3);
+        loadUrl(URL2);
     }
 
     @Override public void onDestroyView() {
@@ -71,11 +71,6 @@ public class WebViewSampleFragment extends AppBaseFragment {
     @OnClick(R.id.btn_load_url)
     public void openUrl() {
         loadUrl(URL3);
-    }
-
-    @OnClick(R.id.btn_show_page)
-    public void showPage() {
-        invokeScript("indexPage.showSharePage()");
     }
 
     public void invokeScript(String script) {
@@ -191,9 +186,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
 //        Bitmap bitmap = convertViewToBitmap(mWebView);
 //        Bitmap bitmap = ImageUtil.loadBitmapFromView(mWebView);
 //        Bitmap bitmap = captureScreen(getActivity());
-//        Bitmap bitmap = getViewBitmapWithoutBottom(mWebView);
-//        Bitmap bitmap = getWebViewBitmap(mWebView);
-        Bitmap bitmap = captureWholeWebView2(mWebView);
+        Bitmap bitmap = CaptureUtil.captureWholeWebView(mWebView);
         File file = ImageUtil.saveBitmap(bitmap, imageUrl, Bitmap.CompressFormat.JPEG, 90);
         if (FileUtil.isLegalFile(file)) {
             showToast("保存成功");
@@ -290,66 +283,6 @@ public class WebViewSampleFragment extends AppBaseFragment {
         cv.drawBitmap(foreground, foreX, foreY, null);
         cv.save(Canvas.ALL_SAVE_FLAG);
         cv.restore();
-        return bitmap;
-    }
-
-    /*
-    方式一:
-    可以截取整个WebView的内容。但是7.0+ 需要在Activity 的 setContentView()前添加如下代码。否则只会截取显示的部分
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            WebView.enableSlowWholeDocumentDraw();
-        }
-     */
-    private Bitmap captureWholeWebView(WebView webView){
-        Picture snapShot = webView.capturePicture();
-        Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(),snapShot.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmp);
-        snapShot.draw(canvas);
-        return bmp;
-    }
-
-    //方式一: WebView#capturePicture 过时。4.4中废弃掉了。同样要开启WebView.enableSlowWholeDocumentDraw()
-    private Bitmap captureWholeWebView2(WebView webView) {
-        //获取webview缩放率
-        float scale = webView.getScale();
-        //得到缩放后webview内容的高度
-        int webViewHeight = (int) (webView.getContentHeight() * scale);
-        Bitmap bitmap = Bitmap.createBitmap(webView.getWidth(), webViewHeight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        webView.draw(canvas);
-        return bitmap;
-    }
-
-    /**
-     * 截取webView可视区域的截图   
-     */
-    private Bitmap captureWebViewVisibleSize(WebView webView){
-        webView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = webView.getDrawingCache();
-        webView.setDrawingCacheEnabled(false);
-        return bitmap;
-    }
-
-    /**
-     * 截取webView可视区域的截图   
-     */
-    public Bitmap captureWebViewVisibleSize2(WebView webView) {
-        webView.setDrawingCacheEnabled(true);
-        webView.buildDrawingCache();
-        webView.measure(View.MeasureSpec.makeMeasureSpec(webView.getWidth(), View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(webView.getHeight(), View.MeasureSpec.EXACTLY));
-        webView.layout((int) webView.getX(), (int) webView.getY(), (int) webView.getX() + webView.getMeasuredWidth(), (int) webView.getY() + webView.getMeasuredHeight());
-        Bitmap bp = Bitmap.createBitmap(webView.getDrawingCache(), 0, 0, webView.getMeasuredWidth(), webView.getMeasuredHeight() - webView.getPaddingBottom());
-        webView.setDrawingCacheEnabled(false);
-        webView.destroyDrawingCache();
-        return bp;
-    }
-
-    /** 截取整个 Activity 页面 */
-    public Bitmap captureActivity(Activity activity) {
-        View view  = activity.getWindow().getDecorView();
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
         return bitmap;
     }
 }
