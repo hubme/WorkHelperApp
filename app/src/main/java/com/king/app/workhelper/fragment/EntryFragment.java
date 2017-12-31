@@ -144,7 +144,6 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_tbs)
     public void onTbsClick() {
-        openActivity(X5BrowserActivity.class);
     }
 
     @OnClick(R.id.tv_file_provider)
