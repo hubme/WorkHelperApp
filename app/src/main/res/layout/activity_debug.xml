@@ -15,12 +15,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <fragment
-                android:id="@+id/fragment_debug_setting"
-                android:name="com.king.app.workhelper.fragment.HttpLogSettingFragment"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"

@@ -12,7 +12,6 @@ import com.king.app.workhelper.activity.TestActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
-import com.king.app.workhelper.activity.X5BrowserActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
 
 import butterknife.OnClick;
