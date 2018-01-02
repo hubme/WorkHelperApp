@@ -1,12 +1,10 @@
 package com.king.app.workhelper.activity;
 
-import android.widget.CheckedTextView;
-import android.widget.TextView;
+import android.graphics.Color;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.ui.customview.ExpandableTextViewGroup;
-import com.king.applib.log.Logger;
+import com.king.app.workhelper.ui.customview.PieView2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +17,8 @@ import butterknife.BindView;
  */
 
 public class TestActivity extends AppBaseActivity {
-    @BindView(R.id.expand_group) ExpandableTextViewGroup mExpandableTextViewGroup;
-
+    @BindView(R.id.pie_view) PieView2 mPieView;
+    
     @Override protected int getContentLayout() {
         return R.layout.activity_test;
     }
@@ -28,23 +26,14 @@ public class TestActivity extends AppBaseActivity {
     @Override protected void initContentView() {
         super.initContentView();
 
-        List<ExpandableTextViewGroup.ExpandModel> models = new ArrayList<ExpandableTextViewGroup.ExpandModel>(){
+        List<PieView2.PieItem> sdlf = new ArrayList<PieView2.PieItem>(){
             {
-                add(new ExpandableTextViewGroup.ExpandModel("哈哈哈", "111111", false));
-                add(new ExpandableTextViewGroup.ExpandModel("呵呵呵", "2222222\n222", false));
-                add(new ExpandableTextViewGroup.ExpandModel("喔喔喔", "333333\n333\n333", false));
+                add(new PieView2.PieItem("323元", "公交", 323, Color.parseColor("#dd4649")));
+                add(new PieView2.PieItem("1020元", "购物", 1020, Color.parseColor("#fc9d42")));
+                add(new PieView2.PieItem("1200元", "食宿", 1200, Color.parseColor("#dd4649")));
+                add(new PieView2.PieItem("323元", "其他", 323, Color.parseColor("#dd4649")));
             }
         };
-        mExpandableTextViewGroup.setExpandData(models);
-        mExpandableTextViewGroup.setOnContentClickListener(new ExpandableTextViewGroup.OnContentClickListener() {
-            @Override public void onSubTitleClick(int position, CheckedTextView parent, TextView textView) {
-                Logger.i("position"+position + textView.getText().toString() + " "+parent.getText().toString());
-            }
-        });
-        mExpandableTextViewGroup.setOnTitleClickListener(new ExpandableTextViewGroup.OnTitleClickListener() {
-            @Override public void onTitleClick(int position, CheckedTextView parent, TextView textView) {
-//                Log.i("aaa", "height: " + (int) textView.getTag());
-            }
-        });
+        mPieView.drawPies(sdlf, PieView2.DESC);
     }
 }

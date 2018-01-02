@@ -6,11 +6,10 @@
               android:background="@color/white"
               android:orientation="vertical">
 
-    <com.king.app.workhelper.ui.customview.ExpandableTextViewGroup
-        android:id="@+id/expand_group"
+    <com.king.app.workhelper.ui.customview.PieView2
+        android:id="@+id/pie_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/ll_h_divider"
-        android:showDividers="beginning|middle|end"/>
+        android:background="@color/gray_fbfbfb"/>
 
 </LinearLayout>
