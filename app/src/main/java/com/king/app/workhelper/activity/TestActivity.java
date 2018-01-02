@@ -30,10 +30,10 @@ public class TestActivity extends AppBaseActivity {
             {
                 add(new PieView2.PieItem("323元", "公交", 323, Color.parseColor("#dd4649")));
                 add(new PieView2.PieItem("1020元", "购物", 1020, Color.parseColor("#fc9d42")));
-                add(new PieView2.PieItem("1200元", "食宿", 1200, Color.parseColor("#dd4649")));
-                add(new PieView2.PieItem("323元", "其他", 323, Color.parseColor("#dd4649")));
+                add(new PieView2.PieItem("1200元", "食宿", 1200, Color.parseColor("#5653f9")));
+                add(new PieView2.PieItem("323元", "其他", 30, Color.parseColor("#5b96f1")));
             }
         };
-        mPieView.drawPies(sdlf, PieView2.DESC);
+        mPieView.drawPies(sdlf, PieView2.ASC);
     }
 }
