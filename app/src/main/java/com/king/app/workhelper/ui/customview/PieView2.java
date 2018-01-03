@@ -1,5 +1,8 @@
 package com.king.app.workhelper.ui.customview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,19 +31,32 @@ import java.util.List;
  */
 
 public class PieView2 extends View {
+    //小于此比例不显示折线
+    private static final double LOWER_LIMIT = 0.005;
+    private static final double CHART_PERCENT = 0.38;
     private static final int FULL_ANGLE = 360;
     private static final int START_ANGLE = -90;
+    //圆环宽度
     private int mArcWidth = dip2px(35);
-    private int length = dip2px(15);
+    //拐点到圆环的距离
+    private int mLength = dip2px(15);
+    //拐点到终点的距离
     private int length2 = dip2px(70);
+    //中间圆环的半径
     private int mCenterCircleRadius = dip2px(45);
+    //折线终点圆环的半径
     private int mSmallPointRadius = dip2px(3);
+    //代表品类的圆环半径
     private int mCategoryCircleRadius = dip2px(6);
+    //品类圆环距离文字的距离
     private int mCategoryCirclePadding = dip2px(12);
+    //折线上下的文字距离折线的距离
     private int mExtraPadding = dip2px(3);
 
     public static final int ASC = 0;
     public static final int DESC = 1;
+    private ValueAnimator mAnimator;
+    private float mAnimatedFraction;
 
     @IntDef({ASC, DESC})
     @Retention(RetentionPolicy.SOURCE)
@@ -66,7 +82,8 @@ public class PieView2 extends View {
     private final List<PieItem> mPies = new ArrayList<>();
     private double mTotalValue;
     private String mCenterText;
-
+    private boolean mIsDrawText;
+    private boolean mIsStartDraw;
 
     public PieView2(Context context) {
         this(context, null);
@@ -82,8 +99,6 @@ public class PieView2 extends View {
     }
 
     private void init() {
-        mCirclePaint.setColor(Color.parseColor("#D2691E"));
-        mCirclePaint.setStrokeWidth(2);
         mCirclePaint.setStyle(Paint.Style.FILL);
 
         mTextPaint.setColor(mBlackTextColor);
@@ -96,16 +111,42 @@ public class PieView2 extends View {
 
         mCategoryCirclePaint.setStyle(Paint.Style.STROKE);
         mCategoryCirclePaint.setStrokeWidth(dip2px(3));
+
+        mAnimator = new ValueAnimator();
+        mAnimator.setFloatValues(0, 1);
+        mAnimator.setStartDelay(200);
+        mAnimator.setDuration(800);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedFraction = animation.getAnimatedFraction();
+                invalidate();
+            }
+        });
+        mAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mIsDrawText = false;
+                mIsStartDraw = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mIsDrawText = true;
+            }
+        });
     }
 
-    @Override protected void onDraw(Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
 
         mCenterX = width / 2;
-        mCenterY = dip2px(160);
+        mCenterY = (int) (height * CHART_PERCENT);
 
         final int paddingLeft = getPaddingLeft();
         final int paddingTop = getPaddingTop();
@@ -115,46 +156,23 @@ public class PieView2 extends View {
         final int availableWidth = width - paddingLeft - paddingRight;
         final int availableHeight = height - paddingTop - paddingBottom;
 
-//        final int size = Math.min(actualWidth, actualHeight);
-
         final int length = mArcWidth + mCenterCircleRadius;
         mPieRectF.set(mCenterX - length, mCenterY - length, mCenterX + length, mCenterY + length);
 
-        //画每个扇形
-        int startAngle = START_ANGLE;
-        for (int i = 0, size = mPies.size(); i < size; i++) {
-            final PieItem item = mPies.get(i);
-            mCirclePaint.setColor(item.color);
-            float angle = (float) (item.value / mTotalValue) * FULL_ANGLE;
-            //+1是为了不出现空隙，-1是为了不越界
-            canvas.drawArc(mPieRectF, startAngle, i == size - 1 ? angle : angle + 1, true, mCirclePaint);
-            startAngle += angle;
+        if (mIsStartDraw) {
+            drawArc(canvas);
         }
-
-        float beforeValue = 0;
-        for (int i = 0, size = mPies.size(); i < size; i++) {
-            final PieItem item = mPies.get(i);
-            float percent = (float) ((beforeValue + item.value / 2) / mTotalValue);
-            int pointX = getStartPointX(mCenterX, mCenterCircleRadius + mArcWidth, percent);
-            int pointY = getStartPointY(mCenterY, mCenterCircleRadius + mArcWidth, percent);
-
-            calcMiddleAndEndPoint(pointX, pointY, percent, i);
-            mCirclePaint.setColor(item.color);
-            canvas.drawLine(pointX, pointY, mMiddlePoint[0], mMiddlePoint[1], mCirclePaint);
-            canvas.drawLine(mMiddlePoint[0], mMiddlePoint[1], mEndPoint[0], mEndPoint[1], mCirclePaint);
-            canvas.drawCircle(mEndPoint[0], mEndPoint[1], mSmallPointRadius, mCirclePaint);
-
-            drawPointText(canvas, item);
-            beforeValue += item.value;
-        }
-
 
         //画中间的圆形
         mCirclePaint.setColor(Color.WHITE);
         canvas.drawCircle(mCenterX, mCenterY, mCenterCircleRadius, mCirclePaint);
-
         //画中间的文字
         drawCenterText(canvas);
+
+        if (mIsDrawText) {
+            //画折线和上下的文字
+            drawLine(canvas);
+        }
 
         drawCategory(canvas, availableWidth, availableHeight, paddingLeft, paddingRight);
     }
@@ -173,21 +191,59 @@ public class PieView2 extends View {
 
         sortPies(sortType);
         mTotalValue = getTotalValue();
-        invalidate();
+
+        if (!mAnimator.isRunning()) {
+            mAnimator.start();
+        }
+    }
+
+    private void drawArc(Canvas canvas) {
+        //画每个扇形
+        int startAngle = START_ANGLE;
+        for (int i = 0, size = mPies.size(); i < size; i++) {
+            final PieItem item = mPies.get(i);
+            mCirclePaint.setColor(item.color);
+            float angle = (float) (item.value / mTotalValue) * FULL_ANGLE * mAnimatedFraction;
+            //+1是为了不出现空隙，-1是为了不越界
+            canvas.drawArc(mPieRectF, startAngle, i == size - 1 ? angle : angle + 1, true, mCirclePaint);
+            startAngle += angle;
+        }
+    }
+
+    private void drawLine(Canvas canvas) {
+        float beforeValue = 0;
+        for (int i = 0, size = mPies.size(); i < size; i++) {
+            final PieItem item = mPies.get(i);
+
+            float percent = (float) ((beforeValue + item.value / 2) / mTotalValue);
+            int pointX = getStartPointX(mCenterX, mCenterCircleRadius + mArcWidth, percent);
+            int pointY = getStartPointY(mCenterY, mCenterCircleRadius + mArcWidth, percent);
+
+            calcMiddleAndEndPoint(pointX, pointY, percent, i);
+            if (item.value / mTotalValue > LOWER_LIMIT) {
+                mCirclePaint.setColor(item.color);
+                canvas.drawLine(pointX, pointY, mMiddlePoint[0], mMiddlePoint[1], mCirclePaint);
+                canvas.drawLine(mMiddlePoint[0], mMiddlePoint[1], mEndPoint[0], mEndPoint[1], mCirclePaint);
+                canvas.drawCircle(mEndPoint[0], mEndPoint[1], mSmallPointRadius, mCirclePaint);
+                drawPointText(canvas, item);
+            }
+
+            beforeValue += item.value;
+        }
     }
 
     private void drawPointText(Canvas canvas, PieItem item) {
         if (mCenterX - mEndPoint[0] > 0) {//二、三象限
             //横线上部的文字
             mTextPaint.setColor(mBlackTextColor);
-            canvas.drawText(item.primaryText, mEndPoint[0] + mExtraPadding, mEndPoint[1] - mExtraPadding, mTextPaint);
+            canvas.drawText(item.primaryText, mEndPoint[0] + mExtraPadding, mEndPoint[1] - mExtraPadding - 5, mTextPaint);
             //横线下部的文字
             mTextPaint.setColor(item.color);
             canvas.drawText(item.secondText, mEndPoint[0] + mExtraPadding, mEndPoint[1] + mTextHeight, mTextPaint);
         } else {//一，四象限
             float textWidth = mTextPaint.measureText(item.primaryText);
             mTextPaint.setColor(mBlackTextColor);
-            canvas.drawText(item.primaryText, mEndPoint[0] - textWidth - mExtraPadding, mEndPoint[1] - mExtraPadding, mTextPaint);
+            canvas.drawText(item.primaryText, mEndPoint[0] - textWidth - mExtraPadding, mEndPoint[1] - mExtraPadding - 5, mTextPaint);
             mTextPaint.setColor(item.color);
             canvas.drawText(item.secondText, mEndPoint[0] - textWidth - mExtraPadding, mEndPoint[1] + mTextHeight, mTextPaint);
         }
@@ -227,7 +283,8 @@ public class PieView2 extends View {
 
     private void sortPies(@SORT_TYPE final int type) {
         Collections.sort(mPies, new Comparator<PieItem>() {
-            @Override public int compare(PieItem o1, PieItem o2) {
+            @Override
+            public int compare(PieItem o1, PieItem o2) {
                 if (o1.value < o2.value) {
                     return type == ASC ? -1 : 1;
                 } else if (o1.value > o2.value) {
@@ -270,21 +327,21 @@ public class PieView2 extends View {
         final int y = mCenterY - startPointY;
         if (x == 0 && y > 0) {//y轴正半轴
             mMiddlePoint[0] = mCenterX;
-            mMiddlePoint[1] = startPointY - length;
+            mMiddlePoint[1] = startPointY - mLength;
 
             mEndPoint[0] = mMiddlePoint[0] - length2;
         } else if (x == 0 && y < 0) {//y轴负半轴
             mMiddlePoint[0] = mCenterX;
-            mMiddlePoint[1] = startPointY + length;
+            mMiddlePoint[1] = startPointY + mLength;
 
             mEndPoint[0] = mMiddlePoint[0] + length2;
         } else if (x < 0 && y == 0) {//x轴正半轴
-            mMiddlePoint[0] = startPointX + length;
+            mMiddlePoint[0] = startPointX + mLength;
             mMiddlePoint[1] = mCenterY;
 
             mEndPoint[0] = mMiddlePoint[0] + length2;
         } else if (x > 0 && y == 0) {//x轴负半轴
-            mMiddlePoint[0] = startPointX - length;
+            mMiddlePoint[0] = startPointX - mLength;
             mMiddlePoint[1] = mCenterY;
 
             mEndPoint[0] = mMiddlePoint[0] - length2;
@@ -292,38 +349,38 @@ public class PieView2 extends View {
             if (position == 0) {
                 if (percent < 0.1) {
                     //向左
-                    mMiddlePoint[0] = startPointX - (int) (length * Math.sin(percent * 2 * Math.PI));
-                    mMiddlePoint[1] = startPointY - (int) (length * Math.cos(percent * 2 * Math.PI));
+                    mMiddlePoint[0] = startPointX - (int) (mLength * Math.sin(percent * 2 * Math.PI));
+                    mMiddlePoint[1] = startPointY - (int) (mLength * Math.cos(percent * 2 * Math.PI));
                     mEndPoint[0] = mMiddlePoint[0] - length2;
                 } else {
-                    mMiddlePoint[0] = startPointX + (int) (length * Math.sin(percent * 2 * Math.PI));
-                    mMiddlePoint[1] = startPointY - (int) (length * Math.cos(percent * 2 * Math.PI));
+                    mMiddlePoint[0] = startPointX + (int) (mLength * Math.sin(percent * 2 * Math.PI));
+                    mMiddlePoint[1] = startPointY - (int) (mLength * Math.cos(percent * 2 * Math.PI));
                     mEndPoint[0] = mMiddlePoint[0] + length2;
                 }
             } else if (position == 1) {
-                mMiddlePoint[0] = startPointX + (int) (length * Math.sin(percent * 2 * Math.PI));
-                mMiddlePoint[1] = startPointY - (int) (length * Math.cos(percent * 2 * Math.PI)) - dip2px(30);
+                mMiddlePoint[0] = startPointX + (int) (mLength * Math.sin(percent * 2 * Math.PI));
+                mMiddlePoint[1] = startPointY - (int) (mLength * Math.cos(percent * 2 * Math.PI)) - dip2px(30);
                 mEndPoint[0] = mMiddlePoint[0] + length2;
             } else if (position == 2) {
-                mMiddlePoint[0] = startPointX + (int) (length * Math.sin(percent * 2 * Math.PI));
-                mMiddlePoint[1] = startPointY - (int) (length * Math.cos(percent * 2 * Math.PI));
-                mEndPoint[0] = mMiddlePoint[0] + length2 + 50;
+                mMiddlePoint[0] = startPointX + (int) (mLength * Math.sin(percent * 2 * Math.PI));
+                mMiddlePoint[1] = startPointY - (int) (mLength * Math.cos(percent * 2 * Math.PI));
+                mEndPoint[0] = mMiddlePoint[0] + length2;
             }
 
 
         } else if (isSecondQuadrant(startPointX, startPointY)) {
-            mMiddlePoint[0] = startPointX + (int) (length * Math.sin(percent * 2 * Math.PI));
-            mMiddlePoint[1] = startPointY - (int) (length * Math.cos(percent * 2 * Math.PI));
+            mMiddlePoint[0] = startPointX + (int) (mLength * Math.sin(percent * 2 * Math.PI));
+            mMiddlePoint[1] = startPointY - (int) (mLength * Math.cos(percent * 2 * Math.PI));
 
             mEndPoint[0] = mMiddlePoint[0] + length2;
         } else if (isThirdQuadrant(startPointX, startPointY)) {
-            mMiddlePoint[0] = startPointX + (int) (length * Math.sin(percent * 2 * Math.PI));
-            mMiddlePoint[1] = startPointY - (int) (length * Math.cos(percent * 2 * Math.PI));
+            mMiddlePoint[0] = startPointX + (int) (mLength * Math.sin(percent * 2 * Math.PI));
+            mMiddlePoint[1] = startPointY - (int) (mLength * Math.cos(percent * 2 * Math.PI));
 
             mEndPoint[0] = mMiddlePoint[0] - length2;
         } else if (isForthQuadrant(startPointX, startPointY)) {
-            mMiddlePoint[0] = startPointX + (int) (length * Math.sin(percent * 2 * Math.PI));
-            mMiddlePoint[1] = startPointY - (int) (length * Math.cos(percent * 2 * Math.PI));
+            mMiddlePoint[0] = startPointX + (int) (mLength * Math.sin(percent * 2 * Math.PI));
+            mMiddlePoint[1] = startPointY - (int) (mLength * Math.cos(percent * 2 * Math.PI));
 
             mEndPoint[0] = mMiddlePoint[0] - length2;
         } else {

@@ -1,61 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
 
-    <LinearLayout
+    <com.king.app.workhelper.ui.customview.PieView2
+        android:id="@+id/pie_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="400dp"
+        android:background="@color/gray_fbfbfb"
+        android:paddingBottom="30dp"/>
 
-        <com.king.app.workhelper.ui.customview.PieView2
-            android:id="@+id/pie_view"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:background="@color/gray_fbfbfb"
-            android:paddingBottom="30dp"/>
-
-        <EditText
-            android:id="@+id/edit1"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/transparent"
-            android:inputType="number"
-            android:singleLine="true"
-            android:text="1000"/>
-
-        <EditText
-            android:id="@+id/edit2"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/transparent"
-            android:inputType="number"
-            android:singleLine="true"
-            android:text="1000"/>
-
-        <EditText
-            android:id="@+id/edit3"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/transparent"
-            android:inputType="number"
-            android:singleLine="true"
-            android:text="1000"/>
-
-        <EditText
-            android:id="@+id/edit4"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/transparent"
-            android:inputType="number"
-            android:singleLine="true"
-            android:text="1000"/>
-
-        <Button
-            android:id="@+id/again"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"/>
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
