@@ -8,7 +8,7 @@
     <com.king.app.workhelper.ui.customview.PieView2
         android:id="@+id/pie_view"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:background="@color/gray_fbfbfb"
         android:paddingBottom="30dp"/>
 

@@ -139,6 +139,10 @@ public class PieView2 extends View {
         });
     }
 
+    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), resolveSize(dip2px(360), heightMeasureSpec));
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
