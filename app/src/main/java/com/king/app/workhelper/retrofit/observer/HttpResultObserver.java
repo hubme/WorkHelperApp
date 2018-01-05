@@ -1,6 +1,8 @@
 package com.king.app.workhelper.retrofit.observer;
 
 
+import android.support.annotation.CallSuper;
+
 import com.google.gson.stream.MalformedJsonException;
 import com.king.app.workhelper.retrofit.HttpResponseCode;
 import com.king.app.workhelper.retrofit.exception.ApiException;
@@ -72,6 +74,7 @@ public abstract class HttpResultObserver<T> implements Observer<HttpResults<T>> 
 
     public abstract void onSuccess(T t, String msg);
 
+    @CallSuper
     public void onFailure(int errorCode, String msg) {
         Logger.e("errorCode: " + errorCode + ", errorMsg: " + msg);
     }
