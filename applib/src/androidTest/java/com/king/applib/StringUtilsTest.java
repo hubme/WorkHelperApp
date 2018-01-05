@@ -100,4 +100,12 @@ public class StringUtilsTest extends BaseTestCase {
         Logger.i("result: " + StringUtil.trimAllSpace(" a a "));
         Logger.i("result: " + StringUtil.trimAllSpace(" a\tb\rc\nd "));
     }
+    
+    //String#trim() 返回新的字符串对象，原字符串对象不受影响
+    public void testStringTrim() throws Exception {
+        String text = " AAA ";
+        Logger.i(text);
+        Logger.i(text.trim());
+        Logger.i(text);
+    }
 }
