@@ -71,6 +71,7 @@ public class AnnotationSample {
         this.day = day;
     }
 
+    @MethodInfo(author = "Vance", date = "2018.1.5")
     public void setCurColor(Context context, @ColorRes int color) {
         context.getResources().getColor(color);
     }
