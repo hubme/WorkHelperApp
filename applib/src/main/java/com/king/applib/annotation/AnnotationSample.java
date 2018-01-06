@@ -20,8 +20,8 @@ import java.lang.annotation.Target;
  */
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface AnnotationTest {
+@Target({ElementType.FIELD, ElementType.METHOD})
+public @interface AnnotationSample {
     String author() default "VanceKing";
 
     String date();
