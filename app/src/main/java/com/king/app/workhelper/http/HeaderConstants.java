@@ -2,7 +2,8 @@ package com.king.app.workhelper.http;
 
 /**
  * httpclient-cache/src/main/java/org/apache/http/client/cache/HeaderConstants.java
- * @author huoguangxu
+ *
+ * @author VanceKing
  * @since 2017/12/1.
  */
 

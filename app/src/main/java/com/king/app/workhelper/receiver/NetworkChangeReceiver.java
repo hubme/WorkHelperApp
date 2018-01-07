@@ -8,9 +8,10 @@ import android.support.annotation.RequiresApi;
 
 /**
  * 网络变化的广播.
- * Created by HuoGuangxu on 2016/12/16.
+ *
+ * @author huoguangxu
+ * @since 2016/12/16.
  */
-
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
     @Override @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

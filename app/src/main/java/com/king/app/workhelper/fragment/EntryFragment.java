@@ -18,9 +18,10 @@ import butterknife.OnClick;
 
 /**
  * 测试页面入口Fragment
- * Created by HuoGuangxu on 2016/11/10.
+ *
+ * @author VanceKing
+ * @since 2018/1/7.
  */
-
 public class EntryFragment extends AppBaseFragment {
     public final String TAG = "EntryFragment";
 
@@ -33,7 +34,7 @@ public class EntryFragment extends AppBaseFragment {
     public void testActivityClick() {
         openActivity(TestActivity.class);
     }
-    
+
     @OnClick(R.id.tv_debug_activity)
     public void debugActivityClick() {
         openActivity(DebugActivity.class);
@@ -179,7 +180,7 @@ public class EntryFragment extends AppBaseFragment {
     public void onEventClick() {
         clickedOn(new ViewEventSampleFragment());
     }
-    
+
     @OnClick(R.id.tv_drawable)
     public void onDrawableClick() {
         clickedOn(new DrawableFragment());
@@ -194,7 +195,7 @@ public class EntryFragment extends AppBaseFragment {
     public void onBannerSimpleClick() {
         clickedOn(new BannerSampleFragment());
     }
-    
+
     @OnClick(R.id.tv_flexbox_layout)
     public void onFlexBoxLayoutClick() {
         clickedOn(new FlexBoxLayoutFragment());
@@ -209,27 +210,22 @@ public class EntryFragment extends AppBaseFragment {
     public void ontvBottomSheetsClick() {
         clickedOn(new BottomSheetsFragment());
     }
-    
-    @OnClick(R.id.tv_multi_status_view)
-    public void onMultiStatusViewClick() {
-        clickedOn(new MultiStatusViewFragment());
-    }
 
     @OnClick(R.id.tv_vector_sample)
     public void onVectorSampleClick() {
         clickedOn(new VectorFragment());
     }
-    
+
     @OnClick(R.id.tv_view_slide)
     public void onViewSlideClick() {
         clickedOn(new ViewSlideFragment());
     }
-    
+
     @OnClick(R.id.tv_expandable_list_view)
     public void onExpandableListViewClick() {
         clickedOn(new ExpandableListViewFragment());
     }
-    
+
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
         getActivity().getSupportFragmentManager()

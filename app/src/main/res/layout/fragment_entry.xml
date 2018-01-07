@@ -194,11 +194,6 @@
                 android:text="BottomSheets"/>
 
             <TextView
-                android:id="@+id/tv_multi_status_view"
-                style="@style/EntryItem"
-                android:text="Multi Status View"/>
-
-            <TextView
                 android:id="@+id/tv_vector_sample"
                 style="@style/EntryItem"
                 android:text="Vector"/>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * see {@link java.net.HttpURLConnection HttpURLConnection}
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/12/1.
  */
 

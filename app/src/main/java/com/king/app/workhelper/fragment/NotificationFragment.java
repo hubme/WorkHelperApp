@@ -23,7 +23,7 @@ import butterknife.OnClick;
  * Notification.
  * https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
  * http://www.jianshu.com/p/22e27a639787
- * Created by HuoGuangxu on 2016/12/7.
+ * Created by VanceKing on 2016/12/7.
  */
 
 public class NotificationFragment extends AppBaseFragment {
@@ -72,9 +72,8 @@ public class NotificationFragment extends AppBaseFragment {
     public void onRemoteViewsClick() {
         initDownloadProgress(1024);
     }
-    
+
     private void initDownloadProgress(long fileSize) {
-        final Context mContext = getContext();
         NotificationManagerCompat mNoticeManager = NotificationManagerCompat.from(mContext);
         if (!mNoticeManager.areNotificationsEnabled()) {
             return;
@@ -99,7 +98,7 @@ public class NotificationFragment extends AppBaseFragment {
         UpdateModel model = new UpdateModel(0, "update", "https://qd.myapp.com/myapp/qqteam/AndroidQQ/mobileqq_android.apk", "3.0.0");
         downloadUpdatedApk(mContext, model);
     }
-    
+
     public void downloadUpdatedApk(Context context, UpdateModel updateModel) {
         String path = mContext.getCacheDir().getPath();//Environment.getExternalStorageDirectory().getPath() + "/Download";
         DownloadManager downloadManager = DownloadManager.getInstance(context);
