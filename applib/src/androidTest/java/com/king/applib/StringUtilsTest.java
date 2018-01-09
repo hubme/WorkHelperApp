@@ -7,6 +7,7 @@ import com.king.applib.util.StringUtil;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.StringJoiner;
 
 /**
  * StringUtils测试类
@@ -107,5 +108,15 @@ public class StringUtilsTest extends BaseTestCase {
         Logger.i(text);
         Logger.i(text.trim());
         Logger.i(text);
+    }
+    
+    //java 1.8+
+    public void testStringJoiner() throws Exception {
+        StringJoiner stringJoiner = new StringJoiner("|", "#", "$");
+        stringJoiner
+                .add("Hello")
+                .add("Vance")
+                .add("King");
+        Logger.i(stringJoiner.toString());
     }
 }
