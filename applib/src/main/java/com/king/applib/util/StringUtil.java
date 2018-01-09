@@ -97,7 +97,8 @@ public final class StringUtil {
     }
 
     /**
-     * 设置字符串中指定字符的样式
+     * 设置字符串中指定字符的样式。<br/>
+     * 当keyword 为"\"时，Pattern.compile会报 PatternSyntaxException。
      *
      * @param context 上下文
      * @param text    字符串
@@ -109,17 +110,21 @@ public final class StringUtil {
     public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, String keyword, @ColorRes int colorId, @DimenRes int sizeId) {
         SpannableStringBuilder style = new SpannableStringBuilder(text);
 
-        Pattern p = Pattern.compile(keyword);
-        Matcher matcher = p.matcher(text);
-        while (matcher.find()) {
-            int start = matcher.start();
-            int end = matcher.end();
-            if (colorId != -1) {
-                style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        try {
+            Pattern p = Pattern.compile(keyword);
+            Matcher matcher = p.matcher(text);
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+                if (colorId != -1) {
+                    style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if (sizeId != -1) {
+                    style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                }
             }
-            if (sizeId != -1) {
-                style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return style;
     }
