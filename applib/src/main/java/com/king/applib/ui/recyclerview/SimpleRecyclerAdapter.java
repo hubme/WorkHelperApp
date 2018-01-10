@@ -86,13 +86,7 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
                 onBindEmptyViewHolder(holder, position);
                 break;
             case STATE_NORMAL:
-                int listPosition = position - getHeaderViewCount();
-                if (listPosition >= 0 && listPosition < super.getItemCount()) {
-                    E item = getItem(listPosition);
-                    if (item != null) {
-                        convert(holder, item, listPosition);
-                    }
-                }
+                super.onBindViewHolder(holder, position - getHeaderViewCount());
                 break;
             default:
                 break;
