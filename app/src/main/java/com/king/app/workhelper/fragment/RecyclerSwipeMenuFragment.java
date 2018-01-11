@@ -3,12 +3,14 @@ package com.king.app.workhelper.fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.king.applib.ui.recyclerview.RecyclerDivider;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
+import com.king.applib.ui.recyclerview.listener.RecyclerItemTouchListener;
 import com.king.applib.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -35,7 +37,15 @@ public class RecyclerSwipeMenuFragment extends AppBaseFragment {
         RecyclerDivider divider = new RecyclerDivider(RecyclerDivider.VERTICAL, ContextCompat.getColor(mContext, R.color.chocolate));
         mRecyclerView.addItemDecoration(divider);
 
-        mRecyclerView.setAdapter(new SwipeMenuAdapter(fakeData()));
+        SwipeMenuAdapter adapter = new SwipeMenuAdapter(fakeData());
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemTouchListener(mRecyclerView,
+                new RecyclerItemTouchListener.OnRecyclerItemListenerAdapter() {
+                    @Override public void onItemClick(View view, int position) {
+                        super.onItemClick(view, position);
+                        showToast(adapter.getItem(position));
+                    }
+                }));
     }
 
     private List<String> fakeData() {

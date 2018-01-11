@@ -109,13 +109,13 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
             convert(holder, e, position);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(e);
                 }
             }
-        });
+        });*/
     }
 
     public abstract void convert(RecyclerHolder holder, E item, int position);
