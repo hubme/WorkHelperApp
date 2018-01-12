@@ -132,11 +132,6 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         stopLoop();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(dp2px(120), MeasureSpec.EXACTLY));
-    }
-
     /**
      * 放在最后执行
      */
