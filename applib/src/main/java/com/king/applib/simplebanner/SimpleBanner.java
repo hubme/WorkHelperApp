@@ -9,9 +9,11 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -33,7 +35,7 @@ import java.util.List;
 假设原始界面是:A、B、C.则构造成C、A、B、C、A.当position==0(C界面)时，设置setCurrentItem==3(也是C界面),可以向右滑.
 当position==4(A)时，设置setCurrentItem==1(也是A界面),可以向左滑,达到循环的目的.
  */
-public class SimpleBanner<T, V extends View> extends RelativeLayout implements ViewPager.OnPageChangeListener {
+public class SimpleBanner<T, V extends View> extends FrameLayout implements ViewPager.OnPageChangeListener {
     private static final int DEFAULT_SCROLL_DURATION = 1000;
     private static final int DEFAULT_DELAY_DURATION = 3000;
     private int mIndicatorSize = 6;//dip
@@ -72,15 +74,11 @@ public class SimpleBanner<T, V extends View> extends RelativeLayout implements V
     }
 
     private void initView() {
-        RelativeLayout view = new RelativeLayout(getContext());
-
         mBanner = buildViewPager();
-        view.addView(mBanner);
+        addView(mBanner);
 
         mIndicatorPanel = buildIndicatorPanel();
-        view.addView(mIndicatorPanel);
-
-        addView(view);
+        addView(mIndicatorPanel);
     }
 
     private void initData() {
@@ -100,15 +98,13 @@ public class SimpleBanner<T, V extends View> extends RelativeLayout implements V
     }
 
     private LinearLayout buildIndicatorPanel() {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//        layoutParams.setMargins(0, 0, 0, dp2px(getContext(), 18));//没有效果
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
+        layoutParams.bottomMargin = dp2px(mIndicatorMargin);
 
         LinearLayout indicatorPanel = new LinearLayout(getContext());
         indicatorPanel.setOrientation(LinearLayout.HORIZONTAL);
         indicatorPanel.setLayoutParams(layoutParams);
-        indicatorPanel.setPadding(0, 0, 0, dp2px(mIndicatorMargin));
 
         return indicatorPanel;
     }
@@ -138,8 +134,7 @@ public class SimpleBanner<T, V extends View> extends RelativeLayout implements V
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(resolveSize(Integer.MAX_VALUE, widthMeasureSpec), resolveSize(dp2px(200), heightMeasureSpec));
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(dp2px(120), MeasureSpec.EXACTLY));
     }
 
     /**
@@ -271,11 +266,16 @@ public class SimpleBanner<T, V extends View> extends RelativeLayout implements V
             mIndicatorViews.clear();
         }
         final int size = dp2px(mIndicatorSize);
+        LinearLayout.LayoutParams firstParams = new LinearLayout.LayoutParams(size, size);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
         params.leftMargin = dp2px(mIndicatorMargin);
         for (int i = 0; i < mBannerCount - 2; i++) {//由于多生成2个View，要减去
             View view = new View(getContext());
-            view.setLayoutParams(params);
+            if (i == 0) {
+                view.setLayoutParams(firstParams);
+            } else {
+                view.setLayoutParams(params);
+            } 
             setViewBackground(view, mUnSelectedDrawable);
             mIndicatorViews.add(view);
         }
