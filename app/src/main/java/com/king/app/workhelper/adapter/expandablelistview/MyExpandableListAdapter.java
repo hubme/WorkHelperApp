@@ -71,7 +71,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupHold groupHold;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.elv_group_item, null);
+            convertView = View.inflate(context, R.layout.lsit_group_item, null);
             groupHold = new GroupHold();
             groupHold.tvGroupName = (TextView) convertView.findViewById(R.id.tv_groupName);
             groupHold.ivGoToChildLv = (ImageView) convertView.findViewById(R.id.iv_goToChildLV);
@@ -109,7 +109,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildHold childHold;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.elv_child_item, null);
+            convertView = View.inflate(context, R.layout.list_child_item, null);
             childHold = new ChildHold();
             childHold.tvChildName = (TextView) convertView.findViewById(R.id.tv_elv_childName);
             childHold.cbElvChild = (CheckBox) convertView.findViewById(R.id.cb_elvChild);
