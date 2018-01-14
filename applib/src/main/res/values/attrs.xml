@@ -182,4 +182,13 @@
         <attr name="imageMarginLeft" format="dimension"/>
         <attr name="imageMarginRight" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="CascadeLayout">
+        <attr name="horizontal_spacing" format="dimension" />
+        <attr name="vertical_spacing" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CascadeLayoutParams">
+        <attr name="layout_vertical_spacing" format="dimension" />
+    </declare-styleable>
 </resources>

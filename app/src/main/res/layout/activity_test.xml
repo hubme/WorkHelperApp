@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@color/white"
               android:orientation="vertical">
 
-    <com.king.app.workhelper.ui.customview.PieView2
-        android:id="@+id/pie_view"
-        android:layout_width="match_parent"
+    <com.king.applib.ui.customview.CascadeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/gray_fbfbfb"
-        android:paddingBottom="30dp"/>
+        android:background="@color/gray_666666"
+        app:horizontal_spacing="30dp"
+        app:vertical_spacing="20dp">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="#FF0000"
+            app:layout_vertical_spacing="20dp"/>
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            app:layout_vertical_spacing="-10dp"
+            android:background="#00FF00"/>
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="#0000FF"/>
+
+    </com.king.applib.ui.customview.CascadeLayout>
 
 </LinearLayout>
