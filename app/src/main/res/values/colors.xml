@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="text_primary_color">#333333</color>
+    <color name="default_bg">#fbfbfb</color>
 
     <color name="transparent">#00000000</color>
     <color name="divider">#e8e8e8</color>
