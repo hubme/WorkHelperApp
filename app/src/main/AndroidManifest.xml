@@ -46,8 +46,13 @@
 
         </activity>
 
-        <activity android:name=".activity.TestActivity" />
-        
+        <activity
+            android:name=".activity.LifeCircleActivity"
+            android:theme="@style/TransparentTheme"
+            android:screenOrientation="user"/>
+
+        <activity android:name=".activity.TestActivity"/>
+
         <activity android:name=".activity.MainActivity">
 
         </activity>
@@ -97,9 +102,9 @@
             </intent-filter>
 
         </activity>
-        
+
         <activity android:name=".activity.RecyclerViewActivity"/>
-        
+
         <activity android:name=".activity.DebugActivity"/>
 
         <activity android:name=".activity.ImageActivity"/>

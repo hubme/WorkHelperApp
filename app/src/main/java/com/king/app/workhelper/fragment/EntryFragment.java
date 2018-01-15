@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.DebugActivity;
+import com.king.app.workhelper.activity.LifeCircleActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
@@ -30,6 +31,11 @@ public class EntryFragment extends AppBaseFragment {
         return R.layout.fragment_entry;
     }
 
+    @OnClick(R.id.tv_activity_life_circle)
+    public void testActivityLifeCircle() {
+        openActivity(LifeCircleActivity.class);
+    }
+    
     @OnClick(R.id.tv_test_activity)
     public void testActivityClick() {
         openActivity(TestActivity.class);

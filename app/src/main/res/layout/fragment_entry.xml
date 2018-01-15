@@ -14,10 +14,15 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_activity_life_circle"
+                style="@style/EntryItem"
+                android:text="Activity Life Circle"/>
+
+            <TextView
                 android:id="@+id/tv_test_activity"
                 style="@style/EntryItem"
                 android:text="Test Activity"/>
-            
+
             <TextView
                 android:id="@+id/tv_debug_activity"
                 style="@style/EntryItem"
@@ -197,12 +202,12 @@
                 android:id="@+id/tv_vector_sample"
                 style="@style/EntryItem"
                 android:text="Vector"/>
-            
+
             <TextView
                 android:id="@+id/tv_view_slide"
                 style="@style/EntryItem"
                 android:text="View滑动的六种方法"/>
-            
+
             <TextView
                 android:id="@+id/tv_expandable_list_view"
                 style="@style/EntryItem"
