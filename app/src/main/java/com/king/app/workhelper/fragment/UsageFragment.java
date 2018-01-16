@@ -34,10 +34,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * WeakHandler
- * Created by HuoGuangxu on 2016/12/1.
+ *
+ * @author VanceKing
+ * @since 2018/1/16
  */
-
 public class UsageFragment extends AppBaseFragment {
     private static final int MSG_WHAT = 0x01;
     private static final int MSG_WAIT = 0x02;
@@ -101,7 +101,7 @@ public class UsageFragment extends AppBaseFragment {
                 mChronometer.setEnabled(true);
             }
         });
-        
+
     }
 
     @Override
@@ -178,7 +178,7 @@ public class UsageFragment extends AppBaseFragment {
     public void onRippleEffect() {
 
     }
-    
+
     private void showDialog() {
         if (mSimpleDialog == null) {
             mSimpleDialog = new SimpleDialog.Builder().setTitle("哈哈哈").setMessage("赛扥就哦哦囧扥龙扥").build();
@@ -191,5 +191,14 @@ public class UsageFragment extends AppBaseFragment {
             mSampleBottomDialog = new SampleBottomDialog();
         }
         mSampleBottomDialog.showDialog(getFragmentManager());
+    }
+
+    @OnClick(R.id.tv_change_color)
+    public void onChangeColorClick(TextView textView) {
+//        ContextCompat.getColorStateList(getContext(), R.color.color_text);
+//        getResources().getColorStateList(R.color.color_text);
+//        ColorStateList csl = ResourcesCompat.getColorStateList(getResources(), R.color.color_text, getActivity().getTheme());
+//        textView.setTextColor(csl);
+        showToast(textView.getText().toString());
     }
 }

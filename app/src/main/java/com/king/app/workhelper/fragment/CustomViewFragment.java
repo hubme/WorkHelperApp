@@ -266,13 +266,6 @@ public class CustomViewFragment extends AppBaseFragment {
         return drawable;
     }
 
-    @OnClick(R.id.tv_hehe)
-    public void clickHeHe(TextView textView) {
-//        ColorStateList csl = getResources().getColorStateList(R.color.button_text);
-        ColorStateList csl = ResourcesCompat.getColorStateList(getResources(), R.color.button_text, getActivity().getTheme());
-        textView.setTextColor(csl);
-    }
-
     @OnClick(R.id.tv_haha)
     public void testGradientDrawable(TextView textView) {
         Drawable drawable = getShapeDrawable();

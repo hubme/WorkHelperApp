@@ -205,13 +205,6 @@
                 android:padding="15dp"
                 app:border_color="@color/gray_f0f0f0"/>
 
-            <TextView
-                android:id="@+id/tv_hehe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="点击变色"
-                android:textSize="@dimen/ts_huge"/>
-
             <com.king.applib.ui.customview.BadgeButton
                 android:id="@+id/btn_badge"
                 android:layout_width="wrap_content"

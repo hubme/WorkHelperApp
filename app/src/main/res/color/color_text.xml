@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/chocolate" android:state_pressed="true"/>
+    <item android:color="#ff0000ff" android:state_focused="true"/>
+    <item android:color="#ff000000"/>
+
+    <!--https://developer.android.com/guide/topics/resources/color-list-resource.html-->
+    <!--<item
+        android:color="hex_color"
+        android:state_pressed=["true" | "false"]
+    android:state_focused=["true" | "false"]
+    android:state_selected=["true" | "false"]
+    android:state_checkable=["true" | "false"]
+    android:state_checked=["true" | "false"]
+    android:state_enabled=["true" | "false"]
+    android:state_window_focused=["true" | "false"] />-->
+</selector>
