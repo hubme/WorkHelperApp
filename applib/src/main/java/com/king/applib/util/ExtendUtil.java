@@ -509,4 +509,11 @@ public class ExtendUtil {
         snapShot.draw(canvas);
         return bmp;
     }
+
+    /**
+     * 判断 api 在当前版本是否可用
+     */
+    public static boolean isApiAvailable(int versionCode) {
+        return Build.VERSION.SDK_INT >= versionCode;
+    }
 }
