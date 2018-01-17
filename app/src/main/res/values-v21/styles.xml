@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 水波纹主题 -->
+    <style name="Ripple" parent="android:Theme.Material">
+        <item name="android:colorControlHighlight">@color/violet</item>
+        <item name="selectableItemBackground">@color/chocolate</item>
+    </style>
+</resources>

@@ -291,7 +291,7 @@ public class CustomViewFragment extends AppBaseFragment {
 //        Drawable drawable = new ShapeDrawable(new OvalShape());
 //        return drawable;
         return new SimpleDrawable.Builder(getContext())
-                .setShape(SimpleDrawable.RADIAL)
+                .setShape(GradientDrawable.RECTANGLE)
                 .setBackgroundColor(R.color.colorAccent)
                 .setCornerRadius(45)
                 .build();

@@ -2,7 +2,10 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
         android:color="#ebebeb">
 
-    <!--https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html-->
-    <item android:drawable="@color/white"/>
+    <!--https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
+    android:color 波纹颜色。
+    id mask 类似一个标记，如果没有mask，android:drawable就作为了button的背景。如果有背景就被忽略了。
+    -->
+    <item android:id="@android:id/mask" android:drawable="@color/white"/>
 
 </ripple>
