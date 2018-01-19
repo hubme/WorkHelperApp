@@ -1,67 +1,52 @@
 package com.king.applib.util;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 正则表达式相关工具类。
+ *
  * @author VanceKing
  * @since 2018/1/18.
  */
 
 public class PatternUtil {
     /** 正则表达式需要转义的字符，当试图匹配这些字符时会报 java.util.regex.PatternSyntaxException */
-    public static final String[] ESC_CHAR = { "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|" };
-    public static final String ESC_REGX = "[\\\\$()*+.\\[\\]?^{}|]";
+    public static final String[] ESC_CHAR = {"\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|"};
+    public static final String ESC_TEXT = "\\$()*+.[]?^{}|";
+    /** 是否包含正则特殊字符的正则表达式，当试图匹配这些字符时会报 java.util.regex.PatternSyntaxException */
+    //1.至少包含一个特殊字符 2. 可以包含其他字符
+    public static final String ESC_REGEX = "^.*[\\\\?^|$*+.()\\[\\]{}]+.*$";
 
     private PatternUtil() {
         throw new UnsupportedOperationException("No instances!");
     }
 
-    /** 返回转义后的 Pattern，避免 PatternSyntaxException */
+    /** 是否包含正则表达式的特殊字符 */
+    public static boolean containESCChar(String keyword) {
+        return !StringUtil.isNullOrEmpty(keyword) && keyword.matches(ESC_REGEX);
+    }
+
+    /** 当 keyword 包含 {@link #ESC_TEXT} 时会报 PatternSyntaxException。把 keyword 中的特殊字符进行转义(每个特殊字符前添加\\) */
     public static Pattern convertPattern(String keyword) {
         if (keyword == null || TextUtils.isEmpty(keyword.trim())) {
             return null;
         }
-        String temp = keyword;
-        if (containPatternChar(temp)) {
+        //先判断是否包含特殊字符，避免进入循环查找
+        if (containESCChar(keyword)) {
             for (String key : ESC_CHAR) {
-                if (temp.contains(key)) {
-                    temp = temp.replace(key, "\\" + key);
+                if (keyword.contains(key)) {
+                    keyword = keyword.replace(key, "\\" + key);
                 }
             }
         }
         try {
-            return Pattern.compile(temp);
+            //可能抛出 PatternSyntaxException
+            return Pattern.compile(keyword);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /** 是否包含转义字符 */
-    public static boolean containPatternChar(String keyword) {
-        if (StringUtil.isNullOrEmpty(keyword)) {
-            return false;
-        }
-        Pattern compile = Pattern.compile(ESC_REGX);
-        return compile.matcher(keyword).matches();
-    }
-
-    public static Pattern convertPattern2(String keyword) {
-        if (StringUtil.isNullOrEmpty(keyword)) {
-            return null;
-        }
-        Pattern compile = Pattern.compile(ESC_REGX);
-        Matcher matcher = compile.matcher(keyword);
-        String temp = keyword;
-        while (matcher.find()) {
-            String group = matcher.group();
-            Log.i("aaa", "group(): " + group);
-            temp = temp.replace(group, "\\" + group);
-        }
-        return Pattern.compile(temp);
     }
 }
