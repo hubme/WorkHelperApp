@@ -108,23 +108,27 @@ public final class StringUtil {
      * @return 特殊的字符串
      */
     public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, String keyword, @ColorRes int colorId, @DimenRes int sizeId) {
-        SpannableStringBuilder style = new SpannableStringBuilder(text);
-
-        try {
-            Pattern p = Pattern.compile(keyword);
-            Matcher matcher = p.matcher(text);
-            while (matcher.find()) {
-                int start = matcher.start();
-                int end = matcher.end();
-                if (colorId != -1) {
-                    style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-                if (sizeId != -1) {
-                    style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                }
+        if (context == null || StringUtil.isNullOrEmpty(text)) {
+            return SpannableStringBuilder.valueOf("");
+        }
+        SpannableStringBuilder style = SpannableStringBuilder.valueOf(text);
+        if (StringUtil.isNullOrEmpty(keyword)) {
+            return style;
+        }
+        Pattern p = PatternUtil.convertPattern(keyword);
+        if (p == null) {
+            return style;
+        }
+        Matcher matcher = p.matcher(text);
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            if (colorId != -1) {
+                style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (sizeId != -1) {
+                style.setSpan(new AbsoluteSizeSpan((int) context.getResources().getDimension(sizeId)), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            }
         }
         return style;
     }
@@ -141,6 +145,9 @@ public final class StringUtil {
      * @param sizeId  关键字的大小.-1不设置字体大小
      */
     public static SpannableStringBuilder buildSingleTextStyle(Context context, String text, int start, int end, @ColorRes int colorId, @DimenRes int sizeId) {
+        if (context == null || StringUtil.isNullOrEmpty(text)) {
+            return SpannableStringBuilder.valueOf("");
+        }
         SpannableStringBuilder style = new SpannableStringBuilder(text);
         if (colorId != -1) {
             style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, colorId)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -162,10 +169,19 @@ public final class StringUtil {
      * @return 特殊的字符串
      */
     public static SpannableStringBuilder buildMulTextStyle(Context context, String text, String[] keywordArray, int[] colorResArray, int[] sizeResArray) {
-        SpannableStringBuilder spannableBuilder = new SpannableStringBuilder(text);
+        if (context == null || StringUtil.isNullOrEmpty(text)) {
+            return SpannableStringBuilder.valueOf("");
+        }
+        SpannableStringBuilder spannableBuilder = SpannableStringBuilder.valueOf(text);
+        if (ExtendUtil.isArrayNullOrEmpty(keywordArray)) {
+            return spannableBuilder;
+        }
         for (int i = 0; i < keywordArray.length; i++) {
-            Pattern p = Pattern.compile(keywordArray[i]);
-            Matcher matcher = p.matcher(text);
+            Pattern p = PatternUtil.convertPattern(keywordArray[i]);
+            if (p == null) {
+                continue;
+            }
+            final Matcher matcher = p.matcher(text);
             while (matcher.find()) {
                 int start = matcher.start();
                 int end = matcher.end();
