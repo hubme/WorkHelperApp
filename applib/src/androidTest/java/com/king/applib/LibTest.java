@@ -7,7 +7,6 @@ import android.util.SparseArray;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.FileUtil;
-import com.king.applib.util.ImageUtil;
 import com.king.applib.util.NetworkUtil;
 import com.king.applib.util.NumberUtil;
 import com.king.applib.util.ScreenUtil;
@@ -99,10 +98,6 @@ public class LibTest extends BaseTestCase {
         JSONArray jsonArray = jsonObject.optJSONArray("山西省");
         String str = jsonArray.getString(0);
         Logger.i(str);
-    }
-
-    public void testImageWidth() throws Exception {
-        Logger.i(ImageUtil.getImageWidth(mContext, R.drawable.home) + " == " + ImageUtil.getImageHeight(mContext, R.drawable.home));
     }
 
     public void testScreen() throws Exception {

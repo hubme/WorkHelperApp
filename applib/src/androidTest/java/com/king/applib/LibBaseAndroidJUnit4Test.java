@@ -19,11 +19,12 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class LibBaseAndroidJUnit4Test {
+    protected static final String TAG = "aaa";
     protected static Context mAppContext;
 
     @BeforeClass
     public static void setUp() {
-        Logger.init("aaa").methodCount(1).hideThreadInfo();
+        Logger.init(TAG).methodCount(1).hideThreadInfo();
         mAppContext = InstrumentationRegistry.getTargetContext();
     }
 

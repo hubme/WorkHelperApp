@@ -57,23 +57,7 @@ public class ImageUtilTest extends AndroidTestCase {
             Logger.i("图片保存失败");
         }
     }
-
-    /**
-     * 10.6KB, 768 * 817
-     * quality == 10;715 millis;1536*1634;88.2KB
-     * quality == 01;889 millis;1536*1634;88.2KB
-     */
-    public void testBitmap2File() throws Exception {
-        Bitmap bitmap = ImageUtil.getBitmap(mContext, R.drawable.home);
-        long t1 = System.currentTimeMillis();
-        File imageFile = ImageUtil.saveBitmap(bitmap, mSavedBitmapPath, Bitmap.CompressFormat.PNG, 1);
-        Logger.i((System.currentTimeMillis() - t1) + " millis");
-        if (imageFile != null) {
-            Logger.i("图片保存成功." + ImageUtil.getImageWidth(mContext, mSavedBitmapPath) + "-" + ImageUtil.getImageHeight(mContext, mSavedBitmapPath));
-        } else {
-            Logger.i("图片保存失败");
-        }
-    }
+    
 
     public void testCompressByQuality() throws Exception {
         Bitmap bitmap = ImageUtil.getBitmap(FileUtil.getFileByPath(mImagePath));
@@ -84,14 +68,7 @@ public class ImageUtilTest extends AndroidTestCase {
         Bitmap bitmap = ImageUtil.getBitmap(FileUtil.getFileByPath(mImagePath));
         Bitmap compressedBitmap = compressByQuality(bitmap, 60);
     }
-
-    public void testGetImageWidth() throws Exception {
-        Logger.i("getImageWidth(): " + ImageUtil.getImageWidth(mContext, R.drawable.home));//768
-        Logger.i("getImageHeight(): " + ImageUtil.getImageHeight(mContext, R.drawable.home));//817
-
-        Logger.i("getImageWidth(): " + ImageUtil.getImageWidth(mContext, mImagePath));//2448
-        Logger.i("getImageHeight(): " + ImageUtil.getImageHeight(mContext, mImagePath));//3264
-    }
+    
 
     public void testGetBytes() throws Exception {
         byte[] bytes = ImageUtil.getBytes(mImagePath);
