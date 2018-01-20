@@ -186,6 +186,10 @@ dependencies {
     annotationProcessor "com.uber.nullaway:nullaway:0.2.1"
 
 //    compile 'com.alibaba:fastjson:1.1.61.android'
+
+    //https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx
+    // https://github.com/JakeWharton/hugo
+//    compile 'org.aspectj:aspectjrt:1.8.10'
 }
 
 checkstyle {
