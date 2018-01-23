@@ -9,9 +9,13 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
+import android.support.v4.util.SimpleArrayMap;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import com.king.applib.util.ScreenUtil;
 
@@ -78,9 +82,11 @@ public class PaymentChart extends View {
     private ItemType mMultiItem;
 
     private PaymentModel mMaxModel;
+    private int mSelectedPosition = -1;
 
-    //每个柱子所对应的Model
     private final List<PaymentModel> mDataList = new ArrayList<>();
+    //每个柱子的坐标对应的Model
+    private final SimpleArrayMap<Rect, PaymentModel> mRectModelMap = new ArrayMap<>();
     private RectF mRoundRect;
     private List<PaymentYearModel> mPaymentYearModels;
 
@@ -157,14 +163,12 @@ public class PaymentChart extends View {
             //设置每个柱子的位置
             mItemRect.set(paddingLeft + i * mXInterval, topPosition + pillarHeight - Math.round(pillarRatio * model.getPay()),
                     paddingLeft + i * mXInterval + mXInterval, topPosition + pillarHeight);
+            Rect rect = mRectModelMap.keyAt(i);
+            rect.set(mItemRect);
             //设置每个柱子的渐变色
             setPaintGradientShader(model, topPosition, pillarHeight, pillarRatio);
             //画每个柱子
             canvas.drawRect(mItemRect.left, mItemRect.top, mItemRect.right, mItemRect.bottom, mGradientPaint);
-            //画柱子上的文字
-            if (model.isShowYValue() && !model.isOff()) {
-                drawTopPillar(canvas, model);
-            }
 
             mTextPaint.setColor(mXTextColor);
             canvas.drawCircle(mItemRect.left, mItemRect.bottom, mXCircleRadius, mTextPaint);//x轴小圆点
@@ -172,6 +176,8 @@ public class PaymentChart extends View {
                 drawXTitle(canvas, model, mXInterval);
             }
         }
+        //画柱子上的文字
+        drawTopPillar(canvas, mSelectedPosition);
         //x 轴最后一个圆
         mTextPaint.setColor(mXTextColor);
         canvas.drawCircle(mItemRect.left + mXInterval, mItemRect.bottom, mXCircleRadius, mTextPaint);
@@ -198,11 +204,17 @@ public class PaymentChart extends View {
     }
 
     //柱子上的圆环和上面的文字
-    private void drawTopPillar(Canvas canvas, PaymentModel model) {
+    private void drawTopPillar(Canvas canvas, int position) {
+        if (position < 0 || position >= mRectModelMap.size()) {
+            return;
+        }
+        Rect pointRect = mRectModelMap.keyAt(position);
+        PaymentModel model = mRectModelMap.valueAt(position);
+        
         mTextPaint.setColor(mYSubTextColor);
-        canvas.drawCircle(mItemRect.left, mItemRect.top, mYOuterCircleRadius, mTextPaint);
+        canvas.drawCircle(pointRect.left, pointRect.top, mYOuterCircleRadius, mTextPaint);
         mTextPaint.setColor(Color.WHITE);
-        canvas.drawCircle(mItemRect.left, mItemRect.top, mYInnerCircleRadius, mTextPaint);
+        canvas.drawCircle(pointRect.left, pointRect.top, mYInnerCircleRadius, mTextPaint);
 
         final Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
         float textHeight = fontMetrics.descent - fontMetrics.ascent;
@@ -210,7 +222,7 @@ public class PaymentChart extends View {
         final String text = String.valueOf(model.getPay());
         float textWidth = mTextPaint.measureText(text);
         final int padding = dp2px(5);
-        mRoundRect.set(mItemRect.left - textWidth / 2 - padding, mItemRect.top - mYValueTitleMargin - padding, mItemRect.left + textWidth / 2 + padding, mItemRect.top - mYValueTitleMargin + textHeight + padding);
+        mRoundRect.set(pointRect.left - textWidth / 2 - padding, pointRect.top - mYValueTitleMargin - padding, pointRect.left + textWidth / 2 + padding, pointRect.top - mYValueTitleMargin + textHeight + padding);
         mTextPaint.setColor(mRoundBgColor);
         canvas.drawRoundRect(mRoundRect, mRoundRadius, mRoundRadius, mTextPaint);
         mTextPaint.setColor(mPrimaryTextColor);
@@ -219,7 +231,7 @@ public class PaymentChart extends View {
         final String text2 = String.format(Locale.US, "%s月", model.getMonth());
         float textWidth2 = mTextPaint.measureText(text2);
         mTextPaint.setColor(mYSubTextColor);
-        canvas.drawText(text2, mItemRect.left - textWidth2 / 2, mItemRect.top - mYValueTitleMargin - mTextMargin - textHeight, mTextPaint);
+        canvas.drawText(text2, pointRect.left - textWidth2 / 2, pointRect.top - mYValueTitleMargin - mTextMargin - textHeight, mTextPaint);
     }
 
     private void drawHorizontalCenterText(Canvas canvas,Paint paint, float centerX, float centerY, String text) {
@@ -294,6 +306,11 @@ public class PaymentChart extends View {
         for (PaymentChart.PaymentYearModel yearModel : data) {
             mDataList.addAll(yearModel.getData());
         }
+
+        for (int i = 0, size = mDataList.size(); i < size; i++) {
+            //Rect 重写了 equals
+            mRectModelMap.put(new Rect(i, i, i, i), mDataList.get(i));
+        }
         mMaxModel = getMaxValue(mDataList);
         Log.i(TAG, "最大值：" + mMaxModel.toString());
         dealYValueData();
@@ -334,9 +351,10 @@ public class PaymentChart extends View {
     int mStartX = 0;
     int mStartY = 0;
 
-    /*@Override public boolean onTouchEvent(MotionEvent event) {
+    @Override public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+//                this.getParent().requestDisallowInterceptTouchEvent(true);
                 mStartX = (int) event.getX() + getScrollX();
                 mStartY = (int) event.getY();
                 break;
@@ -344,24 +362,48 @@ public class PaymentChart extends View {
                 mOffsetX = (int) event.getX() - mStartX;
                 mOffsetY = (int) event.getY() - mStartY;
 
-                *//*Log.i(TAG, "mScreenWidth: "+mScreenWidth+" ;getScrollX: " + getScrollX() + " ;mWidth: " + mWidth);
+                /*Log.i(TAG, "mScreenWidth: "+mScreenWidth+" ;getScrollX: " + getScrollX() + " ;mWidth: " + mWidth);
                 if ((mScreenWidth + getScrollX() < mWidth) || (mWidth - mScreenWidth < getScrollX() && getScrollX() > 0)) {
                     slideWithScrollTo();
-                }*//*
+                }
                 int totalWidth = mXInterval * mDataList.size();
 
                 Log.i(TAG, "getScrollX(): " + getScrollX() + " ;mOffsetX: " + mOffsetX + " ;屏幕宽度：" + ScreenUtil.getScreenWidth(getContext()) + " ;getMeasuredWidth: " + getMeasuredWidth() + " ;totalWidth: " + totalWidth);
                 //getScrollX > 0.向左滑,右侧显示；getScrollX < 0
                 if (getScrollX() >= 0 && getScrollX() <= totalWidth - ScreenUtil.getScreenWidth(getContext())) {
                     scrollTo(-mOffsetX, 0);
-                }
+                }*/
+//                getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             case MotionEvent.ACTION_UP:
-
+                clickAction(event);
+//                getParent().requestDisallowInterceptTouchEvent(false);
                 break;
         }
         return true;
-    }*/
+    }
+
+    public void clickAction(MotionEvent event) {
+        float eventX = event.getX();
+        float eventY = event.getY();
+        Log.i(TAG, "eventX: " + eventX + "; eventY: " + eventY);
+        int position = getModelByPoint(eventX, eventY);
+        if (position >= 0 && position < mRectModelMap.size()) {
+            mSelectedPosition = position;
+            invalidate();
+        }
+    }
+
+    private int getModelByPoint(float x, float y) {
+        Log.i(TAG, "getScaledTouchSlop: " + ViewConfiguration.get(getContext()).getScaledTouchSlop());
+        for (int i = 0, size = mRectModelMap.size(); i < size; i++) {
+            Rect rect = mRectModelMap.keyAt(i);
+            if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     private int dp2px(float dpValue) {
         final float scale = getContext().getResources().getDisplayMetrics().density;

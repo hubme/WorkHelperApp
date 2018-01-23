@@ -1,19 +1,11 @@
 package com.king.app.workhelper.activity;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.RippleDrawable;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.applib.util.ExtendUtil;
-import com.king.applib.util.ViewUtil;
+import com.king.app.workhelper.ui.customview.PaymentChart;
+import com.king.applib.util.JsonUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -23,8 +15,7 @@ import butterknife.BindView;
  */
 
 public class TestActivity extends AppBaseActivity {
-    @BindView(R.id.image_view) ImageView mImageView;
-    @BindView(R.id.tv_haha) TextView mTextView;
+    @BindView(R.id.chart_payment) PaymentChart mPaymentChart;
 
     @Override protected int getContentLayout() {
         return R.layout.activity_test;
@@ -32,83 +23,17 @@ public class TestActivity extends AppBaseActivity {
 
     @Override protected void initContentView() {
         super.initContentView();
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Log.i("aaa", "ImageView");
-            }
-        });
-        mTextView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Log.i("aaa", "TextView");
-            }
-        });
-
-        if (ExtendUtil.isApiAvailable(Build.VERSION_CODES.LOLLIPOP)) {
-            int normalColor = ContextCompat.getColor(this, R.color.gray);
-            RippleDrawable drawable = buildRippleDrawable(normalColor, ContextCompat.getColor(this, R.color.mediumvioletred));
-            drawable.setHotspot(100, 100);
-            ViewUtil.setViewBackground(mTextView, drawable);
-            ViewUtil.setViewBackground(mImageView, buildRippleDrawable(normalColor, ContextCompat.getColor(this, R.color.goldenrod)));
-
-        }
+        mPaymentChart.setData(fakeData());
 
     }
 
-    private RippleDrawable buildRippleDrawable(int normalColor, int pressedColor) {
-        if (!ExtendUtil.isApiAvailable(Build.VERSION_CODES.LOLLIPOP)) {
-            return null;
-        }
-        ColorStateList stateList = createColorStateList(normalColor, pressedColor, pressedColor, normalColor);
-        RippleDrawable rippleDrawable = new RippleDrawable(stateList, null, null);
-        rippleDrawable.mutate();
-//        StateListDrawable selector = new StateListDrawable();
-//        ripple.setDrawableByLayerId(android.R.id.background, selector);
-        return rippleDrawable;
-    }
+    private List<PaymentChart.PaymentYearModel> fakeData() {
 
-    /**
-     * 设置不同状态时其文字颜色
-     *
-     * @see ""
-     */
-    private ColorStateList createColorStateList(int normal, int pressed, int focused, int unable) {
-        int[] colors = new int[]{pressed, focused, normal, focused, unable, normal};
-        int[][] states = new int[6][];
-        states[0] = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
-        states[1] = new int[]{android.R.attr.state_enabled, android.R.attr.state_focused};
-        states[2] = new int[]{android.R.attr.state_enabled};
-        states[3] = new int[]{android.R.attr.state_focused};
-        states[4] = new int[]{android.R.attr.state_window_focused};
-        states[5] = new int[]{};
-        return new ColorStateList(states, colors);
-    }
+//        String DATA = "[{\"year\":2016,\"data\":[{\"month\":7,\"pay\":235.0,\"count\":1},{\"month\":8,\"pay\":535.0,\"count\":1},{\"month\":9,\"pay\":235.0,\"count\":0},{\"month\":10,\"pay\":235.0,\"count\":0},{\"month\":11,\"pay\":235.0,\"count\":0},{\"month\":12,\"pay\":565.0,\"count\":3}]},{\"year\":2017,\"data\":[{\"month\":1,\"pay\":235.0,\"count\":1},{\"month\":2,\"pay\":345.0,\"count\":1},{\"month\":3,\"pay\":345.0,\"count\":0},{\"month\":4,\"pay\":345.0,\"count\":1},{\"month\":5,\"pay\":345.0,\"count\":1},{\"month\":6,\"pay\":345.0,\"count\":1},{\"month\":7,\"pay\":345.0,\"count\":1},{\"month\":8,\"pay\":345.0,\"count\":1}]}]";
+//        String DATA = "[{\"year\":2016,\"data\":[{\"month\":7,\"pay\":235.0,\"count\":1},{\"month\":8,\"pay\":235.0,\"count\":1},{\"month\":9,\"pay\":235.0,\"count\":0},{\"month\":10,\"pay\":235.0,\"count\":0},{\"month\":11,\"pay\":235.0,\"count\":0},{\"month\":12,\"pay\":565.0,\"count\":3}]}]";
+        String DATA = "[{\"data\":[{\"month\":8,\"count\":1,\"pay\":2290},{\"month\":9,\"count\":1,\"pay\":2290},{\"month\":10,\"count\":1,\"pay\":2290},{\"month\":11,\"count\":1,\"pay\":2290},{\"month\":12,\"count\":1,\"pay\":2290}],\"year\":\"2015\"},{\"data\":[{\"month\":1,\"count\":1,\"pay\":2290},{\"month\":2,\"count\":1,\"pay\":2290},{\"month\":3,\"count\":1,\"pay\":2290},{\"month\":4,\"count\":1,\"pay\":2290},{\"month\":5,\"count\":1,\"pay\":2290},{\"month\":6,\"count\":1,\"pay\":2290},{\"month\":7,\"count\":1,\"pay\":2290},{\"month\":8,\"count\":1,\"pay\":2494},{\"month\":9,\"count\":1,\"pay\":2494},{\"month\":10,\"count\":1,\"pay\":2494},{\"month\":11,\"count\":1,\"pay\":2494},{\"month\":12,\"count\":1,\"pay\":2494}],\"year\":\"2016\"},{\"data\":[{\"month\":1,\"count\":1,\"pay\":2494},{\"month\":2,\"count\":1,\"pay\":2494},{\"month\":3,\"count\":1,\"pay\":2494},{\"month\":4,\"count\":1,\"pay\":2494},{\"month\":5,\"count\":1,\"pay\":2494},{\"month\":6,\"count\":1,\"pay\":2494},{\"month\":7,\"count\":1,\"pay\":2494},{\"month\":8,\"count\":1,\"pay\":2732},{\"month\":9,\"count\":2,\"pay\":5464},{\"month\":10,\"count\":0,\"pay\":0},{\"month\":11,\"count\":1,\"pay\":2732},{\"month\":12,\"count\":1,\"pay\":2732}],\"year\":\"2017\"}]";
+        List<PaymentChart.PaymentYearModel> models = JsonUtil.decodeToList(DATA, PaymentChart.PaymentYearModel.class);
 
-    /**
-     * Make a dark color to press effect
-     * 自动计算得到按下的颜色，如果不满足需求可重写
-     */
-    protected int getPressedColor(int normalColor) {
-        int alpha = 255;
-        int r = (normalColor >> 16) & 0xFF;
-        int g = (normalColor >> 8) & 0xFF;
-        int b = (normalColor >> 1) & 0xFF;
-        r = (r - 50 < 0) ? 0 : r - 50;
-        g = (g - 50 < 0) ? 0 : g - 50;
-        b = (b - 50 < 0) ? 0 : b - 50;
-        return Color.argb(alpha, r, g, b);
+        return models;
     }
-
-    /**
-     * 设置按下后的样式（颜色，描边）
-     */
-    /*private void setPressedDrawable(StateListDrawable selector) {
-        if (pressedColor == DEFAULT_COLOR) {
-            pressedColor = isSmart ? getPressedColor(normalColor) : pressedColor;
-        }
-        setColorAndStroke(pressed, pressedColor, pressedStrokeColor, pressedStrokeWidth, false);
-        // 给selector设置pressed的状态
-        selector.addState(new int[]{android.R.attr.state_pressed}, pressed);
-        selector.addState(new int[]{android.R.attr.state_focused}, pressed);
-        pressed.mutate();
-    }*/
 }
