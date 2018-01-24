@@ -3,6 +3,8 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.0'
+    //资源名称以"test"开头，否则IDE会错误提醒
+//    resourcePrefix "test"
 
     defaultConfig {
         minSdkVersion 14
