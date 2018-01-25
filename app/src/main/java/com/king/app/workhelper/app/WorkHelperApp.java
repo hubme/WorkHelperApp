@@ -2,6 +2,7 @@ package com.king.app.workhelper.app;
 
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Environment;
 
 import com.antfortune.freeline.FreelineCore;
@@ -72,6 +73,7 @@ public class WorkHelperApp extends BaseApplication {
 
         initLeakCanary();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
+        setDefaultSystemTextSize();
     }
 
     private boolean isMainProcess() {
@@ -152,6 +154,14 @@ public class WorkHelperApp extends BaseApplication {
             }
         });
     }*/
+
+    ///使更改系统字体大小无效
+    private void setDefaultSystemTextSize() {
+        Resources res = getResources();
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
+    }
 
     @Override
     public void onTerminate() {
