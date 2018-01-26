@@ -8,7 +8,7 @@ import android.net.Uri;
 /**
  * 打开第三方应用的工具类。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2018/1/26.
  */
 
@@ -47,6 +47,20 @@ public class ThirdOpenUtil {
         //如果您想确保 Intent 只由电子邮件应用（而非其他短信或社交应用）进行处理，则需使用 ACTION_SENDTO 操作并加入 "mailto:" 数据架构。
         intent.setData(Uri.parse("mailto:".concat(emailAddress)));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (canResolveIntent(context, intent)) {
+            context.startActivity(intent);
+            return true;
+        }
+        return false;
+    }
+
+    /** 打开浏览器，只能处理 http 和 https 协议 */
+    public static boolean openBrowser(Context context, String url) {
+        if (context == null || StringUtil.isNullOrEmpty(url) || (!url.startsWith("http://") && !url.startsWith("https://"))) {
+            return false;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(intent);
         if (canResolveIntent(context, intent)) {
             context.startActivity(intent);
             return true;
