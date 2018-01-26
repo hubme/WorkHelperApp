@@ -2,21 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center_horizontal"
               android:orientation="vertical">
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:scrollbars="none">
 
-        <com.king.app.workhelper.ui.customview.PaymentChart
-            android:id="@+id/chart_payment"
-            android:layout_width="wrap_content"
-            android:layout_height="430dp"
-            android:background="@color/gray_fbfbfb"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
-    </HorizontalScrollView>
+    <TextView
+        android:id="@+id/tv_open_qq"
+        style="@style/EntryItem"
+        android:text="打开QQ或Tim"/>
+
+    <TextView
+        android:id="@+id/tv_open_email"
+        style="@style/EntryItem"
+        android:text="打开邮箱"/>
+
 </LinearLayout>
