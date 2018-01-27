@@ -20,6 +20,7 @@ import com.king.applib.util.FileUtil;
 import com.king.applib.util.StringUtil;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -244,5 +245,10 @@ public class AppTest extends BaseTestCase {
         Logger.i(stringSet.add("aaa") + "");//不存在指定元素，返回true
         Logger.i(stringSet.add("aaa") + "");//已经存在指定元素，返回false
         Logger.i(stringSet.contains("aaa") + "");
+    }
+
+    public void testURLEncoder() {
+        Logger.i("result: " + URLEncoder.encode("中国"));
+        Logger.i("result2: " + URLEncoder.encode("aaa"));
     }
 }
