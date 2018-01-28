@@ -10,6 +10,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -89,11 +90,14 @@ public final class StringUtil {
         return true;
     }
 
-    /**
-     * 如果字符串为 null 返回"",否则返回字符串.
-     */
-    public static String getEmptyIfNull(String text) {
-        return text == null ? "" : text;
+    /** 如果 text == null ,返回空字符串 */
+    public static String getStringExceptNull(String text) {
+        return text != null ? text : "";
+    }
+
+    /** 如果 text == null ,返回默认字符串 */
+    public static String getStringExceptNull(String text, String defaultText) {
+        return text != null ? text : defaultText;
     }
 
     /**
@@ -300,6 +304,30 @@ public final class StringUtil {
         }
         //注意：不是 "\s*"
         return text.replaceAll("\\s+", replacement);
+    }
 
+    /**
+     * 联结多个非 null 字符串。
+     *
+     * @param exceptEmpty 是否排除""字符串
+     */
+    public static String concat(boolean exceptEmpty, String... texts) {
+        if (texts == null || texts.length <= 0) {
+            return "";
+        }
+        final StringBuilder sb = new StringBuilder();
+        for (String text : texts) {
+            if (text == null) {
+                continue;
+            }
+            if (exceptEmpty) {
+                if (!TextUtils.isEmpty(text.trim())) {
+                    sb.append(text);
+                }
+            } else {
+                sb.append(text);
+            }
+        }
+        return sb.toString();
     }
 }

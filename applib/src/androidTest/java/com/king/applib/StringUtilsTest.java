@@ -89,6 +89,9 @@ public class StringUtilsTest extends BaseTestCase {
 //        Logger.i(text.concat(null).concat("bbb"));
         String text2 = null;
         Logger.i(text2 + "uuu");
+
+        Logger.i(StringUtil.concat(false, "0", " ", "a", null, " b c"));
+        Logger.i(StringUtil.concat(true, "0", "     ", "a", null, " b c "));
     }
 
 
