@@ -134,7 +134,7 @@ public class AppUtil {
      * 应用会自动关闭,下次打开和第一次安装效果一样.
      */
     public static boolean clearUserData(Context context) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager == null) {
             return false;
         }
@@ -192,7 +192,7 @@ public class AppUtil {
             return "";
         }
         int pid = android.os.Process.myPid();
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager == null) {
             return "";
         }
@@ -352,7 +352,7 @@ public class AppUtil {
         if (context == null || serviceClass == null) {
             return false;
         }
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (manager == null) {
             return false;
         }

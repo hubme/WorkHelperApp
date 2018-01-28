@@ -223,7 +223,7 @@ public class ExtendUtil {
         if (null == view) {
             return;
         }
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) view.getContext().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);//InputMethodManager.HIDE_NOT_ALWAYS等只能隐藏一次
         }
@@ -236,7 +236,7 @@ public class ExtendUtil {
         if (null == view) {
             return;
         }
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) view.getContext().getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         }
@@ -411,7 +411,7 @@ public class ExtendUtil {
      */
     @Deprecated
     public String[] getVolumnPaths(Context context) {
-        StorageManager mStorageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
+        StorageManager mStorageManager = (StorageManager) context.getApplicationContext().getSystemService(Context.STORAGE_SERVICE);
         String[] paths = null;
         try {
             Method mMethodGetPaths = mStorageManager.getClass().getMethod("getVolumePaths");

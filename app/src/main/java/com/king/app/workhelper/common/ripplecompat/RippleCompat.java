@@ -23,7 +23,7 @@ public class RippleCompat {
     private static Context sContext = null;
 
     public static void init(Context context) {
-        imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm = (InputMethodManager) context.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         sContext = context;
     }
 

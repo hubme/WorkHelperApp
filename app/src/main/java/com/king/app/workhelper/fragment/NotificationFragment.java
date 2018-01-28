@@ -46,7 +46,7 @@ public class NotificationFragment extends AppBaseFragment {
 //                .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(false);
 
-        final NotificationManager mNotifyManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager mNotifyManager = (NotificationManager) mContext.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 //        mNotifyManager.notify(NOTIFICATION_ID, mBuilder.build());
 
         new Thread(
