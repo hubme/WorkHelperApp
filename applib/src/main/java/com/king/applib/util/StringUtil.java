@@ -287,6 +287,19 @@ public final class StringUtil {
             return "";
         }
         final String temp = text.trim();
-        return temp.isEmpty() ? "" : temp.replaceAll("\\s*|\t|\r|\n", "");
+        return temp.isEmpty() ? "" : temp.replaceAll("\\s*", "");
+    }
+
+    /** 把字符串中的空格、回车、换行和制表符替换成指定字符 */
+    public static String replaceAllSpace(String text, String replacement) {
+        if (isNullOrEmpty(text)) {
+            return "";
+        }
+        if (isNullOrEmpty(replacement)) {
+            return text;
+        }
+        //注意：不是 "\s*"
+        return text.replaceAll("\\s+", replacement);
+
     }
 }

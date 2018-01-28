@@ -86,6 +86,9 @@ public class StringUtilsTest extends BaseTestCase {
     public void testConcat() throws Exception {
         String text = "";
         Logger.i(text.concat("aaa").concat("bbb"));
+//        Logger.i(text.concat(null).concat("bbb"));
+        String text2 = null;
+        Logger.i(text2 + "uuu");
     }
 
 
@@ -99,7 +102,12 @@ public class StringUtilsTest extends BaseTestCase {
         Logger.i("result: " + StringUtil.trimAllSpace(""));
         Logger.i("result: " + StringUtil.trimAllSpace(" a "));
         Logger.i("result: " + StringUtil.trimAllSpace(" a a "));
-        Logger.i("result: " + StringUtil.trimAllSpace(" a\tb\rc\nd "));
+        Logger.i("result: " + StringUtil.trimAllSpace("0 1  a\tb\rc\nd "));
+    }
+    
+    public void testReplaceAllSpace() throws Exception {
+        Logger.i(StringUtil.replaceAllSpace("0 1", "&"));
+        Logger.i(StringUtil.replaceAllSpace("0 1    2\r3\n4", "&"));
     }
     
     //String#trim() 返回新的字符串对象，原字符串对象不受影响
