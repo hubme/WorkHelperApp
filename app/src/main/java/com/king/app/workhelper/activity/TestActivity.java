@@ -1,8 +1,9 @@
 package com.king.app.workhelper.activity;
 
+import android.widget.TextView;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.applib.util.ThirdOpenUtil;
 
 import butterknife.OnClick;
 
@@ -24,13 +25,12 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_open_qq)
     public void openQQ() {
-        //QQ或Tim能处理"mqqwpa://im/chat"协议
-        ThirdOpenUtil.openQQTim(this, "563918176");
+        
     }
     
     @OnClick(R.id.tv_open_email)
-    public void openEmail() {
+    public void openEmail(TextView textView) {
 
-        ThirdOpenUtil.sendEmail(this, "huogxu@163.com");
+        textView.animate().alpha(0.2f).setDuration(800).start();
     }
 }

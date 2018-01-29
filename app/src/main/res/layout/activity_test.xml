@@ -13,6 +13,8 @@
     <TextView
         android:id="@+id/tv_open_email"
         style="@style/EntryItem"
+        android:layout_height="200dp"
+        android:background="@color/chocolate"
         android:text="打开邮箱"/>
 
 </LinearLayout>
