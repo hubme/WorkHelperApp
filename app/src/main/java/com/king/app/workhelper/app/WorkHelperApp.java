@@ -142,19 +142,6 @@ public class WorkHelperApp extends BaseApplication {
         return application.mRefWatcher;
     }
 
-    /*private void initX5() {
-        QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
-            @Override public void onCoreInitFinished() {
-                Logger.i("onCoreInitFinished");
-            }
-
-            @Override public void onViewInitFinished(boolean success) {
-                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                Logger.i("x5 init success");
-            }
-        });
-    }*/
-
     ///使更改系统字体大小无效
     private void setDefaultSystemTextSize() {
         Resources res = getResources();
@@ -166,19 +153,16 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        //Logger.i("WorkHelperApp#onTerminate()");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        //Logger.i("WorkHelperApp#onConfigurationChanged()");
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        //Logger.i("WorkHelperApp#onLowMemory()");
     }
 
     /*
@@ -188,7 +172,6 @@ public class WorkHelperApp extends BaseApplication {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        //Logger.i("WorkHelperApp#onTrimMemory()");
         switch (level) {
             case TRIM_MEMORY_UI_HIDDEN: // 进行资源释放操作  
                 break;
