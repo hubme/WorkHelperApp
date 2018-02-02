@@ -148,10 +148,6 @@ public class EntryFragment extends AppBaseFragment {
         WebActivity.openActivity(getContext(), WebActivity.ASSET_JS);
     }
 
-    @OnClick(R.id.tv_tbs)
-    public void onTbsClick() {
-    }
-
     @OnClick(R.id.tv_file_provider)
     public void onFileProviderClick() {
         clickedOn(new FileProviderFragment());
