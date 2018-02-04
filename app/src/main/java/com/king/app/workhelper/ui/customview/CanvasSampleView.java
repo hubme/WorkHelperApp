@@ -29,12 +29,13 @@ import static android.graphics.Bitmap.createBitmap;
 
 /**
  * Canvas用法
- * Created by VanceKing on 2016/12/24 0024.
+ *
+ * @author VanceKing
+ * @since 2016/12/24.
  */
 
 public class CanvasSampleView extends View {
-    private static final String TAG = "aaa";
-    private final String TEXT = "邢雁啡";
+    private static final String TEXT = "哈哈哈";
 
     private Drawable mDrawable;
     private Paint mPaint;
@@ -94,12 +95,13 @@ public class CanvasSampleView extends View {
     private float startX;
     private float distance;
     private float perDistance;
+
     @Override public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startX = event.getX();
                 break;
-                
+
             case MotionEvent.ACTION_MOVE:
                 distance = event.getX() - startX;
                 layout(getLeft() + (int) distance, getTop(), getRight() + (int) distance, getBottom());
@@ -117,7 +119,7 @@ public class CanvasSampleView extends View {
 
 //        Rect textBounds = getTextBounds(text, mPaint);
 //        Log.i(TAG, "-distance: " + (-distance) + "; textBounds.right: "+textBounds.right);
-        
+
         canvas.drawText(text, 0, mHeight / 2, mPaint);
     }
 
