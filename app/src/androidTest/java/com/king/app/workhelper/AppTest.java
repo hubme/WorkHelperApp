@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -250,5 +251,10 @@ public class AppTest extends BaseTestCase {
     public void testURLEncoder() {
         Logger.i("result: " + URLEncoder.encode("中国"));
         Logger.i("result2: " + URLEncoder.encode("aaa"));
+    }
+    
+    public void testPair() {
+        Pair<String, Integer> a1 = Pair.create("VanceKing", 29);
+        Pair<String, Integer> a2 = Pair.create("aaa", 29);
     }
 }
