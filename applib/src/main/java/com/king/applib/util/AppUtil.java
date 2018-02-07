@@ -363,4 +363,17 @@ public class AppUtil {
         }
         return false;
     }
+
+    /** 获取指定包名的 uid，未安装此应用或程序异常返回 -1 */
+    public static int getPackageUid(Context context, String packageName) {
+        try {
+            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
+            if (applicationInfo != null) {
+                return applicationInfo.uid;
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return -1;
+    }
 }
