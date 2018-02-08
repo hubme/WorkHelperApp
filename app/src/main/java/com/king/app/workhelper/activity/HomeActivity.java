@@ -2,6 +2,7 @@ package com.king.app.workhelper.activity;
 
 import android.os.Build;
 import android.support.v7.app.AppCompatDelegate;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class HomeActivity extends AppBaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WebView.enableSlowWholeDocumentDraw();
         }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     @Override
