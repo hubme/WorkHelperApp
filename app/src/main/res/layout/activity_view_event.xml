@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.king.app.workhelper.ui.customview.EventSampleViewGroup
+        android:id="@+id/view_group"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/chocolate">
+
+        <com.king.app.workhelper.ui.customview.EventSampleView
+            android:id="@+id/view_simple_inner"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/indianred"/>
+
+
+    </com.king.app.workhelper.ui.customview.EventSampleViewGroup>
+
+    <com.king.app.workhelper.ui.customview.EventSampleView
+        android:id="@+id/view_simple"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/mediumvioletred"/>
+
+    <TextView
+        android:id="@+id/tv_perform_click"
+        style="@style/EntryItem"
+        android:layout_marginTop="20dp"
+        android:text="执行点击事件"/>
+</LinearLayout>

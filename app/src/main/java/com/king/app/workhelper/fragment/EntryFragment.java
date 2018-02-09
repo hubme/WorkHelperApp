@@ -11,6 +11,7 @@ import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.TestActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
+import com.king.app.workhelper.activity.ViewEventSampleActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
@@ -180,7 +181,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_event)
     public void onEventClick() {
-        clickedOn(new ViewEventSampleFragment());
+        openActivity(ViewEventSampleActivity.class);
     }
 
     @OnClick(R.id.tv_drawable)

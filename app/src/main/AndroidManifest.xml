@@ -108,6 +108,8 @@
         <activity android:name=".activity.DebugActivity"/>
 
         <activity android:name=".activity.ImageActivity"/>
+        
+        <activity android:name=".activity.ViewEventSampleActivity"/>
 
         <service android:name=".service.DownloadFileService"/>
 
