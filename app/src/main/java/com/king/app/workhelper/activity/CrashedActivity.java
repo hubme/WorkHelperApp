@@ -7,9 +7,10 @@ import butterknife.OnClick;
 
 /**
  * 应用crash后显示给用户的界面
- * Created by HuoGuangxu on 2016/12/13.
+ *
+ * @author VanceKing
+ * @since 2016/12/13.
  */
-// HGX: 2016/12/17 应不应该放到单独的进程中.单独进程更合理一些。
 public class CrashedActivity extends AppBaseActivity {
 
     @Override
