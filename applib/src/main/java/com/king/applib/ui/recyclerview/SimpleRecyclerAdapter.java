@@ -265,6 +265,8 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
         if (index >= 0 && index <= mFooterPanel.getChildCount()) {
             mFooterPanel.addView(header, index);
             notifyDataSetChanged();
+            // TODO: 2018/2/11  
+//            notifyItemChanged(getItemCount() - 1);
         }
     }
 
