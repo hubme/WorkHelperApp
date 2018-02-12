@@ -1,7 +1,7 @@
 package com.king.app.workhelper.busevent;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/8/8.
  */
 

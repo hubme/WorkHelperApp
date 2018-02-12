@@ -34,8 +34,6 @@ public abstract class AppBaseFragment extends RxLifeFragment {
         if (unbinder != null) {
             unbinder.unbind();
         }
-//        ResultsSubscriberManger.cancelAllSubscriptions();
-//        ResultsObserverManger.disposeAll();
     }
 
     @Override
