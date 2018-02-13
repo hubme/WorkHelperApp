@@ -13,9 +13,10 @@ import java.util.LinkedList;
  * 如果应用内有多个进程，每创建一个进程就会跑一次Application的onCreate方法，每个进程内存都是独立的，
  * 所以通过这种方式无法实现将应用的Activity放在同一个LinkedList中，不能实现完全退出一个应用。
  * 判断应用程序在后台：http://steveliles.github.io/is_my_android_app_currently_foreground_or_background.html
- * Created by VanceKing on 2016/12/16 0016.
+ *
+ * @author VanceKing
+ * @since 2016/12/16.
  */
-
 public class AppManager implements Application.ActivityLifecycleCallbacks {
     private LinkedList<ActivityInfo> mExistedActivities;
     private Application mApplication;

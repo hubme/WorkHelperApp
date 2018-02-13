@@ -25,13 +25,15 @@ import java.lang.reflect.Field;
 import java.util.Date;
 
 /**
- * 收集crash Log
- * created by VanceKing at 2016/12/11
+ * 应用异常处理器。
+ *
+ * @author VanceKing
+ * @since 2016/12/11
  */
 public class CrashHandler implements UncaughtExceptionHandler {
     public static final String TAG = "CrashHandler";
     //循环重启的阈(yu)值
-    private final int TIMESTAMP_AVOID_RESTART_LOOPS_IN_MILLIS = 2000;
+    private static final int TIMESTAMP_AVOID_RESTART_LOOPS_IN_MILLIS = 2000;
 
     private UncaughtExceptionHandler mDefaultHandler;
     private static CrashHandler INSTANCE;
@@ -57,7 +59,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     /**
      * 初始化
      *
-     * @param logDir  日志保存目录
+     * @param logDir 日志保存目录
      */
     public void init(String logDir) {
         mLogSavedDir = StringUtil.isNullOrEmpty(logDir) ? ContextUtil.getAppContext().getCacheDir().getAbsolutePath() : logDir;
