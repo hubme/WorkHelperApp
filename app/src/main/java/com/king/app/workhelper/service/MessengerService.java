@@ -15,10 +15,10 @@ import com.king.app.workhelper.app.AppConfig;
 import com.king.app.workhelper.fragment.MulProcessFragment;
 
 /**
- * 使用Messenger实现跨进程通信
+ * 使用 Messenger 实现跨进程通信
  *
  * @author VanceKing
- * @since 2017/1/31 0031.
+ * @since 2017/1/31.
  */
 
 public class MessengerService extends Service {

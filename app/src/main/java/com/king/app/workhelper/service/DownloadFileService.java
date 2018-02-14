@@ -12,9 +12,10 @@ import com.king.applib.util.SPUtil;
 
 /**
  * 下载大文件的service
- * Created by VanceKing on 2016/10/22 0022.
+ *
+ * @author VanceKing
+ * @since 2016/10/22.
  */
-
 public class DownloadFileService extends IntentService {
     public static final String ACTION_DOWNLOAD_FILE = "ACTION_DOWNLOAD_FILE";
 

@@ -5,7 +5,7 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.applib.UltimateBar;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/8/22.
  */
 

@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * Debug设置
+ * 开发者选项页面
  *
  * @author VanceKing
  * @since 2017/4/11.

@@ -22,7 +22,7 @@ import com.king.applib.log.Logger;
  * 5）任务执行完后记得调用jobFinish通知系统释放相关资源
  * 如果我们的后台任务满足JobService的一个或多个约束条件，就可以考虑是不是应该用JobService来执行。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/1/22.
  */
 
