@@ -11,7 +11,7 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.EntryFragment;
 
 /**
- * 测试入口界面
+ * 测试入口界面。
  *
  * @author VanceKing
  * @since 2016/11/10.
