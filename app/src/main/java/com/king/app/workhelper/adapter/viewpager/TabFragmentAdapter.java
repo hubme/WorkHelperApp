@@ -10,9 +10,10 @@ import java.util.List;
 
 /**
  * Fragment ViewPager 适配器
- * Created by VanceKing on 2016/12/20 0020.
+ *
+ * @author VanceKing
+ * @since 2016/12/20 0020.
  */
-
 public class TabFragmentAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragments;
 
