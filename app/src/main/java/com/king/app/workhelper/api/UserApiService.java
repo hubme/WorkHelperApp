@@ -14,7 +14,7 @@ import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/9/4.
  */
 

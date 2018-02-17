@@ -15,7 +15,9 @@ import retrofit2.http.Query;
 
 /**
  * retrofit参数类型
- * Created by VanceKing on 2016/12/6 0006.
+ *
+ * @author VanceKing
+ * @since 2016/12/6.
  */
 
 public interface MovieService {
@@ -23,10 +25,12 @@ public interface MovieService {
     @GET("top250")
     Call<MovieEntity> getTopMovie(@Query("start") int start, @Query("count") int count);
 
-    @FormUrlEncoded @POST("/")
+    @FormUrlEncoded
+    @POST("/")
     Call<MovieEntity> postSample(@Field("name") String name, @Field("age") String age);
 
     //文件上传
-    @Multipart @POST("upload")
+    @Multipart
+    @POST("upload")
     Call<MovieEntity> uploadFileSample(@Part("name") RequestBody name, @Part MultipartBody.Part file);
 }

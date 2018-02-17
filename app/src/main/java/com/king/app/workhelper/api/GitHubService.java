@@ -27,7 +27,9 @@ import retrofit2.http.QueryMap;
 
 /**
  * https://api.github.com/users/Guolei1130
- * Created by VanceKing on 2017/1/6 0006.
+ *
+ * @author VanceKing
+ * @since 2017/1/6.
  */
 
 public interface GitHubService {
