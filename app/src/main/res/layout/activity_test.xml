@@ -17,4 +17,14 @@
         android:background="@color/chocolate"
         android:text="打开邮箱"/>
 
+    <TextView
+        android:id="@+id/tv_transition_drawable_sample1"
+        android:layout_width="48dp"
+        android:layout_height="48dp"/>
+
+    <TextView
+        android:id="@+id/tv_transition_drawable_sample2"
+        android:layout_width="48dp"
+        android:background="@drawable/transition_simple"
+        android:layout_height="48dp"/>
 </LinearLayout>
