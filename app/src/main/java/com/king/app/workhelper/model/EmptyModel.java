@@ -1,7 +1,7 @@
 package com.king.app.workhelper.model;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/9/4.
  */
 

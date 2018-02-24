@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 应用升级数据结构
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/5/23.
  */
 

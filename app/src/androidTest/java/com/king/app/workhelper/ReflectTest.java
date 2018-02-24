@@ -1,6 +1,5 @@
 package com.king.app.workhelper;
 
-import com.king.app.workhelper.model.ReflectTestBean;
 import com.king.applib.log.Logger;
 import com.king.applib.util.Reflect;
 
@@ -16,6 +15,43 @@ import java.util.ArrayList;
  */
 
 public class ReflectTest extends BaseTestCase {
+
+    private static class ReflectTestBean {
+        private String name;
+        private String age;
+
+        public ReflectTestBean() {
+        }
+
+        public ReflectTestBean(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAge() {
+            return age;
+        }
+
+        public void setAge(String age) {
+            this.age = age;
+        }
+
+        public void print() {
+            Logger.i("呀呀");
+        }
+
+        public void print(String text) {
+            Logger.i(text);
+        }
+    }
+    
     private Class<?> mClazz;
 
     @Override
