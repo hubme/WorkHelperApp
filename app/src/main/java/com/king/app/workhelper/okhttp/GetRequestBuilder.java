@@ -1,7 +1,7 @@
 package com.king.app.workhelper.okhttp;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/7.
  */
 

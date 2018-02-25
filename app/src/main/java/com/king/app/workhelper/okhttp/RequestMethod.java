@@ -5,7 +5,7 @@ import android.support.annotation.IntDef;
 /**
  * Http请求方式.
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/10.
  */
 

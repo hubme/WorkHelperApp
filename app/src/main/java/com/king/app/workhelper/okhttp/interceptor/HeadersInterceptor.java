@@ -12,7 +12,7 @@ import okhttp3.Response;
 /**
  * 添加默认请求头
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/5/8.
  */
 

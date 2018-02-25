@@ -8,7 +8,7 @@ import okhttp3.Request;
 /**
  * 基础请求
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/7.
  */
 

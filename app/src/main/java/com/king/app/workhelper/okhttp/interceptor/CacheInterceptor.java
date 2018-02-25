@@ -13,7 +13,7 @@ import okhttp3.Response;
 
 /**
  * @author VanceKing
- * @since 2017/4/6 0006.
+ * @since 2017/4/6.
  */
 
 public class CacheInterceptor implements Interceptor{

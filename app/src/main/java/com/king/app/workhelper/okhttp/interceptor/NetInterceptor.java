@@ -14,7 +14,7 @@ import okhttp3.Response;
 /**
  * 有网络的情况下，先去读缓存。如果缓存过期，再从网络获取。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/26.
  */
 

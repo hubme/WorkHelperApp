@@ -6,7 +6,7 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/7.
  */
 
@@ -14,7 +14,7 @@ public class SimpleOkHttp {
     private static OkHttpClient mOkHttpClient;
 
     private SimpleOkHttp() {
-        
+
     }
 
     private static class HttpClientHolder {
