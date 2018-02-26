@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
 
 
-    <TextView
+    <com.king.applib.ui.customview.GradientTextView
         android:id="@+id/tv_open_qq"
-        style="@style/EntryItem"
-        android:text="打开QQ或Tim"/>
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="end"
+        android:text="哈哈哈哈哈呵呵呵呵呵"
+        android:textSize="@dimen/ts_huge"
+        app:gtv_endColor="#ff5d65"
+        app:gtv_gradientType="horizontal"
+        app:gtv_startColor="#ff69c9"/>
 
-    <TextView
-        android:id="@+id/tv_open_email"
-        style="@style/EntryItem"
-        android:layout_height="200dp"
-        android:background="@color/chocolate"
-        android:text="打开邮箱"/>
-
-    <TextView
-        android:id="@+id/tv_transition_drawable_sample1"
-        android:layout_width="48dp"
-        android:layout_height="48dp"/>
-
-    <TextView
-        android:id="@+id/tv_transition_drawable_sample2"
-        android:layout_width="48dp"
-        android:background="@drawable/transition_simple"
-        android:layout_height="48dp"/>
 </LinearLayout>

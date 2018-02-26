@@ -133,12 +133,12 @@
     </declare-styleable>
 
     <declare-styleable name="EasySwipeMenuLayout">
-        <attr name="leftMenuView" format="reference" />
-        <attr name="rightMenuView" format="reference" />
-        <attr name="contentView" format="reference" />
-        <attr name="canRightSwipe" format="boolean" />
-        <attr name="canLeftSwipe" format="boolean" />
-        <attr name="fraction" format="float" />
+        <attr name="leftMenuView" format="reference"/>
+        <attr name="rightMenuView" format="reference"/>
+        <attr name="contentView" format="reference"/>
+        <attr name="canRightSwipe" format="boolean"/>
+        <attr name="canLeftSwipe" format="boolean"/>
+        <attr name="fraction" format="float"/>
     </declare-styleable>
 
     <declare-styleable name="SwipeMenuLayout">
@@ -163,15 +163,15 @@
     </declare-styleable>
 
     <declare-styleable name="CompoundIconTextView">
-        <attr name="cit_drawableLeft" format="integer" />
-        <attr name="cit_drawableTop" format="integer" />
-        <attr name="cit_drawableBottom" format="integer" />
-        <attr name="cit_drawableRight" format="integer" />
-        <attr name="cit_drawableStart" format="integer" />
-        <attr name="cit_drawableEnd" format="integer" />
-        <attr name="cit_iconWidth" format="dimension" />
-        <attr name="cit_iconHeight" format="dimension" />
-        <attr name="cit_iconColor" format="color" />
+        <attr name="cit_drawableLeft" format="integer"/>
+        <attr name="cit_drawableTop" format="integer"/>
+        <attr name="cit_drawableBottom" format="integer"/>
+        <attr name="cit_drawableRight" format="integer"/>
+        <attr name="cit_drawableStart" format="integer"/>
+        <attr name="cit_drawableEnd" format="integer"/>
+        <attr name="cit_iconWidth" format="dimension"/>
+        <attr name="cit_iconHeight" format="dimension"/>
+        <attr name="cit_iconColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="StartDrawableTextView">
@@ -184,11 +184,21 @@
     </declare-styleable>
 
     <declare-styleable name="CascadeLayout">
-        <attr name="horizontal_spacing" format="dimension" />
-        <attr name="vertical_spacing" format="dimension" />
+        <attr name="horizontal_spacing" format="dimension"/>
+        <attr name="vertical_spacing" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="CascadeLayoutParams">
-        <attr name="layout_vertical_spacing" format="dimension" />
+        <attr name="layout_vertical_spacing" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="GradientTextView">
+        <attr name="gtv_startColor" format="color"/>
+        <attr name="gtv_endColor" format="color"/>
+        <attr name="gtv_gradientType" format="enum">
+            <enum name="none" value="-1"/>
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>
