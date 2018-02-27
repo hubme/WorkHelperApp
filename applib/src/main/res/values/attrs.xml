@@ -201,4 +201,12 @@
             <enum name="vertical" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="BarrageView">
+        <attr name="bv_MinInterval" format="integer" />
+        <attr name="bv_MaxInterval" format="integer" />
+        <attr name="bv_MinDuration" format="integer" />
+        <attr name="bv_MaxDuration" format="integer" />
+        <attr name="bv_MaxBarrageWidth" format="dimension" />
+    </declare-styleable>
 </resources>

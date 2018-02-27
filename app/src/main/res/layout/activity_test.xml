@@ -8,13 +8,25 @@
 
     <com.king.applib.ui.customview.GradientTextView
         android:id="@+id/tv_open_qq"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="end"
-        android:text="哈哈哈哈哈呵呵呵呵呵"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="哈哈哈"
         android:textSize="@dimen/ts_huge"
         app:gtv_endColor="#ff5d65"
         app:gtv_gradientType="horizontal"
         app:gtv_startColor="#ff69c9"/>
 
+    <LinearLayout
+        android:id="@+id/panel_root"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:orientation="vertical"/>
+
+    <com.king.applib.ui.customview.BarrageView
+        android:id="@+id/barrage_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@color/gray_fbfbfb"/>
 </LinearLayout>

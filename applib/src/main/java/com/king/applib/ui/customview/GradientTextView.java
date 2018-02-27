@@ -10,7 +10,6 @@ import android.graphics.Shader;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 
 import com.king.applib.R;
@@ -63,14 +62,11 @@ public class GradientTextView extends android.support.v7.widget.AppCompatTextVie
             float textWidth = getPaint().measureText(getText().toString());
             int gravity = getGravity() & Gravity.HORIZONTAL_GRAVITY_MASK;
             if (gravity == Gravity.LEFT) {
-                Log.i("aaa", "Gravity.LEFT");
                 getPaint().setShader(new LinearGradient(0, 0, textWidth, 0, Color.RED, Color.GREEN, Shader.TileMode.CLAMP));
             } else if (gravity == Gravity.CENTER_HORIZONTAL) {
-                Log.i("aaa", "Gravity.CENTER");
                 getPaint().setShader(new LinearGradient((getMeasuredWidth() - textWidth) / 2, 0,
                         (getMeasuredWidth() + textWidth) / 2, 0, Color.RED, Color.GREEN, Shader.TileMode.CLAMP));
             } else if (gravity == Gravity.RIGHT) {
-                Log.i("aaa", "Gravity.END");
                 getPaint().setShader(new LinearGradient(getMeasuredWidth() - textWidth, 0,
                         getMeasuredWidth(), 0, Color.RED, Color.GREEN, Shader.TileMode.CLAMP));
             }
