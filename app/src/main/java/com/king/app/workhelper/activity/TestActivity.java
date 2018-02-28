@@ -82,10 +82,12 @@ public class TestActivity extends AppBaseActivity {
         };
 
         mBarrageView.setBackgroundDrawables(drawableList);
-        mBarrageView.addBarrage(new BarrageView.Barrage("小枫叶刚刚完成认证，获得10万贷款额度"));
-        mBarrageView.addBarrage(new BarrageView.Barrage("白玫瑰刚刚完成认证，获得10万贷款额度"));
+//        mBarrageView.setShowRange(100, 200);
+        mBarrageView.addBarrage(new BarrageView.Barrage("小枫叶刚"));
+        mBarrageView.addBarrage(new BarrageView.Barrage("白玫瑰刚刚完成认证额度"));
         mBarrageView.addBarrage(new BarrageView.Barrage("红玫瑰刚刚完成认证，获得10万贷款额度"));
-        mBarrageView.addBarrage(new BarrageView.Barrage("哈哈哈哈航啊哈哈哈哈哈哈哈航啊哈哈哈哈哈哈哈航啊哈哈哈哈哈哈哈航啊哈哈哈"));
+        mBarrageView.addBarrage(new BarrageView.Barrage("哈哈哈哈航啊哈哈哈哈哈哈哈航啊哈哈哈哈哈哈哈航啊哈哈哈哈哈哈哈航啊哈哈哈AAA"));
+
     }
 
     private TextView buildTextView(String text) {

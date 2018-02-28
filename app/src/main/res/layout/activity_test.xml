@@ -28,5 +28,12 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:background="@color/gray_fbfbfb"/>
+        android:background="@color/gray_fbfbfb"
+        app:bv_EndOffset="250dp"
+        app:bv_MaxBarrageWidth="250dp"
+        app:bv_MaxDuration="5000"
+        app:bv_MaxInterval="3000"
+        app:bv_MinDuration="3500"
+        app:bv_MinInterval="2500"
+        app:bv_StartOffset="10dp"/>
 </LinearLayout>

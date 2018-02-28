@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.text.TextUtils;
@@ -23,34 +24,45 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * 1.继承ViewGroup还是View。继承ViewGroup可以通过动画方便控制每个弹幕显示的速度、延迟显示等。但是要addView()和removeView(),同时还要创建Animation
+ * 继承View通过绘制的方式则不太好控制弹幕显示和速度控制。优点是可以不用创建Animation对象。
+ *
  * @author VanceKing
  * @since 2018/2/26.
  */
 
 public class BarrageView extends FrameLayout {
-    
+
     private static final String TAG = "aaa";
-    
+
     private static final int MIN_INTERVAL = 2500;//mils
-    private static final int MAX_INTERVAL = 3000;//mils
+    private static final int MAX_INTERVAL = 3500;//mils
     private static final int MIN_DURATION = 3000;//mils
     private static final int MAX_DURATION = 4500;//mils
-    
-    //最多显示多个个弹幕
+
+    //最多显示多少个弹幕
     private int mMaxBarrageCount = 3;
+    //最多几条弹道
+    private int mMaxRows = 1;
+
     //两个弹幕之间显示的间隔
     private int mMinInterval = MIN_INTERVAL;
     private int mMaxInterval = MAX_INTERVAL;
     //弹幕显示的总时长
     private int mMinDuration = MIN_DURATION;
     private int mMaxDuration = MAX_DURATION;
-    private int mMaxBarrageWidth = dp2px(250);
+    //控制View动画的最终位置
+    private int mMaxBarrageWidth;
+    private int mStartOffset;
+    private int mEndOffset;
+
     private Random mRandom;
+    private Random mOffsetRandom;
     private final List<Barrage> mBarrages = new ArrayList<>();
     //缓存TextView，避免重复创建
 //    Pools.Pool<TextView> mCahceBarrageViews = new Pools.SimplePool<>(mMaxBarrageCount);
     private List<Drawable> mBgDrawables;
-    private int mWidth;
+    private int mScreenWidth;
     private int mHeight;
     private int mCurrentBarrageIndex;
     private DelayRunnable mDelayRunnable = new DelayRunnable();
@@ -72,19 +84,28 @@ public class BarrageView extends FrameLayout {
             mMaxInterval = typedArray.getInteger(R.styleable.BarrageView_bv_MaxInterval, MAX_INTERVAL);
             mMinDuration = typedArray.getInteger(R.styleable.BarrageView_bv_MinDuration, MIN_DURATION);
             mMaxDuration = typedArray.getInteger(R.styleable.BarrageView_bv_MaxDuration, MAX_DURATION);
-
-        }finally {
-            
+            mMaxBarrageWidth = typedArray.getDimensionPixelSize(R.styleable.BarrageView_bv_MaxBarrageWidth, dp2px(200));
+            mStartOffset = typedArray.getDimensionPixelSize(R.styleable.BarrageView_bv_StartOffset, dp2px(10));
+            mEndOffset = typedArray.getDimensionPixelSize(R.styleable.BarrageView_bv_EndOffset, dp2px(100));
+        } finally {
             if (typedArray != null) {
                 typedArray.recycle();
             }
         }
-        
+
         init();
     }
-    
+
+    @Override protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Log.i(TAG, "停止");
+        removeCallbacks(mDelayRunnable);
+    }
+
     private void init() {
+        mScreenWidth = getScreenWidth();
         mRandom = new Random();
+        mOffsetRandom = new Random();
     }
 
     public void setBarrages(List<Barrage> list) {
@@ -97,24 +118,24 @@ public class BarrageView extends FrameLayout {
 
     public void addBarrage(Barrage barrage) {
         mBarrages.add(barrage);
-        showBarrage();
     }
 
-    private void showBarrage() {
-        post(new Runnable() {
+    public void showBarrage() {
+        /*post(new Runnable() {
             @Override public void run() {
                 Log.i(TAG, "getMeasuredWidth(): " + getMeasuredWidth() + " ;getMeasuredHeight(): " + getMeasuredHeight());
-                mWidth = getMeasuredWidth();
+                mScreenWidth = getMeasuredWidth();
                 mHeight = getMeasuredHeight();
-                post(mDelayRunnable);
+                postDelayed(mDelayRunnable, 500);
             }
-        });
+        });*/
+        postDelayed(mDelayRunnable, 500);
     }
 
     private void addBarrageView(Barrage barrage) {
         final TextView view = buildBarrageView(barrage);
         addView(view);
-        TranslateAnimation animation = buildAnimation(mWidth, -mMaxBarrageWidth);
+        TranslateAnimation animation = buildAnimation(mScreenWidth, -mMaxBarrageWidth);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {
             }
@@ -147,8 +168,9 @@ public class BarrageView extends FrameLayout {
             return barrageView;
         }
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int top = mRandom.nextInt(mHeight);
-        params.setMargins(0, top, 0, 0);
+        int randomOffset = getRandomOffset();
+
+        params.setMargins(0, randomOffset, 0, 0);
         barrageView.setLayoutParams(params);
         barrageView.setText(barrage.getContent());
         barrageView.setTextColor(barrage.getTextColor());
@@ -163,6 +185,11 @@ public class BarrageView extends FrameLayout {
                 barrageView.setBackground(drawable);
             } else {
                 barrageView.setBackgroundDrawable(drawable);
+            }
+            barrageView.setPadding(dp2px(10), dp2px(6), dp2px(10), dp2px(6));
+
+            if (drawable instanceof GradientDrawable) {
+                ((GradientDrawable) drawable).setCornerRadius(dp2px(20));
             }
         }
         return barrageView;
@@ -184,13 +211,26 @@ public class BarrageView extends FrameLayout {
         return mRandom.nextInt((mMaxInterval - mMinInterval) + 1) + mMinInterval;
     }
 
+    private int getRandomOffset() {
+        return mOffsetRandom.nextInt((mEndOffset - mStartOffset) + 1) + mStartOffset;
+    }
+
+    /** 指定弹幕显示的范围.in dp */
+    public void setShowRange(int startOffset, int endOffset) {
+        if (startOffset <= 0 || endOffset <= 0 || endOffset < startOffset) {
+            throw new IllegalArgumentException("endOffset and end endOffset be greater than 0, endOffset must be greater than startOffset");
+        }
+        mStartOffset = dp2px(startOffset);
+        mEndOffset = dp2px(endOffset);
+    }
+
     private class DelayRunnable implements Runnable {
         @Override public void run() {
             addBarrageView(mBarrages.get(mCurrentBarrageIndex % mBarrages.size()));
             int randomDelay = getRandomDelay();
-            Log.i(TAG, "randomDelay: " + randomDelay);
             postDelayed(mDelayRunnable, randomDelay);
             mCurrentBarrageIndex++;
+            mCurrentBarrageIndex = mCurrentBarrageIndex % mBarrages.size();
         }
     }
 
@@ -237,8 +277,7 @@ public class BarrageView extends FrameLayout {
         return (int) (dpValue * scale + 0.5f);
     }
 
-    private int sp2px(float spValue) {
-        final float fontScale = getContext().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
+    private int getScreenWidth() {
+        return getResources().getDisplayMetrics().widthPixels;
     }
 }

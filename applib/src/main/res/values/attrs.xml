@@ -208,5 +208,7 @@
         <attr name="bv_MinDuration" format="integer" />
         <attr name="bv_MaxDuration" format="integer" />
         <attr name="bv_MaxBarrageWidth" format="dimension" />
+        <attr name="bv_StartOffset" format="dimension" />
+        <attr name="bv_EndOffset" format="dimension" />
     </declare-styleable>
 </resources>
