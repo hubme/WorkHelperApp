@@ -1,4 +1,4 @@
-package com.king.app.workhelper.dialog;
+package com.king.app.workhelper.ui.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;

@@ -1,237 +1,90 @@
 package com.king.app.workhelper.ui.dialog;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
-import com.king.applib.util.ExtendUtil;
+import com.king.applib.base.dialog.BaseCenterDialog;
+import com.king.applib.util.StringUtil;
 
 /**
- * Author: HuoGuangXu
- * Date: 2016/5/19
+ * @author VanceKing
+ * @since 2017/7/12.
  */
 
-@Deprecated
-public class SimpleDialog extends Dialog implements DialogInterface {
+public class SimpleDialog extends BaseCenterDialog {
+    private static final String KEY_DIALOG_TITLE = "KEY_DIALOG_TITLE";
+    private static final String KEY_DIALOG_MESSAGE = "KEY_DIALOG_MESSAGE";
+    private static final String KEY_DIALOG_NEGATIVE_TEXT = "KEY_DIALOG_NEGATIVE_TEXT";
+    private String title;
+    private String message;
+    private String negativeText;
 
-    private Context mContext;
-
-    private LinearLayout mParentPanelLl;
-
-    private RelativeLayout mTopPanelRl;
-
-    private FrameLayout mCustomPanelFl;
-
-    private View mDividerView;
-
-    private TextView mTitleTv;
-
-    private TextView mMessageTv;
-
-    private ImageView mTitleIconIv;
-
-    private Button mLeftBtn;
-
-    private Button mRightBtn;
-
-    private SimpleDialog mInstance;
-
-    public SimpleDialog(Context context) {
-        this(context, R.style.DialogStyle);
+    @Override public int getLayoutRes() {
+        return R.layout.layout_simple_dialog_fragment;
     }
 
-    public SimpleDialog(Context context, int theme) {
-        super(context, theme);
-        mContext = context;
-        init(context);
-    }
+    @Override public void bindView(View v) {
+        TextView mTitleTv = (TextView) v.findViewById(R.id.tv_dialog_title);
+        TextView mMessageTv = (TextView) v.findViewById(R.id.tv_dialog_message);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getWindow() != null) {
-            DisplayMetrics dm = new DisplayMetrics();
-            getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            getWindow().setLayout((int) (dm.widthPixels * 0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
-    }
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-    }
-
-    private void init(Context context) {
-        View mDialogView = View.inflate(context, R.layout.layout_dialog, null);
-
-        mParentPanelLl = (LinearLayout) mDialogView.findViewById(R.id.ll_parent_panel);
-        mTopPanelRl = (RelativeLayout) mDialogView.findViewById(R.id.rl_top_panel);
-        mCustomPanelFl = (FrameLayout) mDialogView.findViewById(R.id.rl_custom_panel);
-
-        mTitleTv = (TextView) mDialogView.findViewById(R.id.tv_dialog_title);
-        mMessageTv = (TextView) mDialogView.findViewById(R.id.tv_message);
-        mTitleIconIv = (ImageView) mDialogView.findViewById(R.id.iv_title_icon);
-        mDividerView = mDialogView.findViewById(R.id.title_divider);
-        mLeftBtn = (Button) mDialogView.findViewById(R.id.btn_dialog_confirm);
-        mRightBtn = (Button) mDialogView.findViewById(R.id.btn_right);
-
-        setContentView(mDialogView);
-    }
-
-    public void toDefault() {
-        mTitleTv.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-        mDividerView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.divider));
-        mMessageTv.setTextColor(ContextCompat.getColor(mContext, R.color.gray_666666));
-        mParentPanelLl.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
-    }
-
-    public SimpleDialog withDividerColor(String colorString) {
-        mDividerView.setBackgroundColor(Color.parseColor(colorString));
-        return this;
-    }
-
-    public SimpleDialog withDividerColor(int color) {
-        mDividerView.setBackgroundColor(color);
-        return this;
-    }
-
-
-    public SimpleDialog withTitle(CharSequence title) {
-        toggleView(mTopPanelRl, title);
-        mTitleTv.setText(title);
-        return this;
-    }
-
-    public SimpleDialog withTitleColor(String colorString) {
-        mTitleTv.setTextColor(Color.parseColor(colorString));
-        return this;
-    }
-
-    public SimpleDialog withTitleColor(int color) {
-        mTitleTv.setTextColor(color);
-        return this;
-    }
-
-    public SimpleDialog withMessage(int textResId) {
-        toggleView(mMessageTv, textResId);
-        mMessageTv.setText(textResId);
-        return this;
-    }
-
-    public SimpleDialog withMessage(CharSequence msg) {
-        toggleView(mMessageTv, msg);
-        mMessageTv.setText(msg);
-        return this;
-    }
-
-    public SimpleDialog withMessageColor(String colorString) {
-        mMessageTv.setTextColor(Color.parseColor(colorString));
-        return this;
-    }
-
-    public SimpleDialog withMessageColor(int color) {
-        mMessageTv.setTextColor(color);
-        return this;
-    }
-
-    public SimpleDialog withDialogColor(String colorString) {
-        mParentPanelLl.getBackground().setColorFilter(ExtendUtil.getColorFilter(Color.parseColor(colorString)));
-        return this;
-    }
-
-    public SimpleDialog withDialogColor(int color) {
-        mParentPanelLl.getBackground().setColorFilter(ExtendUtil.getColorFilter(color));
-        return this;
-    }
-
-    public SimpleDialog withIcon(int drawableResId) {
-        mTitleIconIv.setImageResource(drawableResId);
-        return this;
-    }
-
-    public SimpleDialog withIcon(Drawable icon) {
-        mTitleIconIv.setImageDrawable(icon);
-        return this;
-    }
-
-    public SimpleDialog withButtonDrawable(int resId) {
-        mLeftBtn.setBackgroundResource(resId);
-        mRightBtn.setBackgroundResource(resId);
-        return this;
-    }
-
-    public SimpleDialog withLeftButtonText(CharSequence text) {
-        mLeftBtn.setVisibility(View.VISIBLE);
-        mLeftBtn.setText(text);
-
-        return this;
-    }
-
-    public SimpleDialog withRightButtonText(CharSequence text) {
-        mRightBtn.setVisibility(View.VISIBLE);
-        mRightBtn.setText(text);
-        return this;
-    }
-
-    public SimpleDialog setLeftButtonClick(View.OnClickListener click) {
-        mLeftBtn.setOnClickListener(click);
-        return this;
-    }
-
-    public SimpleDialog setRightButtonClick(View.OnClickListener click) {
-        mRightBtn.setOnClickListener(click);
-        return this;
-    }
-
-
-    public SimpleDialog setCustomView(int resId, Context context) {
-        View customView = View.inflate(context, resId, null);
-        if (mCustomPanelFl.getChildCount() > 0) {
-            mCustomPanelFl.removeAllViews();
-        }
-        mCustomPanelFl.addView(customView);
-        return this;
-    }
-
-    public SimpleDialog setCustomView(View view) {
-        if (mCustomPanelFl.getChildCount() > 0) {
-            mCustomPanelFl.removeAllViews();
-        }
-        mCustomPanelFl.addView(view);
-
-        return this;
-    }
-
-    public SimpleDialog isCancelableOnTouchOutside(boolean cancelable) {
-        setCanceledOnTouchOutside(cancelable);
-        return this;
-    }
-
-    public SimpleDialog isCancelable(boolean cancelable) {
-        setCancelable(cancelable);
-        return this;
-    }
-
-    private void toggleView(View view, Object obj) {
-        if (obj == null) {
-            view.setVisibility(View.GONE);
+        if (StringUtil.isNotNullOrEmpty(title)) {
+            mTitleTv.setVisibility(View.VISIBLE);
+            mTitleTv.setText(title);
         } else {
-            view.setVisibility(View.VISIBLE);
+            mTitleTv.setVisibility(View.GONE);
+        }
+
+        if (StringUtil.isNotNullOrEmpty(message)) {
+            mMessageTv.setText(message);
+        }
+    }
+
+    @Override public boolean getCancelOutside() {
+        return false;
+    }
+
+    @Override protected void getArguments(Bundle bundle) {
+        super.getArguments(bundle);
+        title = bundle.getString(KEY_DIALOG_TITLE);
+        message = bundle.getString(KEY_DIALOG_MESSAGE);
+        negativeText = bundle.getString(KEY_DIALOG_NEGATIVE_TEXT);
+    }
+    
+    public static class Builder{
+        private String title;
+        private String message;
+        private String negativeText;
+        
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public Builder setNegativeButton(String text, final DialogInterface.OnClickListener listener) {
+            negativeText = text;
+            return this;
+        }
+
+        private Bundle buildArguments() {
+            Bundle bundle = new Bundle();
+            bundle.putString(KEY_DIALOG_TITLE, title);
+            bundle.putString(KEY_DIALOG_MESSAGE, message);
+            bundle.putString(KEY_DIALOG_NEGATIVE_TEXT, negativeText);
+            return bundle;
+        }
+
+        public SimpleDialog build() {
+            SimpleDialog dialog = new SimpleDialog();
+            dialog.setArguments(buildArguments());
+            return dialog;
         }
     }
 }
