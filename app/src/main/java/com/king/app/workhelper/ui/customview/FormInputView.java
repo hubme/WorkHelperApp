@@ -1,44 +1,45 @@
 package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewStub;
+import android.view.Gravity;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.king.app.workhelper.R;
 import com.king.applib.util.StringUtil;
 
 /**
- * 表单输入封装。
- * item左边是一个TextView标题，右边是个TextView，显示内容
- * Created by HuoGuangxu on 2016/11/11.
+ * 表单输入View。左边是一个TextView标题，右边是个TextView或EditTextView，用于显示或输入内容。
+ *
+ * @author VanceKing
+ * @since 2016/11/11.
  */
-
-public class FormInputView extends RelativeLayout {
-
-    private Context mContext;
-    private TextView mFormTitleTv;
+public class FormInputView extends LinearLayout {
+    private TextView mTitleTv;
+    private TextView mContentTv;
     private EditText mFormContentEt;
-    private TextView mFormContentTv;
-    private View mRootView;
-    private int mInputType = TEXT_INPUT_TYPE;
 
     public static final int TEXT_INPUT_TYPE = 0;
     public static final int EDIT_INPUT_TYPE = 1;
 
     @IntDef({TEXT_INPUT_TYPE, EDIT_INPUT_TYPE})
     public @interface INPUT_TYPE {
-
     }
+
+    private int mInputType = TEXT_INPUT_TYPE;
+    private int mTitleColor = Color.parseColor("#7e7e7e");
+    private int mContentColor = Color.parseColor("#212121");
+    private int mHintColor = Color.parseColor("#7e7e7e");
 
     public FormInputView(Context context) {
         this(context, null);
@@ -50,35 +51,74 @@ public class FormInputView extends RelativeLayout {
 
     public FormInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
+        setOrientation(LinearLayout.HORIZONTAL);
         initView();
     }
 
     private void initView() {
-        mRootView = View.inflate(mContext, R.layout.layout_form_input_item, this);
-        mFormTitleTv = (TextView) findViewById(R.id.tv_item_title);
+        mTitleTv = new TextView(getContext());
+        mTitleTv.setTextSize(15);
+        mTitleTv.setTextColor(mTitleColor);
+        mTitleTv.setGravity(Gravity.CENTER_VERTICAL);
+        mTitleTv.setSingleLine();
+        mTitleTv.setMaxLines(1);
+        mTitleTv.setEllipsize(TextUtils.TruncateAt.END);
+        mTitleTv.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        addView(mTitleTv);
+    }
+
+    private void buildContentView() {
+        mContentTv = new TextView(getContext());
+        mContentTv.setTextSize(15);
+        mContentTv.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        params.gravity = Gravity.END;
+        mContentTv.setLayoutParams(params);
+        mContentTv.setTextColor(mContentColor);
+        mContentTv.setSingleLine();
+        mContentTv.setMaxLines(1);
+    }
+
+    private void buildInputText() {
+        mFormContentEt = new EditText(getContext());
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        params.gravity = Gravity.END;
+        mFormContentEt.setLayoutParams(params);
+        mFormContentEt.setBackgroundColor(Color.TRANSPARENT);
+        mFormContentEt.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        mFormContentEt.setSingleLine();
+        mFormContentEt.setTextSize(15);
+        mFormContentEt.setTextColor(mContentColor);
+        mFormContentEt.setHintTextColor(mHintColor);
     }
 
     public FormInputView setInputType(@INPUT_TYPE int type) {
         mInputType = type;
-
-        ViewStub contentVs = (ViewStub) findViewById(type == EDIT_INPUT_TYPE ? R.id.vs_input_edit_text : R.id.vs_input_text_view);
-        View view = contentVs.inflate();
-
         if (type == EDIT_INPUT_TYPE) {
-            mFormContentEt = (EditText) view.findViewById(R.id.et_item_input);
+            buildInputText();
+            addView(mFormContentEt);
         } else {
-            mFormContentTv = (TextView) view.findViewById(R.id.tv_item_input);
+            buildContentView();
+            addView(mContentTv);
         }
         return this;
     }
 
+    @INPUT_TYPE
+    public int getInputType() {
+        return mInputType;
+    }
+
+    private TextView getTitleTextView() {
+        return mTitleTv;
+    }
+
     public TextView getFormTitle() {
-        return mFormTitleTv;
+        return mTitleTv;
     }
 
     public TextView getFormTextView() {
-        return mFormContentTv;
+        return mContentTv;
     }
 
     public EditText getFormEditText() {
@@ -86,43 +126,43 @@ public class FormInputView extends RelativeLayout {
     }
 
     public FormInputView setTitle(@StringRes int resId) {
-        if (mFormTitleTv != null) {
-            mFormTitleTv.setText(mContext.getString(resId));
+        if (mTitleTv != null) {
+            mTitleTv.setText(getContext().getString(resId));
         }
         return this;
     }
 
     public FormInputView setTitle(String text) {
-        if (mFormTitleTv != null && !StringUtil.isNullOrEmpty(text)) {
-            mFormTitleTv.setText(text);
+        if (mTitleTv != null && !StringUtil.isNullOrEmpty(text)) {
+            mTitleTv.setText(text);
         }
         return this;
     }
 
     public FormInputView setTitleTextSize(@DimenRes int resId) {
-        if (mFormTitleTv != null) {
-            mFormTitleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(resId));
+        if (mTitleTv != null) {
+            mTitleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(resId));
         }
         return this;
     }
 
     public FormInputView setTitleTextColor(@ColorRes int resId) {
-        if (mFormTitleTv != null) {
-            mFormTitleTv.setTextColor(getResources().getColor(resId));
+        if (mTitleTv != null) {
+            mTitleTv.setTextColor(getResources().getColor(resId));
         }
         return this;
     }
 
     public FormInputView setContentBackgroundResource(@DrawableRes int resId) {
-        if (mFormContentTv != null) {
-            mFormContentTv.setBackgroundResource(resId);
+        if (mContentTv != null) {
+            mContentTv.setBackgroundResource(resId);
         }
         return this;
     }
 
     public void setRightDrawable(@DrawableRes int resId) {
-        if (mFormContentTv != null) {
-            mFormContentTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
+        if (mContentTv != null) {
+            mContentTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
         }
         if (mFormContentEt != null) {
             mFormContentEt.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
@@ -130,8 +170,8 @@ public class FormInputView extends RelativeLayout {
     }
 
     public FormInputView setContentText(@StringRes int resId) {
-        if (mFormContentTv != null) {
-            mFormContentTv.setText(resId);
+        if (mContentTv != null) {
+            mContentTv.setText(resId);
         }
         if (mFormContentEt != null) {
             mFormContentEt.setText(resId);
@@ -140,8 +180,11 @@ public class FormInputView extends RelativeLayout {
     }
 
     public FormInputView setContentText(String text) {
-        if (mFormContentTv != null && !StringUtil.isNullOrEmpty(text)) {
-            mFormContentTv.setText(text);
+        if (TextUtils.isEmpty(text)) {
+            return this;
+        }
+        if (mContentTv != null) {
+            mContentTv.setText(text);
         }
         if (mFormContentEt != null) {
             mFormContentEt.setText(text);
@@ -150,8 +193,8 @@ public class FormInputView extends RelativeLayout {
     }
 
     public FormInputView setContentTextColor(@ColorRes int resId) {
-        if (mFormContentTv != null) {
-            mFormContentTv.setTextColor(getResources().getColor(resId));
+        if (mContentTv != null) {
+            mContentTv.setTextColor(getResources().getColor(resId));
         }
         if (mFormContentEt != null) {
             mFormContentEt.setTextColor(getResources().getColor(resId));
@@ -160,11 +203,24 @@ public class FormInputView extends RelativeLayout {
     }
 
     public FormInputView setContentTextSize(@DimenRes int resId) {
-        if (mFormContentTv != null) {
-            mFormContentTv.setTextSize(getResources().getDimensionPixelSize(resId));
+        if (mContentTv != null) {
+            mContentTv.setTextSize(getResources().getDimensionPixelSize(resId));
         }
         if (mFormContentEt != null) {
             mFormContentEt.setTextSize(getResources().getDimensionPixelSize(resId));
+        }
+        return this;
+    }
+
+    public FormInputView setContentHint(String hint) {
+        if (TextUtils.isEmpty(hint)) {
+            return this;
+        }
+        if (mFormContentEt != null) {
+            mFormContentEt.setHint(hint);
+        }
+        if (mContentTv != null) {
+            mContentTv.setHint(hint);
         }
         return this;
     }
