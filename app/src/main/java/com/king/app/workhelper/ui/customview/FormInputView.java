@@ -2,6 +2,7 @@ package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
@@ -12,14 +13,15 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.king.applib.util.StringUtil;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
- * 表单输入View。左边是一个TextView标题，右边是个TextView或EditTextView，用于显示或输入内容。
+ * 表单输入View。左边是一个TextView标题，右边是个TextView或EditTextView，用于显示或输入内容。<br/>
+ * 注意：要先通过{@link #setInputType(int) setInputType(int)}设置类型。
  *
  * @author VanceKing
  * @since 2016/11/11.
@@ -33,10 +35,12 @@ public class FormInputView extends LinearLayout {
     public static final int EDIT_INPUT_TYPE = 1;
 
     @IntDef({TEXT_INPUT_TYPE, EDIT_INPUT_TYPE})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface INPUT_TYPE {
     }
 
-    private int mInputType = TEXT_INPUT_TYPE;
+    private int mInputType = EDIT_INPUT_TYPE;
+
     private int mTitleColor = Color.parseColor("#7e7e7e");
     private int mContentColor = Color.parseColor("#212121");
     private int mHintColor = Color.parseColor("#7e7e7e");
@@ -62,8 +66,9 @@ public class FormInputView extends LinearLayout {
         mTitleTv.setGravity(Gravity.CENTER_VERTICAL);
         mTitleTv.setSingleLine();
         mTitleTv.setMaxLines(1);
+        mTitleTv.setMaxWidth(dp2px(120));
         mTitleTv.setEllipsize(TextUtils.TruncateAt.END);
-        mTitleTv.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        mTitleTv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
         addView(mTitleTv);
     }
 
@@ -71,7 +76,7 @@ public class FormInputView extends LinearLayout {
         mContentTv = new TextView(getContext());
         mContentTv.setTextSize(15);
         mContentTv.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.END;
         mContentTv.setLayoutParams(params);
         mContentTv.setTextColor(mContentColor);
@@ -81,10 +86,17 @@ public class FormInputView extends LinearLayout {
 
     private void buildInputText() {
         mFormContentEt = new EditText(getContext());
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.END;
         mFormContentEt.setLayoutParams(params);
         mFormContentEt.setBackgroundColor(Color.TRANSPARENT);
+        //不设置文字会偏上。在xml中设置android:background="@null"就居中了。但是在代码中设置没有效果。
+        mFormContentEt.setPadding(0, dp2px(2), 0, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mFormContentEt.setBackground(null);
+        } else {
+            mFormContentEt.setBackgroundDrawable(null);
+        }
         mFormContentEt.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         mFormContentEt.setSingleLine();
         mFormContentEt.setTextSize(15);
@@ -133,7 +145,7 @@ public class FormInputView extends LinearLayout {
     }
 
     public FormInputView setTitle(String text) {
-        if (mTitleTv != null && !StringUtil.isNullOrEmpty(text)) {
+        if (mTitleTv != null && !TextUtils.isEmpty(text)) {
             mTitleTv.setText(text);
         }
         return this;
@@ -192,6 +204,16 @@ public class FormInputView extends LinearLayout {
         return this;
     }
 
+    public String getContent() {
+        if (mContentTv != null) {
+            return mContentTv.getText().toString();
+        }
+        if (mFormContentEt != null) {
+            return mFormContentEt.getText().toString();
+        }
+        return "";
+    }
+
     public FormInputView setContentTextColor(@ColorRes int resId) {
         if (mContentTv != null) {
             mContentTv.setTextColor(getResources().getColor(resId));
@@ -223,5 +245,25 @@ public class FormInputView extends LinearLayout {
             mContentTv.setHint(hint);
         }
         return this;
+    }
+
+    public FormInputView setRightImage(@DrawableRes int drawableRes) {
+        if (mContentTv != null) {
+            mContentTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableRes, 0);
+            mContentTv.setCompoundDrawablePadding(dp2px(7));
+        }
+        return this;
+    }
+
+    public FormInputView setContentClick(OnClickListener onClickListener) {
+        if (mContentTv != null) {
+            mContentTv.setOnClickListener(onClickListener);
+        }
+        return this;
+    }
+
+    private int dp2px(float dpValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 }
