@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.dialog.FullSheetDialogFragment;
+import com.king.app.workhelper.ui.dialog.FullSheetDialogFragment;
 import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 

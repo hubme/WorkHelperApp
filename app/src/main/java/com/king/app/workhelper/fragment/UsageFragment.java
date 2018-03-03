@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.dialog.SampleBottomDialog;
-import com.king.app.workhelper.dialog.SimpleDialog;
+import com.king.app.workhelper.ui.dialog.SampleBottomDialog;
+import com.king.app.workhelper.ui.dialog.SimpleDialog;
 import com.king.app.workhelper.ui.customview.TabLayout;
 import com.king.applib.base.WeakHandler;
 import com.king.applib.base.dialog.BaseDialogFragment;

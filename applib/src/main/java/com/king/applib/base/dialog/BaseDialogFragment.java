@@ -147,7 +147,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     public void showDialog(FragmentManager fragmentManager, String tag) {
-        if (!isVisible()) {
+        if (!fragmentManager.isDestroyed() && !isVisible()) {
             show(fragmentManager, tag);
         }
     }

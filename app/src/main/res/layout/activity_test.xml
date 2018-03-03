@@ -5,6 +5,43 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <com.king.app.workhelper.ui.customview.FormInputView
+        android:id="@+id/form_input_view"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+    
+    <FrameLayout
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        
+        <TextView
+            android:hint="赛道解放冬季佛"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:visibility="gone"
+            android:text="赛道解放冬季佛赛道解放冬季佛"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_gravity="end"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        
+        <EditText
+            android:layout_gravity="end"
+            android:text="赛道积分赛扥aa"
+            android:minWidth="200dp"
+            android:gravity="end|center_vertical"
+            android:layout_width="wrap_content"
+            android:background="@color/transparent"
+            android:layout_height="match_parent"/>
+        
+    </FrameLayout>
+    
 
     <com.king.applib.ui.customview.GradientTextView
         android:id="@+id/tv_open_qq"

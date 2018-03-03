@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
@@ -17,12 +18,12 @@ import com.king.app.workhelper.R;
  * 简单的弹框封装
  * Created by HuoGuangxu on 2016/11/8.
  */
-// TODO: 2017/4/27 同时弹出多个的情况.参考getFragmentManager().executePendingTransactions()
 public class SimpleDialogFragment extends DialogFragment {
 
     private boolean mOutsideCancel;
     private ImageView mLeftIconIv;
     private ImageView mRightIconIv;
+    private FrameLayout mDialogContainer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +34,6 @@ public class SimpleDialogFragment extends DialogFragment {
 
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initDialog();
         View view = inflater.inflate(R.layout.layout_simple_dialog_fragment, container);
         initView(view);
         getDialog().setCanceledOnTouchOutside(mOutsideCancel);
@@ -57,6 +57,7 @@ public class SimpleDialogFragment extends DialogFragment {
     private void initView(View view) {
         mLeftIconIv = (ImageView) view.findViewById(R.id.iv_left_icon);
         mRightIconIv = (ImageView) view.findViewById(R.id.iv_righ_icon);
+        mDialogContainer = (FrameLayout) view.findViewById(R.id.dialog_container);
     }
 
     //写在onCreate()报NPE,写在onCreateView()或onViewCreated无效
@@ -110,6 +111,14 @@ public class SimpleDialogFragment extends DialogFragment {
 
     public SimpleDialogFragment setRightIcon(@DrawableRes int resId) {
         mRightIconIv.setBackgroundResource(resId);
+        return this;
+    }
+
+    public SimpleDialogFragment setView(View customView) {
+        if (mDialogContainer.getChildCount() > 0) {
+            mDialogContainer.removeAllViews();
+        }
+        mDialogContainer.addView(customView);
         return this;
     }
 

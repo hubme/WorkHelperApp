@@ -62,7 +62,7 @@
         android:layout_marginTop="20dp">
 
         <Button
-            android:id="@+id/btn_dialog_confirm"
+            android:id="@+id/btn_dialog_left"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginEnd="10dp"
@@ -74,7 +74,7 @@
             android:textSize="@dimen/ts_normal" />
 
         <Button
-            android:id="@+id/btn_right"
+            android:id="@+id/btn_dialog_right"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
