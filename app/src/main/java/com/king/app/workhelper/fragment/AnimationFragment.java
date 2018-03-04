@@ -6,7 +6,6 @@ import android.animation.ValueAnimator;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -61,9 +60,9 @@ public class AnimationFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        mAdVf.addView(LayoutInflater.from(mContext).inflate(R.layout.layout_notice_board, null));
-        mAdVf.addView(LayoutInflater.from(mContext).inflate(R.layout.layout_notice_board, null));
-        mAdVf.addView(LayoutInflater.from(mContext).inflate(R.layout.layout_notice_board, null));
+        mAdVf.addView(View.inflate(getContext(), R.layout.layout_notice_board, null));
+        mAdVf.addView(View.inflate(getContext(), R.layout.layout_notice_board, null));
+        mAdVf.addView(View.inflate(getContext(), R.layout.layout_notice_board, null));
         mAdVf.startFlipping();
     }
 
