@@ -16,9 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Lib测试类
@@ -26,23 +23,6 @@ import java.util.List;
  */
 
 public class LibTest extends BaseTestCase {
-    //使用Iterator动态删除
-    public void testListRemove() throws Exception {
-        List<Integer> list = new ArrayList<>();
-        list.add(111);
-        list.add(222);
-        list.add(333);
-        list.add(444);
-        Iterator<Integer> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Integer next = iterator.next();
-            if (222 == next) {
-                iterator.remove();
-            }
-        }
-        printList(list);
-    }
-
     public void testDoubleArray() throws Exception {
         String[][] array = {{"11", "12"}, {"21", "22"}};
         Logger.i(array[1][0]);

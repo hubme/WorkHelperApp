@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -122,6 +124,25 @@ public class ListTest extends BaseTestCase {
         Logger.i("" + aaa);
     }
     
+    public void testListIterator() throws Exception {
+        LinkedList<Person> linkedList = new LinkedList<>();
+        linkedList.add(new Person("aaa"));
+        linkedList.add(new Person("bbb"));
+        linkedList.add(new Person("ccc"));
+        
+        /*for (Person person : linkedList) {
+            Log.i("aaa", person.toString());
+            linkedList.remove();   //java.util.ConcurrentModificationException
+        }*/
+
+        Iterator<Person> iterator = linkedList.iterator();
+        while (iterator.hasNext()) {
+            Logger.i(iterator.next().toString());
+            iterator.remove();//iterator 动态删除
+        }
+        Logger.i(String.valueOf(linkedList.size()));
+    }
+
     private static class Person{
         private String name;
 
