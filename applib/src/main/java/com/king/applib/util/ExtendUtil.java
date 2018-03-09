@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.os.storage.StorageManager;
+import android.provider.Settings;
 import android.support.annotation.AnyRes;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.NotificationManagerCompat;
@@ -515,5 +516,10 @@ public class ExtendUtil {
      */
     public static boolean isApiAvailable(int versionCode) {
         return Build.VERSION.SDK_INT >= versionCode;
+    }
+
+    /** 判断手机是否是飞行模式 */
+    public static boolean isAirPlaneMode(Context context) {
+        return Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
     }
 }
