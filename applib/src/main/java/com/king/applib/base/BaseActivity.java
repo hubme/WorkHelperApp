@@ -16,9 +16,10 @@ import java.util.List;
 
 /**
  * 基础Activity
- * created by VanceKing at 2016/9/29
+ *
+ * @author VanceKing
+ * @since 2016/9/29.
  */
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     private View mContentLayout;

@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 /**
  * BaseView 基类。模块化，抽取公共逻辑。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/12/5.
  */
 public abstract class BaseViewController<T> {

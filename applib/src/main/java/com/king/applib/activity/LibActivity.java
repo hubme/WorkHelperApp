@@ -10,7 +10,7 @@ import com.king.applib.R;
  * 主module可以通过Intent调用子module的Activity，就像在自己module中一样。<br/>
  * 子module的AndroidManifest.xml会merge到主module中。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/29.
  */
 public class LibActivity extends AppCompatActivity {

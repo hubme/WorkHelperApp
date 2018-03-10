@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 /**
  * 懒加载Fragment.只初始化View,不加载网络数据.
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/2/9.
  */
 

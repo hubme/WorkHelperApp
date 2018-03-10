@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * PagerAdapter封装类
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/5/12.
  */
 

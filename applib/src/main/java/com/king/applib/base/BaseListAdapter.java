@@ -10,7 +10,9 @@ import java.util.List;
 
 /**
  * ListView通用适配器
- * created by HuoGuangXu at 2016/5/27.
+ *
+ * @author huoguangxu
+ * @since 2016/5/27.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
     private final List<T> mAdapterData = new ArrayList<>();

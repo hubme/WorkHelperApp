@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * 被此注解修饰的类、方法、构造函数、属性不被混淆.
  * 需要在 Proguard 中配置.
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/2/7.
  */
 
