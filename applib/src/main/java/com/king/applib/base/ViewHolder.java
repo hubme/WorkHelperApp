@@ -31,7 +31,7 @@ import com.king.applib.util.ContextUtil;
  * created by VanceKing at 2016/9/30
  */
 public class ViewHolder {
-    private SparseArray<View> mViews;
+    private final SparseArray<View> mViews;
     private int mPosition;
     private View mConvertView;
     private int mLayoutId;
