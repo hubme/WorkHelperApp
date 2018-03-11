@@ -9,8 +9,10 @@ import android.os.Message;
 import java.lang.ref.WeakReference;
 
 /**
- * 防止内存泄露.声明静态内部类继承此类,重写handle方法
- * Created by HuoGuangxu on 2016/11/17.
+ * 防止内存泄露.声明静态内部类继承此类,重写handle方法。
+ *
+ * @author huoguangxu
+ * @since 2016/11/17.
  */
 public abstract class WeakHandler<T> extends Handler {
 

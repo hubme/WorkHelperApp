@@ -1,9 +1,11 @@
 package com.king.applib.constant;
 
 /**
- * Created by HuoGuangxu on 2016/10/21.
+ * 保存全局常量。
+ *
+ * @author VanceKing
+ * @since 2016/10/21.
  */
-
 public class GlobalConstants {
     private GlobalConstants() {
 
@@ -24,7 +26,7 @@ public class GlobalConstants {
         int NON_CONFORMANCE = 416;
         /** 文件未修改 */
         int UNMODIFIED = 304;
-        /**部分内容*/
+        /** 部分内容 */
         int PARTIAL_CONTENT = 206;
     }
 

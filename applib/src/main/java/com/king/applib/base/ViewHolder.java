@@ -27,8 +27,10 @@ import android.widget.TextView;
 import com.king.applib.util.ContextUtil;
 
 /**
- * ListView通用适配器的ViewHolder
- * created by VanceKing at 2016/9/30
+ * 缓存 ViewGroup 的子 View，避免每次都查找。
+ *
+ * @author huoguangxu
+ * @since 2016/9/30.
  */
 public class ViewHolder {
     private final SparseArray<View> mViews;

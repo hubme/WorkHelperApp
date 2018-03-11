@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * Bundle构建器
+ * Bundle构建器。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/8.
  */
 public class BundleBuilder {

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/5.
  */
 
@@ -35,7 +35,7 @@ public class HttpParamsBuilder {
         }
         return this;
     }
-    
+
     public HttpParamsBuilder add(String key, String value) {
         if (StringUtil.isNoneEmpty(key, value)) {
             PARAMS_MAP.put(key, value);
