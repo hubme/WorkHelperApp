@@ -4,36 +4,36 @@ import com.example.util.Utity;
 
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * BlockingQueue实现生产者消费者模型
  *
  * @author VanceKing
- * @since 2017/4/16 0016.
+ * @since 2017/4/16.
  */
 
-public class ProducerConsumerBlockingQueueSample {
+public class BlockingQueueSample {
     public static void main(String[] args) {
-        BlockingQueue<Integer> queue = new SynchronousQueue<>();
-        Producer producer1 = new Producer(queue);
-        Producer producer2 = new Producer(queue);
-        Consumer consumer1 = new Consumer(queue);
-        Consumer consumer2 = new Consumer(queue);
+        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(5);
 
-        new Thread(producer1, "producer1").start();
-        new Thread(producer2, "producer2").start();
-        new Thread(consumer1, "consumer1").start();
-        new Thread(consumer2, "consumer2").start();
+        new Thread(new Producer(queue), "producer1").start();
+        new Thread(new Producer(queue), "producer2").start();
+        
+        new Thread(new Consumer(queue), "consumer1").start();
+        new Thread(new Consumer(queue), "consumer2").start();
     }
 
     private static class Producer implements Runnable {
         private final BlockingQueue<Integer> queue;
+        private Random mRandom;
 
         Producer(BlockingQueue<Integer> queue) {
             this.queue = queue;
+            mRandom = new Random();
         }
 
+        @Override
         public void run() {
             try {
                 while (true) {
@@ -45,9 +45,9 @@ public class ProducerConsumerBlockingQueueSample {
         }
 
         Integer produce() {
-            int anInt = new Random().nextInt();
+            int anInt = mRandom.nextInt();
             System.out.println(Thread.currentThread().getName() + " produced: " + anInt);
-            Utity.sleep(2000);
+            Utity.sleep(1000);
             return anInt;
         }
     }
@@ -71,7 +71,7 @@ public class ProducerConsumerBlockingQueueSample {
 
         void consume(Integer x) {
             System.out.println(Thread.currentThread().getName() + " consumed: " + x);
-            Utity.sleep(2000);
+            Utity.sleep(3000);
         }
     }
 }
