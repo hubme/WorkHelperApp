@@ -4,60 +4,43 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.Delayed;
-import java.util.concurrent.TimeUnit;
 
 /**
- * 简单的弹幕 View。
+ * 简单的弹幕 View。通过绘制实现。
  *
  * @author VanceKing
  * @since 2018/3/6.
  */
 
 public class BarrageView2 extends View {
-    private static final String TAG = "aaa";
-
     private static final int STATUS_RUNNING = 1;
     private static final int STATUS_PAUSE = 2;
     private static final int STATUS_STOP = 3;
 
     private volatile int mStatus = STATUS_STOP;
 
-    private static final int MIN_INTERVAL = 2500;//mils
-    private static final int MAX_INTERVAL = 3500;//mils
-    private static final int MIN_DURATION = 3000;//mils
-    private static final int MAX_DURATION = 4500;//mils
-
-    //两个弹幕之间显示的间隔
-    private int mMinInterval = MIN_INTERVAL;
-    private int mMaxInterval = MAX_INTERVAL;
-
     //每次重绘的偏移量
-    private int mOffset = 5;//in px
+    private static final int STEP = 5;
 
     private final List<Barrage> mBarrages = new ArrayList<>();
-    private final DelayQueue<Barrage> mDoneBarrages = new DelayQueue<>();
     private Random mRandom = new Random();
-    private List<Pair<Integer, Integer>> mGradientPairs;
 
     private TextPaint mTextPaint;
-    private int mWidth;
+    private Paint mBgPaint;
+    private int mWeight;
     private int mHeight;
-    private Iterator<Barrage> iterator;
+    private int mCorner;
+    private final RectF mBgRect = new RectF();
 
     public BarrageView2(Context context) {
         this(context, null);
@@ -74,8 +57,8 @@ public class BarrageView2 extends View {
 
     private void init() {
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-//        mTextPaint.setTextSize(sp2px(14));
-        iterator = mBarrages.iterator();
+        mBgPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        mCorner = dp2px(20);
     }
 
     public void addBarrages(List<Barrage> list) {
@@ -97,7 +80,9 @@ public class BarrageView2 extends View {
         barrage.currentX = barrage.startX;
         mTextPaint.setTextSize(sp2px(barrage.getTextSize()));
         barrage.setBarrageWidth((int) mTextPaint.measureText(barrage.content));
-        barrage.startY = getRandomStartY();
+        if (barrage.startY <= 0) {
+            barrage.startY = getRandomStartY();
+        }
     }
 
     private void resetBarrages() {
@@ -131,7 +116,7 @@ public class BarrageView2 extends View {
 
     @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mWidth = w;
+        mWeight = w;
         mHeight = h;
     }
 
@@ -153,84 +138,67 @@ public class BarrageView2 extends View {
         }
     }
 
-    @Override protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-    }
-
     private void drawBarrage(Canvas canvas) {
-        while (iterator.hasNext()) {
-            Barrage barrage = iterator.next();
-            if (barrage.isOut()) {
-                Log.i("aaa", barrage.content + "已完成");
-                iterator.remove();
-                continue;
+        for (Barrage barrage : mBarrages) {
+            if (barrage.startX == -1) {
+                barrage.startX = mWeight;
+                barrage.currentX = barrage.startX;
             }
-            mTextPaint.setColor(barrage.textColor);
-            canvas.drawText(barrage.content, barrage.currentX, barrage.startY, mTextPaint);
-            barrage.currentX -= mOffset * barrage.factor;
+            if (barrage.isOut()) {
+                barrage.currentX = barrage.startX;
+            } else {
+                drawBackground(canvas, barrage);
+                mTextPaint.setColor(barrage.textColor);
+                canvas.drawText(barrage.content, barrage.currentX, barrage.startY, mTextPaint);
+                barrage.currentX -= STEP * barrage.factor;
+            }
         }
-        
-        
-        /*for (Barrage barrage : mBarrages) {
-            if (barrage.isOut()) {
-                Log.i("aaa", barrage.content + "已完成");
-                mBarrages.addLast(barrage);
-                continue;
-            }
-            mTextPaint.setColor(barrage.textColor);
-            canvas.drawText(barrage.content, barrage.currentX, barrage.startY, mTextPaint);
-            barrage.currentX -= mOffset * barrage.factor;
-            
-        }*/
+
     }
-    
-    /*LinearGradient linearGradient = new LinearGradient(100, 100, 500, 500, Color.GREEN, Color.BLUE, Shader.TileMode.CLAMP);
-            mTextPaint.setShader(linearGradient);
-            canvas.drawRect(100, 100, 500, 500, mTextPaint);
-            RectF mCornerRect = new RectF();
-            canvas.drawRoundRect();*/
 
-    /*private LinearGradient getGradientShader(Barrage barrage) {
-        mGradientPairs.get()
-    }*/
-
-    public void setGradientColors(List<Pair<Integer, Integer>> gradientPairs) {
-        mGradientPairs = gradientPairs;
+    private void drawBackground(Canvas canvas, Barrage barrage) {
+        mBgPaint.setColor(barrage.getBgColor());
+        mBgPaint.setTextSize(sp2px(barrage.getTextSize()));
+        final Paint.FontMetrics fontMetrics = mBgPaint.getFontMetrics();
+        int paddingLeftRight = dp2px(10);
+        int paddingTopBottom = dp2px(3);
+        mBgRect.set(barrage.currentX - paddingLeftRight,
+                barrage.startY + fontMetrics.top - paddingTopBottom,
+                barrage.currentX + barrage.barrageWidth + paddingLeftRight,
+                barrage.startY + fontMetrics.bottom + paddingTopBottom);
+        canvas.drawRoundRect(mBgRect, mCorner, mCorner, mBgPaint);
     }
 
     private void setStatus(int status) {
         this.mStatus = status;
     }
 
-    private int getRandomDelay() {
-        return mRandom.nextInt((mMaxInterval - mMinInterval) + 1) + mMinInterval;
-    }
-
     private int getRandomStartY() {
         return mRandom.nextInt(mHeight);
     }
 
-    public static class Barrage implements Delayed {
+    public static class Barrage {
         private String content;
-        @ColorInt private int textColor = Color.BLACK;
+        @ColorInt private int textColor = Color.WHITE;
         private int textSize = 16;//in sp
-        private int startX;
-        private int startY;
+        private int startX = -1;
+        private int startY = -1;
         private int currentX;
         private int barrageWidth;
         private float factor = 1;
+        @ColorInt private int bgColor = Color.TRANSPARENT;
 
         public Barrage() {
         }
 
-        public Barrage(String content, int startX) {
+        public Barrage(String content) {
             this.content = content;
-            this.startX = startX;
         }
 
-        public Barrage(String content, int startX, int startY) {
-            this(content, startX);
+        public Barrage(String content, int startY, int bgColor) {
+            this.content = content;
             this.startY = startY;
+            this.bgColor = bgColor;
         }
 
         public String getContent() {
@@ -269,12 +237,20 @@ public class BarrageView2 extends View {
             barrageWidth = textWidth;
         }
 
-        @Override public long getDelay(@NonNull TimeUnit unit) {
-            return 0;
+        public int getBgColor() {
+            return bgColor;
         }
 
-        @Override public int compareTo(@NonNull Delayed o) {
-            return 0;
+        public void setBgColor(@ColorInt int bgColor) {
+            this.bgColor = bgColor;
+        }
+
+        public int getStartY() {
+            return startY;
+        }
+
+        public void setStartY(int startY) {
+            this.startY = startY;
         }
     }
 
@@ -287,5 +263,4 @@ public class BarrageView2 extends View {
         final float fontScale = getContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
-
 }
