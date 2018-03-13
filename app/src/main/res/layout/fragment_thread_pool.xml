@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_single"
+        style="@style/EntryItem"
+        android:text="newSingleThreadExecutor"/>
+    
+    <TextView
+        android:id="@+id/tv_fixed"
+        style="@style/EntryItem"
+        android:text="newFixedThreadPool"/>
+    
+    <TextView
+        android:id="@+id/tv_cached"
+        style="@style/EntryItem"
+        android:text="newCachedThreadPool"/>
+    
+    <TextView
+        android:id="@+id/tv_scheduled"
+        style="@style/EntryItem"
+        android:text="newScheduledThreadPool "/>
+    
+    <TextView
+        android:id="@+id/tv_single_scheduled"
+        style="@style/EntryItem"
+        android:text="newSingleThreadScheduledExecutor"/>
+    
+    <TextView
+        android:id="@+id/tv_custom_executor"
+        style="@style/EntryItem"
+        android:text="custom executor"/>
+
+    <TextView
+        android:id="@+id/tv_shut_down"
+        style="@style/EntryItem"
+        android:text="shut down "/>
+
+</LinearLayout>

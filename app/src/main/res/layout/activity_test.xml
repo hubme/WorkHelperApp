@@ -5,44 +5,6 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.king.app.workhelper.ui.customview.FormInputView
-        android:id="@+id/form_input_view"
-        android:layout_width="match_parent"
-        android:layout_height="48dp" />
-    
-    <FrameLayout
-        android:background="@color/gray"
-        android:layout_width="match_parent"
-        android:layout_height="48dp">
-        
-        <TextView
-            android:hint="赛道解放冬季佛"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-
-        <TextView
-            android:visibility="gone"
-            android:text="赛道解放冬季佛赛道解放冬季佛"
-            android:singleLine="true"
-            android:maxLines="1"
-            android:layout_gravity="end"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-        
-        <EditText
-            android:layout_gravity="end"
-            android:text="赛道积分赛扥aa"
-            android:minWidth="200dp"
-            android:gravity="end|center_vertical"
-            android:layout_width="wrap_content"
-            android:background="@color/transparent"
-            android:layout_height="match_parent"/>
-        
-    </FrameLayout>
-    
-
     <com.king.applib.ui.customview.GradientTextView
         android:id="@+id/tv_open_qq"
         android:layout_width="wrap_content"
@@ -53,24 +15,5 @@
         app:gtv_gradientType="horizontal"
         app:gtv_startColor="#ff69c9"/>
 
-    <LinearLayout
-        android:id="@+id/panel_root"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:orientation="vertical"/>
 
-    <com.king.applib.ui.customview.BarrageView
-        android:id="@+id/barrage_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:background="@color/gray_fbfbfb"
-        app:bv_EndOffset="250dp"
-        app:bv_MaxBarrageWidth="250dp"
-        app:bv_MaxDuration="5000"
-        app:bv_MaxInterval="3000"
-        app:bv_MinDuration="3500"
-        app:bv_MinInterval="2500"
-        app:bv_StartOffset="10dp"/>
 </LinearLayout>

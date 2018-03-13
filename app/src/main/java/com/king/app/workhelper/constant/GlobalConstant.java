@@ -8,6 +8,8 @@ import android.support.annotation.IntDef;
  */
 
 public class GlobalConstant {
+    public static final String LOG_TAG = "aaa";
+    
     public interface BUNDLE_PARAMS_KEY {
         String EXTRA_KEY = "EXTRA_KEY";
     }

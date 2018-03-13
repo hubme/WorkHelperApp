@@ -228,6 +228,11 @@ public class EntryFragment extends AppBaseFragment {
     public void onExpandableListViewClick() {
         clickedOn(new ExpandableListViewFragment());
     }
+    
+    @OnClick(R.id.tv_thread_pool)
+    public void onThreadPoolClick() {
+        clickedOn(new ThreadPoolFragment());
+    }
 
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
