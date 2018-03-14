@@ -111,6 +111,8 @@
         
         <activity android:name=".activity.ViewEventSampleActivity"/>
 
+        <activity android:name=".activity.ThreadActivity"/>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service

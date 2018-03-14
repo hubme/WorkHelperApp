@@ -10,6 +10,7 @@ import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.TestActivity;
+import com.king.app.workhelper.activity.ThreadActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.ViewEventSampleActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
@@ -232,6 +233,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_thread_pool)
     public void onThreadPoolClick() {
         clickedOn(new ThreadPoolFragment());
+    }
+    
+    @OnClick(R.id.tv_thread)
+    public void onThreadClick() {
+        openActivity(ThreadActivity.class);
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

@@ -44,7 +44,7 @@ public class ThreadPoolFragment extends AppBaseFragment {
         mCachedExecutor = Executors.newCachedThreadPool();
         mScheduledExecutor = Executors.newScheduledThreadPool(3);
         mSingleScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-        mCustomExecutor = new ThreadPoolExecutor(3, 3, 1000, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
+        mCustomExecutor = new MyThreadPoolExecutor(1, 1, 0, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
 
     }
 
@@ -106,7 +106,7 @@ public class ThreadPoolFragment extends AppBaseFragment {
     public void onCustomExecutorClick(TextView textView) {
         if (checkExecutorAvailable(mCustomExecutor)) {
             //优先级大的任务先执行
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 mCustomExecutor.execute(new MyPriorityTask(i, i));
             }
         }
@@ -148,7 +148,7 @@ public class ThreadPoolFragment extends AppBaseFragment {
         }
 
         @Override public void run() {
-            Log.i(GlobalConstant.LOG_TAG, "线程：" + Thread.currentThread().getName() + ",正在执行第" + id + "个任务");
+            Log.i(GlobalConstant.LOG_TAG, "线程：" + Thread.currentThread().getName() + " 正在执行第 " + id + " 个任务");
             SystemClock.sleep(2000);
         }
     }
@@ -161,7 +161,7 @@ public class ThreadPoolFragment extends AppBaseFragment {
         }
 
         @Override public void run() {
-            Log.i(GlobalConstant.LOG_TAG, "线程：" + Thread.currentThread().getName() + ",正在执行第" + id + "个任务");
+            Log.i(GlobalConstant.LOG_TAG, "线程：" + Thread.currentThread().getName() + " 正在执行第 " + id + " 个任务");
             SystemClock.sleep(id * 500);
         }
     }
@@ -175,7 +175,7 @@ public class ThreadPoolFragment extends AppBaseFragment {
         }
 
         @Override public void doWork() {
-            Log.i(GlobalConstant.LOG_TAG, "线程：" + Thread.currentThread().getName() + ",正在执行第" + id + "个任务");
+            Log.i(GlobalConstant.LOG_TAG, "线程：" + Thread.currentThread().getName() + " 正在执行第 " + id + " 个任务");
             SystemClock.sleep(2000);
         }
     }
@@ -217,24 +217,24 @@ public class ThreadPoolFragment extends AppBaseFragment {
         protected void beforeExecute(Thread t, Runnable r) {
             super.beforeExecute(t, r);
             String threadName = t.getName();
-            Log.v(GlobalConstant.LOG_TAG, "线程：" + threadName + "准备执行任务！");
+            Log.i(GlobalConstant.LOG_TAG, "线程 " + threadName + " 准备执行任务");
         }
 
         @Override
         protected void afterExecute(Runnable r, Throwable t) {
             super.afterExecute(r, t);
             String threadName = Thread.currentThread().getName();
-            Log.v(GlobalConstant.LOG_TAG, "线程：" + threadName + "任务执行结束！");
+            Log.i(GlobalConstant.LOG_TAG, "线程 " + threadName + " 任务执行结束");
         }
 
         @Override
         protected void terminated() {
             super.terminated();
-            Log.v(GlobalConstant.LOG_TAG, "线程池结束！");
+            Log.i(GlobalConstant.LOG_TAG, "线程池已关闭");
         }
     }
 
-    public class PausableThreadPoolExecutor extends ThreadPoolExecutor {
+    private static class PausableThreadPoolExecutor extends ThreadPoolExecutor {
         private boolean isPaused;
         private ReentrantLock pauseLock = new ReentrantLock();
         private Condition unPaused = pauseLock.newCondition();
