@@ -39,7 +39,6 @@ public class ThreadActivity extends AppBaseActivity {
     public void onThreadStartClick() {
         startThread(mThread);
         startThread(mThread2);
-        mThread.wait();
 
     }
 
