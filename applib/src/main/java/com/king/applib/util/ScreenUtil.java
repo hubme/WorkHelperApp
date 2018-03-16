@@ -5,10 +5,11 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 /**
- * 屏幕相关工具类
- * Created by HuoGuangxu on 2016/10/27.
+ * 屏幕相关工具类。
+ *
+ * @author VanceKing
+ * @since 2016/10/27
  */
-
 public class ScreenUtil {
     private ScreenUtil() {
         throw new UnsupportedOperationException("No instances!");

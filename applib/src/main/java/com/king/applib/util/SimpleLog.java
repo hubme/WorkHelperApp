@@ -3,8 +3,10 @@ package com.king.applib.util;
 import android.util.Log;
 
 /**
- * 对原生{@link android.util.Log Log}进行封装
- * Created by HuoGuangxu on 2016/12/6.
+ * 日志工具类。
+ *
+ * @author VanceKing
+ * @since 2016/12/6
  */
 public class SimpleLog {
     private static final String TAG_DEFAULT = "SimpleLog";

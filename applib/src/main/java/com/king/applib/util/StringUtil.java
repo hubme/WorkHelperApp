@@ -23,10 +23,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 字符串工具类
- * Created by HuoGuangxu on 2016/9/29.
+ * 字符串工具类。
+ *
+ * @author VanceKing
+ * @since 2016/9/29
  */
-
 public final class StringUtil {
     private StringUtil() {
         throw new UnsupportedOperationException("No instances!");

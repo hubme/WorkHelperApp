@@ -7,7 +7,9 @@ import android.widget.TextView;
 /**
  * TextView/Button倒计时帮助类,以秒为单位.<br/>
  * 当Timer生命周期比Activity的生命周期长时，会导致Activity泄露。在Activity#onDestory()方法中调用CountDownHelper#getTimer()#cancel()取消定时器<br/>
- * Created by HuoGuangxu on 2016/9/22.
+ *
+ * @author VanceKing
+ * @since 2016/9/22
  */
 public class CountDownHelper {
     private CountDownTimer mCountDownTimer;
@@ -15,7 +17,7 @@ public class CountDownHelper {
     private String mFinishedText;
     private int mMaxDuration;
     private int mIntervalStep;
-    private onCountDownFinishedListener mFinishedListener;
+    private OnCountDownFinishedListener mFinishedListener;
     private final Context mContext;
     @StringRes
     private int mStringResId;
@@ -63,7 +65,7 @@ public class CountDownHelper {
         mFinishedText = finishedText;
     }
 
-    private void setOnFinishedListener(onCountDownFinishedListener listener) {
+    private void setOnFinishedListener(OnCountDownFinishedListener listener) {
         mFinishedListener = listener;
     }
 
@@ -101,7 +103,7 @@ public class CountDownHelper {
         private String mFinishedText;
         private int mMaxDuration;
         private int mIntervalStep;
-        private onCountDownFinishedListener mListener;
+        private OnCountDownFinishedListener mListener;
         private final Context mContext;
         private final TextView mTextView;
 
@@ -156,7 +158,7 @@ public class CountDownHelper {
         /**
          * 倒计时回调结束监听
          */
-        public Builder setOnFinishedListener(onCountDownFinishedListener listener) {
+        public Builder setOnFinishedListener(OnCountDownFinishedListener listener) {
             this.mListener = listener;
             return this;
         }
@@ -174,7 +176,7 @@ public class CountDownHelper {
         }
     }
 
-    public interface onCountDownFinishedListener {
+    public interface OnCountDownFinishedListener {
         void onCountDownFinished();
     }
 }

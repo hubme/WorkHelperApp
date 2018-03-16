@@ -4,10 +4,11 @@ import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * 和流有关的工具类.
- * Created by HuoGuangxu on 2016/10/20.
+ * IO 相关工具类。
+ *
+ * @author VanceKing
+ * @since 2016/10/20
  */
-
 public class IOUtil {
     private IOUtil() {
         throw new UnsupportedOperationException("No instances!");
