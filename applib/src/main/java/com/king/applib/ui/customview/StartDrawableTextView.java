@@ -17,7 +17,7 @@ import com.king.applib.R;
 /**
  * 类似列表项。图片始终和第一行的第一个字符对齐。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/12/18.
  */
 

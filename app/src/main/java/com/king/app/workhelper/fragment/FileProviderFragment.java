@@ -26,9 +26,10 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * FileProvider使用
- * Created by HuoGuangxu on 2017/1/4.
+ *
+ * @author VanceKing
+ * @since 2017/1/4
  */
-
 public class FileProviderFragment extends AppBaseFragment {
     public static final int REQ_CODE_TAKE_PHOTO_FROM_CAMERA = 1;
     public static final int REQ_CODE_TAKE_PHOTO_FROM_ALBUM = 2;

@@ -12,18 +12,16 @@ import com.king.applib.util.ExtendUtil;
 
 /**
  * 标签View，是否选中。
- * Created by HuoGuangxu on 2016/12/27.
+ *
+ * @author VanceKing
+ * @since 2016/12/27
  */
-
 public class TagTextView extends android.support.v7.widget.AppCompatCheckedTextView implements View.OnClickListener {
     private final int DEFAULT_TAG_RADIUS = 16;//dp
 
     private boolean mChangeBackground = true;
     private OnTagCheckedListener mOnTagCheckedListener;
     private GradientDrawable mBackgroundDrawable;
-
-    //getResources().getColor(R.color.gjj_white) : getResources().getColor(R.color.gray_939393));
-    //R.color.blue_78b7ff : R.color.gray_f0f0f0
 
     private int mNormalBackgroundColor = Color.parseColor("#f0f0f0");
 

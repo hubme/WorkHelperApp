@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 /**
  * 可动态换行的布局容器
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/1/11.
  */
 
