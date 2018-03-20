@@ -11,7 +11,7 @@ public class SynchronizedSample {
 
 
     public static void main(String[] args) {
-        test4();
+        test5();
     }
 
     /*
@@ -117,12 +117,44 @@ t3 on obj2 结束时间: Sun Mar 18 16:49:15 CST 2018
         thread3.start();
         thread4.start();
     }
+
+    /*
+    t4 on obj2 开始时间: Tue Mar 20 10:24:54 CST 2018
+t1 on obj1 开始时间: Tue Mar 20 10:24:54 CST 2018
+t2 on obj1 开始时间: Tue Mar 20 10:24:54 CST 2018
+t3 on obj2 开始时间: Tue Mar 20 10:24:54 CST 2018
+
+t4 on obj2 结束时间: Tue Mar 20 10:24:59 CST 2018
+t3 on obj2 结束时间: Tue Mar 20 10:25:04 CST 2018
+t2 on obj1 结束时间: Tue Mar 20 10:25:09 CST 2018
+t1 on obj1 结束时间: Tue Mar 20 10:25:14 CST 2018
+     */
+    private static void test5() {
+        MyObject myObject1 = new MyObject();
+        MyObject myObject2 = new MyObject();
+
+        Thread thread1 = new Thread(new MyRunnable(myObject1, 5), "t1 on obj1");
+        Thread thread2 = new Thread(new MyRunnable(myObject1, 5), "t2 on obj1");
+        Thread thread3 = new Thread(new MyRunnable(myObject2, 5), "t3 on obj2");
+        Thread thread4 = new Thread(new MyRunnable(myObject2, 5), "t4 on obj2");
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
+    }
 }
 
 class MyObject {
     private int count = 0;
     private static int count2 = 0;
     private Object lock = new Object();
+
+    public MyObject() {
+        synchronized (this) {
+            
+        }
+    }
 
     //实例同步方法。多个线程同时访问时，只能有一个线程允许进入同步方法。
     public synchronized void add(int value) {
@@ -166,7 +198,23 @@ class MyObject {
             this.count += value;
         }
     }
+    
+    public void add5(int value) {
+        synchronized (MyObject.class) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.count += value;
+        }
+    }
 
+}
+
+interface AAA{
+    int a = 1;
+    void test();
 }
 
 class MyRunnable implements Runnable {
@@ -189,6 +237,8 @@ class MyRunnable implements Runnable {
             myObject.add3(1);
         } else if (method == 4) {
             myObject.add4(1);
+        }else if (method == 5) {
+            myObject.add5(1);
         }
         System.out.println(Thread.currentThread().getName() + " 结束时间: " + new Date());
     }
