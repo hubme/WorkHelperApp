@@ -350,7 +350,7 @@ public class ExtendUtil {
     public static Resources getResources() {
         return ContextUtil.getAppContext().getResources();
     }
-    
+
     /** 打印Exception信息 */
     public static void logException(Exception e) {
         Logger.e(Log.getStackTraceString(e));
@@ -500,12 +500,12 @@ public class ExtendUtil {
     /**
      * 截取整个WebView的内容。但是7.0+ 需要在Activity 的 setContentView()前添加如下代码。否则只会截取显示的部分
      * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-     *      WebView.enableSlowWholeDocumentDraw();
+     * WebView.enableSlowWholeDocumentDraw();
      * }
      */
-    private Bitmap captureWholeWebView(WebView webView){
+    private Bitmap captureWholeWebView(WebView webView) {
         Picture snapShot = webView.capturePicture();
-        Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(),snapShot.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(), snapShot.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
         snapShot.draw(canvas);
         return bmp;
@@ -521,5 +521,17 @@ public class ExtendUtil {
     /** 判断手机是否是飞行模式 */
     public static boolean isAirPlaneMode(Context context) {
         return Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
+    }
+
+    /** 通过反射创建对象 */
+    public static <T> T newInstance(Class<T> t) {
+        try {
+            return t.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
