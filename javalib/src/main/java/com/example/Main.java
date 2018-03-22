@@ -1,21 +1,32 @@
 package com.example;
 
+import java.lang.reflect.Field;
+
 public class Main {
     public static void main(String[] args) {
-        Object object = new Main();
-
-//        ((Main) object).getClass().newInstance().print();
-
-        Class cls = ((Main) object).getClass();
-        Class<? extends Main> c = ((Main) object).getClass();
-//        c.newInstance().print();
-
         Main main = new Main();
         main.testAuto();
     }
 
-    public void print() {
-        System.out.println("哈哈哈");
+    /*
+    考察Integer 缓存和对象的引用。
+     */
+    private void integerSample1() throws Exception {
+        try {
+            Class cache = Integer.class.getDeclaredClasses()[0];
+            Field myCache = cache.getDeclaredField("cache");
+            myCache.setAccessible(true);
+
+            Integer[] newCache = (Integer[]) myCache.get(cache);
+            newCache[132] = newCache[133];//Integer[132] = 4, Integer[133] = 5
+
+            int a = 2;
+            int b = a + a;// b = 4 = Integer[132], Integer[132] 指向 Integer[133] 的内容，Integer[133] = 5
+            System.out.printf("%d + %d = %d", a, a, b);//2 + 2 = 5
+        } catch (Exception ignore) {
+
+        }
+
     }
 
     /**
@@ -28,17 +39,21 @@ public class Main {
      * or a character literal between '\u0000' and '\u007f' inclusive (§3.10.4),
      * then let a and b be the results of any two boxing conversions of p. It is always the case that a == b.
      */
-    public void testAuto() {
-        Integer int1 = Integer.valueOf(127);
-        Integer int2 = Integer.valueOf(127);
-        System.out.println(int1 == int2);
+    private void testAuto() {
+        //[-128, 127] 会缓存。        
+        Integer int1 = -128, int2 = -128;
+        Integer int3 = -129, int4 = -129;
+        System.out.println(Boolean.toString(int1 == int2) + " " + Boolean.toString(int3 == int4));//true false
 
-        Integer int3 = Integer.valueOf(128);
-        Integer int4 = Integer.valueOf(128);
-        System.out.println(int3 == int4);
+        Integer int5 = 127, int6 = 127;
+        Integer int7 = 1289, int8 = 128;
+        System.out.println(Boolean.toString(int5 == int6) + " " + Boolean.toString(int7 == int8));//true false
 
         String str1 = new String("abc");
         String str2 = new String("abc");
-        System.out.printf((str1 == str2)+"");
+        String str3 = "abc";
+        String str4 = "abc";
+        //false true false
+        System.out.printf(Boolean.toString(str1 == str2) + " " + Boolean.toString(str3 == str4) + " " + Boolean.toString(str1 == str4));
     }
 }
