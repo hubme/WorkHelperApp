@@ -1,32 +1,9 @@
 package com.example;
 
-import java.lang.reflect.Field;
-
 public class Main {
     public static void main(String[] args) {
         Main main = new Main();
         main.testAuto();
-    }
-
-    /*
-    考察Integer 缓存和对象的引用。
-     */
-    private void integerSample1() throws Exception {
-        try {
-            Class cache = Integer.class.getDeclaredClasses()[0];
-            Field myCache = cache.getDeclaredField("cache");
-            myCache.setAccessible(true);
-
-            Integer[] newCache = (Integer[]) myCache.get(cache);
-            newCache[132] = newCache[133];//Integer[132] = 4, Integer[133] = 5
-
-            int a = 2;
-            int b = a + a;// b = 4 = Integer[132], Integer[132] 指向 Integer[133] 的内容，Integer[133] = 5
-            System.out.printf("%d + %d = %d", a, a, b);//2 + 2 = 5
-        } catch (Exception ignore) {
-
-        }
-
     }
 
     /**

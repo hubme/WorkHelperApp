@@ -6,7 +6,7 @@ import com.example.entity.Bird;
  * equals和hashCode的理解<br/>
  * http://www.cnblogs.com/skywang12345/p/3324958.html
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/31.
  */
 

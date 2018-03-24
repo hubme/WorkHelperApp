@@ -1,7 +1,7 @@
 package com.example.entity;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/31.
  */
 
