@@ -12,10 +12,10 @@ import java.util.Set;
  * @since 2018/3/21.
  */
 
-public class ListMain {
+public class ListSample {
 
     public static void main(String[] args) {
-        ListMain main = new ListMain();
+        ListSample main = new ListSample();
         main.testEqualsHashCode();
     }
 

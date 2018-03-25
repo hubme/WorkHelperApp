@@ -1,7 +1,7 @@
 package com.example.dynamicproxy;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/14.
  */
 
