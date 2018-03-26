@@ -1,14 +1,15 @@
 apply plugin: 'com.android.library'
 
+def cfg = rootProject.ext.android
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
     //资源名称以"test"开头，否则IDE会错误提醒
 //    resourcePrefix "test"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion cfg.minSdkVersion
+        targetSdkVersion cfg.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
