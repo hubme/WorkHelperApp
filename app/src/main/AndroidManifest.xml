@@ -48,8 +48,7 @@
 
         <activity
             android:name=".activity.LifeCircleActivity"
-            android:theme="@style/TransparentTheme"
-            android:screenOrientation="user"/>
+            android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".activity.TestActivity"/>
 
