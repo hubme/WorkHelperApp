@@ -1,9 +1,11 @@
 package com.king.app.workhelper.app;
 
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Environment;
+import android.support.multidex.MultiDex;
 
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -74,6 +76,12 @@ public class WorkHelperApp extends BaseApplication {
         initLeakCanary();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private boolean isMainProcess() {
