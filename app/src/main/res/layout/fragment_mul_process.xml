@@ -8,4 +8,25 @@
         android:id="@+id/tv_messenger"
         style="@style/EntryItem"
         android:text="Messenger"/>
+
+    <View
+        style="@style/BaseLineStyle"
+        android:layout_height="5dp"
+        android:background="@color/chocolate"/>
+    
+    <TextView
+        android:id="@+id/tv_bind_service"
+        style="@style/EntryItem"
+        android:text="Bind Service"/>
+
+    <TextView
+        android:id="@+id/tv_unbind_service"
+        style="@style/EntryItem"
+        android:text="UnBind Service"/>
+
+    <TextView
+        android:id="@+id/tv_get_service"
+        style="@style/EntryItem"
+        android:text="获取远程服务"/>
+
 </LinearLayout>

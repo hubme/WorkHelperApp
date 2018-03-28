@@ -121,6 +121,10 @@
         <service
             android:name=".service.MessengerService"
             android:process=":remote"/>
+        
+        <service
+            android:name=".service.AidlService"
+            android:process=":aidl"/>
 
         <receiver android:name=".receiver.NetworkChangeReceiver">
             <intent-filter>
