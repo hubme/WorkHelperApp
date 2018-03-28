@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
 apply plugin: 'me.tatarka.retrolambda'
@@ -193,6 +194,7 @@ dependencies {
 //    compile 'org.aspectj:aspectjrt:1.8.10'
 
     compile 'com.google.flatbuffers:flatbuffers-java:1.8.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$rootProject.ext.kotlin_version"
 }
 
 checkstyle {
@@ -216,6 +218,7 @@ repositories {
     flatDir {
         dirs 'libs' //this way we can find the .aar file in libs folder
     }
+    mavenCentral()
 }
 
 static def releaseTime() {

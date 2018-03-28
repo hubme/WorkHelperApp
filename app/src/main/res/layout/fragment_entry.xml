@@ -212,11 +212,16 @@
                 android:id="@+id/tv_thread_pool"
                 style="@style/EntryItem"
                 android:text="Thread Pool"/>
-            
+
             <TextView
                 android:id="@+id/tv_thread"
                 style="@style/EntryItem"
                 android:text="Thread"/>
+
+            <TextView
+                android:id="@+id/tv_kotlin"
+                style="@style/EntryItem"
+                android:text="Kotlin"/>
 
         </LinearLayout>
 
