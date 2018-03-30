@@ -1,6 +1,7 @@
 package com.example.collection;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,8 +12,37 @@ import java.util.Set;
 
 public class MapSample {
     public static void main(String[] args) {
-        test1();
-        
+        testConcurrentModificationException2();
+
+    }
+
+    private static void testConcurrentModificationException2() {
+        Map<Integer, String> mapObject = new HashMap<>();
+        mapObject.put(0, "aaa");
+        mapObject.put(1, "bbb");
+        mapObject.put(2, "ccc");
+        Iterator<Map.Entry<Integer, String>> iterator = mapObject.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, String> entry = iterator.next();
+            System.out.println("key = " + entry.getKey() + " value = " + entry.getValue());
+//            mapObject.put(3, "ddd");//会报异常。使用 ConcurrentHashMap 不会。
+            if (entry.getKey() == 1) {//如果key == 1,移除元素并不会报异常
+                iterator.remove();
+            }
+        }
+        System.out.println("size: "+mapObject.size());
+    }
+
+    //fail-fast 机制
+    private static void testConcurrentModificationException1() {
+        Map<Integer, String> mapObject = new HashMap<>();
+        mapObject.put(0, "aaa");
+        mapObject.put(1, "bbb");
+        mapObject.put(2, "ccc");
+        for (Map.Entry<Integer, String> entry : mapObject.entrySet()) {
+            System.out.println("key = " + entry.getKey() + " value = " + entry.getValue());
+            mapObject.put(3, "ddd");
+        }
     }
 
     /*
