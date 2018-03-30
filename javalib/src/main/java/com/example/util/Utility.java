@@ -2,11 +2,11 @@ package com.example.util;
 
 /**
  * @author VanceKing
- * @since 2017/4/16 0016.
+ * @since 2017/4/16.
  */
 
-public class Utity {
-    private void Utity() {
+public class Utility {
+    private Utility() {
         throw new IllegalStateException("No Instance");
     }
 
