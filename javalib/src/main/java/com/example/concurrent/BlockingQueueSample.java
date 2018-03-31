@@ -1,6 +1,6 @@
 package com.example.concurrent;
 
-import com.example.util.Utity;
+import com.example.util.Utility;
 
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
@@ -47,7 +47,7 @@ public class BlockingQueueSample {
         Integer produce() {
             int anInt = mRandom.nextInt();
             System.out.println(Thread.currentThread().getName() + " produced: " + anInt);
-            Utity.sleep(1000);
+            Utility.sleep(1000);
             return anInt;
         }
     }
@@ -71,7 +71,7 @@ public class BlockingQueueSample {
 
         void consume(Integer x) {
             System.out.println(Thread.currentThread().getName() + " consumed: " + x);
-            Utity.sleep(3000);
+            Utility.sleep(3000);
         }
     }
 }
