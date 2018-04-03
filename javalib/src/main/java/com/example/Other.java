@@ -1,5 +1,6 @@
 package com.example;
 
+import java.lang.reflect.Array;
 import java.util.Random;
 
 /**
@@ -12,15 +13,37 @@ public class Other {
     }
 
     private static void printHelloWorldRandom() {
-        System.out.println(randomString(-229985452) + " " + randomString(-147909649));
+        testGenericArray();
     }
 
+    private static void testGenericArray() {
+        String[] array = (String[]) Array.newInstance(String.class, 4);
+        array[0] = "A";
+        array[1] = "B";
+        printArray(array);
+
+        Integer[] array2 = (Integer[]) Array.newInstance(Integer.class, 3);
+        array2[0] = 0;
+        array2[1] = 1;
+        printArray(array2);
+    }
+
+    private static <T> void printArray(T[] array) {
+        for (T t : array) {
+            if (t != null) {
+                System.out.println(t.toString());
+            }
+        }
+
+    }
+
+    //System.out.println(randomString(-229985452) + " " + randomString(-147909649));//output: hello world
     private static String randomString(int i) {
         Random ran = new Random(i);
         StringBuilder sb = new StringBuilder();
         while (true) {
             int k = ran.nextInt(27);
-            System.out.println("char:" + k + ",number:" +  k);
+            System.out.println("char:" + k + ",number:" + k);
             if (k == 0)
                 break;
             k += 96;
