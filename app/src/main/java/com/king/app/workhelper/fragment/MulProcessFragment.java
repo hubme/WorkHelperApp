@@ -111,6 +111,7 @@ public class MulProcessFragment extends AppBaseFragment {
         getActivity().unbindService(mServiceConnection);
     }
 
+    //调用远程耗时方法时，当前线程会阻塞，所以不要调用耗时的远程方法。
     @OnClick(R.id.tv_get_service)
     public void onGetServiceClick(TextView textView) {
         try {
