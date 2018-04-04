@@ -114,6 +114,8 @@
         
         <activity android:name=".activity.KotlinSampleActivity"/>
 
+        <activity android:name=".activity.DataBindingActivity"/>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service

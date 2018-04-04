@@ -28,7 +28,7 @@ class KotlinSampleActivity : AppCompatActivity() {
     }
 
     //定义一个 POJO
-    private data class Custom(var name: String, var age: Integer)
+    private data class Custom(var name: String, var age: Int)
 
     //定义一个单例类，用"object"修饰
     object SingletonClass {

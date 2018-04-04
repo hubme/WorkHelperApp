@@ -31,6 +31,11 @@ android {
         }
     }
 
+    //开启后会执行相应的 dataBinding task(eg: dataBindingExportBuildInfoDebug) ，引入依赖等。
+    dataBinding {
+        enabled = true
+    }
+
     dexOptions {
         javaMaxHeapSize "4g"
     }

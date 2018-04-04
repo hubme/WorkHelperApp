@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.activity.DataBindingActivity;
 import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.KotlinSampleActivity;
 import com.king.app.workhelper.activity.LifeCircleActivity;
@@ -244,6 +245,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_kotlin)
     public void onKotlinClick() {
         openActivity(KotlinSampleActivity.class);
+    }
+    
+    @OnClick(R.id.tv_data_binding)
+    public void onDataBindingClick() {
+        openActivity(DataBindingActivity.class);
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

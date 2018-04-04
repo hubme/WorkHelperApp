@@ -223,6 +223,11 @@
                 style="@style/EntryItem"
                 android:text="Kotlin"/>
 
+            <TextView
+                android:id="@+id/tv_data_binding"
+                style="@style/EntryItem"
+                android:text="Data Binding"/>
+
         </LinearLayout>
 
 

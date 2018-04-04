@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--data节点是连接 View 和 Modle 的桥梁-->
+    <data>
+
+        <import type="com.king.applib.util.StringUtil"/>
+
+        <import type="android.view.View"/>
+
+        <import type="java.util.List"/>
+
+        <import type="java.util.Map"/>
+
+        <variable
+            name="user"
+            type="com.king.app.workhelper.model.databinding.UserModel"/>
+
+        <!--java基础类型都是不用导包的-->
+        <variable
+            name="idCard"
+            type="String"/>
+
+        <variable
+            name="myArray"
+            type="String[]"/>
+
+        <variable
+            name="friendsList"
+            type="List&lt;String&gt;"/>
+
+        <variable
+            name="addressMap"
+            type="Map&lt;String, String&gt;"/>
+
+        <variable
+            name="clicklistener"
+            type="android.view.View.OnClickListener"/>
+
+        <variable
+            name="clicklistener2"
+            type="com.king.app.workhelper.activity.DataBindingActivity.OnClickListener"/>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- 同 @{user.name != null ? user.name : String.valueOf(user.age)} -->
+            <!-- @{user.name, default="默认年龄28"} 预览时显示默认文字-->
+            <TextView
+                style="@style/EntryItem"
+                android:text='@{user.name?? "默认年龄28"}'/>
+
+            <!-- 整形需要转成字符串，否则会当成资源id -->
+            <TextView
+                style="@style/EntryItem"
+                android:text='@{user.gender+"   "+String.valueOf(user.age)}'/>
+
+            <TextView
+                android:id="@+id/text_update"
+                style="@style/EntryItem"
+                android:onClick="@{clicklistener}"
+                android:text='更新文字'/>
+
+            <View
+                style="@style/BaseLineStyle"
+                android:layout_height="5dp"/>
+
+            <TextView
+                style="@style/EntryItem"
+                android:text='@{idCard ?? "000000"}'/>
+
+            <TextView
+                style="@style/EntryItem"
+                android:text="@{myArray[0]}"/>
+
+            <TextView
+                style="@style/EntryItem"
+                android:text="@{friendsList[0]}"/>
+
+            <TextView
+                style="@style/EntryItem"
+                android:text="@{friendsList[1]}"/>
+
+            <!-- 单双和双引号有冲突，最好最外层是单引号 -->
+            <TextView
+                style="@style/EntryItem"
+                android:text='@{addressMap["011"]}'/>
+
+            <TextView
+                style="@style/EntryItem"
+                android:text='@{addressMap["021"]}'/>
+
+            <TextView
+                android:id="@+id/click_id1"
+                style="@style/EntryItem"
+                android:onClick="@{clicklistener}"
+                android:text='点我'/>
+
+            <TextView
+                android:id="@+id/click_id2"
+                style="@style/EntryItem"
+                android:onClick="@{clicklistener}"
+                android:text='不，点我'/>
+
+            <TextView
+                android:id="@+id/click_id3"
+                style="@style/EntryItem"
+                android:onClick="@{clicklistener2::onClick}"
+                android:text='事件处理(方法调用方式)'/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>
