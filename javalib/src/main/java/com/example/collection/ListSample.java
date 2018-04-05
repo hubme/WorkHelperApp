@@ -46,7 +46,7 @@ public class ListSample {
         personList1.add(person2);
 
         List<Person> personList2 = (ArrayList<Person>) personList1.clone();
-        Person removed = personList2.remove(0);
+        Person removed = personList2.remove(0);//并没有删除数据，只是断开引用
         removed.setName("ccc");
         
         /*
