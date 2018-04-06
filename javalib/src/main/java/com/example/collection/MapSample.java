@@ -27,7 +27,7 @@ public class MapSample {
             System.out.println("key = " + entry.getKey() + " value = " + entry.getValue());
 //            mapObject.put(3, "ddd");//会报异常。使用 ConcurrentHashMap 不会。
             if (entry.getKey() == 1) {//如果key == 1,移除元素并不会报异常
-                iterator.remove();
+                iterator.remove();//iterator 可以动态删除元素
             }
         }
         System.out.println("size: "+mapObject.size());
