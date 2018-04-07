@@ -31,6 +31,7 @@ import com.king.applib.builder.IntentBuilder;
 import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.NetworkUtil;
+import com.king.applib.util.ViewUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,16 +40,17 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * WebView使用。WebView是一个基于webkit引擎、展现web页面的控件。
- * created by VanceKing at 2017/1/6
+ * WebView 基本使用。
+ *
+ * @author VanceKing
+ * @since 2017/1/6
  */
 public class WebActivity extends AppBaseActivity {
-    public static final String TAG = "MainActivity";
     public static final String URL_BAI_DU = "http://www.baidu.com";
     public static final String URL_SINA = "http://www.sina.com";
     public static final String ASSET_JS = "file:///android_asset/jsdemo.html";
     public static final String PREFIX_JS_PROTOCOL = "jsbridge://";
-    
+
     private String mUrl = "";
 
     @BindView(R.id.web_view) WebView mWebView;
@@ -102,7 +104,7 @@ public class WebActivity extends AppBaseActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        ExtendUtil.destroyWebView(mWebView);
+        ViewUtil.destroyWebView(mWebView);
     }
 
     private class DefaultWebViewClient extends WebViewClient {
@@ -116,8 +118,8 @@ public class WebActivity extends AppBaseActivity {
             return super.shouldOverrideUrlLoading(view, url);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) 
-        @Override 
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             return true;
         }
@@ -155,7 +157,7 @@ public class WebActivity extends AppBaseActivity {
 
     private class DefaultWebChromeClient extends WebChromeClient {
         @Override public void onReceivedTitle(WebView view, String title) {//获取网页的标题
-            super.onReceivedTitle(view, title);      
+            super.onReceivedTitle(view, title);
             Logger.i("web title: " + title);
             if (mToolbar != null) {
                 mToolbar.setTitle(title);
@@ -305,7 +307,7 @@ public class WebActivity extends AppBaseActivity {
 
     //Android 4.4之后可以使用使用evaluateJavascript
     @UiThread//方法必须在UI线程（主线程）调用，因此onReceiveValue也执行在主线程。
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT) 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void testEvaluateJavascript() {
         mWebView.evaluateJavascript("getGreetings()", new ValueCallback<String>() {
             @Override public void onReceiveValue(String value) {
