@@ -5,7 +5,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 
 /**
  * 
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/12/14.
  */
 public class ViewSlideFragment extends AppBaseFragment {

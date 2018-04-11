@@ -36,10 +36,11 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * WebView和Native交互
- * Created by VanceKing on 2016/11/26.
+ * WebView 和 Native 交互
+ *
+ * @author huoguangxu
+ * @since 2016/11/26.
  */
-
 public class WebViewSampleFragment extends AppBaseFragment {
     private static String BAIDU_URL = "http://www.baidu.com";
     private static String URL2 = "http://gjj.9188.com/app/material/bj/daikuantiaojian_beijing.html";
@@ -76,7 +77,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
     public void invokeScript(String script) {
         mWebView.loadUrl("javascript:" + script);
     }
-    
+
     private void showWebErrorView() {
         TextView textView = new TextView(mContext);
         textView.setText("出错啦！");
@@ -106,7 +107,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
     }
 
     private void loadLocalUrl(String urlName) {
-        loadUrl("file:///android_asset/"+urlName);
+        loadUrl("file:///android_asset/" + urlName);
     }
 
     /*
