@@ -11,6 +11,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -26,7 +27,7 @@ import io.reactivex.schedulers.Timed;
 /**
  * http://www.jianshu.com/p/e3a4dbd748fd
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/22.
  */
 
@@ -50,6 +51,56 @@ public class RxJavaSampleTest extends BaseTestCase {
                 Logger.i("已经 dispose");
             }
         }
+    }
+
+    public void testAsyncTask() throws Exception {
+        //如果发生异常会crash。
+        Consumer<String> observer1 = new Consumer<String>() {
+            @Override public void accept(String s) throws Exception {
+                Logger.i("result: " + s);
+            }
+        };
+        
+        Observer<String> observer2 = new Observer<String>() {
+            @Override public void onSubscribe(Disposable d) {
+                Logger.i("onSubscribe");
+            }
+
+            @Override public void onNext(String s) {
+                Logger.i("result: " + s);
+            }
+
+            @Override public void onError(Throwable e) {
+                Logger.e(Log.getStackTraceString(e));
+            }
+
+            @Override public void onComplete() {
+                Logger.i("onComplete");
+            }
+        };
+        DisposableObserver<String> observer3 = new DisposableObserver<String>() {
+            @Override public void onNext(String s) {
+                Logger.i("result: " + s);
+            }
+
+            @Override public void onError(Throwable e) {
+                Logger.e(Log.getStackTraceString(e));
+            }
+
+            @Override public void onComplete() {
+                Logger.i("onComplete");
+            }
+        };
+        Observable.create((ObservableOnSubscribe<String>) e -> {
+            Thread.sleep(5000);
+            e.onNext("哈哈哈");
+//                e.onComplete();
+            e.onError(new NullPointerException("NPE"));
+        })
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer1);
+        Logger.i("running...");
     }
 
     public void testCreateOperator() throws Exception {
