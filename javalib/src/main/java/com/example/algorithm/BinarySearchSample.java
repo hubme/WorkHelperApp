@@ -17,15 +17,19 @@ import java.util.Random;
  */
 public class BinarySearchSample {
     public static void main(String[] args) {
-        int[] numbers = {1, 2, 3, 4, 50};//fakeNumbers(20);
-        //        numbers[9] = 50;
-        Arrays.sort(numbers);
+        int number = 88;
+        int[] numbers = {1, 2, 3, 4, 50, 52, 53, number, 90};//fakeNumbers(20);
+//        numbers[9] = 50;
+//        Arrays.sort(numbers);
         printArray(numbers);
 
-        forExample(numbers, 50);
+        System.out.println("使用 for 循环的方式。index == "+forExample(numbers, number));
+        System.out.println();
 
+        System.out.println("自定义二分搜索。index == " + myBinarySearch(numbers, 0, numbers.length - 1, number));
+        System.out.println();
 
-        binarySearch(numbers, 50);
+        System.out.println("Arrays.binarySearch。index == " + Arrays.binarySearch(numbers, number));
     }
 
     private static int[] fakeNumbers(int size) {
@@ -45,21 +49,16 @@ public class BinarySearchSample {
     }
 
     private static int forExample(int[] array, int number) {
-        System.out.println("使用 for 循环的方式。");
         int count = 0;
-        boolean result = false;
         for (int i = 0, length = array.length; i < length; i++) {
             count++;
             if (number == array[i]) {
                 System.out.println("在数组下标为 " + i + " 的地方找到了 " + number + " ,共查找了" + count + "次。");
-                result = true;
-                break;
+                return i;
             }
         }
-        if (!result) {
-            System.out.println("没有找到" + number);
-        }
-        return count;
+        System.out.println("没有找到" + number);
+        return -1;
     }
 
     /**
@@ -74,12 +73,12 @@ public class BinarySearchSample {
         for (int i = 0; i < array.length; i++) {
             count++;
             index = (start + end) / 2;
-            if (array[index] < number) {
+            if (array.length - 1 == i) {
+                System.out.println("抱歉，没有找到");
+            } else if (array[index] < number) {
                 start = index;
             } else if (array[index] > number) {
                 end = index;
-            } else if (array.length - 1 == i) {
-                System.out.println("抱歉，没有找到");
             } else {
                 System.out.println(array[index] + "找到了，在数组下标为" + index + "的地方,查找了" + count + "次。");
                 break;
@@ -88,5 +87,43 @@ public class BinarySearchSample {
 
         }
         return count;
+    }
+
+    //java.util.Arrays.binarySearch0(int[], int, int, int)
+    private static int binarySearch(int[] a, int fromIndex, int toIndex, int key) {
+        int low = fromIndex;
+        int high = toIndex;
+
+        while (low <= high) {
+            int mid = (low + high) >>> 1;
+            int midVal = a[mid];
+
+            if (midVal < key)
+                low = mid + 1;
+            else if (midVal > key)
+                high = mid - 1;
+            else
+                return mid; // key found
+        }
+        return -(low + 1);  // key not found.
+    }
+
+    private static int myBinarySearch(int[] array, int startIndex, int endIndex, int number) {
+        int count = 0;
+        while (startIndex <= endIndex) {
+            count++;
+            int middleIndex = (startIndex + endIndex) >>> 1;
+            int middleValue = array[middleIndex];
+            if (middleValue < number) {
+                startIndex = middleIndex + 1;
+            } else if (middleValue > number) {
+                endIndex = middleIndex - 1;
+            }else {
+                System.out.println("myBinarySearch() 一共查找的次数为：" + count);
+                return middleIndex;
+            }
+        }
+        System.out.println("没找到值");
+        return -1;
     }
 }
