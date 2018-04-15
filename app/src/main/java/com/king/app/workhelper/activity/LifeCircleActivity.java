@@ -39,6 +39,12 @@ public class LifeCircleActivity extends AppCompatActivity {
         Log.i(TAG, "onStart.");
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "onRestart.");
+    }
+
     @Override protected void onResume() {
         super.onResume();
         Log.i(TAG, "onResume.");
