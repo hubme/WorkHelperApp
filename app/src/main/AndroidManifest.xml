@@ -122,6 +122,10 @@
 
         <activity android:name=".activity.DataBindingActivity"/>
 
+        <activity
+            android:name=".activity.TransparentActivity"
+            android:theme="@style/TransparentTheme"/>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service

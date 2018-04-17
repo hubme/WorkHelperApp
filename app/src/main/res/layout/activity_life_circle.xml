@@ -8,5 +8,15 @@
         android:id="@+id/tv_open"
         style="@style/EntryItem"
         android:text="打开另外一个页面"/>
-    
+
+    <TextView
+        android:id="@+id/tv_open_transparent"
+        style="@style/EntryItem"
+        android:text="打开透明主题页面"/>
+
+    <TextView
+        android:id="@+id/tv_open_dialog"
+        style="@style/EntryItem"
+        android:text="打开对话框"/>
+
 </LinearLayout>
