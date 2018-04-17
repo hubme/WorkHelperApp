@@ -76,7 +76,8 @@ public class LifeCircleActivity extends AppCompatActivity {
         }
     }
 
-    //将要被kill的时候回调（例如进入后台、屏幕旋转前、跳转下一个Activity等情况下会被调用）。
+    //将要被kill的时候回调（例如进入后台、屏幕旋转前、跳转下一个Activity等情况下会被调用）
+    //可以打开开发者选项中的“不保留活动”调试
     @Override protected void onSaveInstanceState(Bundle outState) {
         outState.putString(BUNDLE_KEY, "哈哈哈");
         super.onSaveInstanceState(outState);
