@@ -1,7 +1,6 @@
 package com.example.algorithm;
 
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * 二分法。
@@ -30,15 +29,6 @@ public class BinarySearchSample {
         System.out.println();
 
         System.out.println("Arrays.binarySearch。index == " + Arrays.binarySearch(numbers, number));
-    }
-
-    private static int[] fakeNumbers(int size) {
-        int[] numbers = new int[size];
-        Random random = new Random();
-        for (int i = 0; i < size; i++) {
-            numbers[i] = random.nextInt(100);
-        }
-        return numbers;
     }
 
     private static void printArray(int[] numbers) {
