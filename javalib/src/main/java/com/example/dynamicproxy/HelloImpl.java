@@ -7,7 +7,7 @@ package com.example.dynamicproxy;
  * @since 2017/6/14.
  */
 
-public class HelloImpl implements IHello {
+class HelloImpl implements IHello {
     @Override public void sayHello() {
         System.out.println("hello world!");
     }

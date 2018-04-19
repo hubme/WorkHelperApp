@@ -5,6 +5,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
+ * 1. 静态代理扩展性差，接口改动后代理类也需要修改。2. 接口方法很多时要为每个接口写一个代理方法.
+ * 动态代理可以解决以上问题，大大提高了系统的灵活性，方便维护。
+ * 动态代理是指在运行时动态生成代理类。通过反射机制实现。
+ *
  * @author VanceKing
  * @since 2017/1/8.
  */
@@ -46,7 +50,9 @@ public class DynamicProxyTest {
     public static void main(String[] args) {
         //委托类(被代理类)
         HelloImpl helloImpl = new HelloImpl();
-        IHello hello = (IHello) new DynamicProxy().bind(helloImpl);
+        //代理对象
+        DynamicProxy dynamicProxy = new DynamicProxy();
+        IHello hello = (IHello) dynamicProxy.bind(helloImpl);
         hello.sayHello();
         //命名方式固定，以$开头，proxy为中，最后一个数字表示对象的标号。
         System.out.println(hello.getClass().getName());//com.example.$Proxy0
