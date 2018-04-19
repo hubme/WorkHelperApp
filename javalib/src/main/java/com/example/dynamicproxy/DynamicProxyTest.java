@@ -22,7 +22,7 @@ public class DynamicProxyTest {
      * 如果我提供了一组接口给它，那么这个代理对象就宣称实现了该接口(多态)，这样我就能调用这组接口中的方法了
      * h:　　一个InvocationHandler对象，表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上
      */
-    private static class DynamicProxy implements InvocationHandler {
+    private static class ProxyHandler implements InvocationHandler {
         //这个就是我们要代理的真实对象
         Object originalObj;
 
@@ -51,9 +51,10 @@ public class DynamicProxyTest {
         //委托类(被代理类)
         HelloImpl helloImpl = new HelloImpl();
         //代理对象
-        DynamicProxy dynamicProxy = new DynamicProxy();
-        IHello hello = (IHello) dynamicProxy.bind(helloImpl);
+        ProxyHandler proxyHandler = new ProxyHandler();
+        IHello hello = (IHello) proxyHandler.bind(helloImpl);
         hello.sayHello();
+        hello.sayHi();
         //命名方式固定，以$开头，proxy为中，最后一个数字表示对象的标号。
         System.out.println(hello.getClass().getName());//com.example.$Proxy0
 

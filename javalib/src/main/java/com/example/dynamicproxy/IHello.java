@@ -7,4 +7,6 @@ package com.example.dynamicproxy;
 
 public interface IHello {
     void sayHello();
+
+    void sayHi();
 }
