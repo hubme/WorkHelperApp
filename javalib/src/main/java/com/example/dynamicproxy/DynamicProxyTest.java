@@ -50,8 +50,9 @@ public class DynamicProxyTest {
     public static void main(String[] args) {
         //委托类(被代理类)
         HelloImpl helloImpl = new HelloImpl();
-        //代理对象
+        //代理连接器
         ProxyHandler proxyHandler = new ProxyHandler();
+        //进一步封装，返回代理对象
         IHello hello = (IHello) proxyHandler.bind(helloImpl);
         hello.sayHello();
         hello.sayHi();
