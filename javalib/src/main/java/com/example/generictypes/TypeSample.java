@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +17,11 @@ import java.util.Map;
  */
 public class TypeSample {
     private Map<Integer, String> map;
+    private List<? extends Number> a;
+    private List<? super String> b;
 
     public static void main(String[] args) throws Exception {
-        testGenericArrayType();
+        testWildcardType();
     }
 
     private static void testParameterizedType() throws Exception {
@@ -58,13 +61,44 @@ public class TypeSample {
         }
     }
 
-    private static void testGenericArrayType(){
+    private static void testGenericArrayType() {
         Method showMethod = TypeSampleBean.class.getDeclaredMethods()[0];
         Type[] parameterTypes = showMethod.getGenericParameterTypes();
         for (Type type : parameterTypes) {
+            boolean b = (type instanceof GenericArrayType);
             //true, true, false, false, false
-            System.out.println(type.getTypeName() + "是 GenericArrayType 类型吗？ " + (type instanceof GenericArrayType));
+            System.out.println(type.getTypeName() + "是 GenericArrayType 类型吗？ " + b);
+            if (b) {
+                GenericArrayType arrayType = (GenericArrayType) type;
+                Type componentType = arrayType.getGenericComponentType();//返回数组的组成对象
+                System.out.println("数组的组成对象是：" + componentType.getTypeName());//java.util.List<java.lang.String> T 
+                System.out.println();
+            }
         }
+    }
+
+    /*
+    eg: List<? extends Number>, 上界为class java.lang.Number, 属于Class类型
+        List<? extends List<T>>, 上界为java.util.List<T>, 属于ParameterizedType类型
+        List<? extends List<String>>, 上界为java.util.List<java.lang.String>,属于ParameterizedType类型
+        List<? extends T>, 上界为T, 属于TypeVariable类型
+        List<? extends T[]>, 上界为T[], 属于GenericArrayType类型
+     */
+    private static void testWildcardType() throws Exception {
+        Field aField = TypeSample.class.getDeclaredField("a");
+        Field bField = TypeSample.class.getDeclaredField("b");
+
+        ParameterizedType aParaType = (ParameterizedType) aField.getGenericType();//java.util.List<? extends java.lang.Number>
+        ParameterizedType bParaType = (ParameterizedType) bField.getGenericType();//java.util.List<? super java.lang.String>
+
+        WildcardType aWildcardType = (WildcardType) aParaType.getActualTypeArguments()[0];
+        WildcardType bWildcardType = (WildcardType) bParaType.getActualTypeArguments()[0];
+
+        Type aFieldUpper = aWildcardType.getUpperBounds()[0];
+        System.out.println("List<? extends Number> of getUpperBounds(): " + aFieldUpper);
+
+        Type bFieldLower = bWildcardType.getLowerBounds()[0];
+        System.out.println("List<? super String> of getLowerBounds(): " + bFieldLower);
     }
 
     private static class TypeVariableBean<K extends Comparable & Serializable, V> {
