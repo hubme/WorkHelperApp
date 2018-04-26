@@ -251,6 +251,11 @@ public class EntryFragment extends AppBaseFragment {
     public void onDataBindingClick() {
         openActivity(DataBindingActivity.class);
     }
+    
+    @OnClick(R.id.tv_dagger2)
+    public void onDagger2FragmentClick() {
+        clickedOn(new Dagger2Fragment());
+    }
 
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
