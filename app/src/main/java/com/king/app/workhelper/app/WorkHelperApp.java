@@ -19,6 +19,8 @@ import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.common.utils.LeakCanaryHelper;
+import com.king.app.workhelper.drgger2.AppModule;
+import com.king.app.workhelper.drgger2.DaggerAppComponent;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.king.app.workhelper.okhttp.interceptor.HeadersInterceptor;
 import com.king.app.workhelper.okhttp.interceptor.LogInterceptor;
@@ -33,6 +35,8 @@ import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
@@ -44,6 +48,7 @@ import okhttp3.OkHttpClient;
 public class WorkHelperApp extends BaseApplication {
 
     private RefWatcher mRefWatcher;
+    @Inject OkHttpClient mOkHttpClient;
 
     /*
     1.第一次安装会运行。
@@ -76,6 +81,11 @@ public class WorkHelperApp extends BaseApplication {
         initLeakCanary();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
+
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build().inject(this);
+        Logger.i(mOkHttpClient.toString());
     }
 
     @Override

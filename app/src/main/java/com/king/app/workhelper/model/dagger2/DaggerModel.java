@@ -8,8 +8,19 @@ package com.king.app.workhelper.model.dagger2;
  */
 
 public class DaggerModel {
-//    @Inject
+    private String name;
+    
     public DaggerModel() {
 
+    }
+
+    public DaggerModel(String name) {
+        this.name = name;
+    }
+
+    @Override public String toString() {
+        return "DaggerModel{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
