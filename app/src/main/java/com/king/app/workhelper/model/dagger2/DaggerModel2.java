@@ -7,14 +7,14 @@ package com.king.app.workhelper.model.dagger2;
  * @since 2018/4/26.
  */
 
-public class DaggerModel {
+public class DaggerModel2 {
     private String name;
 
-    public DaggerModel() {
+    public DaggerModel2() {
 
     }
 
-    public DaggerModel(String name) {
+    public DaggerModel2(String name) {
         this.name = name;
     }
 

@@ -12,7 +12,7 @@ import dagger.Component;
  * @author VanceKing
  * @since 2018/4/27.
  */
-@Singleton
+@Singleton//标明该Component中有Module使用了@Singleton
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     //注入方法，在 Client 中调用，完成对象的赋值工作。

@@ -14,7 +14,6 @@ import okhttp3.OkHttpClient;
  * @author VanceKing
  * @since 2018/4/27.
  */
-@Singleton
 @Module
 public class AppModule {
     private final Application mApplication;
@@ -25,11 +24,13 @@ public class AppModule {
 
     //表明为外部提供对象
     @Provides
+    @Singleton
     public Application getApplication() {
         return mApplication;
     }
 
     @Provides
+    @Singleton
     OkHttpClient providerOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         return builder.build();

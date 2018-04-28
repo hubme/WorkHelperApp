@@ -2,6 +2,7 @@ package com.king.app.workhelper.drgger2;
 
 import com.king.app.workhelper.fragment.Dagger2Fragment;
 import com.king.app.workhelper.model.dagger2.DaggerModel;
+import com.king.app.workhelper.model.dagger2.DaggerModel2;
 
 import javax.inject.Named;
 
@@ -23,7 +24,7 @@ public class DaggerModule {
         this.fragment = fragment;
     }
 
-    @Named("aaa")
+    @Named
     @Provides
     DaggerModel provideStudent() {
         return new DaggerModel();
@@ -35,10 +36,22 @@ public class DaggerModule {
     DaggerModel provideStudent2() {
         return new DaggerModel("aaa");
     }
-    
-    /*@AQualifier
+
+    @ObjectQualifier
     @Provides
     DaggerModel provideStudent3() {
         return new DaggerModel("AQualifier");
-    }*/
+    }
+
+    @ObjectQualifier(1)
+    @Provides
+    DaggerModel provideStudent4() {
+        return new DaggerModel("AQualifier 1");
+    }
+
+    @Provides
+//    @PerActivity
+    DaggerModel2 provideStudent5() {
+        return new DaggerModel2("PerActivity");
+    }
 }
