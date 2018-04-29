@@ -2,9 +2,9 @@ package com.king.app.workhelper.drgger2;
 
 import com.king.app.workhelper.fragment.Dagger2Fragment;
 import com.king.app.workhelper.model.dagger2.DaggerModel;
-import com.king.app.workhelper.model.dagger2.DaggerModel2;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -37,6 +37,13 @@ public class DaggerModule {
         return new DaggerModel("aaa");
     }
 
+    @Named("single")
+    @Provides
+    @Singleton
+    DaggerModel provideSingleStudent() {
+        return new DaggerModel("single");
+    }
+
     @ObjectQualifier
     @Provides
     DaggerModel provideStudent3() {
@@ -49,9 +56,4 @@ public class DaggerModule {
         return new DaggerModel("AQualifier 1");
     }
 
-    @Provides
-//    @PerActivity
-    DaggerModel2 provideStudent5() {
-        return new DaggerModel2("PerActivity");
-    }
 }

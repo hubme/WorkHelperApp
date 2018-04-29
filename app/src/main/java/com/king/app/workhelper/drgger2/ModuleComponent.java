@@ -2,6 +2,8 @@ package com.king.app.workhelper.drgger2;
 
 import com.king.app.workhelper.fragment.Dagger2Fragment;
 
+import javax.inject.Singleton;
+
 import dagger.Component;
 
 /**
@@ -10,7 +12,7 @@ import dagger.Component;
  * @author VanceKing
  * @since 2018/4/26.
  */
-
+@Singleton//表明 Module 中有使用 @Singleton。不写会编译出错。
 @Component(modules = DaggerModule.class)
 public interface ModuleComponent {
     void inject(Dagger2Fragment fragment);

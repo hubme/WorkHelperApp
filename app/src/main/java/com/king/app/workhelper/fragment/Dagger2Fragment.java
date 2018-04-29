@@ -5,9 +5,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.drgger2.DaggerModule;
 import com.king.app.workhelper.drgger2.DaggerModuleComponent;
 import com.king.app.workhelper.drgger2.ObjectQualifier;
-import com.king.app.workhelper.drgger2.PerActivity;
 import com.king.app.workhelper.model.dagger2.DaggerModel;
-import com.king.app.workhelper.model.dagger2.DaggerModel2;
 import com.king.applib.log.Logger;
 
 import javax.inject.Inject;
@@ -35,8 +33,9 @@ public class Dagger2Fragment extends AppBaseFragment {
     @Inject @ObjectQualifier DaggerModel mModel3;
     @Inject @ObjectQualifier(1) DaggerModel mModel4;
 
-    @Inject @PerActivity DaggerModel2 mModel5;
-    @Inject @PerActivity DaggerModel2 mModel6;
+    @Inject @Named("single") DaggerModel mModel7;
+    @Inject @Named("single") DaggerModel mModel8;
+
 
     @Override protected int getContentLayout() {
         return R.layout.fragment_dagger2;
@@ -58,8 +57,8 @@ public class Dagger2Fragment extends AppBaseFragment {
         Logger.i(mModel3.toString());
         Logger.i(mModel4.toString());
 
-        Logger.i(mModel5.toString());
-        Logger.i(mModel6.toString());
+        Logger.i(mModel7.toString());
+        Logger.i(mModel8.toString());
     }
 }
 
