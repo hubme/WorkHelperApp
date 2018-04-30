@@ -33,6 +33,9 @@ public class Dagger2Fragment extends AppBaseFragment {
     @Inject @ObjectQualifier DaggerModel mModel3;
     @Inject @ObjectQualifier(1) DaggerModel mModel4;
 
+    @Inject @Named("per_activity") DaggerModel mModel5;
+    @Inject @Named("per_activity") DaggerModel mModel6;
+
     @Inject @Named("single") DaggerModel mModel7;
     @Inject @Named("single") DaggerModel mModel8;
 
@@ -45,7 +48,7 @@ public class Dagger2Fragment extends AppBaseFragment {
     @Override protected void initInitialData() {
         super.initInitialData();
         DaggerModuleComponent.builder()
-                .daggerModule(new DaggerModule(this))
+                .daggerModule(new DaggerModule())
                 .build().inject(this);
     }
 
@@ -56,6 +59,9 @@ public class Dagger2Fragment extends AppBaseFragment {
         Logger.i(mModel2.toString());
         Logger.i(mModel3.toString());
         Logger.i(mModel4.toString());
+        
+        Logger.i(mModel5.toString());
+        Logger.i(mModel6.toString());
 
         Logger.i(mModel7.toString());
         Logger.i(mModel8.toString());

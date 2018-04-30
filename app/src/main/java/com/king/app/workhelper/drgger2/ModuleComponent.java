@@ -13,6 +13,7 @@ import dagger.Component;
  * @since 2018/4/26.
  */
 @Singleton//表明 Module 中有使用 @Singleton。不写会编译出错。
+@PerActivity//表明 Module 中有使用 @PerActivity
 @Component(modules = DaggerModule.class)
 public interface ModuleComponent {
     void inject(Dagger2Fragment fragment);

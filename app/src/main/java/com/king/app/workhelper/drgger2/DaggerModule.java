@@ -1,6 +1,5 @@
 package com.king.app.workhelper.drgger2;
 
-import com.king.app.workhelper.fragment.Dagger2Fragment;
 import com.king.app.workhelper.model.dagger2.DaggerModel;
 
 import javax.inject.Named;
@@ -18,11 +17,6 @@ import dagger.Provides;
 
 @Module
 public class DaggerModule {
-    private Dagger2Fragment fragment;
-
-    public DaggerModule(Dagger2Fragment fragment) {
-        this.fragment = fragment;
-    }
 
     @Named
     @Provides
@@ -39,9 +33,16 @@ public class DaggerModule {
 
     @Named("single")
     @Provides
-    @Singleton
+    @Singleton//和代码中创建单例不同，Dagger2 创建的单例对象保存在Component中，Component 能创建多。
     DaggerModel provideSingleStudent() {
         return new DaggerModel("single");
+    }
+    
+    @Provides
+    @Named("per_activity")
+    @PerActivity
+    DaggerModel providePerActivityStudent() {
+        return new DaggerModel("per_activity");
     }
 
     @ObjectQualifier
