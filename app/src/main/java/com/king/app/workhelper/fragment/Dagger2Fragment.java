@@ -47,7 +47,8 @@ public class Dagger2Fragment extends AppBaseFragment {
     @Inject @ObjectQualifier(2) DaggerModel mLazyProviderContrastModel;
     //使用 Lazy 包装，当使用 get() 时才会创建实例对象
     @Inject @ObjectQualifier(2) Lazy<DaggerModel> mLazyModel;
-    //使用 Provider 包装，每次 get() 都会创建新的实例对象
+    //使用 Provider 包装，每次 get() 都会强制调用 Module 中的 Providers 方法，
+    // 根据方法实现可能创建多个实例对象，也可能只创建一个对象
     @Inject @ObjectQualifier(2) Provider<DaggerModel> mProviderModel;
 
 
@@ -70,7 +71,7 @@ public class Dagger2Fragment extends AppBaseFragment {
         Logger.i(mModel2.toString());
         Logger.i(mModel3.toString());
         Logger.i(mModel4.toString());
-        
+
         Logger.i(mModel5.toString());
         Logger.i(mModel6.toString());
 
