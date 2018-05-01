@@ -1,6 +1,7 @@
 package com.king.app.workhelper.drgger2;
 
 import com.king.app.workhelper.model.dagger2.DaggerModel;
+import com.king.applib.log.Logger;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -55,6 +56,13 @@ public class DaggerModule {
     @Provides
     DaggerModel provideStudent4() {
         return new DaggerModel("AQualifier 1");
+    }
+    
+    @ObjectQualifier(2)
+    @Provides
+    DaggerModel provideStudent5() {
+        Logger.i("before instance...");
+        return new DaggerModel("AQualifier 2");
     }
 
 }

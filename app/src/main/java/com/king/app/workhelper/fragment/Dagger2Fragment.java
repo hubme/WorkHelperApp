@@ -10,6 +10,9 @@ import com.king.applib.log.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
+
+import dagger.Lazy;
 
 /**
  * 1. Client 里有需要被初始化的元素。需要被初始化的元素必须标上@Inject，只有被标上@Inject的元素才会被自动初始化。@Inject
@@ -40,6 +43,14 @@ public class Dagger2Fragment extends AppBaseFragment {
     @Inject @Named("single") DaggerModel mModel8;
 
 
+    // 初始化时就会创建实例对象
+    @Inject @ObjectQualifier(2) DaggerModel mLazyProviderContrastModel;
+    //使用 Lazy 包装，当使用 get() 时才会创建实例对象
+    @Inject @ObjectQualifier(2) Lazy<DaggerModel> mLazyModel;
+    //使用 Provider 包装，每次 get() 都会创建新的实例对象
+    @Inject @ObjectQualifier(2) Provider<DaggerModel> mProviderModel;
+
+
     @Override protected int getContentLayout() {
         return R.layout.fragment_dagger2;
     }
@@ -65,6 +76,10 @@ public class Dagger2Fragment extends AppBaseFragment {
 
         Logger.i(mModel7.toString());
         Logger.i(mModel8.toString());
+
+        Logger.i(mLazyProviderContrastModel.toString());
+        Logger.i(mLazyModel.get().toString() + " --- " + mLazyModel.get());
+        Logger.i(mProviderModel.get().toString() + " --- " + mProviderModel.get().toString());
     }
 }
 
