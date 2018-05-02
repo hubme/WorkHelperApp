@@ -1,7 +1,8 @@
 package com.king.app.workhelper.activity;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableBoolean;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 
 public class DataBindingActivity extends AppCompatActivity implements View.OnClickListener {
-    public ObservableBoolean mShow = new ObservableBoolean(true);
+    public final ObservableList<String> myObservableList = new ObservableArrayList<>();
     private ActivityDataBindingSampleBinding mViewDataBinding;
     private UserModel mUser;
     private int index;
@@ -39,15 +40,16 @@ public class DataBindingActivity extends AppCompatActivity implements View.OnCli
 
         initData();
         mViewDataBinding.setClicklistener(this);
-        mViewDataBinding.setClicklistener2(new OnClickListener());
+        mViewDataBinding.setCustomClickListener(new OnClickHandler());
 
+        mViewDataBinding.setObservableList(myObservableList);
     }
 
     private void initData() {
         mUser = new UserModel(null, 18);
-        mUser.gender.set("男");
-
+        //Model 和 View 绑定
         mViewDataBinding.setUser(mUser);
+
         mViewDataBinding.setIdCard(null);
 
         friends = new ArrayList<>();
@@ -73,10 +75,9 @@ public class DataBindingActivity extends AppCompatActivity implements View.OnCli
                 Logger.i(((TextView) v).getText().toString());
                 break;
             case R.id.text_update:
+                //Model 变化后，View 也随即更新
                 mUser.setName("张三_" + index);
                 mUser.setAge(18 + index);
-                mViewDataBinding.setUser(mUser);
-                friends.set(0, "王五");
                 mUser.gender.set(index % 2 == 0 ? "男" : "女");
                 index++;
                 break;
@@ -85,11 +86,16 @@ public class DataBindingActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public static class OnClickListener {
-        public void onClick(View view) {
+    //必须是public 权限
+    public class OnClickHandler {
+        public void onHandleClick(View view) {
             switch (view.getId()) {
                 case R.id.click_id3:
                     Logger.i(((TextView) view).getText().toString());
+                    break;
+                case R.id.click_observableList:
+                    myObservableList.add(0, String.valueOf(index));
+                    index++;
                     break;
                 default:
                     break;

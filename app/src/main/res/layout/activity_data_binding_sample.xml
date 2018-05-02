@@ -13,6 +13,8 @@
 
         <import type="java.util.Map"/>
 
+        <import type="android.databinding.ObservableList"/>
+
         <variable
             name="user"
             type="com.king.app.workhelper.model.databinding.UserModel"/>
@@ -39,9 +41,12 @@
             type="android.view.View.OnClickListener"/>
 
         <variable
-            name="clicklistener2"
-            type="com.king.app.workhelper.activity.DataBindingActivity.OnClickListener"/>
+            name="customClickListener"
+            type="com.king.app.workhelper.activity.DataBindingActivity.OnClickHandler"/>
 
+        <variable
+            name="observableList"
+            type="ObservableList&lt;String&gt;"/>
     </data>
 
     <ScrollView
@@ -97,7 +102,11 @@
 
             <TextView
                 style="@style/EntryItem"
-                android:text='@{addressMap["021"]}'/>
+                android:text="@{addressMap[`021`]}"/>
+
+            <View
+                style="@style/BaseLineStyle"
+                android:layout_height="5dp"/>
 
             <TextView
                 android:id="@+id/click_id1"
@@ -114,9 +123,18 @@
             <TextView
                 android:id="@+id/click_id3"
                 style="@style/EntryItem"
-                android:onClick="@{clicklistener2::onClick}"
+                android:onClick="@{customClickListener::onHandleClick}"
                 android:text='事件处理(方法调用方式)'/>
 
+            <View
+                style="@style/BaseLineStyle"
+                android:layout_height="5dp"/>
+
+            <TextView
+                android:id="@+id/click_observableList"
+                style="@style/EntryItem"
+                android:onClick="@{customClickListener::onHandleClick}"
+                android:text='@{observableList[0] ?? "default"}'/>
         </LinearLayout>
     </ScrollView>
 
