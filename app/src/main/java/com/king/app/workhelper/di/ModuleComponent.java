@@ -1,4 +1,4 @@
-package com.king.app.workhelper.drgger2;
+package com.king.app.workhelper.di;
 
 import com.king.app.workhelper.fragment.Dagger2Fragment;
 

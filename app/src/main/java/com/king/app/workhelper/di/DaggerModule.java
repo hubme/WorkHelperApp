@@ -1,6 +1,6 @@
-package com.king.app.workhelper.drgger2;
+package com.king.app.workhelper.di;
 
-import com.king.app.workhelper.model.dagger2.DaggerModel;
+import com.king.app.workhelper.model.DaggerModel;
 import com.king.applib.log.Logger;
 
 import javax.inject.Named;

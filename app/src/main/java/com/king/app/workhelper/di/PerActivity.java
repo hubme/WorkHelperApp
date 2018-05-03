@@ -1,4 +1,4 @@
-package com.king.app.workhelper.drgger2;
+package com.king.app.workhelper.di;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

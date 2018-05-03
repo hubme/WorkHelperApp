@@ -2,10 +2,10 @@ package com.king.app.workhelper.fragment;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.drgger2.DaggerModule;
-import com.king.app.workhelper.drgger2.DaggerModuleComponent;
-import com.king.app.workhelper.drgger2.ObjectQualifier;
-import com.king.app.workhelper.model.dagger2.DaggerModel;
+import com.king.app.workhelper.di.DaggerModule;
+import com.king.app.workhelper.di.DaggerModuleComponent;
+import com.king.app.workhelper.di.ObjectQualifier;
+import com.king.app.workhelper.model.DaggerModel;
 import com.king.applib.log.Logger;
 
 import javax.inject.Inject;
