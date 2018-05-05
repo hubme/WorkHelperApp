@@ -1,5 +1,6 @@
 package com.example.util;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -45,4 +46,26 @@ public class Utility {
         return numbers;
     }
 
+    /** 输出列表元素 */
+    public static <E> void printList(List<E> list) {
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+        for (E e : list) {
+            System.out.println(e);
+        }
+        System.out.println();
+    }
+
+    /** 输出列表元素 */
+    public static <E> void printList(String startMessage, List<E> list) {
+        System.out.println(startMessage);
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+        for (E e : list) {
+            System.out.println(e);
+        }
+        System.out.println();
+    }
 }
