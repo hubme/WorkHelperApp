@@ -1,5 +1,6 @@
 package com.king.app.workhelper;
 
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.king.applib.log.Logger;
@@ -80,10 +81,10 @@ public class ListTest extends BaseTestCase {
         linkedList.add(new Person("bbb"));
         linkedList.add(new Person("ccc"));
         
-        /*for (Person person : linkedList) {
+        for (Person person : linkedList) {
             Log.i("aaa", person.toString());
             linkedList.remove();   //java.util.ConcurrentModificationException
-        }*/
+        }
 
         Iterator<Person> iterator = linkedList.iterator();
         while (iterator.hasNext()) {

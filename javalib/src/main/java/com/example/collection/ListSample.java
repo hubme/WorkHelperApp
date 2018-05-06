@@ -5,6 +5,7 @@ import com.example.util.Utility;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 public class ListSample {
 
     public static void main(String[] args) {
-        testListSub();
+        testListIterator();
     }
 
     private static void testEqualsHashCode() {
@@ -85,6 +86,23 @@ public class ListSample {
         list.add(person4);
         Utility.printList(list);
         Utility.printList(subList);
+        
+    }
+
+    private static void testListIterator() {
+        List<Person> arrayList = new ArrayList<>();
+        arrayList.add(new Person("aaa"));
+        arrayList.add(new Person("bbb"));
+        arrayList.add(new Person("ccc"));
+        
+        Iterator<Person> iterator = arrayList.iterator();
+        while (iterator.hasNext()) {
+            Person next = iterator.next();
+            if ("bbb".equals(next.getName())) {
+                iterator.remove();//iterator 动态删除
+            }
+        }
+        Utility.printList(arrayList);
         
     }
 }
