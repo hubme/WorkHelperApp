@@ -4,10 +4,13 @@ import com.example.entity.Person;
 import com.example.util.Utility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  * @author VanceKing
@@ -17,7 +20,7 @@ import java.util.Set;
 public class ListSample {
 
     public static void main(String[] args) {
-        testListIterator();
+        test2();
     }
 
     private static void testEqualsHashCode() {
@@ -86,23 +89,73 @@ public class ListSample {
         list.add(person4);
         Utility.printList(list);
         Utility.printList(subList);
-        
+
     }
 
     private static void testListIterator() {
         List<Person> arrayList = new ArrayList<>();
         arrayList.add(new Person("aaa"));
         arrayList.add(new Person("bbb"));
+        arrayList.add(new Person("bbb"));
         arrayList.add(new Person("ccc"));
+
+        for (Person person : arrayList) {
+            if ("bbb".equals(person.getName())) {
+                arrayList.remove(person);
+            }
+        }
         
-        Iterator<Person> iterator = arrayList.iterator();
+        /*Iterator<Person> iterator = arrayList.iterator();
         while (iterator.hasNext()) {
             Person next = iterator.next();
             if ("bbb".equals(next.getName())) {
                 iterator.remove();//iterator 动态删除
             }
-        }
+        }*/
         Utility.printList(arrayList);
+    }
+
+    private static void testCollectionsComparator() {
+        List<Integer> data = Arrays.asList(1, 20, 3);
+        //通过 Iterator 比较
+        int aaa = Collections.max(data, new Comparator<Integer>() {
+            @Override public int compare(Integer o1, Integer o2) {
+                if (o1 < o2) {
+                    return -1;
+                } else if (o1 > o2) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        System.out.println(String.valueOf(aaa));
+    }
+
+    private static void test1() {
+        //基本类型是不能作为泛型参数的,Arrays.asList()只能接收引用类型，自然为了编译通过编译器就把上面的 int[] 数组当做了一个引用参数
+        int[] arrays1 = {1, 2, 3};
+        List<int[]> list1 = Arrays.asList(arrays1);
+        System.out.println("size1: " + list1.size());//size == 1
+
+        Integer[] arrays2 = {1, 2, 3};
+        List<Integer> list2 = Arrays.asList(arrays2);
+        System.out.println("size2: " + list2.size());//size == 3
+
+        // 会抛出 java.lang.UnsupportedOperationException
+        // 因为 Arrays.asList() 返回的是 java.util.Arrays.ArrayList 类型,不是 java.util.ArrayList 类型，没有 add() 等方法。
+//        list2.add(4);
+
+        //类型转换失败
+//        ArrayList<Integer> integers = Arrays.asList(1, 2, 3);
+    }
+
+    private static void test2() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("android");
         
+        Vector<String> vector = new Vector<>();
+        vector.add("android");
+        
+        System.out.println("is equals ? " + list.equals(vector));
     }
 }
