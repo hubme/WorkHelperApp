@@ -56,6 +56,8 @@
             android:name=".activity.LifeCircleActivity"
             android:configChanges="orientation|screenSize"/>
 
+        <activity android:name=".activity.ContentProviderActivity"/>
+
         <activity android:name=".activity.TestActivity"/>
 
         <activity android:name=".activity.MainActivity">
@@ -147,6 +149,10 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name=".contentprovider.BookProvider"
+            android:authorities="com.example.provider"/>
     </application>
 
 </manifest>

@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_query"
+        style="@style/EntryItem"
+        android:text="查询"/>
+
+    <TextView
+        android:id="@+id/tv_add"
+        style="@style/EntryItem"
+        android:text="添加"/>
+
+    <TextView
+        android:id="@+id/tv_delete"
+        style="@style/EntryItem"
+        android:text="删除"/>
+
+    <TextView
+        android:id="@+id/tv_update"
+        style="@style/EntryItem"
+        android:text="更新"/>
 
 </LinearLayout>

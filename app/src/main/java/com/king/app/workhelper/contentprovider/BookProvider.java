@@ -19,7 +19,7 @@ import com.king.app.workhelper.database.DBOpenHelper;
  */
 public class BookProvider extends ContentProvider {
     private static final String TAG = "aaa";
-    public static final String AUTHORITY = "com.jc.ipc.Book.Provider";
+    public static final String AUTHORITY = "com.example.provider";
 
     public static final Uri BOOK_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/book");
     public static final Uri USER_CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/user");
@@ -51,8 +51,9 @@ public class BookProvider extends ContentProvider {
         mDB.execSQL("insert into book values(3,'Android');");
         mDB.execSQL("insert into book values(4,'iOS');");
         mDB.execSQL("insert into book values(5,'Html5');");
-        mDB.execSQL("insert into user values(1,'haohao',1);");
-        mDB.execSQL("insert into user values(2,'nannan',0);");
+
+        mDB.execSQL("insert into user values(1,'张三',1);");
+        mDB.execSQL("insert into user values(2,'李四',0);");
 
     }
 
