@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import com.king.applib.log.Logger;
 
@@ -19,15 +20,21 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class BaseAndroidJUnit4Test {
+    protected static final String TAG = "aaa";
+
     static Context mAppContext;
 
     @BeforeClass
     public static void setUp() {
-        Logger.init("aaa").methodCount(1).hideThreadInfo();
+        Logger.init(TAG).methodCount(1).hideThreadInfo();
         mAppContext = InstrumentationRegistry.getTargetContext();
     }
 
     @AfterClass
     public static void tearDown() {
+    }
+
+    protected void logMessage(String message) {
+        Log.i(TAG, message);
     }
 }
