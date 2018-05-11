@@ -1,9 +1,11 @@
 package com.king.app.workhelper.activity;
 
+import android.content.Intent;
 import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.service.IntentServiceSample;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,11 +28,14 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_open_qq)
     public void onTestViewClick(TextView textView) {
-        new Thread(){
-            @Override public void run() {
-                super.run();
-                mTestTv.setText("喔喔喔");
-            }
-        }.start();
+        Intent intent = new Intent(this, IntentServiceSample.class);
+        intent.putExtra("name", "aaa");
+        startService(intent);
+
+        Intent intent2 = new Intent(this, IntentServiceSample.class);
+        intent2.putExtra("name", "bbb");
+        startService(intent2);
+
+        startService(intent);
     }
 }

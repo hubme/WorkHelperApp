@@ -2,6 +2,7 @@ package com.example.collection;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 
 public class MapSample {
     public static void main(String[] args) {
-        testConcurrentModificationException2();
+        testLinkedHashMap();
 
     }
 
@@ -59,6 +60,35 @@ public class MapSample {
         mapObject.put("2", null);//3
         mapObject.put("3", null);//4
         printMap(mapObject);
+    }
+
+    private static void testLinkedHashMap() {
+        LinkedHashMap<Integer, String> linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put(1, "aaa");
+        linkedHashMap.put(2, "bbb");
+        linkedHashMap.put(3, "ccc");
+        linkedHashMap.put(4, "ddd");
+
+        String s = linkedHashMap.get(3);
+        System.out.println("value of 3: " + s);
+        printMap(linkedHashMap);
+    }
+
+    private static void testLinkedHashMap2() {
+        LinkedHashMap<Integer, String> linkedHashMap = new LinkedHashMap<>(8, 0.75f, true);
+        linkedHashMap.put(1, "aaa");
+        linkedHashMap.put(2, "bbb");
+        linkedHashMap.put(3, "ccc");
+        linkedHashMap.put(4, "ddd");
+
+        System.out.println("before >>>");
+        printMap(linkedHashMap);
+
+        String s = linkedHashMap.get(3);
+        System.out.println("value of 3: " + s);
+
+        System.out.println("after >>>");
+        printMap(linkedHashMap);
     }
 
     private static void printMap(Map<?, ?> map) {
