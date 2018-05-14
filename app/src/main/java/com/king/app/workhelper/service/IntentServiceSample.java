@@ -1,6 +1,7 @@
 package com.king.app.workhelper.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -40,12 +41,24 @@ public class IntentServiceSample extends IntentService {
         switch (name) {
             case "aaa":
                 SystemClock.sleep(5000);
-                Log.i("aaa","任务aaa执行完成");
+                Log.i("aaa", "任务aaa执行完成");
                 break;
             case "bbb":
                 SystemClock.sleep(2000);
-                Log.i("aaa","任务bbb执行完成");
+                Log.i("aaa", "任务bbb执行完成");
                 break;
         }
+    }
+
+    public static void test(Context context) {
+        Intent intent = new Intent(context, IntentServiceSample.class);
+        intent.putExtra("name", "aaa");
+        context.startService(intent);
+
+        Intent intent2 = new Intent(context, IntentServiceSample.class);
+        intent2.putExtra("name", "bbb");
+        context.startService(intent2);
+
+        context.startService(intent);
     }
 }

@@ -4,10 +4,12 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView
+    <CheckedTextView
         android:id="@+id/tv_open_qq"
         style="@style/EntryItem"
-        android:text="哈哈哈"/>
+        android:gravity="center"
+        android:text="哈哈哈"
+        android:textAlignment="center"/>
 
 
 </LinearLayout>
