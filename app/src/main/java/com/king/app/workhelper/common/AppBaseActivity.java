@@ -6,10 +6,12 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.app.workhelper.rx.rxlife.components.RxLifeActivity;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
@@ -152,5 +154,9 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
         } else {
             Toast.makeText(ContextUtil.getAppContext(), resId, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected static void logMessage(String message) {
+        Log.i(GlobalConstant.LOG_TAG, message);
     }
 }

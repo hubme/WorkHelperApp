@@ -1,8 +1,7 @@
 package com.king.app.workhelper.activity;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.util.Log;
+import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
@@ -18,31 +17,18 @@ import butterknife.OnClick;
  */
 
 public class TestActivity extends AppBaseActivity {
-    private Handler handler;
-    private HandlerThread handlerThread;
+
+    private AsyncTask<String, Void, Integer> asyncTask;
 
     @Override protected void initData() {
         super.initData();
-        handlerThread = new HandlerThread("MyHandlerThread");
-//        handlerThread.start();
-
-        /*handler = new Handler(handlerThread.getLooper()) {
-            @Override public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case 0:
-                        Log.i("aaa", "开始执行任务-0");
-                        SystemClock.sleep(5000);
-                        Log.i("aaa", "任务-0执行完毕");
-                        break;
-                    case 1:
-                        Log.i("aaa", "开始执行任务-1");
-                        SystemClock.sleep(2000);
-                        Log.i("aaa", "任务-1执行完毕");
-                        break;
-                }
+        new Thread() {
+            @Override public void run() {
+                super.run();
+                asyncTask = new MyAsyncTask();
             }
-        };*/
+        }.start();
+
     }
 
     @BindView(R.id.tv_open_qq) TextView mTestTv;
@@ -59,12 +45,61 @@ public class TestActivity extends AppBaseActivity {
     public void onTestViewClick(CheckedTextView textView) {
         textView.toggle();
         if (textView.isChecked()) {
-//            handler.sendEmptyMessage(0);
-            Log.i("aaa", handlerThread.getLooper() == null ? "== null" : " != null");
-            Log.i("aaa", "哈哈哈");
+//            asyncTask.executeOnExecutor()
+            asyncTask.execute("");
         } else {
-//            handler.sendEmptyMessage(1);
-            handlerThread.start();
+            asyncTask.cancel(true);
+            try {
+                logMessage("canceled result: " + asyncTask.get());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private static class MyAsyncTask extends AsyncTask<String, Void, Integer> {
+        public MyAsyncTask() {
+            super();
+        }
+
+        @Override protected void onPreExecute() {
+            super.onPreExecute();
+            logMessage("onPreExecute");
+        }
+
+        @Override protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            logMessage("onPostExecute。result: " + integer);
+        }
+
+        @Override protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+            logMessage("onProgressUpdate。");
+        }
+
+        @Override protected void onCancelled(Integer integer) {
+            super.onCancelled(integer);
+            logMessage("onCancelled。" + integer.toString());
+        }
+
+        @Override protected void onCancelled() {
+            super.onCancelled();
+            logMessage("onCancelled");
+        }
+
+        @Override protected Integer doInBackground(String... strings) {
+            for (String param : strings) {
+                logMessage(param);
+            }
+            if (isCancelled()) {
+                return -2;
+            } else {
+                //耗时任务，判断是否取消，中断线程
+                SystemClock.sleep(5000);
+                return 1;
+            }
         }
     }
+
 }
