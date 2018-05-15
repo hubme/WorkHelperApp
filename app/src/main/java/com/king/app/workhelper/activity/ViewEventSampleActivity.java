@@ -15,8 +15,13 @@ import butterknife.OnClick;
 
 /**
  * 事件传递机制.
- * 1.正常传递，无消费情况。Activity#dispatchTouchEvent -> Activity#onUserInteraction -> ViewGroup#dispatchTouchEvent -> ViewGroup#onInterceptTouchEvent ->
- * View#dispatchTouchEvent -> View#onTouch(mView) -> View#onTouchEvent -> View#onTouch(mViewGroup) -> ViewGroup#onTouchEvent -> Activity#onTouchEvent
+ * 1.正常传递，无消费情况。Activity#dispatchTouchEvent -> Activity#onUserInteraction -> (从 Activity/PhoneWindow/DecorView 开始传递)
+ * ViewGroup#dispatchTouchEvent -> ViewGroup#onInterceptTouchEvent -> (传递到 ViewGroup)
+ * View#dispatchTouchEvent -> View#onTouch(mView) -> View#onTouchEvent -> (传递到 View)
+ * View#onTouch(mViewGroup) -> ViewGroup#onTouchEvent -> Activity#onTouchEvent. (子 View 都没有消费，则向上传递)
+ * 
+ * OnTouchListener#onTouch(View v, MotionEvent event) 优先级高于 onTouchView()。
+ * onTouch() 返回 true
  *
  * @author VanceKing
  * @since 2017/4/17.
@@ -71,13 +76,13 @@ public class ViewEventSampleActivity extends AppBaseActivity {
         mSimpleView.setOnTouchListener(new View.OnTouchListener() {
             @Override public boolean onTouch(View v, MotionEvent event) {
                 Log.e(AppConfig.LOG_TAG, "mSimpleView -> View#onTouch");
-                return false;
+                return true;
             }
         });
     }
 
     @Override public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.i(AppConfig.LOG_TAG, "Activity#dispatchTouchEvent");
+//        Log.i(AppConfig.LOG_TAG, "Activity#dispatchTouchEvent");
         return super.dispatchTouchEvent(ev);
     }
 
@@ -88,12 +93,12 @@ public class ViewEventSampleActivity extends AppBaseActivity {
 
     @Override protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        Log.i(AppConfig.LOG_TAG, "onUserLeaveHint");
+//        Log.i(AppConfig.LOG_TAG, "onUserLeaveHint");
     }
 
     @Override public void onUserInteraction() {
         super.onUserInteraction();
-        Log.i(AppConfig.LOG_TAG, "onUserInteraction");
+//        Log.i(AppConfig.LOG_TAG, "onUserInteraction");
     }
 
     @OnClick(R.id.tv_perform_click)

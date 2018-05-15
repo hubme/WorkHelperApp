@@ -34,8 +34,8 @@ public class EventSampleViewGroup extends LinearLayout {
 
     @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
         Log.w(AppConfig.LOG_TAG, "ViewGroup#onInterceptTouchEvent");
-//        return super.onInterceptTouchEvent(ev);
-        return true;
+        return super.onInterceptTouchEvent(ev);
+//        return true;
     }
 
     @Override
