@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -16,7 +17,12 @@ import android.view.View;
 public class PaintView extends View {
 
     private Paint mPaint;
-    private final String TEXT = "哈哈哈";
+    private final String TEXT = "aaaaabbbbbcccccddddd";
+    private int width;
+    private int height;
+    private int centerWidth;
+    private int centerHeight;
+    private Path mTextPath;
 
     public PaintView(Context context) {
         this(context, null);
@@ -34,19 +40,52 @@ public class PaintView extends View {
     private void init() {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setTextSize(100);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(6);
         mPaint.setColor(Color.BLACK);
+
+        mTextPath = new Path();
+
+    }
+
+    @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        width = w;
+        height = h;
+
+        centerWidth = width / 2;
+        centerHeight = height / 2;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        final int width = getMeasuredWidth();
-        final int height = getMeasuredHeight();
 
-        final int centerWidth = width / 2;
-        final int centerHeight = height / 2;
+        drawText2(canvas);
+    }
 
+    private void drawText2(Canvas canvas) {
+        mTextPath.reset();
+        final int width = 600;
+        final int height = 200;
+
+        final int startX = 100;
+        final int startY = 100;
+
+        mTextPath.moveTo(startX, startY);
+        mTextPath.lineTo(startX, startY + height);
+        mTextPath.lineTo(startX + width, startY + height);
+        mTextPath.lineTo(startX + width, startY-80);
+        mTextPath.close();
+        canvas.drawTextOnPath(TEXT, mTextPath, 0, 0, mPaint);
+
+//        mTextPath.addRoundRect(50, 50, 250, 250, 20, 20, Path.Direction.CCW);
+        mTextPath.addRoundRect(600, 50, 1200, 250, new float[]{0, 0, 50, 50, 0, 0, 100, 100}, Path.Direction.CCW);
+        canvas.drawPath(mTextPath, mPaint);
+    }
+
+    private void drawText1(Canvas canvas) {
         drawCenterCircle(canvas, centerWidth, centerHeight, 200);
         drawAnchorLine(canvas, width, height);
 
@@ -59,7 +98,6 @@ public class PaintView extends View {
         //textHeight / 2 - fontMetrics.descent = BaseLine的偏移量
         float centerBaseLine = centerHeight + textHeight / 2 - fontMetrics.descent;
         canvas.drawText(TEXT, centerWidth - textWidth / 2, centerBaseLine, mPaint);
-
     }
 
     private void drawAnchorLine(Canvas canvas, int width, int height) {
