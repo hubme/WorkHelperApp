@@ -127,6 +127,9 @@
         <activity
             android:name=".activity.TransparentActivity"
             android:theme="@style/TransparentTheme"/>
+        
+        <activity
+            android:name=".activity.LayoutInflaterActivity"/>
 
         <service android:name=".service.DownloadFileService"/>
 
