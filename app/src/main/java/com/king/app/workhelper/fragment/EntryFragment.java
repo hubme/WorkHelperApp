@@ -1,5 +1,7 @@
 package com.king.app.workhelper.fragment;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
@@ -12,7 +14,6 @@ import com.king.app.workhelper.activity.LifeCircleActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
-import com.king.app.workhelper.activity.TestActivity;
 import com.king.app.workhelper.activity.ThreadActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.ViewEventSampleActivity;
@@ -40,15 +41,25 @@ public class EntryFragment extends AppBaseFragment {
     public void testActivityLifeCircle() {
         openActivity(LifeCircleActivity.class);
     }
-    
+
     @OnClick(R.id.tv_content_provider)
     public void testContentProvider() {
         openActivity(ContentProviderActivity.class);
     }
-    
+
     @OnClick(R.id.tv_test_activity)
     public void testActivityClick() {
-        openActivity(TestActivity.class);
+//        openActivity(TestActivity.class);
+        
+        Intent intent = new Intent();
+        intent.setAction("com.king.action1");
+        intent.addCategory("com.king.category1");
+//        intent.addCategory("com.king.category2");
+        if (intent.resolveActivityInfo(getContext().getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            startActivity(intent);
+        } else {
+            showToast("无法处理此Intent");
+        }
     }
 
     @OnClick(R.id.tv_debug_activity)
@@ -237,27 +248,27 @@ public class EntryFragment extends AppBaseFragment {
     public void onExpandableListViewClick() {
         clickedOn(new ExpandableListViewFragment());
     }
-    
+
     @OnClick(R.id.tv_thread_pool)
     public void onThreadPoolClick() {
         clickedOn(new ThreadPoolFragment());
     }
-    
+
     @OnClick(R.id.tv_thread)
     public void onThreadClick() {
         openActivity(ThreadActivity.class);
     }
-    
+
     @OnClick(R.id.tv_kotlin)
     public void onKotlinClick() {
         openActivity(KotlinSampleActivity.class);
     }
-    
+
     @OnClick(R.id.tv_data_binding)
     public void onDataBindingClick() {
         openActivity(DataBindingActivity.class);
     }
-    
+
     @OnClick(R.id.tv_dagger2)
     public void onDagger2FragmentClick() {
         clickedOn(new Dagger2Fragment());

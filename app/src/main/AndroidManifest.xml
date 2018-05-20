@@ -58,7 +58,17 @@
 
         <activity android:name=".activity.ContentProviderActivity"/>
 
-        <activity android:name=".activity.TestActivity"/>
+        <activity android:name=".activity.TestActivity">
+            <intent-filter>
+                <action android:name="com.king.action1"/>
+                <action android:name="com.king.action2"/>
+
+                <!-- 必须有此category,否则隐式启动无法成功-->
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="com.king.category1"/>
+                <category android:name="com.king.category2"/>
+            </intent-filter>
+        </activity>
 
         <activity android:name=".activity.MainActivity">
 
@@ -127,7 +137,7 @@
         <activity
             android:name=".activity.TransparentActivity"
             android:theme="@style/TransparentTheme"/>
-        
+
         <activity
             android:name=".activity.LayoutInflaterActivity"/>
 
