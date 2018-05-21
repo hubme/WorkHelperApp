@@ -68,6 +68,8 @@
                 <category android:name="com.king.category1"/>
                 <category android:name="com.king.category2"/>
             </intent-filter>
+            
+            <meta-data android:name="meta_data" android:value="MetaValue"/>
         </activity>
 
         <activity android:name=".activity.MainActivity">

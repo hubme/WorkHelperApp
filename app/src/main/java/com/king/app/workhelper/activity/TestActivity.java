@@ -1,5 +1,8 @@
 package com.king.app.workhelper.activity;
 
+import android.content.ComponentName;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.widget.CheckedTextView;
@@ -7,6 +10,7 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.applib.log.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,13 +26,15 @@ public class TestActivity extends AppBaseActivity {
 
     @Override protected void initData() {
         super.initData();
-        new Thread() {
-            @Override public void run() {
-                super.run();
-                asyncTask = new MyAsyncTask();
-            }
-        }.start();
-
+        try {
+            ComponentName componentName = new ComponentName(this, TestActivity.class);
+            ActivityInfo applicationInfo = getPackageManager().getActivityInfo(componentName, PackageManager.GET_META_DATA);
+            String meta_data = applicationInfo.metaData.getString("meta_data", "000");
+            Logger.i("meta_data: " + meta_data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     @BindView(R.id.tv_open_qq) TextView mTestTv;
