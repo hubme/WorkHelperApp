@@ -1,9 +1,9 @@
 package com.example.exception;
 
 /**
- * Created by VanceKing on 2016/12/31 0031.
+ * @author VanceKing
+ * @since 2016/12/31.
  */
-
 public class ExceptionMain {
     public static void main(String[] args) {
         ExceptionMain main = new ExceptionMain();
@@ -15,7 +15,7 @@ public class ExceptionMain {
         }
     }
 
-    private void reThrowException(String s) throws FirstException, SecondException{
+    private void reThrowException(String s) throws FirstException, SecondException {
         if ("First".equals(s)) {
             throw new FirstException("First");
         } else if ("Second".equals(s)) {
