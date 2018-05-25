@@ -1,16 +1,12 @@
 package com.king.app.workhelper.activity;
 
-import android.content.ComponentName;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.SystemClock;
+import android.os.Looper;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.applib.log.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,22 +18,11 @@ import butterknife.OnClick;
 
 public class TestActivity extends AppBaseActivity {
 
-    private AsyncTask<String, Void, Integer> asyncTask;
+    @BindView(R.id.tv_open_qq) TextView mTestTv;
 
     @Override protected void initData() {
-        super.initData();
-        try {
-            ComponentName componentName = new ComponentName(this, TestActivity.class);
-            ActivityInfo applicationInfo = getPackageManager().getActivityInfo(componentName, PackageManager.GET_META_DATA);
-            String meta_data = applicationInfo.metaData.getString("meta_data", "000");
-            Logger.i("meta_data: " + meta_data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-    }
 
-    @BindView(R.id.tv_open_qq) TextView mTestTv;
+    }
 
     @Override protected int getContentLayout() {
         return R.layout.activity_test;
@@ -49,63 +34,15 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_open_qq)
     public void onTestViewClick(CheckedTextView textView) {
-        textView.toggle();
-        if (textView.isChecked()) {
-//            asyncTask.executeOnExecutor()
-            asyncTask.execute("");
-        } else {
-            asyncTask.cancel(true);
-            try {
-                logMessage("canceled result: " + asyncTask.get());
-            } catch (Exception e) {
-                e.printStackTrace();
+        new Thread() {
+            @Override public void run() {
+                super.run();
+                Looper.prepare();
+                Toast.makeText(TestActivity.this, "哈哈哈", Toast.LENGTH_LONG).show();
+                Looper.loop();
             }
-        }
-
+        }.start();
     }
 
-    private static class MyAsyncTask extends AsyncTask<String, Void, Integer> {
-        public MyAsyncTask() {
-            super();
-        }
-
-        @Override protected void onPreExecute() {
-            super.onPreExecute();
-            logMessage("onPreExecute");
-        }
-
-        @Override protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            logMessage("onPostExecute。result: " + integer);
-        }
-
-        @Override protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-            logMessage("onProgressUpdate。");
-        }
-
-        @Override protected void onCancelled(Integer integer) {
-            super.onCancelled(integer);
-            logMessage("onCancelled。" + integer.toString());
-        }
-
-        @Override protected void onCancelled() {
-            super.onCancelled();
-            logMessage("onCancelled");
-        }
-
-        @Override protected Integer doInBackground(String... strings) {
-            for (String param : strings) {
-                logMessage(param);
-            }
-            if (isCancelled()) {
-                return -2;
-            } else {
-                //耗时任务，判断是否取消，中断线程
-                SystemClock.sleep(5000);
-                return 1;
-            }
-        }
-    }
 
 }
