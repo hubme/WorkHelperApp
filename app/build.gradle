@@ -138,15 +138,19 @@ dependencies {
     compile project(':applib')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //compile(name:'applib-0.0.1', ext:'aar')
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    testCompile "junit:junit:$rootProject.ext.junitVersion"
+
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
     compile "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
     compile "com.android.support:design:$rootProject.ext.supportLibVersion"
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
+    compile "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
     compile 'com.android.support:multidex:1.0.1'
+
     //使用ButterkNife-View注入框架
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'

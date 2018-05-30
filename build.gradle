@@ -38,6 +38,7 @@ ext {
     versionName = '1.0.0'
 
     supportLibVersion = '25.3.0'
+    constraintLayoutVersion = '1.1.0'
     junitVersion ='4.12'
     mockitoVersion ='1.10.19'
     powerMockito ='1.6.2'
