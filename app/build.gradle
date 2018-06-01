@@ -135,7 +135,12 @@ android {
 
 dependencies {
     //公共基础库
-    compile project(':applib')
+    //compile project(':applib')
+
+    //表示主module和lib module 编译类型保持一致
+    releaseCompile project(path: ':applib', configuration: 'release')
+    debugCompile project(path: ':applib', configuration: 'debug')
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //compile(name:'applib-0.0.1', ext:'aar')
 
