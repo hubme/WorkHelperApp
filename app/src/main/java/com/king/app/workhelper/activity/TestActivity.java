@@ -1,15 +1,7 @@
 package com.king.app.workhelper.activity;
 
-import android.os.Looper;
-import android.widget.CheckedTextView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * @author VanceKing
@@ -17,8 +9,6 @@ import butterknife.OnClick;
  */
 
 public class TestActivity extends AppBaseActivity {
-
-    @BindView(R.id.tv_open_qq) TextView mTestTv;
 
     @Override protected void initData() {
 
@@ -30,18 +20,6 @@ public class TestActivity extends AppBaseActivity {
 
     @Override protected void initContentView() {
         super.initContentView();
-    }
-
-    @OnClick(R.id.tv_open_qq)
-    public void onTestViewClick(CheckedTextView textView) {
-        new Thread() {
-            @Override public void run() {
-                super.run();
-                Looper.prepare();
-                Toast.makeText(TestActivity.this, "哈哈哈", Toast.LENGTH_LONG).show();
-                Looper.loop();
-            }
-        }.start();
     }
 
 

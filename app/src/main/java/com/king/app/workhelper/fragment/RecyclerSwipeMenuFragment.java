@@ -71,7 +71,7 @@ public class RecyclerSwipeMenuFragment extends AppBaseFragment {
         }
 
         @Override public int getItemLayoutRes(int viewType) {
-            return R.layout.swipe_menu_item;
+            return R.layout.list_swipe_menu_item;
         }
     }
 }

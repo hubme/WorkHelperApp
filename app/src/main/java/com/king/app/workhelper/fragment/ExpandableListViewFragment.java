@@ -131,7 +131,7 @@ public class ExpandableListViewFragment extends AppBaseFragment {
             }
         };
 
-        SimpleExpandableListAdapter adapter = new SimpleExpandableListAdapter(getContext(), groups, R.layout.lsit_group_item,
+        SimpleExpandableListAdapter adapter = new SimpleExpandableListAdapter(getContext(), groups, R.layout.list_group_item,
                 new String[]{"groupkey"}, new int[]{R.id.tv_groupName}, childItems, R.layout.list_child_item, new String[]{"name"}, new int[]{R.id.tv_elv_childName});
         mExpandListView.setAdapter(adapter);
     }
