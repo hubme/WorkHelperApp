@@ -203,12 +203,35 @@
     </declare-styleable>
 
     <declare-styleable name="BarrageView">
-        <attr name="bv_MinInterval" format="integer" />
-        <attr name="bv_MaxInterval" format="integer" />
-        <attr name="bv_MinDuration" format="integer" />
-        <attr name="bv_MaxDuration" format="integer" />
-        <attr name="bv_MaxBarrageWidth" format="dimension" />
-        <attr name="bv_StartOffset" format="dimension" />
-        <attr name="bv_EndOffset" format="dimension" />
+        <attr name="bv_MinInterval" format="integer"/>
+        <attr name="bv_MaxInterval" format="integer"/>
+        <attr name="bv_MinDuration" format="integer"/>
+        <attr name="bv_MaxDuration" format="integer"/>
+        <attr name="bv_MaxBarrageWidth" format="dimension"/>
+        <attr name="bv_StartOffset" format="dimension"/>
+        <attr name="bv_EndOffset" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShapeTextView">
+        <attr name="stv_bgColor" format="color"/>
+        <attr name="stv_radius" format="dimension"/>
+        <attr name="stv_gradientOrientation" format="enum">
+            <enum name="none" value="-1"/>
+            <enum name="TOP_BOTTOM" value="0"/>
+            <enum name="TR_BL" value="1"/>
+            <enum name="RIGHT_LEFT" value="2"/>
+            <enum name="BR_TL" value="3"/>
+            <enum name="BOTTOM_TOP" value="4"/>
+            <enum name="BL_TR" value="5"/>
+            <enum name="LEFT_RIGHT" value="6"/>
+            <enum name="TL_BR" value="7"/>
+        </attr>
+        <attr name="stv_gradientStartColor" format="color"/>
+        <attr name="stv_gradientMiddleColor" format="color"/>
+        <attr name="stv_gradientEndColor" format="color"/>
+        <attr name="stv_tlRadius" format="dimension"/>
+        <attr name="stv_trRadius" format="dimension"/>
+        <attr name="stv_blRadius" format="dimension"/>
+        <attr name="stv_brRadius" format="dimension"/>
     </declare-styleable>
 </resources>
