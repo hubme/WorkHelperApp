@@ -23,7 +23,7 @@ public class ShapeTextView extends android.support.v7.widget.AppCompatTextView {
 
     private int mGradientOrientation = -1;
     private int mGradientStartColor = Color.TRANSPARENT;
-    private int mGradientMiddleColor = Color.TRANSPARENT;
+    private int mGradientMiddleColor = -1;
     private int mGradientEndColor = Color.TRANSPARENT;
 
     private float mTLRadius;
@@ -50,7 +50,11 @@ public class ShapeTextView extends android.support.v7.widget.AppCompatTextView {
         initAttrs(context, attrs);
 
         if (mGradientOrientation >= 0) {
-            mBgDrawable = new GradientDrawable(getGradientOrientation(), new int[]{mGradientStartColor, mGradientMiddleColor, mGradientEndColor});
+            if (mGradientMiddleColor > 0) {
+                mBgDrawable = new GradientDrawable(getGradientOrientation(), new int[]{mGradientStartColor, mGradientMiddleColor, mGradientEndColor});
+            } else {
+                mBgDrawable = new GradientDrawable(getGradientOrientation(), new int[]{mGradientStartColor, mGradientEndColor});
+            }
         } else {
             mBgDrawable = new GradientDrawable();
             mBgDrawable.setColor(mBgColor);
@@ -72,7 +76,7 @@ public class ShapeTextView extends android.support.v7.widget.AppCompatTextView {
             mBgColor = typedArray.getColor(R.styleable.ShapeTextView_stv_bgColor, Color.TRANSPARENT);
             mGradientOrientation = typedArray.getInt(R.styleable.ShapeTextView_stv_gradientOrientation, -1);
             mGradientStartColor = typedArray.getColor(R.styleable.ShapeTextView_stv_gradientStartColor, Color.TRANSPARENT);
-            mGradientMiddleColor = typedArray.getColor(R.styleable.ShapeTextView_stv_gradientMiddleColor, Color.TRANSPARENT);
+            mGradientMiddleColor = typedArray.getColor(R.styleable.ShapeTextView_stv_gradientMiddleColor, -1);
             mGradientEndColor = typedArray.getColor(R.styleable.ShapeTextView_stv_gradientEndColor, Color.TRANSPARENT);
 
             mTLRadius = typedArray.getDimensionPixelSize(R.styleable.ShapeTextView_stv_tlRadius, 0);
