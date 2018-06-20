@@ -53,6 +53,12 @@ public class ReflectUsage {
         printDivider();
 
 
+        printMessage("getClassLoader(): " + pClass.getClassLoader().toString() + " getCanonicalName: " + pClass.getCanonicalName() +
+                " getName: " + pClass.getName() + " getSimpleName: " + pClass.getSimpleName());
+        printDivider();
+
+        Class<? super Person> superclass = pClass.getSuperclass();
+        printMessage("getCanonicalName: " + superclass.getCanonicalName());
     }
 
     private static void printDivider() {
