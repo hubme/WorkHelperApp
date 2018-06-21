@@ -162,6 +162,12 @@
                 <action android:name="com.example.action"/>
             </intent-filter>
         </service>
+        
+        <service android:name=".service.NormalService">
+            <intent-filter android:priority="1000">
+                <action android:name="com.example.action"/>
+            </intent-filter>
+        </service>
 
         <receiver android:name=".receiver.NetworkChangeReceiver">
             <intent-filter>

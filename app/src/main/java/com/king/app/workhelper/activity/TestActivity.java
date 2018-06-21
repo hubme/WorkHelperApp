@@ -1,6 +1,7 @@
 package com.king.app.workhelper.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.StateListDrawable;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.service.NormalService;
 import com.king.applib.util.ViewUtil;
 
 import butterknife.BindView;
@@ -45,7 +47,7 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_open_qq)
     public void onQqClick(TextView textView) {
-
+        startService(new Intent(this, NormalService.class));
     }
 
     private StateListDrawable buildStateListDrawable(Context context, int idNormal, int idPressed) {
