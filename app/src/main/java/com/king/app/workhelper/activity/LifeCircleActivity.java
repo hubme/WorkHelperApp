@@ -41,6 +41,16 @@ public class LifeCircleActivity extends AppCompatActivity {
         Log.i(TAG, "onStart.");
     }
 
+    //onRestoreInstanceState被调用的前提是，activity “确实”被系统销毁了
+    @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            Log.i(TAG, "onRestoreInstanceState." + savedInstanceState.getString(BUNDLE_KEY));
+        } else {
+            Log.i(TAG, "onRestoreInstanceState. savedInstanceState == null");
+        }
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -57,6 +67,18 @@ public class LifeCircleActivity extends AppCompatActivity {
         Log.i(TAG, "onPause.");
     }
 
+    //将要被kill的时候回调（例如按Home进入后台、长按Home选择其他程序、锁屏、屏幕旋转前、跳转下一个Activity等情况下会被调用）
+    //可以打开开发者选项中的“不保留活动”调试。主动关闭 Activity 不会调用该方法。
+    //onSaveInstanceState的调用遵循一个重要原则，即当系统“未经你许可”时销毁了你的activity，则onSaveInstanceState会被系统调用，
+    //这是系统的责任，因为它必须要提供一个机会让你保存你的数据
+    //see also: android.view.View.onSaveInstanceState()
+    @Override protected void onSaveInstanceState(Bundle outState) {
+        //注意在调用 super 之前保存数据
+        outState.putString(BUNDLE_KEY, "哈哈哈");
+        super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState");
+    }
+
     @Override protected void onStop() {
         super.onStop();
         Log.i(TAG, "onStop.");
@@ -65,23 +87,6 @@ public class LifeCircleActivity extends AppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy.");
-    }
-
-    @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            Log.i(TAG, "onRestoreInstanceState." + savedInstanceState.getString(BUNDLE_KEY));
-        } else {
-            Log.i(TAG, "onRestoreInstanceState. savedInstanceState == null");
-        }
-    }
-
-    //将要被kill的时候回调（例如进入后台、屏幕旋转前、跳转下一个Activity等情况下会被调用）
-    //可以打开开发者选项中的“不保留活动”调试
-    @Override protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(BUNDLE_KEY, "哈哈哈");
-        super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState");
     }
 
     //指定android:configChanges="orientation|screenSize"，横竖屏切换是会执行onConfigurationChanged()方法。
