@@ -20,7 +20,7 @@ import java.util.Vector;
 public class ListSample {
 
     public static void main(String[] args) {
-        test2();
+        test3();
     }
 
     private static void testEqualsHashCode() {
@@ -157,5 +157,21 @@ public class ListSample {
         vector.add("android");
         
         System.out.println("is equals ? " + list.equals(vector));
+    }
+
+    private static void test3() {
+        Set<Person> persons = new HashSet<>();
+        Person aPerson = new Person("aaa", 18);
+        persons.add(aPerson);
+        persons.add(new Person("bbb", 19));
+        
+        //属性值修改后hash值也和以前不同了，所以HashSet#remove()时找不到原来的对象了。
+        aPerson.setAge(20);
+
+        System.out.println("size of persons : " + persons.size());
+        persons.remove(aPerson);
+        System.out.println("size of persons : " + persons.size());
+        
+        
     }
 }

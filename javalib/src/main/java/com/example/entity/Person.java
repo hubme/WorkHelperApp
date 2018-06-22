@@ -46,6 +46,7 @@ public class Person {
                 '}';
     }
 
+    /* 重写了equals()方法，一定要重写hashCode() */
     @Override public boolean equals(Object o) {
         if (o == null || !(o instanceof Person)) {
             return false;
@@ -60,7 +61,6 @@ public class Person {
         return false;
     }
 
-    /* 重写了equals()方法，一定要重写hashCode() */
     /*@Override public int hashCode() {
         final int prime = 31;
         int result = 1;
