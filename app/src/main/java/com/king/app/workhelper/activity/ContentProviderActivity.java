@@ -81,7 +81,7 @@ public class ContentProviderActivity extends AppBaseActivity {
         getContentResolver().update(BookProvider.BOOK_CONTENT_URI, values, "_id = 1123", null);
     }
 
-
+    //数据内容观察者，当数据变化时会接收到通知
     private static class BookContentObserver extends ContentObserver {
         private Context context;
 

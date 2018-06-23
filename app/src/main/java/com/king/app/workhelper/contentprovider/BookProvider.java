@@ -14,6 +14,8 @@ import android.util.Log;
 import com.king.app.workhelper.database.DBOpenHelper;
 
 /**
+ * 内容提供者，为外部应用提供书籍相关的数据，统一访问接口。
+ *
  * @author VanceKing
  * @since 2018/5/9.
  */
