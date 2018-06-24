@@ -33,6 +33,7 @@ public class IntentServiceSample extends IntentService {
         super.onDestroy();
     }
 
+    //任务由 IntentService 中的 HandlerThread 串行执行。全部任务完毕后 IntentService 停止。
     @Override protected void onHandleIntent(@Nullable Intent intent) {
         if (intent == null) {
             return;
