@@ -23,6 +23,7 @@ public class PaintView extends View {
     private int centerWidth;
     private int centerHeight;
     private Path mTextPath;
+    private Paint mSimplePaint;
 
     public PaintView(Context context) {
         this(context, null);
@@ -44,6 +45,7 @@ public class PaintView extends View {
         mPaint.setStrokeWidth(6);
         mPaint.setColor(Color.BLACK);
 
+        mSimplePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPath = new Path();
 
     }
@@ -62,7 +64,14 @@ public class PaintView extends View {
         super.onDraw(canvas);
 
 
-        drawText2(canvas);
+        drawPath(canvas);
+    }
+
+    private void drawPath(Canvas canvas) {
+        mTextPath.addArc(200, 200, 400, 400, -225, 225);
+        mTextPath.arcTo(400, 200, 600, 400, -180, 225, false);
+        mTextPath.lineTo(400, 542);
+        canvas.drawPath(mTextPath, mSimplePaint);
     }
 
     private void drawText2(Canvas canvas) {
