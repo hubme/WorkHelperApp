@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.Map;
 
 /**
+ * 1、双缓存，节省内存。 2、二分查找。3、扩容界限。4和8
  * @author VanceKing
  * @since 2018/5/23.
  */

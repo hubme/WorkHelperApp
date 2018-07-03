@@ -1,6 +1,8 @@
 package com.example.thread;
 
 /**
+ * Thread.threadLocals(ThreadLocal.ThreadLocalMap) 用来保存 Thread 本地的数据。
+ *
  * @author VanceKing
  * @since 2018/3/29.
  */

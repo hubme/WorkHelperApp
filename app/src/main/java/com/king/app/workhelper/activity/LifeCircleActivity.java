@@ -70,7 +70,7 @@ public class LifeCircleActivity extends AppCompatActivity {
     //将要被kill的时候回调（例如按Home进入后台、长按Home选择其他程序、锁屏、屏幕旋转前、跳转下一个Activity等情况下会被调用）
     //可以打开开发者选项中的“不保留活动”调试。主动关闭 Activity 不会调用该方法。
     //onSaveInstanceState的调用遵循一个重要原则，即当系统“未经你许可”时销毁了你的activity，则onSaveInstanceState会被系统调用，
-    //这是系统的责任，因为它必须要提供一个机会让你保存你的数据
+    //因为系统有责任也应该提供机会让你保存数据。
     //see also: android.view.View.onSaveInstanceState()
     @Override protected void onSaveInstanceState(Bundle outState) {
         //注意在调用 super 之前保存数据

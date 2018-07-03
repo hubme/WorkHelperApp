@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
 /**
  * 防止内存泄露.声明静态内部类继承此类,重写handle方法。
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2016/11/17.
  */
 public abstract class WeakHandler<T> extends Handler {
