@@ -20,11 +20,16 @@ public class NormalService extends Service {
 
     @Override public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(GlobalConstant.LOG_TAG, "onStartCommand");
+        //设置服务为前台Service
+//        Notification notification = null;
+//        startForeground(0x11, notification);
         return Service.START_STICKY;
     }
 
     @Override public void onDestroy() {
         Log.i(GlobalConstant.LOG_TAG, "onDestroy");
+        //停止前台服务的通知
+//        stopForeground(true);
         super.onDestroy();
     }
 
@@ -32,6 +37,6 @@ public class NormalService extends Service {
         Log.i(GlobalConstant.LOG_TAG, "onBind");
         return null;
     }
-    
-    
+
+
 }
