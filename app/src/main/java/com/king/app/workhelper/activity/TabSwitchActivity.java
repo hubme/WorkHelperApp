@@ -37,10 +37,11 @@ public class TabSwitchActivity extends AppBaseActivity {
 
     @Override protected void initContentView() {
         super.initContentView();
-        mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.addTab(mTabLayout.newTab().setText("First"), 0, true);
+        //TabLayout 和 ViewPager 关联
+        /*mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.addTab(mTabLayout.newTab().setText("First"), 0, false);
         mTabLayout.addTab(mTabLayout.newTab().setText("Second"), 1, false);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Third"), false);
+        mTabLayout.addTab(mTabLayout.newTab().setText("Third"), true);*/
     }
 
     @Override
@@ -52,7 +53,12 @@ public class TabSwitchActivity extends AppBaseActivity {
         mFragments.add(new SecondTabFragment());
         mFragments.add(new ThirdTabFragment());
 
-        TabFragmentAdapter mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments);
+        List<String> mTitles = new ArrayList<>(3);
+        mTitles.add("First");
+        mTitles.add("Second");
+        mTitles.add("Third");
+
+        TabFragmentAdapter mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, mTitles);
         mViewPager.setAdapter(mTabFragmentAdapter);
         mViewPager.setOffscreenPageLimit(1);//缓存当前页面前后各1个，之外的将销毁
     }

@@ -16,10 +16,17 @@ import java.util.List;
  */
 public class TabFragmentAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragments;
+    private List<String> mTitles;
 
     public TabFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
         mFragments = fragments;
+    }
+    
+    public TabFragmentAdapter(FragmentManager fm, List<Fragment> fragments, List<String> titles) {
+        super(fm);
+        mFragments = fragments;
+        mTitles = titles;
     }
 
     @Override
@@ -30,5 +37,9 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mFragments == null ? 0 : mFragments.size();
+    }
+
+    @Override public CharSequence getPageTitle(int position) {
+        return mTitles != null && !mTitles.isEmpty() ? mTitles.get(position) : null;
     }
 }
