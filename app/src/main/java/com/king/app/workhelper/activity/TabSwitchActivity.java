@@ -38,10 +38,7 @@ public class TabSwitchActivity extends AppBaseActivity {
     @Override protected void initContentView() {
         super.initContentView();
         //TabLayout 和 ViewPager 关联
-        /*mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.addTab(mTabLayout.newTab().setText("First"), 0, false);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Second"), 1, false);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Third"), true);*/
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -58,8 +55,16 @@ public class TabSwitchActivity extends AppBaseActivity {
         mTitles.add("Second");
         mTitles.add("Third");
 
-        TabFragmentAdapter mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments, mTitles);
+        TabFragmentAdapter mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mTabFragmentAdapter);
         mViewPager.setOffscreenPageLimit(1);//缓存当前页面前后各1个，之外的将销毁
+
+        mTabLayout.getTabAt(0).setText(mTitles.get(0));
+        mTabLayout.getTabAt(1).setText(mTitles.get(1));
+        mTabLayout.getTabAt(2).setText(mTitles.get(2)).select();
+        
+        /*mTabLayout.addTab(mTabLayout.newTab().setText("First"), 0, false);
+        mTabLayout.addTab(mTabLayout.newTab().setText("Second"), 1, false);
+        mTabLayout.addTab(mTabLayout.newTab().setText("Third"), true);*/
     }
 }
