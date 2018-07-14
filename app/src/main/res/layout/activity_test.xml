@@ -7,30 +7,10 @@
               android:gravity="center_horizontal"
               android:orientation="vertical">
 
-    <CheckedTextView
-        android:id="@+id/tv_open_qq"
-        style="@style/EntryItem"
-        android:gravity="center"
-        android:text="哈哈哈"
-        android:textAlignment="center"/>
-
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <com.king.applib.ui.customview.ShapeTextView
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:text="哈哈哈"
-        app:stv_bgColor="@color/chocolate"
-        app:stv_gradientEndColor="@color/green"
-        app:stv_gradientMiddleColor="@color/gray_666666"
-        app:stv_gradientOrientation="LEFT_RIGHT"
-        app:stv_gradientStartColor="@color/chocolate"
-        app:stv_radius="0dp"
-        app:stv_trRadius="15dp"
-        app:stv_brRadius="15dp"/>
+    <com.king.app.workhelper.ui.customview.SpeedChartView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"/>
 </LinearLayout>
