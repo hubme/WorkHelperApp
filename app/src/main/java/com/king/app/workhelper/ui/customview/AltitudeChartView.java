@@ -48,8 +48,8 @@ public class AltitudeChartView extends View {
     private final String mChartTitle = "海拔曲线";
     private final String mUnitTitle = "单位：米";
     private final String mTotalMeterTitle = "累计爬升：";
-
     private String mTotalMeters = "59";
+    
     private final List<Integer> mXPos = new ArrayList<>();
     private final List<Integer> mYPos = new ArrayList<>();
     private final Path mPathLine = new Path();
@@ -109,12 +109,6 @@ public class AltitudeChartView extends View {
             mListDisDots.add(temp);
         }
 
-        mPathLine.moveTo(50, 50);
-        mPathLine.lineTo(150, 200);
-        mPathLine.lineTo(200, 150);
-        mPathLine.lineTo(300, 150);
-//        mPathLine.lineTo(400, 300);
-
         mListPoints.add(new Point(150, 200));
         mListPoints.add(new Point(200, 150));
         mListPoints.add(new Point(300, 350));
@@ -138,18 +132,9 @@ public class AltitudeChartView extends View {
         drawOverViewTitle(canvas);
         drawYAxis(canvas);
         drawXAxis(canvas);
-//        drawCurve(canvas, mListPoints);
-        drawLine(canvas);
-    }
-
-    private void drawLine(Canvas canvas) {
-        mTextPaint.setStyle(Paint.Style.STROKE);
-        canvas.drawPath(mPathLine, mTextPaint);
-
-        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.RED, Color.BLUE});
-        drawable.setBounds(0, 0, mWidth-100, mHeight);
-        
-        
+        drawCurve(canvas);
+//        drawCurveArea(canvas);
+//        drawLine(canvas);
     }
 
     private void drawChartTitle(Canvas canvas) {
@@ -223,7 +208,7 @@ public class AltitudeChartView extends View {
     }
 
     //画平滑曲线
-    private void drawCurve(Canvas canvas, List<Point> ps) {
+    private void drawCurve(Canvas canvas) {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(Color.parseColor("#68D4FF"));
         mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -232,28 +217,24 @@ public class AltitudeChartView extends View {
         mPaint.setPathEffect(pathEffect);
 
         mPathLine.moveTo(100, 150);
-        mPathArea.moveTo(100, 150);
+//        mPathArea.moveTo(100, 150);
         
-        for (int i = 0, size = ps.size(); i < size - 1; i++) {
+        for (int i = 0, size = mListPoints.size(); i < size - 1; i++) {
             mPathLine.reset();
-            Point start = ps.get(i);
-            Point end = ps.get(i + 1);
+            Point start = mListPoints.get(i);
+            Point end = mListPoints.get(i + 1);
             int wt = (start.x + end.x) / 2;
             mPathLine.moveTo(start.x, start.y);
             mPathLine.cubicTo(wt, start.y, wt, end.y, end.x, end.y);
+            mPathArea.addPath(mPathLine);
             canvas.drawPath(mPathLine, mPaint);
-
-            mPathArea.moveTo(start.x, start.y);
-            mPathArea.cubicTo(wt, start.y, wt, end.y, end.x, end.y);
         }
-        drawCurveArea(canvas);
 
     }
 
     private void drawCurveArea(Canvas canvas) {
         canvas.save();
 
-//        mPathArea.addPath(mPathLine);
         mPathArea.lineTo(mListPoints.get(mListPoints.size()-1).x, 500);
         mPathArea.lineTo(mListPoints.get(0).x, 500);
         mPathArea.lineTo(mListPoints.get(0).x, mListPoints.get(0).y);
@@ -261,11 +242,34 @@ public class AltitudeChartView extends View {
         canvas.clipPath(mPathArea);
 
         GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.RED, Color.BLUE});
-        drawable.setBounds(0, 0, mWidth-100, mHeight);
+        drawable.setBounds(0, 0, mWidth, mHeight);
         
         drawable.draw(canvas);
         canvas.restore();
-        mPathArea.rewind();
+    }
+
+    private void drawLine(Canvas canvas) {
+        mTextPaint.setStyle(Paint.Style.STROKE);
+
+        mPathLine.moveTo(50, 50);
+        mPathLine.lineTo(150, 200);
+        mPathLine.lineTo(200, 150);
+        mPathLine.lineTo(300, 150);
+        mPathLine.lineTo(300, 500);
+        mPathLine.lineTo(50, 500);
+//        mPathLine.close();
+
+        /*mPathLine.moveTo(50, 50);
+        mPathLine.cubicTo(100, 120, 300, 300, 50, 50);
+        canvas.drawPath(mPathLine, mTextPaint);*/
+        
+        
+        canvas.clipPath(mPathLine);
+
+        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.RED, Color.BLUE});
+        drawable.setBounds(0, 0, mWidth, mHeight);
+
+        drawable.draw(canvas);
     }
 
     private float getTextHeight() {
