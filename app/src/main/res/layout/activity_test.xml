@@ -11,22 +11,17 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/panel_bottom_content"
         android:background="#333845"
-        android:visibility="gone"/>
-
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:background="@color/chocolate"
-        android:visibility="gone"/>
+        android:clipToPadding="false"
+        android:overScrollMode="never"/>
 
     <LinearLayout
+        android:id="@+id/panel_bottom_content"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:visibility="gone">
+        android:background="@color/white">
 
         <EditText
             android:id="@+id/et_position"
@@ -42,4 +37,11 @@
             android:layout_gravity="end"/>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/panel_bottom_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/chocolate"/>
 </RelativeLayout>

@@ -29,10 +29,12 @@ import butterknife.OnClick;
 public class TestActivity extends AppBaseActivity {
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.et_position) EditText mPositionEt;
-    
+    private int overallXScrol = 0;
+    private boolean mIsScroll = true;
+
     private List<ItemData> itemData = new ArrayList<>();
     private int mPosition;
-    private LinearLayoutManager manager;
+    private LinearLayoutManager layoutManager;
 
     @Override protected void initInitialData() {
         super.initInitialData();
@@ -42,7 +44,6 @@ public class TestActivity extends AppBaseActivity {
     }
 
     @Override protected void initData() {
-        Log.i("aaa", "屏幕一半：" + ExtendUtil.getScreenWidth() / 2);
     }
 
     @Override protected int getContentLayout() {
@@ -51,7 +52,7 @@ public class TestActivity extends AppBaseActivity {
 
     @Override protected void initContentView() {
         super.initContentView();
-        manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         mPositionEt.addTextChangedListener(new TextWatcherAdapter() {
             @Override public void afterTextChanged(Editable s) {
@@ -59,26 +60,55 @@ public class TestActivity extends AppBaseActivity {
                 mPosition = NumberUtil.getInt(s.toString(), 0);
             }
         });
-        
-        mRecyclerView.setLayoutManager(manager);
+
+
+        int itemWidth = ExtendUtil.dp2px(50);
+        Log.i("aaa", "itemWidth: " + itemWidth);
+
+
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    Log.i("aaa", "静止");
+                    int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
+                    View firstVisibleView = mRecyclerView.getChildAt(firstVisiblePosition);
+                    /*if (firstVisibleView == null) {
+                        Log.i("aaa", "静止。" + "firstVisiblePosition: " + firstVisiblePosition + "。firstVisibleView == null");
+                    } else {
+                        Log.i("aaa", "静止。" + "firstVisiblePosition: " + firstVisiblePosition + "。top: " + firstVisibleView.getTop());
+                    }*/
+                    int offset = (overallXScrol) % itemWidth;
+                    Log.i("aaa", "X偏移量：" + overallXScrol + "。offset: " + offset);
+
+                    if (offset > 0 && offset <= itemWidth / 2) {
+                        mRecyclerView.smoothScrollBy(-offset, 0);
+                    } else if (offset > itemWidth / 2 && offset < itemWidth) {
+                        mRecyclerView.smoothScrollBy(itemWidth - offset, 0);
+                    }
+
+                    //通过smoothScrollBy()滚动到指定位置，不会再滚动了。
+                    if (offset == 0) {
+                        int index = overallXScrol / itemWidth;
+                        Log.i("aaa", "index: " + index);
+                    }
+
                 }
             }
 
             @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.i("aaa", "dx = " + dx);
+//                Log.i("aaa", "dx = " + dx);
+                overallXScrol += dx;
             }
         });
         MyAdapter adapter = new MyAdapter();
         mRecyclerView.setAdapter(adapter);
         adapter.setAdapterData(itemData);
-        
+        int padding = (ExtendUtil.getScreenWidth() - itemWidth) / 2;
+        mRecyclerView.setPadding(padding, 0, padding, 0);
+
     }
 
     private void moveToPosition(int p, int fir, int end) {
@@ -94,7 +124,23 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.btn_go)
     public void onButtonClick(View view) {
-        moveToPosition(mPosition, manager.findFirstVisibleItemPosition(), manager.findLastVisibleItemPosition());
+        //无过度。滚动到指定位置并偏移指定大小。item可见时也可滚动。
+//        layoutManager.scrollToPositionWithOffset(mPosition, 50);
+
+        //无过度。滚动到指定位置。item可见时不会滚动。
+//        mRecyclerView.scrollToPosition(mPosition);
+
+        //平滑滚动。滚动到指定位置。item可见时不会滚动。
+//        mRecyclerView.smoothScrollToPosition(mPosition);
+
+        //不支持
+//        mRecyclerView.scrollTo(400, 0);
+
+        //无过度。滚动指定的偏移量。
+//        mRecyclerView.scrollBy(100, 0);
+
+        mRecyclerView.smoothScrollBy(300, 0);
+
     }
 
     private static class MyAdapter extends BaseRecyclerViewAdapter<ItemData> {
