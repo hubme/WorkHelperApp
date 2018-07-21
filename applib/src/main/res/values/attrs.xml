@@ -234,4 +234,11 @@
         <attr name="stv_blRadius" format="dimension"/>
         <attr name="stv_brRadius" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="TypefaceTextView">
+        <attr name="ttv_typeface" format="string"/>
+        <attr name="ttv_unit" format="string"/>
+        <attr name="ttv_unit_color" format="color"/>
+        <attr name="ttv_unit_size" format="dimension"/>
+    </declare-styleable>
 </resources>
