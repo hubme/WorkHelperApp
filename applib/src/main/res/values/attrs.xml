@@ -237,8 +237,12 @@
 
     <declare-styleable name="TypefaceTextView">
         <attr name="ttv_typeface" format="string"/>
+        <attr name="ttv_text" format="string"/>
+        <attr name="ttv_text_color" format="color"/>
+        <attr name="ttv_text_size" format="dimension"/>
         <attr name="ttv_unit" format="string"/>
         <attr name="ttv_unit_color" format="color"/>
         <attr name="ttv_unit_size" format="dimension"/>
+        <attr name="ttv_text_padding" format="dimension"/>
     </declare-styleable>
 </resources>

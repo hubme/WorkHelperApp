@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
               android:orientation="vertical">
+
+    <com.king.applib.ui.customview.TypefaceTextView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/burlywood"
+        app:ttv_text="哈哈哈"
+        app:ttv_text_color="@color/chocolate"
+        app:ttv_text_size="@dimen/ts_huge"
+        app:ttv_typeface="@string/typeface_DINCondensedBold"
+        app:ttv_unit="呵呵呵"
+        app:ttv_unit_color="@color/burlywood"
+        app:ttv_unit_size="@dimen/ts_normal"/>
 
 </LinearLayout>
