@@ -18,5 +18,10 @@
         android:id="@+id/tv_swipe_menu"
         style="@style/EntryItem"
         android:text="滑动菜单"/>
+    
+    <TextView
+        android:id="@+id/tv_scroll"
+        style="@style/EntryItem"
+        android:text="RecyclerView 滚动"/>
 
 </LinearLayout>

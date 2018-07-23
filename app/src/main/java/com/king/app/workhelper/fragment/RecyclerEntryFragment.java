@@ -33,6 +33,11 @@ public class RecyclerEntryFragment extends AppBaseFragment {
     public void onSwipeMenuClick() {
         clickedOn(new RecyclerSwipeMenuFragment());
     }
+    
+    @OnClick(R.id.tv_scroll)
+    public void onScrollClick() {
+        clickedOn(new RecyclerScrollFragment());
+    }
 
     private void clickedOn(@NonNull Fragment fragment) {
         final String tag = fragment.getClass().toString();
