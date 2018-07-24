@@ -83,35 +83,49 @@
     </declare-styleable>
 
     <declare-styleable name="BoxGridLayout">
-        <attr name="separatorWidth" format="dimension" />
-        <attr name="separatorColor" format="color" />
-        <attr name="numColumns" format="integer" />
+        <attr name="separatorWidth" format="dimension"/>
+        <attr name="separatorColor" format="color"/>
+        <attr name="numColumns" format="integer"/>
     </declare-styleable>
 
     <declare-styleable name="ValueBar">
         <!-- The height or (thickness) of the bar -->
-        <attr name="barHeight" format="dimension" />
+        <attr name="barHeight" format="dimension"/>
         <!-- Radius of the circle indicator -->
-        <attr name="circleRadius" format="dimension" />
+        <attr name="circleRadius" format="dimension"/>
         <!-- Amount of space to the right of the bar, before the max value label-->
-        <attr name="spaceAfterBar" format="dimension" />
+        <attr name="spaceAfterBar" format="dimension"/>
         <!-- Text size of the value displayed inside the circle indicator -->
-        <attr name="circleTextSize" format="dimension" />
+        <attr name="circleTextSize" format="dimension"/>
         <!-- Text size of the max value label -->
-        <attr name="maxValueTextSize" format="dimension" />
+        <attr name="maxValueTextSize" format="dimension"/>
         <!-- Text size of the label, displayed above the bar -->
-        <attr name="labelTextSize" format="dimension" />
+        <attr name="labelTextSize" format="dimension"/>
         <!-- Color of the label text -->
-        <attr name="labelTextColor" format="color" />
+        <attr name="labelTextColor" format="color"/>
         <!-- Color of the max value label text -->
-        <attr name="maxValueTextColor" format="color" />
+        <attr name="maxValueTextColor" format="color"/>
         <!-- Color of the text inside the circle indicator -->
-        <attr name="circleTextColor" format="color" />
+        <attr name="circleTextColor" format="color"/>
         <!-- Base color of the bar (the portion that is not filled) -->
-        <attr name="baseColor" format="color" />
+        <attr name="baseColor" format="color"/>
         <!-- Fill color of the bar -->
-        <attr name="fillColor" format="color" />
+        <attr name="fillColor" format="color"/>
         <!-- Text to use for the label -->
-        <attr name="labelText" format="string" />
+        <attr name="labelText" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="SummaryChartItemView">
+        <attr name="scvTitle" format="string"/>
+        <attr name="scvTitleColor" format="color"/>
+        <attr name="scvTitleSize" format="dimension"/>
+        <attr name="scvLineColor" format="color"/>
+        <attr name="scvLineWidth" format="dimension"/>
+        <attr name="scvLineMargin" format="dimension"/>
+        <attr name="scvRectWidth" format="dimension"/>
+        <attr name="scvRectHeightPercent" format="fraction"/>
+        <attr name="scvRectCorner" format="dimension"/>
+        <attr name="scvRectTopColor" format="color"/>
+        <attr name="scvRectBottomColor" format="color"/>
     </declare-styleable>
 </resources>

@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class SpeedChartView extends View {
     private String mAverageTime = "20'48\"";
     private String mMaxFast = "07'18\"";
     private String mMaxSlow = "31'133\"";
-    private List<SpeedItemData> mSpeedItems;
 
     private int mWidth;
     private int mHeight;
@@ -63,6 +63,9 @@ public class SpeedChartView extends View {
     private final Rect mRect = new Rect();
 
     private final int itemWidth = 400;
+    private final int itemDataHeight = dp2px(20);
+
+    private final List<SpeedItemData> mSpeedItems = new ArrayList<>(10);
 
     public SpeedChartView(Context context) {
         this(context, null);
@@ -80,29 +83,28 @@ public class SpeedChartView extends View {
     private void init() {
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 
-        mSpeedItems = new ArrayList<>(8);
-        SpeedItemData item1 = new SpeedItemData(1, "10'33\"", "00:30:33");
-        item1.setFastest(true);
-        mSpeedItems.add(item1);
-        mSpeedItems.add(new SpeedItemData(2, "20'32\"", "00:32:39"));
-        mSpeedItems.add(new SpeedItemData(3, "30'32\"", "00:32:39"));
-        mSpeedItems.add(new SpeedItemData(3, "40'32\"", "00:32:39"));
-        mSpeedItems.add(new SpeedItemData(3, "50'32\"", "00:32:39"));
-        mSpeedItems.add(new SpeedItemData(6, "59'32\"", "00:32:39"));
+        
     }
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.i("aaa", "onMeasure()。height: " +mSpeedItems.size());
 
-        /*int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);*/
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
+        if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED) {
+            setMeasuredDimension(widthSize, dp2px(100) + itemDataHeight * mSpeedItems.size());
+        } else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 
     @Override protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        Log.i("aaa", "onSizeChanged()。height: " + h);
         mWidth = w;
         mHeight = h;
 
@@ -114,6 +116,7 @@ public class SpeedChartView extends View {
 
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        Log.i("aaa", "onDraw() ");
 
         drawSpeedTitle(canvas);
         drawTop(canvas);
@@ -209,11 +212,7 @@ public class SpeedChartView extends View {
     }
 
     private void drawColumnData(Canvas canvas) {
-        if (mSpeedItems == null || mSpeedItems.isEmpty()) {
-            return;
-        }
         final int padding = dp2px(10);
-        final int itemDataHeight = dp2px(20);
 
         final int corner = dp2px(20);
         final int startColor = Color.parseColor("#883ec2ff");
@@ -278,6 +277,18 @@ public class SpeedChartView extends View {
 
     public void setAverageTime(String time) {
         mAverageTime = time;
+    }
+
+    public void setItems(List<SpeedItemData> items) {
+        if (items == null) {
+            return;
+        }
+        if (items.size() > 10) {
+            mSpeedItems.addAll(items.subList(0, 10));
+        } else {
+            mSpeedItems.addAll(items);
+        }
+        requestLayout();
     }
 
     public static class SpeedItemData {

@@ -8,14 +8,28 @@
 
     <com.king.applib.ui.customview.TypefaceTextView
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:background="@color/burlywood"
-        app:ttv_text="哈哈哈"
+        app:ttv_text="哈哈哈fFjJ"
         app:ttv_text_color="@color/chocolate"
+        app:ttv_text_padding="0dp"
         app:ttv_text_size="@dimen/ts_huge"
         app:ttv_typeface="@string/typeface_DINCondensedBold"
-        app:ttv_unit="呵呵呵"
-        app:ttv_unit_color="@color/burlywood"
+        app:ttv_unit="呵呵呵fFjJ"
+        app:ttv_unit_color="@color/aliceblue"
         app:ttv_unit_size="@dimen/ts_normal"/>
+
+    <com.king.app.workhelper.ui.customview.SummaryChartItemView
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="5dp"
+        app:scvLineMargin="5dp"
+        app:scvRectHeightPercent="80%"
+        app:scvRectWidth="20dp"
+        app:scvTitle="哈哈哈"
+        app:scvTitleColor="@color/chocolate"
+        app:scvTitleSize="15sp"/>
 
 </LinearLayout>

@@ -8,14 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +40,11 @@ public class TypefaceTextView extends View {
     private int paddingTop;
     private int paddingRight;
     private int paddingBottom;
+    private Typeface typeface;
+    private float totalTextHeight;
+    private float textHeight;
+    private float unitTextHeight;
+
 
     public TypefaceTextView(Context context) {
         this(context, null);
@@ -74,19 +72,15 @@ public class TypefaceTextView extends View {
                 typedArray.recycle();
             }
         }
-        init(context, attrs);
+        init();
     }
 
-    private void init(Context context, AttributeSet attrs) {
+    private void init() {
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        
+
 
         try {
-
-            Typeface typeface = Typeface.createFromAsset(getResources().getAssets(), typefaceText);
-            if (typeface != null) {
-                mTextPaint.setTypeface(typeface);
-            }
+            typeface = Typeface.createFromAsset(getResources().getAssets(), typefaceText);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,19 +123,39 @@ public class TypefaceTextView extends View {
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        canvas.drawLine(0, height / 2, width, height / 2, mTextPaint);
+        canvas.drawLine(width / 2, 0, width/2, height, mTextPaint);
+
+        mTextPaint.setTextSize(textSize);
+        textHeight = getTextHeight(mTextPaint);
+        mTextPaint.setTextSize(unitTextSize);
+        unitTextHeight = getTextHeight(mTextPaint);
+
+        totalTextHeight = textHeight + unitTextHeight + textPadding;
+
         drawText(canvas);
+        drawUnitText(canvas);
     }
 
     private void drawText(Canvas canvas) {
+        if (typeface != null) {
+            mTextPaint.setTypeface(typeface);
+        }
         mTextPaint.setTextSize(textSize);
         mTextPaint.setColor(textColor);
         float textWidth = mTextPaint.measureText(text);
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-        float textHeight = fontMetrics.descent - fontMetrics.ascent;
-        float centerX = (width - paddingLeft - paddingRight) / 2;
-        float centerY = height / 4;//paddingTop + textHeight;
-        Log.i("aaa", "centerX: "+centerX+" centerY： "+centerY);
-        drawCenterText(canvas, centerX, centerY, text, mTextPaint);
+        canvas.drawText(text, (width - paddingLeft - paddingRight) / 2 - textWidth / 2,
+                -fontMetrics.ascent + (height - totalTextHeight) / 2, mTextPaint);
+    }
+
+    private void drawUnitText(Canvas canvas) {
+        mTextPaint.setTypeface(Typeface.DEFAULT);
+        mTextPaint.setTextSize(unitTextSize);
+        mTextPaint.setColor(unitColor);
+        canvas.drawText(unit, (width - paddingLeft - paddingRight) / 2 - mTextPaint.measureText(unit) / 2,
+                textHeight + textPadding - mTextPaint.getFontMetrics().ascent + (height - totalTextHeight) / 2, mTextPaint);
+
     }
 
     public TypefaceTextView setText(String text) {
@@ -153,31 +167,15 @@ public class TypefaceTextView extends View {
         this.textColor = textColor;
         return this;
     }
-    
-    
-    public void build() {
-        
+
+
+    public void update() {
         invalidate();
     }
 
-    private void drawCenterText(Canvas canvas, float centerX, float centerY, String text, Paint paint) {
-        final Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-        float baseLine = (fontMetrics.descent + fontMetrics.ascent) / 2;
-        float textWidth = paint.measureText(text);
-        float startX = centerX - textWidth / 2;
-        float endY = centerY + baseLine;
-        canvas.drawText(text, startX, endY, paint);
-    }
-    
-    private SpannableStringBuilder buildTextStyle(String text, int start, int end, int color, int size) {
-        if (TextUtils.isEmpty(text) || start < 0 || end > text.length()) {
-            return null;
-        }
-        SpannableStringBuilder style = SpannableStringBuilder.valueOf(text);
-        style.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        style.setSpan(new AbsoluteSizeSpan(size), start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        style.setSpan(new StyleSpan(Typeface.NORMAL), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        return style;
+    private float getTextHeight(Paint paint) {
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        return fontMetrics.descent - fontMetrics.ascent;
     }
 
     private int dp2px(float dpValue) {
