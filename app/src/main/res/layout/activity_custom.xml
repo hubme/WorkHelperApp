@@ -17,9 +17,9 @@
             android:orientation="vertical">
 
             <com.king.app.workhelper.ui.customview.PaintView
-                android:background="@color/palegoldenrod"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="200dp"
+                android:background="@color/palegoldenrod"/>
 
             <com.king.app.workhelper.ui.customview.ValueBar
                 android:id="@+id/valueBar"
@@ -106,7 +106,8 @@
 
             <com.king.applib.ui.loading.MaterialLoadingView
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                app:mlvColor="@color/burlywood"/>
 
             <com.king.applib.ui.customview.InsLoadingView
                 android:id="@+id/ins_loading_view"

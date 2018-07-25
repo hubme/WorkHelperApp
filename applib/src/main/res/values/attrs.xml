@@ -245,4 +245,9 @@
         <attr name="ttv_unit_size" format="dimension"/>
         <attr name="ttv_text_padding" format="dimension"/>
     </declare-styleable>
+    
+    <declare-styleable name="MaterialLoadingView">
+        <attr name="mlvColor" format="color"/>
+    </declare-styleable>
+    
 </resources>
