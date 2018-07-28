@@ -52,7 +52,7 @@ public class RecyclerScrollFragment extends AppBaseFragment {
 
     @Override protected void initContentView(View rootView) {
         super.initContentView(rootView);
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, true);
 
         mPositionEt.addTextChangedListener(new TextWatcherAdapter() {
             @Override public void afterTextChanged(Editable s) {
@@ -62,36 +62,27 @@ public class RecyclerScrollFragment extends AppBaseFragment {
         });
 
 
-        int itemWidth = ExtendUtil.dp2px(50);
-        Log.i("aaa", "itemWidth: " + itemWidth);
-
-
+        int itemWidth = getResources().getDimensionPixelSize(R.dimen.list_item_width);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
-                    View firstVisibleView = mRecyclerView.getChildAt(firstVisiblePosition);
-                    /*if (firstVisibleView == null) {
-                        Log.i("aaa", "静止。" + "firstVisiblePosition: " + firstVisiblePosition + "。firstVisibleView == null");
-                    } else {
-                        Log.i("aaa", "静止。" + "firstVisiblePosition: " + firstVisiblePosition + "。top: " + firstVisibleView.getTop());
-                    }*/
                     int offset = (overallXScrol) % itemWidth;
-                    Log.i("aaa", "X偏移量：" + overallXScrol + "。offset: " + offset);
+                    Log.i("aaa", "X总偏移量：" + overallXScrol + "。offset: " + offset);
 
-                    if (offset > 0 && offset <= itemWidth / 2) {
+                    int asbOffset = Math.abs(offset);
+                    if (asbOffset <= itemWidth / 2) {
                         mRecyclerView.smoothScrollBy(-offset, 0);
-                    } else if (offset > itemWidth / 2 && offset < itemWidth) {
-                        mRecyclerView.smoothScrollBy(itemWidth - offset, 0);
+                    }else if (asbOffset > itemWidth / 2 && asbOffset < itemWidth){//reverseLayout 为 true 和 false 时情况不同
+                        mRecyclerView.smoothScrollBy(offset > 0 ? itemWidth - asbOffset : asbOffset - itemWidth, 0);
                     }
-
+                    
                     //通过smoothScrollBy()滚动到指定位置，不会再滚动了。
                     if (offset == 0) {
                         int index = overallXScrol / itemWidth;
-                        Log.i("aaa", "index: " + index);
+                        Log.i("aaa", "index: " + Math.abs(index));
                     }
 
                 }
@@ -109,17 +100,6 @@ public class RecyclerScrollFragment extends AppBaseFragment {
         int padding = (ExtendUtil.getScreenWidth() - itemWidth) / 2;
         mRecyclerView.setPadding(padding, 0, padding, 0);
 
-    }
-
-    private void moveToPosition(int p, int fir, int end) {
-        if (p <= fir) {
-            mRecyclerView.scrollToPosition(p);
-        } else if (p <= end) {
-            int top = mRecyclerView.getChildAt(p - fir).getTop();
-            mRecyclerView.scrollBy(0, top);
-        } else {
-            mRecyclerView.scrollToPosition(p);    //先让当前view滚动到列表内
-        }
     }
 
     @OnClick(R.id.btn_go)

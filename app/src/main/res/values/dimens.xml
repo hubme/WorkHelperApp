@@ -6,5 +6,7 @@
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_11">11dp</dimen>
     <dimen name="dp_15">15dp</dimen>
+    
+    <dimen name="list_item_width">48dp</dimen>
 
 </resources>
