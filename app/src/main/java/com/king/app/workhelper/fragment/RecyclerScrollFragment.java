@@ -109,6 +109,12 @@ public class RecyclerScrollFragment extends AppBaseFragment {
 
     }
 
+    @Override public void onDestroyView() {
+        //滚动中销毁页面，onScrollStateChanged() 中报 NPE.
+        mRecyclerView.clearOnScrollListeners();
+        super.onDestroyView();
+    }
+
     @OnClick(R.id.btn_go)
     public void onButtonClick(View view) {
         //无过度。滚动到指定位置并偏移指定大小。item可见时也可滚动。
