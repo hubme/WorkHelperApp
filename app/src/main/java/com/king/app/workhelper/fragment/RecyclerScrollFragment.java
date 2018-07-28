@@ -12,6 +12,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.common.TextWatcherAdapter;
 import com.king.applib.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
+import com.king.applib.ui.recyclerview.listener.RecyclerItemTouchListener;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.NumberUtil;
 
@@ -65,6 +66,12 @@ public class RecyclerScrollFragment extends AppBaseFragment {
         int itemWidth = getResources().getDimensionPixelSize(R.dimen.list_item_width);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemTouchListener(mRecyclerView,
+                new RecyclerItemTouchListener.OnRecyclerItemListenerAdapter() {
+                    @Override public void onItemClick(View view, int position) {
+                        mRecyclerView.smoothScrollToPosition(position);
+                    }
+                }));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -75,10 +82,10 @@ public class RecyclerScrollFragment extends AppBaseFragment {
                     int asbOffset = Math.abs(offset);
                     if (asbOffset <= itemWidth / 2) {
                         mRecyclerView.smoothScrollBy(-offset, 0);
-                    }else if (asbOffset > itemWidth / 2 && asbOffset < itemWidth){//reverseLayout 为 true 和 false 时情况不同
+                    } else if (asbOffset > itemWidth / 2 && asbOffset < itemWidth) {//reverseLayout 为 true 和 false 时情况不同
                         mRecyclerView.smoothScrollBy(offset > 0 ? itemWidth - asbOffset : asbOffset - itemWidth, 0);
                     }
-                    
+
                     //通过smoothScrollBy()滚动到指定位置，不会再滚动了。
                     if (offset == 0) {
                         int index = overallXScrol / itemWidth;
