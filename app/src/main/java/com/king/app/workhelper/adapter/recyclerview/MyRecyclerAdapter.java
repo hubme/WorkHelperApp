@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/29.
  */
 
-public class MyRecyclerAdapter extends BaseRecyclerViewAdapter<StringEntity>{
+public class MyRecyclerAdapter extends BaseRecyclerViewAdapter<StringEntity> {
     public MyRecyclerAdapter(List<StringEntity> adapterData) {
         super(adapterData);
     }
