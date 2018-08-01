@@ -18,6 +18,10 @@ public class BundleBuilder {
     public static BundleBuilder create() {
         return new BundleBuilder();
     }
+    
+    public static BundleBuilder create(int capacity) {
+        return new BundleBuilder(capacity);
+    }
 
     public static BundleBuilder create(Bundle bundle) {
         return new BundleBuilder(bundle);
@@ -25,6 +29,10 @@ public class BundleBuilder {
 
     private BundleBuilder() {
         mBundle = new Bundle();
+    }
+    
+    private BundleBuilder(int capacity) {
+        mBundle = new Bundle(capacity);
     }
 
     private BundleBuilder(Bundle bundle) {
