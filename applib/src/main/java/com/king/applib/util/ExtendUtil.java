@@ -260,7 +260,7 @@ public class ExtendUtil {
     /**
      * 获取状态栏的高度
      */
-    public int getStatusBarHeight() {
+    public static int getStatusBarHeight() {
         int result = 0;
         int resourceId = ContextUtil.getAppContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
