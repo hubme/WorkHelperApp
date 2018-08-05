@@ -1,7 +1,13 @@
 package com.king.app.workhelper.activity;
 
+import android.util.Log;
+import android.view.View;
+import android.widget.ScrollView;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+
+import butterknife.BindView;
 
 /**
  * @author VanceKing
@@ -9,6 +15,9 @@ import com.king.app.workhelper.common.AppBaseActivity;
  */
 
 public class TestActivity extends AppBaseActivity {
+    @BindView(R.id.view1) View view1;
+    @BindView(R.id.view2) ScrollView view2;
+
     @Override protected void initInitialData() {
         super.initInitialData();
     }
@@ -22,6 +31,12 @@ public class TestActivity extends AppBaseActivity {
 
     @Override protected void initContentView() {
         super.initContentView();
+        view1.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Log.i("aaa", "view1");
+            }
+        });
+
 
     }
 
