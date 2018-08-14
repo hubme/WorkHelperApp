@@ -13,7 +13,6 @@ import com.king.app.workhelper.common.TextWatcherAdapter;
 import com.king.applib.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
 import com.king.applib.ui.recyclerview.listener.RecyclerItemTouchListener;
-import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.NumberUtil;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class RecyclerScrollFragment extends AppBaseFragment {
 
     @Override protected void initInitialData() {
         super.initInitialData();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 20; i++) {
             itemData.add(new ItemData("7/" + i));
         }
     }
@@ -64,6 +63,8 @@ public class RecyclerScrollFragment extends AppBaseFragment {
 
 
         int itemWidth = getResources().getDimensionPixelSize(R.dimen.list_item_width);
+        int padding = Math.round((float) (getResources().getDisplayMetrics().widthPixels - itemWidth) / 2);
+        mRecyclerView.setPadding(padding, 0, padding, 0);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemTouchListener(mRecyclerView,
@@ -104,8 +105,6 @@ public class RecyclerScrollFragment extends AppBaseFragment {
         MyAdapter adapter = new MyAdapter();
         mRecyclerView.setAdapter(adapter);
         adapter.setAdapterData(itemData);
-        int padding = (ExtendUtil.getScreenWidth() - itemWidth) / 2;
-        mRecyclerView.setPadding(padding, 0, padding, 0);
 
     }
 
