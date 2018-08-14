@@ -48,7 +48,7 @@ public class ViewPagerSampleFragment extends AppBaseFragment {
     }
 
     private List<Student> fakeData() {
-        List<Student> students = new ArrayList<>(2);
+        List<Student> students = new ArrayList<>();
         students.add(new Student(20, "哈哈哈"));
         students.add(new Student(30, "呵呵呵"));
         students.add(new Student(40, "哦哦哦"));

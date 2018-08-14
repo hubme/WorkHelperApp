@@ -9,6 +9,7 @@ import com.king.app.workhelper.adapter.viewpager.TabFragmentAdapter;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.fragment.FirstTabFragment;
 import com.king.app.workhelper.fragment.SecondTabFragment;
+import com.king.app.workhelper.fragment.SmartRefreshSampleFragment;
 import com.king.app.workhelper.fragment.ThirdTabFragment;
 
 import java.util.ArrayList;
@@ -49,11 +50,13 @@ public class TabSwitchActivity extends AppBaseActivity {
         mFragments.add(new FirstTabFragment());
         mFragments.add(new SecondTabFragment());
         mFragments.add(new ThirdTabFragment());
+        mFragments.add(new SmartRefreshSampleFragment());
 
-        List<String> mTitles = new ArrayList<>(3);
+        List<String> mTitles = new ArrayList<>(mFragments.size());
         mTitles.add("First");
         mTitles.add("Second");
         mTitles.add("Third");
+        mTitles.add("SmartRefreshLayout");
 
         TabFragmentAdapter mTabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mTabFragmentAdapter);
@@ -62,6 +65,7 @@ public class TabSwitchActivity extends AppBaseActivity {
         mTabLayout.getTabAt(0).setText(mTitles.get(0));
         mTabLayout.getTabAt(1).setText(mTitles.get(1));
         mTabLayout.getTabAt(2).setText(mTitles.get(2)).select();
+        mTabLayout.getTabAt(3).setText(mTitles.get(3));
         
         /*mTabLayout.addTab(mTabLayout.newTab().setText("First"), 0, false);
         mTabLayout.addTab(mTabLayout.newTab().setText("Second"), 1, false);
