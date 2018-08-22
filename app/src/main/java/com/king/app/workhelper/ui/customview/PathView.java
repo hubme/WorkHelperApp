@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -41,6 +42,9 @@ public class PathView extends View {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.chocolate));
+
+        setLayerType(View.LAYER_TYPE_SOFTWARE, mPaint);
+
         mPath = new Path();
     }
 
@@ -56,11 +60,29 @@ public class PathView extends View {
     @Override protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawAssistLine(canvas);
-        mPaint.setStrokeWidth(5);
 
-//        test1(canvas);
-//        test2(canvas);
-        test3(canvas);
+        addPathTest1(canvas);
+    }
+
+    private void addPathTest1(Canvas canvas) {
+        mPath.lineTo(halfWidth, halfHeight);
+        RectF rectF = new RectF(halfWidth + 50, 50, width * 0.75f, halfHeight / 4);
+        mPath.addRect(rectF, Path.Direction.CCW);
+        canvas.drawPath(mPath, mPaint);
+    }
+
+    private void rQuadToTest2(Canvas canvas) {
+        mPath.moveTo(0, halfHeight);
+        mPath.rQuadTo(width / 4, -halfHeight, halfWidth, 0);
+        mPath.rQuadTo(width / 4, halfHeight, halfWidth, 0);
+
+        canvas.drawPath(mPath, mPaint);
+    }
+
+    private void rQuadToTest1(Canvas canvas) {
+        mPath.moveTo(halfWidth, height / 4);
+        mPath.rQuadTo(-halfWidth, height / 4, 0, halfHeight);
+        canvas.drawPath(mPath, mPaint);
     }
 
     private void test3(Canvas canvas) {
@@ -102,5 +124,6 @@ public class PathView extends View {
         mPaint.setStrokeWidth(1);
         canvas.drawLine(0, height / 2, width, height / 2, mPaint);
         canvas.drawLine(width / 2, 0, width / 2, height, mPaint);
+        mPaint.setStrokeWidth(5);
     }
 }

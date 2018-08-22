@@ -9,7 +9,6 @@
     <com.king.app.workhelper.ui.customview.PathView
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@color/aliceblue"
-        android:visibility="gone"/>
+        android:background="@color/aliceblue"/>
 
 </FrameLayout>
