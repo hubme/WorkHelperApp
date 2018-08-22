@@ -5,6 +5,7 @@ import com.king.applib.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.king.applib.ui.recyclerview.RecyclerHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,12 +29,16 @@ public class SimpleRecyclerAdapter extends BaseRecyclerViewAdapter<String> {
     }
 
     public static List<String> fakeData(int size) {
+        return fakeData("", size);
+    }
+
+    public static List<String> fakeData(String prefix, int size) {
         if (size <= 0) {
-            return null;
+            return Collections.emptyList();
         }
         final List<String> data = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            data.add(String.valueOf(i));
+            data.add(prefix + String.valueOf(i));
 
         }
         return data;

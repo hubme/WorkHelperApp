@@ -22,7 +22,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
 
     public BaseRecyclerViewAdapter() {
     }
-    
+
     public BaseRecyclerViewAdapter(List<E> adapterData) {
         addDataList(adapterData, false);
     }
@@ -68,6 +68,16 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
             mAdapterList.add(position, entity);
             notifyItemInserted(position);
         }
+    }
+
+    public void appendList(List<E> appendedList) {
+        if (isListEmpty(appendedList)) {
+            return;
+        }
+        int positionStart = mAdapterList.size();
+        mAdapterList.addAll(positionStart, appendedList);
+        //RecyclerView 嵌套 NestScrollView 无效。notifyDataSetChanged()有效。
+        notifyItemRangeInserted(positionStart, appendedList.size());
     }
 
     public void deleteData(int position) {

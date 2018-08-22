@@ -5,6 +5,11 @@
               android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_simple_recycler_view"
+        style="@style/EntryItem"
+        android:text="Simple RecyclerView"/>
+
+    <TextView
         android:id="@+id/tv_header_footer"
         style="@style/EntryItem"
         android:text="Header And Footer"/>

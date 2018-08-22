@@ -19,6 +19,11 @@ public class RecyclerEntryFragment extends AppBaseFragment {
         return R.layout.activity_recycler_entry;
     }
 
+    @OnClick(R.id.tv_simple_recycler_view)
+    public void onSimpleRecyclerView() {
+        clickedOn(new RecyclerSimpleFragment());
+    }
+
     @OnClick(R.id.tv_header_footer)
     public void onHeaderFooterClick() {
         clickedOn(new RecyclerHeaderFooterFragment());
