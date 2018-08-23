@@ -26,6 +26,8 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
     @Override protected void initContentView(View rootView) {
         super.initContentView(rootView);
 
+        //设置 false。解决 NestScrollView 嵌套 RecyclerView 时 notifyItemRangeInserted() 无效的问题。
+        //但是会渲染整个 List，不管是不是显示在屏幕上。
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -36,5 +38,6 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
     @OnClick(R.id.floating_button)
     public void onFloatingButtonClick() {
         mAdapter.appendList(SimpleRecyclerAdapter.fakeData("aaa", 5));
+//        mAdapter.setAdapterData(SimpleRecyclerAdapter.fakeData("aaa", 5), true);
     }
 }
