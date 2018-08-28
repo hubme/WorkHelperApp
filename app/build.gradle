@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
-apply plugin: 'me.tatarka.retrolambda'
 
 def cfg = rootProject.ext.android
 android {
@@ -75,7 +74,7 @@ android {
         }*/
     }
 
-    applicationVariants.all { variant ->
+    /*applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
@@ -84,8 +83,9 @@ android {
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
-    }
+    }*/
 
+    flavorDimensions "dev"
     productFlavors {
         dev {
             manifestPlaceholders = [channel: "dev"]
@@ -135,11 +135,11 @@ android {
 
 dependencies {
     //公共基础库
-    //compile project(':applib')
+    compile project(':applib')
 
     //表示主module和lib module 编译类型保持一致
-    releaseCompile project(path: ':applib', configuration: 'release')
-    debugCompile project(path: ':applib', configuration: 'debug')
+//    releaseCompile project(path: ':applib', configuration: 'release')
+//    debugCompile project(path: ':applib', configuration: 'debug')
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //compile(name:'applib-0.0.1', ext:'aar')
@@ -154,7 +154,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
     compile "com.android.support:design:$rootProject.ext.supportLibVersion"
     compile "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.3'
 
     //使用ButterkNife-View注入框架
     compile 'com.jakewharton:butterknife:8.4.0'

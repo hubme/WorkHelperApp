@@ -84,12 +84,6 @@
         <item name="android:src">@mipmap/ic_setting</item>
     </style>
 
-    <style name="Notification_title" parent="@style/TextAppearance.StatusBar.EventContent.Title"/>
-
-    <style name="Notification_line2" parent="@style/TextAppearance.StatusBar.EventContent.Line2"/>
-
-    <style name="Notification_time" parent="@style/TextAppearance.StatusBar.EventContent.Time"/>
-
     <declare-styleable name="FundFormPieView">
         <attr name="imageSize" format="dimension"/>
         <attr name="imageTextSize" format="dimension"/>
