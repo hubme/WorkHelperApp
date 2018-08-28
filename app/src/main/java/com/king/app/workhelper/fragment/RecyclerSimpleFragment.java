@@ -30,6 +30,7 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         //但是会渲染整个 List，不管是不是显示在屏幕上。
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setNestedScrollingEnabled(false);
+//        ViewCompat.setNestedScrollingEnabled(mRecyclerView, false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new SimpleRecyclerAdapter(SimpleRecyclerAdapter.fakeData(30));
         mRecyclerView.setAdapter(mAdapter);
