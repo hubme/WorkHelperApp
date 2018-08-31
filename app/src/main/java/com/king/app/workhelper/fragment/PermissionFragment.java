@@ -32,6 +32,13 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
     public static final int REQ_CODE_PERMISSION_PHONE_SMS = 2;
     public static final int REQ_CODE_ACTIVITY_CAMERA = 3;
 
+    //在 AndroidManifest.xml 同样要添加相应的权限
+    private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
+    private static final String PERMISSION_PHONE = Manifest.permission.CALL_PHONE;
+    private static final String PERMISSION_SEND_SMS = Manifest.permission.SEND_SMS;
+    private static final String PERMISSION_READ_SMS = Manifest.permission.READ_SMS;
+
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_permission;
@@ -39,31 +46,43 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
 
     @OnClick(R.id.tv_request_storage_permission)
     public void clickStorageBtn() {
-        EasyPermission
-                .with(this)
-                .rationale("需要读写SDCard权限")
-                .addRequestCode(REQ_CODE_PERMISSION_STORAGE)
-                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .request();
+        if (!EasyPermission.hasPermissions(getContext(), PERMISSION_STORAGE)) {
+            EasyPermission
+                    .with(this)
+                    .rationale("需要读写SDCard权限")
+                    .addRequestCode(REQ_CODE_PERMISSION_STORAGE)
+                    .permissions(PERMISSION_STORAGE)
+                    .request();
+        } else {
+            showToast("读写SDCard权限已授权");
+        }
     }
 
     @OnClick(R.id.tv_request_camera_permission)
     public void clickCameraBtn() {
-        EasyPermission
-                .with(this)
-                .rationale("需要相机权限")
-                .addRequestCode(REQ_CODE_PERMISSION_CAMERA)
-                .permissions(Manifest.permission.CAMERA)
-                .request();
+        if (!EasyPermission.hasPermissions(getContext(), PERMISSION_CAMERA)) {
+            EasyPermission
+                    .with(this)
+                    .rationale("需要相机权限")
+                    .addRequestCode(REQ_CODE_PERMISSION_CAMERA)
+                    .permissions(PERMISSION_CAMERA)
+                    .request();
+        } else {
+            showToast("已经有相机权限");
+        }
     }
 
     @OnClick(R.id.tv_request_phone_sms_permission)
     public void clickPhoneSmsBtn() {
-        EasyPermission.with(this)
-                .rationale("需要电话和短信权限")
-                .addRequestCode(REQ_CODE_PERMISSION_PHONE_SMS)
-                .permissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .request();
+        if (!EasyPermission.hasPermissions(getContext(), PERMISSION_PHONE, PERMISSION_SEND_SMS, PERMISSION_READ_SMS)) {
+            EasyPermission.with(this)
+                    .rationale("需要电话和短信权限")
+                    .addRequestCode(REQ_CODE_PERMISSION_PHONE_SMS)
+                    .permissions(PERMISSION_PHONE, PERMISSION_SEND_SMS, PERMISSION_READ_SMS)
+                    .request();
+        } else {
+            showToast("已经有电话、短信权限");
+        }
     }
 
     @Override
@@ -128,7 +147,6 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
                 EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "请到设置中打开读写SDCard权限", R.string.confirm, R.string.cancel, null, perms);
                 break;
             case REQ_CODE_PERMISSION_PHONE_SMS:
-                Toast.makeText(getContext(), "PHONE_SMS", Toast.LENGTH_SHORT).show();
                 EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "请到设置中打开电话和短信权限", R.string.confirm, R.string.cancel, null, perms);
                 break;
             default:
