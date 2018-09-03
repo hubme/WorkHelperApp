@@ -10,7 +10,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!--标识了maxSdkVersion=18之后，表示，当手机版本高于18，这个权限将不会出现在权限列表了。-->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -71,8 +74,10 @@
                 <category android:name="com.king.category1"/>
                 <category android:name="com.king.category2"/>
             </intent-filter>
-            
-            <meta-data android:name="meta_data" android:value="MetaValue"/>
+
+            <meta-data
+                android:name="meta_data"
+                android:value="MetaValue"/>
         </activity>
 
         <activity android:name=".activity.MainActivity">
@@ -162,7 +167,7 @@
                 <action android:name="com.example.action"/>
             </intent-filter>
         </service>
-        
+
         <service android:name=".service.NormalService">
             <intent-filter android:priority="1000">
                 <action android:name="com.example.action"/>
