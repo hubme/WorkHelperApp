@@ -33,19 +33,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
-    provided "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
-    provided "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
-    provided "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
-    provided "com.android.support:design:$rootProject.ext.supportLibVersion"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    compileOnly "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+    compileOnly "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
+    compileOnly "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
+    compileOnly "com.android.support:design:$rootProject.ext.supportLibVersion"
     //json解析
-    compile 'com.google.code.gson:gson:2.7'
-    provided 'com.facebook.fresco:fresco:0.12.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin_version"
+    implementation 'com.google.code.gson:gson:2.7'
+    compileOnly 'com.facebook.fresco:fresco:0.12.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin_version"
 
 }
 repositories {
