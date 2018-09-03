@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
+apply plugin: 'project-report'
 
 def cfg = rootProject.ext.android
 android {
