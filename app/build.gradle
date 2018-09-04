@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
 apply plugin: 'project-report'
+apply plugin: "com.vanniktech.dependency.graph.generator"
 
 def cfg = rootProject.ext.android
 android {
