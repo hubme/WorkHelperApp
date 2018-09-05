@@ -1,6 +1,7 @@
 package com.king.applib.base;
 
 import android.support.annotation.LayoutRes;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -88,11 +89,14 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = ViewHolder.getHolder(convertView, parent, mLayoutId, position);
-        if (getItem(position) != null) {
-            convert(position, holder, getItem(position));
+        if (convertView == null) {
+            convertView = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
         }
-        return holder.getConvertView();
+        T itemData = getItem(position);
+        if (itemData != null) {
+            convert(position, ViewHolder.create(convertView), itemData);
+        }
+        return convertView;
     }
 
     public abstract void convert(int position, ViewHolder holder, T t);
