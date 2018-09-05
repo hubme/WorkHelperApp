@@ -38,10 +38,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    compileOnly "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
-    compileOnly "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
-    compileOnly "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
-    compileOnly "com.android.support:design:$rootProject.ext.supportLibVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
+    implementation "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
+    implementation "com.android.support:design:$rootProject.ext.supportLibVersion"
     //json解析
     implementation 'com.google.code.gson:gson:2.7'
     compileOnly 'com.facebook.fresco:fresco:0.12.0'
