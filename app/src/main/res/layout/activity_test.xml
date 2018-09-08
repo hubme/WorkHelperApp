@@ -6,9 +6,100 @@
              android:gravity="center_horizontal"
              android:orientation="vertical">
 
-    <com.king.app.workhelper.ui.customview.PathView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/aliceblue"/>
+    <HorizontalScrollView
+        android:id="@+id/scroll_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:background="@color/chocolate"
+        android:visibility="gone">
 
+        <LinearLayout
+            android:id="@+id/panel_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:background="@color/chocolate"
+        android:layout_height="200dp">
+        
+        <TextView
+            android:text="aaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="bbb"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end"
+            android:layout_height="wrap_content"/>
+        
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+        
+    </FrameLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:tint="@color/violet"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="150dp"
+        android:src="@drawable/icon_1"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        app:tint="@color/black"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="50dp"
+        app:srcCompat="@drawable/icon_1"
+        android:layout_height="wrap_content"/>
+    
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        app:tint="@color/violet"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="100dp"
+        app:srcCompat="@drawable/icon_1"
+        android:layout_height="wrap_content"/>
+    
+    <TextView
+        android:textColor="@color/chocolate"
+        android:textSize="@dimen/ts_bigger"
+        android:text="哈哈哈"
+        android:drawableRight="@drawable/icon_1"
+        android:drawableTint="@color/blue"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:textColor="@color/chocolate"
+        android:textSize="@dimen/ts_bigger"
+        android:text="哈哈哈"
+        android:drawableRight="@drawable/icon_1"
+        android:drawableTint="@color/violet"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginBottom="100dp"
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"/>
 </FrameLayout>
