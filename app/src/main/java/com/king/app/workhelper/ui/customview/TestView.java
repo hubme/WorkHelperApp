@@ -8,6 +8,7 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
 import android.text.Layout;
@@ -30,6 +31,7 @@ import com.king.app.workhelper.model.entity.Point;
  */
 
 public class TestView extends View {
+    private final String textHa = "Ii哈Jj双FfBb";
     private static final String TEXT = "哈哈哈\r\n呵呵呵呵";
     private static final int RADIUS = 50;
     private Paint mPaint;
@@ -48,6 +50,7 @@ public class TestView extends View {
     private ObjectAnimator mColorAnimator;
     private AnimatorSet mAnimatorSet;
     private String color;
+    private Rect textBounds;
 
     public TestView(Context context) {
         this(context, null);
@@ -68,7 +71,7 @@ public class TestView extends View {
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.chocolate));
 
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setTextSize(dip2px(getContext(), 18));
+        mTextPaint.setTextSize(dip2px(48));
         mStaticLayout = new StaticLayout(TEXT, mTextPaint, (int) mTextPaint.measureText(TEXT), Layout.Alignment.ALIGN_CENTER, 1, 0, true);
 
         mRectF = new RectF();
@@ -98,6 +101,8 @@ public class TestView extends View {
         mAnimatorSet = new AnimatorSet();
         mAnimatorSet.play(mPointAnim).with(mColorAnimator);
         mAnimatorSet.setDuration(5000);
+
+        textBounds = new Rect();
     }
 
     public String getColor() {
@@ -125,13 +130,28 @@ public class TestView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawLine(0, mCenterY, mWidth, mCenterY, mPaint);
-        canvas.drawLine(mCenterX, 0, mCenterX, mHeight, mPaint);
+//        canvas.drawLine(0, mCenterY, mWidth, mCenterY, mPaint);
+//        canvas.drawLine(mCenterX, 0, mCenterX, mHeight, mPaint);
 
 //        mStartPoint.setX(RADIUS);
 //        mStartPoint.setY(RADIUS);
-        canvas.drawCircle(mStartPoint.getX(), mStartPoint.getY(), RADIUS, mPaint);
+//        canvas.drawCircle(mStartPoint.getX(), mStartPoint.getY(), RADIUS, mPaint);
+        
+        int baseLine = dip2px(100);
+        int left = dip2px(50);
+        canvas.drawLine(0, baseLine, mWidth, baseLine, mPaint);
+        canvas.drawText(textHa, left, baseLine, mTextPaint);
+        
+        
+        mTextPaint.getTextBounds(textHa, 0, textHa.length(), textBounds);
 
+        mPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(left, textBounds.top + baseLine, left + textBounds.width(), textBounds.bottom + baseLine, mPaint);
+
+        mTextPaint.setStyle(Paint.Style.STROKE);
+        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
+        canvas.drawRect(left, baseLine + fontMetrics.ascent, left + mTextPaint.measureText(textHa), baseLine + fontMetrics.descent, mTextPaint);
+        canvas.drawRect(left, baseLine + fontMetrics.top, left + mTextPaint.measureText(textHa), baseLine + fontMetrics.bottom, mTextPaint);
     }
 
     //矩形四周阴影效果
@@ -210,11 +230,15 @@ public class TestView extends View {
 
     private float getTextHeight(Paint paint) {
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-        return fontMetrics.descent - fontMetrics.ascent;
+        return fontMetrics.bottom - fontMetrics.top;
     }
 
-    private static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    private float getTextWidth(Paint paint, String text) {
+        return paint.measureText(text);
+    }
+
+    private int dip2px(float dpValue) {
+        final float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
