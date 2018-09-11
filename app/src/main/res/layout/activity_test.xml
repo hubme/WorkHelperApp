@@ -6,7 +6,7 @@
              android:gravity="center_horizontal"
              android:orientation="vertical">
 
-    <com.king.app.workhelper.ui.customview.TestView
+    <com.king.app.workhelper.ui.customview.CanvasSampleView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

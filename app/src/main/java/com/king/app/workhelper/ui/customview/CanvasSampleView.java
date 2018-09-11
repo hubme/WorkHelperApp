@@ -18,11 +18,11 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.king.app.workhelper.R;
 import com.king.applib.log.Logger;
+import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.ImageUtil;
 
 import static android.graphics.Bitmap.createBitmap;
@@ -43,6 +43,8 @@ public class CanvasSampleView extends View {
     private Rect mTextRect;
     private int mWidth;
     private int mHeight;
+    private int mHalfWidth;
+    private int mHalfHeight;
 
     public CanvasSampleView(Context context) {
         this(context, null);
@@ -61,8 +63,9 @@ public class CanvasSampleView extends View {
         mDrawable = getResources().getDrawable(R.mipmap.beautiful_girl);
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(Color.BLUE);
+        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.chocolate));
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(ExtendUtil.dp2px(2));
 
         mPath = new Path();
 
@@ -74,11 +77,13 @@ public class CanvasSampleView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
         mHeight = h;
+        mHalfWidth = mWidth / 2;
+        mHalfHeight = mHeight / 2;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Logger.i("onDraw");
+        drawCenterLine(canvas);
 //        drawBitmap(canvas);
 //        drawDrawable(canvas);
 //        drawRect(canvas);
@@ -89,14 +94,51 @@ public class CanvasSampleView extends View {
 //        drawOval(canvas);
 //        drawCircle(canvas);
 //        drawGradient(canvas);
-        scrollTest(canvas);
+//        scrollTest(canvas);
+        testCanvasScale(canvas);
+    }
+
+    private void drawCenterLine(Canvas canvas) {
+        canvas.drawLine(0, mHalfHeight, mWidth, mHalfHeight, mPaint);
+        canvas.drawLine(mHalfWidth, 0, mHalfWidth, mHeight, mPaint);
+    }
+
+    private void drawCenterRect(Canvas canvas) {
+        Rect rect = new Rect();
+        int width = mWidth/4;
+        int height = mHeight/4;
+//        rect.set(mHalfWidth - width / 2, mHalfHeight - height / 2, mHalfWidth + width / 2, mHalfHeight + height / 2);
+        rect.set(0, 0, width, height);
+        canvas.drawRect(rect, mPaint);
+    }
+
+    private void testCanvasScale(Canvas canvas) {
+        canvas.save();
+
+//        drawCenterRect(canvas);
+        //#1
+        canvas.scale(0.5f, 0.5f);
+        canvas.translate(mHalfWidth * (1/0.5f), mHalfHeight * (1/0.5f));
+        drawCenterRect(canvas);
+
+        //#2 缩放后移动到中间
+        /*canvas.translate(mHalfWidth, mHalfHeight);
+        canvas.scale(0.5f, 0.5f);
+        canvas.translate(-mWidth/8, -mHeight/8);
+        drawCenterRect(canvas);*/
+
+        //平移(dx, dy)->应用zoom->平移(-dx * scale, -dy * scale)
+        /*canvas.scale(0.6f, 0.6f, mHalfWidth, mHalfHeight);
+        drawCenterRect(canvas);*/
+        
+        canvas.restore();
     }
 
     private float startX;
     private float distance;
     private float perDistance;
 
-    @Override public boolean onTouchEvent(MotionEvent event) {
+    /*@Override public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startX = event.getX();
@@ -111,7 +153,7 @@ public class CanvasSampleView extends View {
                 break;
         }
         return true;
-    }
+    }*/
 
     private void scrollTest(Canvas canvas) {
         String text = "AAAAAAAAAAAAAAAAAABBBBBBBBBBBBBCCCCCCCCCCCCCCCCCDDDDDDDDDDD";
@@ -278,5 +320,10 @@ public class CanvasSampleView extends View {
         matrix.postTranslate(100, 100);
         canvas.drawBitmap(bitmap, matrix, mPaint);
         return output;
+    }
+
+    private int dp2px(float dpValue) {
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 }
