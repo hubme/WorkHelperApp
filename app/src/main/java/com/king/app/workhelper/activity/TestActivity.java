@@ -1,7 +1,12 @@
 package com.king.app.workhelper.activity;
 
+import android.os.SystemClock;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.applib.util.ThreadPoolUtil;
+
+import butterknife.OnClick;
 
 /**
  * @author VanceKing
@@ -28,4 +33,13 @@ public class TestActivity extends AppBaseActivity {
 
     }
 
+    @OnClick(R.id.textView)
+    public void onViewClick() {
+        ThreadPoolUtil.execute(new Runnable() {
+            @Override public void run() {
+                SystemClock.sleep(3000);
+            }
+        });
+    }
+    
 }
