@@ -1,6 +1,7 @@
 package com.king.app.workhelper.activity;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
@@ -14,13 +15,12 @@ import butterknife.OnClick;
  */
 
 public class TestActivity extends AppBaseActivity {
-
     @Override protected void initInitialData() {
         super.initInitialData();
     }
 
     @Override protected void initData() {
-        
+
     }
 
     @Override protected int getContentLayout() {
@@ -37,9 +37,11 @@ public class TestActivity extends AppBaseActivity {
     public void onViewClick() {
         ThreadPoolUtil.execute(new Runnable() {
             @Override public void run() {
-                SystemClock.sleep(3000);
+                Log.i("aaa", "job begin!");
+                SystemClock.sleep(5000);
+                Log.i("aaa", "job done!");
             }
         });
     }
-    
+
 }
