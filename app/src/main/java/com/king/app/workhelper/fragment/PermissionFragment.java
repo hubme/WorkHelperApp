@@ -109,6 +109,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
         String mCameraPhotoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera/" +
                 DateTimeUtil.formatDate(new Date(), "yyyyMMdd_HHmmss") + ".jpg";
         Uri uri = Uri.fromFile(FileUtil.createFile(mCameraPhotoPath));
+        //MediaStore.ACTION_IMAGE_CAPTURE_SECURE 设备在设备锁定状态下捕获图像
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
