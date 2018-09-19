@@ -41,7 +41,7 @@ public class ThreadPoolUtil {
         //2. core < task <= core + queue：创建 core 个线程执行任务，task - core 个任务放入任务队列
         //3. core + queue < task <= max:  创建 core 个线程执行任务，queue 个任务放入任务队列。创建 task - core - queue 个非核心线程按 FIFO 优先级执行任务队列中的任务
         //4. max < task: 创建 core 个线程执行任务，queue 个任务放入任务队列。创建 task - core - queue 个非核心线程按 FIFO 优先级执行任务队列中的任务。task - max 个任务在被丢弃
-        sExecutorService = new ThreadPoolExecutor(3, Math.max(10, sMaxThreads), 30L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(2), new QuietAbortPolicy());
+        sExecutorService = new ThreadPoolExecutor(3, Math.max(10, sMaxThreads), 30L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(2), new ThreadPoolExecutor.DiscardOldestPolicy());
     }
 
     private ThreadPoolUtil() {
