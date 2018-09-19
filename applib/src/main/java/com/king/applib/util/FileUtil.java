@@ -261,8 +261,7 @@ public class FileUtil {
                 }
             }
         }
-        deleteFile(dir);
-        return true;
+        return dir.delete();
     }
 
 
@@ -277,7 +276,7 @@ public class FileUtil {
      * 删除文件(不是目录).文件不存在返回{@code true}.
      */
     public static boolean deleteFile(File file) {
-        return file != null && (!file.exists() || file.isFile() && file.delete());
+        return file != null && (!file.exists() || (file.isFile() && file.delete()));
     }
 
     /**
