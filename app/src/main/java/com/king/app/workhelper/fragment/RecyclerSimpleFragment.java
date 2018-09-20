@@ -2,11 +2,13 @@ package com.king.app.workhelper.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.constant.GlobalConstant;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -18,6 +20,7 @@ import butterknife.OnClick;
 public class RecyclerSimpleFragment extends AppBaseFragment {
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     private SimpleRecyclerAdapter mAdapter;
+    private LinearLayoutManager layoutManager;
 
     @Override protected int getContentLayout() {
         return R.layout.fragment_simple_recycler;
@@ -31,9 +34,23 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setNestedScrollingEnabled(false);
 //        ViewCompat.setNestedScrollingEnabled(mRecyclerView, false);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new SimpleRecyclerAdapter(SimpleRecyclerAdapter.fakeData(30));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        Log.i(GlobalConstant.LOG_TAG, "last visible position: " + layoutManager.findLastVisibleItemPosition());
+                        break;
+                    default:
+                
+                        break;
+                }
+            }
+        });
     }
 
     @OnClick(R.id.floating_button)

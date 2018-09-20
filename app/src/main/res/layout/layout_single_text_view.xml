@@ -2,8 +2,8 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tv_text"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_width="52dp"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_selfhelp_selector"
     android:gravity="center"
     android:lines="1"
