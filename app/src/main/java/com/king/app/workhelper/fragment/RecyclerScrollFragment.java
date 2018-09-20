@@ -64,7 +64,8 @@ public class RecyclerScrollFragment extends AppBaseFragment {
 
         int itemWidth = getResources().getDimensionPixelSize(R.dimen.list_item_width);
         int padding = Math.round((float) (getResources().getDisplayMetrics().widthPixels - itemWidth) / 2);
-        mRecyclerView.setPadding(padding, 0, padding, 0);
+        //同时设置android:clipToPadding="false"，LayoutManager.findLastVisibleItemPosition() 值不正确
+        mRecyclerView.setPadding(300, 0, 300, 0);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemTouchListener(mRecyclerView,
