@@ -15,12 +15,18 @@ import android.widget.TextView;
  */
 public class RecyclerHolder extends RecyclerView.ViewHolder {
     private final SparseArray<View> mViews;
-
+    private final View mItemView;
+    
     public RecyclerHolder(View itemView) {
         super(itemView);
+        this.mItemView = itemView;
         this.mViews = new SparseArray<>();
     }
 
+    public View getItemView() {
+        return mItemView;
+    }
+    
     public SparseArray<View> getAllView() {
         return mViews;
     }
