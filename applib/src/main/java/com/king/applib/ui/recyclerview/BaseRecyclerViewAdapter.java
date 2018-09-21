@@ -1,6 +1,7 @@
 package com.king.applib.ui.recyclerview;
 
-import android.support.annotation.LayoutRes;
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,6 @@ import java.util.List;
 
 public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<RecyclerHolder> {
     private final List<E> mAdapterList = new ArrayList<>();
-    private OnItemClickListener<E> mOnItemClickListener;
 
     public BaseRecyclerViewAdapter() {
     }
@@ -103,14 +103,15 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         return mAdapterList.get(position);
     }
 
-    @Override
-    public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(viewType), parent, false);
+    @NonNull @Override
+    public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = getItemLayoutRes(viewType) > 0 ? LayoutInflater.from(parent.getContext()).inflate(getItemLayoutRes(viewType), parent, false) :
+                generateView(parent.getContext(), viewType);
         return new RecyclerHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         if (!checkPosition(position)) {
             return;
         }
@@ -118,14 +119,6 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         if (e != null) {
             convert(holder, e, position);
         }
-
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(e);
-                }
-            }
-        });*/
     }
 
     public abstract void convert(RecyclerHolder holder, E item, int position);
@@ -135,14 +128,9 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Re
         return mAdapterList.size();
     }
 
-    @LayoutRes public abstract int getItemLayoutRes(int viewType);
+    public abstract int getItemLayoutRes(int viewType);
 
-    public void setOnItemClickListener(OnItemClickListener<E> listener) {
-        mOnItemClickListener = listener;
-    }
-
-
-    public interface OnItemClickListener<E> {
-        void onItemClick(E e);
+    protected View generateView(Context context, int viewType) {
+        return null;
     }
 }
