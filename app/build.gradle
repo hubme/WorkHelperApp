@@ -109,6 +109,8 @@ android {
         main {
             jniLibs.srcDirs = ['libs']
         }
+
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     compileOptions {

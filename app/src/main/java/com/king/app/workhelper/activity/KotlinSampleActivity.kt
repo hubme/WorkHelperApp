@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import com.king.app.workhelper.R
+import kotlinx.android.synthetic.main.activity_kotlin.*
 
 /**
  *
@@ -19,6 +20,8 @@ class KotlinSampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin)
+
+        textView.text = "AAA"//使用扩展，直接赋值
         
     }
 
@@ -27,8 +30,13 @@ class KotlinSampleActivity : AppCompatActivity() {
         Log.i("aaa", message)
     }
 
-    //定义一个 POJO
-    private data class Custom(var name: String, var age: Int)
+    //定义一个 POJO。使用时直接使用 getters/setters，无需定义
+    data class Custom(var name: String, var age: Int){
+        
+        fun printText(text : String) : Int{
+            return 1                
+        }
+    }
 
     //定义一个单例类，用"object"修饰
     object SingletonClass {

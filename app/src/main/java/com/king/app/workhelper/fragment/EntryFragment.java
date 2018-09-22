@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.ContentProviderActivity;
 import com.king.app.workhelper.activity.DebugActivity;
+import com.king.app.workhelper.activity.KotlinSampleActivity;
 import com.king.app.workhelper.activity.LifeCircleActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
@@ -259,6 +260,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_kotlin)
     public void onKotlinClick() {
+        openActivity(KotlinSampleActivity.class);
     }
 
     @OnClick(R.id.tv_data_binding)
