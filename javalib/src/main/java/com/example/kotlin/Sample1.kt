@@ -15,7 +15,8 @@ package com.example.kotlin
 //直接写在文件中
 fun main(args: Array<String>) {
 
-    testCollection2()
+    "0000".spaceAAA()
+    
 }
 
 fun sum(a: Int, b: Int): Int {
@@ -32,6 +33,10 @@ fun printSum(a: Int, b: Int): Unit {
     println("sum of $a and $b is ${a + b}")
 }
 
+//扩展函数。"text".spaceAAA()
+fun String.spaceAAA(){
+    println("spaceAAA")
+}
 
 fun defineVar() {
     var a: Int = 1//没必要写类型，自动推导
@@ -95,12 +100,40 @@ fun testWhen() {
 }
 
 fun testRange(value: Int) {
-    if (value in 0..10) {
-        println("$value in [0, 10]")
+    if (value in 0..10) {//闭区间
+        println("[]: $value in [0, 10]")
     }
 
     if (value !in 0..10) {
-        println("$value not in [0, 10]")
+        println("not in: $value not in [0, 10]")
+    }
+
+    //不包含10，相当于for循环
+    for (value in 0 until 10) {
+        println("until: $value in [0, 10)")
+    }
+
+    //相当于 value+=2
+    for (value in 0..10 step 2) {
+        println("step: $value")
+    }
+
+    for (value in 0 until 10 step 2) {
+        println("step: $value")
+    }
+
+    for (x in 10 downTo 5) {
+        println("$x")
+    }
+
+    for (x in 10 downTo 5 step 2) {
+        println("$x")
+    }
+
+    val map = mapOf("a" to 1, "b" to 2, "c" to 3)
+    println(map["b"])
+    for ((k, v) in map) {
+        println("$k --- $v")
     }
 }
 
