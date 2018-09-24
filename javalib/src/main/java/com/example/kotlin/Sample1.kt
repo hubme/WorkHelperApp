@@ -1,5 +1,7 @@
 package com.example.kotlin
 
+import java.io.File
+
 /**
  *
  * @author VanceKing
@@ -15,7 +17,7 @@ package com.example.kotlin
 //直接写在文件中
 fun main(args: Array<String>) {
 
-    "0000".spaceAAA()
+
     
 }
 
@@ -151,4 +153,14 @@ fun testCollection2() {
     items.asSequence()
             /*.filter { it != null }*/ //不会 NPE
             .forEach { println(it.toString()) }
+}
+
+fun testSaveNull() {
+    val files = File("path").listFiles()
+    println(files?.size)//If not null 缩写
+    println(files?.size ?: "empty")//If not null and else 缩写
+    println(files?.size ?: println("files == null"))//else 分支执行语句
+    println(files?.firstOrNull() ?: "== null")//else 分支执行语句
+
+    files?.let { println("不为 null 时才执行") } ?: println("为 null 时执行")
 }
