@@ -16,13 +16,13 @@ class KotlinSampleActivity : AppCompatActivity() {
     var a: Int = 1
     var b = 2
     var c = "dog"
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin)
 
         textView.text = "AAA"//使用扩展，直接赋值
-        
+
     }
 
     //定义一个无返回值的方法
@@ -31,10 +31,10 @@ class KotlinSampleActivity : AppCompatActivity() {
     }
 
     //定义一个 POJO。使用时直接使用 getters/setters，无需定义
-    data class Custom(var name: String, var age: Int){
-        
-        fun printText(text : String) : Int{
-            return 1                
+    data class Custom(var name: String, var age: Int) {
+
+        fun printText(text: String): Int {
+            return 1
         }
     }
 
@@ -44,7 +44,7 @@ class KotlinSampleActivity : AppCompatActivity() {
     }
 
     public fun onTextViewClick(textView: TextView) {
-        
+
     }
 
     //定义一个返回 int 值的方法

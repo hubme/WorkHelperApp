@@ -18,7 +18,6 @@ import java.io.File
 fun main(args: Array<String>) {
 
 
-    
 }
 
 fun sum(a: Int, b: Int): Int {
@@ -36,7 +35,7 @@ fun printSum(a: Int, b: Int): Unit {
 }
 
 //扩展函数。"text".spaceAAA()
-fun String.spaceAAA(){
+fun String.spaceAAA() {
     println("spaceAAA")
 }
 
@@ -74,6 +73,7 @@ fun split(str: String?, start: Int, end: Int): String {
 //for 循环额
 fun testLisOf() {
     val items = listOf("a", "b", "c")
+    val aaa = arrayListOf("aaa")
     for (item in items) {
         println("item is $item")
     }
@@ -87,13 +87,13 @@ fun testLisOf() {
 
 //when 表达式。同 Switch
 fun describe(obj: Any): Any =
-        when (obj) {
-            0, 1 -> println("One")
-            "Hello" -> "Greeting"
-            is Long -> "Long"
-            !is String -> "Not a string"
-            else -> "Unknown"
-        }
+    when (obj) {
+        0, 1 -> println("One")
+        "Hello" -> "Greeting"
+        is Long -> "Long"
+        !is String -> "Not a string"
+        else -> "Unknown"
+    }
 
 fun testWhen() {
     describe(0)
@@ -143,16 +143,16 @@ fun testRange(value: Int) {
 fun testCollection() {
     val fruits = listOf("aaa", "banana", "avocado", "apple", "kiwifruit")
     fruits.asSequence().filter { it.startsWith("a") }
-            .sortedBy { it }
-            .map { it.toUpperCase() }
-            .forEach { println(it) }
+        .sortedBy { it }
+        .map { it.toUpperCase() }
+        .forEach { println(it) }
 }
 
 fun testCollection2() {
     val items = listOf("aaa", "bbb", null, 123)
     items.asSequence()
-            /*.filter { it != null }*/ //不会 NPE
-            .forEach { println(it.toString()) }
+        /*.filter { it != null }*/ //不会 NPE
+        .forEach { println(it.toString()) }
 }
 
 fun testSaveNull() {
@@ -163,4 +163,13 @@ fun testSaveNull() {
     println(files?.firstOrNull() ?: "== null")//else 分支执行语句
 
     files?.let { println("不为 null 时才执行") } ?: println("为 null 时执行")
+}
+
+fun testEquals() {
+    val a: Int = 10000
+    println(a === a) // 输出“true”
+    val boxedA: Int? = a
+    val anotherBoxedA: Int? = a
+    println(boxedA === anotherBoxedA) // 输出“false”
+    println(boxedA == anotherBoxedA) // // 输出“true”
 }
