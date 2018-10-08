@@ -282,7 +282,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
         Canvas cv = new Canvas(bitmap);
         cv.drawBitmap(background, backX, backY, null);
         cv.drawBitmap(foreground, foreX, foreY, null);
-        cv.save(Canvas.ALL_SAVE_FLAG);
+        cv.save();
         cv.restore();
         return bitmap;
     }
