@@ -95,8 +95,8 @@ public class MulProcessFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_messenger)
     public void onMessengerClick() {
-        Intent intent = new Intent(mActivity, MessengerService.class);
-        mBindSuccess = mActivity.bindService(intent, mMessengerServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent(getActivity(), MessengerService.class);
+        mBindSuccess = getActivity().bindService(intent, mMessengerServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @OnClick(R.id.tv_bind_service)

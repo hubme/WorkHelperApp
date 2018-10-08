@@ -2,6 +2,7 @@ package com.king.app.workhelper.rx.rxlife.components;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ public abstract class RxLifeFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mLifeSubject.onNext(FragmentLifeEvent.CREATE_VIEW);
         return super.onCreateView(inflater, container, savedInstanceState);
     }

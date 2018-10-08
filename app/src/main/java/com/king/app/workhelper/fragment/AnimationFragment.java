@@ -122,7 +122,7 @@ public class AnimationFragment extends AppBaseFragment {
         final float centerX = view.getWidth() / 2.0f;
         final float centerY = view.getHeight() / 2.0f;
 
-        final Rotate3dAnimation rotation = new Rotate3dAnimation(mActivity, start, end, centerX, centerY, 1.0f, true);
+        final Rotate3dAnimation rotation = new Rotate3dAnimation(getContext(), start, end, centerX, centerY, 1.0f, true);
         rotation.setDuration(1500);
         rotation.setFillAfter(true);
         rotation.setInterpolator(new AccelerateInterpolator());
