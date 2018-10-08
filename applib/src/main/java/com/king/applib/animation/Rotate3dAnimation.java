@@ -10,10 +10,10 @@
 
 package com.king.applib.animation;
 
+import android.content.Context;
 import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
@@ -37,7 +37,7 @@ public class Rotate3dAnimation extends Animation {
     private final boolean mReverse;
     // 摄像头
     private Camera mCamera;
-    private ContextThemeWrapper context;
+    private Context context;
     //新增--像素比例（默认值为1）
     private float scale = 1;
 
@@ -51,7 +51,7 @@ public class Rotate3dAnimation extends Animation {
      * @param depthZ      深度
      * @param reverse     是否扭曲
      */
-    public Rotate3dAnimation(ContextThemeWrapper context, float fromDegrees, float toDegrees, float centerX, float centerY, float depthZ, boolean reverse) {
+    public Rotate3dAnimation(Context context, float fromDegrees, float toDegrees, float centerX, float centerY, float depthZ, boolean reverse) {
         this.context = context;
         mFromDegrees = fromDegrees;
         mToDegrees = toDegrees;
