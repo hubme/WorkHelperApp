@@ -17,7 +17,11 @@ import java.io.File
 //直接写在文件中
 fun main(args: Array<String>) {
 
-
+    listOf(1, 2, 3, 4, 5).forEach lit@{
+        if (it == 3) return@lit // 局部返回到该 lambda 表达式的调用者，即 forEach 循环
+        print(it)
+    }
+    print(" done with explicit label")
 }
 
 fun sum(a: Int, b: Int): Int {
@@ -87,19 +91,13 @@ fun testLisOf() {
 
 //when 表达式。同 Switch
 fun describe(obj: Any): Any =
-    when (obj) {
-        0, 1 -> println("One")
-        "Hello" -> "Greeting"
-        is Long -> "Long"
-        !is String -> "Not a string"
-        else -> "Unknown"
-    }
-
-fun testWhen() {
-    describe(0)
-    println(describe(1))
-    println(describe("Hello"))
-}
+        when (obj) {
+            0, 1 -> println("One")
+            "Hello" -> "Greeting"
+            is Long -> "Long"
+            !is String -> "Not a string"
+            else -> "Unknown"
+        }
 
 fun testRange(value: Int) {
     if (value in 0..10) {//闭区间
@@ -143,16 +141,16 @@ fun testRange(value: Int) {
 fun testCollection() {
     val fruits = listOf("aaa", "banana", "avocado", "apple", "kiwifruit")
     fruits.asSequence().filter { it.startsWith("a") }
-        .sortedBy { it }
-        .map { it.toUpperCase() }
-        .forEach { println(it) }
+            .sortedBy { it }
+            .map { it.toUpperCase() }
+            .forEach { println(it) }
 }
 
 fun testCollection2() {
     val items = listOf("aaa", "bbb", null, 123)
     items.asSequence()
-        /*.filter { it != null }*/ //不会 NPE
-        .forEach { println(it.toString()) }
+            /*.filter { it != null }*/ //不会 NPE
+            .forEach { println(it.toString()) }
 }
 
 fun testSaveNull() {
@@ -172,4 +170,47 @@ fun testEquals() {
     val anotherBoxedA: Int? = a
     println(boxedA === anotherBoxedA) // 输出“false”
     println(boxedA == anotherBoxedA) // // 输出“true”
+}
+
+fun testDouble() {
+    var a = -0
+    var b = 0
+    if (a == b) println("-0 == 0") else println("-0 != 0")
+}
+
+fun testArray() {
+    val array1 = arrayOf(1, 2, 3)
+    for ((index, value) in array1.withIndex()) {
+        println("the element at $index is $value")
+    }
+    
+    val array2 = arrayOfNulls<String>(3)
+    val array3 = arrayListOf<String>()
+    val array4 = longArrayOf()
+
+    // 创建一个 Array<String> 初始化为 ["0", "1", "4", "9", "16"]
+    val array5 = Array(5) { i -> (i * i).toString() }
+    array5.forEach { println(it) }
+
+    val x = 1
+    when (x) {
+        1 -> print("x == 1")
+        2 -> print("x == 2")
+        else -> print("x is neither 1 nor 2")
+
+    }
+}
+
+fun testString() {
+    val text = """
+        
+ |sdfdsf\n
+        >sdf\\tsd
+        |sdf
+    """.trimMargin(">")
+    println(text)
+}
+
+fun testWhen() {
+
 }
