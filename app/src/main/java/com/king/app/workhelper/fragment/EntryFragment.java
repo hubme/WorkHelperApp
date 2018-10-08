@@ -12,6 +12,7 @@ import com.king.app.workhelper.activity.KotlinSampleActivity;
 import com.king.app.workhelper.activity.LifeCircleActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
+import com.king.app.workhelper.activity.ServiceActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.ThreadActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
@@ -49,7 +50,7 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_test_activity)
     public void testActivityClick() {
 //        openActivity(TestActivity.class);
-        
+
         Intent intent = new Intent();
         intent.setAction("com.king.action1");
         intent.addCategory("com.king.category1");
@@ -270,6 +271,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_dagger2)
     public void onDagger2FragmentClick() {
         clickedOn(new Dagger2Fragment());
+    }
+
+    @OnClick(R.id.tv_service)
+    public void onServiceClick() {
+        openActivity(ServiceActivity.class);
     }
 
     private void clickedOn(@NonNull Fragment fragment) {

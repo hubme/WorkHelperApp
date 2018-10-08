@@ -17,6 +17,11 @@
                 android:id="@+id/tv_activity_life_circle"
                 style="@style/EntryItem"
                 android:text="Activity Life Circle"/>
+            
+            <TextView
+                android:id="@+id/tv_service"
+                style="@style/EntryItem"
+                android:text="Service"/>
 
             <TextView
                 android:id="@+id/tv_content_provider"

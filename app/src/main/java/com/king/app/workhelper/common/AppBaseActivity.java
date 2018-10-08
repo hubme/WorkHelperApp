@@ -26,6 +26,8 @@ import butterknife.ButterKnife;
  * @since 2017/8/21
  */
 public abstract class AppBaseActivity extends RxLifeActivity implements View.OnClickListener {
+    protected static final String TAG = GlobalConstant.LOG_TAG;
+
     //子类可能没有引用common_header.xml
     @Nullable
     @BindView(R.id.toolbar)

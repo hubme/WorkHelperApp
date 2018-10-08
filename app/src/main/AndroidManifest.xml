@@ -148,6 +148,8 @@
             android:name=".activity.TransparentActivity"
             android:theme="@style/TransparentTheme"/>
 
+        <activity android:name=".activity.ServiceActivity"/>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service
