@@ -7,37 +7,12 @@
               android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center"
-        android:text="TextView"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Button"/>
+        android:id="@+id/textView"
+        style="@style/EntryItem"
+        android:text="加载大图的指定区域"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/chocolate"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/splash"/>
-    
-    <ImageView
-        android:layout_marginTop="30dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/chocolate"
-        android:scaleType="fitXY"
-        android:src="@mipmap/splash"/>
-
-    <ImageView
-        android:layout_marginTop="30dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerInside"
-        android:background="@color/chocolate"
-        android:src="@mipmap/splash"/>
-
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
