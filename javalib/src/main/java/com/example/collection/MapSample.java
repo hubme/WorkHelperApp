@@ -75,6 +75,7 @@ public class MapSample {
     }
 
     private static void testLinkedHashMap2() {
+        //accessOrder = true，LRU 算法的数据结构实现。访问过的数据会移到链表尾部。
         LinkedHashMap<Integer, String> linkedHashMap = new LinkedHashMap<>(8, 0.75f, true);
         linkedHashMap.put(1, "aaa");
         linkedHashMap.put(2, "bbb");

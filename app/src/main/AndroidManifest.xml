@@ -150,6 +150,10 @@
 
         <activity android:name=".activity.ServiceActivity"/>
 
+        <activity
+            android:name=".app.keepalive.KeepLiveActivity"
+            android:launchMode="singleInstance"/>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service
@@ -175,6 +179,8 @@
                 <action android:name="com.example.action"/>
             </intent-filter>
         </service>
+
+        <service android:name=".app.keepalive.KeepAliveService"/>
 
         <receiver android:name=".receiver.NetworkChangeReceiver">
             <intent-filter>
