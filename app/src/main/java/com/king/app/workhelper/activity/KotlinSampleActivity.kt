@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import com.king.app.workhelper.R
+import com.king.app.workhelper.common.annotation.PrintMe
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
 /**
@@ -50,5 +51,10 @@ class KotlinSampleActivity : AppCompatActivity() {
     //定义一个返回 int 值的方法
     fun sum(first: Int, second: Int): Int {
         return first + second
+    }
+
+    fun testAnnotation() {
+        val reqAnnotation = javaClass.getAnnotation(PrintMe::class.java)
+        reqAnnotation.name
     }
 }
