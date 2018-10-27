@@ -17,19 +17,73 @@ import java.io.Serializable;
 
 public class TransientSample {
     public static void main(String[] args) throws Exception {
-        User user = new User();
-        System.out.println("序列化前：" + user.toString());
+        testExternalizable();
+    }
 
-        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("g://user.txt"));
-        outputStream.writeObject(user);
-        outputStream.flush();
-        outputStream.close();
+    private static void testExternalizable() {
+        String path = "c://user.txt";
+        Person person = new Person(100, "Vance");
+        System.out.println("序列化：" + person.toString());
 
-        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("g://user.txt"));
-        User user2 = (User) inputStream.readObject();
-        inputStream.close();
+        serialize(person, path);
+        Person person2 = (Person) unSerialize(path);
+        System.out.println("反序列化：" + person2.toString());
+        System.out.println("前后对象相同（==）吗？： " + (person == person2));
 
-        System.out.println(user2.toString());
+    }
+
+    private static void testSerializable() throws Exception {
+        User user = new User("Vance", "111");
+        System.out.println("序列化：" + user.toString());
+
+        String path = "c://user.txt";
+        serialize(user, path);
+        User user2 = (User) unSerialize(path);
+
+        System.out.println("反序列化：" + user2.toString());
+        System.out.println("前后对象相同（==）吗？： " + (user == user2));
+    }
+
+    private static boolean serialize(Object object, String filePath) {
+        ObjectOutputStream outputStream = null;
+        try {
+            outputStream = new ObjectOutputStream(new FileOutputStream(filePath));
+            outputStream.writeObject(object);
+            outputStream.flush();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static Object unSerialize(String filePath) {
+        ObjectInputStream inputStream = null;
+        try {
+            inputStream = new ObjectInputStream(new FileInputStream(filePath));
+            Object object = inputStream.readObject();
+            inputStream.close();
+            return object;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     //实现 Serializable 接口的类可以自动序列化。此时 transient 才有意义。
@@ -57,14 +111,32 @@ public class TransientSample {
 
     //需要手动实现序列化，此时 transient 已经失去了意义。
     private static class Person implements Externalizable {
-        private transient String content = "我能被序列化吗?";
+        private int id;
+        private transient String name;
+
+        public Person() {
+        }
+
+        public Person(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
 
         @Override public void writeExternal(ObjectOutput objectOutput) throws IOException {
-            objectOutput.writeObject(content);
+            objectOutput.writeObject(name);
+            objectOutput.writeObject(id);
         }
 
         @Override public void readExternal(ObjectInput objectInput) throws IOException, ClassNotFoundException {
-            content = (String) objectInput.readObject();
+            name = (String) objectInput.readObject();
+            id = (Integer) objectInput.readObject();
+        }
+
+        @Override public String toString() {
+            return "Person{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    '}';
         }
     }
 }
