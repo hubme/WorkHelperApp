@@ -51,7 +51,7 @@ public class BaseWebViewClient extends WebViewClient {
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
         Logger.i("shouldOverrideUrlLoading(>=LOLLIPOP)");
-        return true;
+        return false;
     }
 
     //回调不准确
