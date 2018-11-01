@@ -154,6 +154,26 @@
             android:name=".app.keepalive.KeepLiveActivity"
             android:launchMode="singleInstance"/>
 
+        <activity
+            android:name=".activity.SingleTopActivity"
+            android:launchMode="singleTop">
+        </activity>
+
+        <activity
+            android:name=".activity.StandardActivity"
+            android:launchMode="standard">
+        </activity>
+
+        <activity
+            android:name=".activity.SingleTaskActivity"
+            android:launchMode="singleTask">
+        </activity>
+
+        <activity
+            android:name=".activity.SingleInstanceActivity"
+            android:launchMode="singleInstance">
+        </activity>
+
         <service android:name=".service.DownloadFileService"/>
 
         <service
