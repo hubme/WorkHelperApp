@@ -45,14 +45,16 @@ public class EqualsAndHash {
         }
 
         @Override public boolean equals(Object o) {
-            if (o == null) {
-                return false;
+            if (o == this) {//对象自身，提高效率
+                return true;
             }
+            // 1. 已经包含 null 判断 
+            // 2. 不应该通过 Class 判断，否则将不适合之类继承父类 equals() 的情况
             if (!(o instanceof Person)) {
                 return false;
             }
             final Person person = (Person) o;
-
+            //必要的域判断
             return idNumber.equals(person.idNumber);
         }
 
