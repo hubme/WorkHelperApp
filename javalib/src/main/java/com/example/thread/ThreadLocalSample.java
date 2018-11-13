@@ -28,6 +28,7 @@ public class ThreadLocalSample {
                 System.out.println("[thread-1] " + threadLocal.get());
                 threadLocal.set("[thread-1] hello");
                 System.out.println("[thread-1] " + threadLocal.get());
+                // threadLocal.remove();//threadLocal 使用完成后移除掉，避免内存泄漏
             }
         }.start();
 
