@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,6 +51,35 @@ public class WebViewSampleFragment extends AppBaseFragment {
     protected void initData() {
         super.initData();
         loadUrl(BAIDU_URL);
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override public boolean onLongClick(View v) {
+                WebView.HitTestResult result = ((WebView) v).getHitTestResult();
+                int type = result.getType();
+                switch (type) {
+                    case WebView.HitTestResult.PHONE_TYPE:
+                        break;
+                    case WebView.HitTestResult.EMAIL_TYPE:
+                        break;
+                    case WebView.HitTestResult.GEO_TYPE:
+                        break;
+                    case WebView.HitTestResult.SRC_ANCHOR_TYPE://超链接类型
+                        break;
+                    case WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE://带有链接的图片类型
+                        break;
+                    case WebView.HitTestResult.IMAGE_TYPE:
+                        showToast("图片");
+                        break;
+                    case WebView.HitTestResult.EDIT_TEXT_TYPE:
+                        break;
+                    case WebView.HitTestResult.UNKNOWN_TYPE:
+                    default:
+
+                        break;
+                }
+
+                return false;
+            }
+        });
     }
 
     @Override public void onDestroyView() {
