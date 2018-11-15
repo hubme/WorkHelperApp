@@ -94,6 +94,8 @@ public class SimpleWebView extends WebView {
 
         settings.setUseWideViewPort(true); // 将图片调整到适合WebView的大小
         settings.setLoadWithOverviewMode(true); // 自适应屏幕
+        settings.setLoadsImagesAutomatically(false);//默认“true”
+        settings.setBlockNetworkLoads(false);//有网络权限时默认“false”
 
         setHorizontalScrollBarEnabled(false);
         setScrollbarFadingEnabled(true);
