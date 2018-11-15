@@ -3,6 +3,8 @@ package com.king.app.workhelper.activity;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 
+import butterknife.OnClick;
+
 /**
  * @author VanceKing
  * @since 2017/12/11.
@@ -22,5 +24,9 @@ public class TestActivity extends AppBaseActivity {
     }
 
 
+    @OnClick(R.id.tv_open)
+    public void onViewClick() {
+        openActivity(SingleInstanceActivity.class);
+    }
 
 }
