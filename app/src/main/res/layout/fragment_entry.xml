@@ -17,7 +17,7 @@
                 android:id="@+id/tv_activity_life_circle"
                 style="@style/EntryItem"
                 android:text="Activity Life Circle"/>
-            
+
             <TextView
                 android:id="@+id/tv_service"
                 style="@style/EntryItem"
@@ -27,6 +27,11 @@
                 android:id="@+id/tv_content_provider"
                 style="@style/EntryItem"
                 android:text="ContentProvider"/>
+
+            <TextView
+                android:id="@+id/tv_broadcast_receiver"
+                style="@style/EntryItem"
+                android:text="BroadcastReceiver"/>
 
             <TextView
                 android:id="@+id/tv_test_activity"
@@ -237,7 +242,7 @@
                 android:id="@+id/tv_data_binding"
                 style="@style/EntryItem"
                 android:text="Data Binding"/>
-            
+
             <TextView
                 android:id="@+id/tv_dagger2"
                 style="@style/EntryItem"

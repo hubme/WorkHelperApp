@@ -150,6 +150,8 @@
 
         <activity android:name=".activity.ServiceActivity"/>
 
+        <activity android:name=".activity.BroadcastReceiverActivity"/>
+
         <activity
             android:name=".app.keepalive.KeepLiveActivity"
             android:launchMode="singleInstance"/>

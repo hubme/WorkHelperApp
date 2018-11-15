@@ -2,9 +2,6 @@ package com.king.app.workhelper.activity;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.ui.customview.TestView;
-
-import butterknife.OnClick;
 
 /**
  * @author VanceKing
@@ -24,15 +21,6 @@ public class TestActivity extends AppBaseActivity {
         return R.layout.activity_test;
     }
 
-    @Override protected void initContentView() {
-        super.initContentView();
-        
-    }
 
-    @OnClick(R.id.textView)
-    public void onViewClick(TestView testView) {
-   
-        openActivity(SingleInstanceActivity.class);
-    }
 
 }

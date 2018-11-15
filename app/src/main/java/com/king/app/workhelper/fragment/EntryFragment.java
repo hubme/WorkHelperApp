@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.activity.BroadcastReceiverActivity;
 import com.king.app.workhelper.activity.ContentProviderActivity;
 import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.KotlinSampleActivity;
@@ -45,6 +46,11 @@ public class EntryFragment extends AppBaseFragment {
     @OnClick(R.id.tv_content_provider)
     public void testContentProvider() {
         openActivity(ContentProviderActivity.class);
+    }
+
+    @OnClick(R.id.tv_broadcast_receiver)
+    public void testBroadcastReceiver() {
+        openActivity(BroadcastReceiverActivity.class);
     }
 
     @OnClick(R.id.tv_test_activity)
