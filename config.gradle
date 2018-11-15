@@ -1,9 +1,9 @@
 ext {
     android = [
-            compileSdkVersion: 28,
-            buildToolsVersion: "28.0.2",
+            compileSdkVersion: 28,//26。8.0 手机调试
+            buildToolsVersion: "28.0.2",//26.0.2
             minSdkVersion    : 14,
-            targetSdkVersion : 27,
+            targetSdkVersion : 28,//26
             applicationId    : "com.wustor.gradlemodule",
             versionCode      : 1,
             versionName      : "1.0.0"
