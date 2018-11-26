@@ -22,6 +22,7 @@ import com.king.app.workhelper.model.entity.Course;
 import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.log.Logger;
 import com.king.applib.util.NetworkUtil;
+import com.king.applib.util.NumberUtil;
 import com.king.applib.util.StringUtil;
 
 import org.reactivestreams.Publisher;
@@ -71,7 +72,6 @@ public class RxJavaSampleFragment extends AppBaseFragment {
     private CompositeDisposable mCompositeDisposable;
     /** 网络变化发布者 */
     private PublishProcessor<Boolean> mNetworkChangedProcessor;
-    private Disposable subscribe;
 
     @Override
     public int getContentLayout() {
@@ -676,7 +676,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
      */
     @OnClick(R.id.tv_timeInterval)
     public void onTimeInterval() {
-        Observable.create(new ObservableOnSubscribe<String>() {
+        Disposable subscribe = Observable.create(new ObservableOnSubscribe<String>() {
             @Override public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
                 for (int i = 0; i < 3; i++) {
                     e.onNext(i + "");
@@ -693,18 +693,22 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                         Logger.i(String.valueOf(stringTimed.time()));
                     }
                 });
+        mCompositeDisposable.add(subscribe);
     }
 
     @OnClick(R.id.tv_count_down)
     public void onCountDown(TextView textView) {
-        final int duration = 6;
-        subscribe = Observable.interval(1, 1, TimeUnit.SECONDS)
+        if (NumberUtil.getInt(textView.getText().toString()) > 0){
+            return;
+        }
+        final int duration = 10;
+        Disposable subscribe = Observable.interval(1, 1, TimeUnit.SECONDS)
                 .doOnDispose(() -> Logger.i("doOnDispose"))
                 .doOnNext(aLong -> {
                     Logger.i("onOnNext: " + aLong.toString());
-                    if (aLong == 3) {
+                    /*if (aLong == 3) {
                         subscribe.dispose();
-                    }
+                    }*/
                 })
                 .doOnComplete(() -> Logger.i("doOnComplete"))
                 .doFinally(() -> Logger.i("doFinally"))
@@ -713,6 +717,7 @@ public class RxJavaSampleFragment extends AppBaseFragment {
                 .takeUntil(aLong -> aLong.intValue() == duration)
                 .map(aLong -> duration - aLong)
                 .subscribe(aLong -> textView.setText(String.valueOf(aLong.intValue())));
+        mCompositeDisposable.add(subscribe);
     }
 
     public void testPublishSubject() {
