@@ -10,13 +10,14 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.king.app.workhelper.IAidlModelListener;
 import com.king.app.workhelper.IRemoteService;
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.app.workhelper.model.AidlModel;
 import com.king.applib.util.AppUtil;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author VanceKing
@@ -25,7 +26,8 @@ import java.util.List;
 
 public class AidlService extends Service {
     public static final String PERMISSION_NAME = "com.aidl.permission";
-    private final List<AidlModel> mAidlModels = new ArrayList<>();
+    private final CopyOnWriteArrayList<AidlModel> mAidlModels = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<IAidlModelListener> mAidlModelListeners = new CopyOnWriteArrayList<>();
 
     @Override public void onCreate() {
         Log.i(GlobalConstant.LOG_TAG, "[RemoteService] onCreate()");
@@ -74,6 +76,16 @@ public class AidlService extends Service {
 
         @Override public String getPName() throws RemoteException {
             return AppUtil.getProcessName(AidlService.this);
+        }
+
+        @Override public void registerModelListener(IAidlModelListener listener) throws RemoteException {
+            if (!mAidlModelListeners.contains(listener)) {
+                mAidlModelListeners.add(listener);
+            }
+        }
+
+        @Override public void unRegisterModelListener(IAidlModelListener listener) throws RemoteException {
+            mAidlModelListeners.remove(listener);
         }
 
         /**此处可用于权限拦截**/

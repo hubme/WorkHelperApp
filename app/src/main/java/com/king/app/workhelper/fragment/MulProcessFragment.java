@@ -14,12 +14,12 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.king.app.workhelper.model.AidlModel;
 import com.king.app.workhelper.IRemoteService;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.app.AppConfig;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.model.AidlModel;
 import com.king.app.workhelper.service.AidlService;
 import com.king.app.workhelper.service.MessengerService;
 import com.king.applib.log.Logger;
