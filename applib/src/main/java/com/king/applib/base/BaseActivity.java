@@ -37,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getIntent() != null) {
             getIntentData(getIntent());
         }
+        // root == null 导致子 Activity 无法使用 merge 标签。报 <merge /> can be used only with a valid ViewGroup root and attachToRoot=true
         mContentLayout = LayoutInflater.from(this).inflate(getContentLayout(), null);
         setContentView(mContentLayout);
         initContentView();
