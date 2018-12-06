@@ -13,22 +13,69 @@ import java.lang.reflect.Proxy;
  * @since 2017/1/8.
  */
 
-public class DynamicProxyTest {
-    /**
-     * InvocationHandler负责连接代理类和委托类的中间类必须实现的接口.
-     * public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h) throws IllegalArgumentException
-     * loader:　　一个ClassLoader对象，定义了由哪个ClassLoader对象来对生成的代理对象进行加载
-     * interfaces:　　一个Interface对象的数组，表示的是我将要给我需要代理的对象提供一组什么接口，
-     * 如果我提供了一组接口给它，那么这个代理对象就宣称实现了该接口(多态)，这样我就能调用这组接口中的方法了
-     * h:　　一个InvocationHandler对象，表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上
+class DynamicProxyTest {
+
+
+    public static void main(String[] args) {
+        test();
+    }
+
+    private static void test() {
+        //委托类(被代理类)
+        HelloImpl helloImpl = new HelloImpl();
+        IHello proxy = (IHello) Proxy.newProxyInstance(HelloImpl.class.getClassLoader(), HelloImpl.class.getInterfaces(), new InvocationHandler() {
+            @Override public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                System.out.println("before method invoke!");
+                Object returnValue = method.invoke(helloImpl, args);
+                System.out.println("after method invoke!");
+                return returnValue;
+            }
+        });
+        proxy.sayHi();
+        proxy.sayHello();
+        System.out.println("Proxy SimpleName: " + proxy.getClass().getSimpleName());
+    }
+
+    private static void test1() {
+        //委托类(被代理类)
+        HelloImpl helloImpl = new HelloImpl();
+        //代理连接器
+        ProxyHandler proxyHandler = new ProxyHandler();
+        //进一步封装，返回代理对象
+        IHello hello = (IHello) proxyHandler.bind(helloImpl);
+        hello.sayHello();
+        hello.sayHi();
+        //命名方式固定，以$开头，proxy为中，最后一个数字表示对象的标号。
+        System.out.println(hello.getClass().getName());//com.example.$Proxy0
+
+        // save proxy class to root of this project, you can use jd-gui to see content of the saved file 
+        String saveFileName = "$Proxy0.class";
+        ProxyUtil.saveProxyClass(saveFileName, helloImpl.getClass().getSimpleName(), helloImpl.getClass().getInterfaces());
+    }
+
+    /*
+    动态代理要求委托类(被代理类)必须实现了某个接口，约定委托类和代理类之间的协议，代理类才能通过多态调用委托类的方法。
      */
+    private static class HelloImpl implements IHello {
+        @Override public void sayHello() {
+            System.out.println("hello!");
+        }
+
+        @Override public void sayHi() {
+            System.out.println("hi!");
+        }
+    }
+
     private static class ProxyHandler implements InvocationHandler {
         //这个就是我们要代理的真实对象
-        Object originalObj;
+        private Object originalObj;
 
         //给我们要代理的真实对象赋初值
-        Object bind(Object originalObj) {
+        private Object bind(Object originalObj) {
             this.originalObj = originalObj;
+            //loader: ClassLoader对象，定义了由哪个ClassLoader对象来对生成的代理对象进行加载
+            //interfaces: Interface对象的数组，表示要给代理对象提供什么接口
+            //invocationHandler: InvocationHandler对象，当动态生成的动态代理对象在调用方法的时候，会关联到某个InvocationHandler对象上
             return Proxy.newProxyInstance(originalObj.getClass().getClassLoader(),
                     originalObj.getClass().getInterfaces(), this);
         }
@@ -45,22 +92,5 @@ public class DynamicProxyTest {
 
             return returnObject;
         }
-    }
-
-    public static void main(String[] args) {
-        //委托类(被代理类)
-        HelloImpl helloImpl = new HelloImpl();
-        //代理连接器
-        ProxyHandler proxyHandler = new ProxyHandler();
-        //进一步封装，返回代理对象
-        IHello hello = (IHello) proxyHandler.bind(helloImpl);
-        hello.sayHello();
-        hello.sayHi();
-        //命名方式固定，以$开头，proxy为中，最后一个数字表示对象的标号。
-        System.out.println(hello.getClass().getName());//com.example.$Proxy0
-
-        // save proxy class to root of this project, you can use jd-gui to see content of the saved file 
-        String saveFileName = "$Proxy0.class";
-        ProxyUtil.saveProxyClass(saveFileName, helloImpl.getClass().getSimpleName(), helloImpl.getClass().getInterfaces());
     }
 }

@@ -5,7 +5,7 @@ package com.example.dynamicproxy;
  * @since 2017/6/14.
  */
 
-public interface IHello {
+interface IHello {
     void sayHello();
 
     void sayHi();

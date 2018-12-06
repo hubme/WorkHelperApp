@@ -8,7 +8,7 @@ import java.lang.reflect.Proxy;
  * @author VanceKing
  * @since 2017/1/7
  */
-public class ProxyTest {
+class ProxyTest {
     public interface ITest {
         void add(int a, int b);
     }
