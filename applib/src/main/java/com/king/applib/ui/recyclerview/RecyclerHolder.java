@@ -14,19 +14,19 @@ import android.widget.TextView;
  * @author kymjs (http://www.kymjs.com/) on 8/27/15.
  */
 public class RecyclerHolder extends RecyclerView.ViewHolder {
+    private static final int DEFAULT_ITEM_COUNT = 6;
     private final SparseArray<View> mViews;
-    private final View mItemView;
     
     public RecyclerHolder(View itemView) {
         super(itemView);
-        this.mItemView = itemView;
-        this.mViews = new SparseArray<>();
+        this.mViews = new SparseArray<>(DEFAULT_ITEM_COUNT);
     }
 
-    public View getItemView() {
-        return mItemView;
+    public RecyclerHolder(View itemView, int itemCounts) {
+        super(itemView);
+        this.mViews = new SparseArray<>(Math.max(itemCounts, DEFAULT_ITEM_COUNT));
     }
-    
+
     public SparseArray<View> getAllView() {
         return mViews;
     }
