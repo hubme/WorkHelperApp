@@ -13,7 +13,7 @@ import java.util.concurrent.FutureTask;
  * @since 2018/4/24.
  */
 
-public class CallableSample {
+class CallableSample {
     public static void main(String[] args) throws Exception {
         sample2();
     }

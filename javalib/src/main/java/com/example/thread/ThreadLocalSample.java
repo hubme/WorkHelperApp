@@ -7,8 +7,8 @@ package com.example.thread;
  * @since 2018/3/29.
  */
 
-public class ThreadLocalSample {
-    ThreadLocal<String> threadLocal = new ThreadLocal<String>() {
+class ThreadLocalSample {
+    private ThreadLocal<String> threadLocal = new ThreadLocal<String>() {
         @Override
         protected String initialValue() {
             return "Vance";

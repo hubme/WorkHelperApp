@@ -6,7 +6,7 @@ import com.example.util.Utility;
  * @author VanceKing
  * @since 2018/4/9.
  */
-public class SynchronizedSample {
+class SynchronizedSample {
     public static void main(String[] args) {
         final AClass aClass = new AClass();
         final AClass aClass2 = new AClass();

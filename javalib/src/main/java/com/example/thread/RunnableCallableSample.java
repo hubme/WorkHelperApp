@@ -12,17 +12,12 @@ import java.util.concurrent.FutureTask;
  * @since 2018/3/27.
  */
 
-public class RunnableCallableSample {
+class RunnableCallableSample {
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
 
-    public static void main(String[] args) {
-        try {
-            RunnableCallableSample main = new RunnableCallableSample();
-            main.futureTaskSample2();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public static void main(String[] args) throws Exception{
+        RunnableCallableSample main = new RunnableCallableSample();
+        main.callableWithReturnValue();
 
     }
 
@@ -35,7 +30,8 @@ public class RunnableCallableSample {
             }
         }, "id-2");
         Future<String> future = mExecutor.submit(futureTask, "aaa");
-        System.out.println("future result: " + future.get());//FutureTask.get() 会阻塞当前线程
+        //FutureTask.get() 会阻塞当前线程。返回"aaa"
+        System.out.println("future result: " + future.get());
     }
 
     private void futureTaskSample1() throws ExecutionException, InterruptedException {
@@ -51,17 +47,19 @@ public class RunnableCallableSample {
         System.out.println("behind FutureTask.get()");
     }
 
-    private void callableSample1() throws ExecutionException, InterruptedException {
+    private void callableWithReturnNull() throws ExecutionException, InterruptedException {
+        //不需要返回结果，使用 "?" 通配符。
         Future<?> result = mExecutor.submit(new Runnable() {
             @Override
             public void run() {
                 printResult();
             }
         });
+        //返回 null
         System.out.println("future result : " + result.get());
     }
 
-    private void callableSample2() throws ExecutionException, InterruptedException {
+    private void callableWithReturnValue() throws ExecutionException, InterruptedException {
         Future<Integer> result = mExecutor.submit(new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
@@ -101,5 +99,9 @@ public class RunnableCallableSample {
         System.out.println(fibc);
         System.out.println(System.currentTimeMillis());
         return fibc;
+    }
+
+    private static void printFibc() {
+        
     }
 }

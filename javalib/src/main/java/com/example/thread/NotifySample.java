@@ -4,7 +4,7 @@ package com.example.thread;
  * @author VanceKing
  * @since 2018/4/10.
  */
-public class NotifySample {
+class NotifySample {
     private static final Object lock = new Object();
     private static final Object object = new Object();
 

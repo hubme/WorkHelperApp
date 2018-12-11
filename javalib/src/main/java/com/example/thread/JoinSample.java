@@ -6,7 +6,7 @@ import com.example.util.Utility;
  * @author VanceKing
  * @since 2018/10/20.
  */
-public class JoinSample {
+class JoinSample {
     public static void main(String[] args) throws Exception{
         test1();
     }
