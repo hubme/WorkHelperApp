@@ -7,6 +7,7 @@
         android:name="com.aidl.permission"
         android:protectionLevel="normal"/>
 
+    <!-- https://developer.android.com/studio/build/manifest-merge?hl=zh-cn -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
