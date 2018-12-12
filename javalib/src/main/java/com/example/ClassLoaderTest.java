@@ -15,9 +15,18 @@ import java.io.InputStream;
  * Created by VanceKing on 2016/12/31 0031.
  */
 
-public class ClassLoaderTest {
+class ClassLoaderTest {
     public static void main(String[] args) throws Exception {
-        test2();
+        test3();
+    }
+
+    private static void test3() throws Exception {
+        Class<?> clazz = Class.forName("[I");
+        System.out.println(clazz);
+
+        //不能加载原生类型。java.lang.ClassNotFoundException: [I
+        Class<?> aClass = ClassLoader.getSystemClassLoader().loadClass("[I");
+        System.out.println(aClass);
     }
 
     private static void test2() throws Exception {
@@ -53,7 +62,7 @@ public class ClassLoaderTest {
                 } catch (Exception e) {
                     throw new ClassNotFoundException(name);
                 }
-                
+
             }
         };
 
