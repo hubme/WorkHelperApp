@@ -1,20 +1,16 @@
 package com.king.app.workhelper.activity;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.fragment.LifeCircleFragment;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * @author VanceKing
@@ -23,6 +19,7 @@ import butterknife.OnClick;
 
 public class LifeCircleActivity extends AppCompatActivity {
     private static final String BUNDLE_KEY = "BUNDLE_KEY";
+    private boolean mIsShowFragmentLog = true;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +30,12 @@ public class LifeCircleActivity extends AppCompatActivity {
             log("onCreate." + savedInstanceState.getString(BUNDLE_KEY));
         } else {
             log("onCreate. savedInstanceState == null");
+        }
+
+        if (mIsShowFragmentLog) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new LifeCircleFragment())
+                    .commit();
         }
     }
 
@@ -95,33 +98,7 @@ public class LifeCircleActivity extends AppCompatActivity {
         log("onConfigurationChanged");
     }
 
-    @OnClick(R.id.tv_open)
-    public void onOpenClick(TextView textView) {
-        openActivity(LifeCircleActivity.class);
-
-    }
-
-    //A打开透明主题的B，A不会执行onStop()方法。
-    @OnClick(R.id.tv_open_transparent)
-    public void onOpenTransparentClick(TextView textView) {
-        openActivity(TransparentActivity.class);
-    }
-
-    //不影响生命周期
-    @OnClick(R.id.tv_open_dialog)
-    public void onDialogClick(TextView textView) {
-        new AlertDialog.Builder(this)
-                .setMessage("弹窗")
-                .create()
-                .show();
-    }
-
-    protected void openActivity(@NonNull Class<?> cls) {
-        Intent intent = new Intent(this, cls);
-        startActivity(intent);
-    }
-
     private void log(String message) {
-        Log.i(GlobalConstant.LOG_TAG, Integer.toHexString(hashCode())+" - " + message);
+        Log.i(GlobalConstant.LOG_TAG, "Activity#" + message);
     }
 }

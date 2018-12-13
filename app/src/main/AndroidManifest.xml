@@ -63,6 +63,9 @@
             android:name=".activity.LifeCircleActivity"
             android:configChanges="orientation|screenSize"/>
 
+        <activity
+            android:name=".activity.LifeCircleEntryActivity" />
+
         <activity android:name=".activity.ContentProviderActivity"/>
 
         <activity android:name=".activity.TestActivity">

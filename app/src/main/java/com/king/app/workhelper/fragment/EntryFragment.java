@@ -10,7 +10,7 @@ import com.king.app.workhelper.activity.BroadcastReceiverActivity;
 import com.king.app.workhelper.activity.ContentProviderActivity;
 import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.KotlinSampleActivity;
-import com.king.app.workhelper.activity.LifeCircleActivity;
+import com.king.app.workhelper.activity.LifeCircleEntryActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.ServiceActivity;
@@ -40,7 +40,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_activity_life_circle)
     public void testActivityLifeCircle() {
-        openActivity(LifeCircleActivity.class);
+        openActivity(LifeCircleEntryActivity.class);
     }
 
     @OnClick(R.id.tv_content_provider)
