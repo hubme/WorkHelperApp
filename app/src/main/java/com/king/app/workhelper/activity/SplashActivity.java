@@ -1,5 +1,7 @@
 package com.king.app.workhelper.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -7,6 +9,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.rx.rxlife.event.ActivityLifeEvent;
+import com.king.applib.log.Logger;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +39,25 @@ public class SplashActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
+    }
+
+    @Override protected void getIntentData(Intent intent) {
+        super.getIntentData(intent);
+
+        Uri uri = intent.getData();
+        if (uri != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("string: ").append(intent.getDataString()).append("\n")
+                    .append("scheme: ").append(uri.getScheme()).append("\n")
+                    .append("host: ").append(uri.getHost()).append("\n")
+                    .append("port: ").append(uri.getPort()).append("\n")
+                    .append("path: ").append(uri.getPath()).append("\n")
+                    .append("name: ").append(uri.getQueryParameter("name")).append("\n")
+                    .append("age: ").append(uri.getQueryParameter("age")).append("\n");
+            Logger.i(sb.toString());
+        } else {
+            Logger.e("uri == null");
+        }
     }
 
     @Override protected void initContentView() {
