@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://ayqy.net/temp/android-scheme.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Scheme呼起App</title>
+    <style>
+    a {
+        display: inline-block;
+        padding: 6px 18px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        color: #50a5f2;
+        border: 1px solid #eee;
+    }
+    </style>
+</head>
+<body>
+    <a href="http://www.ayqy.net/blog/android-scheme%E5%91%BC%E8%B5%B7app/">Android scheme呼起App</a>
+    <a href="hoho://ayqy.net:9527/index?uid=1001&amp;from=%E8%87%AA%E5%B7%B1%E4%BA%BA">a标签过去</a>
+    <a id="btnLocation">location过去</a>
+    <a id="btnIframe">iframe过去</a>
+    <a id="btnImage">new Image过去</a>
+
+    <script>
+    void function() {
+        var btnLocation = document.querySelector('#btnLocation');
+        var btnIframe = document.querySelector('#btnIframe');
+        var btnImage = document.querySelector('#btnImage');
+
+        var url = 'hoho://ayqy.net:9527/index?uid=1001&from=%E8%87%AA%E5%B7%B1%E4%BA%BA';
+
+        btnLocation.addEventListener('click', function() {
+            location.href = url;
+        });
+
+        btnIframe.addEventListener('click', function() {
+            var iframe = document.createElement('iframe');
+            iframe.style.cssText = "width: 0; height: 0; visibility: hidden;"
+            iframe.onload = function() {
+                btnIframe.innerText = '不知道呼起了没';
+            };
+            document.body.appendChild(iframe);
+            iframe.src = url;
+        });
+
+        btnImage.addEventListener('click', function() {
+            new Image().src = url;
+        });
+    }();
+    </script>
+
+</body></html>

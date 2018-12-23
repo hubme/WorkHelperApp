@@ -55,6 +55,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
+            <!-- https://developer.android.com/training/app-links/deep-linking -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
