@@ -11,6 +11,7 @@ import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.EmptyModel;
 import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
+import com.king.app.workhelper.okhttp.interceptor.LogInterceptor;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
 import com.king.app.workhelper.retrofit.observer.HttpResultObserver;
 import com.king.app.workhelper.rx.RxUtil;
@@ -55,6 +56,7 @@ import okhttp3.ResponseBody;
  * @since 2017/10/5
  */
 public class OkHttpFragment extends AppBaseFragment {
+    private static final String HELLO_WORLD = "http://www.publicobject.com/helloworld.txt";
     public static final String URL_BAIDU = "http://www.baidu.com";
     public static final String URL_SINA = "http://www.sina.com";
     public static final String IMAGE_URL = "http://192.168.1.106:8080/appupdate/pic.jpg";
@@ -72,6 +74,7 @@ public class OkHttpFragment extends AppBaseFragment {
     public TextView mOkHttp;
     private OkHttpClient mOkHttpClient;
     private ExecutorService mExecutorService;
+    private OkHttpClient myOkHttpClient;
 
     @Override
     protected int getContentLayout() {
@@ -81,6 +84,7 @@ public class OkHttpFragment extends AppBaseFragment {
     @Override
     protected void initData() {
         super.initData();
+        myOkHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new LogInterceptor()).build();
         mOkHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
         mExecutorService = Executors.newSingleThreadExecutor();
     }
@@ -123,8 +127,8 @@ public class OkHttpFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_okhttp_get)
     public void onOkHttpGetClick() {
-        Request request = new Request.Builder().get().url(URL_BAIDU).build();
-        Call call = mOkHttpClient.newCall(request);
+        Request request = new Request.Builder().get().url(HELLO_WORLD).build();
+        Call call = myOkHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 Logger.i("onFailure");
