@@ -1,6 +1,6 @@
 <html>
-<script type="text/javascript">
-    function sayHello() {
+    <script type="text/javascript">
+        function sayHello() {
         alert("Hello")
     }
 
@@ -13,19 +13,23 @@
     }
 
     function sumToJava(number1, number2){
-       window.control.onSumResult(number1 + number2)
+        var result = sum(number1, number2)
+       window.control.onSumResult(result)
     }
 
-    function getGreetings() {
-      return 1;
+    function sum(number1, number2){
+        return number1 + number2
     }
 
-</script>
-Java-Javascript Interaction In Android
-<input type="button" value="确认上传" onclick="window.control.uploadPicJs()"/>
-
-<form method="POST" enctype="multipart/form-data">
-    File to upload: <input type="file" name="selectImage">&nbsp;&nbsp;
-    <input type="submit" value="Press to Upload..."> to upload the file!
-</form>
+    function invokeNativeToast() {
+      window.control.toastMessage(document.getElementById("inputText").value)
+    }
+    </script>
+    Java-Javascript Interaction In Android
+    <p>
+    </p>
+    <input id="inputText" type="text" value="输入内容："/>
+    <button onclick="invokeNativeToast()">
+        调用 native 方法弹出 toast
+    </button>
 </html>

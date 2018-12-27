@@ -22,6 +22,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.king.app.workhelper.R;
@@ -55,6 +56,7 @@ public class WebActivity extends AppBaseActivity {
 
     @BindView(R.id.web_view) WebView mWebView;
     @BindView(R.id.pb_web_view) ProgressBar mWebProgress;
+    @BindView(R.id.et_input) EditText mInputEt;
 
     @Override
     public int getContentLayout() {
@@ -99,7 +101,7 @@ public class WebActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        mWebView.loadUrl(mUrl);
+        mWebView.loadUrl("file:///android_asset/js_java_interaction.html");
     }
 
     @Override protected void onDestroy() {
@@ -295,13 +297,13 @@ public class WebActivity extends AppBaseActivity {
     /* 4.java调用js。webView调用js的基本格式为: webView.loadUrl(“javascript:methodName(parameterValues)”)
      * 5.js调用java。调用格式为window.jsInterfaceName.methodName(parameterValues) 此例中我们使用的是control作为注入接口名称。
      */
-    @OnClick(R.id.btn_js)
+    @OnClick(R.id.btn_go)
     public void onTestClick() {
 //        String call = "javascript:sayHello()";//不设置WebChromeClient则alert探不出
 //        String call = "javascript:alertMessage(\"" + "哈哈哈" + "\")";//注意对于字符串作为参数值需要进行转义双引号
 //        String call = "javascript:toastMessage(\"" + "哈哈哈" + "\")";
 //        String call = "javascript:sumToJava(1,2)";
-        mWebView.loadUrl(URL_BAI_DU);
+        mWebView.loadUrl("javascript:"+mInputEt.getText().toString().trim());
 
     }
 
