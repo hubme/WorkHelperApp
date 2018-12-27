@@ -1,11 +1,14 @@
 package com.king.app.workhelper.app;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -76,7 +79,7 @@ public class WorkHelperApp extends BaseApplication {
         initLeakCanary();
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
-
+        registerLifecycle();
     }
 
     @Override
@@ -160,6 +163,43 @@ public class WorkHelperApp extends BaseApplication {
             config.fontScale = 1.0f;
             res.updateConfiguration(config, res.getDisplayMetrics());
         }
+    }
+
+    private void registerLifecycle() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                logMessage(activity, "onCreate()");
+            }
+
+            @Override public void onActivityStarted(Activity activity) {
+                logMessage(activity, "onStart()");
+            }
+
+            @Override public void onActivityResumed(Activity activity) {
+                logMessage(activity, "onResume()");
+            }
+
+            @Override public void onActivityPaused(Activity activity) {
+                logMessage(activity, "onPause()");
+            }
+
+            @Override public void onActivityStopped(Activity activity) {
+                logMessage(activity, "onStop()");
+            }
+
+            @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                logMessage(activity, "onSaveInstanceState()");
+            }
+
+            @Override public void onActivityDestroyed(Activity activity) {
+                logMessage(activity, "onDestroy()");
+            }
+        });
+    }
+
+
+    private static void logMessage(Activity activity, String message) {
+        Log.i("lifecycle", String.format("%1s#%2s", activity.getComponentName().getShortClassName(), message));
     }
 
     @Override
