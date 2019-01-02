@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
@@ -61,6 +62,7 @@ public class WorkHelperApp extends BaseApplication {
         }
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         Logger.i("WorkHelperApp#onCreate()");
+        initStrictMode();
 
         ContextUtil.init(this);
         initOkHttp();
@@ -163,6 +165,24 @@ public class WorkHelperApp extends BaseApplication {
             config.fontScale = 1.0f;
             res.updateConfiguration(config, res.getDisplayMetrics());
         }
+    }
+
+    private void initStrictMode() {
+        //线程方面的策略
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
+
+        //VM方面的策略
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectActivityLeaks()//检查 Activity 的内存泄露
+                .detectLeakedSqlLiteObjects()//检查 SQLiteCursor 或者 其他 SQLite 对象是否被正确关闭
+                .detectLeakedClosableObjects()//检测资源有没有释放
+                //.detectLeakedRegistrationObjects() //用来检查 BroadcastReceiver 或者 ServiceConnection 注册类对象是否被正确释放
+                .penaltyLog()
+                .penaltyDeath()//当触发违规条件时，直接Crash
+                .build());
     }
 
     private void registerLifecycle() {
