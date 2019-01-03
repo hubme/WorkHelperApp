@@ -30,6 +30,7 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.applib.builder.IntentBuilder;
 import com.king.applib.log.Logger;
+import com.king.applib.util.AppUtil;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.NetworkUtil;
 import com.king.applib.util.ViewUtil;
@@ -47,6 +48,8 @@ import butterknife.OnClick;
  * @since 2017/1/6
  */
 public class WebActivity extends AppBaseActivity {
+    public static final String HTTP_SCHEME = "http";
+    public static final String HTTPS_SCHEME = "https";
     public static final String URL_BAI_DU = "http://www.baidu.com";
     public static final String URL_SINA = "http://www.sina.com";
     public static final String ASSET_JS = "file:///android_asset/jsdemo.html";
@@ -114,8 +117,8 @@ public class WebActivity extends AppBaseActivity {
 
         //js2java 1
         @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url != null && url.contains(PREFIX_JS_PROTOCOL)) {
-                showToast(url);
+            if (url != null && (!url.startsWith(HTTP_SCHEME) || !url.startsWith(HTTPS_SCHEME))) {
+                AppUtil.openAppByUri(WebActivity.this, url);
                 return true;
             }
             return super.shouldOverrideUrlLoading(view, url);
@@ -304,7 +307,7 @@ public class WebActivity extends AppBaseActivity {
 //        String call = "javascript:alertMessage(\"" + "哈哈哈" + "\")";//注意对于字符串作为参数值需要进行转义双引号
 //        String call = "javascript:toastMessage(\"" + "哈哈哈" + "\")";
 //        String call = "javascript:sumToJava(1,2)";
-        mWebView.loadUrl("javascript:"+mInputEt.getText().toString().trim());
+        mWebView.loadUrl("javascript:" + mInputEt.getText().toString().trim());
 
     }
 

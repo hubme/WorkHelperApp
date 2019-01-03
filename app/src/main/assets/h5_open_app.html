@@ -8,6 +8,7 @@
         </meta>
     </head>
     <body>
+        Android WebView 需要重写 WebViewClient#shouldOverrideUrlLoading(WebView view, String url)，对自定义 scheme 拦截，通过 Uri.parse() 解析，通过 Intent 跳转。<p/>
 
         <a href="open://com.test/splash?from=other&id=1024&name=张三">
             打开闪屏页
