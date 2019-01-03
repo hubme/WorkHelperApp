@@ -67,8 +67,8 @@
                 android:host: 唤起host，只有置顶的host才可被唤起
                 android:pathPrefix: 唤起的路径，对路径进一步的过滤-->
                 <data
-                    android:host="open"
-                    android:scheme="scheme"/>
+                    android:host="com.test"
+                    android:scheme="open"/>
             </intent-filter>
         </activity>
 

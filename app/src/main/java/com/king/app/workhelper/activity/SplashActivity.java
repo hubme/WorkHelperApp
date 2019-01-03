@@ -11,6 +11,7 @@ import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.rx.rxlife.event.ActivityLifeEvent;
 import com.king.applib.log.Logger;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -51,12 +52,12 @@ public class SplashActivity extends AppBaseActivity {
                     .append("scheme: ").append(uri.getScheme()).append("\n")
                     .append("host: ").append(uri.getHost()).append("\n")
                     .append("port: ").append(uri.getPort()).append("\n")
-                    .append("path: ").append(uri.getPath()).append("\n")
-                    .append("name: ").append(uri.getQueryParameter("name")).append("\n")
-                    .append("age: ").append(uri.getQueryParameter("age")).append("\n");
+                    .append("path: ").append(uri.getPath()).append("\n");
+            Set<String> queryParameterNames = uri.getQueryParameterNames();
+            for (String key : queryParameterNames) {
+                sb.append(key).append(" - ").append(uri.getQueryParameter(key)).append("\n");
+            }
             Logger.i(sb.toString());
-        } else {
-            Logger.e("uri == null");
         }
     }
 

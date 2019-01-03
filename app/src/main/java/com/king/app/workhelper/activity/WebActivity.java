@@ -51,6 +51,7 @@ public class WebActivity extends AppBaseActivity {
     public static final String URL_SINA = "http://www.sina.com";
     public static final String ASSET_JS = "file:///android_asset/jsdemo.html";
     public static final String PREFIX_JS_PROTOCOL = "jsbridge://";
+    public static final String ASSERTS_PATH = "file:///android_asset/";
 
     private String mUrl = "";
 
@@ -101,7 +102,7 @@ public class WebActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        mWebView.loadUrl("file:///android_asset/js_java_interaction.html");
+        mWebView.loadUrl(ASSERTS_PATH + "h5_open_app.html");
     }
 
     @Override protected void onDestroy() {
