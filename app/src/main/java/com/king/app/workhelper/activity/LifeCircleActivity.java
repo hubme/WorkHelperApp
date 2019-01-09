@@ -92,6 +92,7 @@ public class LifeCircleActivity extends AppCompatActivity {
         log("onDestroy.");
     }
 
+    //Activity#isChangingConfigurations() 判断 Config 是否变化了
     //指定android:configChanges="orientation|screenSize"，横竖屏切换是会执行onConfigurationChanged()方法。
     @Override public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
