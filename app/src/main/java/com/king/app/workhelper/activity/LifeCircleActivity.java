@@ -98,6 +98,15 @@ public class LifeCircleActivity extends AppCompatActivity {
         log("onConfigurationChanged");
     }
 
+    //屏幕旋转重新创建了对象，通过此方法获取前一个 Activity 里的对象，给新创建的 Activity 重新赋值
+    //ActivityThread#RELAUNCH_ACTIVITY 消息 -> ActivityThread#handleRelaunchActivity() -> ActivityThread#handleDestroyActivity(..., true)
+    //ActivityThread#performDestroyActivity(..., true) -> Activity#retainNonConfigurationInstances()
+    //Activity#onRetainNonConfigurationInstance() -> FragmentActivity#onRetainCustomNonConfigurationInstance()
+    //Activity#NonConfigurationInstances 静态内部类
+    @Override public Object onRetainCustomNonConfigurationInstance() {
+        return null;//通过getLastCustomNonConfigurationInstance();
+    }
+
     private void log(String message) {
         Log.i(GlobalConstant.LOG_TAG, "Activity#" + message);
     }
