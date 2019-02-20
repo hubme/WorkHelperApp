@@ -34,6 +34,13 @@ android {
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86"
         }
+
+        //ARouter
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ AROUTER_MODULE_NAME : project.getName() ]
+            }
+        }
     }
 
     //开启后会执行相应的 dataBinding task(eg: dataBindingExportBuildInfoDebug) ，引入依赖等。
@@ -229,6 +236,9 @@ dependencies {
     
     //图片压缩
 //    implementation 'top.zibin:Luban:1.1.8'
+
+    compile 'com.alibaba:arouter-api:1.4.1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 }
 
 checkstyle {
