@@ -37,7 +37,7 @@ import com.king.applib.ui.customview.FormViewTest;
 import com.king.applib.ui.customview.InsLoadingView;
 import com.king.applib.ui.customview.NoticeView;
 import com.king.applib.ui.customview.SimpleBadgeTextView;
-import com.king.applib.ui.customview.TitleImageView;
+import com.king.app.workhelper.ui.customview.TitleImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;

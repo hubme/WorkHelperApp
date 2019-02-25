@@ -147,21 +147,6 @@
         <attr name="leftSwipe" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="TitleImageView">
-        <attr name="titleText" format="string"/>
-        <attr name="titleColor" format="color"/>
-        <attr name="titleSize" format="reference"/>
-        <attr name="imageWidth" format="dimension"/>
-        <attr name="imageHeight" format="dimension"/>
-        <attr name="titleMargin" format="dimension"/>
-        <attr name="imagePosition" format="enum">
-            <enum name="left" value="0"/>
-            <enum name="top" value="1"/>
-            <enum name="right" value="2"/>
-            <enum name="bottom" value="3"/>
-        </attr>
-    </declare-styleable>
-
     <declare-styleable name="CompoundIconTextView">
         <attr name="cit_drawableLeft" format="integer"/>
         <attr name="cit_drawableTop" format="integer"/>

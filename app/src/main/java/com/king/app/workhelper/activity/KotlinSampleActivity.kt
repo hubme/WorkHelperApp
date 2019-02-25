@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import com.king.app.workhelper.R
-import com.king.app.workhelper.common.annotation.PrintMe
+import com.king.app.workhelper.constant.AnnotationSample
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
 /**
@@ -54,7 +54,7 @@ class KotlinSampleActivity : AppCompatActivity() {
     }
 
     fun testAnnotation() {
-        val reqAnnotation = javaClass.getAnnotation(PrintMe::class.java)
-        reqAnnotation.name
+        val reqAnnotation = javaClass.getAnnotation(AnnotationSample.MethodInfo::class.java)
+        reqAnnotation.author
     }
 }

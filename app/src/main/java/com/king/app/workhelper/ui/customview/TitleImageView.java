@@ -1,4 +1,4 @@
-package com.king.applib.ui.customview;
+package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.king.applib.R;
+import com.king.app.workhelper.R;
 import com.king.applib.util.StringUtil;
 
 /**

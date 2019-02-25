@@ -91,7 +91,7 @@
                 android:layout_height="48dp"
                 android:src="@drawable/icon_4"/>
 
-            <com.king.applib.ui.customview.TitleImageView
+            <com.king.app.workhelper.ui.customview.TitleImageView
                 android:id="@+id/title_image_view"
                 android:layout_width="75dp"
                 android:layout_height="85dp"

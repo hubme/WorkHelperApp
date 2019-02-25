@@ -38,6 +38,21 @@
         <attr name="textSize" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="TitleImageView">
+        <attr name="titleText" format="string"/>
+        <attr name="titleColor" format="color"/>
+        <attr name="titleSize" format="reference"/>
+        <attr name="imageWidth" format="dimension"/>
+        <attr name="imageHeight" format="dimension"/>
+        <attr name="titleMargin" format="dimension"/>
+        <attr name="imagePosition" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="top" value="1"/>
+            <enum name="right" value="2"/>
+            <enum name="bottom" value="3"/>
+        </attr>
+    </declare-styleable>
+
     <!--水波纹-->
     <declare-styleable name="RippleView">
         <attr name="rv_alpha" format="integer"/>
