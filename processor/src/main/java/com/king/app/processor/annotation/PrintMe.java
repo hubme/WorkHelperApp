@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common.annotation;
+package com.king.app.processor.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
  * @author VanceKing
  * @since 2018/10/18.
  */
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.FIELD,ElementType.PARAMETER,ElementType.METHOD})
 @Inherited
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 public @interface PrintMe {
-    String name() default "";
+    String value() default "";
 }
