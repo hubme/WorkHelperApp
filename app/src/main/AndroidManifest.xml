@@ -181,6 +181,8 @@
             android:name=".activity.SingleInstanceActivity"
             android:launchMode="singleInstance">
         </activity>
+        
+        <activity android:name=".activity.ARouterSampleActivity"/>
 
         <service android:name=".service.DownloadFileService"/>
 

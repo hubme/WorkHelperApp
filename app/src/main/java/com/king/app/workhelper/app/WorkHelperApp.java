@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
@@ -65,6 +66,7 @@ public class WorkHelperApp extends BaseApplication {
         initStrictMode();
 
         ContextUtil.init(this);
+        ARouter.init(this);
         initOkHttp();
         initMineOkHttp();
         initFresco();
