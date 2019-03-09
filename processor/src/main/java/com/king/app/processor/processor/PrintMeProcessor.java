@@ -6,13 +6,15 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -21,6 +23,8 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 
 /**
  * @author VanceKing
@@ -29,8 +33,17 @@ import javax.lang.model.element.VariableElement;
 @AutoService(PrintMeProcessor.class)
 public class PrintMeProcessor extends AbstractProcessor {
     private final List<String> elementsValue = new ArrayList<>();
-    
-    
+
+    @Override
+    public synchronized void init(ProcessingEnvironment env) {
+        super.init(env);
+        Elements elementUtils = env.getElementUtils();
+        Types typeUtils = env.getTypeUtils();
+        Filer filer = env.getFiler();
+        Messager messager = env.getMessager();
+
+    }
+
     @Override public Set<String> getSupportedAnnotationTypes() {
         Set<String> supportedTypes = new HashSet<>(1);
         supportedTypes.add(PrintMe.class.getCanonicalName());
@@ -86,10 +99,10 @@ public class PrintMeProcessor extends AbstractProcessor {
         builder.addMethod(methodBuilder.build());
 
         JavaFile javaFile = JavaFile.builder("test", builder.build()).build();
-        try {
+        /*try {
             javaFile.writeTo(processingEnv.getFiler());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
