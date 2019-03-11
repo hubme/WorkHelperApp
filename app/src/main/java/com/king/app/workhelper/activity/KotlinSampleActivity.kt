@@ -3,9 +3,12 @@ package com.king.app.workhelper.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import com.king.app.workhelper.R
 import com.king.app.workhelper.constant.AnnotationSample
+import com.king.app.workhelper.constant.GlobalConstant
+import com.king.app.workhelper.model.entity.Student
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
 /**
@@ -13,7 +16,9 @@ import kotlinx.android.synthetic.main.activity_kotlin.*
  * @author VanceKing
  * @since 2018/3/28.
  */
-class KotlinSampleActivity : AppCompatActivity() {
+class KotlinSampleActivity : AppCompatActivity(), View.OnClickListener {
+
+    var student: Student ?= null
     var a: Int = 1
     var b = 2
     var c = "dog"
@@ -23,7 +28,13 @@ class KotlinSampleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_kotlin)
 
         textView.text = "AAA"//使用扩展，直接赋值
+        textView2.setOnClickListener { Log.i(GlobalConstant.LOG_TAG, "textView2 clicked") }
+    }
 
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.textView -> Log.i("aaa", student?.name ?: "name == null")
+        }
     }
 
     //定义一个无返回值的方法
