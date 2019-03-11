@@ -5,6 +5,8 @@ apply plugin: 'project-report'
 apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jakewharton.hugo'
+
 if (project.hasProperty("enableErrorProne")) {
     apply plugin: "net.ltgt.errorprone"
 }

@@ -1,9 +1,13 @@
 package com.king.app.workhelper.activity;
 
+import android.os.SystemClock;
+import android.util.Log;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 
 /**
  * @author VanceKing
@@ -26,7 +30,13 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_open)
     public void onViewClick() {
-        openActivity(SingleInstanceActivity.class);
+        printLog();
     }
 
+    @DebugLog
+    private void printLog() {
+        SystemClock.sleep(3000);
+        Log.i(TAG, "哈哈哈");
+        
+    }
 }

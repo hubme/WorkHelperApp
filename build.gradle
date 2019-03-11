@@ -48,6 +48,8 @@ buildscript {
 
         // error-prone 静态代码检查 https://github.com/google/error-prone
         classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.13"
+
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 
     // Exclude the lombok version that the android plugin depends on.
