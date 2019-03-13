@@ -2,6 +2,7 @@ package com.king.app.workhelper.app;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -33,7 +34,6 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.FileUtil;
-import com.squareup.leakcanary.RefWatcher;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -48,7 +48,7 @@ import okhttp3.OkHttpClient;
 
 public class WorkHelperApp extends BaseApplication {
 
-    private RefWatcher mRefWatcher;
+    private static Application sApplication;
 
     /*
     1.第一次安装会运行。
@@ -61,9 +61,10 @@ public class WorkHelperApp extends BaseApplication {
         if (!isMainProcess()) {
             return;
         }
+        sApplication = this;
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         Logger.i("WorkHelperApp#onCreate()");
-        initStrictMode();
+//        initStrictMode();
 
         ContextUtil.init(this);
         ARouter.init(this);
@@ -80,7 +81,7 @@ public class WorkHelperApp extends BaseApplication {
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
 //        initX5();
 
-        initLeakCanary();
+        LeakCanaryHelper.initLeakCanary(this);
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
         registerLifecycle();
@@ -90,6 +91,10 @@ public class WorkHelperApp extends BaseApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public static Application getApplication() {
+        return sApplication;
     }
 
     private boolean isMainProcess() {
@@ -143,19 +148,6 @@ public class WorkHelperApp extends BaseApplication {
             logSavedDir = getCacheDir().getAbsolutePath() + "/CrashLog";
         }
         CrashHandler.getInstance().init(logSavedDir);
-    }
-
-    private void initLeakCanary() {
-        if (BuildConfig.DEBUG) {
-            mRefWatcher = LeakCanaryHelper.getEnableRefWatcher(this);
-        } else {
-            mRefWatcher = LeakCanaryHelper.getDisabledRefWatcher();
-        }
-    }
-
-    public static RefWatcher getRefWatcher() {
-        WorkHelperApp application = (WorkHelperApp) ContextUtil.getAppContext().getApplicationContext();
-        return application.mRefWatcher;
     }
 
     ///使更改系统字体大小无效

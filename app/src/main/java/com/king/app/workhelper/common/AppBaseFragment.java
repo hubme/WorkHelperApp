@@ -5,10 +5,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.king.app.workhelper.app.WorkHelperApp;
+import com.king.app.workhelper.common.utils.LeakCanaryHelper;
 import com.king.app.workhelper.rx.rxlife.components.RxLifeFragment;
 import com.king.applib.util.ContextUtil;
 import com.king.applib.util.StringUtil;
-import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -40,8 +40,7 @@ public abstract class AppBaseFragment extends RxLifeFragment {
     public void onDestroy() {
         super.onDestroy();
         //检测Fragment内存泄露
-        RefWatcher refWatcher = WorkHelperApp.getRefWatcher();
-        refWatcher.watch(this);
+        LeakCanaryHelper.getRefWatcher(WorkHelperApp.getApplication()).watch(this);
     }
 
     protected void showToast(String toast) {

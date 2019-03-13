@@ -2,6 +2,7 @@ package com.king.app.workhelper.common.utils;
 
 import android.app.Application;
 
+import com.king.app.workhelper.BuildConfig;
 import com.squareup.leakcanary.AndroidExcludedRefs;
 import com.squareup.leakcanary.DisplayLeakService;
 import com.squareup.leakcanary.ExcludedRefs;
@@ -15,9 +16,6 @@ import com.squareup.leakcanary.RefWatcher;
  * @since 2017/4/6.
  */
 public class LeakCanaryHelper {
-    public static RefWatcher getDisabledRefWatcher() {
-        return RefWatcher.DISABLED;
-    }
 
     //leakcanary/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java
     public static RefWatcher getEnableRefWatcher(Application app) {
@@ -33,8 +31,19 @@ public class LeakCanaryHelper {
                 .buildAndInstall();
     }
 
-    private void initLeakCanary() {
-            /*LeakCanary.enableDisplayLeakActivity(this);
+    public static void initLeakCanary(Application application) {
+        if (!LeakCanary.isInAnalyzerProcess(application)) {
+            LeakCanary.install(application);
+        }
+    }
+
+    public static RefWatcher getRefWatcher(Application application) {
+        return BuildConfig.DEBUG ? LeakCanaryHelper.getEnableRefWatcher(application) :
+                RefWatcher.DISABLED;
+    }
+
+    /*private void initLeakCanary() {
+            LeakCanary.enableDisplayLeakActivity(this);
             registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
                 @Override
                 public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -72,6 +81,6 @@ public class LeakCanaryHelper {
                 public void onActivityResumed(Activity activity) {
 
                 }
-            });*/
-    }
+            });
+    }*/
 }
