@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 扩展工具类
@@ -498,4 +499,11 @@ public class ExtendUtil {
         }
         return null;
     }
+
+    /** 生成一个指定范围的随机数，[min, max] */
+    public static int random(Random random, int min, int max) {
+        return random.nextInt(max - min + 1) + min;
+    }
+    
+    
 }
