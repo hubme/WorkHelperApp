@@ -441,6 +441,8 @@ public class ExtendUtil {
         if (!telNumber.toLowerCase().startsWith("tel:")) {
             telNumber = "tel:" + telNumber;
         }
+        //ACTION_DIAL 不需要 CALL_PHONE 权限，不直接拨号，而是到拨号界面
+        //ACTION_CALL 需要动态申请 CALL_PHONE 权限，直接拨号
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(telNumber));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (intent.resolveActivityInfo(context.getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null) {
