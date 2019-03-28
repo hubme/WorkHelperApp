@@ -98,8 +98,11 @@ public class AppTest extends BaseTestCase {
     }
 
     public void testEnvironment() throws Exception {
+        // "/storage/emulated/0/DCIM"
         Logger.i("DIRECTORY_DCIM: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath());
+        // "/storage/emulated/0/Download"
         Logger.i("DIRECTORY_DOWNLOADS: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+        // "/storage/emulated/0/Pictures"
         Logger.i("DIRECTORY_PICTURES: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
     }
 

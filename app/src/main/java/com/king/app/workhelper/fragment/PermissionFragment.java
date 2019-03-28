@@ -69,6 +69,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
                     .request();
         } else {
             showToast("已经有相机权限");
+            takePhotoFromCamera();
         }
     }
 
@@ -97,14 +98,17 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
             case EasyPermission.SETTINGS_REQ_CODE:
                 Toast.makeText(getContext(), "从设置页面返回", Toast.LENGTH_SHORT).show();
                 break;
+            case REQ_CODE_ACTIVITY_CAMERA:
+                if (data.getData() != null) {
+                    Logger.i(data.getData().toString());
+                }
+                break;
             default:
                 break;
         }
     }
 
-    /**
-     * 打开相机
-     */
+    //7.0 上会 android.os.FileUriExposedException
     private void takePhotoFromCamera() {
         String mCameraPhotoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera/" +
                 DateTimeUtil.formatDate(new Date(), "yyyyMMdd_HHmmss") + ".jpg";
@@ -127,7 +131,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
                 Logger.i("读写SDCard权限已授权");
                 break;
             case REQ_CODE_PERMISSION_CAMERA:
-                Logger.i("相机权限已授权，打开相机");
+                showToast("相机权限已授权，打开相机");
                 takePhotoFromCamera();
                 break;
             case REQ_CODE_PERMISSION_PHONE_SMS:
