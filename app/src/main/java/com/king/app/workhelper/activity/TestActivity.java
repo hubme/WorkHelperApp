@@ -3,9 +3,15 @@ package com.king.app.workhelper.activity;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.widget.FrameLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.king.app.workhelper.R;
@@ -28,6 +34,7 @@ public class TestActivity extends AppBaseActivity {
             R.drawable.brow_003, R.drawable.brow_004, R.drawable.brow_007};
     private BrowViewController controller;
     private AnimatorSet animatorSet;
+    private MyDialog dialogFragment;
 
     @Override
     protected void initInitialData() {
@@ -45,7 +52,7 @@ public class TestActivity extends AppBaseActivity {
             public void onAnimationUpdate(ValueAnimator animation) {
                 Log.i(TAG, "onAnimationUpdate :" + animation.getAnimatedValue() + animation.getAnimatedFraction());
                 if ((float) animation.getAnimatedValue() < 0.3f) {
-                    imageView.setImageResource((Boolean)imageView.getTag() ? R.drawable.like_checked : R.drawable.like_unchecked);
+                    imageView.setImageResource((Boolean) imageView.getTag() ? R.drawable.like_checked : R.drawable.like_unchecked);
                 }
             }
         });
@@ -62,18 +69,11 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.image_view)
     public void onViewClick() {
-        Object tag = imageView.getTag();
-        if (tag == null || !(Boolean) tag) {
-            imageView.setTag(true);
-            controller = new BrowViewController(imageView, (FrameLayout) getWindow().getDecorView(), resIds)
-                    .setDuration(600)
-                    .build();
-            controller.start();
-        } else {
-            imageView.setTag(false);
+        if (dialogFragment == null) {
+            dialogFragment = new MyDialog();
         }
-        if (!animatorSet.isRunning()) {
-            animatorSet.start();
+        if (!dialogFragment.isVisible()) {
+            dialogFragment.show(getSupportFragmentManager(), "aaa");
         }
     }
 
@@ -82,5 +82,14 @@ public class TestActivity extends AppBaseActivity {
         SystemClock.sleep(3000);
         Log.i(TAG, "哈哈哈");
 
+    }
+
+    public static class MyDialog extends DialogFragment {
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.layout_simple_dialog_fragment, container, false);
+            return view;
+        }
     }
 }

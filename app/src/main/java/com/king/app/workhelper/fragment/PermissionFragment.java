@@ -2,10 +2,13 @@ package com.king.app.workhelper.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.king.app.workhelper.R;
@@ -17,6 +20,7 @@ import com.king.applib.util.FileUtil;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.OnClick;
 
@@ -27,10 +31,11 @@ import butterknife.OnClick;
  * @since 2016/11/10
  */
 public class PermissionFragment extends AppBaseFragment implements EasyPermission.PermissionCallback {
-    public static final int REQ_CODE_PERMISSION_CAMERA = 0;
-    public static final int REQ_CODE_PERMISSION_STORAGE = 1;
-    public static final int REQ_CODE_PERMISSION_PHONE_SMS = 2;
-    public static final int REQ_CODE_ACTIVITY_CAMERA = 3;
+    public static final int REQ_CODE_PERMISSION_CAMERA = 0x123;
+    public static final int REQ_CODE_PERMISSION_STORAGE = 0x124;
+    public static final int REQ_CODE_PERMISSION_PHONE_SMS = 0x125;
+    public static final int REQ_CODE_PERMISSION_SMS = 100;
+    public static final int REQ_CODE_ACTIVITY_CAMERA = 0x127;
 
     //在 AndroidManifest.xml 同样要添加相应的权限
     private static final String PERMISSION_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -39,6 +44,8 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
     private static final String PERMISSION_SEND_SMS = Manifest.permission.SEND_SMS;
     private static final String PERMISSION_READ_SMS = Manifest.permission.READ_SMS;
 
+    private int mClickCounts;
+    
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_permission;
@@ -88,7 +95,11 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        EasyPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        //        EasyPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQ_CODE_PERMISSION_SMS) {
+            Logger.i("onRequestPermissionsResult()");
+        }
     }
 
     @Override
@@ -157,5 +168,20 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
             default:
                 break;
         }
+    }
+
+    @OnClick(R.id.tv_sms)
+    public void onSmsClick(TextView textView) {
+        mClickCounts++;
+        Logger.i(String.format(Locale.US, "%1d : %2s", mClickCounts, shouldShowRequestPermissionRationale(PERMISSION_READ_SMS)));
+        //如何同时检测多个权限
+        int result = ActivityCompat.checkSelfPermission(getContext(), PERMISSION_READ_SMS);
+        if (result != PackageManager.PERMISSION_GRANTED) {
+            //将回调 Activity#onRequestPermissionsResult()
+//            ActivityCompat.requestPermissions(this, new String[]{PERMISSION_READ_SMS}, REQ_CODE_PERMISSION_SMS);
+            requestPermissions(new String[]{PERMISSION_READ_SMS}, REQ_CODE_PERMISSION_SMS);
+        } else {
+            Logger.i("已获取短信权限");
+        } 
     }
 }
