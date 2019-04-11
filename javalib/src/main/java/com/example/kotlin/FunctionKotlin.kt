@@ -13,9 +13,43 @@ package com.example.kotlin
 fun thisIsAFunction() = Unit
 
 class FunctionKotlin {
+    val aaa = 2
+    var bbb = 3
+    val ccc: String = "333"
+
+    fun sum(number1: Int, number2: Int) {
+        print("sum of $number1 and $number2 is ${number1 + number2}")
+
+        val name: String
+        name = "sdlf"
+    }
+
+    protected class Nested {
+        public val e: Int = 5
+    }
+
+    fun max(a: Int, b: Int) = if (a > b) a else b
+
+    fun parseInt(str: String): Int? {
+        return Integer.parseInt(str)
+    }
+
+    fun getStringLength(obj: Any): Int? {
+        if (obj is String) {
+            return obj.length
+        }
+        return null
+    }
+
+    fun getStringLength2(obj: Any): Int? {
+        if (obj !is String) {
+            return null
+        }
+        return obj.length
+    }
 
     fun main(args: Array<String>) {
-
+        FunctionKotlin().method1(2)
     }
 
     fun method() {
@@ -54,6 +88,45 @@ class FunctionKotlin {
         return range
     }
 
+    fun stepMethod(range: Int = 9) {
+        for (number in range downTo 3 step 2) {
+            print(number)
+        }
+    }
+
+    fun forMethod() {
+        val items = listOf("aaa", "bbb")
+        for (item in items) {
+            println(item)
+        }
+    }
+
+    fun forMethod2() {
+        val items = listOf("a", "b")
+        for (index in items.indices) {
+            println("item at $index is ${items[index]}")
+        }
+    }
+
+    fun whileMethod() {
+        val items = listOf("a", "b")
+        var index = 0
+        while (index < items.size) {
+            print("item at $index is ${items[index]}")
+            index++
+        }
+    }
+
+    fun whenMethod(obj: Any): String =
+            when (obj) {
+                1 -> "One"
+                "Hello" -> "Greeting"
+                is Long -> "Long"
+                !is String -> "Not a String"
+                else -> "Unknown"
+            }
+
+
     fun methodReturnIncreasedInteger(num: Int): Int {
         return num + 1
     }
@@ -78,8 +151,8 @@ class FunctionKotlin {
     //infix修饰符，那么它可以使用中缀语法调用
     //这个功能基本就是用于将代码变得“更易阅读”。
     infix fun infixFunction(num: Int) = Unit
-    
-    fun methodInfix(){
+
+    fun methodInfix() {
         val a = FunctionKotlin()
         a infixFunction 3
     }
