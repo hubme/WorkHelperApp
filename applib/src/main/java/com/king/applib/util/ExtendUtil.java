@@ -67,6 +67,10 @@ public class ExtendUtil {
         return !isListNullOrEmpty(list);
     }
 
+    public static boolean isCollectionEmpty(Collection collection) {
+        return collection == null || collection.isEmpty();
+    }
+    
     public static <E> boolean isArrayNullOrEmpty(E[] array) {
         return array == null || array.length == 0;
     }
