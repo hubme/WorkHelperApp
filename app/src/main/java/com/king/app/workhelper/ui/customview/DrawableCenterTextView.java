@@ -55,8 +55,8 @@ public class DrawableCenterTextView extends android.support.v7.widget.AppCompatT
     @Override
     protected void onDraw(Canvas canvas) {
         final int drawablePadding = getCompoundDrawablePadding();
-        final int width = getWidth();
-        final int height = getHeight();
+        final float width = getWidth();
+        final float height = getHeight();
 
         final TextPaint textPaint = getPaint();
         final float textWidth = textPaint.measureText(getText().toString());
@@ -68,10 +68,10 @@ public class DrawableCenterTextView extends android.support.v7.widget.AppCompatT
         if (drawableTop != null && drawableBottom != null) {
             canvas.drawBitmap(((BitmapDrawable) drawableTop).getBitmap(), (width - drawableTop.getIntrinsicWidth()) / 2, height / 2 - textHeight / 2 - drawableTop.getIntrinsicHeight() - drawablePadding, null);
             canvas.drawBitmap(((BitmapDrawable) drawableBottom).getBitmap(), (width - drawableBottom.getIntrinsicWidth()) / 2, height / 2 + textHeight / 2 + drawablePadding, null);
-        } else if (drawableTop != null && drawableTop instanceof BitmapDrawable) {//只有顶部Drawable
+        } else if (drawableTop instanceof BitmapDrawable) {//只有顶部Drawable
             canvas.drawBitmap(((BitmapDrawable) drawableTop).getBitmap(), (width - drawableTop.getIntrinsicWidth()) / 2, height / 2 - drawableTop.getIntrinsicHeight() - drawablePadding, null);
             extraDy = drawablePadding + (int) textHeight / 2;
-        } else if (drawableBottom != null && drawableBottom instanceof BitmapDrawable) {//只有底部Drawable
+        } else if (drawableBottom instanceof BitmapDrawable) {//只有底部Drawable
             canvas.drawBitmap(((BitmapDrawable) drawableBottom).getBitmap(), (width - drawableBottom.getIntrinsicWidth()) / 2, height / 2 + textHeight / 2 + drawablePadding, null);
             extraDy = drawablePadding - (int) textHeight / 2;
         }
