@@ -21,6 +21,7 @@ android {
         targetSdkVersion cfg.targetSdkVersion
         versionCode cfg.versionCode
         versionName cfg.versionName
+        buildConfigField "String", "GIT_SHA", "\"${getGitSha()}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -89,16 +90,15 @@ android {
         }*/
     }
 
-    /*applicationVariants.all { variant ->
+    applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+            def outputApk = output.outputFile
+            if (outputApk != null && outputApk.name.endsWith('.apk')) {
                 //app-release-official-1.0.0-20170211.apk
-                def fileName = "app-${variant.buildType.name}-${variant.productFlavors[0].name}-${variant.versionName}-${releaseTime()}.apk"
-                output.outputFile = new File(outputFile.parent, fileName)
+                output.outputFileName = "app-${variant.buildType.name}-${variant.productFlavors[0].name}-${variant.versionName}-${releaseTime()}-${getGitSha()}.apk"
             }
         }
-    }*/
+    }
 
     flavorDimensions "dev"
     productFlavors {
@@ -270,4 +270,8 @@ repositories {
 
 static def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+static def getGitSha() {
+    return 'git rev-parse --short HEAD'.execute().text.trim()
 }
