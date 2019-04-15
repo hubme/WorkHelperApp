@@ -52,6 +52,11 @@ class FunctionKotlin {
         FunctionKotlin().method1(2)
     }
 
+    fun arrayMethod() {
+        val asc = Array(5) { i -> (i * i).toString() }
+        asc.forEach { println(it) }
+    }
+
     fun method() {
         println("This is a function")
     }
