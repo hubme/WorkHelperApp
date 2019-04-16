@@ -1,5 +1,7 @@
 package com.example.kotlin
 
+import java.io.File
+
 /**
  * 方法是一种特殊的函数，它必须通过类的实例调用，
  * 也就是说每个方法可以在方法内部拿到这个方法的实例。这是方法和函数的不同之处。
@@ -132,6 +134,24 @@ class FunctionKotlin {
             }
 
 
+    fun filterMethod() {
+        val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
+        val firstOrNull = fruits.firstOrNull()
+        fruits.filter { it.startsWith("a") }
+                .sortedBy { it }
+                .map { it.toUpperCase() }
+                .forEach { println(it) }
+    }
+
+    fun printMap() {
+        val map = mapOf("a" to 1, "b" to 2, "c" to 3)
+        for ((k, v) in map) {
+            println("($k, $v)")
+        }
+        println(map["b"])
+        SingleInstance 
+    }
+
     fun methodReturnIncreasedInteger(num: Int): Int {
         return num + 1
     }
@@ -160,6 +180,15 @@ class FunctionKotlin {
     fun methodInfix() {
         val a = FunctionKotlin()
         a infixFunction 3
+        val file = File("")
+        print(file.totalSpace)
+        
+    }
+
+    //扩展函数，只能在当前类中使用
+    //eg: "".testExtendMethod()
+    fun String.testExtendMethod() {
+        print("extend method")
     }
 }
 
