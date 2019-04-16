@@ -271,7 +271,7 @@ repositories {
 }
 
 static def releaseTime() {
-    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+    return new Date().format("yyMMdd_HHmmss", TimeZone.getDefault())
 }
 
 static def getGitSha() {

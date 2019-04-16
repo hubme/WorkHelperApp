@@ -61,6 +61,7 @@ public class WorkHelperApp extends BaseApplication {
         if (!isMainProcess()) {
             return;
         }
+        Log.i("---", BuildConfig.GIT_SHA);
         sApplication = this;
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         Logger.i("WorkHelperApp#onCreate()");
