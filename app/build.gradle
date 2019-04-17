@@ -73,13 +73,13 @@ android {
             zipAlignEnabled true//Zipalign优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config//使用签名
-            manifestPlaceholders = [app_label: "Test"]
+            manifestPlaceholders = [app_label: "Test", git_sha: "${getGitSha()}"]
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             shrinkResources false
-            manifestPlaceholders = [app_label: "Test"]
+            manifestPlaceholders = [app_label: "Test", git_sha: "${getGitSha()}"]
 //            applicationIdSuffix ".debug"
             signingConfig signingConfigs.config//使用签名
 //            resValue "string", "app_label", "Test"//意为把名为app_label的string value值改为Test

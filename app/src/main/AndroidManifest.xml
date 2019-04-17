@@ -226,6 +226,11 @@
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"
             android:value="true"/>
+
+        <!-- Git Revision Number 方便 Checkout 代码库-->
+        <meta-data
+            android:name="GIT_SHA"
+            android:value="${git_sha}"/>
     </application>
 
 </manifest>
