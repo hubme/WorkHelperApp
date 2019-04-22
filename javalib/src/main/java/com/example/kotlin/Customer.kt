@@ -15,6 +15,17 @@ data class Customer(val name: String = "unknown", val age: Int = 18) {
     
 }
 
-internal object SingleInstance{
-    
+internal object SingleInstance {
+
+}
+
+data class Msg(val txt: String = "Hello", val from: Int = 0)
+
+fun main(args: Array<String>) {
+    test()
+}
+
+fun test() {
+    val (txt, from) = Msg("Name", 1)
+    print("$txt and $from")
 }
