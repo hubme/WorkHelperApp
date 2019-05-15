@@ -13,7 +13,6 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.antfortune.freeline.FreelineCore;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
@@ -72,7 +71,6 @@ public class WorkHelperApp extends BaseApplication {
         initOkHttp();
         initMineOkHttp();
         initFresco();
-        FreelineCore.init(this, this);
         AppManager.getInstance().init(this);
         initCrash();
 

@@ -20,16 +20,16 @@ buildscript {
         rulesVersion ='0.4.1'
         espressoVersion ='2.2.1'
 
-        kotlin_version = '1.2.70'
+        kotlin_version = '1.3.31'
     }
 
     repositories {
-        jcenter()
-        google()
-        // error-prone
-        maven { url "https://plugins.gradle.org/m2/" }
+//        jcenter()
+//        google()
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
@@ -47,7 +47,7 @@ buildscript {
         // in the individual module build.gradle files
 
         // error-prone 静态代码检查 https://github.com/google/error-prone
-        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.13"
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.8"
 
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
@@ -58,9 +58,12 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
-        google()
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+//        jcenter()
+//        google()
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
     }
 }
 

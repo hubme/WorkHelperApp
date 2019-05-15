@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.antfortune.freeline'
 apply plugin: 'checkstyle'
 apply plugin: 'project-report'
 apply plugin: "com.vanniktech.dependency.graph.generator"
@@ -25,11 +24,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
-
-        freeline {
-            hack true
-            productFlavor 'dev'
-        }
 
         //resConfigs "zh"//将语言资源限定为中文
 
@@ -60,7 +54,7 @@ android {
         config {
             keyAlias 'feng'
             keyPassword '123456'
-            storeFile file('/key/WorkHelperAppKeyStore.jks')
+            storeFile file('./key/WorkHelperAppKeyStore.jks')
             storePassword '123456'
         }
     }
@@ -172,7 +166,7 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
     implementation "com.android.support:design:$rootProject.ext.supportLibVersion"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation rootProject.ext.dependencies.multidex
 
     //使用ButterkNife-View注入框架
     implementation 'com.jakewharton:butterknife:8.8.0'
@@ -202,9 +196,6 @@ dependencies {
 
     debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
     releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
-
-    debugImplementation 'com.antfortune.freeline:runtime:0.8.8'
-    releaseImplementation 'com.antfortune.freeline:runtime-no-op:0.8.8'
 
     implementation 'com.facebook.fresco:fresco:1.12.1'
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:1.12.1'
