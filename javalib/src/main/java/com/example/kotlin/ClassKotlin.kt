@@ -1,5 +1,7 @@
 package com.example.kotlin
 
+import kotlin.properties.Delegates
+
 /**
  *https://www.kotlincn.net/docs/reference/classes.html
  * 
@@ -16,12 +18,24 @@ class ClassKotlin {
     companion object Test{
         
     }
+    
+    private val status: String by Delegates.observable("", { _, oldValue, newValue ->
+        println("$oldValue -> $newValue")
+        
+    })
 }
 
 //默认是 final 的，open 表示可以被继承
 open class Empty
 
 class ChildEmpty : Empty()
+
+//sealed：密封。密封类用来表示受限的类继承结构
+sealed class Color{
+    object Red : Color()
+    data class Green(val name: String): Color()
+}
+class Blue(val name: String, val name2: String): Color()
 
 //主构造函数是类头的一部分：它跟在类名后。
 //class Person public @Inject constructor(name: String, age: Int)
