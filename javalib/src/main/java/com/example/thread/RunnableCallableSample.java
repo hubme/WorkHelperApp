@@ -15,13 +15,13 @@ import java.util.concurrent.FutureTask;
 class RunnableCallableSample {
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         RunnableCallableSample main = new RunnableCallableSample();
-        main.callableWithReturnValue();
+        main.futureTaskSample1();
 
     }
 
-    private void futureTaskSample2() throws ExecutionException, InterruptedException{
+    private void futureTaskSample2() throws ExecutionException, InterruptedException {
         //FutureTask 构造函数中调用Executors.callable()方法，通过 Executors.RunnableAdapter(RunnableAdapter<T> implements Callable<T>) 转换成Callable执行
         FutureTask<String> futureTask = new FutureTask<>(new Runnable() {
             @Override
@@ -40,9 +40,10 @@ class RunnableCallableSample {
             public void run() {
                 printResult();
             }
-        }, "id-1");
+        }, "result return");
         Thread thread = new Thread(futureTask);
         thread.start();
+        System.out.println("getting result ...");
         System.out.println("future result: " + futureTask.get());//FutureTask.get() 会阻塞当前线程
         System.out.println("behind FutureTask.get()");
     }
@@ -81,7 +82,7 @@ class RunnableCallableSample {
     }
 
     /**
-     * 效率底下的斐波那契数列, 耗时的操作
+     * 效率低下的斐波那契数列, 耗时的操作
      */
     private static int fibc(int num) {
         if (num == 0) {
@@ -94,14 +95,10 @@ class RunnableCallableSample {
     }
 
     private static int printResult() {
-        System.out.println(System.currentTimeMillis());
+        System.out.println("begin time: " + System.currentTimeMillis());
         int fibc = fibc(38);
-        System.out.println(fibc);
-        System.out.println(System.currentTimeMillis());
+        System.out.println("fibc: " + fibc);
+        System.out.println("stop time: " + System.currentTimeMillis());
         return fibc;
-    }
-
-    private static void printFibc() {
-        
     }
 }
