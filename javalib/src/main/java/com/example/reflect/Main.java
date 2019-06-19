@@ -1,5 +1,6 @@
 package com.example.reflect;
 
+import com.example.annotation.MethodInfo;
 import com.example.entity.Bird;
 
 import java.lang.reflect.Constructor;
@@ -13,14 +14,34 @@ import java.lang.reflect.Modifier;
  * @since 2017/6/14.
  */
 
-public class Main {
+class Main {
     private static final String CLASS_NAME = "com.example.entity.Bird";
 
     public static void main(String[] args) throws Exception {
-//        testClassForName();
-//        test1();
-//        testShowDeclaredMethods();
-        testShowMethod();
+        getAnnotationInfo();
+    }
+
+    
+    private static void getAnnotationInfo() {
+        try {
+            Class cls = Class.forName("com.example.reflect.Main");
+            for (Method method : cls.getMethods()) {
+                MethodInfo methodInfo = method.getAnnotation(MethodInfo.class);
+                if (methodInfo != null) {
+                    System.out.println("method name:" + method.getName());
+                    System.out.println("method author:" + methodInfo.author());
+                    System.out.println("method version:" + methodInfo.version());
+                    System.out.println("method date:" + methodInfo.date());
+                }
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @MethodInfo(author = "VanceKing", date = "2019/06/19", version = 2)
+    public void methodWithAnnotation() {
+        
     }
 
     private static void test1() {
