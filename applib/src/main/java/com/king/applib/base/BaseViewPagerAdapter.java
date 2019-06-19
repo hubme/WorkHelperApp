@@ -1,6 +1,6 @@
 package com.king.applib.base;
 
-import android.support.annotation.LayoutRes;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -19,15 +19,12 @@ import java.util.List;
 
 public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
     private final List<T> mAdapterData = new ArrayList<>();
-//    private SparseArray<View> mViews = new SparseArray<>();
-    @LayoutRes private int mLayoutId;
 
-    public BaseViewPagerAdapter(@LayoutRes int layoutId) {
-        mLayoutId = layoutId;
+    public BaseViewPagerAdapter() {
+        
     }
     
-    public BaseViewPagerAdapter(@LayoutRes int layoutId, List<T> data) {
-        mLayoutId = layoutId;
+    public BaseViewPagerAdapter(List<T> data) {
         if (data != null && !data.isEmpty()) {
             mAdapterData.addAll(data);
         }
@@ -56,8 +53,10 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
         return mAdapterData;
     }
 
-    public void resetAdapterData() {
-        mAdapterData.clear();
+    public void clearAdapterData() {
+        if (!mAdapterData.isEmpty()) {
+            mAdapterData.clear();
+        }
         notifyDataSetChanged();
     }
 
@@ -72,8 +71,17 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
     }
 
     @NonNull @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View itemView = LayoutInflater.from(container.getContext()).inflate(mLayoutId, container, false);
+    public View instantiateItem(@NonNull ViewGroup container, int position) {
+        View itemView;
+        int itemLayoutRes = getItemLayoutRes();
+        if (itemLayoutRes > 0) {
+            itemView = LayoutInflater.from(container.getContext()).inflate(itemLayoutRes, container, false);
+        } else {
+            itemView = generateView(container.getContext());
+        }
+        if (itemView == null) {
+            throw new IllegalArgumentException("Item View must not be null!");
+        }
         T itemData = getItem(position);
         if (itemData != null) {
             convert(position, ViewHolder.create(itemView), itemData);
@@ -100,5 +108,11 @@ public abstract class BaseViewPagerAdapter<T> extends PagerAdapter {
         return mAdapterData.get(position);
     }
 
-    public abstract void convert(int position, ViewHolder holder, T t);
+    protected abstract int getItemLayoutRes();
+
+    protected View generateView(Context context) {
+        return null;
+    }
+
+    protected abstract void convert(int position, ViewHolder holder, T t);
 }
