@@ -1,13 +1,68 @@
 package com.example.interview;
 
 /**
- * ¿¼²ì Java Àà¼ÓÔØÓë³õÊ¼»¯¡£
+ * è€ƒå¯Ÿ Java ç±»åŠ è½½ä¸åˆå§‹åŒ–ã€‚
  *
  * @author VanceKing
  * @since 2018/2/2.
  */
 
 public class ClassLoadInitTest {
+    private static class Base {
+        public static int s;
+        private int a;
+
+        static {
+            System.out.println("åŸºç±»é™æ€ä»£ç å—, s:" + s);
+            s = 1;
+        }
+
+        {
+            System.out.println("åŸºç±»å®ä¾‹ä»£ç å—, a:" + a);
+            a = 1;
+        }
+
+        public Base() {
+            System.out.println("åŸºç±»æ„é€ æ–¹æ³•, a:" + a);
+            a = 2;
+        }
+
+        protected void setUp() {
+            System.out.println("base s: " + s + " , a : " + a);
+        }
+
+        public void action() {
+            System.out.println("start");
+            setUp();
+            System.out.println("end");
+        }
+    }
+
+    private static class Child extends Base {
+        public static int s;
+        private int a;
+
+        static {
+            System.out.println("å­ç±»é™æ€ä»£ç å—, s:" + s);
+            s = 10;
+        }
+
+        {
+            System.out.println("å­ç±»å®ä¾‹ä»£ç å—, a:" + a);
+            a = 10;
+        }
+
+        public Child() {
+            System.out.println("å­ç±»æ„é€ æ–¹æ³•, a:" + a);
+            a = 20;
+        }
+
+        protected void setUp() {
+//        super.setUp();
+            System.out.println("child s: " + s + " , a: " + a);
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("--------- new Child()");
         Child child = new Child();
@@ -24,12 +79,12 @@ public class ClassLoadInitTest {
         /*
         
         --------- new Child()
-        »ùÀà¾²Ì¬´úÂë¿é, s:0
-        ×ÓÀà¾²Ì¬´úÂë¿é, s:0
-        »ùÀàÊµÀı´úÂë¿é, a:0
-        »ùÀà¹¹Ôì·½·¨, a:1
-        ×ÓÀàÊµÀı´úÂë¿é, a:0
-        ×ÓÀà¹¹Ôì·½·¨, a:10
+        åŸºç±»é™æ€ä»£ç å—, s:0
+        å­ç±»é™æ€ä»£ç å—, s:0
+        åŸºç±»å®ä¾‹ä»£ç å—, a:0
+        åŸºç±»æ„é€ æ–¹æ³•, a:1
+        å­ç±»å®ä¾‹ä»£ç å—, a:0
+        å­ç±»æ„é€ æ–¹æ³•, a:10
         
         --------- c.action
         start
@@ -45,60 +100,5 @@ public class ClassLoadInitTest {
         -------- c.s: 10
         
          */
-    }
-}
-
-class Base {
-    public static int s;
-    private int a;
-
-    static {
-        System.out.println("»ùÀà¾²Ì¬´úÂë¿é, s:" + s);
-        s = 1;
-    }
-
-    {
-        System.out.println("»ùÀàÊµÀı´úÂë¿é, a:" + a);
-        a = 1;
-    }
-
-    public Base() {
-        System.out.println("»ùÀà¹¹Ôì·½·¨, a:" + a);
-        a = 2;
-    }
-
-    protected void setUp() {
-        System.out.println("base s: " + s + " , a : " + a);
-    }
-
-    public void action() {
-        System.out.println("start");
-        setUp();
-        System.out.println("end");
-    }
-}
-
-class Child extends Base {
-    public static int s;
-    private int a;
-
-    static {
-        System.out.println("×ÓÀà¾²Ì¬´úÂë¿é, s:" + s);
-        s = 10;
-    }
-
-    {
-        System.out.println("×ÓÀàÊµÀı´úÂë¿é, a:" + a);
-        a = 10;
-    }
-
-    public Child() {
-        System.out.println("×ÓÀà¹¹Ôì·½·¨, a:" + a);
-        a = 20;
-    }
-
-    protected void setUp() {
-//        super.setUp();
-        System.out.println("child s: " + s + " , a: " + a);
     }
 }
