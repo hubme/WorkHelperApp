@@ -1,9 +1,11 @@
 package com.king.app.workhelper.activity
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import com.king.app.workhelper.R
 import com.king.app.workhelper.constant.AnnotationSample
@@ -18,10 +20,14 @@ import kotlinx.android.synthetic.main.activity_kotlin.*
  */
 class KotlinSampleActivity : AppCompatActivity(), View.OnClickListener {
 
-    var student: Student ?= null
+    var student: Student? = null
     var a: Int = 1
     var b = 2
     var c = "dog"
+
+    var showAnswerButton: Button? = null
+    lateinit var questionTextView: TextView
+    val nameTextView by lazy { questionTextView.findViewById<TextView>(R.id.textView) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +35,12 @@ class KotlinSampleActivity : AppCompatActivity(), View.OnClickListener {
 
         textView.text = "AAA"//使用扩展，直接赋值
         textView2.setOnClickListener { Log.i(GlobalConstant.LOG_TAG, "textView2 clicked") }
+
+        //在activity中的使用
+        val mTextView by bindView<TextView>(R.id.click_id1)
+        mTextView.text = "执行到我时，才会进行控件初始化"
+
+        showAnswerButton?.text = "aaa"
     }
 
     override fun onClick(v: View?) {
@@ -69,3 +81,12 @@ class KotlinSampleActivity : AppCompatActivity(), View.OnClickListener {
         reqAnnotation.author
     }
 }
+
+//kotlin 封装：
+fun <V : View> Activity.bindView(id: Int): Lazy<V> = lazy {
+    viewFinder(id) as V
+}
+
+//activity中扩展调用
+private val viewFinder: Activity.(Int) -> View?
+    get() = { findViewById(it) }
