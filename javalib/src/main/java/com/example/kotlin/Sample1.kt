@@ -17,6 +17,20 @@ import java.io.File
 //直接写在文件中
 fun main(args: Array<String>) {
 
+    testLazy()
+}
+
+//适用于单例对象
+fun testLazy() {
+    val lazyValue: String by lazy {
+        println("computed!")
+        "Hello"
+    }
+    println(lazyValue)//首次调用才初始化
+    println(lazyValue)//已经初始化，直接调用
+}
+
+fun testLit() {
     listOf(1, 2, 3, 4, 5).forEach lit@{
         if (it == 3) return@lit // 局部返回到该 lambda 表达式的调用者，即 forEach 循环
         print(it)
