@@ -178,6 +178,7 @@ public class AppUtil {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            //需要声明 android.permission.REQUEST_INSTALL_PACKAGES 权限
             Uri apkUri = FileProvider.getUriForFile(context, AppUtil.getFileProviderAuthor(), file);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
         } else {
