@@ -16,71 +16,34 @@ import com.squareup.leakcanary.RefWatcher;
  * @since 2017/4/6.
  */
 public class LeakCanaryHelper {
+    private static RefWatcher mRefWatcher;
 
     //leakcanary/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java
-    public static RefWatcher getEnableRefWatcher(Application app) {
+    public static RefWatcher enableRefWatcher(Application app) {
 //        return LeakCanary.install(app);
-        ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
-                .instanceField("android.animation.LayoutTransition$1", "val$parent")
-                .staticField("android.app.Instrumentation", "mContext")
-                .reason("Instrumentation would leak com.android.app.Instrumentation#mContext in Meizu FlymeOS")
-                .build();
-        return LeakCanary.refWatcher(app)
-                .listenerServiceClass(DisplayLeakService.class)
-                .excludedRefs(excludedRefs)
-                .buildAndInstall();
+        if (mRefWatcher == null) {
+            ExcludedRefs excludedRefs = AndroidExcludedRefs.createAppDefaults()
+                    .instanceField("android.animation.LayoutTransition$1", "val$parent")
+                    .staticField("android.app.Instrumentation", "mContext")
+                    .reason("Instrumentation would leak com.android.app.Instrumentation#mContext in Meizu FlymeOS")
+                    .build();
+            mRefWatcher = LeakCanary.refWatcher(app)
+                    .listenerServiceClass(DisplayLeakService.class)
+                    .excludedRefs(excludedRefs)
+                    .buildAndInstall();
+        }
+        return mRefWatcher;
     }
 
     public static void initLeakCanary(Application application) {
         if (!LeakCanary.isInAnalyzerProcess(application)) {
-            LeakCanary.install(application);
+            enableRefWatcher(application);
         }
     }
 
     public static RefWatcher getRefWatcher(Application application) {
-        return BuildConfig.DEBUG ? LeakCanaryHelper.getEnableRefWatcher(application) :
+        return BuildConfig.DEBUG ? LeakCanaryHelper.enableRefWatcher(application) :
                 RefWatcher.DISABLED;
     }
 
-    /*private void initLeakCanary() {
-            LeakCanary.enableDisplayLeakActivity(this);
-            registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-                @Override
-                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-                }
-
-                @Override
-                public void onActivityStarted(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-                }
-
-                @Override
-                public void onActivityPaused(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityStopped(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityDestroyed(Activity activity) {
-                    //IGNORE Activities: Update or add the class name here to ingore the memory leaks from those actvities
-                    if (activity instanceof SplashActivity) return;
-                    mRefWatcher.watch(activity);
-                }
-
-                @Override
-                public void onActivityResumed(Activity activity) {
-
-                }
-            });
-    }*/
 }
