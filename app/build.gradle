@@ -156,7 +156,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
 
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
@@ -233,7 +233,7 @@ dependencies {
     //图片压缩
 //    implementation 'top.zibin:Luban:1.1.8'
 
-    compile 'com.alibaba:arouter-api:1.4.1'
+    implementation 'com.alibaba:arouter-api:1.5.0'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 }
 

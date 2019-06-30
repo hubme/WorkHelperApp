@@ -24,12 +24,16 @@ buildscript {
     }
 
     repositories {
-//        jcenter()
-//        google()
+        google()
+        jcenter()
+        maven { url 'https://maven.google.com/' }
+        //https://dl.google.com/dl/android/maven2/index.html
         maven { url 'https://plugins.gradle.org/m2/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+        //https://maven.aliyun.com/mvn/view
+        /*maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repositories/google' }
+        maven { url 'https://maven.aliyun.com/repositories/public/' }
+        maven { url 'https://maven.aliyun.com/repositories/jcenter'}*/
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
@@ -47,7 +51,7 @@ buildscript {
         // in the individual module build.gradle files
 
         // error-prone 静态代码检查 https://github.com/google/error-prone
-        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.8"
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.8.1"
 
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
@@ -58,12 +62,14 @@ buildscript {
 
 allprojects {
     repositories {
-//        jcenter()
-//        google()
+        google()
+        jcenter()
+        maven { url 'https://maven.google.com/' }
         maven { url 'https://plugins.gradle.org/m2/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+        /*maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repositories/google' }
+        maven { url 'https://maven.aliyun.com/repositories/public/' }
+        maven { url 'https://maven.aliyun.com/repositories/jcenter'} */
     }
 }
 
