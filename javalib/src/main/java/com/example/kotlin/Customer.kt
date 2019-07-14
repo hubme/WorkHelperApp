@@ -21,11 +21,18 @@ internal object SingleInstance {
 
 data class Msg(val txt: String = "Hello", val from: Int = 0)
 
-fun main(args: Array<String>) {
-    test()
+fun main() {
+    testCopy()
 }
 
 fun test() {
     val (txt, from) = Msg("Name", 1)
     print("$txt and $from")
+}
+
+fun testCopy() {
+    val aaa = Customer(name = "Vance", age = 18)
+    val bbb = aaa.copy(age = 20)
+    println(aaa.toString())
+    println(bbb.toString())
 }
