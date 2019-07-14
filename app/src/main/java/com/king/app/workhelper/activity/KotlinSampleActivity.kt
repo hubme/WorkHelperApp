@@ -1,6 +1,7 @@
 package com.king.app.workhelper.activity
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -90,3 +91,5 @@ fun <V : View> Activity.bindView(id: Int): Lazy<V> = lazy {
 //activity中扩展调用
 private val viewFinder: Activity.(Int) -> View?
     get() = { findViewById(it) }
+
+inline fun <reified T> Context.systemService() = getSystemService(T::class.java)
