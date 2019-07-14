@@ -8,7 +8,7 @@ import com.king.applib.util.HttpUtil;
  * @since 2017/3/12 0012.
  */
 
-public class HttpUtilTest extends BaseTestCase {
+public class HttpUtilTest extends BaseAndroidJUnit4Test {
     public static final String BAI_DU_URL = "http://www.baidu.com";
 
     public void testHttpUtilGet() throws Exception{

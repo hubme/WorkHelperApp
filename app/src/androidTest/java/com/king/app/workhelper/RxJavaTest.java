@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 2.Flowable/Subscriber.(支持背压)
 3.Single/SingleObserver Completable/CompletableObserver Maybe/MaybeObserver(前两者的复合体)
  */
-public class RxJavaTest extends BaseTestCase {
+public class RxJavaTest extends BaseAndroidJUnit4Test{
 
     public void testNormalUsage() throws Exception {
         Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {

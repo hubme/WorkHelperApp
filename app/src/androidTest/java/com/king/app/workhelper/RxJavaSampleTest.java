@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.king.applib.log.Logger;
 
+import org.junit.After;
+import org.junit.Before;
+
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -31,16 +34,16 @@ import io.reactivex.schedulers.Timed;
  * @since 2017/6/22.
  */
 
-public class RxJavaSampleTest extends BaseTestCase {
+public class RxJavaSampleTest extends BaseAndroidJUnit4Test {
     private CompositeDisposable mCompositeDisposable;
 
-    @Override protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void init(){
         mCompositeDisposable = new CompositeDisposable();
     }
 
-    @Override protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void release() {
         mCompositeDisposable.dispose();
 
         if (subscribe != null) {

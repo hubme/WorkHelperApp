@@ -22,12 +22,12 @@ import org.junit.runner.RunWith;
 public class BaseAndroidJUnit4Test {
     protected static final String TAG = "aaa";
 
-    static Context mAppContext;
+    static Context mContext;
 
     @BeforeClass
     public static void setUp() {
         Logger.init(TAG).methodCount(1).hideThreadInfo();
-        mAppContext = InstrumentationRegistry.getTargetContext();
+        mContext = InstrumentationRegistry.getTargetContext();
     }
 
     @AfterClass

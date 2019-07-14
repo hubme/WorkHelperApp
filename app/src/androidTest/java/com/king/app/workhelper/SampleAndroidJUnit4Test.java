@@ -15,6 +15,6 @@ import org.junit.Test;
 public class SampleAndroidJUnit4Test extends BaseAndroidJUnit4Test {
     @Test
     public void getScreenWidth() {
-        Logger.i("width: " + mAppContext.getResources().getDisplayMetrics().widthPixels);
+        Logger.i("width: " + mContext.getResources().getDisplayMetrics().widthPixels);
     }
 }

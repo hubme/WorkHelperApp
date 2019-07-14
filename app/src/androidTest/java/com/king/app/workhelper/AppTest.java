@@ -20,6 +20,8 @@ import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.StringUtil;
 
+import org.junit.Before;
+
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashSet;
@@ -35,12 +37,12 @@ import static com.king.applib.util.FileUtil.createFile;
  * Created by HuoGuangxu on 2016/9/29.
  */
 
-public class AppTest extends BaseTestCase {
+public class AppTest extends BaseAndroidJUnit4Test {
 
     private Random random;
 
-    @Override protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void init() {
         random = new Random();
     }
 
