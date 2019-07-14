@@ -1,7 +1,5 @@
 package com.king.applib;
 
-import android.content.Context;
-
 import com.king.applib.log.Logger;
 import com.king.applib.util.StringUtil;
 
@@ -15,19 +13,6 @@ import java.util.StringJoiner;
  */
 
 public class StringUtilsTest extends BaseTestCase {
-    public Context mContext;
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContext = getContext();
-        Logger.init("aaa").methodCount(1).hideThreadInfo();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     public void testStringformat() throws Exception {
         Logger.i(String.format(Locale.US, "%,.2f", 1234526.123f));

@@ -1,13 +1,13 @@
 package com.king.applib;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.ImageUtil;
+
+import org.junit.Before;
 
 import java.io.File;
 
@@ -19,24 +19,15 @@ import static com.king.applib.util.ImageUtil.compressByQuality;
  * @author huoguangxu
  * @since 2016/11/22.
  */
-public class ImageUtilTest extends AndroidTestCase {
+public class ImageUtilTest extends BaseTestCase {
 
-    private Context mContext;
     private String mImagePath;
     private String mSavedBitmapPath;
 
-    @Override protected void setUp() throws Exception {
-        super.setUp();
-
-        mContext = getContext();
-        Logger.init("aaa").methodCount(1).hideThreadInfo();
-
+    @Before
+    public void init(){
         mImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/aaa.jpg";
         mSavedBitmapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/compress_100k.jpg";
-    }
-
-    @Override protected void tearDown() throws Exception {
-        super.tearDown();
     }
 
     public void testCompressBySize() throws Exception {

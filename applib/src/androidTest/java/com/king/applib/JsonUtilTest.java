@@ -7,6 +7,7 @@ import com.king.applib.util.SPUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,6 @@ import static com.king.applib.util.JsonUtil.getJsonObject;
 
 public class JsonUtilTest extends BaseTestCase {
     public static final String JSON_ARRAY = "[\"北京\",\"上海\",\"广州\"]";
-
-    @Override protected void setUp() throws Exception {
-        super.setUp();
-    }
 
     public static class JsonTestModel {
         public int code;
@@ -48,7 +45,7 @@ public class JsonUtilTest extends BaseTestCase {
         }
     }
 
-
+    @Test
     public void testEncode() throws Exception {
         Student student = new Student("VanceKing", 28);
         Logger.i(JsonUtil.encode(student));

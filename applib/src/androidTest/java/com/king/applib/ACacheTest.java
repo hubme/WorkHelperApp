@@ -6,6 +6,7 @@ import com.king.applib.util.JsonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,8 @@ public class ACacheTest extends BaseTestCase {
     public static final String JSON_OBJECT = "{\"name\":[\"aaa\",\"bbb\"],\"age\":\"11\"}";
     private ACache mACache;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void init() {
         mACache = ACache.get();
     }
 

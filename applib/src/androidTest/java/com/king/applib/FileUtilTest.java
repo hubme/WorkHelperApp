@@ -1,11 +1,11 @@
 package com.king.applib;
 
-import android.content.Context;
 import android.os.Environment;
-import android.test.AndroidTestCase;
 
 import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
+
+import org.junit.Before;
 
 import java.io.File;
 import java.util.Locale;
@@ -17,22 +17,15 @@ import static android.os.Environment.getDataDirectory;
  * Created by HuoGuangxu on 2016/11/7.
  */
 
-public class FileUtilTest extends AndroidTestCase {
+public class FileUtilTest extends BaseTestCase {
 
-    private Context mContext;
     private String sdCardPath;
     private String testPath;
-    
-    @Override protected void setUp() throws Exception {
-        super.setUp();
-        mContext = getContext();
-        Logger.init("aaa").methodCount(1).hideThreadInfo();
+
+    @Before
+    public void init() {
         sdCardPath = Environment.getExternalStorageDirectory().getPath();
         testPath = sdCardPath + "/000test";
-    }
-
-    @Override protected void tearDown() throws Exception {
-        super.tearDown();
     }
 
     private String getNetSpeed(double speed) {
@@ -74,52 +67,52 @@ public class FileUtilTest extends AndroidTestCase {
 
     public void testFileDir() throws Exception {
         Logger.i("getPackageName(): " + mContext.getPackageName());//  com.king.applib.test
-        
+
         Logger.i("getFilesDir(): " + mContext.getFilesDir());//  /data/data/com.king.applib.test/files
         Logger.i("getCacheDir(): " + mContext.getCacheDir());//  /data/data/com.king.applib.test/cache
 
         Logger.i("getObbDir(): " + mContext.getObbDir());// /storage/emulated/0/Android/obb/com.king.applib.test
         Logger.i("getExternalCacheDir(): " + mContext.getExternalCacheDir());// /storage/sdcard0/Android/data/com.king.applib.test/cache
-        Logger.i("getExternalStorageDirectory(): "+Environment.getExternalStorageDirectory().getPath());// /storage/emulated/0
-        Logger.i("getExternalStorageDirectory(): "+mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES));// /storage/emulated/0/Android/data/com.king.applib.test/files/Pictures
+        Logger.i("getExternalStorageDirectory(): " + Environment.getExternalStorageDirectory().getPath());// /storage/emulated/0
+        Logger.i("getExternalStorageDirectory(): " + mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES));// /storage/emulated/0/Android/data/com.king.applib.test/files/Pictures
     }
-    
+
     public void testIsLegalFile() throws Exception {
-        Logger.i(FileUtil.isLegalFile(FileUtil.getFileByPath(testPath + "/000test/000aaa.jpg"))+"");
-        Logger.i(""+FileUtil.isLegalFile(FileUtil.getFileByPath(testPath + "/000test/cache")));
+        Logger.i(FileUtil.isLegalFile(FileUtil.getFileByPath(testPath + "/000test/000aaa.jpg")) + "");
+        Logger.i("" + FileUtil.isLegalFile(FileUtil.getFileByPath(testPath + "/000test/cache")));
         Logger.i("" + FileUtil.isLegalFile(FileUtil.getFileByPath(testPath + "/000test/123")));
         Logger.i("" + FileUtil.isLegalFile(FileUtil.getFileByPath(testPath + "/000test/empty")));
     }
 
     public void testIsLegalDir() throws Exception {
-        Logger.i(FileUtil.isLegalDir(FileUtil.getFileByPath(testPath + "/000test/000aaa.jpg"))+"");
-        Logger.i(""+FileUtil.isLegalDir(FileUtil.getFileByPath(testPath + "/000test/cache")));
+        Logger.i(FileUtil.isLegalDir(FileUtil.getFileByPath(testPath + "/000test/000aaa.jpg")) + "");
+        Logger.i("" + FileUtil.isLegalDir(FileUtil.getFileByPath(testPath + "/000test/cache")));
         Logger.i("" + FileUtil.isLegalDir(FileUtil.getFileByPath(testPath + "/000test/123")));
         Logger.i("" + FileUtil.isLegalDir(FileUtil.getFileByPath(testPath + "/000test/empty")));
     }
-    
+
     public void testCreateFile() throws Exception {
         Logger.i("" + FileUtil.createFile(testPath, "123.txt"));
-        Logger.i("" + FileUtil.createFile(testPath+"/000", "123.txt"));
+        Logger.i("" + FileUtil.createFile(testPath + "/000", "123.txt"));
     }
-    
-    public void testCreateDir() throws Exception{
-        Logger.i("" + FileUtil.createDir(testPath+"/000test"));
-        Logger.i("" + FileUtil.createDir(testPath+"/000test/0"));
+
+    public void testCreateDir() throws Exception {
+        Logger.i("" + FileUtil.createDir(testPath + "/000test"));
+        Logger.i("" + FileUtil.createDir(testPath + "/000test/0"));
     }
-    
+
     public void testDeleteDir() throws Exception {
-        Logger.i("" + FileUtil.deleteDir(testPath+"/000"));
+        Logger.i("" + FileUtil.deleteDir(testPath + "/000"));
     }
-    
-    public void testDeleteFile() throws Exception{
-        Logger.i("" + FileUtil.deleteFile(testPath+"/000"));
-        Logger.i("" + FileUtil.deleteFile(testPath+"/cache"));
+
+    public void testDeleteFile() throws Exception {
+        Logger.i("" + FileUtil.deleteFile(testPath + "/000"));
+        Logger.i("" + FileUtil.deleteFile(testPath + "/cache"));
     }
-    
+
     public void testIsFileExists() throws Exception {
-        Logger.i("" + FileUtil.isFileExists(testPath+"/123"));
-        Logger.i("" + FileUtil.isFileExists(testPath+"/cache"));
-        Logger.i("" + FileUtil.isFileExists(testPath+"/empty"));
+        Logger.i("" + FileUtil.isFileExists(testPath + "/123"));
+        Logger.i("" + FileUtil.isFileExists(testPath + "/cache"));
+        Logger.i("" + FileUtil.isFileExists(testPath + "/empty"));
     }
 }

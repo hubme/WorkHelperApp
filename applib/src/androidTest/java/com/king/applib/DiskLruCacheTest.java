@@ -3,6 +3,10 @@ package com.king.applib;
 import com.king.applib.disklrucache.DiskLruCache;
 import com.king.applib.log.Logger;
 
+import org.junit.BeforeClass;
+
+import java.io.IOException;
+
 /**
  * @author huoguangxu
  * @since 2017/4/17.
@@ -10,10 +14,10 @@ import com.king.applib.log.Logger;
 
 public class DiskLruCacheTest extends BaseTestCase {
 
-    private DiskLruCache mDiskLruCache;
+    private static DiskLruCache mDiskLruCache;
 
-    @Override protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeClass
+    public static void initDiskLruCache() throws IOException {
         mDiskLruCache = DiskLruCache.open(mContext.getCacheDir(), 1, 1, 1024 * 1024 * 50);
     }
 

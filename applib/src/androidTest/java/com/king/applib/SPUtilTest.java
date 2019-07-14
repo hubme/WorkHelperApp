@@ -1,7 +1,6 @@
 package com.king.applib;
 
 import com.king.applib.log.Logger;
-import com.king.applib.util.ContextUtil;
 import com.king.applib.util.SPUtil;
 
 import java.util.Arrays;
@@ -15,10 +14,6 @@ import java.util.Set;
  */
 
 public class SPUtilTest extends BaseTestCase {
-    @Override protected void setUp() throws Exception {
-        super.setUp();
-        ContextUtil.init(mContext);
-    }
 
     public static class TestOo {
         public String name;
