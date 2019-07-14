@@ -1,5 +1,6 @@
 package com.king.applib.ui.recyclerview.listener;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -24,6 +25,11 @@ public class RecyclerItemTouchListener extends RecyclerView.SimpleOnItemTouchLis
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         gestureDetectorCompat.onTouchEvent(e);
         return false;
+    }
+
+    @Override
+    public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+        gestureDetectorCompat.onTouchEvent(e);
     }
 
     private class RecyclerGestureListener extends GestureDetector.SimpleOnGestureListener {
