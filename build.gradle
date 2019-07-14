@@ -20,7 +20,7 @@ buildscript {
         rulesVersion ='0.4.1'
         espressoVersion ='2.2.1'
 
-        kotlin_version = '1.3.31'
+        kotlin_version = '1.3.41'
     }
 
     repositories {
