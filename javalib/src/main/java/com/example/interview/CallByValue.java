@@ -10,11 +10,11 @@ public class CallByValue {
     public static void main(String[] args) {
         User user = new User("zhangsan", 26);
         User user2 = new User("VanceKing", 18);
-        System.out.println("µ÷ÓÃÇ°userµÄÖµ£º" + user.toString());
-        System.out.println("µ÷ÓÃÇ°user2µÄÖµ£º" + user2.toString());
+        System.out.println("è°ƒç”¨å‰userçš„å€¼ï¼š" + user.toString());
+        System.out.println("è°ƒç”¨å‰user2çš„å€¼ï¼š" + user2.toString());
         swap(user, user2);
-        System.out.println("µ÷ÓÃºóuserµÄÖµ£º" + user.toString());
-        System.out.println("µ÷ÓÃºóuser2µÄÖµ£º" + user2.toString());
+        System.out.println("è°ƒç”¨åŽuserçš„å€¼ï¼š" + user.toString());
+        System.out.println("è°ƒç”¨åŽuser2çš„å€¼ï¼š" + user2.toString());
     }
 
     public static void swap(User x, User y) {
