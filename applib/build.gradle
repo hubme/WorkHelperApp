@@ -44,6 +44,6 @@ dependencies {
     implementation "com.android.support:design:$rootProject.ext.supportLibVersion"
     //json解析
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.kotlin_version"
 
 }
