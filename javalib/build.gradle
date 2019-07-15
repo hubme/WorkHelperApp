@@ -23,6 +23,8 @@ jar {
 }
 
 repositories {
+    jcenter()
+    google()
     mavenCentral()
 }
 
@@ -45,6 +47,8 @@ tasks.withType(JavaCompile) {
 
 buildscript {
     repositories {
+        jcenter()
+        google()
         mavenCentral()
     }
     dependencies {
