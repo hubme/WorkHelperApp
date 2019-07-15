@@ -6,15 +6,22 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_open"
+        android:id="@+id/tv_device"
+        android:text="获取连接过的蓝牙"
+        style="@style/EntryItem" />
+    
+    <TextView
+        android:id="@+id/tv_scan"
+        android:text="扫描蓝牙"
         style="@style/EntryItem" />
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"
-        android:src="@drawable/like_unchecked" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:autoSizeMinTextSize="30sp"
+        android:autoSizeMaxTextSize="40sp"
+        android:autoSizeTextType="uniform"
+        android:text="双看房梁少峰" />
 
 </LinearLayout>

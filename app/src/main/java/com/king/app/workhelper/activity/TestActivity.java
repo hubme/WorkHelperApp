@@ -1,26 +1,21 @@
 package com.king.app.workhelper.activity;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
-import com.king.app.workhelper.ui.BrowViewController;
+import com.king.applib.log.Logger;
 
-import butterknife.BindView;
+import java.util.Set;
+
 import butterknife.OnClick;
-import hugo.weaving.DebugLog;
 
 /**
  * @author VanceKing
@@ -28,37 +23,30 @@ import hugo.weaving.DebugLog;
  */
 
 public class TestActivity extends AppBaseActivity {
-    @BindView(R.id.image_view)
-    ImageView imageView;
-    int[] resIds = {R.drawable.brow_001, R.drawable.brow_002,
-            R.drawable.brow_003, R.drawable.brow_004, R.drawable.brow_007};
-    private BrowViewController controller;
-    private AnimatorSet animatorSet;
-    private MyDialog dialogFragment;
 
-    @Override
-    protected void initInitialData() {
-        super.initInitialData();
-    }
+    private BluetoothAdapter mBluetoothAdapter;
+    private final BroadcastReceiver mFindBlueToothReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+                    Logger.i("ACTION_FOUND，device had paired: " + device.getName() + " : " + device.getAddress());
+                } else {
+                    Logger.i("ACTION_FOUND: " + device.getName() + " : " + device.getAddress());
+                } 
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                Logger.i("ACTION_DISCOVERY_FINISHED");
+            }
+        }
+    };
 
     @Override
     protected void initData() {
-        animatorSet = new AnimatorSet();
-
-        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(imageView, "scaleX", 1.0f, 0.1f, 1.0f);
-        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(imageView, "scaleY", 1.0f, 0.2f, 1.0f);
-        scaleYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Log.i(TAG, "onAnimationUpdate :" + animation.getAnimatedValue() + animation.getAnimatedFraction());
-                if ((float) animation.getAnimatedValue() < 0.3f) {
-                    imageView.setImageResource((Boolean) imageView.getTag() ? R.drawable.like_checked : R.drawable.like_unchecked);
-                }
-            }
-        });
-        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
-//        animatorSet.setStartDelay(50);
-        animatorSet.setDuration(600);
+        this.registerReceiver(mFindBlueToothReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+        this.registerReceiver(mFindBlueToothReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
     @Override
@@ -66,30 +54,46 @@ public class TestActivity extends AppBaseActivity {
         return R.layout.activity_test;
     }
 
-
-    @OnClick(R.id.image_view)
-    public void onViewClick() {
-        if (dialogFragment == null) {
-            dialogFragment = new MyDialog();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBluetoothAdapter != null) {
+            mBluetoothAdapter.cancelDiscovery();
         }
-        if (!dialogFragment.isVisible()) {
-            dialogFragment.show(getSupportFragmentManager(), "aaa");
+        this.unregisterReceiver(mFindBlueToothReceiver);
+    }
+
+    @OnClick(R.id.tv_device)
+    public void onViewClick(TextView textView) {
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, 130);
+        } else {
+            printBondedDevices();
+        } 
+    }
+
+    @OnClick(R.id.tv_scan)
+    public void onScanBluetooth(TextView textView) {
+        if (mBluetoothAdapter.isDiscovering()) {
+            mBluetoothAdapter.cancelDiscovery();
+        }
+        mBluetoothAdapter.startDiscovery();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 130 && resultCode == RESULT_OK) {
+            printBondedDevices();
         }
     }
 
-    @DebugLog
-    private void printLog() {
-        SystemClock.sleep(3000);
-        Log.i(TAG, "哈哈哈");
-
-    }
-
-    public static class MyDialog extends DialogFragment {
-        @Nullable
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.layout_simple_dialog_fragment, container, false);
-            return view;
+    //获取配对过的蓝牙设备
+    private void printBondedDevices() {
+        Set<BluetoothDevice> bondedDevices = mBluetoothAdapter.getBondedDevices();
+        for (BluetoothDevice device : bondedDevices) {
+            Log.i("aaa", device.getName() + " : " + device.getAddress());
         }
     }
 }
