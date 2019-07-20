@@ -1,4 +1,4 @@
-package com.example.kotlin
+package com.king.app.workhelper.kotlin
 
 import java.io.File
 
@@ -11,6 +11,10 @@ import java.io.File
  * @author VanceKing
  * @since 19-3-18.
  */
+
+fun main(args: Array<String>) {
+    FunctionKotlin().method1(2)
+}
 
 fun thisIsAFunction() = Unit
 
@@ -48,10 +52,6 @@ class FunctionKotlin {
             return null
         }
         return obj.length
-    }
-
-    fun main(args: Array<String>) {
-        FunctionKotlin().method1(2)
     }
 
     fun arrayMethod() {
@@ -106,6 +106,7 @@ class FunctionKotlin {
         for (item in items) {
             println(item)
         }
+        items.forEach{println(it)}
     }
 
     fun forMethod2() {

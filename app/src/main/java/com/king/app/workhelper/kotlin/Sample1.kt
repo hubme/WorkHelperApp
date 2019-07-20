@@ -1,4 +1,4 @@
-package com.example.kotlin
+package com.king.app.workhelper.kotlin
 
 import java.io.File
 
@@ -15,9 +15,10 @@ import java.io.File
 }*/
 
 //直接写在文件中
-fun main(args: Array<String>) {
+fun main() {
 
-    testLazy()
+    val result = listOf(1, 2, 3, 4).fold(1, { partResult, element -> element * partResult })
+    val a = result == 24
 }
 
 //适用于单例对象
@@ -197,7 +198,7 @@ fun testArray() {
     for ((index, value) in array1.withIndex()) {
         println("the element at $index is $value")
     }
-    
+
     val array2 = arrayOfNulls<String>(3)
     val array3 = arrayListOf<String>()
     val array4 = longArrayOf()

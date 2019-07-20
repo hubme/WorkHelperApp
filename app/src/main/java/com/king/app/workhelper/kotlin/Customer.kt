@@ -1,4 +1,4 @@
-package com.example.kotlin
+package com.king.app.workhelper.kotlin
 
 /**
  *创建 DTOs（POJOs/POCOs）
