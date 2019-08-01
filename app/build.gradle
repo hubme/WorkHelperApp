@@ -235,6 +235,8 @@ dependencies {
 
     implementation 'com.alibaba:arouter-api:1.5.0'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+
+    implementation 'com.haibin:calendarview:3.6.6'
 }
 
 checkstyle {
