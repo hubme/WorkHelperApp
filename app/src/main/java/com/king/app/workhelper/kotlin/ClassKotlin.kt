@@ -1,27 +1,69 @@
 package com.king.app.workhelper.kotlin
 
+import java.util.*
 import kotlin.properties.Delegates
 
 /**
  *https://www.kotlincn.net/docs/reference/classes.html
- * 
+ *
  * @author VanceKing
  * @since 2019/4/17.
  */
+fun main() {
+    ClassKotlin()
+    
+    
+    var task1 = {
+        println("task1")
+    }
+
+    task1.invoke()
+
+    val PRIMITIVE_RETURN_VALUES = Collections.unmodifiableMap(object : HashMap<String, Any>() {
+        init {
+            put("boolean", java.lang.Boolean.FALSE)
+            put("int", 0)
+            put("long", 0.toLong())
+            put("float", 0.toFloat())
+            put("double", 0.toDouble())
+            put("short", 0.toShort())
+            put("byte", 0.toByte())
+        }
+    })!!
+
+    PRIMITIVE_RETURN_VALUES.aaa("1")
+}
+
 class ClassKotlin {
+    constructor() {
+        println("主构造函数")
+    }
+
     constructor(name: String) {
         print(name)
     }
 
-    constructor(age: Int)
-    
-    companion object Test{
-        
+    constructor(age: Int) {
+        println("次构造函数")
     }
-    
+
+    /*初始化代码块*/
+    init {
+        println("init1")
+    }
+
+    /*初始化代码块*/
+    init {
+        println("init2")
+    }
+
+    companion object Test {
+
+    }
+
     private val status: String by Delegates.observable("", { _, oldValue, newValue ->
         println("$oldValue -> $newValue")
-        
+
     })
 }
 
@@ -31,11 +73,12 @@ open class Empty
 class ChildEmpty : Empty()
 
 //sealed：密封。密封类用来表示受限的类继承结构
-sealed class Color{
+sealed class Color {
     object Red : Color()
-    data class Green(val name: String): Color()
+    data class Green(val name: String) : Color()
 }
-class Blue(val name: String, val name2: String): Color()
+
+class Blue(val name: String, val name2: String) : Color()
 
 //主构造函数是类头的一部分：它跟在类名后。
 //class Person public @Inject constructor(name: String, age: Int)
@@ -79,15 +122,19 @@ class Person2(name: String, age: Int) {
 class DontCreateMe private constructor()
 
 const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
+
 open class Foo {
     lateinit var subject: String
-    
-    open val x :Int = 2
+
+    @Volatile
+    var name: String? = null
+
+    open val x: Int = 2
 
     open val y: Int get() = 1
 
     fun f() {
-        
+
     }
 
 
@@ -109,13 +156,23 @@ class Bar : Foo() {
 }
 
 open class A {
-    open fun f() { print("A") }
-    fun a() { print("a") }
+    open fun f() {
+        print("A")
+    }
+
+    fun a() {
+        print("a")
+    }
 }
 
 interface B {
-    fun f() { print("B") } // 接口成员默认就是“open”的
-    fun b() { print("b") }
+    fun f() {
+        print("B")
+    } // 接口成员默认就是“open”的
+
+    fun b() {
+        print("b")
+    }
 }
 
 class C() : A(), B {
@@ -123,10 +180,10 @@ class C() : A(), B {
     override fun f() {
         super<A>.f() // 调用 A.f()
 //        super<B>.f() // 调用 B.f()
-         println("C#f()")
+        println("C#f()")
     }
 }
 
-abstract class D{
+abstract class D {
     abstract fun test()
 }
