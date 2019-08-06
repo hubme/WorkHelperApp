@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -203,7 +204,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
         Logger.i(String.format(Locale.US, "shouldShowRequestPermissionRationale: %s", shouldShowRequestPermissionRationale(PERMISSION_READ_SMS)));
         //如何同时检测多个权限
         int result = ContextCompat.checkSelfPermission(getContext(), PERMISSION_READ_SMS);
-        if (result != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && result != PackageManager.PERMISSION_GRANTED) {
             //将回调 Activity#onRequestPermissionsResult()
 //            ActivityCompat.requestPermissions(this, new String[]{PERMISSION_READ_SMS}, REQ_CODE_PERMISSION_SMS);
             //1. 未申请到权限；2. Rationale = false; 推断“用户选择不再询问”
