@@ -31,7 +31,6 @@ fun main() {
         }
     })!!
 
-    PRIMITIVE_RETURN_VALUES.aaa("1")
 }
 
 class ClassKotlin {

@@ -15,7 +15,7 @@ android {
     compileSdkVersion cfg.compileSdkVersion
     buildToolsVersion cfg.buildToolsVersion
     defaultConfig {
-        applicationId "com.king.app.workhelper"
+        applicationId cfg.applicationId
         minSdkVersion cfg.minSdkVersion
         targetSdkVersion cfg.targetSdkVersion
         versionCode cfg.versionCode
