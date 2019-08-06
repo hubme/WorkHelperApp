@@ -115,7 +115,6 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
                 //无权限，且选中"不再提醒"
                 if (!shouldShowRequestPermissionRationale(PERMISSION_READ_SMS)) {
                     mIsFirst = false;
-//                    showSmsPermissionDialog();
                     new AlertDialog.Builder(getContext())
                             .setMessage("没有权限用个毛线")
                             .setPositiveButton("确定", null)
@@ -209,7 +208,7 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
 //            ActivityCompat.requestPermissions(this, new String[]{PERMISSION_READ_SMS}, REQ_CODE_PERMISSION_SMS);
             //1. 未申请到权限；2. Rationale = false; 推断“用户选择不再询问”
             if (!mIsFirst && !shouldShowRequestPermissionRationale(PERMISSION_READ_SMS)) {
-                showSmsPermissionDialog();
+                showSettingDialog();
             } else {
                 requestPermissions(new String[]{PERMISSION_READ_SMS}, REQ_CODE_PERMISSION_SMS);
             }
@@ -218,14 +217,13 @@ public class PermissionFragment extends AppBaseFragment implements EasyPermissio
         }
     }
 
-    private void showSmsPermissionDialog() {
+    private void showSettingDialog() {
         new AlertDialog.Builder(getContext())
                 .setMessage("需要响应的权限，请在设置中打开。")
                 .setPositiveButton("设置", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         openSetting();
-                        dialog.dismiss();
                     }
                 }).show();
     }
