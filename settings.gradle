@@ -1,1 +1,4 @@
-include ':app', ':applib', ':javalib', ':processor'
+include ':app', ':applib'
+//include ':javalib'
+//include ':processor'
+include ':permission'

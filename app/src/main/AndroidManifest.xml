@@ -34,9 +34,10 @@
         android:label="${app_label}"
         android:networkSecurityConfig="@xml/network_security_config"
         android:persistent="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon, android:label, android:theme, android:name">
+        tools:replace="android:icon, android:label, android:theme, android:name, android:appComponentFactory">
 
         <!--exported:要求必须为false，为true则会报安全异常。grantUriPermissions:true，表示授予 URI 临时访问权限。-->
         <provider

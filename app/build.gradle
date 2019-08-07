@@ -147,7 +147,8 @@ android {
 dependencies {
     //公共基础库
     implementation project(':applib')
-    implementation project(':processor')
+//    implementation project(':processor')
+    implementation project(':permission')
 
     //表示主module和lib module 编译类型保持一致
 //    releaseImplementation project(path: ':applib', configuration: 'release')
@@ -230,9 +231,6 @@ dependencies {
 
     implementation 'android.arch.lifecycle:common-java8:1.1.1'
     
-    //图片压缩
-//    implementation 'top.zibin:Luban:1.1.8'
-
     implementation 'com.alibaba:arouter-api:1.5.0'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 

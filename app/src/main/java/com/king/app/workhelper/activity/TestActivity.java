@@ -12,6 +12,7 @@ public class TestActivity extends AppBaseActivity {
 
     @Override
     protected void initData() {
+        
     }
 
     @Override

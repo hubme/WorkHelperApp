@@ -10,8 +10,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.RequiresPermission;
 import android.support.annotation.StringDef;
 
-import com.king.app.processor.annotation.PrintMe;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -25,9 +23,9 @@ import java.lang.annotation.Target;
  * 变量限制注解、权限注解、结果检查注解、CallSuper注解、枚举注解(IntDef和StringDef)。
  * Created by VanceKing on 2016/10/16 0016.
  */
-@PrintMe(value = "AnnotationSample")
+//@PrintMe(value = "AnnotationSample")
 public class AnnotationSample {
-    @PrintMe(value = "TAG")
+//    @PrintMe(value = "TAG")
     private static final String TAG = "AnnotationSample";
 
     @IntDef({SORT_TYPE.ASC, SORT_TYPE.DESC})
@@ -66,7 +64,7 @@ public class AnnotationSample {
 
     }
 
-    @PrintMe(value = "setCurColor")
+//    @PrintMe(value = "setCurColor")
     @WeakDay
     public int getColor() {
         return MON;
