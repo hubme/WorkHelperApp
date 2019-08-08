@@ -3,6 +3,7 @@ package com.king.applib.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author VanceKing
  * @since 2016/9/29.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener{
 
     private View mContentLayout;
 
@@ -41,11 +42,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContentLayout = LayoutInflater.from(this).inflate(getContentLayout(), null);
         setContentView(mContentLayout);
         initContentView();
-        setViewListeners();
         initData();
         fetchData();
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
+    
     /**
      * 在super.onCreate()之前执行
      */
@@ -90,13 +95,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化View
      */
     protected void initContentView() {
-
-    }
-
-    /**
-     * 设置View的事件监听
-     */
-    protected void setViewListeners() {
 
     }
 
@@ -186,5 +184,28 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         List<T> list = (List<T>) intent.getSerializableExtra(key);
         return list == null ? defaultValue : list;
+    }
+
+    /**
+     * View设置OnClick事件
+     */
+    protected void setViewClickListeners(@IdRes int... ids) {
+        for (int id : ids) {
+            View view = findViewById(id);
+            if (view != null) {
+                view.setOnClickListener(this);
+            }
+        }
+    }
+
+    /**
+     * View设置OnClick事件
+     */
+    protected void setViewClickListeners(View... views) {
+        for (View view : views) {
+            if (view != null) {
+                view.setOnClickListener(this);
+            }
+        }
     }
 }

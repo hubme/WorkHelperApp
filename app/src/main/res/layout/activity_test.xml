@@ -6,40 +6,10 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <com.haibin.calendarview.CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        app:calendar_padding="10dp"
-        app:current_month_lunar_text_color="#CFCFCF"
-        app:current_month_text_color="#333333"
-        app:max_year="2020"
-        app:min_year="2004"
-        app:month_view="com.king.app.workhelper.ui.calendar.CustomMonthView"
-        app:month_view_show_mode="mode_fix"
-        app:other_month_lunar_text_color="#e1e1e1"
-        app:other_month_text_color="#e1e1e1"
-        app:scheme_text="假"
-        app:scheme_text_color="#333"
-        app:scheme_theme_color="#128c4b"
-        app:selected_lunar_text_color="#fff"
-        app:selected_text_color="#fff"
-        app:selected_theme_color="#046cea"
-        app:week_background="#fff"
-        app:week_start_with="sun"
-        app:week_text_color="#e1e1e1"
-        app:week_view="com.king.app.workhelper.ui.calendar.CustomWeekView"
-        app:year_view="com.king.app.workhelper.ui.calendar.CustomYearView"
-        app:year_view_day_text_color="#333333"
-        app:year_view_day_text_size="7sp"
-        app:year_view_month_text_color="#ff0000"
-        app:year_view_month_text_size="20sp"
-        app:year_view_scheme_color="#f17706"
-        app:year_view_select_text_color="#fff"
-        app:year_view_week_height="12dp"
-        app:year_view_week_text_color="#e1e1e1"
-        app:year_view_week_text_size="6sp" />
+    <TextView
+        android:id="@+id/tv_permission"
+        style="@style/EntryItem"
+        android:text="Permission" />
 
 
 </LinearLayout>

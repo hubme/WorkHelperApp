@@ -51,14 +51,6 @@
         <item name="android:backgroundDimAmount">0.4</item>
     </style>
 
-    <style name="EntryItem">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_marginTop">1dp</item>
-        <item name="android:background">@drawable/bg_selfhelp_selector</item>
-        <item name="android:gravity">center</item>
-    </style>
-
     <!--溢出[弹出]菜单样式-->
     <style name="OverflowMenuStyle" parent="Base.Widget.AppCompat.PopupMenu.Overflow">
         <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->

@@ -29,7 +29,10 @@ ext {
             //依赖 androidx
             "permissionsdispatcher"          : "org.permissionsdispatcher:permissionsdispatcher:3.3.1",
             "permissionsdispatcher_processor": "org.permissionsdispatcher:permissionsdispatcher-processor:3.3.1",
-            
+
+            //Android Support Library.3.0.0 for AndroidX.
+            "easypermissions"                : 'pub.devrel:easypermissions:2.0.1',
+
             //图片压缩，https://github.com/Curzibn/Luban
             "Luban"                          : "top.zibin:Luban:1.1.8"
 

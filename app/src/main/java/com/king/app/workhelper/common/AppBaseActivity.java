@@ -2,7 +2,6 @@ package com.king.app.workhelper.common;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
@@ -97,29 +96,6 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
 
     protected String getActivityTitle() {
         return getString(R.string.test);
-    }
-
-    /**
-     * View设置OnClick事件
-     */
-    protected void setViewClickListeners(@IdRes int... ids) {
-        for (int id : ids) {
-            View view = findViewById(id);
-            if (view != null) {
-                view.setOnClickListener(this);
-            }
-        }
-    }
-
-    /**
-     * View设置OnClick事件
-     */
-    protected void setViewClickListeners(View... views) {
-        for (View view : views) {
-            if (view != null) {
-                view.setOnClickListener(this);
-            }
-        }
     }
 
     /**

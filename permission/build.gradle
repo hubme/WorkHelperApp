@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android'
 
 def cfg = rootProject.ext.android
 android {
@@ -29,8 +31,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
 
+    implementation project(':applib')
+
     implementation dependency.appcompat_v7
 
-    implementation dependency.permissionsdispatcher
-    annotationProcessor dependency.permissionsdispatcher_processor
+    implementation dependency.easypermissions
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.kotlin_version"
 }
