@@ -34,6 +34,7 @@ dependencies {
     implementation project(':applib')
 
     implementation dependency.appcompat_v7
+    implementation dependency.support_annotations
 
     implementation dependency.easypermissions
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.kotlin_version"

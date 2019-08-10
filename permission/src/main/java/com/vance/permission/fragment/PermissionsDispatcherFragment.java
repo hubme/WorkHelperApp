@@ -4,9 +4,10 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.king.applib.base.BaseFragment;
+import com.vance.permission.R;
 
 /**
- * https://github.com/googlesamples/easypermissions.
+ * https://github.com/permissions-dispatcher/PermissionsDispatcher
  *
  * @author VanceKing
  * @since 19-8-8.
@@ -14,9 +15,15 @@ import com.king.applib.base.BaseFragment;
 
 //@RuntimePermissions
 public class PermissionsDispatcherFragment extends BaseFragment {
+    public static final String TAG = "PermissionsDispatcherFragment";
+
+    public static PermissionsDispatcherFragment getInstance() {
+        return new PermissionsDispatcherFragment();
+    }
+            
     @Override
     protected int getContentLayout() {
-        return 0;
+        return R.layout.per_fragment_permission_dispatcher;
     }
 
     @Override

@@ -24,6 +24,7 @@ ext {
             "supportV4"                      : "com.android.support:support-v4:${supportLibVersion}",
             "suppoutDesign"                  : "com.android.support:design:${supportLibVersion}",
             "appcompat_v7"                   : "com.android.support:appcompat-v7:${supportLibVersion}",
+            "support_annotations"            : "com.android.support:support-annotations:${supportLibVersion}",
 
             /*权限*/
             //依赖 androidx

@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vance.permission">
 
+    <permission android:name="android.permission.CAMERA" />
+    <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application android:label="@string/per_app_name">
 
         <activity android:name=".activity.PerPermissionActivity" />
