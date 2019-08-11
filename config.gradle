@@ -28,8 +28,8 @@ ext {
 
             /*权限*/
             //依赖 androidx
-            "permissionsdispatcher"          : "org.permissionsdispatcher:permissionsdispatcher:3.3.1",
-            "permissionsdispatcher_processor": "org.permissionsdispatcher:permissionsdispatcher-processor:3.3.1",
+            "permissionsdispatcher"          : "org.permissionsdispatcher:permissionsdispatcher:3.3.2",
+            "permissionsdispatcher_processor": "org.permissionsdispatcher:permissionsdispatcher-processor:3.3.2",
 
             //Android Support Library.3.0.0 for AndroidX.
             "easypermissions"                : 'pub.devrel:easypermissions:2.0.1',

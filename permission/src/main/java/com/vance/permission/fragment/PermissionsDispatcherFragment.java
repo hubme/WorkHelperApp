@@ -8,7 +8,7 @@ import com.vance.permission.R;
 
 /**
  * https://github.com/permissions-dispatcher/PermissionsDispatcher
- *
+ * 
  * @author VanceKing
  * @since 19-8-8.
  */
@@ -23,7 +23,7 @@ public class PermissionsDispatcherFragment extends BaseFragment {
             
     @Override
     protected int getContentLayout() {
-        return R.layout.per_fragment_permission_dispatcher;
+        return R.layout.per_fragment_permission;
     }
 
     @Override

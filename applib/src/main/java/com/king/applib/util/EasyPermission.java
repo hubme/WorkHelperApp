@@ -24,7 +24,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -122,8 +121,7 @@ public class EasyPermission {
     /**
      * Request a set of permissions, showing rationale if the system requests it.
      */
-    public static void requestPermissions(final Object object, String rationale, final int requestCode,
-                                          final String... perms) {
+    public static void requestPermissions(final Object object, String rationale, final int requestCode, final String... perms) {
         requestPermissions(object, rationale, android.R.string.ok, android.R.string.cancel, requestCode, perms);
     }
 
@@ -156,33 +154,32 @@ public class EasyPermission {
             final String[] deniedPermissionArray = deniedPermissions.toArray(new String[deniedPermissions.size()]);
 
             if (shouldShowRationale) {
-                Activity activity = getActivity(object);
-                if (null == activity) {
-                    return;
-                }
-
-                new AlertDialog.Builder(activity).setMessage(rationale)
-                        .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-                            @Override public void onClick(DialogInterface dialog, int which) {
-                                executePermissionsRequest(object, deniedPermissionArray, requestCode);
-                            }
-                        })
-                        .setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
-                            @Override public void onClick(DialogInterface dialog, int which) {
-                                // act as if the permissions were denied
-                                ((PermissionCallback) object).onPermissionDenied(requestCode, deniedPermissions);
-                            }
-                        }).create().show();
+                showRationaleDialog(object, rationale, requestCode, deniedPermissions, deniedPermissionArray);
             } else {
                 executePermissionsRequest(object, deniedPermissionArray, requestCode);
             }
         }
     }
 
+    private static void showRationaleDialog(final Object object, String rationale, final int requestCode, final List<String> deniedPermissions, final String[] deniedPermissionArray) {
+        final Activity activity = getActivity(object);
+        new AlertDialog.Builder(activity).setMessage(rationale)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        executePermissionsRequest(activity, deniedPermissionArray, requestCode);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((PermissionCallback) object).onPermissionDenied(requestCode, deniedPermissions);
+                    }
+                }).create().show();
+    }
+
     @TargetApi(Build.VERSION_CODES.M)
     private static void executePermissionsRequest(Object object, String[] perms, int requestCode) {
-        checkCallingObjectSuitability(object);
-
         if (object instanceof Activity) {
             ActivityCompat.requestPermissions((Activity) object, perms, requestCode);
         } else if (object instanceof Fragment) {
@@ -192,9 +189,6 @@ public class EasyPermission {
         }
     }
 
-    /**
-     * Handle the result of a permission request.
-     */
     public static void onRequestPermissionsResult(Object object, int requestCode, String[] permissions, int[] grantResults) {
         checkCallingObjectSuitability(object);
 
@@ -215,58 +209,40 @@ public class EasyPermission {
     }
 
     /**
-     * with a {@code null} argument for the negative buttonOnClickListener.
-     */
-    public static boolean checkDeniedPermissionsNeverAskAgain(final Object object, String rationale,
-                                                              @StringRes int positiveButton, @StringRes int negativeButton, List<String> deniedPerms) {
-        return checkDeniedPermissionsNeverAskAgain(object, rationale, positiveButton, negativeButton, null, deniedPerms);
-    }
-
-    /**
-     * 在OnActivityResult中接收判断是否已经授权
-     * 使用{@link EasyPermission#hasPermissions(Context, String...)}进行判断
      * If user denied permissions with the flag NEVER ASK AGAIN, open a dialog explaining the
      * permissions rationale again and directing the user to the app settings. After the user
-     * returned to the app, {@link Activity#onActivityResult(int, int, Intent)} or
-     * {@link Fragment#onActivityResult(int, int, Intent)} or
-     * {@link android.app.Fragment#onActivityResult(int, int, Intent)} will be called with
+     * returned to the app, onActivityResult() will be called with
      * {@value #SETTINGS_REQ_CODE} as requestCode
      * <p>
      * NOTE: use of this method is optional, should be called from
      * {@link PermissionCallback#onPermissionDenied(int, List)}
+     *
      * @return {@code true} if user denied at least one permission with the flag NEVER ASK AGAIN.
      */
-    public static boolean checkDeniedPermissionsNeverAskAgain(final Object object, String rationale,
-                                                              @StringRes int positiveButton, @StringRes int negativeButton,
-                                                              @Nullable DialogInterface.OnClickListener negativeButtonOnClickListener,
-                                                              List<String> deniedPerms) {
-        boolean shouldShowRationale;
+    public static boolean checkDeniedPermissionsNeverAskAgain(final Object object, String rationale, List<String> deniedPerms) {
         for (String perm : deniedPerms) {
-            shouldShowRationale = shouldShowRequestPermissionRationale(object, perm);
-
-            if (!shouldShowRationale) {
-                final Activity activity = getActivity(object);
-                if (null == activity) {
-                    return true;
-                }
-
-                new AlertDialog.Builder(activity).setMessage(rationale)
-                        .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
-                            @Override public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-                                intent.setData(uri);
-                                startAppSettingsScreen(object, intent);
-                            }
-                        })
-                        .setNegativeButton(negativeButton, negativeButtonOnClickListener)
-                        .create().show();
-
+            if (!shouldShowRequestPermissionRationale(object, perm)) {
+                showSettingsDialog(object, rationale);
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static void showSettingsDialog(final Object object, String rationale) {
+        final Activity activity = getActivity(object);
+        new AlertDialog.Builder(activity).setMessage(rationale)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.fromParts("package", activity.getPackageName(), null));
+                        startAppSettingsScreen(object, intent);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .create().show();
     }
 
 
@@ -282,17 +258,14 @@ public class EasyPermission {
     }
 
     private static void checkCallingObjectSuitability(Object object) {
-        if (!((object instanceof Fragment) || (object instanceof Activity) || (object instanceof android.app.Fragment))) {
-            throw new IllegalArgumentException("Caller must be an Activity or a Fragment.");
-        }
-
+        checkContext(object);
         if (!(object instanceof PermissionCallback)) {
             throw new IllegalArgumentException("Caller must implement PermissionCallback.");
         }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static Activity getActivity(Object object) {
+    private static Activity getActivity(Object object) {
         if (object instanceof Activity) {
             return ((Activity) object);
         } else if (object instanceof Fragment) {
@@ -300,12 +273,12 @@ public class EasyPermission {
         } else if (object instanceof android.app.Fragment) {
             return ((android.app.Fragment) object).getActivity();
         } else {
-            return null;
+            throw new IllegalArgumentException("Caller must not be null.");
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static boolean shouldShowRequestPermissionRationale(Object object, String perm) {
+    private static boolean shouldShowRequestPermissionRationale(Object object, String perm) {
         if (object instanceof Activity) {
             return ActivityCompat.shouldShowRequestPermissionRationale((Activity) object, perm);
         } else if (object instanceof Fragment) {
@@ -318,7 +291,7 @@ public class EasyPermission {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static List<String> findDeniedPermissions(Activity activity, String... permission) {
+    private static List<String> findDeniedPermissions(Activity activity, String... permission) {
         List<String> denyPermissions = new ArrayList<>();
 
         for (String value : permission) {
@@ -330,7 +303,13 @@ public class EasyPermission {
         return denyPermissions;
     }
 
-    public static boolean isOverMarshmallow() {
+    private static boolean isOverMarshmallow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    private static void checkContext(Object object) {
+        if (!((object instanceof Fragment) || (object instanceof Activity) || (object instanceof android.app.Fragment))) {
+            throw new IllegalArgumentException("Caller must be an Activity or a Fragment.");
+        }
     }
 }

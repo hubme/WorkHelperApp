@@ -5,9 +5,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Permission Dispatcher"
-        android:textSize="30sp" />
+        android:id="@+id/per_tv_sms"
+        style="@style/EntryItem"
+        android:text="短信权限" />
 
+    <TextView
+        android:id="@+id/per_tv_camera"
+        style="@style/EntryItem"
+        android:text="相机权限" />
 </LinearLayout>

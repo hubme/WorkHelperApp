@@ -144,6 +144,7 @@ android {
 
 }
 
+def dependency = rootProject.ext.dependencies
 dependencies {
     //公共基础库
     implementation project(':applib')
@@ -206,7 +207,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     
-    implementation 'com.google.android:flexbox:0.2.6'
+    implementation dependency.flexbox
     
     implementation(name: 'weibosdk-1.0.0', ext: 'aar')
 

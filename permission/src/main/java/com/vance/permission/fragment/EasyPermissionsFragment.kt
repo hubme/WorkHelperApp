@@ -1,41 +1,36 @@
 package com.vance.permission.fragment
 
-import android.Manifest
+import android.content.Intent
 import android.view.View
 import android.widget.TextView
 import com.king.applib.base.BaseFragment
-import com.king.applib.log.Logger
 import com.king.applib.util.ToastUtil
-import com.vance.permission.R
+import com.vance.permission.PermissionUtil
 import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-
 
 
 /**
  * https://github.com/googlesamples/easypermissions
  *
+ * 实现有些臃肿，有 17 个类文件。
  * @author VanceKing
  * @since 19-8-8.
  */
 
-class EasyPermissionsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks{
+class EasyPermissionsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     override fun getContentLayout(): Int {
-        return R.layout.per_fragment_easypermission
+        return com.vance.permission.R.layout.per_fragment_permission
     }
 
     override fun initContentView(view: View) {
         super.initContentView(view)
-        val cameraTv = view.findViewById<TextView>(R.id.per_tv_permission_camera)
-        cameraTv.setOnClickListener {
-            if (EasyPermissions.hasPermissions(context!!, PERMISSION_CAMERA)) {
-                ToastUtil.showShort("已经有相机权限了")
-            } else {
-                EasyPermissions.requestPermissions(this, "需要相机权限", RC_PERMISSION_CAMERA, PERMISSION_CAMERA)
-            }
-
-        }
+        val smsTv = view.findViewById<TextView>(com.vance.permission.R.id.per_tv_sms)
+        smsTv.setOnClickListener { doSmsTask() }
+        val cameraTv = view.findViewById<TextView>(com.vance.permission.R.id.per_tv_camera)
+        cameraTv.setOnClickListener { doCameraTask() }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -45,36 +40,49 @@ class EasyPermissionsFragment : BaseFragment(), EasyPermissions.PermissionCallba
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            showToast("短信，从设置界面返回")
+        }
+    }
+
     override fun onPermissionsGranted(requestCode: Int, list: List<String>) {
-        // Some permissions have been granted
-        Logger.i("onPermissionsGranted")
-        
+        if (requestCode == RC_PERMISSION_SMS) {
+            ToastUtil.showShort("已经有短信权限了")
+        }
+
     }
 
     override fun onPermissionsDenied(requestCode: Int, list: List<String>) {
-        // Some permissions have been denied
-        Logger.i("onPermissionsDenied")
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, list)) {
+            AppSettingsDialog.Builder(this).setRationale("需要权限才能使用，请在设置中打开")
+                    .build().show()
+        }
     }
-    
-    @AfterPermissionGranted(RC_PERMISSION_CAMERA)
-    private fun methodRequiresTwoPermission() {
-        val perms = arrayOf(PERMISSION_CAMERA)
-        if (EasyPermissions.hasPermissions(context!!, *perms)) {
-            // Already have permission, do the thing
-            // ...
+
+    private fun doSmsTask() {
+        if (EasyPermissions.hasPermissions(context!!, PermissionUtil.PERMISSION_SEND_SMS)) {
+            ToastUtil.showShort("已经有短信权限了")
         } else {
-            // Do not have permissions, request them now
-            EasyPermissions.requestPermissions(this, "需要相机和位置权限", RC_PERMISSION_LOCATION, *perms)
+            EasyPermissions.requestPermissions(this, "需要短信权限", RC_PERMISSION_SMS, PermissionUtil.PERMISSION_SEND_SMS)
+        }
+    }
+
+    @AfterPermissionGranted(RC_PERMISSION_CAMERA)
+    private fun doCameraTask() {
+        if (EasyPermissions.hasPermissions(context!!, PermissionUtil.PERMISSION_CAMERA)) {
+            ToastUtil.showShort("已经有相机权限了")
+        } else {
+            EasyPermissions.requestPermissions(this, "需要相机权限", RC_PERMISSION_CAMERA, PermissionUtil.PERMISSION_CAMERA)
         }
     }
 
     companion object {
         const val TAG = "EasyPermissionsFragment"
-        const val PERMISSION_CAMERA = Manifest.permission.CAMERA
-        const val PERMISSION_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
 
         const val RC_PERMISSION_CAMERA = 0x10
-        const val RC_PERMISSION_LOCATION = 0x11
+        const val RC_PERMISSION_SMS = 0x11
 
         val instance: EasyPermissionsFragment
             get() = EasyPermissionsFragment()

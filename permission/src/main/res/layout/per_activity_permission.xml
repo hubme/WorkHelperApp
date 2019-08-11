@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/flex_box_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:justifyContent="space_between"
+        app:flexWrap="wrap">
 
-        <TextView
+        <android.support.v7.widget.AppCompatButton
+            android:textAllCaps="false"
             android:id="@+id/tv_normal"
-            style="@style/EntryItem"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            style="@style/EntryItemButton"
             android:text="Normal" />
-        
-        <TextView
+
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/tv_dispatcher"
-            style="@style/EntryItem"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            style="@style/EntryItemButton"
             android:text="Permissions Dispatcher" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/tv_easypermission"
-            style="@style/EntryItem"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            style="@style/EntryItemButton"
             android:text="easypermissions" />
-    </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/tv_custom_easypermission"
+            style="@style/EntryItemButton"
+            android:text="custom easypermissions" />
+    </com.google.android.flexbox.FlexboxLayout>
 
     <FrameLayout
         android:id="@+id/permission_container"

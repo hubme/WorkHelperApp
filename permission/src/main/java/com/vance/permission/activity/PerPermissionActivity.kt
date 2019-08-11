@@ -3,6 +3,7 @@ package com.vance.permission.activity
 import android.view.View
 import com.king.applib.base.BaseActivity
 import com.vance.permission.R
+import com.vance.permission.fragment.CustomPermissionFragment
 import com.vance.permission.fragment.EasyPermissionsFragment
 import com.vance.permission.fragment.NormalPermissionFragment
 import com.vance.permission.fragment.PermissionsDispatcherFragment
@@ -19,7 +20,7 @@ class PerPermissionActivity : BaseActivity() {
 
     override fun initContentView() {
         super.initContentView()
-        setViewClickListeners(R.id.tv_normal, R.id.tv_dispatcher, R.id.tv_easypermission)
+        setViewClickListeners(R.id.tv_normal, R.id.tv_dispatcher, R.id.tv_easypermission, R.id.tv_custom_easypermission)
     }
 
     override fun onClick(v: View?) {
@@ -28,6 +29,7 @@ class PerPermissionActivity : BaseActivity() {
             R.id.tv_normal -> showFragment(NormalPermissionFragment.TAG)
             R.id.tv_dispatcher -> showFragment(PermissionsDispatcherFragment.TAG)
             R.id.tv_easypermission -> showFragment(EasyPermissionsFragment.TAG)
+            R.id.tv_custom_easypermission -> showFragment(CustomPermissionFragment.TAG)
         }
     }
 
@@ -38,6 +40,7 @@ class PerPermissionActivity : BaseActivity() {
                 PermissionsDispatcherFragment.TAG -> fragment = PermissionsDispatcherFragment.getInstance()
                 EasyPermissionsFragment.TAG -> fragment = EasyPermissionsFragment.instance
                 NormalPermissionFragment.TAG -> fragment = NormalPermissionFragment.getInstance()
+                CustomPermissionFragment.TAG -> fragment = CustomPermissionFragment.instance
             }
         }
         fragment?.let {

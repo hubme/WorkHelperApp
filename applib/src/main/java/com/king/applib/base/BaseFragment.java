@@ -7,10 +7,15 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.king.applib.util.ContextUtil;
 
 /**
  * 基础Fragment
@@ -89,5 +94,17 @@ public abstract class BaseFragment extends Fragment {
     protected void openActivityForResult(Class<? extends Activity> cls, int requestCode) {
         Intent intent = new Intent(getActivity(), cls);
         startActivityForResult(intent, requestCode);
+    }
+
+    protected void showToast(String toast) {
+        if (isAdded() && !TextUtils.isEmpty(toast)) {
+            Toast.makeText(ContextUtil.getAppContext(), toast, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void showToast(@StringRes int resId) {
+        if (isAdded()) {
+            Toast.makeText(ContextUtil.getAppContext(), resId, Toast.LENGTH_SHORT).show();
+        }
     }
 }

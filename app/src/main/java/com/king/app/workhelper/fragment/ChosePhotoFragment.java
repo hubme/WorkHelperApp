@@ -190,11 +190,9 @@ public class ChosePhotoFragment extends AppBaseFragment implements EasyPermissio
 
     @Override public void onPermissionDenied(int requestCode, List<String> perms) {
         if (requestCode == REQ_CODE_CAMERA) {
-            EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "没有拍照，请到设置中打开相机权限^-^",
-                    R.string.setting, R.string.cancel, null, perms);
+            EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "没有拍照，请到设置中打开相机权限^-^", perms);
         } else if (requestCode == REQ_CODE_ALBUM) {
-            EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "没有访问照片权限，请到设置中打开存储空间权限^-^",
-                    R.string.setting, R.string.cancel, null, perms);
+            EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "没有访问照片权限，请到设置中打开存储空间权限^-^", perms);
         }
     }
 
