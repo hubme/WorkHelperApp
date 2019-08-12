@@ -1,4 +1,4 @@
-package com.king.app.workhelper.common;
+package com.king.applib;
 
 
 import com.squareup.otto.Bus;

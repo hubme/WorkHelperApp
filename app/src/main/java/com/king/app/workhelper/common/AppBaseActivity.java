@@ -51,7 +51,6 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BusProvider.getEventBus().register(this);
     }
 
     @Override
@@ -67,7 +66,6 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        BusProvider.getEventBus().unregister(this);
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);
         }

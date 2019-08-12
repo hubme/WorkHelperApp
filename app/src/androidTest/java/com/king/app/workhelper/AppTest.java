@@ -11,7 +11,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.king.app.workhelper.activity.CrashedActivity;
-import com.king.app.workhelper.common.BusProvider;
 import com.king.app.workhelper.model.entity.Student;
 import com.king.applib.builder.BundleBuilder;
 import com.king.applib.log.Logger;
@@ -147,17 +146,6 @@ public class AppTest extends BaseAndroidJUnit4Test {
         int min=10;
         for (int i = 0; i < 10; i++) {
             Log.i(TAG, random.nextInt((max - min) + 1) + min + "");
-        }
-    }
-
-    public void testBusProvider() throws Exception {
-        for (int i = 0; i < 100; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.i("aaa", BusProvider.getEventBus().toString());
-                }
-            }).start();
         }
     }
 

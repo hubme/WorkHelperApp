@@ -5,7 +5,6 @@ import android.widget.TextView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.common.BusProvider;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,6 +24,5 @@ public class FragmentOne extends AppBaseFragment {
 
     @OnClick(R.id.tv_content)
     public void printText() {
-        BusProvider.getEventBus().post("哈哈哈");
     }
 }
