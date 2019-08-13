@@ -149,7 +149,7 @@ dependencies {
     //公共基础库
     implementation project(':applib')
 //    implementation project(':processor')
-    implementation project(':permission')
+//    implementation project(':permission')
 
     //表示主module和lib module 编译类型保持一致
 //    releaseImplementation project(path: ':applib', configuration: 'release')

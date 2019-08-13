@@ -21,7 +21,6 @@ import com.king.app.workhelper.activity.ViewEventSampleActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.vance.permission.activity.PerPermissionActivity;
 
 import butterknife.OnClick;
 
@@ -81,7 +80,6 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_permission)
     public void permissionClick() {
-        openActivity(PerPermissionActivity.class);
     }
 
     @OnClick(R.id.tv_image_sample)

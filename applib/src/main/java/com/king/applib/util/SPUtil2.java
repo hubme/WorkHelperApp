@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * SharedPreferences 工具类。非线程安全。
+ * SharedPreferences 工具类。
  *
  * @author VanceKing
  * @since 2019/8/13.

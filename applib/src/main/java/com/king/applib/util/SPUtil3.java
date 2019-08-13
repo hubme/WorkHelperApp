@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import java.util.List;
 
 /**
- * SharedPreferences 工具类。非线程安全。
+ * SharedPreferences 工具类。
  *
  * @author VanceKing
  * @since 2019/8/13.
