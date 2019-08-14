@@ -39,7 +39,7 @@ dependencies {
     implementation dependency.easypermissions
 //    implementation dependency.permissionsdispatcher
 //    implementation dependency.permissionsdispatcher_processor
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.kotlin_version"
+    implementation dependency.kotlin_stdlib_jdk8
 
     implementation dependency.flexbox
 
