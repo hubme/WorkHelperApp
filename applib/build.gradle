@@ -39,13 +39,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
-    implementation "com.android.support:palette-v7:$rootProject.ext.supportLibVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportLibVersion"
-    //json解析
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.kotlin_version"
+    implementation dependency.appcompat_v7
+    implementation dependency.palette_v7
+    implementation dependency.recyclerview_v7
+    implementation dependency.design
+
+    implementation dependency.gson
+    implementation dependency.kotlin_stdlib_jdk8
     
     api dependency.otto
     api dependency.eventbus

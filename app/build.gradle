@@ -35,7 +35,7 @@ android {
         //ARouter
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ AROUTER_MODULE_NAME : project.getName() ]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
     }
@@ -131,7 +131,7 @@ android {
         //exclude 'lib/arm64-v8a/libimagepipeline.so'
         exclude 'lib/x86/libweibosdkcore.so'
     }
-    
+
     //需要去掉自定义的task.https://developer.android.com/studio/build/configure-apk-splits.html?hl=zh-cn#configure-abi-split
     splits {//拆分apk
         abi {//根据ABI拆分
@@ -184,28 +184,26 @@ dependencies {
 
     implementation dependency.okhttp
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
-    // Optional, if you use support library fragments:
-    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+    debugImplementation dependency.leakcanary_android
+    releaseImplementation dependency.leakcanary_android_no_op
+    debugImplementation dependency.leakcanary_support_fragment
 
-    debugImplementation 'com.github.markzhai:blockcanary-android:1.5.0'
-    releaseImplementation 'com.github.markzhai:blockcanary-no-op:1.5.0'
+    debugImplementation dependency.blockcanary_android
+    releaseImplementation dependency.blockcanary_no_op
 
-    implementation 'com.facebook.fresco:fresco:1.12.1'
-    implementation 'com.facebook.fresco:imagepipeline-okhttp3:1.12.1'
+    implementation dependency.fresco
+    implementation dependency.imagepipeline_okhttp3
 
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation dependency.glide
 
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    
+    implementation dependency.stetho
+    implementation dependency.stetho_okhttp3
+
     implementation dependency.flexbox
-    
+
     implementation(name: 'weibosdk-1.0.0', ext: 'aar')
 
-    //NPE检测工具 https://github.com/uber/NullAway
-    annotationProcessor "com.uber.nullaway:nullaway:0.2.1"
+    annotationProcessor dependency.nullaway
 
 //    implementation 'com.alibaba:fastjson:1.1.61.android'
 
@@ -213,22 +211,21 @@ dependencies {
     // https://github.com/JakeWharton/hugo
 //    implementation 'org.aspectj:aspectjrt:1.8.10'
 
-    implementation 'com.google.flatbuffers:flatbuffers-java:1.8.0'
+    implementation dependency.flatbuffers_java
     implementation dependency.kotlin_stdlib_jdk8
 
-    //https://google.github.io/dagger/
-    implementation 'com.google.dagger:dagger:2.7'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
+    implementation dependency.dagger
+    annotationProcessor dependency.dagger_compiler
 
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+    implementation dependency.SmartRefreshLayout
+    implementation dependency.SmartRefreshHeader
 
-    implementation 'android.arch.lifecycle:common-java8:1.1.1'
-    
-    implementation 'com.alibaba:arouter-api:1.5.0'
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    implementation dependency.common_java8
 
-    implementation 'com.haibin:calendarview:3.6.6'
+    implementation dependency.arouter_api
+    annotationProcessor dependency.arouter_compiler
+
+    implementation dependency.calendarview
 }
 
 checkstyle {
