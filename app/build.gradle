@@ -161,7 +161,7 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    testImplementation dependency.junit
 
     implementation dependency.appcompat_v7
     implementation dependency.palette_v7

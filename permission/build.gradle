@@ -29,7 +29,7 @@ android {
 def dependency = rootProject.ext.dependencies
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    testImplementation dependency.junit
 
     implementation project(':applib')
 
