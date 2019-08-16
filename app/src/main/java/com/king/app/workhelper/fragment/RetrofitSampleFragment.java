@@ -9,11 +9,11 @@ import com.king.app.workhelper.api.MovieService;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.model.entity.GitHubUser;
 import com.king.app.workhelper.model.entity.MovieEntity;
+import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.app.workhelper.retrofit.ApiServiceFactory;
 import com.king.app.workhelper.rx.RxUtil;
 import com.king.app.workhelper.rx.rxlife.event.FragmentLifeEvent;
 import com.king.applib.log.Logger;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -73,7 +73,10 @@ public class RetrofitSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_rx_retrofit)
     public void retrofitSample(final TextView textView) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.github.com").client(OkHttpUtils.getInstance().getOkHttpClient()).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.github.com")
+                .client(OkHttpProvider.getInstance().getOkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create()).
+                        addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
         final GitHubService service = retrofit.create(GitHubService.class);
         service.getUser("Guolei1130").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableObserver<GitHubUser>() {
             @Override

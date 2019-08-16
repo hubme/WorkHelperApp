@@ -20,7 +20,6 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.JsonUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -146,7 +145,7 @@ public class FrescoSampleFragment extends AppBaseFragment {
 
     private void requestLaunchUrls() {
         Request request = new Request.Builder().url("http://www.mocky.io/v2/58d36f5d100000b016b16690").build();
-        OkHttpUtils.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
+        OkHttpProvider.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
 
             }
@@ -177,7 +176,7 @@ public class FrescoSampleFragment extends AppBaseFragment {
         downloadManager.downloadFile(request);*/
 
         Request request = new Request.Builder().url(PIC_LOCAL_URL).build();
-        OkHttpUtils.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
+        OkHttpProvider.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 Logger.i("onFailure");
             }

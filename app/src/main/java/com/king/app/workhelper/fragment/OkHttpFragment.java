@@ -19,7 +19,6 @@ import com.king.app.workhelper.rx.rxlife.event.FragmentLifeEvent;
 import com.king.applib.log.Logger;
 import com.king.applib.util.FileUtil;
 import com.king.applib.util.IOUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -85,7 +84,7 @@ public class OkHttpFragment extends AppBaseFragment {
     protected void initData() {
         super.initData();
         myOkHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new LogInterceptor()).build();
-        mOkHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
+        mOkHttpClient = OkHttpProvider.getInstance().getOkHttpClient();
         mExecutorService = Executors.newSingleThreadExecutor();
     }
 

@@ -17,27 +17,22 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.common.utils.LeakCanaryHelper;
+import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
-import com.king.app.workhelper.okhttp.interceptor.HeadersInterceptor;
 import com.king.app.workhelper.okhttp.interceptor.LogInterceptor;
-import com.king.app.workhelper.okhttp.interceptor.MockInterceptor;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ContextUtil;
-import com.king.applib.util.FileUtil;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 /**
@@ -68,7 +63,6 @@ public class WorkHelperApp extends BaseApplication {
 
         ContextUtil.init(this);
         ARouter.init(this);
-        initOkHttp();
         initMineOkHttp();
         initFresco();
         AppManager.getInstance().init(this);
@@ -110,29 +104,10 @@ public class WorkHelperApp extends BaseApplication {
         SimpleOkHttp.init(okHttpClient);
     }
 
-    private void initOkHttp() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .connectTimeout(AppConfig.HTTP_CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
-                .readTimeout(AppConfig.HTTP_READ_TIME_OUT, TimeUnit.MILLISECONDS)
-                .writeTimeout(AppConfig.HTTP_WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
-                .addInterceptor(new HeadersInterceptor())
-//                .addInterceptor(new NotNetInterceptor())
-//                .addNetworkInterceptor(new NetInterceptor())
-                .addNetworkInterceptor(new StethoInterceptor())
-                .cache(new Cache(FileUtil.createDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/000test/cache"),
-                        AppConfig.HTTP_RESPONSE_DISK_CACHE_MAX_SIZE));
-
-        if (BuildConfig.LOG_DEBUG) {
-            builder.addInterceptor(new LogInterceptor());
-            builder.addInterceptor(new MockInterceptor());
-        }
-        OkHttpClient okHttpClient = builder.build();
-        OkHttpUtils.initClient(okHttpClient);
-    }
-
     private void initFresco() {
 //        Fresco.initialize(this);
-        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory.newBuilder(this, OkHttpUtils.getInstance().getOkHttpClient()).build();
+        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory.newBuilder(this, 
+                OkHttpProvider.getInstance().getOkHttpClient()).build();
         Fresco.initialize(this, config);
     }
 
