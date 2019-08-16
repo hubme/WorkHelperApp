@@ -12,8 +12,8 @@ uploadArchives {
     }
 }
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+sourceCompatibility = JaveVersion.VERSION_1_8
+targetCompatibility = JaveVersion.VERSION_1_8
 version = '1.0'
 jar {
     manifest {
