@@ -2,11 +2,10 @@ package com.king.app.workhelper.fragment;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.BroadcastReceiverActivity;
 import com.king.app.workhelper.activity.ContentProviderActivity;
@@ -23,13 +22,8 @@ import com.king.app.workhelper.activity.ViewEventSampleActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
-import com.king.app.workhelper.common.RxBus;
-import com.king.applib.log.Logger;
 
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * 测试页面入口Fragment
@@ -39,18 +33,6 @@ import io.reactivex.functions.Consumer;
  */
 public class EntryFragment extends AppBaseFragment {
     public final String TAG = "EntryFragment";
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        registerRxBus();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterRxBus();
-    }
 
     @Override
     protected int getContentLayout() {
@@ -99,6 +81,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_permission)
     public void permissionClick() {
+        ARouter.getInstance().build("/permission/main").navigation();
     }
 
     @OnClick(R.id.tv_image_sample)
@@ -309,25 +292,6 @@ public class EntryFragment extends AppBaseFragment {
                 .addToBackStack(tag)
                 .replace(R.id.layout_container, fragment, tag)
                 .commit();
-    }
-
-    public Disposable rxBusRegister;
-
-    private void registerRxBus() {
-        //在这里订阅消息
-        rxBusRegister = RxBus.getInstance().register("1024", String.class)
-                .observeOn(AndroidSchedulers.mainThread())//修改发布者，以异步方式在指定的调度程序上执行其排放和通知，并使用缓冲大小槽的有界缓冲区。
-                .subscribe(new Consumer<String>() {//订阅一个发布者，并提供一个回调来处理它发出的条目。
-                    @Override
-                    public void accept(@NonNull String bundle) {
-                        Logger.i("accept event: " + bundle);
-                    }
-                });
-    }
-
-    private void unregisterRxBus() {
-        if (rxBusRegister != null)
-            rxBusRegister.dispose();// 处理资源，操作应该是幂等的
     }
 
 }

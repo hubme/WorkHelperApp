@@ -1,6 +1,7 @@
 package com.vance.permission.activity
 
 import android.view.View
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.king.applib.base.BaseActivity
 import com.vance.permission.R
 import com.vance.permission.fragment.CustomPermissionFragment
@@ -13,7 +14,9 @@ import com.vance.permission.fragment.PermissionsDispatcherFragment
  * @author VanceKing
  * @since 19-8-8.
  */
-class PerPermissionActivity : BaseActivity() {
+
+@Route(path = "/permission/main")
+open class PerPermissionActivity : BaseActivity() {
     override fun getContentLayout(): Int {
         return R.layout.per_activity_permission
     }

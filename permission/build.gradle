@@ -1,6 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: "kotlin-kapt"
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 
 def cfg = rootProject.ext.android
 android {
@@ -42,5 +49,8 @@ dependencies {
     implementation dependency.kotlin_stdlib_jdk8
 
     implementation dependency.flexbox
+
+    implementation dependency.arouter_api
+    kapt dependency.arouter_compiler
 
 }

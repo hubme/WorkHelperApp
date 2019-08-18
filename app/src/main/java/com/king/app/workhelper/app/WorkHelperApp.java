@@ -62,7 +62,7 @@ public class WorkHelperApp extends BaseApplication {
 //        initStrictMode();
 
         ContextUtil.init(this);
-        ARouter.init(this);
+        initARouter();
         initMineOkHttp();
         initFresco();
         AppManager.getInstance().init(this);
@@ -151,6 +151,14 @@ public class WorkHelperApp extends BaseApplication {
                 .penaltyLog()
                 .penaltyDeath()//当触发违规条件时，直接Crash
                 .build());
+    }
+
+    private void initARouter() {
+        if (BuildConfig.DEBUG) {
+            ARouter.openLog();
+            ARouter.openDebug();
+        }
+        ARouter.init(this);
     }
 
     private void registerLifecycle() {
