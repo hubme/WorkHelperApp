@@ -19,7 +19,12 @@ object PermissionUtil {
     const val PERMISSION_READ_SMS = Manifest.permission.READ_SMS
 
     @JvmStatic
-    fun hasPermission(context: Context, permission: String): Boolean {
-        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(context, permission)
+    fun hasPermissions(context: Context, vararg permissions: String): Boolean {
+        for (permission in permissions) {
+            if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(context, permission)) {
+                return false
+            }
+        }
+        return true
     }
 }

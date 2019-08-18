@@ -35,8 +35,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * todo:弹窗解耦<br/>
  * Utility to request and check System permissions for apps targeting Android M (API >= 23).
  * see also:https://github.com/baiiu/easypermissions,https://github.com/googlesamples/easypermissions
+ * <p>
+ * https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/src/main/java/com/blankj/utilcode/util/PermissionUtils.java
+ * https://github.com/Blankj/AndroidUtilCode/blob/master/feature/utilcode/pkg/src/main/java/com/blankj/utilcode/pkg/feature/permission/PermissionActivity.kt
+ * <p>
+ * https://github.com/yanzhenjie/AndPermission/blob/master/support/src/main/java/com/yanzhenjie/permission/Rationale.java
  */
 public class EasyPermission {
 
@@ -44,10 +50,16 @@ public class EasyPermission {
 
     public interface PermissionCallback extends ActivityCompat.OnRequestPermissionsResultCallback {
 
-        void onPermissionGranted(int requestCode, List<String> perms);
+        void onPermissionGranted(int requestCode, List<String> grantedPerms);
 
-        void onPermissionDenied(int requestCode, List<String> perms);
+        void onPermissionDenied(int requestCode, List<String> deniedPerms);
 
+    }
+
+    public interface OnPermissionRationaleCallback {
+        void onShouldShowRationale();
+
+        void onNeverShowRationale();
     }
 
     private Object object;
@@ -222,7 +234,6 @@ public class EasyPermission {
     public static boolean checkDeniedPermissionsNeverAskAgain(final Object object, String rationale, List<String> deniedPerms) {
         for (String perm : deniedPerms) {
             if (!shouldShowRequestPermissionRationale(object, perm)) {
-                showSettingsDialog(object, rationale);
                 return true;
             }
         }
@@ -230,24 +241,28 @@ public class EasyPermission {
         return false;
     }
 
-    private static void showSettingsDialog(final Object object, String rationale) {
+    public static void showSettingsDialog(final Object object, String rationale) {
+        showSettingsDialog(object, rationale, android.R.string.ok, android.R.string.cancel);
+    }
+
+    public static void showSettingsDialog(final Object object, String rationale, @StringRes int positiveIds, @StringRes int negativeIds) {
         final Activity activity = getActivity(object);
         new AlertDialog.Builder(activity).setMessage(rationale)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                .setPositiveButton(positiveIds, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        intent.setData(Uri.fromParts("package", activity.getPackageName(), null));
-                        startAppSettingsScreen(object, intent);
+                        startAppSettingsScreen(object);
                     }
                 })
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNegativeButton(negativeIds, null)
                 .create().show();
     }
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private static void startAppSettingsScreen(Object object, Intent intent) {
+    public static void startAppSettingsScreen(Object object) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", getActivity(object).getPackageName(), null));
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(intent, SETTINGS_REQ_CODE);
         } else if (object instanceof Fragment) {

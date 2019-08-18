@@ -23,6 +23,7 @@ open class PerPermissionActivity : BaseActivity() {
 
     override fun initContentView() {
         super.initContentView()
+        showFragment(CustomPermissionFragment.TAG)
         setViewClickListeners(R.id.tv_normal, R.id.tv_dispatcher, R.id.tv_easypermission, R.id.tv_custom_easypermission)
     }
 

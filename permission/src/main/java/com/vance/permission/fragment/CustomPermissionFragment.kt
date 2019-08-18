@@ -28,7 +28,7 @@ class CustomPermissionFragment : BaseFragment(), EasyPermission.PermissionCallba
     }
 
     private fun doCameraTask() {
-        if (PermissionUtil.hasPermission(context!!, PermissionUtil.PERMISSION_CAMERA)) {
+        if (PermissionUtil.hasPermissions(context!!, PermissionUtil.PERMISSION_CAMERA)) {
             showToast("已获取相机权限")
             return
         }
@@ -59,7 +59,10 @@ class CustomPermissionFragment : BaseFragment(), EasyPermission.PermissionCallba
 
     override fun onPermissionDenied(requestCode: Int, perms: MutableList<String>?) {
         if (requestCode == REQ_CODE_CAMERA) {
-            EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "没有拍照，请到设置中打开相机权限^-^", perms)
+            val neverAskAgain = EasyPermission.checkDeniedPermissionsNeverAskAgain(this, "", perms)
+            if (neverAskAgain) {
+                EasyPermission.showSettingsDialog(this, "没有拍照，请到设置中打开相机权限")
+            }
         }
     }
 

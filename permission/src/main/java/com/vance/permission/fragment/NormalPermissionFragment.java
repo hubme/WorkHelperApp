@@ -78,7 +78,7 @@ public class NormalPermissionFragment extends BaseFragment {
         switch (requestCode) {
             case SETTINGS_REQ_CODE:
                 ToastUtil.showShort("从设置页面返回");
-                if (PermissionUtil.hasPermission(getContext(), PermissionUtil.PERMISSION_READ_SMS)) {
+                if (PermissionUtil.hasPermissions(getContext(), PermissionUtil.PERMISSION_READ_SMS)) {
                     ToastUtil.showShort("已获取短信权限");
                 } else {
                     ToastUtil.showShort("还是没有短信权限");

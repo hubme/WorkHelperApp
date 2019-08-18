@@ -43,10 +43,12 @@ dependencies {
     implementation dependency.appcompat_v7
     implementation dependency.support_annotations
 
+    implementation dependency.kotlin_stdlib_jdk8
+
     implementation dependency.easypermissions
+//    implementation dependency.rxpermissions
 //    implementation dependency.permissionsdispatcher
 //    implementation dependency.permissionsdispatcher_processor
-    implementation dependency.kotlin_stdlib_jdk8
 
     implementation dependency.flexbox
 
