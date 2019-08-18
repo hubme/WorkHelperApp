@@ -2,6 +2,7 @@ package com.king.app.workhelper.activity;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.common.RxBus;
 
 import butterknife.OnClick;
 
@@ -24,6 +25,7 @@ public class TestActivity extends AppBaseActivity {
 
     @OnClick(R.id.tv_permission)
     public void onPermissionClick() {
+        RxBus.getInstance().post("1024", "哈哈哈");
     }
 
 }

@@ -1,6 +1,9 @@
 package com.king.app.workhelper.activity;
 
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -8,7 +11,13 @@ import android.widget.Toast;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.common.RxBus;
 import com.king.app.workhelper.fragment.EntryFragment;
+import com.king.applib.log.Logger;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 测试入口界面。
@@ -31,6 +40,18 @@ public class HomeActivity extends AppBaseActivity {
             WebView.enableSlowWholeDocumentDraw();
         }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        registerRxBus();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterRxBus();
     }
 
     @Override
@@ -89,5 +110,25 @@ public class HomeActivity extends AppBaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public Disposable rxBusRegister;
+
+    private void registerRxBus() {
+        //在这里订阅消息
+        rxBusRegister = RxBus.getInstance().register("1024", String.class)
+                .observeOn(AndroidSchedulers.mainThread())//修改发布者，以异步方式在指定的调度程序上执行其排放和通知，并使用缓冲大小槽的有界缓冲区。
+                .subscribe(new Consumer<String>() {//订阅一个发布者，并提供一个回调来处理它发出的条目。
+
+                    @Override
+                    public void accept(@NonNull String bundle) {
+                        Logger.i("accept main");
+                    }
+                });
+    }
+
+    private void unregisterRxBus() {
+        if (rxBusRegister != null)
+            rxBusRegister.dispose();// 处理资源，操作应该是幂等的
     }
 }
