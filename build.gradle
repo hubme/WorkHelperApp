@@ -36,7 +36,7 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repositories/jcenter'}*/
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         //amigo hot fix
         //classpath 'me.ele:amigo:0.3.1'
 
