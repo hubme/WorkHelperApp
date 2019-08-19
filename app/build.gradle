@@ -23,7 +23,6 @@ android {
         buildConfigField "String", "GIT_SHA", "\"${getGitSha()}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
 
         //resConfigs "zh"//将语言资源限定为中文
 
@@ -168,7 +167,6 @@ dependencies {
     implementation dependency.recyclerview_v7
     implementation dependency.design
     implementation dependency.constraint_layout
-    implementation dependency.multidex
 
     implementation dependency.butterknife
     annotationProcessor dependency.butterknife_compiler

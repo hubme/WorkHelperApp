@@ -3,13 +3,11 @@ package com.king.app.workhelper.app;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -78,12 +76,6 @@ public class WorkHelperApp extends BaseApplication {
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
         registerLifecycle();
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 
     public static Application getApplication() {
