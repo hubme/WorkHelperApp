@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.webkit.URLUtil;
 
@@ -27,8 +28,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-
-import javax.annotation.Nullable;
 
 import butterknife.BindView;
 import butterknife.OnClick;

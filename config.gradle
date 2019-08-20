@@ -56,6 +56,7 @@ ext {
             "rxlife"                         : "com.rxjava.rxlife:rxlife:1.0.9",
 
             "gson"                           : "com.google.code.gson:gson:2.8.5",
+            "fastjson"                       : "com.alibaba:fastjson:1.1.71.android",
 
             "retrofit"                       : "com.squareup.retrofit2:retrofit:2.2.0",
             "converter_gson"                 : "com.squareup.retrofit2:converter-gson:2.2.0",
