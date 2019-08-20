@@ -24,10 +24,6 @@ public class ImageSampleFragment extends AppBaseFragment {
     private String mImagePath;
     private String mSavedBitmapPath;
 
-
-    @BindView(R.id.iv_before_compressed)
-    public ImageView mBeforeCompressedIv;
-
     @BindView(R.id.iv_after_compressed)
     public ImageView mAfterCompressedIv;
 
@@ -50,10 +46,6 @@ public class ImageSampleFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_image_sample)
     public void compressImage() {
-        //图片太大，无法显示。
-        //        Bitmap mBeforeBitmap = ImageUtil.getBitmap(getContext(), R.mipmap.compress_before);
-        //        mBeforeCompressedIv.setImageBitmap(mBeforeBitmap);
-
         int width = mAfterCompressedIv.getWidth();
         int height = mAfterCompressedIv.getHeight();
         File file = ImageUtil.compressBySampling(FileUtil.getFileByPath(mImagePath), mSavedBitmapPath, width, height);

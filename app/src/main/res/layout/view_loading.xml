@@ -33,16 +33,5 @@
             android:background="@mipmap/coin_rolling"/>
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="76dp"
-        android:layout_height="70dp"
-        android:layout_above="@+id/progress_bar"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@mipmap/loading_house"/>
-
 
 </RelativeLayout>

@@ -26,12 +26,6 @@
                 android:layout_height="wrap_content"
                 android:text="ImageView大图片无法显示.\neg.3120*4028 jpg 4.02M.但是获取的Bitmap不为null.\n压缩处理，宽高比"/>
 
-            <ImageView
-                android:id="@+id/iv_before_compressed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/home_ad"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
