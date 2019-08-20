@@ -39,7 +39,7 @@ public class NotificationFragment extends AppBaseFragment {
 
         final PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, HomeActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.mipmap.downloading)
+                .setSmallIcon(R.drawable.downloading)
                 .setContentTitle("公积金更新")
                 .setContentText("下载中...")
 //                .setContentIntent(contentIntent)
@@ -85,7 +85,7 @@ public class NotificationFragment extends AppBaseFragment {
         remoteViews.setTextViewText(R.id.status, "下载中...");
 
         Notification notification = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.mipmap.downloading)
+                .setSmallIcon(R.drawable.downloading)
                 .setContentIntent(null)
                 .setContent(remoteViews)
                 .build();

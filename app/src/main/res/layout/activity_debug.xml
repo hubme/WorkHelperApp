@@ -27,7 +27,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@mipmap/icon_multi_checkbox_unchecked"
+                    android:drawableLeft="@drawable/icon_multi_checkbox_unchecked"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
                     android:text="打印请求头"/>
@@ -37,7 +37,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@mipmap/icon_multi_checkbox_unchecked"
+                    android:drawableLeft="@drawable/icon_multi_checkbox_unchecked"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
                     android:text="打印响应头"/>
@@ -47,7 +47,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@mipmap/icon_multi_checkbox_unchecked"
+                    android:drawableLeft="@drawable/icon_multi_checkbox_unchecked"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
                     android:text="关闭log"/>

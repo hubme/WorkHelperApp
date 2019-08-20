@@ -40,7 +40,7 @@ public class RoundDrawableFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_image1)
     public void onImage1Click() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.beautiful_girl);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.beautiful_girl);
         RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         drawable.setCornerRadius(100);
         mImage1.setImageDrawable(drawable);
@@ -48,7 +48,7 @@ public class RoundDrawableFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_image2)
     public void onImage2Click() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.beautiful_girl);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.beautiful_girl);
         RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         drawable.setCircular(true);
         mImage2.setImageDrawable(drawable);
@@ -56,7 +56,7 @@ public class RoundDrawableFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_image3)
     public void onImage3Click() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.beautiful_girl);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.beautiful_girl);
         mImage3.setImageDrawable(createRoundImageWithBorder(bitmap, 0, R.color.orange_ff8800));
     }
 

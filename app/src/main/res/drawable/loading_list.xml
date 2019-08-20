@@ -4,52 +4,52 @@
     android:oneshot="false">
     <!--动画的实现，其中android:oneshot="false"，表示可以一直循环-->
     <!--<item
-        android:drawable="@mipmap/wc_ac_01"
+        android:drawable="@drawable/wc_ac_01"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_02"
+        android:drawable="@drawable/wc_ac_02"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_03"
+        android:drawable="@drawable/wc_ac_03"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_04"
+        android:drawable="@drawable/wc_ac_04"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_05"
+        android:drawable="@drawable/wc_ac_05"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_06"
+        android:drawable="@drawable/wc_ac_06"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_07"
+        android:drawable="@drawable/wc_ac_07"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_08"
+        android:drawable="@drawable/wc_ac_08"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_09"
+        android:drawable="@drawable/wc_ac_09"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_10"
+        android:drawable="@drawable/wc_ac_10"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_11"
+        android:drawable="@drawable/wc_ac_11"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_12"
+        android:drawable="@drawable/wc_ac_12"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_13"
+        android:drawable="@drawable/wc_ac_13"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_14"
+        android:drawable="@drawable/wc_ac_14"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_15"
+        android:drawable="@drawable/wc_ac_15"
         android:duration="80"/>
     <item
-        android:drawable="@mipmap/wc_ac_16"
+        android:drawable="@drawable/wc_ac_16"
         android:duration="80"/>-->
 
 </animation-list>

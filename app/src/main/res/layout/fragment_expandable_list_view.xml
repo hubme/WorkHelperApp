@@ -9,5 +9,5 @@
         android:id="@+id/expand_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:groupIndicator="@mipmap/ad_notification"/>
+        android:groupIndicator="@drawable/ad_notification"/>
 </LinearLayout>

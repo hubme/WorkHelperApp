@@ -62,7 +62,7 @@ public class FrescoSampleFragment extends AppBaseFragment {
     protected void initData() {
         super.initData();
 //        mSimpleDraweeView.setImageURI(Uri.fromFile(FileUtil.getFileByPath(LOCAL_PIC)));
-//        mSimpleDraweeView.setImageURI(Uri.parse("res://"+ ContextUtil.getAppContext().getPackageName()+"/"+R.mipmap.splash_screen));
+//        mSimpleDraweeView.setImageURI(Uri.parse("res://"+ ContextUtil.getAppContext().getPackageName()+"/"+R.drawable.splash_screen));
         mSimpleDraweeView.setImageURI(Uri.parse(PIC_BAIDU_URL));
 
         final AbstractDraweeController build = Fresco.newDraweeControllerBuilder()

@@ -113,7 +113,7 @@
                 android:id="@+id/ins_loading_view"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@mipmap/img_4071"
+                android:src="@drawable/img_4071"
                 app:status="loading"/>
 
             <com.king.applib.ui.customview.NoticeView
@@ -124,7 +124,7 @@
                 android:background="@color/gray_666666"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                app:nvIcon="@mipmap/ad_notification"
+                app:nvIcon="@drawable/ad_notification"
                 app:nvIconPadding="5dp"
                 app:nvIconTint="@android:color/white"
                 app:nvTextColor="@color/chocolate"

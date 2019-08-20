@@ -54,6 +54,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/share_qq_solid"/>
+        android:src="@drawable/share_qq_solid"/>
 
 </LinearLayout>

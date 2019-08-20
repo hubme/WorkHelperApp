@@ -80,7 +80,7 @@ public class ToolbarActivity extends AppBaseActivity {
         Toolbar.LayoutParams params = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.END);
         params.setMargins(3, 3, 50, 4);//设置外边界
         ImageView imageView = new ImageView(this);
-        imageView.setImageResource(R.mipmap.ic_search);
+        imageView.setImageResource(R.drawable.ic_search);
         imageView.setLayoutParams(params);
         mToolbar.addView(imageView);
 
@@ -128,13 +128,13 @@ public class ToolbarActivity extends AppBaseActivity {
     }
 
     private void toolbarUseSapmle() {
-        mToolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
+        mToolbar.setNavigationIcon(R.drawable.arrow_left_blue);
         mToolbar.setLogo(R.mipmap.ic_launcher);
         mToolbar.setTitle("标题");
         mToolbar.setSubtitle("副标题");
 
         //替换Toolbar右上角的菜单图标
-        mToolbar.setOverflowIcon(getResources().getDrawable(R.mipmap.ic_setting));
+        mToolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_setting));
 
         //设置溢出菜单样式
         mToolbar.setPopupTheme(R.style.OverflowMenuStyle);

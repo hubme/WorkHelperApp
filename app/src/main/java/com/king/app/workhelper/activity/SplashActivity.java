@@ -64,7 +64,7 @@ public class SplashActivity extends AppBaseActivity {
 
     @Override protected void initContentView() {
         super.initContentView();
-        mSplashImage.setBackgroundResource(R.mipmap.img_4073);
+        mSplashImage.setBackgroundResource(R.drawable.img_4073);
 
         startCountDown(2, 0);
         setViewClickListeners(mSplashImage, mSkipTv);

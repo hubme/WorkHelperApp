@@ -19,7 +19,7 @@
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:navigationIcon="@mipmap/arrow_left_blue"
+            app:navigationIcon="@drawable/arrow_left_blue"
             app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle"
             app:title="@string/test"
             app:titleTextAppearance="@style/Theme.ToolBar.Base.Title">

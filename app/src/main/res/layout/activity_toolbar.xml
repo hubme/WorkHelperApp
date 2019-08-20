@@ -11,5 +11,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@mipmap/toolbar_sample"/>
+        android:src="@drawable/toolbar_sample"/>
 </RelativeLayout>

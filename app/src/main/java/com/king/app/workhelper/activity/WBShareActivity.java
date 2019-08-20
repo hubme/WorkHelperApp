@@ -211,7 +211,7 @@ public class WBShareActivity extends AppBaseActivity implements IWeiboHandler.Re
     private ImageObject getImageObj() {
         ImageObject imageObject = new ImageObject();
         //设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.img_4073);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img_4073);
         imageObject.setImageObject(bitmap);
         return imageObject;
     }

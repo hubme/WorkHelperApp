@@ -272,7 +272,7 @@ public class DownloadManager {
         mRemoteViews.setTextViewText(R.id.file_size, Formatter.formatFileSize(mContext, fileSize));
 
         mNotification = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.mipmap.downloading)
+                .setSmallIcon(R.drawable.downloading)
                 .setContentIntent(mDownloadRequest.notificationClickIntent)
                 .setContent(mRemoteViews)
                 .setAutoCancel(false)

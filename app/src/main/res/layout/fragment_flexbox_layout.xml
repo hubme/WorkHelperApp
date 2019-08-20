@@ -45,6 +45,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="15dp"
-        android:src="@mipmap/icon_plus_add_new"/>
+        android:src="@drawable/icon_plus_add_new"/>
 </RelativeLayout>
 

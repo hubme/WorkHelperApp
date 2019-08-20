@@ -77,7 +77,7 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
     }
 
     protected void initToolbar(Toolbar toolbar) {
-        toolbar.setNavigationIcon(R.mipmap.arrow_left_blue);
+        toolbar.setNavigationIcon(R.drawable.arrow_left_blue);
         toolbar.setTitle(getActivityTitle());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

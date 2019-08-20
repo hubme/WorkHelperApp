@@ -54,7 +54,7 @@
             android:id="@+id/iv_icon_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/clock_dial"
+            android:background="@drawable/clock_dial"
             android:src="@drawable/bg_transparent"/>
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
-            android:src="@mipmap/banner1"/>
+            android:src="@drawable/banner1"/>
     </LinearLayout>
 </ScrollView>
 

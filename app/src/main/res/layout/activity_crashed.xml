@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@mipmap/crashed_image"
+        android:drawableTop="@drawable/crashed_image"
         android:gravity="center"
         android:text="应用出bug啦"/>
 

@@ -35,7 +35,7 @@
                 android:id="@+id/view_pic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:placeholderImage="@mipmap/beautiful_girl"
+                app:placeholderImage="@drawable/beautiful_girl"
                 app:roundAsCircle="true"/>
 
         </LinearLayout>

@@ -19,49 +19,49 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="50dip"
             android:layout_gravity="bottom"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="70dip"
             android:layout_gravity="bottom"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="90dip"
             android:layout_gravity="bottom"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="110dip"
             android:layout_gravity="bottom"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="130dip"
             android:layout_gravity="bottom"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="150dip"
             android:layout_gravity="bottom"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="170dip"
             android:layout_gravity="bottom"
-            android:src="@mipmap/share_wechat_solid"/>
+            android:src="@drawable/share_wechat_solid"/>
     </LinearLayout>
 
     <LinearLayout

@@ -60,7 +60,7 @@ public class CanvasSampleView extends View {
     }
 
     private void init() {
-        mDrawable = getResources().getDrawable(R.mipmap.beautiful_girl);
+        mDrawable = getResources().getDrawable(R.drawable.beautiful_girl);
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.chocolate));
@@ -285,7 +285,7 @@ public class CanvasSampleView extends View {
 
     private void drawBitmap(Canvas canvas) {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_4);
-//        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.beautiful_girl), 10, 10, null);
+//        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.beautiful_girl), 10, 10, null);
         canvas.drawBitmap(getRoundCornerBitmap(bitmap, 10), 50, 50, null);
     }
 

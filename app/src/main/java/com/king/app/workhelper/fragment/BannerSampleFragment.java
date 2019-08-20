@@ -29,7 +29,7 @@ import butterknife.OnClick;
 public class BannerSampleFragment extends AppBaseFragment {
     @BindView(R.id.simple_banner)
     SimpleBanner<BannerModel, View> mSimpleBanner;
-    private int[] mImageIds = new int[]{R.mipmap.banner1, R.mipmap.banner2, R.mipmap.banner3};
+    private int[] mImageIds = new int[]{R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
     private String[] mImageUrls = new String[]{"http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1uplxf0j20kq071jvq.jpg",
             "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1vl88hqj20sg08w76c.jpg",
             "http://ww1.sinaimg.cn/mw690/8031bb7bgy1fft1wffbppj20sg0g00vu.jpg",

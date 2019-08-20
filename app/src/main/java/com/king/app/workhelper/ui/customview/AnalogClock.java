@@ -64,9 +64,9 @@ public class AnalogClock extends View {
     }
 
     private void init() {
-        mDial = getResources().getDrawable(R.mipmap.clock_dial);
-        mHourHand = getResources().getDrawable(R.mipmap.clock_hand_hour);
-        mMinuteHand = getResources().getDrawable(R.mipmap.clock_hand_minute);
+        mDial = getResources().getDrawable(R.drawable.clock_dial);
+        mHourHand = getResources().getDrawable(R.drawable.clock_hand_hour);
+        mMinuteHand = getResources().getDrawable(R.drawable.clock_hand_minute);
 
         mDialWidth = mDial.getIntrinsicWidth();
         mDialHeight = mDial.getIntrinsicHeight();

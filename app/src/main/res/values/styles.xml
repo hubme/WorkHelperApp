@@ -73,7 +73,7 @@
 
     <style name="ActionButton.Overflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
         <!--为了替换Toolbar menu 图标，默认是三个黑色的小圆点-->
-        <item name="android:src">@mipmap/ic_setting</item>
+        <item name="android:src">@drawable/ic_setting</item>
     </style>
 
     <declare-styleable name="FundFormPieView">

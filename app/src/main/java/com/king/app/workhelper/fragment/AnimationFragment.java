@@ -138,7 +138,7 @@ public class AnimationFragment extends AppBaseFragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                view.setImageResource(R.mipmap.banner2);
+                view.setImageResource(R.drawable.banner2);
             }
         });
         view.startAnimation(rotation);
