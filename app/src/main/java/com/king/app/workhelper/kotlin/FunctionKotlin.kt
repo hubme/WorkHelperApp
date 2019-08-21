@@ -18,17 +18,38 @@ fun main(args: Array<String>) {
 
 fun thisIsAFunction() = Unit
 
+fun reformat(str: String,
+             normalizeCase: Boolean = true,
+             upperCaseFirstLetter: Boolean = true,
+             divideByCamelHumps: Boolean = false,
+             wordSeparator: Char = ' ') {
+}
+
+//当一个函数调用混用位置参数与命名参数时，所有位置参数都要放在第一个命名参数之前。
+// 例如，允许调用 f(1, y = 2) 但不允许 f(x = 1, 2)。
+fun testreformat() {
+    //使用命名参数我们可以使代码更具有可读性：
+    reformat("name",
+            normalizeCase = true,
+            upperCaseFirstLetter = true,
+            divideByCamelHumps = false,
+            wordSeparator = '_'
+    )
+}
+
 class FunctionKotlin {
     val aaa = 2
     var bbb = 3
     val ccc: String = "333"
 
-    fun sum(number1: Int, number2: Int) {
+    fun sum(number1: Int, number2: Int): Int {
         print("sum of $number1 and $number2 is ${number1 + number2}")
 
-        val name: String
-        name = "sdlf"
+        return number1 + number2
     }
+    
+    //Kotlin 不推断具有块代码体的函数的返回类型
+    fun sum2(number1: Int, number2: Int) = number1 + number2
 
     protected class Nested {
         public val e: Int = 5
@@ -106,7 +127,7 @@ class FunctionKotlin {
         for (item in items) {
             println(item)
         }
-        items.forEach{println(it)}
+        items.forEach { println(it) }
     }
 
     fun forMethod2() {
@@ -150,7 +171,7 @@ class FunctionKotlin {
             println("($k, $v)")
         }
         println(map["b"])
-        SingleInstance 
+        SingleInstance
     }
 
     fun methodReturnIncreasedInteger(num: Int): Int {
@@ -183,7 +204,7 @@ class FunctionKotlin {
         a infixFunction 3
         val file = File("")
         print(file.totalSpace)
-        
+
     }
 
     //扩展函数，只能在当前类中使用
