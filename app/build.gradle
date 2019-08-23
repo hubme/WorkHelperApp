@@ -6,10 +6,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.jakewharton.hugo'
 
-if (project.hasProperty("enableErrorProne")) {
-    apply plugin: "net.ltgt.errorprone"
-}
-
 def cfg = rootProject.ext.android
 android {
     compileSdkVersion cfg.compileSdkVersion
