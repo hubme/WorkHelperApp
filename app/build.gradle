@@ -193,10 +193,6 @@ dependencies {
 
     implementation(name: 'weibosdk-1.0.0', ext: 'aar')
 
-    annotationProcessor dependency.nullaway
-
-//    implementation 'com.alibaba:fastjson:1.1.61.android'
-
     //https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx
     // https://github.com/JakeWharton/hugo
 //    implementation 'org.aspectj:aspectjrt:1.8.10'
