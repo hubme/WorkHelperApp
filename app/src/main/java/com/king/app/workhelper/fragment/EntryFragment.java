@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.activity.BroadcastReceiverActivity;
-import com.king.app.workhelper.activity.ContentProviderActivity;
 import com.king.app.workhelper.activity.DebugActivity;
 import com.king.app.workhelper.activity.KotlinSampleActivity;
 import com.king.app.workhelper.activity.LifeCircleEntryActivity;
@@ -46,7 +45,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_content_provider)
     public void testContentProvider() {
-        openActivity(ContentProviderActivity.class);
+        ARouter.getInstance().build("/contentprovider/basic").navigation();
     }
 
     @OnClick(R.id.tv_broadcast_receiver)

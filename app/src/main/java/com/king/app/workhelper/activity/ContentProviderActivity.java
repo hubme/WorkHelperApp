@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.contentprovider.BookProvider;
 import com.king.app.workhelper.model.Book;
+import com.king.applib.log.Logger;
 
 import butterknife.OnClick;
 
@@ -19,6 +21,7 @@ import butterknife.OnClick;
  * @author Vanceking
  * @since 2018/5/9.
  */
+@Route(path = "/contentprovider/basic")
 public class ContentProviderActivity extends AppBaseActivity {
     private ContentObserver mContentObserver;
 
@@ -58,6 +61,7 @@ public class ContentProviderActivity extends AppBaseActivity {
         }
         sb.append("--------------------------------");
         userCursor.close();
+        Logger.i(sb.toString());
     }
 
     @OnClick(R.id.tv_add)
@@ -66,11 +70,13 @@ public class ContentProviderActivity extends AppBaseActivity {
         values.put("_id", 1123);
         values.put("name", "三国演义");
         getContentResolver().insert(BookProvider.BOOK_CONTENT_URI, values);
+        onQueryClick();
     }
 
     @OnClick(R.id.tv_delete)
     public void onDeleteClick() {
         getContentResolver().delete(BookProvider.BOOK_CONTENT_URI, "_id = 1123", null);
+        onQueryClick();
     }
 
     @OnClick(R.id.tv_update)
@@ -79,6 +85,7 @@ public class ContentProviderActivity extends AppBaseActivity {
         values.put("_id", 1123);
         values.put("name", "三国演义新版");
         getContentResolver().update(BookProvider.BOOK_CONTENT_URI, values, "_id = 1123", null);
+        onQueryClick();
     }
 
     //数据内容观察者，当数据变化时会接收到通知
