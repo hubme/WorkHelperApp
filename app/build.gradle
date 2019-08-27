@@ -185,6 +185,8 @@ dependencies {
     implementation dependency.imagepipeline_okhttp3
 
     implementation dependency.glide
+    implementation dependency.glide_okhttp3_integration
+    annotationProcessor dependency.glide_compiler
 
     implementation dependency.stetho
     implementation dependency.stetho_okhttp3
