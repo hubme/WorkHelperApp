@@ -124,11 +124,6 @@
                 android:text="RoundedBitmapDrawable"/>
 
             <TextView
-                android:id="@+id/tv_flat_buffer"
-                style="@style/EntryItem"
-                android:text="FlatBuffer VS Json"/>
-
-            <TextView
                 android:id="@+id/tv_canvas"
                 style="@style/EntryItem"
                 android:text="Canvas"/>

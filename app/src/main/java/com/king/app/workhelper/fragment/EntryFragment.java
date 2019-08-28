@@ -155,11 +155,6 @@ public class EntryFragment extends AppBaseFragment {
         clickedOn(new RoundDrawableFragment());
     }
 
-    @OnClick(R.id.tv_flat_buffer)
-    public void onFlatBufferClick() {
-        clickedOn(new FlatBufferFragment());
-    }
-
     @OnClick(R.id.tv_canvas)
     public void onCanvasClick() {
         clickedOn(new CanvasSampleFragment());
