@@ -7,6 +7,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Binder;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -59,7 +61,15 @@ public class BookProvider extends ContentProvider {
 
     }
 
+    @Nullable
+    @Override
+    public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
+        return super.call(method, arg, extras);
+    }
+
     @Nullable @Override public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        Log.i(TAG, "getCallingPackage(): " + getCallingPackage());
+        Log.i(TAG, "pid: " + Binder.getCallingPid() + ", uid: " + Binder.getCallingUid());
         Log.d(TAG, "query, current thread" + Thread.currentThread());
         String table = getTableName(uri);
         if (table == null) {

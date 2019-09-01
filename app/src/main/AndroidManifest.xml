@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.king.app.workhelper">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.king.app.workhelper">
 
     <permission
         android:name="com.aidl.permission"
-        android:protectionLevel="normal"/>
+        android:protectionLevel="normal" />
 
     <!-- https://developer.android.com/studio/build/manifest-merge?hl=zh-cn -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--标识了maxSdkVersion=18之后，表示，当手机版本高于18，这个权限将不会出现在权限列表了。-->
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <uses-permission android:name="com.aidl.permission"/>
+    <uses-permission android:name="com.aidl.permission" />
 
     <application
         android:name=".app.WorkHelperApp"
@@ -47,31 +47,31 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_share_paths"/>
+                android:resource="@xml/file_share_paths" />
         </provider>
 
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <!-- https://developer.android.com/training/app-links/deep-linking -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
 
                 <!--android:scheme: 唤起协议
                 android:host: 唤起host，只有置顶的host才可被唤起
                 android:pathPrefix: 唤起的路径，对路径进一步的过滤-->
                 <data
                     android:host="com.test"
-                    android:scheme="open"/>
+                    android:scheme="open" />
             </intent-filter>
         </activity>
 
@@ -81,27 +81,26 @@
 
         <activity
             android:name=".activity.LifeCircleActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize" />
 
-        <activity
-            android:name=".activity.LifeCircleEntryActivity"/>
+        <activity android:name=".activity.LifeCircleEntryActivity" />
 
-        <activity android:name=".activity.ContentProviderActivity"/>
+        <activity android:name=".activity.ContentProviderActivity" />
 
         <activity android:name=".activity.TestActivity">
             <intent-filter>
-                <action android:name="com.king.action1"/>
-                <action android:name="com.king.action2"/>
+                <action android:name="com.king.action1" />
+                <action android:name="com.king.action2" />
 
                 <!-- 必须有此category,否则隐式启动无法成功-->
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="com.king.category1"/>
-                <category android:name="com.king.category2"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.king.category1" />
+                <category android:name="com.king.category2" />
             </intent-filter>
 
             <meta-data
                 android:name="meta_data"
-                android:value="MetaValue"/>
+                android:value="MetaValue" />
         </activity>
 
         <activity android:name=".activity.MainActivity">
@@ -122,8 +121,7 @@
 
         </activity>
 
-        <activity
-            android:name=".activity.TabSwitchActivity">
+        <activity android:name=".activity.TabSwitchActivity">
 
         </activity>
 
@@ -133,107 +131,104 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".activity.RecyclerViewActivity"/>
+        <activity android:name=".activity.RecyclerViewActivity" />
 
-        <activity android:name=".activity.DebugActivity"/>
+        <activity android:name=".activity.DebugActivity" />
 
-        <activity android:name=".activity.ImageActivity"/>
+        <activity android:name=".activity.ImageActivity" />
 
-        <activity android:name=".activity.ViewEventSampleActivity"/>
+        <activity android:name=".activity.ViewEventSampleActivity" />
 
-        <activity android:name=".activity.ThreadActivity"/>
+        <activity android:name=".activity.ThreadActivity" />
 
-        <activity android:name=".activity.KotlinSampleActivity"/>
+        <activity android:name=".activity.KotlinSampleActivity" />
 
-        <activity android:name=".activity.DataBindingActivity"/>
+        <activity android:name=".activity.DataBindingActivity" />
 
         <activity
             android:name=".activity.TransparentActivity"
-            android:theme="@style/TransparentTheme"/>
+            android:theme="@style/TransparentTheme" />
 
-        <activity android:name=".activity.ServiceActivity"/>
+        <activity android:name=".activity.ServiceActivity" />
 
-        <activity android:name=".activity.BroadcastReceiverActivity"/>
+        <activity android:name=".activity.BroadcastReceiverActivity" />
 
         <activity
             android:name=".app.keepalive.KeepLiveActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance" />
 
         <activity
             android:name=".activity.SingleTopActivity"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".activity.StandardActivity"
-            android:launchMode="standard">
-        </activity>
+            android:launchMode="standard" />
 
         <activity
             android:name=".activity.SingleTaskActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask" />
 
         <activity
             android:name=".activity.SingleInstanceActivity"
-            android:launchMode="singleInstance">
-        </activity>
-        
-        <activity android:name=".activity.ARouterSampleActivity"/>
+            android:launchMode="singleInstance" />
 
-        <service android:name=".service.DownloadFileService"/>
+        <activity android:name=".activity.ARouterSampleActivity" />
+
+        <service android:name=".service.DownloadFileService" />
 
         <service
             android:name=".service.MyJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
             android:name=".service.MessengerService"
-            android:process=":remote"/>
+            android:process=":remote" />
 
         <service
             android:name=".service.AidlService"
-            android:process=":aidl"/>
+            android:process=":aidl" />
 
         <service android:name=".service.IntentServiceSample">
             <intent-filter>
-                <action android:name="com.example.action"/>
+                <action android:name="com.example.action" />
             </intent-filter>
         </service>
 
         <service android:name=".service.NormalService">
             <intent-filter android:priority="1000">
-                <action android:name="com.example.action"/>
+                <action android:name="com.example.action" />
             </intent-filter>
         </service>
 
-        <service android:name=".app.keepalive.KeepAliveService"/>
+        <service android:name=".app.keepalive.KeepAliveService" />
 
         <receiver android:name=".receiver.NetworkChangeReceiver">
             <intent-filter>
                 <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
         <provider
             android:name=".contentprovider.BookProvider"
-            android:authorities="com.example.provider"/>
+            android:exported="true"
+            android:authorities="com.example.provider" />
 
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"
-            android:value="true"/>
+            android:value="true" />
 
         <!-- Git Revision Number 方便 Checkout 代码库-->
         <meta-data
             android:name="GIT_SHA"
-            android:value="${git_sha}"/>
+            android:value="${git_sha}" />
     </application>
 
 </manifest>
