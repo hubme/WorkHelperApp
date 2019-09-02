@@ -99,7 +99,12 @@ ext {
             "SmartRefreshLayout"             : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14",
             "SmartRefreshHeader"             : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14",
 
-            "calendarview"                   : "com.haibin:calendarview:3.6.6"
+            "calendarview"                   : "com.haibin:calendarview:3.6.6",
+
+            //扫描+生成二维码
+            "bga_qrcode_zxing"               : "cn.bingoogolapple:bga-qrcode-zxing:1.3.6",
+            //扫描
+            "bga_qrcode_zbar"                : "cn.bingoogolapple:bga-qrcode-zbar:1.3.6"
     ]
 
 }
