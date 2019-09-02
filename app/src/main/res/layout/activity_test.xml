@@ -7,8 +7,12 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_marginTop="50dp"
         android:id="@+id/tv_permission"
-        style="@style/EntryItem"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="@drawable/ripple_bg"
         android:text="Click Me" />
 
 
