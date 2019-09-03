@@ -9,8 +9,6 @@ import com.king.app.workhelper.IAidlModelListener;
 interface IRemoteService {
     void add(in AidlModel model);
     List<AidlModel> getModels();
-    int getPid();
-    String getPName();
     void registerModelListener(IAidlModelListener listener);
     void unRegisterModelListener(IAidlModelListener listener);
 }

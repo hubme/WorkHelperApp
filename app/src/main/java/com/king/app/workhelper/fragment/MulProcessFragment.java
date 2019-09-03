@@ -115,7 +115,6 @@ public class MulProcessFragment extends AppBaseFragment {
     @OnClick(R.id.tv_get_service)
     public void onGetServiceClick(TextView textView) {
         try {
-            Logger.i("PId: " + mRemoteService.getPid() + " PName: " + mRemoteService.getPName());
             mRemoteService.add(new AidlModel("name_" + mIndex, 18 + mIndex));
             printList(mRemoteService.getModels());
         } catch (Exception e) {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.os.Parcel;
-import android.os.Process;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -14,7 +13,6 @@ import com.king.app.workhelper.IAidlModelListener;
 import com.king.app.workhelper.IRemoteService;
 import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.app.workhelper.model.AidlModel;
-import com.king.applib.util.AppUtil;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -68,14 +66,6 @@ public class AidlService extends Service {
 
         @Override public List<AidlModel> getModels() throws RemoteException {
             return mAidlModels;
-        }
-
-        @Override public int getPid() throws RemoteException {
-            return Process.myUid();
-        }
-
-        @Override public String getPName() throws RemoteException {
-            return AppUtil.getProcessName(AidlService.this);
         }
 
         @Override public void registerModelListener(IAidlModelListener listener) throws RemoteException {
