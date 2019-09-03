@@ -42,6 +42,7 @@ public class MulProcessFragment extends AppBaseFragment {
     private MessengerServiceConnection mMessengerServiceConnection = new MessengerServiceConnection();
     Messenger mReplyMessenger = new Messenger(new MessengerHandler());
     private boolean mBindSuccess = false;
+    private Messenger mMessenger;
 
     private class MessengerHandler extends Handler {
         @Override public void handleMessage(Message msg) {
@@ -95,8 +96,12 @@ public class MulProcessFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_messenger)
     public void onMessengerClick() {
-        Intent intent = new Intent(getActivity(), MessengerService.class);
-        mBindSuccess = getActivity().bindService(intent, mMessengerServiceConnection, Context.BIND_AUTO_CREATE);
+        if (!mBindSuccess) {
+            Intent intent = new Intent(getActivity(), MessengerService.class);
+            mBindSuccess = getActivity().bindService(intent, mMessengerServiceConnection, Context.BIND_AUTO_CREATE);
+        } else {
+            sendMessenger();
+        }
     }
 
     @OnClick(R.id.tv_bind_service)
@@ -133,22 +138,26 @@ public class MulProcessFragment extends AppBaseFragment {
     private class MessengerServiceConnection implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Messenger mMessenger = new Messenger(service);
-            Message msg = Message.obtain(null, MessengerService.MSG_CODE_FROM_CLIENT);
-            Bundle data = new Bundle();
-            data.putString("msg", "hello, this is client");
-            msg.setData(data);
-            msg.replyTo = mReplyMessenger;//把接收服务端回复的Messenger通过Message的replyTo参数传递给服务端。
-            try {
-                mMessenger.send(msg);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            Log.i(GlobalConstant.LOG_TAG, "MessengerServiceConnection#onServiceConnected()");
+            mMessenger = new Messenger(service);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
 
+        }
+    }
+
+    private void sendMessenger() {
+        Message msg = Message.obtain(null, MessengerService.MSG_CODE_FROM_CLIENT);
+        Bundle data = new Bundle();
+        data.putString("msg", "hello, this is client");
+        msg.setData(data);
+        msg.replyTo = mReplyMessenger;//把接收服务端回复的Messenger通过Message的replyTo参数传递给服务端。
+        try {
+            mMessenger.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
