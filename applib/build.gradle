@@ -6,7 +6,7 @@ android {
     buildToolsVersion cfg.buildToolsVersion
     //资源名称以"test"开头，否则IDE会错误提醒
 //    resourcePrefix "test"
-    
+
     //设置不以默认方式构建(Library 默认以 Release 构建)
     publishNonDefault true
     //设置 module 以 debug 模式构建，输出 debug.aar
@@ -46,8 +46,9 @@ dependencies {
 
     implementation dependency.gson
     implementation dependency.kotlin_stdlib_jdk8
-    
+
     api dependency.otto
     api dependency.eventbus
+    api dependency.glide
 
 }
