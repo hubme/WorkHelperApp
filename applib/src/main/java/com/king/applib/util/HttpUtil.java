@@ -1,13 +1,21 @@
 package com.king.applib.util;
 
-import android.accounts.NetworkErrorException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Http请求工具类
@@ -76,15 +84,19 @@ public class HttpUtil {
             conn.setReadTimeout(5000);
             conn.setConnectTimeout(10000);
 
+            if (url.startsWith("https")) {
+                HttpsURLConnection https = (HttpsURLConnection) conn;
+                SSLSocketFactory oldSocketFactory = trustAllHosts(https);
+                HostnameVerifier oldHostnameVerifier = https.getHostnameVerifier();
+                https.setHostnameVerifier(DO_NOT_VERIFY);
+            }
+
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
 
                 InputStream is = conn.getInputStream();
                 return getStringFromInputStream(is);
-            } else {
-                throw new NetworkErrorException("response status is " + responseCode);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -114,4 +126,49 @@ public class HttpUtil {
         }
         return null;
     }
+
+
+    /**
+     * 覆盖java默认的证书验证
+     */
+    private static final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            return new java.security.cert.X509Certificate[]{};
+        }
+
+        public void checkClientTrusted(X509Certificate[] chain, String authType)
+                throws CertificateException {
+        }
+
+        public void checkServerTrusted(X509Certificate[] chain, String authType)
+                throws CertificateException {
+        }
+    }};
+
+    /**
+     * 设置不验证主机
+     */
+    private static final HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+    };
+
+    /**
+     * 信任所有
+     */
+    private static SSLSocketFactory trustAllHosts(HttpsURLConnection connection) {
+        SSLSocketFactory oldFactory = connection.getSSLSocketFactory();
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            SSLSocketFactory newFactory = sc.getSocketFactory();
+            connection.setSSLSocketFactory(newFactory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return oldFactory;
+    }
+
+
 }
