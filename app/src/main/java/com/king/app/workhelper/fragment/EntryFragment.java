@@ -15,6 +15,7 @@ import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.ServiceActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
+import com.king.app.workhelper.activity.TestActivity;
 import com.king.app.workhelper.activity.ThreadActivity;
 import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.ViewEventSampleActivity;
@@ -55,17 +56,7 @@ public class EntryFragment extends AppBaseFragment {
 
     @OnClick(R.id.tv_test_activity)
     public void testActivityClick() {
-//        openActivity(TestActivity.class);
-
-        Intent intent = new Intent();
-        intent.setAction("com.king.action1");
-        intent.addCategory("com.king.category1");
-//        intent.addCategory("com.king.category2");
-        if (intent.resolveActivityInfo(getContext().getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null) {
-            startActivity(intent);
-        } else {
-            showToast("无法处理此Intent");
-        }
+        openActivity(TestActivity.class);
     }
 
     @OnClick(R.id.tv_debug_activity)
