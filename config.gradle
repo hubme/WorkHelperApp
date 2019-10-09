@@ -30,6 +30,7 @@ ext {
             "common_java8"                   : "android.arch.lifecycle:common-java8:1.1.1",
 
             "kotlin_stdlib_jdk8"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.41",
+            "commons_codec"                  : "commons-codec:commons-codec:1.13",
 
             /*权限*/
             //依赖 androidx
