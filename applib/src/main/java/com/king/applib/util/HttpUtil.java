@@ -1,11 +1,14 @@
 package com.king.applib.util;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -170,5 +173,21 @@ public class HttpUtil {
         return oldFactory;
     }
 
+    /**
+     * 输入流转字符串
+     */
+    public static String convert2String(InputStream inputStream, Charset charset){
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, charset))) {
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return stringBuilder.toString();
+    }
 
 }
