@@ -3,8 +3,11 @@ package com.king.applib.util;
 import android.util.Base64;
 
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -38,5 +41,35 @@ public class EncryptionUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 随机生成 AES 字符串
+     *
+     * @param length 128, 192或256
+     * @return AES 字符串
+     */
+    public static String generatorAESKey(int length) {
+        try {
+            KeyGenerator kg = KeyGenerator.getInstance("AES");
+            kg.init(length);//要生成多少位，只需要修改这里即可128, 192或256  
+            SecretKey sk = kg.generateKey();
+            byte[] b = sk.getEncoded();
+            return byteToHexString(b);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String byteToHexString(byte[] hashInBytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte hashInByte : hashInBytes) {
+            String hex = Integer.toHexString(0xff & hashInByte);
+            if (hex.length() == 1) sb.append('0');
+            sb.append(hex);
+        }
+        return sb.toString();
+
     }
 }
