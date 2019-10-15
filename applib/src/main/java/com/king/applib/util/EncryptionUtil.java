@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 
@@ -98,5 +99,25 @@ public class EncryptionUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 生成指定安全的指定长度的随机数
+     *
+     * @param length 随机数的长度
+     * @return 随机数
+     */
+    public static String generateSecureRandom(int length) {
+        if (length < 0) {
+            throw new IllegalArgumentException("error: SecureRandom length < 0");
+        }
+        SecureRandom random = new SecureRandom();
+        byte[] randomBytes = new byte[length];
+        random.nextBytes(randomBytes);
+        StringBuilder sb = new StringBuilder(length);
+        for (byte b : randomBytes) {
+            sb.append(Math.abs(Byte.valueOf(b).intValue()) % 10);
+        }
+        return sb.toString();
     }
 }
