@@ -2,8 +2,12 @@ package com.king.applib.util;
 
 import android.util.Base64;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -71,5 +75,28 @@ public class EncryptionUtil {
         }
         return sb.toString();
 
+    }
+
+    /**
+     * 使用 RSA 公钥进行加密，只有对应的私钥才能解密。
+     *
+     * @param publicKey 经过 Base64 编码的 RSA 公钥
+     * @param content   待加密的明文
+     * @return 加过密的密文
+     */
+    public static String encryptByRSAPublicKey(String publicKey, String content) {
+        try {
+            byte[] buffer = Base64.decode(publicKey, Base64.DEFAULT);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
+            RSAPublicKey key = (RSAPublicKey) keyFactory.generatePublic(keySpec);
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encryptData = cipher.doFinal(content.getBytes(Charset.defaultCharset()));
+            return Base64.encodeToString(encryptData, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
