@@ -80,8 +80,8 @@ sealed class Color {
 class Blue(val name: String, val name2: String) : Color()
 
 //主构造函数是类头的一部分：它跟在类名后。
-//class Person public @Inject constructor(name: String, age: Int)
-class Person constructor(name: String, age: Int) {
+//class ClassBean public @Inject constructor(name: String, age: Int)
+/*class ClassBean constructor(name: String, age: Int) {
     var isEmpty: Boolean
         get() = true
         set(value) {
@@ -92,7 +92,7 @@ class Person constructor(name: String, age: Int) {
     init {
         println("Person")
     }
-}
+}*/
 
 //如果主构造函数没有任何注解或者可见性修饰符，可以省略这个 constructor 关键字。
 //主构造的参数可以在初始化块中使用。它们也可以在类体内声明的属性初始化器中使用
