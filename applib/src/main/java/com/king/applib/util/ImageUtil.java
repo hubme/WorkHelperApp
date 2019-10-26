@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.king.applib.log.Logger;
@@ -487,7 +488,9 @@ public class ImageUtil {
         }
     }
 
-    /** 获取一定透明度的图片 */
+    /**
+     * 获取一定透明度的图片
+     */
     public static Bitmap getTransparentBitmap(@NonNull Bitmap source, int number) {
         int[] argb = new int[source.getWidth() * source.getHeight()];
         // 获得图片的ARGB值
@@ -537,4 +540,49 @@ public class ImageUtil {
         }
     }
 
+    /**
+     * 根据文件流获取图片格式。
+     *
+     * @param input 文件二进制流
+     * @return 图片格式。jpg, png, gif, bmp
+     */
+    public static String getImageTypeByStream(FileInputStream input) {
+        if (input == null) {
+            return null;
+        }
+        byte[] b = new byte[4];
+        try {
+            input.read(b, 0, b.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String type = byteToHexString(b);
+        if (TextUtils.isEmpty(type)) {
+            return null;
+        }
+        type = type.toUpperCase();
+        if (type.contains("FFD8FF")) {
+            return "jpg";
+        } else if (type.contains("89504E47")) {
+            return "png";
+        } else if (type.contains("47494638")) {
+            return "gif";
+        } else if (type.contains("424D")) {
+            return "bmp";
+        } else {
+            return type;
+        }
+    }
+
+    public static String byteToHexString(byte[] hashInBytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte hashInByte : hashInBytes) {
+            String hex = Integer.toHexString(0xff & hashInByte);
+            if (hex.length() == 1) sb.append('0');
+            sb.append(hex);
+        }
+        return sb.toString();
+
+    }
 }
