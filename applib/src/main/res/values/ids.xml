@@ -2,5 +2,5 @@
 <resources>
     <item name="cb_item_tag" type="id" />
     <item name="banner_pointContainerId" type="id" />
-
+    <item name="item_click_support" type="id"/>
 </resources>
