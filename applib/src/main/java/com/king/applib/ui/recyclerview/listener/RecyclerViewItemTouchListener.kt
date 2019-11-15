@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull
  * @author VanceKing
  * @since 2019/11/14.
  */
-abstract class BaseRecyclerViewItemTouchListener<out T : BaseRecyclerViewItemTouchListener.ClickListener>(
+open class RecyclerViewItemTouchListener<out T : RecyclerViewItemTouchListener.ClickListener>(
         @NotNull val recycleView: RecyclerView,
         @Nullable @IdRes private val childViewIDs: IntArray?,
         @NotNull protected val mClickListener: T)
