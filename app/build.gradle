@@ -214,6 +214,9 @@ dependencies {
     annotationProcessor dependency.arouter_compiler
 
     implementation dependency.calendarview
+
+    debugImplementation dependency.doraemonkit
+    releaseImplementation dependency.doraemonkit_no_op
 }
 
 checkstyle {

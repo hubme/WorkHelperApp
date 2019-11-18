@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
@@ -76,6 +77,7 @@ public class WorkHelperApp extends BaseApplication {
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
         registerLifecycle();
+        DoraemonKit.install(this);
     }
 
     public static Application getApplication() {
