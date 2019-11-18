@@ -146,6 +146,12 @@ dependencies {
 //    releaseImplementation project(path: ':applib', configuration: 'release')
 //    debugImplementation project(path: ':applib', configuration: 'debug')
 
+//    debugCompile(name: 'applib-debug', ext: 'aar')
+//    releaseCompile(name: 'applib-release', ext: 'aar')
+    
+//    debugImplementation files('libs/applib-debug.aar')
+//    releaseImplementation files('libs/applib-release.aar')
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
 
