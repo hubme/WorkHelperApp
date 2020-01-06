@@ -14,7 +14,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
-import com.facebook.stetho.Stetho;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
@@ -65,11 +64,10 @@ public class WorkHelperApp extends BaseApplication {
         AppManager.getInstance().init(this);
         initCrash();
 
-//        Stetho.initializeWithDefaults(this);
-        Stetho.initialize(Stetho.newInitializerBuilder(this)
+        //Stetho.initializeWithDefaults(this);
+        /*Stetho.initialize(Stetho.newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
-//        initX5();
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());*/
 
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
