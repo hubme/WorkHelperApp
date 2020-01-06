@@ -20,7 +20,6 @@ import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
 import com.king.app.workhelper.common.CrashHandler;
-import com.king.app.workhelper.common.utils.LeakCanaryHelper;
 import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.king.app.workhelper.okhttp.interceptor.LogInterceptor;
@@ -72,7 +71,6 @@ public class WorkHelperApp extends BaseApplication {
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());
 //        initX5();
 
-        LeakCanaryHelper.initLeakCanary(this);
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
         registerLifecycle();

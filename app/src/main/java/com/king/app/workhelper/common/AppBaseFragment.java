@@ -2,8 +2,6 @@ package com.king.app.workhelper.common;
 
 import android.view.View;
 
-import com.king.app.workhelper.app.WorkHelperApp;
-import com.king.app.workhelper.common.utils.LeakCanaryHelper;
 import com.king.app.workhelper.rx.rxlife.components.RxLifeFragment;
 
 import butterknife.ButterKnife;
@@ -31,13 +29,4 @@ public abstract class AppBaseFragment extends RxLifeFragment {
             unbinder.unbind();
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //检测Fragment内存泄露
-        LeakCanaryHelper.getRefWatcher(WorkHelperApp.getApplication()).watch(this);
-    }
-
-
 }

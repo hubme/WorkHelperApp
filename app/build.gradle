@@ -179,8 +179,6 @@ dependencies {
     implementation dependency.okhttp
 
     debugImplementation dependency.leakcanary_android
-    releaseImplementation dependency.leakcanary_android_no_op
-    debugImplementation dependency.leakcanary_support_fragment
 
     debugImplementation dependency.blockcanary_android
     releaseImplementation dependency.blockcanary_no_op

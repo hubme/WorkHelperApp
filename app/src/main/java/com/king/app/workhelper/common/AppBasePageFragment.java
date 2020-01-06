@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.king.app.workhelper.app.WorkHelperApp;
-import com.king.app.workhelper.common.utils.LeakCanaryHelper;
 import com.king.applib.base.BasePageFragment;
 
 import butterknife.ButterKnife;
@@ -31,13 +29,6 @@ public abstract class AppBasePageFragment extends BasePageFragment {
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //检测Fragment内存泄露
-        LeakCanaryHelper.getRefWatcher(WorkHelperApp.getApplication()).watch(this);
     }
 
     /**
