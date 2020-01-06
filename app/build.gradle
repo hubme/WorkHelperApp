@@ -180,8 +180,8 @@ dependencies {
 
     debugImplementation dependency.leakcanary_android
 
-    debugImplementation dependency.blockcanary_android
-    releaseImplementation dependency.blockcanary_no_op
+    //debugImplementation dependency.blockcanary_android
+    //releaseImplementation dependency.blockcanary_no_op
 
     implementation dependency.fresco
     implementation dependency.imagepipeline_okhttp3

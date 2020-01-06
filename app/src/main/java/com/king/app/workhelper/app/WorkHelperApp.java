@@ -14,8 +14,6 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
-import com.github.moduth.blockcanary.BlockCanary;
-import com.github.moduth.blockcanary.BlockCanaryContext;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
@@ -70,18 +68,6 @@ public class WorkHelperApp extends BaseApplication {
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                 .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this)).build());*/
 
-        BlockCanary.install(this, new BlockCanaryContext() {
-            @Override
-            public boolean displayNotification() {
-                return BuildConfig.LOG_DEBUG;
-            }
-
-            @Override
-            public int provideBlockThreshold() {
-                return super.provideBlockThreshold();
-            }
-        }).start();
-
         setDefaultSystemTextSize();
         registerLifecycle();
         //DoraemonKit.install(this);
@@ -124,6 +110,20 @@ public class WorkHelperApp extends BaseApplication {
         }
         CrashHandler.getInstance().init(logSavedDir);
     }
+
+    /*private void initBlockCanary() {
+        BlockCanary.install(this, new BlockCanaryContext() {
+            @Override
+            public boolean displayNotification() {
+                return BuildConfig.LOG_DEBUG;
+            }
+
+            @Override
+            public int provideBlockThreshold() {
+                return super.provideBlockThreshold();
+            }
+        }).start();
+    }*/
 
     ///使更改系统字体大小无效
     private void setDefaultSystemTextSize() {
