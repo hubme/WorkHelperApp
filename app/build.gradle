@@ -201,7 +201,6 @@ dependencies {
     // https://github.com/JakeWharton/hugo
 //    implementation 'org.aspectj:aspectjrt:1.8.10'
 
-    implementation dependency.flatbuffers_java
     implementation dependency.kotlin_stdlib_jdk8
 
     implementation dependency.dagger
