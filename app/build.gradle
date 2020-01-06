@@ -153,9 +153,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
 
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation dependency.espresso_core
+
     testImplementation dependency.junit
 
     implementation dependency.appcompat_v7

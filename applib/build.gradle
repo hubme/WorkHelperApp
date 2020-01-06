@@ -35,10 +35,9 @@ android {
 def dependency = rootProject.ext.dependencies
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation dependency.espresso_core
     testImplementation dependency.junit
+
     implementation dependency.appcompat_v7
     implementation dependency.palette_v7
     implementation dependency.recyclerview_v7
