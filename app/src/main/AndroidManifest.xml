@@ -37,7 +37,7 @@
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon, android:label, android:theme, android:name, android:appComponentFactory">
+        tools:replace="android:icon, android:label, android:theme, android:name, android:appComponentFactory, android:allowBackup">
 
         <!--exported:要求必须为false，为true则会报安全异常。grantUriPermissions:true，表示授予 URI 临时访问权限。-->
         <provider

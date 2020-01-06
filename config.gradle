@@ -97,8 +97,8 @@ ext {
             "nullaway"                       : "com.uber.nullaway:nullaway:0.2.1",
 
             //研发助手
-            "doraemonkit"                    : "com.didichuxing.doraemonkit:doraemonkit:2.0.1",
-            "doraemonkit_no_op"              : "com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.1",
+            "doraemonkit"                    : "com.didichuxing.doraemonkit:doraemonkit:2.2.1",
+            "doraemonkit_no_op"              : "com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.1",
 
             /* View 相关*/
             "SmartRefreshLayout"             : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14",
