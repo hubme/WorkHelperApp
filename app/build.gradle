@@ -207,9 +207,6 @@ dependencies {
     implementation dependency.dagger
     annotationProcessor dependency.dagger_compiler
 
-    implementation dependency.SmartRefreshLayout
-    implementation dependency.SmartRefreshHeader
-
     implementation dependency.common_java8
 
     implementation dependency.arouter_api
