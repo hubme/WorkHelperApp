@@ -11,7 +11,6 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
@@ -77,7 +76,7 @@ public class WorkHelperApp extends BaseApplication {
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         setDefaultSystemTextSize();
         registerLifecycle();
-        DoraemonKit.install(this);
+        //DoraemonKit.install(this);
     }
 
     public static Application getApplication() {
@@ -100,7 +99,7 @@ public class WorkHelperApp extends BaseApplication {
 
     private void initFresco() {
 //        Fresco.initialize(this);
-        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory.newBuilder(this, 
+        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory.newBuilder(this,
                 OkHttpProvider.getInstance().getOkHttpClient()).build();
         Fresco.initialize(this, config);
     }
@@ -157,31 +156,38 @@ public class WorkHelperApp extends BaseApplication {
 
     private void registerLifecycle() {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 logMessage(activity, "onCreate()");
             }
 
-            @Override public void onActivityStarted(Activity activity) {
+            @Override
+            public void onActivityStarted(Activity activity) {
                 logMessage(activity, "onStart()");
             }
 
-            @Override public void onActivityResumed(Activity activity) {
+            @Override
+            public void onActivityResumed(Activity activity) {
                 logMessage(activity, "onResume()");
             }
 
-            @Override public void onActivityPaused(Activity activity) {
+            @Override
+            public void onActivityPaused(Activity activity) {
                 logMessage(activity, "onPause()");
             }
 
-            @Override public void onActivityStopped(Activity activity) {
+            @Override
+            public void onActivityStopped(Activity activity) {
                 logMessage(activity, "onStop()");
             }
 
-            @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
                 logMessage(activity, "onSaveInstanceState()");
             }
 
-            @Override public void onActivityDestroyed(Activity activity) {
+            @Override
+            public void onActivityDestroyed(Activity activity) {
                 logMessage(activity, "onDestroy()");
             }
         });

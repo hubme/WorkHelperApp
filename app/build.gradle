@@ -219,8 +219,8 @@ dependencies {
 
     implementation dependency.calendarview
 
-    debugImplementation dependency.doraemonkit
-    releaseImplementation dependency.doraemonkit_no_op
+    //debugImplementation dependency.doraemonkit
+    //releaseImplementation dependency.doraemonkit_no_op
 }
 
 repositories {
