@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'checkstyle'
 apply plugin: 'project-report'
 apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'kotlin-android'
@@ -222,23 +221,6 @@ dependencies {
 
     debugImplementation dependency.doraemonkit
     releaseImplementation dependency.doraemonkit_no_op
-}
-
-checkstyle {
-    toolVersion '6.1.1'
-    showViolations true
-}
-
-check.dependsOn 'checkstyle'
-
-task checkstyle(type: Checkstyle) {
-    source 'src'
-    configFile file("config/checkstyle.xml")
-    include '**/*.java'
-    exclude '**/gen/**'
-    ignoreFailures true
-
-    classpath = files()
 }
 
 repositories {
