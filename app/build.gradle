@@ -4,7 +4,6 @@ apply plugin: 'project-report'
 apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.jakewharton.hugo'
 
 def cfg = rootProject.ext.android
 android {
@@ -148,7 +147,7 @@ dependencies {
 
 //    debugCompile(name: 'applib-debug', ext: 'aar')
 //    releaseCompile(name: 'applib-release', ext: 'aar')
-    
+
 //    debugImplementation files('libs/applib-debug.aar')
 //    releaseImplementation files('libs/applib-release.aar')
 

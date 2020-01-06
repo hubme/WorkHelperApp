@@ -1,10 +1,7 @@
 package com.king.app.workhelper.activity
 
-import android.util.Log
-import butterknife.OnClick
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseActivity
-import com.king.app.workhelper.common.RxBus
 import kotlinx.android.synthetic.main.activity_test.*
 
 /**
@@ -24,12 +21,10 @@ class TestActivity : AppBaseActivity() {
 
     override fun initContentView() {
         super.initContentView()
-        tv_permission.setOnClickListener { Log.i("aaa", it.id.toString()) }
+        tv_permission.setOnClickListener { onPermissionClick() }
     }
-    
-    @OnClick(R.id.tv_permission)
-    fun onPermissionClick() {
-        RxBus.getInstance().post("1024", "哈哈哈")
+
+    private fun onPermissionClick() {
     }
 
 }
