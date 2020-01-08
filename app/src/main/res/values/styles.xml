@@ -12,7 +12,7 @@
         <!-- @null是黑色背景， transparent 是透明背景-->
         <item name="android:windowBackground">@color/default_bg</item>
     </style>
-    
+
     <style name="TransparentTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/transparent</item>
@@ -34,6 +34,13 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="AppTheme.Night" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="BottomDialogStyle" parent="android:style/Theme.Dialog">
@@ -77,13 +84,13 @@
     </style>
 
     <declare-styleable name="FundFormPieView">
-        <attr name="imageSize" format="dimension"/>
-        <attr name="imageTextSize" format="dimension"/>
-        <attr name="imageTextColor" format="color"/>
-        <attr name="chartPercent" format="float"/><!--环形View的占整个View的比例-->
-        <attr name="strokeWidth" format="dimension"/>
-        <attr name="progress" format="float"/>
-        <attr name="maxProgress" format="float"/>
+        <attr name="imageSize" format="dimension" />
+        <attr name="imageTextSize" format="dimension" />
+        <attr name="imageTextColor" format="color" />
+        <attr name="chartPercent" format="float" /><!--环形View的占整个View的比例-->
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="progress" format="float" />
+        <attr name="maxProgress" format="float" />
     </declare-styleable>
 
     <style name="BaseLineStyle">

@@ -30,11 +30,11 @@
     <application
         android:name=".app.WorkHelperApp"
         android:allowBackup="false"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:icon="@mipmap/ic_launcher"
         android:label="${app_label}"
         android:networkSecurityConfig="@xml/network_security_config"
         android:persistent="true"
-        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:label, android:theme, android:name, android:appComponentFactory, android:allowBackup">
@@ -181,6 +181,10 @@
 
         <activity android:name=".activity.ARouterSampleActivity" />
 
+        <activity
+            android:name=".activity.NightThemeActivity"
+            android:theme="@style/AppTheme.Night" />
+
         <service android:name=".service.DownloadFileService" />
 
         <service
@@ -218,8 +222,8 @@
 
         <provider
             android:name=".contentprovider.BookProvider"
-            android:exported="true"
-            android:authorities="com.example.provider" />
+            android:authorities="com.example.provider"
+            android:exported="true" />
 
         <meta-data
             android:name="android.webkit.WebView.EnableSafeBrowsing"
