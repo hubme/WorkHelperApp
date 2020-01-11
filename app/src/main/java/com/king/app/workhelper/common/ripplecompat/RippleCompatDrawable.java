@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -160,7 +161,7 @@ public class RippleCompatDrawable extends Drawable implements View.OnTouchListen
 
     @Override
     public int getOpacity() {
-        return 0;
+        return PixelFormat.UNKNOWN;
     }
 
     private long elapsedOffset = 0;

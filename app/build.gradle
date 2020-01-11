@@ -137,6 +137,9 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
 }
 
 def dependency = rootProject.ext.dependencies

@@ -3,10 +3,10 @@ package com.king.app.workhelper.ui.customview;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DimenRes;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 
 import com.king.applib.util.ExtendUtil;
 
@@ -15,7 +15,7 @@ import com.king.applib.util.ExtendUtil;
  * Created by HuoGuangxu on 2016/11/14.
  */
 
-public class DrawableEditText extends EditText {
+public class DrawableEditText extends AppCompatEditText {
 
     private DrawableLeftListener mLeftListener;
     private DrawableRightListener mRightListener;

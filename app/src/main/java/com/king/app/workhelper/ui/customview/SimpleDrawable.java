@@ -74,9 +74,7 @@ public class SimpleDrawable extends GradientDrawable {
 
         private void apply(SimpleDrawable drawable) {
             drawable.setColor(mBackgroundColorInt);
-            if (mBackgroundColor > 0) {
-                drawable.setColor(ContextCompat.getColor(mContext, mBackgroundColor));
-            }
+            drawable.setColor(ContextCompat.getColor(mContext, mBackgroundColor));
             if (mCornerRadius > 0) {
                 drawable.setCornerRadius(mCornerRadius);
             }
