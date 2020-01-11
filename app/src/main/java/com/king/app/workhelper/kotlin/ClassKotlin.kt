@@ -133,7 +133,9 @@ open class Foo {
     open val y: Int get() = 1
 
     fun f() {
-
+        if (::subject.isInitialized) {
+            
+        }
     }
 
 
