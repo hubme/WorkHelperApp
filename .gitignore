@@ -36,3 +36,5 @@ proguard/
 /freeline/
 /freeline_project_description.json
 /freeline.py
+.project
+/.settings/
