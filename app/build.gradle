@@ -18,7 +18,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        //resConfigs "zh"//将语言资源限定为中文
+        //资源限定为指定的语言
+        resConfigs "zh", "en"
 
         //打包指定cpu架构的so库.
         ndk {
@@ -38,6 +39,11 @@ android {
         enabled = true
     }
 
+    aaptOptions {
+        //关闭 aapt 对 png 的优化
+        cruncherEnabled = false
+    }
+    
     //配置签名
     signingConfigs {
         config {
@@ -78,7 +84,7 @@ android {
             def outputApk = output.outputFile
             if (outputApk != null && outputApk.name.endsWith('.apk')) {
                 //app-release-official-1.0.0-20170211.apk
-                output.outputFileName = "app-${variant.buildType.name}-${variant.productFlavors[0].name}-${variant.versionName}-${releaseTime()}-${getGitSha()}.apk"
+                output.outputFileName = "app-${variant.buildType.name}-${variant.productFlavors[0].name}-${variant.versionName}-${releaseTime()}-${getGitSha()}-${getGitShaCount()}.apk"
             }
         }
     }
@@ -229,4 +235,8 @@ static def releaseTime() {
 
 static def getGitSha() {
     return 'git rev-parse --short HEAD'.execute().text.trim()
+}
+
+static def getGitShaCount() {
+    return 'git rev-list HEAD --first-parent --count'.execute().text.trim()
 }
