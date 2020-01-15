@@ -51,7 +51,7 @@ ext {
             "butterknife"                    : "com.jakewharton:butterknife:8.8.0",
             "butterknife_compiler"           : "com.jakewharton:butterknife-compiler:8.8.0",
 
-            "rxjava"                         : "io.reactivex.rxjava2:rxjava:2.0.8",
+            "rxjava"                         : "io.reactivex.rxjava2:rxjava:2.2.17",
             "rxandroid"                      : "io.reactivex.rxjava2:rxandroid:2.0.1",
             "rxbinding"                      : "com.jakewharton.rxbinding2:rxbinding:2.0.0",
 
