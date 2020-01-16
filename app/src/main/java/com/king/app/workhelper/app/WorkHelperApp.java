@@ -6,7 +6,6 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -102,13 +101,7 @@ public class WorkHelperApp extends BaseApplication {
         CrashHandler.setCrashedActivity(CrashedActivity.class);
         CrashHandler.setCrashInBackground(true);
 
-        String logSavedDir;
-        if (BuildConfig.DEBUG) {
-            logSavedDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/000CrashLog";
-        } else {
-            logSavedDir = getCacheDir().getAbsolutePath() + "/CrashLog";
-        }
-        CrashHandler.getInstance().init(logSavedDir);
+        CrashHandler.getInstance().init(getExternalCacheDir() + "/CrashLog");
     }
 
     /*private void initBlockCanary() {
