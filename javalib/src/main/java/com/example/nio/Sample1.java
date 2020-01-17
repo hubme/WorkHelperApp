@@ -1,11 +1,17 @@
 package com.example.nio;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * see: https://tech.meituan.com/nio.html
@@ -15,10 +21,9 @@ import java.nio.channels.FileChannel;
  * @since 2018/4/23.
  */
 
-public class Sample1 {
+class Sample1 {
     public static void main(String[] args) throws Exception {
-        testWriteSomeBytes();
-        testReadAndShow();
+        writeNIo("aaaabbbb");
     }
 
     private static void test1() throws Exception {
@@ -95,5 +100,14 @@ public class Sample1 {
         }
 
         fin.close();
+    }
+
+    private static void writeNIo(String content) {
+        Path path = Paths.get("c://bbb.txt");
+        try(BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"))){
+            writer.write(content);
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 }
