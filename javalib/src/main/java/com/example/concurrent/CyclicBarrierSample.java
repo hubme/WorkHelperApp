@@ -12,7 +12,7 @@ import java.util.concurrent.CyclicBarrier;
  * @author VanceKing
  * @since 2018/3/30.
  */
-public class CyclicBarrierSample {
+class CyclicBarrierSample {
     public static void main(String[] args) {
         test1();
     }
@@ -51,6 +51,8 @@ public class CyclicBarrierSample {
             try {
                 System.out.println(name + "已就绪！");
                 barrier.await();
+                Utility.sleep(duration);
+                System.out.println(name + "经过 " + duration + " 完成任务！");
             } catch (InterruptedException | BrokenBarrierException e) {
                 e.printStackTrace();
             }
