@@ -15,37 +15,36 @@ fun main() {
 
 fun test1() {
     val queue = DelayQueue<Message>()
-    queue.offer(Message(9, "msg_1", 1))
-    queue.offer(Message(2, "msg_2", 2))
-    queue.offer(Message(3, "msg_3", 5))
-    queue.offer(Message(4, "msg_4", 6))
+    queue.offer(Message("id-1", "msg_1", 6))
+    queue.offer(Message("id-2", "msg_2", 2))
+    queue.offer(Message("id-3", "msg_3", 5))
+    queue.offer(Message("id-4", "msg_4", 1))
 
     Thread(Consumer(queue)).start()
 }
 
-private class Message(private val id: Int, private val message: String, private val delayDuration: Long) : Delayed {
+private class Message(private val id: String, private val message: String, private val delayDuration: Long) : Delayed {
 
-    val executeTime: Long = TimeUnit.NANOSECONDS.convert(delayDuration, TimeUnit.SECONDS) + System.nanoTime()
+    val time: Long = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(delayDuration)
 
     override fun getDelay(unit: TimeUnit): Long {
-        return unit.convert(this.executeTime - System.nanoTime(), TimeUnit.NANOSECONDS)
+        return unit.convert(this.time - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
     }
 
-    override fun compareTo(o: Delayed): Int {
-        val other = o as Message
-        return this.id - other.id
+    override fun compareTo(other: Delayed): Int {
+        return (this.time - (other as Message).time).toInt()
     }
 
     override fun toString(): String {
         return "Message{" +
                 "id=" + id +
                 ", message='" + message + '\''.toString() +
-                ", executeTime=" + executeTime +
+                ", time=" + time +
                 '}'.toString() + System.currentTimeMillis()
     }
 }
 
-private class Consumer(private val queue: DelayQueue<Message>) : Runnable{
+private class Consumer(private val queue: DelayQueue<Message>) : Runnable {
     override fun run() {
         println("开始获取消息: " + System.currentTimeMillis())
         while (true) {
