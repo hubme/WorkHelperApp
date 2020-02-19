@@ -1,5 +1,6 @@
 package com.example.third.easyexcel;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 
@@ -24,7 +25,7 @@ class EasyExcelTest {
     private static void testRead() {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         File file = new File(classLoader.getResource("ExcelDemo.xlsx").getFile());
-        com.alibaba.excel.EasyExcel.read(file, DemoData.class, new DemoDataListener()).sheet().doRead();
+        EasyExcel.read(file, DemoData.class, new DemoDataListener()).sheet().doRead();
     }
 
     private static class DemoDataListener extends AnalysisEventListener<DemoData> {
