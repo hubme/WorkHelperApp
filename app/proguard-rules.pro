@@ -86,10 +86,19 @@
 ########################################################################
 #                                 系统类
 ########################################################################
--keep class android.support.** { *; }
--keep public class * extends android.support.v4.**
--keep public class * extends android.support.v7.**
--keep public class * extends android.support.annotation.**
+#-keep class android.support.** { *; }
+#-keep public class * extends android.support.v4.**
+#-keep public class * extends android.support.v7.**
+#-keep public class * extends android.support.annotation.**
+
+############################## AndroidX ###############################
+-keep class com.google.android.material.** {*;}
+-keep class androidx.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-keepclassmembers class * {
+    @androidx.annotation.Keep *;
+}
 
 # 保留R下面的资源
 -keep class **.R$* {*;}
