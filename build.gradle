@@ -17,7 +17,7 @@ buildscript {
         maven { url 'https://www.jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.1'
         //amigo hot fix
         //classpath 'me.ele:amigo:0.3.1'
 
