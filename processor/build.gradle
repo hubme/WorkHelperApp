@@ -7,5 +7,5 @@ dependencies {
     implementation dependency.auto_service
 }
 
-sourceCompatibility = JaveVersion.VERSION_1_8
-targetCompatibility = JaveVersion.VERSION_1_8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
