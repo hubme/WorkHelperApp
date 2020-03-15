@@ -1,7 +1,7 @@
 package com.king.app.workhelper.rx.rxlife.components;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.king.app.workhelper.rx.rxlife.event.ActivityLifeEvent;
 import com.king.app.workhelper.rx.rxlife.LifecycleTransformer;

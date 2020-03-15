@@ -1,9 +1,9 @@
 package com.king.applib.ui.recyclerview.listener
 
 import android.graphics.Rect
-import android.support.annotation.IdRes
-import android.support.annotation.Nullable
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.IdRes
+import androidx.annotation.Nullable
+import androidx.recyclerview.widget.RecyclerView
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -17,10 +17,10 @@ import org.jetbrains.annotations.NotNull
  * @since 2019/11/14.
  */
 open class RecyclerViewItemTouchListener<out T : RecyclerViewItemTouchListener.ClickListener>(
-        @NotNull val recycleView: RecyclerView,
+        @NotNull val recycleView: androidx.recyclerview.widget.RecyclerView,
         @Nullable @IdRes private val childViewIDs: IntArray?,
         @NotNull protected val mClickListener: T)
-    : RecyclerView.OnItemTouchListener {
+    : androidx.recyclerview.widget.RecyclerView.OnItemTouchListener {
 
     private val gestureDetector: GestureDetector by lazy {
         GestureDetector(recycleView.context, object : GestureDetector.SimpleOnGestureListener() {
@@ -58,12 +58,12 @@ open class RecyclerViewItemTouchListener<out T : RecyclerViewItemTouchListener.C
 
     }
 
-    override fun onInterceptTouchEvent(recyclerView: RecyclerView, event: MotionEvent): Boolean {
+    override fun onInterceptTouchEvent(recyclerView: androidx.recyclerview.widget.RecyclerView, event: MotionEvent): Boolean {
         if (gestureDetector.onTouchEvent(event)) {
             recyclerView.findChildViewUnder(event.x, event.y)?.let {
                 val listPosition = recyclerView.getChildAdapterPosition(it)
                 val childView: View? = findExactChild(it, event.rawX, event.rawY, getSpecialViewClickPadding())
-                if (listPosition != RecyclerView.NO_POSITION) {
+                if (listPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
                     if (childView != null) {
                         mClickListener.onChildClick(childView, listPosition)
                     } else {
@@ -104,7 +104,7 @@ open class RecyclerViewItemTouchListener<out T : RecyclerViewItemTouchListener.C
 
     open fun getSpecialViewClickPadding() = 0
 
-    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+    override fun onTouchEvent(rv: androidx.recyclerview.widget.RecyclerView, e: MotionEvent) {}
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
 }

@@ -1,7 +1,7 @@
 package com.king.app.workhelper.fragment;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.king.app.workhelper.R;

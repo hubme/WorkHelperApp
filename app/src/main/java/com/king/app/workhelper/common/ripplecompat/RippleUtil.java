@@ -10,7 +10,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.support.v7.graphics.Palette;
+import androidx.palette.graphics.Palette;
 
 /**
  * Created by Jiayi Yao on 2015/10/28.

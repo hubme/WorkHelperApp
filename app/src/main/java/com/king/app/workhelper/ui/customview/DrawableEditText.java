@@ -2,8 +2,8 @@ package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DimenRes;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.annotation.DimenRes;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +12,7 @@ import com.king.applib.util.ExtendUtil;
 
 /**
  * 可点击Drawable的EditText
- * Created by HuoGuangxu on 2016/11/14.
+ * Created by VanceKing on 2016/11/14.
  */
 
 public class DrawableEditText extends AppCompatEditText {

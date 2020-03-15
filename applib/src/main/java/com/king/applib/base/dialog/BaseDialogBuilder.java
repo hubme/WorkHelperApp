@@ -2,13 +2,13 @@ package com.king.applib.base.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.FloatRange;
-import android.support.annotation.StyleRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.FloatRange;
+import androidx.annotation.StyleRes;
+import androidx.fragment.app.Fragment;
 import android.view.Gravity;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/7/24.
  */
 

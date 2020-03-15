@@ -6,8 +6,9 @@ import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.king.app.workhelper.IAidlModelListener;
 import com.king.app.workhelper.IRemoteService;

@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/29.
  */
 

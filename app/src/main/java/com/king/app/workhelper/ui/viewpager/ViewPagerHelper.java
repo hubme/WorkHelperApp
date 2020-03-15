@@ -1,13 +1,14 @@
 package com.king.app.workhelper.ui.viewpager;
 
-import android.support.v4.view.ViewPager;
 import android.widget.Scroller;
+
+import androidx.viewpager.widget.ViewPager;
 
 import java.lang.reflect.Field;
 
 /**
  * ViewPager帮助类
- * Created by HuoGuangxu on 2016/10/12.
+ * Created by VanceKing on 2016/10/12.
  */
 
 public class ViewPagerHelper {

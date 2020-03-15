@@ -16,8 +16,8 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -38,7 +38,7 @@ import static android.graphics.Shader.TileMode.CLAMP;
  * @author VanceKing
  * @since 2017/6/20
  */
-public class InsLoadingView extends android.support.v7.widget.AppCompatImageView {
+public class InsLoadingView extends androidx.appcompat.widget.AppCompatImageView {
     private static String TAG = "InsLoadingView";
     private static boolean DEBUG = true;
     private static final float ARC_WIDTH = 12;

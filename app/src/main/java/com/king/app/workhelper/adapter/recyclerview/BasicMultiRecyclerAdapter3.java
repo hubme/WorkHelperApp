@@ -1,7 +1,8 @@
 package com.king.app.workhelper.adapter.recyclerview;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.king.app.workhelper.adapter.recyclerview.delegate.CategoryDelegate;
 import com.king.app.workhelper.adapter.recyclerview.delegate.ContentDelegate;
@@ -20,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/29.
  */
 

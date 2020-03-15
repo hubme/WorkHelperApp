@@ -6,8 +6,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
@@ -28,7 +28,7 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/16.
  */
 

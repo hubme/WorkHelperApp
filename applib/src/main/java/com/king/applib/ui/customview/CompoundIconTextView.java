@@ -9,19 +9,19 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.Dimension;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.text.TextUtilsCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.Dimension;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.ViewCompat;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.king.applib.R;
@@ -48,17 +48,17 @@ public class CompoundIconTextView extends AppCompatTextView {
     private static final int INDEX_BOTTOM = 3;
 
     /**
-     * @see android.support.v7.widget.DrawableUtils#VECTOR_DRAWABLE_CLAZZ_NAME
+     * @see androidx.appcompat.widget.DrawableUtils#VECTOR_DRAWABLE_CLAZZ_NAME
      */
     private static final String VECTOR_DRAWABLE_CLAZZ_NAME = "android.graphics.drawable.VectorDrawable";
 
     /**
-     * @see android.support.v7.widget.ThemeUtils#CHECKED_STATE_SET
+     * @see androidx.appcompat.widget.ThemeUtils#CHECKED_STATE_SET
      */
     private static final int[] CHECKED_STATE_SET = new int[]{android.R.attr.state_checked};
 
     /**
-     * @see android.support.v7.widget.ThemeUtils#EMPTY_STATE_SET
+     * @see androidx.appcompat.widget.ThemeUtils#EMPTY_STATE_SET
      */
     private static final int[] EMPTY_STATE_SET = new int[0];
 
@@ -281,7 +281,7 @@ public class CompoundIconTextView extends AppCompatTextView {
     }
 
     /**
-     * @see android.support.v7.widget.DrawableUtils#fixDrawable(Drawable)
+     * @see androidx.appcompat.widget.DrawableUtils#fixDrawable(Drawable)
      * <p>
      * Attempt the fix any issues in the given drawable, usually caused by platform bugs in the
      * implementation. This method should be call after retrieval from
@@ -295,7 +295,7 @@ public class CompoundIconTextView extends AppCompatTextView {
     }
 
     /**
-     * @see android.support.v7.widget.DrawableUtils#fixVectorDrawableTinting(Drawable)
+     * @see androidx.appcompat.widget.DrawableUtils#fixVectorDrawableTinting(Drawable)
      * <p>
      * VectorDrawable has an issue on API 21 where it sometimes doesn't create its tint filter.
      * Fixed by toggling it's state to force a filter creation.

@@ -1,6 +1,6 @@
 package com.king.app.workhelper;
 
-import android.support.v4.util.Pools;
+import androidx.core.util.Pools;
 import android.util.Log;
 
 import org.junit.Before;

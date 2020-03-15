@@ -1,6 +1,6 @@
 package com.king.app.workhelper.constant;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 /**
  * 全局常量类

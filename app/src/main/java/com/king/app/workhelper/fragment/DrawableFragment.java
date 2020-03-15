@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.PaintDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/18.
  */
 

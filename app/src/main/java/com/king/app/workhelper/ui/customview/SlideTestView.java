@@ -4,7 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -22,7 +22,7 @@ import com.king.applib.util.ScreenUtil;
  * 4.动画
  * 5.scollTo与scollBy
  * 6.Scroller
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/12/14.
  */
 

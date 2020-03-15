@@ -1,9 +1,9 @@
 package com.king.app.workhelper.ui.dialog;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,7 @@ import com.king.app.workhelper.R;
 
 /**
  * 简单的弹框封装
- * Created by HuoGuangxu on 2016/11/8.
+ * Created by VanceKing on 2016/11/8.
  */
 public class SimpleDialogFragment extends DialogFragment {
 

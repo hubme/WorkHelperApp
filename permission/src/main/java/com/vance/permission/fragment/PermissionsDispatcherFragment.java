@@ -1,6 +1,6 @@
 package com.vance.permission.fragment;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 
 import com.king.applib.base.BaseFragment;

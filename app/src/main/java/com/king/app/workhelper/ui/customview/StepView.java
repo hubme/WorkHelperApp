@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -18,7 +18,7 @@ import static android.view.View.MeasureSpec.getMode;
 import static android.view.View.MeasureSpec.getSize;
 
 /**
- * Created by HuoGuangxu on 2016/10/12.
+ * Created by VanceKing on 2016/10/12.
  */
 
 public class StepView extends View {

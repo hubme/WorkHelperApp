@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;

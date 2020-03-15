@@ -3,7 +3,7 @@ package com.king.applib.base.dialog;
 import android.view.Gravity;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/7/12.
  */
 

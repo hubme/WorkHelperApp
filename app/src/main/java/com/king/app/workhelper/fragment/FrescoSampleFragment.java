@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.webkit.URLUtil;
 
@@ -39,7 +39,7 @@ import okhttp3.ResponseBody;
 
 /**
  * Fresco Sample
- * Created by HuoGuangxu on 2016/12/30.
+ * Created by VanceKing on 2016/12/30.
  */
 
 public class FrescoSampleFragment extends AppBaseFragment {

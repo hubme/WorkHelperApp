@@ -19,9 +19,9 @@ import android.os.Environment;
 import android.os.Looper;
 import android.os.storage.StorageManager;
 import android.provider.Settings;
-import android.support.annotation.AnyRes;
-import android.support.annotation.ColorInt;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.annotation.AnyRes;
+import androidx.annotation.ColorInt;
+import androidx.core.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -45,7 +45,7 @@ import java.util.Random;
 
 /**
  * 扩展工具类
- * Created by HuoGuangxu on 2016/9/29.
+ * Created by VanceKing on 2016/9/29.
  */
 
 public class ExtendUtil {

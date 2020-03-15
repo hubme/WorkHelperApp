@@ -1,12 +1,13 @@
 package com.king.app.workhelper.fragment;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.adapter.viewpager.MyViewPagerAdapter;
 import com.king.app.workhelper.app.AppConfig;
@@ -20,7 +21,7 @@ import butterknife.BindView;
 
 /**
  * ViewPager相关
- * @author huoguangxu
+ * @author VanceKing
  * @since 2016/11/26.
  */
 public class ViewPagerSampleFragment extends AppBaseFragment {

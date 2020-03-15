@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Build;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.TypedValue;
 
 import com.king.app.workhelper.R;

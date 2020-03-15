@@ -7,7 +7,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -21,7 +21,7 @@ import com.king.applib.R;
  * @since 2018/2/26.
  */
 
-public class GradientTextView extends android.support.v7.widget.AppCompatTextView {
+public class GradientTextView extends androidx.appcompat.widget.AppCompatTextView {
     private int mStartColor = Color.BLACK;
     private int mEndColor = Color.BLACK;
     //默认不渐变

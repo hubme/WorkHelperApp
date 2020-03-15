@@ -1,6 +1,6 @@
 package com.king.app.workhelper.okhttp;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 /**
  * Http请求方式.

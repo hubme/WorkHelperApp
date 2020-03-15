@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 
 /**
  * 网络相关工具类.
- * Created by HuoGuangxu on 2016/10/20.
+ * Created by VanceKing on 2016/10/20.
  */
 
 public class NetworkUtil {

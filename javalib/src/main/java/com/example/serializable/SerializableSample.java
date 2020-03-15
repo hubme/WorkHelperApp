@@ -3,7 +3,7 @@ package com.example.serializable;
 import java.io.Serializable;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2018/12/12.
  */
 class SerializableSample {

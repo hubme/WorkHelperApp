@@ -1,7 +1,8 @@
 package com.king.app.workhelper;
 
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
+
+import androidx.collection.ArrayMap;
 
 import org.junit.Test;
 

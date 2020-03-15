@@ -15,7 +15,7 @@ android {
         versionCode cfg.versionCode
         versionName cfg.versionName
         buildConfigField "String", "GIT_SHA", "\"${getGitSha()}\""
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
         //资源限定为指定的语言
@@ -166,11 +166,11 @@ dependencies {
 
     testImplementation dependency.junit
 
-    implementation dependency.appcompat_v7
-    implementation dependency.palette_v7
-    implementation dependency.recyclerview_v7
+    implementation dependency.appcompat
+    implementation dependency.palette
+    implementation dependency.recyclerview
     implementation dependency.design
-    implementation dependency.constraint_layout
+    implementation dependency.constraintlayout
 
     implementation dependency.butterknife
     annotationProcessor dependency.butterknife_compiler
@@ -233,7 +233,7 @@ repositories {
 }
 
 static def releaseTime() {
-    return new Date().format("yyMMdd_HHmmss", TimeZone.getDefault())
+    return new Date().format("yyyyMMdd_HHmmss", TimeZone.getDefault())
 }
 
 static def getGitSha() {

@@ -1,6 +1,6 @@
 package com.king.app.workhelper.activity
 
-import android.support.v7.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_night_theme.*

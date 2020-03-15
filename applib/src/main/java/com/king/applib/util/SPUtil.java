@@ -10,7 +10,7 @@ import java.util.List;
  * ps:1.多进程中使用SharedPreference概率性取值出错
  * 2.同一时刻使用apply()方式提交,高概率出现保存不到sp的问题.可以put多次，最后一次apply()提交即可.
  * 3.SharedPreferences不要保存太多的东西，耗内存.
- * Created by HuoGuangxu on 2016/10/19.
+ * Created by VanceKing on 2016/10/19.
  */
 
 public class SPUtil {

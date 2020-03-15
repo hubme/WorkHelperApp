@@ -6,7 +6,7 @@ import com.king.applib.util.NumberUtil;
 import org.junit.Test;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/7/28.
  */
 

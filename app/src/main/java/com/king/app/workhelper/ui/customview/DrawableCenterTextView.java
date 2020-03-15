@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -19,7 +19,7 @@ import com.king.app.workhelper.R;
  * @author VanceKing
  * @since 2017/9/20.
  */
-public class DrawableCenterTextView extends android.support.v7.widget.AppCompatTextView {
+public class DrawableCenterTextView extends androidx.appcompat.widget.AppCompatTextView {
     private Drawable drawableLeft = null;
     private Drawable drawableTop = null;
     private Drawable drawableRight = null;

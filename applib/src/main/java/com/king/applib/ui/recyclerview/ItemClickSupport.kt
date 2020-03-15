@@ -1,5 +1,5 @@
-import android.support.annotation.IdRes
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.IdRes
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.king.applib.R
 import org.jetbrains.annotations.NotNull
@@ -7,16 +7,16 @@ import org.jetbrains.annotations.NotNull
 /**
  * RecyclerView Item 点击事件工具类。
  * 
- * @author huoguangxu
+ * @author VanceKing
  * @since 2019/11/13.
  */
-class ItemClickSupport private constructor(private val mRecyclerView: RecyclerView) {
+class ItemClickSupport private constructor(private val mRecyclerView: androidx.recyclerview.widget.RecyclerView) {
     private var mOnItemClickListener: OnItemClickListener? = null
     private var mOnItemLongClickListener: OnItemLongClickListener? = null
 
     private val childListenerMap = hashMapOf<Int, OnChildClickListener>()
 
-    private val mAttachListener = object : RecyclerView.OnChildAttachStateChangeListener {
+    private val mAttachListener = object : androidx.recyclerview.widget.RecyclerView.OnChildAttachStateChangeListener {
         override fun onChildViewAttachedToWindow(view: View) {
             mOnItemClickListener?.let {
                 view.setOnClickListener {
@@ -76,29 +76,29 @@ class ItemClickSupport private constructor(private val mRecyclerView: RecyclerVi
         return this
     }
 
-    private fun detach(view: RecyclerView) {
+    private fun detach(view: androidx.recyclerview.widget.RecyclerView) {
         view.removeOnChildAttachStateChangeListener(mAttachListener)
         view.setTag(R.id.item_click_support, null)
     }
 
     // 子 View点击接口
     interface OnChildClickListener {
-        fun onChildClicked(recyclerView: RecyclerView, position: Int, v: View)
+        fun onChildClicked(recyclerView: androidx.recyclerview.widget.RecyclerView, position: Int, v: View)
     }
 
     // 点击接口
     interface OnItemClickListener {
-        fun onItemClicked(recyclerView: RecyclerView, position: Int, v: View)
+        fun onItemClicked(recyclerView: androidx.recyclerview.widget.RecyclerView, position: Int, v: View)
     }
 
     // 长按接口
     interface OnItemLongClickListener {
-        fun onItemLongClicked(recyclerView: RecyclerView, position: Int, v: View): Boolean
+        fun onItemLongClicked(recyclerView: androidx.recyclerview.widget.RecyclerView, position: Int, v: View): Boolean
     }
 
     companion object {
 
-        fun addTo(view: RecyclerView): ItemClickSupport {
+        fun addTo(view: androidx.recyclerview.widget.RecyclerView): ItemClickSupport {
             var support: ItemClickSupport? = view.getTag(R.id.item_click_support) as ItemClickSupport?
             if (support == null) {
                 support = ItemClickSupport(view)
@@ -106,7 +106,7 @@ class ItemClickSupport private constructor(private val mRecyclerView: RecyclerVi
             return support
         }
 
-        fun removeFrom(view: RecyclerView): ItemClickSupport? {
+        fun removeFrom(view: androidx.recyclerview.widget.RecyclerView): ItemClickSupport? {
             val support = view.getTag(R.id.item_click_support) as ItemClickSupport
             support.detach(view)
             return support

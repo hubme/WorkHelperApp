@@ -15,7 +15,7 @@ import com.king.applib.R;
  * @author VanceKing
  * @since 2018/6/7.
  */
-public class ShapeTextView extends android.support.v7.widget.AppCompatTextView {
+public class ShapeTextView extends androidx.appcompat.widget.AppCompatTextView {
     private GradientDrawable mBgDrawable;
 
     private float mRadius;

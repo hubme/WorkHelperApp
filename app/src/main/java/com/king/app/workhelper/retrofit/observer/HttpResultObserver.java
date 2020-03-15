@@ -1,7 +1,7 @@
 package com.king.app.workhelper.retrofit.observer;
 
 
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import com.google.gson.stream.MalformedJsonException;
 import com.king.app.workhelper.retrofit.HttpResponseCode;

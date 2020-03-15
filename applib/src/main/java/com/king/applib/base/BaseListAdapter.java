@@ -1,6 +1,6 @@
 package com.king.applib.base;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * ListView通用适配器
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2016/5/27.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {

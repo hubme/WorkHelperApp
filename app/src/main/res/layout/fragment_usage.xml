@@ -93,7 +93,7 @@
                 style="@style/EntryItem"
                 android:text="Dialog Fragment"/>
 
-            <android.support.v4.widget.SwipeRefreshLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="100dp">
@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@color/chocolate"/>
-            </android.support.v4.widget.SwipeRefreshLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.king.applib.ui.ShadowLayout
                 android:layout_width="wrap_content"

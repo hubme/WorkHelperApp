@@ -1,15 +1,15 @@
 package com.king.applib.ui.recyclerview;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/30.
  */
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.ViewDragHelper;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.customview.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;

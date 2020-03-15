@@ -3,7 +3,7 @@ package com.king.app.workhelper.common.anim;
 import android.animation.TypeEvaluator;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/3.
  * see also:http://blog.csdn.net/guolin_blog/article/details/43816093
  */

@@ -12,7 +12,7 @@ import butterknife.OnClick;
 
 /**
  * Log测试
- * Created by HuoGuangxu on 2016/12/6.
+ * Created by VanceKing on 2016/12/6.
  */
 
 /**

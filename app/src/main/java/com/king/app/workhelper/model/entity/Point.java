@@ -1,7 +1,7 @@
 package com.king.app.workhelper.model.entity;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/1.
  */
 

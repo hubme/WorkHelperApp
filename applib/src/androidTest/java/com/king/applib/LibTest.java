@@ -4,6 +4,8 @@ import android.os.Environment;
 import android.text.format.Formatter;
 import android.util.SparseArray;
 
+import androidx.collection.ArrayMap;
+
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.FileUtil;
@@ -19,7 +21,7 @@ import java.io.File;
 
 /**
  * Lib测试类
- * eated by HuoGuangxu on 2016/9/30.
+ * eated by VanceKing on 2016/9/30.
  */
 
 public class LibTest extends BaseTestCase {
@@ -67,7 +69,7 @@ public class LibTest extends BaseTestCase {
         sparseArray.append(0, values0);
         sparseArray.append(0, values1);
 
-        android.support.v4.util.ArrayMap<String, String> arrayMap = new android.support.v4.util.ArrayMap<>();
+        ArrayMap<String, String> arrayMap = new ArrayMap<>();
         arrayMap.keySet();
 
     }

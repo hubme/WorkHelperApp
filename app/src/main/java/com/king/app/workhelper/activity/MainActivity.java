@@ -2,9 +2,9 @@ package com.king.app.workhelper.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
 import android.text.method.HideReturnsTransformationMethod;
 import android.view.Gravity;
 import android.widget.CheckedTextView;

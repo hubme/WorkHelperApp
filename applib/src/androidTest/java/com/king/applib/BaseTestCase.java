@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * TestCase基础类
- * Created by HuoGuangxu on 2016/11/30.
+ * Created by VanceKing on 2016/11/30.
  */
 
 abstract class BaseTestCase extends LibBaseAndroidJUnit4Test {

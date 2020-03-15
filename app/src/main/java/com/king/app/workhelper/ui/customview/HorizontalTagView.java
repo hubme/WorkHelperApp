@@ -15,7 +15,7 @@ import com.king.applib.util.StringUtil;
 
 /**
  * 横向滚动的标签view
- * Created by HuoGuangxu on 2016/12/23.
+ * Created by VanceKing on 2016/12/23.
  */
 
 public class HorizontalTagView extends HorizontalScrollView {

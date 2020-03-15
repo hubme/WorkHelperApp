@@ -6,16 +6,16 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * 用于构建Intent和启动Activity.
- * see also:{@link android.support.v4.app.ShareCompat.IntentBuilder IntentBuilder}
+ * see also:{@link androidx.core.app.ShareCompat.IntentBuilder IntentBuilder}
  *
  * @author VanceKing
  * @since 2017/3/8.

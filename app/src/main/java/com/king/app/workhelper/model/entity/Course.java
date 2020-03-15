@@ -3,7 +3,7 @@ package com.king.app.workhelper.model.entity;
 import java.io.Serializable;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/16.
  */
 

@@ -1,9 +1,9 @@
 package com.king.app.workhelper.model.entity;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/5/8.
  */
 

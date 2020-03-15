@@ -14,7 +14,7 @@ import static android.os.Environment.getDataDirectory;
 
 /**
  * 文件工具测试类
- * Created by HuoGuangxu on 2016/11/7.
+ * Created by VanceKing on 2016/11/7.
  */
 
 public class FileUtilTest extends BaseTestCase {

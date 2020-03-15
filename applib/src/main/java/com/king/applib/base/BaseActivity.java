@@ -3,13 +3,14 @@ package com.king.applib.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.king.applib.util.StringUtil;
 
@@ -21,7 +22,7 @@ import java.util.List;
  * @author VanceKing
  * @since 2016/9/29.
  */
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener{
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     private View mContentLayout;
 
@@ -50,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
 
     }
-    
+
     /**
      * 在super.onCreate()之前执行
      */
@@ -75,7 +76,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     /**
      * 获取布局资源的id.
      */
-    protected abstract @LayoutRes int getContentLayout();
+    @LayoutRes
+    protected abstract int getContentLayout();
 
     /**
      * 给View填充数据。

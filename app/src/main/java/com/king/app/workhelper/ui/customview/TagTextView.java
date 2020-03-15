@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
-import android.support.annotation.ColorRes;
+import androidx.annotation.ColorRes;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -16,7 +16,7 @@ import com.king.applib.util.ExtendUtil;
  * @author VanceKing
  * @since 2016/12/27
  */
-public class TagTextView extends android.support.v7.widget.AppCompatCheckedTextView implements View.OnClickListener {
+public class TagTextView extends androidx.appcompat.widget.AppCompatCheckedTextView implements View.OnClickListener {
     private final int DEFAULT_TAG_RADIUS = 16;//dp
 
     private boolean mChangeBackground = true;

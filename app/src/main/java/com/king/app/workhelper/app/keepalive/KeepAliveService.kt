@@ -7,7 +7,7 @@ import android.os.IBinder
 
 /**
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2018/10/11.
  */
 class KeepAliveService : Service() {

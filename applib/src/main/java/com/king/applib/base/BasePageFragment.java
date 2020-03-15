@@ -1,7 +1,7 @@
 package com.king.applib.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * 懒加载Fragment.只初始化View,不加载网络数据.

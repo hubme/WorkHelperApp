@@ -4,9 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntDef;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import java.lang.annotation.Retention;
@@ -15,9 +16,9 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * 分割线<br/>
  * https://github.com/kymjs/RecyclerViewDemo/blob/master/RecyclerViewDemo/recycler/src/main/java/com/kymjs/recycler/Divider.java <br/>
- * also see {@link android.support.v7.widget.DividerItemDecoration v7.DividerItemDecoration}
+ * also see {@link DividerItemDecoration v7.DividerItemDecoration}
  * 
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/31.
  */
 public class RecyclerDivider extends RecyclerView.ItemDecoration {

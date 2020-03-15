@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * http://www.jianshu.com/p/e740196225a4
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/11/22.
  */
 

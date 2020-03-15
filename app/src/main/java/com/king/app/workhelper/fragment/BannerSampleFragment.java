@@ -22,7 +22,7 @@ import butterknife.OnClick;
 /**
  * Banner使用Sample
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/5/9.
  */
 

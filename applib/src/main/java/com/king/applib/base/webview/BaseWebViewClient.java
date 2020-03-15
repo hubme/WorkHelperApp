@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -17,7 +17,7 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.ExtendUtil;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/14.
  */
 

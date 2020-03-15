@@ -7,19 +7,19 @@ import android.os.Build;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.UserManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
+import com.king.app.workhelper.ui.customview.TabLayout;
 import com.king.app.workhelper.ui.dialog.SampleBottomDialog;
 import com.king.app.workhelper.ui.dialog.SimpleDialog;
-import com.king.app.workhelper.ui.customview.TabLayout;
 import com.king.applib.base.WeakHandler;
 import com.king.applib.base.dialog.BaseDialogFragment;
 import com.king.applib.util.ExtendUtil;
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -162,16 +161,6 @@ public class UsageFragment extends AppBaseFragment {
     @OnClick(R.id.tv_dialog_fragment)
     public void onDialogFragmentClick() {
         showDialog();
-    }
-
-    private void initBottomDialogView(View v) {
-        TextView textView = ButterKnife.findById(v, R.id.tv_we_chat);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "哈哈哈", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @OnClick(R.id.tv_ripple_effect)

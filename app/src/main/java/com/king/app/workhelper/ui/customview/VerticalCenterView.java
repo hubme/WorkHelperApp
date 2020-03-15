@@ -3,14 +3,14 @@ package com.king.app.workhelper.ui.customview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.king.app.workhelper.R;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/2/28.
  * see also:http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2013/0304/957.html
  * http://blog.csdn.net/harvic880925/article/details/39080931

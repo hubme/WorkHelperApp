@@ -16,7 +16,7 @@ import static com.king.applib.util.JsonUtil.decodeToList;
 import static com.king.applib.util.JsonUtil.getJsonObject;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/2/14.
  */
 

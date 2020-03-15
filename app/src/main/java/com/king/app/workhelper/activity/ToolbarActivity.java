@@ -2,8 +2,8 @@ package com.king.app.workhelper.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,7 +23,7 @@ import butterknife.OnClick;
  * see also:http://www.jianshu.com/p/79604c3ddcae
  * Toolbar 使用.
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2016/12/5.
  */
 

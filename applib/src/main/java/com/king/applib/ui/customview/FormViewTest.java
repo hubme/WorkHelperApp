@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 表格
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/2/14.
  */
 

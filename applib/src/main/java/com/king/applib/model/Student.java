@@ -3,7 +3,7 @@ package com.king.applib.model;
 import java.io.Serializable;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/5/23.
  */
 

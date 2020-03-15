@@ -1,6 +1,6 @@
 package com.king.app.workhelper.fragment;
 
-import android.support.design.widget.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/1.
  */
 

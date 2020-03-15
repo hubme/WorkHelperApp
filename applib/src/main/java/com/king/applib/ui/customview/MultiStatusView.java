@@ -1,7 +1,7 @@
 package com.king.applib.ui.customview;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.LayoutInflater;

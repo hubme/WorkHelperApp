@@ -3,16 +3,16 @@ package com.king.app.workhelper.ui.customview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/9/17.
  */
 
-public class DrawableVerticalTextView extends android.support.v7.widget.AppCompatTextView {
+public class DrawableVerticalTextView extends androidx.appcompat.widget.AppCompatTextView {
     public DrawableVerticalTextView(Context context) {
         super(context);
     }

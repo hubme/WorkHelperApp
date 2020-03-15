@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
 
 kapt {
@@ -20,7 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -36,11 +36,11 @@ android {
 def dependency = rootProject.ext.dependencies
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation dependency.junit
-
     implementation project(':applib')
 
-    implementation dependency.appcompat_v7
+    testImplementation dependency.junit
+
+    implementation dependency.appcompat
     implementation dependency.support_annotations
 
     implementation dependency.kotlin_stdlib_jdk8

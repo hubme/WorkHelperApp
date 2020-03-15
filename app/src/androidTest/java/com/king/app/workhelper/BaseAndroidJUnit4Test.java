@@ -1,10 +1,11 @@
 package com.king.app.workhelper;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
+
+import androidx.test.filters.SmallTest;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.king.applib.log.Logger;
 
@@ -17,7 +18,7 @@ import org.junit.runner.RunWith;
  * @since 2017/7/9 0009.
  */
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 @SmallTest
 public class BaseAndroidJUnit4Test {
     protected static final String TAG = "aaa";
@@ -27,7 +28,7 @@ public class BaseAndroidJUnit4Test {
     @BeforeClass
     public static void setUp() {
         Logger.init(TAG).methodCount(1).hideThreadInfo();
-        mContext = InstrumentationRegistry.getTargetContext();
+        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
     }
 
     @AfterClass

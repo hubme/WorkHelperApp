@@ -2,8 +2,6 @@ package com.king.app.workhelper.fragment;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
@@ -29,7 +30,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * WebView 和 Native 交互
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2016/11/26.
  */
 public class WebViewSampleFragment extends AppBaseFragment {

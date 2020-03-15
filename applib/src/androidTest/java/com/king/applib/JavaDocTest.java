@@ -2,7 +2,7 @@ package com.king.applib;
 
 /**
  * 文档注释"@link"的使用
- * Created by HuoGuangxu on 2016/10/20.
+ * Created by VanceKing on 2016/10/20.
  */
 
 public class JavaDocTest {

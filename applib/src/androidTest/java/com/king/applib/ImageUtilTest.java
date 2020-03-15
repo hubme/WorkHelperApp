@@ -16,7 +16,7 @@ import static com.king.applib.util.ImageUtil.compressByQuality;
 /**
  * ImageUtil 测试类
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2016/11/22.
  */
 public class ImageUtilTest extends BaseTestCase {

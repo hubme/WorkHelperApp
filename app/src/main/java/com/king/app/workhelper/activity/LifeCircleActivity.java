@@ -2,9 +2,10 @@ package com.king.app.workhelper.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.constant.GlobalConstant;

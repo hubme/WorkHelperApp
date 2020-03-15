@@ -1,6 +1,6 @@
 package com.king.applib.util;
 
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Fragment 相关工具类。

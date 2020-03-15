@@ -9,7 +9,7 @@ import java.util.StringJoiner;
 
 /**
  * StringUtils测试类
- * Created by HuoGuangxu on 2016/11/30.
+ * Created by VanceKing on 2016/11/30.
  */
 
 public class StringUtilsTest extends BaseTestCase {

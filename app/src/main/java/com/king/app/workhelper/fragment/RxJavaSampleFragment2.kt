@@ -2,7 +2,7 @@ package com.king.app.workhelper.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseFragment
 import io.reactivex.Observable
@@ -79,7 +79,7 @@ class RxJavaSampleFragment2 : AppBaseFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(): Fragment {
+        fun newInstance(): androidx.fragment.app.Fragment {
             return RxJavaSampleFragment2()
         }
     }

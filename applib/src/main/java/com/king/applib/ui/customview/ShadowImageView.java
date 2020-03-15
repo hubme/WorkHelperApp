@@ -6,9 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
-import android.support.v7.graphics.Palette;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.palette.graphics.Palette;
 import android.util.AttributeSet;
 
 /**
@@ -16,7 +16,7 @@ import android.util.AttributeSet;
  * @since 2017/9/29.
  */
 
-public class ShadowImageView extends android.support.v7.widget.AppCompatImageView {
+public class ShadowImageView extends androidx.appcompat.widget.AppCompatImageView {
     private static final String TEXT = "好";
     private Paint mPaint;
     private final int SHADOW_COLOR = Color.parseColor("#D2691E");

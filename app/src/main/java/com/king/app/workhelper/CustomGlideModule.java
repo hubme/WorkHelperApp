@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 19-8-27.
  */
 @GlideModule

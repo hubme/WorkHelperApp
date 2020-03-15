@@ -3,7 +3,7 @@ package com.king.applib.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View.OnKeyListener;

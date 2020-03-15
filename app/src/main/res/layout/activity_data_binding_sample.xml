@@ -13,7 +13,7 @@
 
         <import type="java.util.Map"/>
 
-        <import type="android.databinding.ObservableList"/>
+        <import type="androidx.databinding.ObservableList"/>
 
         <variable
             name="user"

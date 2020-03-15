@@ -12,7 +12,7 @@ import java.util.Date;
 
 /**
  * 日期测试类
- * Created by HuoGuangxu on 2016/12/9.
+ * Created by VanceKing on 2016/12/9.
  */
 
 public class DateTimeUtilTest extends BaseTestCase {

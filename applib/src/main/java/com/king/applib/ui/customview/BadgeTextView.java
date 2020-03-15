@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -19,7 +19,7 @@ import android.widget.TabWidget;
  * 徽标View
  * created by VanceKing at 2016/12/22.
  */
-public class BadgeTextView extends android.support.v7.widget.AppCompatTextView {
+public class BadgeTextView extends androidx.appcompat.widget.AppCompatTextView {
     @ColorInt private static final int DEFAULT_BG_COLOR = Color.parseColor("#d3321b");
     private static final int DEFAULT_RADIUS = 9;//in dp
 

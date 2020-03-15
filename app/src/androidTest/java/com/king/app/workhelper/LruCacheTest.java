@@ -1,6 +1,6 @@
 package com.king.app.workhelper;
 
-import android.support.v4.util.LruCache;
+import androidx.collection.LruCache;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -19,7 +19,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.DrawableCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -39,7 +39,7 @@ import java.util.List;
 
 /**
  * 通告View
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/5/22.
  */
 public class NoticeView extends TextSwitcher {

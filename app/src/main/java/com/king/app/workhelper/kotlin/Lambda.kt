@@ -2,7 +2,7 @@ package com.king.app.workhelper.kotlin
 
 /**
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 19-7-18.
  */
 fun main() {

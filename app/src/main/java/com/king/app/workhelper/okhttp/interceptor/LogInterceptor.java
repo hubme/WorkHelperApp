@@ -1,6 +1,6 @@
 package com.king.app.workhelper.okhttp.interceptor;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import com.king.app.workhelper.app.AppConfig;
 import com.king.app.workhelper.constant.GlobalConstant;

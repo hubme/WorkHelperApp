@@ -1,6 +1,6 @@
 package com.king.app.workhelper.adapter.recyclerview;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 不带泛型
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/29.
  */
 

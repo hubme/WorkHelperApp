@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import java.io.IOException;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/17.
  */
 

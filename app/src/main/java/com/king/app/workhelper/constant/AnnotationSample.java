@@ -4,11 +4,12 @@ import android.Manifest;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.RequiresPermission;
-import android.support.annotation.StringDef;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.ColorRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.RequiresPermission;
+import androidx.annotation.StringDef;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,7 +26,7 @@ import java.lang.annotation.Target;
  */
 //@PrintMe(value = "AnnotationSample")
 public class AnnotationSample {
-//    @PrintMe(value = "TAG")
+    //    @PrintMe(value = "TAG")
     private static final String TAG = "AnnotationSample";
 
     @IntDef({SORT_TYPE.ASC, SORT_TYPE.DESC})
@@ -64,7 +65,7 @@ public class AnnotationSample {
 
     }
 
-//    @PrintMe(value = "setCurColor")
+    //    @PrintMe(value = "setCurColor")
     @WeakDay
     public int getColor() {
         return MON;

@@ -2,14 +2,14 @@ package com.king.app.workhelper.ui.customview;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 /**
  * 动态设置背景色、圆角等
- * Created by HuoGuangxu on 2016/12/22.
+ * Created by VanceKing on 2016/12/22.
  */
 
 public class SimpleDrawable extends GradientDrawable {

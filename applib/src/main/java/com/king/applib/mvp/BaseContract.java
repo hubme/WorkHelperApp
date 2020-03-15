@@ -1,6 +1,6 @@
 package com.king.applib.mvp;
 
-import android.arch.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle;
 
 /**
  * https://hackernoon.com/mvp-android-architecture-components-aef55e15bfe3

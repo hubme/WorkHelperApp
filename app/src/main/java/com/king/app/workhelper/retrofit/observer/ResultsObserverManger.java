@@ -6,7 +6,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * 用于统一取消订阅,避免内存泄露.
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/2.
  */
 

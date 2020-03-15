@@ -3,7 +3,7 @@ package com.king.applib;
 import com.king.applib.log.Logger;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/4/24.
  */
 

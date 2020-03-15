@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
@@ -17,7 +17,7 @@ import android.util.AttributeSet;
  * @since 2017/4/24.
  */
 
-public class SimpleBadgeTextView extends android.support.v7.widget.AppCompatTextView {
+public class SimpleBadgeTextView extends androidx.appcompat.widget.AppCompatTextView {
     private static final int DEFAULT_RADIUS = 8;//in dp
     private Context mContext;
     private String mBadgeText;

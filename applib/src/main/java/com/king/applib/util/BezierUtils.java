@@ -1,13 +1,13 @@
 package com.king.applib.util;
 
 import android.graphics.PointF;
-import android.support.annotation.IntRange;
+import androidx.annotation.IntRange;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author huoguangxu
+ * @author VanceKing
  * @since 19-3-17.
  */
 public class BezierUtils {

@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
-import android.support.v4.util.Pair;
 import android.util.Log;
+
+import androidx.core.util.Pair;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,7 +34,7 @@ import static com.king.applib.util.FileUtil.createFile;
 
 /**
  * 测试
- * Created by HuoGuangxu on 2016/9/29.
+ * Created by VanceKing on 2016/9/29.
  */
 
 public class AppTest extends BaseAndroidJUnit4Test {

@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -21,7 +21,7 @@ import com.king.applib.R;
  * @since 2017/12/18.
  */
 
-public class StartDrawableTextView extends android.support.v7.widget.AppCompatTextView {
+public class StartDrawableTextView extends androidx.appcompat.widget.AppCompatTextView {
     private Canvas bitmapCanvas;
     private Bitmap bitmap;
     private Drawable drawable;

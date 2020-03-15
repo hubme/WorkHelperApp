@@ -1,10 +1,11 @@
 package com.king.app.workhelper.adapter.recyclerview;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.model.entity.StringEntity;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * 带泛型
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/6/29.
  */
 

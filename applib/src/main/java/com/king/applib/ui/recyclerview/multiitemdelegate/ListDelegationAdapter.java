@@ -16,7 +16,7 @@
 
 package com.king.applib.ui.recyclerview.multiitemdelegate;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import java.util.List;
 
 /**

@@ -9,12 +9,12 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * 圆角图片
  *
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/1/11.
  */
 

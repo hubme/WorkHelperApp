@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;

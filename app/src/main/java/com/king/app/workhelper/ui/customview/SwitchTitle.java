@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -458,7 +458,7 @@ public class SwitchTitle extends HorizontalScrollView {
         void onTabClicked(TabSwitchTitle tab, int position);
     }
 
-    public static class TabSwitchTitle extends android.support.v7.widget.AppCompatTextView {
+    public static class TabSwitchTitle extends androidx.appcompat.widget.AppCompatTextView {
         private int mPosition;
 
         public TabSwitchTitle(Context context) {

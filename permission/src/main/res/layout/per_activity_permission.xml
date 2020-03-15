@@ -13,23 +13,23 @@
         app:justifyContent="space_between"
         app:flexWrap="wrap">
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:textAllCaps="false"
             android:id="@+id/tv_normal"
             style="@style/EntryItemButton"
             android:text="Normal" />
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/tv_dispatcher"
             style="@style/EntryItemButton"
             android:text="Permissions Dispatcher" />
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/tv_easypermission"
             style="@style/EntryItemButton"
             android:text="easypermissions" />
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/tv_custom_easypermission"
             style="@style/EntryItemButton"
             android:text="custom easypermissions" />

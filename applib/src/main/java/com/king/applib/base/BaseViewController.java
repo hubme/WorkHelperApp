@@ -18,8 +18,8 @@ package com.king.applib.base;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +37,7 @@ public abstract class BaseViewController<T> {
     protected Context mContext;
     protected AppCompatActivity mActivity;
     protected Fragment mFragment;
-    protected android.support.v4.app.Fragment mV4Fragment;
+    protected androidx.fragment.app.Fragment mV4Fragment;
 
     public BaseViewController(Context context) {
         mContext = context;
@@ -53,7 +53,7 @@ public abstract class BaseViewController<T> {
         mContext = fragment.getActivity();
     }
 
-    public BaseViewController(android.support.v4.app.Fragment fragment) {
+    public BaseViewController(androidx.fragment.app.Fragment fragment) {
         mV4Fragment = fragment;
         mContext = fragment.getContext();
     }

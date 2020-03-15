@@ -1,6 +1,6 @@
 package com.king.applib.ui.recyclerview.multiitemdelegate;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * This class can be used as base class for a fallback delegate {@link

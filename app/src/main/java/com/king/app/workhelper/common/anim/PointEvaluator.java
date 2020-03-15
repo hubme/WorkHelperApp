@@ -7,7 +7,7 @@ import com.king.app.workhelper.model.entity.Point;
 /**
  * 自定义属性动画差值器.
  * see also: http://blog.csdn.net/guolin_blog/article/details/43816093
- * @author huoguangxu
+ * @author VanceKing
  * @since 2017/3/1.
  */
 

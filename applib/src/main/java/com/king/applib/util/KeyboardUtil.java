@@ -8,7 +8,7 @@ import android.view.ViewTreeObserver;
 
 /**
  * 键盘显示/隐藏工具类
- * created by HuoGuangXu at 2016/11/24
+ * created by VanceKing at 2016/11/24
  */
 public class KeyboardUtil {
 
