@@ -79,7 +79,6 @@ class KotlinSampleActivity : AppCompatActivity(), View.OnClickListener {
 
     fun testAnnotation() {
         val reqAnnotation = javaClass.getAnnotation(AnnotationSample.MethodInfo::class.java)
-        reqAnnotation.author
     }
 }
 
