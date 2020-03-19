@@ -38,13 +38,14 @@ dependencies {
     androidTestImplementation dependency.espresso_core
     testImplementation dependency.junit
 
-    implementation dependency.appcompat
-    implementation dependency.palette
-    implementation dependency.recyclerview
-    implementation dependency.design
+    api dependency.appcompat
+    api dependency.palette
+    api dependency.recyclerview
+    api dependency.design
+    api dependency.swiperefreshlayout
 
-    implementation dependency.gson
-    implementation dependency.kotlin_stdlib_jdk8
+    api dependency.gson
+    api dependency.kotlin_stdlib_jdk8
 
     api dependency.otto
     api dependency.eventbus
