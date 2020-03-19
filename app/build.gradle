@@ -162,6 +162,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
 
+    implementation dependency.kotlin_stdlib_jdk8
+    implementation dependency.core_ktx
+
     androidTestImplementation dependency.espresso_core
 
     testImplementation dependency.junit
@@ -208,8 +211,6 @@ dependencies {
     //https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx
     // https://github.com/JakeWharton/hugo
 //    implementation 'org.aspectj:aspectjrt:1.8.10'
-
-    implementation dependency.kotlin_stdlib_jdk8
 
     implementation dependency.dagger
     annotationProcessor dependency.dagger_compiler
