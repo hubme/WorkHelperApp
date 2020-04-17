@@ -2,6 +2,8 @@ package com.king.applib.util;
 
 import android.text.format.DateUtils;
 
+import androidx.annotation.NonNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -73,7 +75,9 @@ public class DateTimeUtil {
         return formatDate(DATE, template);
     }
 
-    /** 获取当前日期 */
+    /**
+     * 获取当前日期
+     */
     public static Date getCurrentTime() {
         DATE.setTime(System.currentTimeMillis());
         return DATE;
@@ -155,13 +159,31 @@ public class DateTimeUtil {
      * @param amount 增加的时间
      * @return 增加后的日期
      */
-    public static synchronized Date addDate(Date date, int field, int amount) {
-        if (date == null) {
-            return null;
-        }
+    public static synchronized Date addDate(@NonNull Date date, int field, int amount) {
         CALENDAR.setTime(date);
         CALENDAR.add(field, amount);
         return CALENDAR.getTime();
     }
 
+    /**
+     * 根据指定的字符串上加上指定的数量。<br/>
+     *
+     * @param dateText 初始日期字符串，需要符合 pattern 格式
+     * @param pattern  日期格式
+     * @param field    日历字段
+     * @param amount   需要添加的数量
+     */
+    public static synchronized String addDate(@NonNull String dateText, @NonNull String pattern, int field, int amount) {
+        DATE_FORMATTER.applyPattern(pattern);
+        try {
+            Date parsedDate = DATE_FORMATTER.parse(dateText);
+            if (parsedDate != null) {
+                Date addedDate = addDate(parsedDate, field, amount);
+                return DATE_FORMATTER.format(addedDate);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }
