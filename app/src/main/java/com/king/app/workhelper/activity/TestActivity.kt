@@ -1,5 +1,8 @@
 package com.king.app.workhelper.activity
 
+import android.graphics.drawable.ClipDrawable
+import android.view.Gravity
+import androidx.core.content.ContextCompat
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_test.*
@@ -25,6 +28,10 @@ class TestActivity : AppBaseActivity() {
     }
 
     private fun onPermissionClick() {
+        val clipDrawable = ClipDrawable(ContextCompat.getDrawable(this, R.drawable.banner1), 
+                Gravity.START, ClipDrawable.HORIZONTAL)
+        image_aaa.setImageDrawable(clipDrawable)
+        clipDrawable.level = 5000
     }
 
 }
