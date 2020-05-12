@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import androidx.annotation.ColorInt;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
@@ -14,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import androidx.annotation.ColorInt;
 
 /**
  * https://github.com/Zackratos/UltimateBar
@@ -96,12 +97,20 @@ public class UltimateBar {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void setTransparentBar(@ColorInt int color, int alpha) {
+        setTransparentBar(color, alpha, false);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void setTransparentBar(@ColorInt int color, int alpha, boolean isDark) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             View decorView = window.getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isDark) {
+                option |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
             decorView.setSystemUiVisibility(option);
 
             int finalColor = (alpha == 0 ? Color.TRANSPARENT :
@@ -127,9 +136,13 @@ public class UltimateBar {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void setImmersionBar() {
-        setTransparentBar(Color.TRANSPARENT, 0);
+        setImmersionBar(false);
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void setImmersionBar(boolean isDark) {
+        setTransparentBar(Color.TRANSPARENT, 0, isDark);
+    }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void setHintBar() {
@@ -165,7 +178,7 @@ public class UltimateBar {
         return mNavBarTintView;
     }
 
-    private boolean navigationBarExist(Activity activity) {
+    public static boolean navigationBarExist(Activity activity) {
         WindowManager windowManager = activity.getWindowManager();
         Display d = windowManager.getDefaultDisplay();
 
@@ -200,7 +213,7 @@ public class UltimateBar {
     }
 
     private void setRootView(Activity activity, boolean fit) {
-        ViewGroup parent = (ViewGroup) activity.findViewById(android.R.id.content);
+        ViewGroup parent = activity.findViewById(android.R.id.content);
         for (int i = 0, count = parent.getChildCount(); i < count; i++) {
             View childView = parent.getChildAt(i);
             if (childView instanceof ViewGroup) {
@@ -210,13 +223,12 @@ public class UltimateBar {
         }
     }
 
-    private int getStatusBarHeight(Context context) {
+    public static int getStatusBarHeight(Context context) {
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
     }
 
-    public int getNavigationHeight(Context context) {
-
+    public static int getNavigationHeight(Context context) {
         int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
     }
