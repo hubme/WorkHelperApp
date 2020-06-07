@@ -71,13 +71,11 @@ class JsCallJava {
             return null;
         }
         String method = uri.getEncodedPath();
-        if (TextUtils.isEmpty(method) || method.length() < 2) {
+        if (TextUtils.isEmpty(method)) {
             return null;
         }
-        if (method.startsWith("/")) {
-            method = method.substring(1);
-        }
+        String methodName = method.replace("/", "");
         String queryParameter = uri.getQueryParameter("params");
-        return new String[]{method, String.valueOf(requestCode), queryParameter};
+        return new String[]{methodName, String.valueOf(requestCode), queryParameter};
     }
 }

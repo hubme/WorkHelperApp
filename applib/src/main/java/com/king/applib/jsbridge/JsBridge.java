@@ -2,6 +2,12 @@ package com.king.applib.jsbridge;
 
 import android.webkit.WebView;
 
+/**
+ * 参考 https://github.com/Sunzxyong/JsBridge
+ *
+ * @author huoguangxu
+ * @since 20-6-7.
+ */
 public class JsBridge {
     public static final String LOG_TAG = "JsBridge";
     public static final String JS_BRIDGE_SCHEME = "jsbridge";
