@@ -3,6 +3,7 @@ apply plugin: 'project-report'
 apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 def cfg = rootProject.ext.android
 android {
@@ -43,7 +44,7 @@ android {
         //关闭 aapt 对 png 的优化
         cruncherEnabled = false
     }
-    
+
     //配置签名
     signingConfigs {
         config {
@@ -84,7 +85,7 @@ android {
             def outputApk = output.outputFile
             if (outputApk != null && outputApk.name.endsWith('.apk')) {
                 //app-release-official-1.0.0-20170211.apk
-                output.outputFileName = "app-${variant.buildType.name}-${variant.productFlavors[0].name}-${variant.versionName}-${releaseTime()}-${getGitSha()}-${getGitShaCount()}.apk"
+                output.outputFileName = "app-${variant.buildType.name}-${variant.productFlavors[0].name}-${variant.versionName}-${getGitSha()}-${getGitShaCount()}.apk"
             }
         }
     }
@@ -224,6 +225,8 @@ dependencies {
 
     //debugImplementation dependency.doraemonkit
     //releaseImplementation dependency.doraemonkit_no_op
+
+    implementation dependency.firebase_analytics
 }
 
 repositories {

@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_number": "843342639484",
+    "firebase_url": "https://basic-radius-274402.firebaseio.com",
+    "project_id": "basic-radius-274402",
+    "storage_bucket": "basic-radius-274402.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843342639484:android:e8b8093c55732d29f834f9",
+        "android_client_info": {
+          "package_name": "com.king.app.workhelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843342639484-afl8o5n1pav9b7di2bdiqrtl1bp547lp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsfgJGdGzPwL1TFBRjKHCwEWHlovrJDdg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843342639484-afl8o5n1pav9b7di2bdiqrtl1bp547lp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

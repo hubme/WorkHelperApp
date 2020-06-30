@@ -35,6 +35,8 @@ buildscript {
         //classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.8.1"
 
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
+
+        classpath 'com.google.gms:google-services:4.3.3'
     }
 
     // Exclude the lombok version that the android plugin depends on.
