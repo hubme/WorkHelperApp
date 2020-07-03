@@ -1,5 +1,7 @@
 package com.king.app.workhelper.activity
 
+import android.app.Activity
+import android.content.Intent
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.app.workhelper.common.FirebaseManager
@@ -29,4 +31,8 @@ class TestActivity : AppBaseActivity() {
         FirebaseManager.getInstance(this).logEvent("CustomEvent")
     }
 
+    //reified 关键字来表示该泛型要进行实化
+    inline fun <reified T : Activity> openActivity() {
+        startActivity(Intent(this, T::class.java))
+    }
 }
