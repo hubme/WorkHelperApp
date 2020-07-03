@@ -35,6 +35,7 @@ ext {
             "commons_codec"                  : "commons-codec:commons-codec:1.13",
 
             "firebase_analytics"             : "com.google.firebase:firebase-analytics:17.4.3",
+            "firebase_crashlytics"           : "com.google.firebase:firebase-crashlytics:17.1.0",
 
             /*权限*/
             //依赖 androidx
@@ -86,8 +87,8 @@ ext {
             "flatbuffers_java"               : "com.google.flatbuffers:flatbuffers-java:1.8.0",
 
             //https://google.github.io/dagger/
-            "dagger"                         : "com.google.dagger:dagger:2.7",
-            "dagger_compiler"                : "com.google.dagger:dagger-compiler:2.7",
+            "dagger_android"                 : "com.google.dagger:dagger-android:2.28.1",
+            "dagger_compiler"                : "com.google.dagger:dagger-compiler:2.28.1",
 
             "arouter_api"                    : "com.alibaba:arouter-api:1.5.0",
             "arouter_compiler"               : "com.alibaba:arouter-compiler:1.2.2",

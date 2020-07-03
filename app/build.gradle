@@ -4,6 +4,7 @@ apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 def cfg = rootProject.ext.android
 android {
@@ -36,8 +37,8 @@ android {
     }
 
     //开启后会执行相应的 dataBinding task(eg: dataBindingExportBuildInfoDebug) ，引入依赖等。
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
 
     aaptOptions {
@@ -213,7 +214,7 @@ dependencies {
     // https://github.com/JakeWharton/hugo
 //    implementation 'org.aspectj:aspectjrt:1.8.10'
 
-    implementation dependency.dagger
+    implementation dependency.dagger_android
     annotationProcessor dependency.dagger_compiler
 
     implementation dependency.common_java8
@@ -227,6 +228,7 @@ dependencies {
     //releaseImplementation dependency.doraemonkit_no_op
 
     implementation dependency.firebase_analytics
+    implementation dependency.firebase_crashlytics
 }
 
 repositories {
