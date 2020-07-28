@@ -1,7 +1,8 @@
 package com.king.app.workhelper;
 
-import androidx.core.util.Pools;
 import android.util.Log;
+
+import androidx.core.util.Pools;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +25,21 @@ public class ObjectPoolTest extends BaseAndroidJUnit4Test {
         //初始化大小为5的数据，数据都为 null。
         sampleModelPool = new Pools.SimplePool<>(5);
 
+    }
+
+    @Test
+    public void test2() {
+        SampleModel acquire = sampleModelPool.acquire();
+        if (acquire == null) {
+            acquire = new SampleModel();
+        }
+
+        log(acquire);
+        sampleModelPool.release(acquire);
+        log(sampleModelPool.acquire());
+        sampleModelPool.release(acquire);
+        //会抛出 IllegalStateException("Already in the pool!");
+        sampleModelPool.release(acquire);
     }
 
     @Test
