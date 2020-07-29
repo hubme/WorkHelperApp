@@ -10,16 +10,17 @@ import com.king.app.workhelper.fragment.RecyclerEntryFragment;
  */
 
 public class RecyclerViewActivity extends AppBaseActivity {
-    
-    @Override public int getContentLayout() {
+
+    @Override
+    public int getContentLayout() {
         return R.layout.activity_recycler_view;
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         super.initData();
 
-        getSupportFragmentManager()
-                .beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.layout_container, new RecyclerEntryFragment())
                 .commit();
 
