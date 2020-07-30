@@ -91,4 +91,24 @@ public class CustomDrawable extends Drawable {
     public int getIntrinsicHeight() {
         return mHeight;
     }
+
+    /*
+    View#setBackground()、TextView#setCompoundDrawablesRelativeWithIntrinsicBounds() 方法内部都实现了
+    Drawable#Callback 接口。当调用 Drawable#invalidateSelf() 方法后调用 Callback#invalidateDrawable() 的
+    实现方法，View 或 TextView 进行重绘，Drawable 随之更新。
+     */
+    public void setColor(@ColorInt int upColor, @ColorInt int downColor) {
+        boolean handled = false;
+        if (mUpColor != upColor) {
+            mUpColor = upColor;
+            handled = true;
+        }
+        if (mDownColor != downColor) {
+            mDownColor = downColor;
+            handled = true;
+        }
+        if (handled) {
+            invalidateSelf();
+        }
+    }
 }
