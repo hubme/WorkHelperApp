@@ -4,24 +4,27 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.constant.GlobalConstant;
-import com.king.applib.ui.recyclerview.listener.RecyclerItemTouchListener;
+import com.king.applib.util.ExtendUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +56,7 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
     protected void initInitialData() {
         super.initInitialData();
         mDataList = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 20; i++) {
             mDataList.add("item - " + i);
         }
     }
@@ -70,37 +73,107 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         //new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         //new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, true);
         //new StaggeredGridLayoutManager(3, RecyclerView.VERTICAL);
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == 3) {
+                    return layoutManager.getSpanCount();
+                } else {
+                    return 1;
+                }
+            }
+        });
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-//        mRecyclerView.addItemDecoration(new MyItemDecoration());
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(ContextCompat.getColor(requireContext(), R.color.chocolate));
+        drawable.setSize(0, ExtendUtil.dp2px(10));
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(requireContext(),
+                DividerItemDecoration.VERTICAL) {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                //super.onDraw(c, parent, state);
+                drawVertical(c, parent, drawable, mBounds);
+            }
+
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                       RecyclerView.State state) {
+                int position = parent.getChildAdapterPosition(view);
+                if (position == 3) {
+                    //super.getItemOffsets(outRect, view, parent, state);
+                    outRect.set(0, drawable.getIntrinsicHeight(), 0, 0);
+                }/* else {
+                    outRect.set(0, 0, 0, 0);
+                }*/
+            }
+        };
+
+        itemDecoration.setDrawable(drawable);
+        mRecyclerView.addItemDecoration(itemDecoration);
+
+        //mRecyclerView.addItemDecoration(new MyItemDecoration());
         //设置 item 对其方式
-//        PagerSnapHelper mPagerSnapHelper = new PagerSnapHelper();
-//        mPagerSnapHelper.attachToRecyclerView(mRecyclerView);
+        //PagerSnapHelper mPagerSnapHelper = new PagerSnapHelper();
+        //mPagerSnapHelper.attachToRecyclerView(mRecyclerView);
 
         //创建和设置适配器
         mBasicAdapter = new VHAdapter(mDataList);
         mRecyclerView.setAdapter(mBasicAdapter);
 
-        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(mBasicAdapter, true, true));
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
+                new ItemTouchHelperCallback(mBasicAdapter, true, true));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemTouchListener(mRecyclerView, new RecyclerItemTouchListener.OnRecyclerItemListenerAdapter() {
-            @Override
-            public void onItemClick(View view, int position) {
-                super.onItemClick(view, position);
-            }
+        /*mRecyclerView.addOnItemTouchListener(new RecyclerItemTouchListener(mRecyclerView,
+                new RecyclerItemTouchListener.OnRecyclerItemListenerAdapter() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        super.onItemClick(view, position);
+                    }
 
-            @Override
-            public void onItemLongClick(View view, int position) {
-                super.onItemLongClick(view, position);
-                //固定第一项
-                if (position != 0) {
-                    itemTouchHelper.startDrag(mRecyclerView.getChildViewHolder(view));
-                }
-            }
-        }));
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+                        super.onItemLongClick(view, position);
+                        //固定第一项
+                        if (position != 0) {
+                            itemTouchHelper.startDrag(mRecyclerView.getChildViewHolder(view));
+                        }
+                    }
+                }));*/
+    }
+
+    private final Rect mBounds = new Rect();
+
+    private void drawVertical(Canvas canvas, RecyclerView parent, Drawable mDivider, Rect mBounds) {
+        canvas.save();
+        final int left;
+        final int right;
+        //noinspection AndroidLintNewApi - NewApi lint fails to handle overrides.
+        if (parent.getClipToPadding()) {
+            left = parent.getPaddingLeft();
+            right = parent.getWidth() - parent.getPaddingRight();
+            canvas.clipRect(left, parent.getPaddingTop(), right,
+                    parent.getHeight() - parent.getPaddingBottom());
+        } else {
+            left = 0;
+            right = parent.getWidth();
+        }
+
+        final int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = parent.getChildAt(i);
+            parent.getDecoratedBoundsWithMargins(child, mBounds);
+            final int bottom = mBounds.bottom + Math.round(child.getTranslationY());
+            final int top = bottom - mDivider.getIntrinsicHeight();
+            mDivider.setBounds(left, mBounds.top, right,
+                    mBounds.top + mDivider.getIntrinsicHeight());
+            mDivider.draw(canvas);
+        }
+        canvas.restore();
     }
 
     private static class MyItemDecoration extends RecyclerView.ItemDecoration {
@@ -117,7 +190,8 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         }
 
         @Override
-        public void onDrawOver(@NotNull Canvas c, @NotNull RecyclerView parent, @NotNull RecyclerView.State state) {
+        public void onDrawOver(@NotNull Canvas c, @NotNull RecyclerView parent,
+                               @NotNull RecyclerView.State state) {
             super.onDrawOver(c, parent, state);
 
             String text = "我是顶部 ItemDecoration";
@@ -129,7 +203,9 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         }
 
         @Override
-        public void getItemOffsets(@NotNull Rect outRect, @NotNull View view, @NotNull RecyclerView parent, @NotNull RecyclerView.State state) {
+        public void getItemOffsets(@NotNull Rect outRect, @NotNull View view,
+                                   @NotNull RecyclerView parent,
+                                   @NotNull RecyclerView.State state) {
             super.getItemOffsets(outRect, view, parent, state);
             if (parent.getChildAdapterPosition(view) == 5) {
                 outRect.set(5, 4, 10, 4);
@@ -142,8 +218,9 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         //但是会渲染整个 List，不管是不是显示在屏幕上。
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setNestedScrollingEnabled(false);
-//        ViewCompat.setNestedScrollingEnabled(mRecyclerView, false);
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        //ViewCompat.setNestedScrollingEnabled(mRecyclerView, false);
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,
+                false);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new SimpleRecyclerAdapter(SimpleRecyclerAdapter.fakeData(30));
         mRecyclerView.setAdapter(mAdapter);
@@ -152,7 +229,8 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    Log.i(GlobalConstant.LOG_TAG, "last visible position: " + layoutManager.findLastVisibleItemPosition());
+                    Log.i(GlobalConstant.LOG_TAG,
+                            "last visible position: " + layoutManager.findLastVisibleItemPosition());
                 }
             }
         });
@@ -160,7 +238,7 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
 
     @OnClick(R.id.floating_button)
     public void onFloatingButtonClick() {
-//        mAdapter.appendList(SimpleRecyclerAdapter.fakeData("aaa", 5));
+        //mAdapter.appendList(SimpleRecyclerAdapter.fakeData("aaa", 5));
 
         mBasicAdapter.mDataList.add("AAA");
         mBasicAdapter.notifyItemInserted(mBasicAdapter.getItemCount() - 1);
@@ -172,10 +250,7 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
 
         VH(View itemView) {
             super(itemView);
-            mTextView = itemView.findViewById(android.R.id.text1);
-            mTextView.setGravity(Gravity.CENTER);
-            mTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            mTextView.setBackgroundColor(Color.parseColor("#9900FFFF"));
+            mTextView = itemView.findViewById(R.id.tv_simple_text);
         }
     }
 
@@ -191,7 +266,8 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         @NonNull
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, null);
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.layout_single_textview, parent, false);
             return new VH(itemView);
         }
 
@@ -222,17 +298,18 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
             isFirstDragUnable = false;
         }
 
-        ItemTouchHelperCallback(VHAdapter adapter, boolean isSwipeEnable, boolean isFirstDragUnable) {
+        ItemTouchHelperCallback(VHAdapter adapter, boolean isSwipeEnable,
+                                boolean isFirstDragUnable) {
             mAdapter = adapter;
             this.isSwipeEnable = isSwipeEnable;
             this.isFirstDragUnable = isFirstDragUnable;
         }
 
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(RecyclerView recyclerView,
+                                    @NotNull RecyclerView.ViewHolder viewHolder) {
             if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
-                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |
-                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
                 int swipeFlags = 0;
                 return makeMovementFlags(dragFlags, swipeFlags);
             } else {
@@ -243,7 +320,8 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
         }
 
         @Override
-        public boolean onMove(@NotNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        public boolean onMove(@NotNull RecyclerView recyclerView,
+                              RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             int fromPosition = viewHolder.getAdapterPosition();
             int toPosition = target.getAdapterPosition();
             if (isFirstDragUnable && toPosition == 0) {
@@ -279,7 +357,8 @@ public class RecyclerSimpleFragment extends AppBaseFragment {
 
         //拖拽结束后回调
         @Override
-        public void clearView(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
+        public void clearView(@NotNull RecyclerView recyclerView,
+                              @NotNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
             viewHolder.itemView.setBackgroundColor(Color.RED);
         }
