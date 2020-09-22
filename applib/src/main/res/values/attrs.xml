@@ -234,5 +234,16 @@
     <declare-styleable name="MaterialLoadingView">
         <attr name="mlvColor" format="color"/>
     </declare-styleable>
-    
+
+    <declare-styleable name="WheelView">
+        <attr name="wv_cyclic" format="boolean" />
+        <attr name="wv_visibleCount" format="integer" />
+        <attr name="wv_itemWidth" format="dimension" />
+        <attr name="wv_itemHeight" format="dimension" />
+        <attr name="wv_textSize" format="dimension" />
+        <attr name="wv_textColor" format="color" />
+        <attr name="wv_selectedTextColor" format="color" />
+        <attr name="wv_dividerColor" format="color" />
+        <attr name="wv_highlightColor" format="color" />
+    </declare-styleable>
 </resources>
