@@ -227,8 +227,8 @@ dependencies {
     //debugImplementation dependency.doraemonkit
     //releaseImplementation dependency.doraemonkit_no_op
 
-    implementation dependency.firebase_analytics
-    implementation dependency.firebase_crashlytics
+    //implementation dependency.firebase_analytics
+    //implementation dependency.firebase_crashlytics
 }
 
 repositories {
