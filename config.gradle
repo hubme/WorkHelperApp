@@ -64,9 +64,9 @@ ext {
             "gson"                           : "com.google.code.gson:gson:2.8.5",
             "fastjson"                       : "com.alibaba:fastjson:1.1.71.android",
 
-            "retrofit"                       : "com.squareup.retrofit2:retrofit:2.2.0",
-            "converter_gson"                 : "com.squareup.retrofit2:converter-gson:2.2.0",
-            "adapter_rxjava2"                : "com.squareup.retrofit2:adapter-rxjava2:2.2.0",
+            "retrofit"                       : "com.squareup.retrofit2:retrofit:2.9.0",
+            "converter_gson"                 : "com.squareup.retrofit2:converter-gson:2.9.0",
+            "adapter_rxjava2"                : "com.squareup.retrofit2:adapter-rxjava2:2.9.0",
 
             "okhttp"                         : "com.squareup.okhttp3:okhttp:3.12.1",
 
