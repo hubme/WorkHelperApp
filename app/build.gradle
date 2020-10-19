@@ -166,6 +166,7 @@ dependencies {
 
     implementation dependency.kotlin_stdlib_jdk8
     implementation dependency.core_ktx
+    implementation dependency.kotlinx_coroutines_android
 
     androidTestImplementation dependency.espresso_core
 
