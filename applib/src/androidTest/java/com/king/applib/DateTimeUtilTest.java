@@ -6,6 +6,8 @@ import android.text.format.DateUtils;
 import com.king.applib.log.Logger;
 import com.king.applib.util.DateTimeUtil;
 
+import org.junit.Test;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -46,13 +48,18 @@ public class DateTimeUtilTest extends BaseTestCase {
         Logger.i("只比较秒: " + DateTimeUtil.betweenDurations(DateTimeUtil.INTL_DATE_FORMAT, "ss", "2017-10-23 12:00:00", "2017-10-23 13:01:01"));//1000
     }
 
-    public void testAddDate() throws Exception {
+    @Test
+    public void testAddDate() {
         Date currentDate = DateTimeUtil.getCurrentTime();
         Logger.i("currentDate: " + DateTimeUtil.formatDate(currentDate, DateTimeUtil.INTL_DATE_FORMAT));
         StopWatch.begin("aaa");
         Date date = DateTimeUtil.addDate(currentDate, Calendar.HOUR_OF_DAY, -1);
         StopWatch.end("aaa");
-        Logger.i("afterDate: " + DateTimeUtil.formatDate(date, DateTimeUtil.INTL_DATE_FORMAT));
+        Logger.i("Calendar.HOUR_OF_DAY, -1: " + DateTimeUtil.formatDate(date, DateTimeUtil.INTL_DATE_FORMAT));
+        Logger.i("Calendar.DAY_OF_MONTH, 35: " + DateTimeUtil.formatDate(
+                DateTimeUtil.addDate(currentDate, Calendar.DAY_OF_MONTH, 35), DateTimeUtil.INTL_DATE_FORMAT));
+        Logger.i("Calendar.DAY_OF_YEAR, -1: " + DateTimeUtil.formatDate(
+                DateTimeUtil.addDate(currentDate, Calendar.DAY_OF_YEAR, 35), DateTimeUtil.INTL_DATE_FORMAT));
     }
 
     public void testCalendar() throws Exception {
@@ -73,12 +80,12 @@ public class DateTimeUtilTest extends BaseTestCase {
     }
 
     /*
-    * FORMAT_SHOW_DATE：3月3日
-	* FORMAT_SHOW_TIME：10:37
-	* FORMAT_SHOW_WEEKDAY：星期五
-	* FORMAT_SHOW_YEAR：2017年3月3日
-	* FORMAT_NUMERIC_DATE：3/3
-	* FORMAT_NO_MONTH_DAY：三月
+     * FORMAT_SHOW_DATE：3月3日
+     * FORMAT_SHOW_TIME：10:37
+     * FORMAT_SHOW_WEEKDAY：星期五
+     * FORMAT_SHOW_YEAR：2017年3月3日
+     * FORMAT_NUMERIC_DATE：3/3
+     * FORMAT_NO_MONTH_DAY：三月
      */
     public void testDateUtils() throws Exception {
         Calendar calendar = Calendar.getInstance();
