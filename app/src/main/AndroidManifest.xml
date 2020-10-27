@@ -103,6 +103,19 @@
                 android:value="MetaValue" />
         </activity>
 
+        <activity-alias
+            android:name="TestActivity"
+            android:enabled="false"
+            android:icon="@drawable/house"
+            android:targetActivity=".activity.TestActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity-alias>
+
         <activity android:name=".activity.MainActivity">
 
         </activity>
