@@ -172,12 +172,6 @@ dependencies {
 
     testImplementation dependency.junit
 
-    implementation dependency.appcompat
-    implementation dependency.palette
-    implementation dependency.recyclerview
-    implementation dependency.design
-    implementation dependency.constraintlayout
-
     implementation dependency.butterknife
     annotationProcessor dependency.butterknife_compiler
 

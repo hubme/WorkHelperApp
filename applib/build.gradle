@@ -50,6 +50,8 @@ dependencies {
     api dependency.recyclerview
     api dependency.design
     api dependency.swiperefreshlayout
+    api dependency.constraintlayout
+    api dependency.fragment
 
     api dependency.gson
 
