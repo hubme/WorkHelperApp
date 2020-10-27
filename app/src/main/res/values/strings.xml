@@ -19,7 +19,8 @@
     <string name="test">测试</string>
     <string name="one_more_exit">再按一次退出程序</string>
     <string name="at_me">\&#064;我的</string>
-    
+
     <string name="typeface_DINCondensedBold">DINCondensedBold.ttf</string>
+    <string name="no_filters_selected">No filters selected, press the filter button above (<annotation src="@drawable/house">&#2228;</annotation>)\n<i><annotation foregroundColor="@color/chocolate">or swipe from the&#160;right</annotation></i></string>
 
 </resources>

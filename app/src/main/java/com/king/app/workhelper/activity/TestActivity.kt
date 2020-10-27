@@ -1,10 +1,13 @@
 package com.king.app.workhelper.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.TransitionDrawable
+import android.text.*
+import android.text.Annotation
+import android.text.style.ForegroundColorSpan
+import android.text.style.ImageSpan
+import androidx.core.content.ContextCompat
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.applib.log.Logger
@@ -28,12 +31,38 @@ class TestActivity : AppBaseActivity() {
 
     override fun initContentView() {
         super.initContentView()
-        val text = "狂赛季疯狂是反对龙kjdfoiwejflsd龙井扥塞拉芬零件sdklfjiowejfslef双看扥令赛季反对s神霜扥sljsfsdsdlkfjsldf狂赛季疯狂是反对龙kjdfoiwejflsd龙井扥塞拉芬零件sdklfjiowejfslef双看扥令赛季反对s神霜扥sljsfsdsdlkfjsldf"
 
-        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.RED), ColorDrawable(Color.GREEN), ColorDrawable(Color.BLUE)))
-        tv_text.text = text
-        tv_text.background = transitionDrawable
-        tv_text.setOnClickListener { transitionDrawable.startTransition(300) }
+        val emptyText = getText(R.string.no_filters_selected) as SpannedString
+        val ssb = SpannableStringBuilder(emptyText)
+        val annotations = emptyText.getSpans(0, emptyText.length, Annotation::class.java)
+
+        annotations?.forEach { annotation ->
+            if (annotation.key == "src") {
+                // image span markup
+                val id = annotation.getResId(this)
+                if (id != 0) {
+                    ssb.setSpan(
+                            ImageSpan(this, id, ImageSpan.ALIGN_BASELINE),
+                            emptyText.getSpanStart(annotation),
+                            emptyText.getSpanEnd(annotation),
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            } else if (annotation.key == "foregroundColor") {
+
+                // foreground color span markup
+                val id = annotation.getResId(this)
+                if (id != 0) {
+                    ssb.setSpan(
+                            ForegroundColorSpan(ContextCompat.getColor(this, id)),
+                            emptyText.getSpanStart(annotation),
+                            emptyText.getSpanEnd(annotation),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            }
+        }
+        tv_text.text = ssb
     }
 
     //由于用户操作，应用进入后台时(home 键)调用，在 onPause() 之前执行
@@ -45,5 +74,13 @@ class TestActivity : AppBaseActivity() {
     //reified 关键字来表示该泛型要进行实化
     inline fun <reified T : Activity> openActivity() {
         startActivity(Intent(this, T::class.java))
+    }
+
+    /**
+     * Get the resource identifier for an annotation.
+     * @param context The context this should be executed in.
+     */
+    private fun Annotation.getResId(context: Context): Int {
+        return context.resources.getIdentifier(value, null, context.packageName)
     }
 }
