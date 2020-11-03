@@ -164,10 +164,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
 
-    implementation dependency.kotlin_stdlib_jdk8
-    implementation dependency.core_ktx
-    implementation dependency.kotlinx_coroutines_android
-
     androidTestImplementation dependency.espresso_core
 
     testImplementation dependency.junit

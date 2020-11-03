@@ -43,8 +43,6 @@ dependencies {
     androidTestImplementation dependency.espresso_core
     testImplementation dependency.junit
 
-    implementation dependency.kotlin_stdlib_jdk8
-
     api dependency.appcompat
     api dependency.palette
     api dependency.recyclerview
@@ -52,6 +50,10 @@ dependencies {
     api dependency.swiperefreshlayout
     api dependency.constraintlayout
     api dependency.fragment
+
+    api dependency.kotlin_stdlib_jdk8
+    api dependency.core_ktx
+    api dependency.kotlinx_coroutines_android
 
     api dependency.gson
 
