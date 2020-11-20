@@ -3,12 +3,13 @@ package com.king.app.workhelper.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.text.*
 import android.text.Annotation
-import android.text.style.ForegroundColorSpan
-import android.text.style.ImageSpan
-import androidx.core.content.ContextCompat
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.king.app.workhelper.R
+import com.king.app.workhelper.adapter.recyclerview.SimpleRecyclerAdapter
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.applib.log.Logger
 import kotlinx.android.synthetic.main.activity_test.*
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_test.*
  */
 
 class TestActivity : AppBaseActivity() {
+    private lateinit var mAdapter: SimpleRecyclerAdapter
 
     override fun getContentLayout(): Int {
         return R.layout.activity_test
@@ -32,37 +34,38 @@ class TestActivity : AppBaseActivity() {
     override fun initContentView() {
         super.initContentView()
 
-        val emptyText = getText(R.string.no_filters_selected) as SpannedString
-        val ssb = SpannableStringBuilder(emptyText)
-        val annotations = emptyText.getSpans(0, emptyText.length, Annotation::class.java)
-
-        annotations?.forEach { annotation ->
-            if (annotation.key == "src") {
-                // image span markup
-                val id = annotation.getResId(this)
-                if (id != 0) {
-                    ssb.setSpan(
-                            ImageSpan(this, id, ImageSpan.ALIGN_BASELINE),
-                            emptyText.getSpanStart(annotation),
-                            emptyText.getSpanEnd(annotation),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            } else if (annotation.key == "foregroundColor") {
-
-                // foreground color span markup
-                val id = annotation.getResId(this)
-                if (id != 0) {
-                    ssb.setSpan(
-                            ForegroundColorSpan(ContextCompat.getColor(this, id)),
-                            emptyText.getSpanStart(annotation),
-                            emptyText.getSpanEnd(annotation),
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            }
+        //禁止 AppbarLayout 滚动方法1
+        (appbar_layout.getChildAt(0).layoutParams as AppBarLayout.LayoutParams).apply {
+            scrollFlags = 0
         }
-        tv_text.text = ssb
+
+        //禁止 AppbarLayout 滚动方法2
+        ((appbar_layout.layoutParams as CoordinatorLayout.LayoutParams).behavior as AppBarLayout.Behavior)
+                .setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+                    override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                        return false
+                    }
+                })
+
+        if (ViewCompat.isLaidOut(appbar_layout)) {
+            val params: CoordinatorLayout.LayoutParams = appbar_layout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+            behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
+                override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                    return false
+                }
+            })
+        }
+
+        mAdapter = SimpleRecyclerAdapter().apply {
+            adapterData = SimpleRecyclerAdapter.fakeData(25)
+        }
+
+        with(recycler_view) {
+            layoutManager = LinearLayoutManager(this@TestActivity)
+            setHasFixedSize(true)
+            adapter = mAdapter
+        }
     }
 
     //由于用户操作，应用进入后台时(home 键)调用，在 onPause() 之前执行
