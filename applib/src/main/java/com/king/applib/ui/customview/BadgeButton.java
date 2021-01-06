@@ -26,12 +26,11 @@ import android.graphics.drawable.GradientDrawable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.king.applib.R;
 
 
-public final class BadgeButton extends TextView {
+public final class BadgeButton extends androidx.appcompat.widget.AppCompatTextView {
 
     private BadgeDrawable mBadgeDrawable;
 
