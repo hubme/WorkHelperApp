@@ -15,7 +15,8 @@ ext {
     ]
 
     dependencies = [
-            "junit"                          : "androidx.test.ext:junit:1.1.0",
+            "junit"                          : "junit:junit:4.12",
+            "android_junit"                  : "androidx.test.ext:junit:1.1.1",
             "espresso_core"                  : 'androidx.test.espresso:espresso-core:3.1.0',
 
             "multidex"                       : "androidx.multidex:multidex:2.0.1",

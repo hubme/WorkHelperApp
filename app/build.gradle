@@ -164,9 +164,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
 
-    androidTestImplementation dependency.espresso_core
-
     testImplementation dependency.junit
+    androidTestImplementation dependency.android_junit
+    androidTestImplementation dependency.espresso_core
 
     implementation dependency.butterknife
     annotationProcessor dependency.butterknife_compiler
