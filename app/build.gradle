@@ -3,6 +3,7 @@ apply plugin: 'project-report'
 apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -169,7 +170,7 @@ dependencies {
     androidTestImplementation dependency.espresso_core
 
     implementation dependency.butterknife
-    annotationProcessor dependency.butterknife_compiler
+    kapt dependency.butterknife_compiler
 
     implementation dependency.rxjava
     implementation dependency.rxandroid
@@ -192,7 +193,7 @@ dependencies {
 
     implementation dependency.glide
     implementation dependency.glide_okhttp3_integration
-    annotationProcessor dependency.glide_compiler
+    kapt dependency.glide_compiler
 
     //implementation dependency.stetho
     //implementation dependency.stetho_okhttp3
@@ -206,12 +207,12 @@ dependencies {
 //    implementation 'org.aspectj:aspectjrt:1.8.10'
 
     implementation dependency.dagger_android
-    annotationProcessor dependency.dagger_compiler
+    kapt dependency.dagger_compiler
 
     implementation dependency.common_java8
 
     implementation dependency.arouter_api
-    annotationProcessor dependency.arouter_compiler
+    kapt dependency.arouter_compiler
 
     implementation dependency.calendarview
 
