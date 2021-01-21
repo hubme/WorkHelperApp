@@ -71,7 +71,7 @@ ext {
             "converter_gson"                 : "com.squareup.retrofit2:converter-gson:2.9.0",
             "adapter_rxjava2"                : "com.squareup.retrofit2:adapter-rxjava2:2.9.0",
 
-            "okhttp"                         : "com.squareup.okhttp3:okhttp:3.12.1",
+            "okhttp"                         : "com.squareup.okhttp3:okhttp:4.9.0",
 
             "leakcanary_android"             : "com.squareup.leakcanary:leakcanary-android:2.2",
 
