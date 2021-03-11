@@ -4,12 +4,14 @@ import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -36,6 +38,7 @@ public class EncryptionUtil {
     private static final String DES = "DES";
     private static final String AES = "AES";
     private static final String RSA = "RSA";
+    private static final String MD5 = "MD5";
 
     private EncryptionUtil() {
         throw new UnsupportedOperationException("No instances!");
@@ -243,6 +246,21 @@ public class EncryptionUtil {
             return new String(cipher.doFinal(bytes));
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
                 IllegalBlockSizeException | BadPaddingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getMD5(String str) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(MD5);
+            // 计算md5函数
+            md.update(str.getBytes());
+            // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
+            byte[] digest = md.digest();
+            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
+            return new BigInteger(1, digest).toString(16);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
