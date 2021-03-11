@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/common_header" />
+    <Button
+        android:id="@+id/btn_des"
+        style="@style/EntryItem"
+        android:text="DES" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal">
+    <Button
+        android:id="@+id/btn_aes"
+        style="@style/EntryItem"
+        android:text="AES" />
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/btn_rsa"
+        style="@style/EntryItem"
+        android:text="RSA" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:layout_scrollFlags="scroll" />
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
-
