@@ -1,5 +1,6 @@
 package com.king.applib.util
 
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.util.TypedValue
 
@@ -12,8 +13,14 @@ import android.util.TypedValue
 
 val Float.dp
     get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this,
-        Resources.getSystem().displayMetrics).toInt()
+            Resources.getSystem().displayMetrics).toInt()
 
 val Float.sp
     get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this,
-        Resources.getSystem().displayMetrics).toInt()
+            Resources.getSystem().displayMetrics).toInt()
+
+fun SharedPreferences.spEdit(action: SharedPreferences.Editor.() -> Unit) {
+    val editor = edit()
+    action(editor)
+    editor.apply()
+}
