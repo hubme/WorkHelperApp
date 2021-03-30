@@ -209,7 +209,8 @@ dependencies {
     implementation dependency.dagger_android
     kapt dependency.dagger_compiler
 
-    implementation dependency.common_java8
+    implementation dependency.lifecycle_livedata
+    implementation dependency.lifecycle_viewmodel_ktx
 
     implementation dependency.arouter_api
     kapt dependency.arouter_compiler
