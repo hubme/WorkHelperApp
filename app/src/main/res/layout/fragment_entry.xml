@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,232 +16,227 @@
             <TextView
                 android:id="@+id/tv_activity_life_circle"
                 style="@style/EntryItem"
-                android:text="Activity Life Circle"/>
+                android:text="Activity Life Circle" />
 
             <TextView
                 android:id="@+id/tv_service"
                 style="@style/EntryItem"
-                android:text="Service"/>
+                android:text="Service" />
 
             <TextView
                 android:id="@+id/tv_content_provider"
                 style="@style/EntryItem"
-                android:text="ContentProvider"/>
+                android:text="ContentProvider" />
 
             <TextView
                 android:id="@+id/tv_broadcast_receiver"
                 style="@style/EntryItem"
-                android:text="BroadcastReceiver"/>
+                android:text="BroadcastReceiver" />
 
             <TextView
                 android:id="@+id/tv_test_activity"
                 style="@style/EntryItem"
-                android:text="Test Activity"/>
+                android:text="Test Activity" />
 
             <TextView
                 android:id="@+id/tv_debug_activity"
                 style="@style/EntryItem"
-                android:text="Debug Settings"/>
+                android:text="Debug Settings" />
 
             <TextView
                 android:id="@+id/tv_main_activity"
                 style="@style/EntryItem"
-                android:text="Main Activity"/>
+                android:text="Main Activity" />
 
             <TextView
                 android:id="@+id/tv_permission"
                 style="@style/EntryItem"
-                android:text="6.0(M)权限"/>
+                android:text="6.0(M)权限" />
 
             <TextView
                 android:id="@+id/tv_image_sample"
                 style="@style/EntryItem"
-                android:text="Image Bitmap 相关"/>
+                android:text="Image Bitmap 相关" />
 
             <TextView
                 android:id="@+id/tv_rx_java"
                 style="@style/EntryItem"
-                android:text="RxJava"/>
+                android:text="RxJava" />
 
             <TextView
                 android:id="@+id/tv_view_pager"
                 style="@style/EntryItem"
-                android:text="ViewPager"/>
+                android:text="ViewPager" />
 
             <TextView
                 android:id="@+id/tv_web_view_js"
                 style="@style/EntryItem"
-                android:text="WebView和JS交互"/>
+                android:text="WebView和JS交互" />
 
             <TextView
                 android:id="@+id/tv_download_file"
                 style="@style/EntryItem"
-                android:text="文件下载"/>
+                android:text="文件下载" />
 
             <TextView
                 android:id="@+id/tv_retrofit"
                 style="@style/EntryItem"
-                android:text="Retrofit"/>
+                android:text="Retrofit" />
 
             <TextView
                 android:id="@+id/tv_custom_view"
                 style="@style/EntryItem"
-                android:text="Custom View"/>
+                android:text="Custom View" />
 
             <TextView
                 android:id="@+id/tv_usage"
                 style="@style/EntryItem"
-                android:text="Usage"/>
+                android:text="Usage" />
 
             <TextView
                 android:id="@+id/tv_leak_canary"
                 style="@style/EntryItem"
-                android:text="LeakCanary"/>
+                android:text="LeakCanary" />
 
             <TextView
                 android:id="@+id/tv_toolbar"
                 style="@style/EntryItem"
-                android:text="Toolbar"/>
+                android:text="Toolbar" />
 
             <TextView
                 android:id="@+id/tv_log"
                 style="@style/EntryItem"
-                android:text="Log"/>
+                android:text="Log" />
 
             <TextView
                 android:id="@+id/tv_notification"
                 style="@style/EntryItem"
-                android:text="Notification"/>
+                android:text="Notification" />
 
             <TextView
                 android:id="@+id/tv_okhttp_get"
                 style="@style/EntryItem"
-                android:text="OkHttp"/>
+                android:text="OkHttp" />
 
             <TextView
                 android:id="@+id/tv_round_image"
                 style="@style/EntryItem"
-                android:text="RoundedBitmapDrawable"/>
+                android:text="RoundedBitmapDrawable" />
 
             <TextView
                 android:id="@+id/tv_canvas"
                 style="@style/EntryItem"
-                android:text="Canvas"/>
+                android:text="Canvas" />
 
             <TextView
                 android:id="@+id/tv_fresco"
                 style="@style/EntryItem"
-                android:text="Fresco Sample"/>
+                android:text="Fresco Sample" />
 
             <TextView
                 android:id="@+id/tv_web_view"
                 style="@style/EntryItem"
-                android:text="WebView Activity"/>
+                android:text="WebView Activity" />
 
             <TextView
                 android:id="@+id/tv_file_provider"
                 style="@style/EntryItem"
-                android:text="FileProvider"/>
+                android:text="FileProvider" />
 
             <TextView
                 android:id="@+id/tv_animation"
                 style="@style/EntryItem"
-                android:text="Animation"/>
+                android:text="Animation" />
 
             <TextView
                 android:id="@+id/tv_view_usage"
                 style="@style/EntryItem"
-                android:text="View Usage"/>
+                android:text="View Usage" />
 
             <TextView
                 android:id="@+id/tv_mul_process"
                 style="@style/EntryItem"
-                android:text="Mul Process"/>
+                android:text="Mul Process" />
 
             <TextView
                 android:id="@+id/tv_menu_share"
                 style="@style/EntryItem"
-                android:text="Share"/>
+                android:text="Share" />
 
             <TextView
                 android:id="@+id/tv_recycler_view"
                 style="@style/EntryItem"
-                android:text="RecyclerView"/>
+                android:text="RecyclerView" />
 
             <TextView
                 android:id="@+id/tv_event"
                 style="@style/EntryItem"
-                android:text="Event"/>
+                android:text="Event" />
 
             <TextView
                 android:id="@+id/tv_drawable"
                 style="@style/EntryItem"
-                android:text="Drawable"/>
+                android:text="Drawable" />
 
             <TextView
                 android:id="@+id/tv_fragment_life_circle"
                 style="@style/EntryItem"
-                android:text="Fragment Life Circle"/>
+                android:text="Fragment Life Circle" />
 
             <TextView
                 android:id="@+id/tv_banner_simple"
                 style="@style/EntryItem"
-                android:text="Banner"/>
+                android:text="Banner" />
 
             <TextView
                 android:id="@+id/tv_flexbox_layout"
                 style="@style/EntryItem"
-                android:text="Flexbox Layout"/>
+                android:text="Flexbox Layout" />
 
             <TextView
                 android:id="@+id/tv_update_photo"
                 style="@style/EntryItem"
-                android:text="上传照片"/>
+                android:text="上传照片" />
 
             <TextView
                 android:id="@+id/tv_bottom_sheets"
                 style="@style/EntryItem"
-                android:text="BottomSheets"/>
+                android:text="BottomSheets" />
 
             <TextView
                 android:id="@+id/tv_vector_sample"
                 style="@style/EntryItem"
-                android:text="Vector"/>
+                android:text="Vector" />
 
             <TextView
                 android:id="@+id/tv_view_slide"
                 style="@style/EntryItem"
-                android:text="View滑动的六种方法"/>
+                android:text="View滑动的六种方法" />
 
             <TextView
                 android:id="@+id/tv_expandable_list_view"
                 style="@style/EntryItem"
-                android:text="ExpandableListView"/>
+                android:text="ExpandableListView" />
 
             <TextView
                 android:id="@+id/tv_thread_pool"
                 style="@style/EntryItem"
-                android:text="Thread Pool"/>
+                android:text="Thread Pool" />
 
             <TextView
                 android:id="@+id/tv_thread"
                 style="@style/EntryItem"
-                android:text="Thread"/>
-
-            <TextView
-                android:id="@+id/tv_kotlin"
-                style="@style/EntryItem"
-                android:text="Kotlin"/>
+                android:text="Thread" />
 
             <TextView
                 android:id="@+id/tv_data_binding"
                 style="@style/EntryItem"
-                android:text="Data Binding"/>
+                android:text="Data Binding" />
 
             <TextView
                 android:id="@+id/tv_dagger2"
                 style="@style/EntryItem"
-                android:text="Dagger2"/>
+                android:text="Dagger2" />
 
         </LinearLayout>
 
