@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tv_text"
     android:layout_width="match_parent"
     android:layout_height="80dp"
@@ -7,4 +8,5 @@
     android:gravity="center"
     android:lines="1"
     android:maxLines="1"
-    android:textSize="16sp" />
+    android:textSize="16sp"
+    tools:viewBindingIgnore="true" />
