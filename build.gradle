@@ -36,8 +36,6 @@ buildscript {
 
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
 
-        classpath 'com.google.gms:google-services:4.3.3'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
     }
 
     // Exclude the lombok version that the android plugin depends on.
