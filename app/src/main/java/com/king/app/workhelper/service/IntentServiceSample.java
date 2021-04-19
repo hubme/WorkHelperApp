@@ -4,10 +4,15 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 /**
+ * Android 11.0/R/SDK 30 已废弃。
+ * 废弃原因：受到 Android 8.0（API 级别 26）施加的所有后台执行限制。
+ * 替代方案：建议使用 WorkManager 和 JobIntentService
+ *
  * @author VanceKing
  * @since 2018/5/11.
  */
@@ -17,24 +22,28 @@ public class IntentServiceSample extends IntentService {
         Log.i("aaa", "IntentServiceSample");
     }
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         Log.i("aaa", "onCreate");
         super.onCreate();
 
     }
 
-    @Override public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+    @Override
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         Log.i("aaa", "onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         Log.i("aaa", "onDestroy");
         super.onDestroy();
     }
 
     //任务由 IntentService 中的 HandlerThread 串行执行。全部任务完毕后 IntentService 停止。
-    @Override protected void onHandleIntent(@Nullable Intent intent) {
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
         if (intent == null) {
             return;
         }
