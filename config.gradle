@@ -100,7 +100,7 @@ ext {
             "arouter_compiler"               : "com.alibaba:arouter-compiler:1.2.2",
 
             "javapoet"                       : "com.squareup:javapoet:1.11.1",
-            "auto_service"                   : "com.google.auto.service:auto-service:1.0-rc4",
+            "auto_service"                   : "com.google.auto.service:auto-service:1.0",
 
             //NPE检测工具 https://github.com/uber/NullAway
             "nullaway"                       : "com.uber.nullaway:nullaway:0.2.1",
