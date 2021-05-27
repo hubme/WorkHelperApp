@@ -5,13 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.okhttp.OkHttpProvider;
@@ -41,12 +42,36 @@ import okhttp3.Response;
 
 /**
  * 文件下载管理类。目前只支持单线程单文件下载，包含通知栏提示。
+ *
  * @author VanceKing
  * @since 2016/10/20
  */
 // TODO: 2016/10/21 1.多文件下载 2.暂停 3.多线程
 public class DownloadManager {
     public static final String TAG = "DownloadManager";
+
+    private static class Status {
+        // 未下载
+        public static final int NORMAL = 0;
+        // 等待下载
+        public static final int WAIT = 1;
+        // 开始下载
+        public static final int START = 2;
+        // 正在下载
+        public static final int DOWNLOADING = 3;
+        // 停止下载
+        public static final int STOP = 4;
+        // 下载失败
+        public static final int ERROR = 5;
+        // 下载完成
+        public static final int COMPLETE = 6;
+        // 取消下载
+        public static final int CANCEL = 7;
+        // 安装中
+        public static final int INSTALLING = 8;
+        // 已经安装
+        public static final int INSTALLED = 9;
+    }
 
     // 下载进度消息发送间隔时间(ms)
     private static final int DOWNLOAD_MSG_INTERVAL = 400;
@@ -96,17 +121,29 @@ public class DownloadManager {
      * 下载Request.必须提供下载地址、文件保存目录和文件名.
      */
     public static class FileDownloadRequest implements Parcelable {
-        /** 文件下载地址 */
+        /**
+         * 文件下载地址
+         */
         private String url;
-        /** 文件保存目录,不包含文件名 */
+        /**
+         * 文件保存目录,不包含文件名
+         */
         private String dir;
-        /** 文件名 */
+        /**
+         * 文件名
+         */
         private String fileName;
-        /** 通知栏显示时候点击事件 */
+        /**
+         * 通知栏显示时候点击事件
+         */
         private PendingIntent notificationClickIntent;
-        /** 是否显示通知 */
+        /**
+         * 是否显示通知
+         */
         private boolean showNotification;
-        /** 通知id */
+        /**
+         * 通知id
+         */
         private int notificationId;
 
         public FileDownloadRequest(String url, String dir, String fileName) {
@@ -166,11 +203,13 @@ public class DownloadManager {
             return this;
         }
 
-        @Override public int describeContents() {
+        @Override
+        public int describeContents() {
             return 0;
         }
 
-        @Override public void writeToParcel(Parcel parcel, int i) {
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
             parcel.writeString(url);
             parcel.writeString(dir);
             parcel.writeString(fileName);
@@ -200,6 +239,7 @@ public class DownloadManager {
 
     /**
      * 更新通知栏下载进度
+     *
      * @param notificationId 通知id
      * @param progress       当前进度
      * @param totalBytes     总需要下载字节数
@@ -228,6 +268,7 @@ public class DownloadManager {
 
     /**
      * 每秒多少bytes.
+     *
      * @param bytesPerSecond 一秒的字节数
      */
     private String getNetSpeed(double bytesPerSecond) {
@@ -293,7 +334,8 @@ public class DownloadManager {
             this.percent = percent;
         }
 
-        @Override public String toString() {
+        @Override
+        public String toString() {
             return "DownloadStatus{" +
                     "status=" + status +
                     ", percent=" + percent +
@@ -337,11 +379,13 @@ public class DownloadManager {
         Request request = reqBuilder.get().url(mDownloadRequest.url).tag(mDownloadRequest.url).build();
         //异步方法，不会阻塞当前线程。
         OkHttpProvider.getInstance().getOkHttpClient().newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
+            @Override
+            public void onFailure(Call call, IOException e) {
                 onDownloadFailed();
             }
 
-            @Override public void onResponse(Call call, Response response) throws IOException {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     receivedContent(startLen, response);
                 } else {
@@ -493,7 +537,9 @@ public class DownloadManager {
         mDownloading = true;
     }
 
-    /** 获取保存的下载文件的ETag值 */
+    /**
+     * 获取保存的下载文件的ETag值
+     */
     private String getLastTag(File tmpFile) {
         FileReader fr = null;
         try {
@@ -512,7 +558,9 @@ public class DownloadManager {
         }
     }
 
-    /** 保存文件ETag值 **/
+    /**
+     * 保存文件ETag值
+     **/
     private boolean saveLastTag(File file, String tag) {
         FileWriter fw = null;
         try {
