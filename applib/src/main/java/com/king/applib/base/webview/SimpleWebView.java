@@ -84,8 +84,11 @@ public class SimpleWebView extends WebView {
 
         settings.setSaveFormData(true);
         settings.setAppCacheEnabled(true); //启用应用缓存
+        settings.setAppCachePath("");
+        //settings.setAppCacheMaxSize();// 废弃
         settings.setDomStorageEnabled(true); //启用或禁用DOM缓存。
         settings.setDatabaseEnabled(true); //启用或禁用DOM缓存。
+        //settings.setDatabasePath();// 废弃
         if (isNetworkAvailable()) { //对Page导航时才有效。比如按返回键回到上一个页面的情况.
             settings.setCacheMode(WebSettings.LOAD_DEFAULT); //默认的使用模式
         } else {
