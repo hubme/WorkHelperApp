@@ -6,6 +6,7 @@ import android.content.Intent
 import android.text.Annotation
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseActivity
+import com.king.app.workhelper.common.FirebaseManager
 import com.king.applib.log.Logger
 import com.king.applib.util.EncryptionUtil
 import kotlinx.android.synthetic.main.activity_test.*
@@ -33,10 +34,7 @@ class TestActivity : AppBaseActivity() {
 
 
         btn_des.setOnClickListener {
-            val desKey = "ng!@#)9$"
-            val encryptDESText = EncryptionUtil.encryptByDES(message, desKey)
-            val plaintText = EncryptionUtil.decryptByDes(encryptDESText, desKey)
-            Logger.i("密文：$encryptDESText \n 明文：$plaintText")
+            FirebaseManager.getInstance(this).logEvent("MyEvent")
         }
 
         btn_aes.setOnClickListener {

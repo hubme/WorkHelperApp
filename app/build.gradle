@@ -4,6 +4,7 @@ apply plugin: "com.vanniktech.dependency.graph.generator"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 def cfg = rootProject.ext.android
 android {
@@ -218,6 +219,8 @@ dependencies {
 
     //debugImplementation dependency.doraemonkit
     //releaseImplementation dependency.doraemonkit_no_op
+
+    implementation dependency.firebase_analytics
 
 }
 
