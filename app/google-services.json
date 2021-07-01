@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "843342639484-6t3mvg9itjmtkmfaic91srj1nsph24cu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.king.app.workhelper",
+            "certificate_hash": "84453b4d4757db4c15602180a3f6314db8afd222"
+          }
+        },
+        {
           "client_id": "843342639484-afl8o5n1pav9b7di2bdiqrtl1bp547lp.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -25,9 +33,6 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
           "other_platform_oauth_client": [
             {

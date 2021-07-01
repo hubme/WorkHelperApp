@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 def cfg = rootProject.ext.android
 android {
@@ -220,7 +221,10 @@ dependencies {
     //debugImplementation dependency.doraemonkit
     //releaseImplementation dependency.doraemonkit_no_op
 
+    // 使用 Firebase Android BoM，可确保您的应用始终使用 Firebase Android 库的兼容版本。
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
     implementation dependency.firebase_analytics
+    implementation dependency.firebase_crashlytics
 
 }
 
