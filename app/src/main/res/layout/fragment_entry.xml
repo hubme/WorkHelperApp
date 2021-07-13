@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -237,6 +238,11 @@
                 android:id="@+id/tv_dagger2"
                 style="@style/EntryItem"
                 android:text="Dagger2" />
+
+            <TextView
+                android:id="@+id/tv_motion_event"
+                style="@style/EntryItem"
+                android:text="MotionEvent" />
 
         </LinearLayout>
 
