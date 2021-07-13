@@ -43,6 +43,10 @@ android {
         viewBinding = true
     }
 
+    viewBinding {
+        enabled = true
+    }
+
     aaptOptions {
         //关闭 aapt 对 png 的优化
         cruncherEnabled = false

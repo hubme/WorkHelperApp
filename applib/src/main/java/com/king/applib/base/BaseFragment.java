@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 
 import com.king.applib.util.ContextUtil;
 
@@ -23,7 +24,7 @@ import com.king.applib.util.ContextUtil;
  * @author VanceKing
  * @since 2016/9/29
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     protected View mRootView;
     protected Context mContext;
@@ -41,7 +42,8 @@ public abstract class BaseFragment extends Fragment {
         initInitialData();
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(getContentLayout(), container, false);
         initContentView(mRootView);
@@ -53,6 +55,11 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     private void getArgumentData() {
@@ -73,7 +80,8 @@ public abstract class BaseFragment extends Fragment {
     protected void initInitialData() {
     }
 
-    @LayoutRes protected abstract int getContentLayout();
+    @LayoutRes
+    protected abstract int getContentLayout();
 
     protected void initContentView(View view) {
     }
@@ -105,6 +113,15 @@ public abstract class BaseFragment extends Fragment {
     protected void showToast(@StringRes int resId) {
         if (isAdded()) {
             Toast.makeText(ContextUtil.getAppContext(), resId, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void setViewOnClickListener(View... views) {
+        if (views == null || views.length == 0) {
+            return;
+        }
+        for (View view : views) {
+            view.setOnClickListener(this);
         }
     }
 }
