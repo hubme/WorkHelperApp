@@ -39,12 +39,8 @@ android {
 
     //开启后会执行相应的 dataBinding task(eg: dataBindingExportBuildInfoDebug) ，引入依赖等。
     buildFeatures {
-        dataBinding = true
-        viewBinding = true
-    }
-
-    viewBinding {
-        enabled = true
+        dataBinding true
+        viewBinding true
     }
 
     aaptOptions {
@@ -216,6 +212,7 @@ dependencies {
 
     implementation dependency.lifecycle_livedata
     implementation dependency.lifecycle_viewmodel_ktx
+    implementation dependency.lifecycle_common_java8
 
     implementation dependency.arouter_api
     kapt dependency.arouter_compiler
