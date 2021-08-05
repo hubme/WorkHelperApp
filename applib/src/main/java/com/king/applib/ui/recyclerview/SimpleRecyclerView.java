@@ -1,11 +1,13 @@
 package com.king.applib.ui.recyclerview;
 
 import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.View;
 
 import com.king.applib.ui.recyclerview.listener.OnLoadMoreHandler;
 
@@ -49,7 +51,8 @@ public class SimpleRecyclerView extends RecyclerView {
     private class SimpleRecyclerScrollListener extends RecyclerView.OnScrollListener {
         private int currentPage = 1;
 
-        @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
             if (!(manager instanceof LinearLayoutManager)) {
@@ -58,13 +61,18 @@ public class SimpleRecyclerView extends RecyclerView {
             LinearLayoutManager layoutManager = (LinearLayoutManager) manager;
             switch (newState) {
                 case RecyclerView.SCROLL_STATE_IDLE://当前并处于静止状态
+                    SimpleRecyclerAdapter adapter = (SimpleRecyclerAdapter) getAdapter();
                     if (!mLoadMoreEnable || mIsLoadingMore || !mIsAutoLoadMore) {
                         break;
                     }
-                    SimpleRecyclerAdapter adapter = (SimpleRecyclerAdapter) getAdapter();
+                    if (adapter.getViewState() != SimpleRecyclerAdapter.STATE_NORMAL) {
+                        break;
+                    }
                     int visibleCount = layoutManager.getChildCount();
                     int totalCount = layoutManager.getItemCount() - adapter.getFooterViewCount();
                     int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                    boolean flag = recyclerView.computeVerticalScrollExtent() +
+                            recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange();
                     if (visibleCount > 0
                             && lastVisibleItemPosition >= totalCount - adapter.getFooterViewCount()
                             && totalCount > visibleCount//不满一屏时
@@ -83,12 +91,14 @@ public class SimpleRecyclerView extends RecyclerView {
             }
         }
 
-        @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
         }
     }
 
-    @Override public void setAdapter(Adapter adapter) {
+    @Override
+    public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
         checkAdapter();
     }
