@@ -74,7 +74,7 @@ public class SimpleRecyclerView extends RecyclerView {
                     boolean flag = recyclerView.computeVerticalScrollExtent() +
                             recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange();
                     if (visibleCount > 0
-                            && lastVisibleItemPosition >= totalCount - adapter.getFooterViewCount()
+                            && lastVisibleItemPosition >= totalCount - 1
                             && totalCount > visibleCount//不满一屏时
                             && mLoadMoreListener != null) {
                         mIsLoadingMore = true;
