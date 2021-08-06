@@ -2,12 +2,8 @@ package com.king.applib.simplebanner;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.Build;
-import androidx.annotation.ColorInt;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -17,6 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.ColorInt;
+import androidx.core.view.ViewCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.king.applib.simplebanner.listener.OnBannerClickListener;
 import com.king.applib.simplebanner.loader.BannerInterface;
 
@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 轮播图
+ * 轮播图。
+ * https://github.com/HelloChenJinJun/NewFastFrame/blob/master/commonlibrary/src/main/java/com/example/commonlibrary/customview/BannerViewPager.java
  *
  * @author VanceKing
  * @since 2017/5/9.
@@ -47,7 +48,7 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
 
     private BannerViewPager mBanner;
     private BannerAdapter mBannerAdapter;
-    private int mBannerCount;
+    private List<T> mDataList = null;
     private BannerLoopTask mLoopTask;
 
     private BannerInterface<T, V> mBannerLoader;
@@ -56,6 +57,7 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
     private final List<View> mBannerViews = new ArrayList<>();
     private ShapeDrawable mSelectedDrawable;
     private ShapeDrawable mUnSelectedDrawable;
+    private boolean mAutoLoop = true;
 
     public SimpleBanner(Context context) {
         this(context, null);
@@ -85,8 +87,6 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         mBannerAdapter = new BannerAdapter();
         mBanner.setAdapter(mBannerAdapter);
 
-        mLoopTask = new BannerLoopTask();
-
         mSelectedDrawable = getIndicatorDrawable();
         mUnSelectedDrawable = getIndicatorDrawable();
     }
@@ -111,6 +111,9 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (!mAutoLoop) {
+            return super.dispatchTouchEvent(ev);
+        }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -142,36 +145,34 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         if (images == null || images.isEmpty()) {
             return;
         }
-
-        generateBannerView(images);
+        mDataList = images;
+        generateBannerView();
         mBannerAdapter.update(mBannerViews);
-        mBannerCount = mBannerAdapter.getCount();
         setIndicator();
         setBanner();
-        startLoop();
+        if (mAutoLoop) {
+            startLoop();
+        }
     }
 
     //构造界面。A、B、C--->C、A、B、C、A
-    private void generateBannerView(List<T> images) {
-        if (images == null || images.isEmpty()) {
-            return;
-        }
+    private void generateBannerView() {
         if (!mBannerViews.isEmpty()) {
             mBannerViews.clear();
         }
 
-        if (images.size() == 1) {
-            mBannerViews.add(buildBannerView(images.get(0)));
+        if (mDataList.size() == 1) {
+            mBannerViews.add(buildBannerView(mDataList.get(0)));
         } else {
             //先添加最后一个
-            mBannerViews.add(buildBannerView(images.get(images.size() - 1)));
+            mBannerViews.add(buildBannerView(mDataList.get(mDataList.size() - 1)));
 
-            for (T banner : images) {
+            for (T banner : mDataList) {
                 mBannerViews.add(buildBannerView(banner));
             }
 
             //最后添加第一个
-            mBannerViews.add(buildBannerView(images.get(0)));
+            mBannerViews.add(buildBannerView(mDataList.get(0)));
         }
     }
 
@@ -190,7 +191,7 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
     }
 
     private void setBanner() {
-        if (mBannerCount > 1) {
+        if (mBannerAdapter.getCount() > 1) {
             mBanner.addOnPageChangeListener(this);
             mBanner.setScrollable(true);
             mBanner.setCurrentItem(1, false);
@@ -201,15 +202,21 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
     }
 
     public void startLoop() {
-        removeCallbacks(mLoopTask);
-        if (mBannerCount <= 1) {
+        if (mBannerAdapter.getCount() <= 1) {
             return;
+        }
+        if (mLoopTask == null) {
+            mLoopTask = new BannerLoopTask();
+        } else {
+            removeCallbacks(mLoopTask);
         }
         postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
     }
 
     public void stopLoop() {
-        removeCallbacks(mLoopTask);
+        if (mLoopTask != null) {
+            removeCallbacks(mLoopTask);
+        }
     }
 
     private class BannerLoopTask implements Runnable {
@@ -217,7 +224,7 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         @Override
         public void run() {
             int mCurrentItem = mBanner.getCurrentItem();
-            mCurrentItem = (mCurrentItem + 1) % mBannerCount;
+            mCurrentItem = (mCurrentItem + 1) % mBannerAdapter.getCount();
 
             mBanner.setCurrentItem(mCurrentItem);
             postDelayed(mLoopTask, DEFAULT_DELAY_DURATION);
@@ -256,6 +263,11 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         return this;
     }
 
+    public SimpleBanner<T, V> setAutoLoop(boolean autoLoop) {
+        mAutoLoop = autoLoop;
+        return this;
+    }
+
     private void buildIndicatorViews() {
         if (!mIndicatorViews.isEmpty()) {
             mIndicatorViews.clear();
@@ -264,14 +276,14 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         LinearLayout.LayoutParams firstParams = new LinearLayout.LayoutParams(size, size);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size, size);
         params.leftMargin = dp2px(mIndicatorMargin);
-        for (int i = 0; i < mBannerCount - 2; i++) {//由于多生成2个View，要减去
+        for (int i = 0; i < mBannerAdapter.getCount() - 2; i++) {//由于多生成2个View，要减去
             View view = new View(getContext());
             if (i == 0) {
                 view.setLayoutParams(firstParams);
             } else {
                 view.setLayoutParams(params);
-            } 
-            setViewBackground(view, mUnSelectedDrawable);
+            }
+            ViewCompat.setBackground(view, mUnSelectedDrawable);
             mIndicatorViews.add(view);
         }
     }
@@ -294,23 +306,21 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         for (int i = 0; i < count; i++) {
             final View view = mIndicatorViews.get(i);
             if (i == position) {
-                setViewBackground(view, mSelectedDrawable);
+                ViewCompat.setBackground(view, mSelectedDrawable);
             } else {
-                setViewBackground(view, mUnSelectedDrawable);
+                ViewCompat.setBackground(view, mUnSelectedDrawable);
             }
         }
     }
 
     //获取映射后Banner的下标
-    private int getFakePosition(int realPosition) {
-        return realPosition - 1;
-    }
-
-    private void setViewBackground(View view, Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(drawable);
+    private int convertIndicatorPosition(int position) {
+        if (position == 0) {
+            return mDataList.size() - 1;
+        } else if (position == mBannerAdapter.getCount() - 1) {
+            return 0;
         } else {
-            view.setBackgroundDrawable(drawable);
+            return position - 1 % mDataList.size();
         }
     }
 
@@ -333,7 +343,7 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
 
     @Override
     public void onPageSelected(int position) {
-        updateIndicator(getFakePosition(position));
+        updateIndicator(convertIndicatorPosition(position));
     }
 
     @Override
@@ -342,8 +352,8 @@ public class SimpleBanner<T, V extends View> extends FrameLayout implements View
         switch (state) {
             case ViewPager.SCROLL_STATE_IDLE://界面完全停止时，偷换显示的界面.
                 if (mCurrentItem == 0) {//换第一个
-                    mBanner.setCurrentItem(mBannerCount - 2, false);
-                } else if (mCurrentItem == mBannerCount - 1) {//换最后一个
+                    mBanner.setCurrentItem(mBannerAdapter.getCount() - 2, false);
+                } else if (mCurrentItem == mBannerAdapter.getCount() - 1) {//换最后一个
                     mBanner.setCurrentItem(1, false);
                 }
                 break;
