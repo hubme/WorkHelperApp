@@ -19,9 +19,6 @@ import android.os.Environment;
 import android.os.Looper;
 import android.os.storage.StorageManager;
 import android.provider.Settings;
-import androidx.annotation.AnyRes;
-import androidx.annotation.ColorInt;
-import androidx.core.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -31,6 +28,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Toast;
+
+import androidx.annotation.AnyRes;
+import androidx.annotation.ColorInt;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.king.applib.log.Logger;
 
@@ -70,12 +71,14 @@ public class ExtendUtil {
     public static boolean isCollectionEmpty(Collection collection) {
         return collection == null || collection.isEmpty();
     }
-    
+
     public static <E> boolean isArrayNullOrEmpty(E[] array) {
         return array == null || array.length == 0;
     }
 
-    /** 判断参数中是否有null值 */
+    /**
+     * 判断参数中是否有null值
+     */
     public static boolean isAnyNull(Object... objects) {
         if (objects == null) {
             return true;
@@ -88,7 +91,9 @@ public class ExtendUtil {
         return false;
     }
 
-    /** 判断参数都不为null */
+    /**
+     * 判断参数都不为null
+     */
     public static boolean isNoneNull(Object... objects) {
         return !isAnyNull(objects);
     }
@@ -288,7 +293,9 @@ public class ExtendUtil {
         return arrayList;
     }
 
-    /** 读取Raw资源 */
+    /**
+     * 读取Raw资源
+     */
     public static byte[] readRawResource(int resId) {
         InputStream stream = null;
         try {
@@ -315,17 +322,23 @@ public class ExtendUtil {
         return getResources().getIdentifier(drawableResName, "drawable", AppUtil.getAppInfo().getPackageName());
     }
 
-    /** 获取屏幕宽度 */
+    /**
+     * 获取屏幕宽度
+     */
     public static int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
     }
 
-    /** 获取屏幕高度 */
+    /**
+     * 获取屏幕高度
+     */
     public static int getScreenHeight() {
         return getResources().getDisplayMetrics().heightPixels;
     }
 
-    /** 判断是否是主线程 */
+    /**
+     * 判断是否是主线程
+     */
     public static boolean isInMainThread() {
         return Looper.myLooper() == Looper.getMainLooper();
     }
@@ -354,7 +367,9 @@ public class ExtendUtil {
         return ContextUtil.getAppContext().getResources();
     }
 
-    /** 打印Exception信息 */
+    /**
+     * 打印Exception信息
+     */
     public static void logException(Exception e) {
         Logger.e(Log.getStackTraceString(e));
     }
@@ -378,7 +393,9 @@ public class ExtendUtil {
         return managerCompat.areNotificationsEnabled();
     }
 
-    /** 系统分享 */
+    /**
+     * 系统分享
+     */
     public static void share(Context context, String content) {
         if (content == null || StringUtil.isNullOrEmpty(content)) {
             return;
@@ -489,12 +506,16 @@ public class ExtendUtil {
         return Build.VERSION.SDK_INT >= versionCode;
     }
 
-    /** 判断手机是否是飞行模式 */
+    /**
+     * 判断手机是否是飞行模式
+     */
     public static boolean isAirPlaneMode(Context context) {
         return Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
     }
 
-    /** 通过反射创建对象 */
+    /**
+     * 通过反射创建对象
+     */
     public static <T> T newInstance(Class<T> t) {
         try {
             return t.newInstance();
@@ -506,10 +527,47 @@ public class ExtendUtil {
         return null;
     }
 
-    /** 生成一个指定范围的随机数，[min, max] */
+    /**
+     * 生成一个指定范围的随机数，[min, max]
+     */
     public static int random(Random random, int min, int max) {
         return random.nextInt(max - min + 1) + min;
     }
-    
-    
+
+    /**
+     * 随机生成值不重复的整型数组。
+     *
+     * @param length 数组的长度。
+     * @param min    最小值（包含）。
+     * @param max    最大值（包含）
+     * @return 整型数组。
+     */
+    private int[] generateRandomRange(int length, int min, int max) {
+        if (length <= 0) {
+            return new int[0];
+        }
+        if (min > max) {
+            return new int[length];
+        } else if (min == max) {
+            int[] result = new int[length];
+            for (int i = 0; i < length; i++) {
+                result[i] = min;
+            }
+            return result;
+        } else {
+            SparseBooleanArray array = new SparseBooleanArray(length);
+
+            int[] result = new int[length];
+            Random rand = new Random();
+            int randInt;
+            for (int i = 0; i < length; i++) {
+                do {
+                    randInt = rand.nextInt(max - min + 1) + min;
+                } while (array.get(randInt));
+                array.put(randInt, true);
+                result[i] = randInt;
+            }
+            return result;
+        }
+    }
 }
