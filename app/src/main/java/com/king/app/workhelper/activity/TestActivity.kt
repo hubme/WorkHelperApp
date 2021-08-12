@@ -72,4 +72,23 @@ class TestActivity : AppBaseActivity() {
     private fun Annotation.getResId(context: Context): Int {
         return context.resources.getIdentifier(value, null, context.packageName)
     }
+
+    // 在Activity中获取调用者包名。https://blog.csdn.net/zhangjg_blog/article/details/103280429
+    private fun reflectGetReferrer(): String? {
+        try {
+            val referrerField = Activity::class.java.getDeclaredField("mReferrer")
+            referrerField.isAccessible = true
+            return referrerField[this] as String
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+    @Override
+    fun getBasePackageName(): String {
+        return "fake_package"
+    }
 }
