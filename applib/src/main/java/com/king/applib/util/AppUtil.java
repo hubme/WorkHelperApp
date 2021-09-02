@@ -2,6 +2,7 @@ package com.king.applib.util;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -188,8 +189,13 @@ public class AppUtil {
         return intent;
     }
 
-    /** 获取当前进程名称 */
+    /**
+     * 获取当前进程名称。
+     */
     public static String getCurrentProcessName(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return Application.getProcessName();
+        }
         if (context == null) {
             return "";
         }
@@ -206,7 +212,9 @@ public class AppUtil {
         return "";
     }
 
-    /** 获取当前进程名称 */
+    /**
+     * 获取当前进程名称
+     */
     public static String getProcessName(Context context) {
         BufferedReader mBufferedReader = null;
         try {
@@ -220,7 +228,9 @@ public class AppUtil {
         }
     }
 
-    /** 获取Activity所在的进程名称 */
+    /**
+     * 获取Activity所在的进程名称
+     */
     public static String getActivityProcessName(Class<? extends Activity> cls) {
         try {
             ComponentName component = new ComponentName(ContextUtil.getAppContext(), cls);
@@ -294,12 +304,16 @@ public class AppUtil {
         }
     }
 
-    /** 是否能正常唤醒intent */
+    /**
+     * 是否能正常唤醒intent
+     */
     public static boolean canResolveActivity(Intent intent) {
         return intent != null && intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null;
     }
 
-    /** 是否能正常唤醒Activity */
+    /**
+     * 是否能正常唤醒Activity
+     */
     public static boolean canResolveActivity(Context context, Intent intent) {
         return intent != null && intent.resolveActivityInfo(context.getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null;
     }
@@ -366,7 +380,9 @@ public class AppUtil {
         return false;
     }
 
-    /** 获取指定包名的 uid，未安装此应用或程序异常返回 -1 */
+    /**
+     * 获取指定包名的 uid，未安装此应用或程序异常返回 -1
+     */
     public static int getPackageUid(Context context, String packageName) {
         try {
             ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
