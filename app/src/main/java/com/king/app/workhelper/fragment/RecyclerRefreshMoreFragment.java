@@ -2,9 +2,10 @@ package com.king.app.workhelper.fragment;
 
 import android.os.Handler;
 import android.os.Looper;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.adapter.recyclerview.HeaderAndFooterSampleAdapter;
@@ -23,18 +24,22 @@ import butterknife.BindView;
  */
 
 public class RecyclerRefreshMoreFragment extends AppBaseFragment {
-    @BindView(R.id.refresh_layout) SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.rv_mine) SimpleRecyclerView mMineRecycler;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.rv_mine)
+    SimpleRecyclerView mMineRecycler;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private HeaderAndFooterSampleAdapter mAdapter;
     private List<StringEntity> mDataList;
 
-    @Override protected int getContentLayout() {
+    @Override
+    protected int getContentLayout() {
         return R.layout.fragment_recycler_refresh_more;
     }
 
-    @Override protected void initContentView(View rootView) {
+    @Override
+    protected void initContentView(View rootView) {
         super.initContentView(rootView);
         mRefreshLayout.setColorSchemeResources(R.color.chocolate, R.color.tomato, R.color.gold);
         mRefreshLayout.setOnRefreshListener(this::delayRefreshData);
@@ -55,7 +60,7 @@ public class RecyclerRefreshMoreFragment extends AppBaseFragment {
     private void delayRefreshData() {
         mRefreshLayout.setRefreshing(true);
         mHandler.postDelayed(() -> {
-            mAdapter.addData(0, new StringEntity("刷新得到的数据", StringEntity.ItemType.CONTENT));
+            mAdapter.insertItem(0, new StringEntity("刷新得到的数据", StringEntity.ItemType.CONTENT));
             mRefreshLayout.setRefreshing(false);
         }, 2000);
     }
@@ -85,5 +90,4 @@ public class RecyclerRefreshMoreFragment extends AppBaseFragment {
         }
         return data;
     }
-    
 }

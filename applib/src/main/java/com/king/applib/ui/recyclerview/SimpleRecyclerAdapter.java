@@ -1,13 +1,15 @@
 package com.king.applib.ui.recyclerview;
 
 import android.content.Context;
-import androidx.annotation.IntDef;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -39,7 +41,8 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
     public @interface ViewState {
     }
 
-    @ViewState private int mViewState = STATE_NORMAL;
+    @ViewState
+    private int mViewState = STATE_NORMAL;
 
     private View mEmptyDataView;
     private LinearLayout mHeaderPanel;//添加 Header View 的容器
@@ -58,10 +61,12 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
     public SimpleRecyclerAdapter(Context context, List<E> adapterData) {
         super(adapterData);
         mContext = context;
-        registerAdapterDataObserver(mDataObserver);
+        //registerAdapterDataObserver(mDataObserver);
     }
 
-    @Override public RecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    @Override
+    public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case STATE_EMPTY:
             case STATE_ERROR:
@@ -80,7 +85,8 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
         }
     }
 
-    @Override public void onBindViewHolder(RecyclerHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
         switch (getItemViewType(position)) {
             case STATE_EMPTY:
                 onBindEmptyViewHolder(holder, position);
@@ -93,7 +99,8 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
         }
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         switch (mViewState) {
             case STATE_EMPTY:
             case STATE_ERROR:
@@ -105,7 +112,8 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
         }
     }
 
-    @Override public int getItemViewType(int position) {
+    @Override
+    public int getItemViewType(int position) {
         switch (mViewState) {
             case STATE_LOADING:
                 return STATE_LOADING;
@@ -125,7 +133,8 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
         }
     }
 
-    @ViewState public int getViewState() {
+    @ViewState
+    public int getViewState() {
         return mViewState;
     }
 
@@ -218,25 +227,25 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
         checkHeaderPanel();
         if (index >= 0 && index <= mHeaderPanel.getChildCount()) {
             mHeaderPanel.addView(header, index);
-            notifyDataSetChanged();
+            //notifyDataSetChanged();
+            notifyItemChanged(0);
         }
     }
 
     public void addHeaderViews(List<View> headers) {
         checkHeaderPanel();
         for (View header : headers) {
-            if (header == null) {
-                continue;
-            }
-            addHeaderView(header);
+            mHeaderPanel.addView(header);
         }
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
+        notifyItemChanged(0);
     }
 
     public void removeHeaderView(View header) {
         if (mHeaderPanel != null && header != null) {
             mHeaderPanel.removeView(header);
             notifyDataSetChanged();
+            notifyItemChanged(0);
         }
     }
 
@@ -245,7 +254,8 @@ public abstract class SimpleRecyclerAdapter<E> extends BaseRecyclerViewAdapter<E
             return;
         }
         mHeaderPanel.removeViewAt(index);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
+        notifyItemChanged(0);
     }
 
     private void checkFooterPanel() {
