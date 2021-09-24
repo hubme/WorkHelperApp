@@ -251,6 +251,14 @@ public class ExtendUtil {
         }
     }
 
+    /*
+    ColorFilter sGrayFilter = new ColorMatrixColorFilter(new float[]{
+                0.264F, 0.472F, 0.088F, 0, 0,
+                0.264F, 0.472F, 0.088F, 0, 0,
+                0.264F, 0.472F, 0.088F, 0, 0,
+                0, 0, 0, 1, 0
+        });
+     */
     public static ColorFilter getColorFilter(int color) {
         ColorMatrixColorFilter colorFilter;
         int red = (color & 0xFF0000) / 0xFFFF;
