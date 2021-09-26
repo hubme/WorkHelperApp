@@ -24,7 +24,7 @@ buildscript {
         //FreeLine秒级编译
         //classpath 'com.antfortune.freeline:gradle:0.8.8'
 
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
 
         classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.5.0"
 
