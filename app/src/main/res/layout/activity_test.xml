@@ -4,20 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_des"
+    <TextView
+        android:id="@+id/tv_text"
         style="@style/EntryItem"
-        android:text="DES" />
-
-    <Button
-        android:id="@+id/btn_aes"
-        style="@style/EntryItem"
-        android:text="AES" />
-
-    <Button
-        android:id="@+id/btn_rsa"
-        style="@style/EntryItem"
-        android:text="RSA" />
-
+        android:text="按钮"
+        android:textSize="@dimen/ts_normal" />
 
 </LinearLayout>
