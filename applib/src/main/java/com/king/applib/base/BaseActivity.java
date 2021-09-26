@@ -3,7 +3,6 @@ package com.king.applib.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.IdRes;
@@ -24,8 +23,6 @@ import java.util.List;
  */
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private View mContentLayout;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         beforeCreateView();
@@ -39,9 +36,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         if (getIntent() != null) {
             getIntentData(getIntent());
         }
-        // root == null 导致子 Activity 无法使用 merge 标签。报 <merge /> can be used only with a valid ViewGroup root and attachToRoot=true
-        mContentLayout = LayoutInflater.from(this).inflate(getContentLayout(), null);
-        setContentView(mContentLayout);
+        View rootView = getContentView();
+        if (rootView != null) {
+            setContentView(rootView);
+        } else {
+            setContentView(getContentLayout());
+        }
         initContentView();
         initData();
         fetchData();
@@ -77,7 +77,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
      * 获取布局资源的id.
      */
     @LayoutRes
-    protected abstract int getContentLayout();
+    protected int getContentLayout() {
+        return 0;
+    }
+
+    @Nullable
+    protected View getContentView() {
+        return null;
+    }
 
     /**
      * 给View填充数据。
