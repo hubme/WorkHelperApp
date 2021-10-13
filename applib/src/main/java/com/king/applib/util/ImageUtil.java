@@ -1,5 +1,8 @@
 package com.king.applib.util;
 
+import static android.graphics.Bitmap.createBitmap;
+import static android.graphics.BitmapFactory.decodeFile;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,15 +11,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 import com.king.applib.log.Logger;
 
@@ -29,9 +35,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import static android.graphics.Bitmap.createBitmap;
-import static android.graphics.BitmapFactory.decodeFile;
 
 /**
  * 文件工具类
@@ -584,5 +587,49 @@ public class ImageUtil {
         }
         return sb.toString();
 
+    }
+
+    /**
+     * 将文字绘制在图片中央。
+     *
+     * @param sourceBitmap 图片。
+     * @param text         文字
+     * @param textColor    文字颜色
+     * @param textSizePx   文字大小，单位像素。
+     * @return 绘制后的图片
+     */
+    public static Bitmap setTextToImageCenter(Bitmap sourceBitmap, String text, @ColorInt int textColor, int textSizePx) {
+        Bitmap bitmap = sourceBitmap.copy(sourceBitmap.getConfig(), true);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setDither(true);
+        paint.setTextSize(textSizePx);
+        paint.setColor(textColor);
+        float textWidth = paint.measureText(text);
+        canvas.drawText(text, (bitmap.getWidth() - textWidth) / 2f,
+                bitmap.getHeight() / 2f + paint.getFontMetrics().descent, paint);
+        sourceBitmap.recycle();
+        return bitmap;
+    }
+
+    /**
+     * 调整图片的大小。
+     *
+     * @param sourceBitmap          原始图片。
+     * @param newWidth              新图片的宽度。
+     * @param newHeight             新图片的高度。
+     * @param isRecycleSourceBitmap 是否回收原始图片。
+     * @return 调整后的图片。
+     */
+    public static Bitmap getResizedBitmap(Bitmap sourceBitmap, int newWidth, int newHeight, boolean isRecycleSourceBitmap) {
+        int width = sourceBitmap.getWidth();
+        int height = sourceBitmap.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.postScale(((float) newWidth) / width, ((float) newHeight) / height);
+        Bitmap resizedBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0, width, height, matrix, false);
+        if (isRecycleSourceBitmap) {
+            sourceBitmap.recycle();
+        }
+        return resizedBitmap;
     }
 }
