@@ -1,7 +1,6 @@
 package com.king.app.workhelper.kotlin
 
 import java.util.*
-import kotlin.properties.Delegates
 
 /**
  *https://www.kotlincn.net/docs/reference/classes.html
@@ -10,74 +9,10 @@ import kotlin.properties.Delegates
  * @since 2019/4/17.
  */
 fun main() {
-    ClassKotlin()
-    
-    
-    var task1 = {
-        println("task1")
-    }
 
-    task1.invoke()
-
-    val PRIMITIVE_RETURN_VALUES = Collections.unmodifiableMap(object : HashMap<String, Any>() {
-        init {
-            put("boolean", java.lang.Boolean.FALSE)
-            put("int", 0)
-            put("long", 0.toLong())
-            put("float", 0.toFloat())
-            put("double", 0.toDouble())
-            put("short", 0.toShort())
-            put("byte", 0.toByte())
-        }
-    })!!
 
 }
 
-class ClassKotlin {
-    constructor() {
-        println("主构造函数")
-    }
-
-    constructor(name: String) {
-        print(name)
-    }
-
-    constructor(age: Int) {
-        println("次构造函数")
-    }
-
-    /*初始化代码块*/
-    init {
-        println("init1")
-    }
-
-    /*初始化代码块*/
-    init {
-        println("init2")
-    }
-
-    companion object Test {
-
-    }
-
-    private val status: String by Delegates.observable("", { _, oldValue, newValue ->
-        println("$oldValue -> $newValue")
-
-    })
-}
-
-//默认是 final 的，open 表示可以被继承
-open class Empty
-
-class ChildEmpty : Empty()
-
-//sealed：密封。密封类用来表示受限的类继承结构
-sealed class Color {
-    object Red : Color()
-    data class Green(val name: String) : Color()
-}
-
-class Blue(val name: String, val name2: String) : Color()
 
 //主构造函数是类头的一部分：它跟在类名后。
 //class ClassBean public @Inject constructor(name: String, age: Int)
@@ -101,7 +36,7 @@ class Person2(name: String, age: Int) {
 
     //初始化块
     init {
-        println("First initializer block that prints ${name}")
+        println("First initializer block that prints $name")
     }
 
     val secondProperty = "Second property: ${name.length}".also(::println)
@@ -120,7 +55,6 @@ class Person2(name: String, age: Int) {
 //如果一个非抽象类没有声明任何（主或次）构造函数，它会有一个生成的不带参数的主构造函数。构造函数的可见性是 public
 class DontCreateMe private constructor()
 
-const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
 
 open class Foo {
     lateinit var subject: String
@@ -134,13 +68,8 @@ open class Foo {
 
     fun f() {
         if (::subject.isInitialized) {
-            
+
         }
-    }
-
-
-    @Deprecated(SUBSYSTEM_DEPRECATED)
-    fun foo() {
     }
 }
 
@@ -180,7 +109,7 @@ class C() : A(), B {
     // 编译器要求覆盖 f()：
     override fun f() {
         super<A>.f() // 调用 A.f()
-//        super<B>.f() // 调用 B.f()
+        super<B>.f() // 调用 B.f()
         println("C#f()")
     }
 }
