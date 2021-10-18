@@ -23,6 +23,7 @@ import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.king.applib.log.Logger;
 
@@ -621,12 +622,16 @@ public class ImageUtil {
      * @param isRecycleSourceBitmap 是否回收原始图片。
      * @return 调整后的图片。
      */
+    @Nullable
     public static Bitmap getResizedBitmap(Bitmap sourceBitmap, int newWidth, int newHeight, boolean isRecycleSourceBitmap) {
-        int width = sourceBitmap.getWidth();
-        int height = sourceBitmap.getHeight();
+        if (sourceBitmap.isRecycled() || newWidth <= 0 || newHeight <= 0) {
+            return null;
+        }
+        int sourceWidth = sourceBitmap.getWidth();
+        int sourceHeight = sourceBitmap.getHeight();
         Matrix matrix = new Matrix();
-        matrix.postScale(((float) newWidth) / width, ((float) newHeight) / height);
-        Bitmap resizedBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0, width, height, matrix, false);
+        matrix.postScale(((float) newWidth) / sourceWidth, ((float) newHeight) / sourceHeight);
+        Bitmap resizedBitmap = Bitmap.createBitmap(sourceBitmap, 0, 0, sourceWidth, sourceHeight, matrix, false);
         if (isRecycleSourceBitmap) {
             sourceBitmap.recycle();
         }
