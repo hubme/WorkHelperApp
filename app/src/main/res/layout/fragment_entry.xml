@@ -244,6 +244,11 @@
                 style="@style/EntryItem"
                 android:text="MotionEvent" />
 
+            <TextView
+                android:id="@+id/tv_bluetooth"
+                style="@style/EntryItem"
+                android:text="蓝牙" />
+
         </LinearLayout>
 
 

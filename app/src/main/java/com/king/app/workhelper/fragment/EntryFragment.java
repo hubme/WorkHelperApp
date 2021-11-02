@@ -20,6 +20,7 @@ import com.king.app.workhelper.activity.ToolbarActivity;
 import com.king.app.workhelper.activity.ViewEventSampleActivity;
 import com.king.app.workhelper.activity.WBShareActivity;
 import com.king.app.workhelper.activity.WebActivity;
+import com.king.app.workhelper.bluetooth.BluetoothActivity;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.app.workhelper.databinding.FragmentEntryBinding;
 
@@ -31,7 +32,7 @@ import com.king.app.workhelper.databinding.FragmentEntryBinding;
  */
 public class EntryFragment extends AppBaseFragment {
     public final String TAG = "EntryFragment";
-    private FragmentEntryBinding mViewBinding;
+    private FragmentEntryBinding mBinding;
     private int mScrollY;
 
     @Override
@@ -42,142 +43,145 @@ public class EntryFragment extends AppBaseFragment {
     @Override
     protected void initContentView(View rootView) {
         super.initContentView(rootView);
-        mViewBinding = FragmentEntryBinding.bind(rootView);
+        mBinding = FragmentEntryBinding.bind(rootView);
 
-        mViewBinding.scrollView.setScrollY(mScrollY);
-        setViewOnClickListener(mViewBinding.tvActivityLifeCircle, mViewBinding.tvService,
-                mViewBinding.tvContentProvider, mViewBinding.tvBroadcastReceiver,
-                mViewBinding.tvTestActivity, mViewBinding.tvDebugActivity,
-                mViewBinding.tvMainActivity, mViewBinding.tvPermission,
-                mViewBinding.tvImageSample, mViewBinding.tvRxJava,
-                mViewBinding.tvViewPager, mViewBinding.tvWebViewJs,
-                mViewBinding.tvDownloadFile, mViewBinding.tvRetrofit,
-                mViewBinding.tvCustomView, mViewBinding.tvUsage,
-                mViewBinding.tvLeakCanary, mViewBinding.tvToolbar,
-                mViewBinding.tvLog, mViewBinding.tvNotification,
-                mViewBinding.tvOkhttpGet, mViewBinding.tvRoundImage,
-                mViewBinding.tvCanvas, mViewBinding.tvFresco,
-                mViewBinding.tvWebView, mViewBinding.tvFileProvider,
-                mViewBinding.tvAnimation, mViewBinding.tvViewUsage,
-                mViewBinding.tvMulProcess, mViewBinding.tvMenuShare,
-                mViewBinding.tvRecyclerView, mViewBinding.tvEvent,
-                mViewBinding.tvDrawable, mViewBinding.tvFragmentLifeCircle,
-                mViewBinding.tvBannerSimple, mViewBinding.tvFlexboxLayout,
-                mViewBinding.tvUpdatePhoto, mViewBinding.tvBottomSheets,
-                mViewBinding.tvVectorSample, mViewBinding.tvViewSlide,
-                mViewBinding.tvExpandableListView, mViewBinding.tvThreadPool,
-                mViewBinding.tvThread, mViewBinding.tvDataBinding,
-                mViewBinding.tvDagger2, mViewBinding.tvMotionEvent);
+        mBinding.scrollView.setScrollY(mScrollY);
+        setViewOnClickListener(mBinding.tvActivityLifeCircle, mBinding.tvService,
+                mBinding.tvContentProvider, mBinding.tvBroadcastReceiver,
+                mBinding.tvTestActivity, mBinding.tvDebugActivity,
+                mBinding.tvMainActivity, mBinding.tvPermission,
+                mBinding.tvImageSample, mBinding.tvRxJava,
+                mBinding.tvViewPager, mBinding.tvWebViewJs,
+                mBinding.tvDownloadFile, mBinding.tvRetrofit,
+                mBinding.tvCustomView, mBinding.tvUsage,
+                mBinding.tvLeakCanary, mBinding.tvToolbar,
+                mBinding.tvLog, mBinding.tvNotification,
+                mBinding.tvOkhttpGet, mBinding.tvRoundImage,
+                mBinding.tvCanvas, mBinding.tvFresco,
+                mBinding.tvWebView, mBinding.tvFileProvider,
+                mBinding.tvAnimation, mBinding.tvViewUsage,
+                mBinding.tvMulProcess, mBinding.tvMenuShare,
+                mBinding.tvRecyclerView, mBinding.tvEvent,
+                mBinding.tvDrawable, mBinding.tvFragmentLifeCircle,
+                mBinding.tvBannerSimple, mBinding.tvFlexboxLayout,
+                mBinding.tvUpdatePhoto, mBinding.tvBottomSheets,
+                mBinding.tvVectorSample, mBinding.tvViewSlide,
+                mBinding.tvExpandableListView, mBinding.tvThreadPool,
+                mBinding.tvThread, mBinding.tvDataBinding,
+                mBinding.tvDagger2, mBinding.tvMotionEvent,
+                mBinding.tvBluetooth);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mViewBinding = null;
+        mBinding = null;
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if (v == mViewBinding.tvActivityLifeCircle) {
+        if (v == mBinding.tvActivityLifeCircle) {
             openActivity(LifeCircleEntryActivity.class);
-        } else if (v == mViewBinding.tvContentProvider) {
+        } else if (v == mBinding.tvContentProvider) {
             ARouter.getInstance().build("/contentprovider/basic").navigation();
-        } else if (v == mViewBinding.tvBroadcastReceiver) {
+        } else if (v == mBinding.tvBroadcastReceiver) {
             openActivity(BroadcastReceiverActivity.class);
-        } else if (v == mViewBinding.tvTestActivity) {
+        } else if (v == mBinding.tvTestActivity) {
             openActivity(TestActivity.class);
-        } else if (v == mViewBinding.tvDebugActivity) {
+        } else if (v == mBinding.tvDebugActivity) {
             openActivity(DebugActivity.class);
-        } else if (v == mViewBinding.tvMainActivity) {
+        } else if (v == mBinding.tvMainActivity) {
             openActivity(MainActivity.class);
-        } else if (v == mViewBinding.tvPermission) {
+        } else if (v == mBinding.tvPermission) {
             ARouter.getInstance().build("/permission/main").navigation();
-        } else if (v == mViewBinding.tvImageSample) {
+        } else if (v == mBinding.tvImageSample) {
             clickedOn(new ImageSampleFragment());
-        } else if (v == mViewBinding.tvRxJava) {
+        } else if (v == mBinding.tvRxJava) {
             clickedOn(RxJavaSampleFragment2.newInstance());
-        } else if (v == mViewBinding.tvViewPager) {
+        } else if (v == mBinding.tvViewPager) {
             //clickedOn(new ViewPagerSampleFragment());
             openActivity(TabSwitchActivity.class);
-        } else if (v == mViewBinding.tvWebViewJs) {
+        } else if (v == mBinding.tvWebViewJs) {
             clickedOn(new WebViewSampleFragment());
-        } else if (v == mViewBinding.tvDownloadFile) {
+        } else if (v == mBinding.tvDownloadFile) {
             clickedOn(new DownloadFileSampleFragment());
-        } else if (v == mViewBinding.tvRetrofit) {
+        } else if (v == mBinding.tvRetrofit) {
             clickedOn(new RetrofitSampleFragment());
-        } else if (v == mViewBinding.tvCustomView) {
+        } else if (v == mBinding.tvCustomView) {
             clickedOn(new CustomViewFragment());
             //clickedOn(new CustomViewFragment1());
-        } else if (v == mViewBinding.tvUsage) {
+        } else if (v == mBinding.tvUsage) {
             clickedOn(new UsageFragment());
-        } else if (v == mViewBinding.tvLeakCanary) {
+        } else if (v == mBinding.tvLeakCanary) {
             clickedOn(new LeakCanaryFragment());
-        } else if (v == mViewBinding.tvToolbar) {
+        } else if (v == mBinding.tvToolbar) {
             openActivity(ToolbarActivity.class);
-        } else if (v == mViewBinding.tvLog) {
+        } else if (v == mBinding.tvLog) {
             clickedOn(new LogFragment());
-        } else if (v == mViewBinding.tvNotification) {
+        } else if (v == mBinding.tvNotification) {
             clickedOn(new NotificationFragment());
-        } else if (v == mViewBinding.tvOkhttpGet) {
+        } else if (v == mBinding.tvOkhttpGet) {
             clickedOn(new OkHttpFragment());
-        } else if (v == mViewBinding.tvRoundImage) {
+        } else if (v == mBinding.tvRoundImage) {
             clickedOn(new RoundDrawableFragment());
-        } else if (v == mViewBinding.tvCanvas) {
+        } else if (v == mBinding.tvCanvas) {
             clickedOn(new CanvasSampleFragment());
-        } else if (v == mViewBinding.tvFresco) {
+        } else if (v == mBinding.tvFresco) {
             clickedOn(new FrescoSampleFragment());
-        } else if (v == mViewBinding.tvWebView) {
+        } else if (v == mBinding.tvWebView) {
             WebActivity.openActivity(getContext(), WebActivity.ASSET_JS);
-        } else if (v == mViewBinding.tvFileProvider) {
+        } else if (v == mBinding.tvFileProvider) {
             clickedOn(new FileProviderFragment());
-        } else if (v == mViewBinding.tvAnimation) {
+        } else if (v == mBinding.tvAnimation) {
             clickedOn(new AnimationFragment());
-        } else if (v == mViewBinding.tvViewUsage) {
+        } else if (v == mBinding.tvViewUsage) {
             clickedOn(new ViewSampleFragment());
-        } else if (v == mViewBinding.tvMulProcess) {
+        } else if (v == mBinding.tvMulProcess) {
             clickedOn(new MulProcessFragment());
-        } else if (v == mViewBinding.tvMenuShare) {
+        } else if (v == mBinding.tvMenuShare) {
             openActivity(WBShareActivity.class);
-        } else if (v == mViewBinding.tvRecyclerView) {
+        } else if (v == mBinding.tvRecyclerView) {
             openActivity(RecyclerViewActivity.class);
-        } else if (v == mViewBinding.tvEvent) {
+        } else if (v == mBinding.tvEvent) {
             openActivity(ViewEventSampleActivity.class);
-        } else if (v == mViewBinding.tvDrawable) {
+        } else if (v == mBinding.tvDrawable) {
             clickedOn(new DrawableFragment());
-        } else if (v == mViewBinding.tvFragmentLifeCircle) {
+        } else if (v == mBinding.tvFragmentLifeCircle) {
             clickedOn(new LifeCircleFragment());
-        } else if (v == mViewBinding.tvBannerSimple) {
+        } else if (v == mBinding.tvBannerSimple) {
             clickedOn(new BannerSampleFragment());
-        } else if (v == mViewBinding.tvFlexboxLayout) {
+        } else if (v == mBinding.tvFlexboxLayout) {
             clickedOn(new FlexBoxLayoutFragment());
-        } else if (v == mViewBinding.tvUpdatePhoto) {
+        } else if (v == mBinding.tvUpdatePhoto) {
             clickedOn(new ChosePhotoFragment());
-        } else if (v == mViewBinding.tvBottomSheets) {
+        } else if (v == mBinding.tvBottomSheets) {
             clickedOn(new BottomSheetsFragment());
-        } else if (v == mViewBinding.tvVectorSample) {
+        } else if (v == mBinding.tvVectorSample) {
             clickedOn(new VectorFragment());
-        } else if (v == mViewBinding.tvViewSlide) {
+        } else if (v == mBinding.tvViewSlide) {
             clickedOn(new ViewSlideFragment());
-        } else if (v == mViewBinding.tvExpandableListView) {
+        } else if (v == mBinding.tvExpandableListView) {
             clickedOn(new ExpandableListViewFragment());
-        } else if (v == mViewBinding.tvThreadPool) {
+        } else if (v == mBinding.tvThreadPool) {
             clickedOn(new ThreadPoolFragment());
-        } else if (v == mViewBinding.tvThread) {
+        } else if (v == mBinding.tvThread) {
             openActivity(ThreadActivity.class);
-        } else if (v == mViewBinding.tvDataBinding) {
+        } else if (v == mBinding.tvDataBinding) {
 
-        } else if (v == mViewBinding.tvDagger2) {
+        } else if (v == mBinding.tvDagger2) {
             clickedOn(new Dagger2Fragment());
-        } else if (v == mViewBinding.tvService) {
+        } else if (v == mBinding.tvService) {
             openActivity(ServiceActivity.class);
-        } else if (v == mViewBinding.tvMotionEvent) {
+        } else if (v == mBinding.tvMotionEvent) {
             clickedOn(new MotionEventFragment());
+        } else if (v == mBinding.tvBluetooth) {
+            openActivity(BluetoothActivity.class);
         }
     }
 
     private void clickedOn(@NonNull Fragment fragment) {
-        mScrollY = mViewBinding.scrollView.getScrollY();
+        mScrollY = mBinding.scrollView.getScrollY();
         final String tag = fragment.getClass().toString();
         if (getActivity() != null) {
             getActivity().getSupportFragmentManager()

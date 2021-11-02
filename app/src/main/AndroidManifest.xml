@@ -26,6 +26,14 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
+    <uses-feature android:name="android.hardware.location.gps" />
+
     <uses-permission android:name="com.aidl.permission" />
 
     <application
@@ -40,6 +48,15 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon, android:label, android:theme, android:name, android:appComponentFactory, android:allowBackup">
 
+        <meta-data
+            android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="true" />
+
+        <!-- Git Revision Number 方便 Checkout 代码库-->
+        <meta-data
+            android:name="GIT_SHA"
+            android:value="${git_sha}" />
+
         <!--exported:要求必须为false，为true则会报安全异常。grantUriPermissions:true，表示授予 URI 临时访问权限。-->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -50,6 +67,46 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_share_paths" />
         </provider>
+
+        <provider
+            android:name=".contentprovider.BookProvider"
+            android:authorities="com.example.provider"
+            android:exported="true" />
+
+        <receiver android:name=".receiver.NetworkChangeReceiver">
+            <intent-filter>
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.DownloadFileService" />
+
+        <service
+            android:name=".service.MyJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".service.MessengerService"
+            android:process=":remote" />
+
+        <service
+            android:name=".service.AidlService"
+            android:process=":aidl" />
+
+        <service android:name=".service.IntentServiceSample">
+            <intent-filter>
+                <action android:name="com.example.action" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".service.NormalService">
+            <intent-filter android:priority="1000">
+                <action android:name="com.example.action" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".app.keepalive.KeepAliveService" />
 
         <activity
             android:name=".activity.SplashActivity"
@@ -197,54 +254,8 @@
             android:name=".activity.NightThemeActivity"
             android:theme="@style/AppTheme.Night" />
 
-        <service android:name=".service.DownloadFileService" />
+        <activity android:name=".bluetooth.BluetoothActivity" />
 
-        <service
-            android:name=".service.MyJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <service
-            android:name=".service.MessengerService"
-            android:process=":remote" />
-
-        <service
-            android:name=".service.AidlService"
-            android:process=":aidl" />
-
-        <service android:name=".service.IntentServiceSample">
-            <intent-filter>
-                <action android:name="com.example.action" />
-            </intent-filter>
-        </service>
-
-        <service android:name=".service.NormalService">
-            <intent-filter android:priority="1000">
-                <action android:name="com.example.action" />
-            </intent-filter>
-        </service>
-
-        <service android:name=".app.keepalive.KeepAliveService" />
-
-        <receiver android:name=".receiver.NetworkChangeReceiver">
-            <intent-filter>
-                <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <provider
-            android:name=".contentprovider.BookProvider"
-            android:authorities="com.example.provider"
-            android:exported="true" />
-
-        <meta-data
-            android:name="android.webkit.WebView.EnableSafeBrowsing"
-            android:value="true" />
-
-        <!-- Git Revision Number 方便 Checkout 代码库-->
-        <meta-data
-            android:name="GIT_SHA"
-            android:value="${git_sha}" />
     </application>
 
 </manifest>
