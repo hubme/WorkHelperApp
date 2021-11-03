@@ -1,10 +1,16 @@
+import com.app.version.BasicDep
+import com.app.version.TestDep
+import com.app.version.AndroidXDep
+import com.app.version.KotlinDep
+import com.app.version.GoogleDep
+import com.app.version.ThirdDep
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-def cfg = rootProject.ext.android
 android {
-    compileSdkVersion cfg.compileSdkVersion
-    buildToolsVersion cfg.buildToolsVersion
+    compileSdkVersion BasicDep.compileSdkVersion
+    buildToolsVersion BasicDep.buildToolsVersion
     //资源名称以"test"开头，否则IDE会错误提醒
 //    resourcePrefix "test"
 
@@ -14,8 +20,8 @@ android {
     //defaultPublishConfig "debug"
 
     defaultConfig {
-        minSdkVersion cfg.minSdkVersion
-        targetSdkVersion cfg.targetSdkVersion
+        minSdkVersion BasicDep.minSdkVersion
+        targetSdkVersion BasicDep.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -37,28 +43,27 @@ android {
     return void
 }
 
-def dependency = rootProject.ext.dependencies
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation dependency.espresso_core
-    testImplementation dependency.junit
+    androidTestImplementation TestDep.espresso_core
+    testImplementation TestDep.junit
 
-    api dependency.appcompat
-    api dependency.palette
-    api dependency.recyclerview
-    api dependency.design
-    api dependency.swiperefreshlayout
-    api dependency.constraintlayout
-    api dependency.fragment
+    api AndroidXDep.appcompat
+    api AndroidXDep.palette
+    api AndroidXDep.recyclerview
+    api GoogleDep.design
+    api AndroidXDep.swiperefreshlayout
+    api AndroidXDep.constraintlayout
+    api AndroidXDep.fragment
 
-    api dependency.kotlin_stdlib_jdk8
-    api dependency.core_ktx
-    api dependency.kotlinx_coroutines_android
+    api KotlinDep.kotlin_stdlib_jdk8
+    api KotlinDep.core_ktx
+    api KotlinDep.kotlinx_coroutines_android
 
-    api dependency.gson
+    api GoogleDep.gson
 
-    api dependency.otto
-    api dependency.eventbus
-    api dependency.glide
+    api ThirdDep.otto
+    api ThirdDep.eventbus
+    api ThirdDep.glide
 
 }

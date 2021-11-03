@@ -1,3 +1,10 @@
+import com.app.version.BasicDep
+import com.app.version.TestDep
+import com.app.version.AndroidXDep
+import com.app.version.KotlinDep
+import com.app.version.GoogleDep
+import com.app.version.ThirdDep
+
 apply plugin: 'com.android.application'
 apply plugin: 'project-report'
 apply plugin: "com.vanniktech.dependency.graph.generator"
@@ -7,16 +14,15 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-def cfg = rootProject.ext.android
 android {
-    compileSdkVersion cfg.compileSdkVersion
-    buildToolsVersion cfg.buildToolsVersion
+    compileSdkVersion BasicDep.compileSdkVersion
+    buildToolsVersion BasicDep.buildToolsVersion
     defaultConfig {
-        applicationId cfg.applicationId
-        minSdkVersion cfg.minSdkVersion
-        targetSdkVersion cfg.targetSdkVersion
-        versionCode cfg.versionCode
-        versionName cfg.versionName
+        applicationId BasicDep.applicationId
+        minSdkVersion BasicDep.minSdkVersion
+        targetSdkVersion BasicDep.targetSdkVersion
+        versionCode BasicDep.versionCode
+        versionName BasicDep.versionName
         buildConfigField "String", "GIT_SHA", "\"${getGitSha()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -146,7 +152,6 @@ android {
     }
 }
 
-def dependency = rootProject.ext.dependencies
 dependencies {
     //公共基础库
     implementation project(':applib')
@@ -166,40 +171,42 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
 
-    testImplementation dependency.junit
-    androidTestImplementation dependency.android_junit
-    androidTestImplementation dependency.espresso_core
+    testImplementation TestDep.junit
+    androidTestImplementation TestDep.android_junit
+    androidTestImplementation TestDep.espresso_core
 
-    implementation dependency.butterknife
-    kapt dependency.butterknife_compiler
+    implementation AndroidXDep.lifecycle_livedata
+    implementation AndroidXDep.lifecycle_viewmodel_ktx
+    implementation AndroidXDep.lifecycle_common_java8
 
-    implementation dependency.rxjava
-    implementation dependency.rxandroid
-    implementation dependency.rxbinding
+    implementation ThirdDep.butterknife
+    kapt ThirdDep.butterknife_compiler
+
+    implementation ThirdDep.rxjava
+    implementation ThirdDep.rxandroid
+    implementation ThirdDep.rxbinding
 
     //一以下三个依赖版本要保持一致.否则:FATAL EXCEPTION
-    implementation dependency.retrofit
-    implementation dependency.converter_gson
-    implementation dependency.adapter_rxjava2
+    implementation ThirdDep.retrofit
+    implementation ThirdDep.converter_gson
+    implementation ThirdDep.adapter_rxjava2
 
-    implementation dependency.okhttp
+    implementation ThirdDep.okhttp
 
-    debugImplementation dependency.leakcanary_android
+    debugImplementation ThirdDep.leakcanary_android
 
-    //debugImplementation dependency.blockcanary_android
-    //releaseImplementation dependency.blockcanary_no_op
+    //debugImplementation ThirdDep.blockcanary_android
+    //releaseImplementation ThirdDep.blockcanary_no_op
 
-    implementation dependency.fresco
-    implementation dependency.imagepipeline_okhttp3
+    implementation ThirdDep.fresco
+    implementation ThirdDep.imagepipeline_okhttp3
 
-    implementation dependency.glide
-    implementation dependency.glide_okhttp3_integration
-    kapt dependency.glide_compiler
+    implementation ThirdDep.glide
+    implementation ThirdDep.glide_okhttp3_integration
+    kapt ThirdDep.glide_compiler
 
-    //implementation dependency.stetho
-    //implementation dependency.stetho_okhttp3
-
-    implementation dependency.flexbox
+    //implementation ThirdDep.stetho
+    //implementation ThirdDep.stetho_okhttp3
 
     implementation(name: 'weibosdk-1.0.0', ext: 'aar')
 
@@ -207,25 +214,23 @@ dependencies {
     // https://github.com/JakeWharton/hugo
 //    implementation 'org.aspectj:aspectjrt:1.8.10'
 
-    implementation dependency.dagger_android
-    kapt dependency.dagger_compiler
+    implementation ThirdDep.dagger_android
+    kapt ThirdDep.dagger_compiler
 
-    implementation dependency.lifecycle_livedata
-    implementation dependency.lifecycle_viewmodel_ktx
-    implementation dependency.lifecycle_common_java8
+    implementation ThirdDep.arouter_api
+    kapt ThirdDep.arouter_compiler
 
-    implementation dependency.arouter_api
-    kapt dependency.arouter_compiler
-
-    implementation dependency.calendarview
+    implementation ThirdDep.calendarview
 
     //debugImplementation dependency.doraemonkit
     //releaseImplementation dependency.doraemonkit_no_op
 
+    implementation GoogleDep.flexbox
     // 使用 Firebase Android BoM，可确保您的应用始终使用 Firebase Android 库的兼容版本。
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
-    implementation dependency.firebase_analytics
-    implementation dependency.firebase_crashlytics
+    //implementation platform(GoogleDep.firebase_bom)
+    implementation GoogleDep.firebase_analytics
+    implementation GoogleDep.firebase_crashlytics
 
 }
 
