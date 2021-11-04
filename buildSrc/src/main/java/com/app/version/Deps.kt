@@ -1,7 +1,7 @@
 package com.app.version
 
 @Suppress("unused")
-object BasicDep {
+object Basic {
     const val applicationId = "com.king.app.workhelper"
     const val compileSdkVersion = 30
     const val buildToolsVersion = "30.0.3"

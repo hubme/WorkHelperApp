@@ -1,7 +1,6 @@
-import com.app.version.BasicDep
+import com.app.version.Basic
 import com.app.version.TestDep
 import com.app.version.AndroidXDep
-import com.app.version.KotlinDep
 import com.app.version.GoogleDep
 import com.app.version.ThirdDep
 
@@ -15,14 +14,14 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion BasicDep.compileSdkVersion
-    buildToolsVersion BasicDep.buildToolsVersion
+    compileSdkVersion Basic.compileSdkVersion
+    buildToolsVersion Basic.buildToolsVersion
     defaultConfig {
-        applicationId BasicDep.applicationId
-        minSdkVersion BasicDep.minSdkVersion
-        targetSdkVersion BasicDep.targetSdkVersion
-        versionCode BasicDep.versionCode
-        versionName BasicDep.versionName
+        applicationId Basic.applicationId
+        minSdkVersion Basic.minSdkVersion
+        targetSdkVersion Basic.targetSdkVersion
+        versionCode Basic.versionCode
+        versionName Basic.versionName
         buildConfigField "String", "GIT_SHA", "\"${getGitSha()}\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

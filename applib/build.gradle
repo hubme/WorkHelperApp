@@ -1,4 +1,4 @@
-import com.app.version.BasicDep
+import com.app.version.Basic
 import com.app.version.TestDep
 import com.app.version.AndroidXDep
 import com.app.version.KotlinDep
@@ -9,8 +9,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion BasicDep.compileSdkVersion
-    buildToolsVersion BasicDep.buildToolsVersion
+    compileSdkVersion Basic.compileSdkVersion
+    buildToolsVersion Basic.buildToolsVersion
     //资源名称以"test"开头，否则IDE会错误提醒
 //    resourcePrefix "test"
 
@@ -20,8 +20,8 @@ android {
     //defaultPublishConfig "debug"
 
     defaultConfig {
-        minSdkVersion BasicDep.minSdkVersion
-        targetSdkVersion BasicDep.targetSdkVersion
+        minSdkVersion Basic.minSdkVersion
+        targetSdkVersion Basic.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
