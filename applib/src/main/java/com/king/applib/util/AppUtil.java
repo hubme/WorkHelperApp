@@ -1,5 +1,6 @@
 package com.king.applib.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
@@ -24,6 +25,7 @@ import com.king.applib.log.Logger;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -107,25 +109,20 @@ public class AppUtil {
 
         @Override
         public String toString() {
-            return "AppInfo{" +
-                    "name='" + name + '\'' +
-                    ", icon=" + icon +
-                    ", packageName='" + packageName + '\'' +
-                    ", packagePath='" + packagePath + '\'' +
-                    ", versionName='" + versionName + '\'' +
-                    ", versionCode=" + versionCode +
-                    '}';
+            return "AppInfo{" + "name='" + name + '\'' + ", icon=" + icon + ", packageName='" + packageName + '\'' + ", packagePath='" + packagePath + '\'' + ", versionName='" + versionName + '\'' + ", versionCode=" + versionCode + '}';
         }
     }
 
     public static AppInfo getAppInfo() {
         PackageManager pm = ContextUtil.getAppContext().getPackageManager();
         try {
-            PackageInfo packageInfo = pm.getPackageInfo(ContextUtil.getAppContext().getPackageName(), 0);
+            PackageInfo packageInfo = pm.getPackageInfo(
+                    ContextUtil.getAppContext().getPackageName(), 0);
             ApplicationInfo appInfo = packageInfo.applicationInfo;
             String name = appInfo.loadLabel(pm).toString();
             Drawable icon = appInfo.loadIcon(pm);
-            return new AppInfo(name, icon, packageInfo.packageName, appInfo.sourceDir, packageInfo.versionName, packageInfo.versionCode);
+            return new AppInfo(name, icon, packageInfo.packageName, appInfo.sourceDir,
+                    packageInfo.versionName, packageInfo.versionCode);
         } catch (PackageManager.NameNotFoundException e) {
             return new AppInfo();
         }
@@ -136,15 +133,18 @@ public class AppUtil {
      * 应用会自动关闭,下次打开和第一次安装效果一样.
      */
     public static boolean clearUserData(Context context) {
-        ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) context.getApplicationContext()
+                .getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager == null) {
             return false;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             return activityManager.clearApplicationUserData();
         } else {
-            return FileUtil.deleteDir(ContextUtil.getAppContext().getExternalCacheDir().getParent())
-                    && FileUtil.deleteDir(ContextUtil.getAppContext().getCacheDir().getParent());
+            return FileUtil.deleteDir(ContextUtil.getAppContext()
+                    .getExternalCacheDir()
+                    .getParent()) && FileUtil.deleteDir(
+                    ContextUtil.getAppContext().getCacheDir().getParent());
 
         }
     }
@@ -200,7 +200,8 @@ public class AppUtil {
             return "";
         }
         int pid = android.os.Process.myPid();
-        ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) context.getApplicationContext()
+                .getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager == null) {
             return "";
         }
@@ -210,6 +211,27 @@ public class AppUtil {
             }
         }
         return "";
+    }
+
+    /**
+     * 通过反射 ActivityThread 获取进程名，避免了 ipc。
+     */
+    private static String getCurrentProcessNameByActivityThread() {
+        String processName = null;
+        try {
+            @SuppressLint({"PrivateApi", "DiscouragedPrivateApi"}) final Method declaredMethod = Class
+                    .forName("android.app.ActivityThread", false,
+                            Application.class.getClassLoader())
+                    .getDeclaredMethod("currentProcessName");
+            declaredMethod.setAccessible(true);
+            final Object result = declaredMethod.invoke(null);
+            if (result instanceof String) {
+                processName = (String) result;
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return processName;
     }
 
     /**
@@ -234,7 +256,9 @@ public class AppUtil {
     public static String getActivityProcessName(Class<? extends Activity> cls) {
         try {
             ComponentName component = new ComponentName(ContextUtil.getAppContext(), cls);
-            ActivityInfo activityInfo = ContextUtil.getAppContext().getPackageManager().getActivityInfo(component, 0);
+            ActivityInfo activityInfo = ContextUtil.getAppContext()
+                    .getPackageManager()
+                    .getActivityInfo(component, 0);
             return activityInfo.processName;
         } catch (Exception e) {
             return "";
@@ -247,7 +271,8 @@ public class AppUtil {
      */
     public static String getFileProviderAuthor() {
         String pkgName = AppUtil.getAppInfo().getPackageName();
-        return StringUtil.isNullOrEmpty(pkgName) ? "com.fund.app.fileprovider" : pkgName + ".fileprovider";
+        return StringUtil.isNullOrEmpty(pkgName)
+                ? "com.fund.app.fileprovider" : pkgName + ".fileprovider";
     }
 
     /**
@@ -260,7 +285,8 @@ public class AppUtil {
     public static boolean openActivity(Activity activity, String shortClassName) {
         try {
             Intent intent = new Intent();
-            intent.setClassName(activity.getPackageName(), "com.king.app.workhelper.activity." + shortClassName);
+            intent.setClassName(activity.getPackageName(),
+                    "com.king.app.workhelper.activity." + shortClassName);
             activity.startActivity(intent);
             return true;
         } catch (Exception e) {
@@ -308,14 +334,16 @@ public class AppUtil {
      * 是否能正常唤醒intent
      */
     public static boolean canResolveActivity(Intent intent) {
-        return intent != null && intent.resolveActivity(ContextUtil.getAppContext().getPackageManager()) != null;
+        return intent != null && intent.resolveActivity(
+                ContextUtil.getAppContext().getPackageManager()) != null;
     }
 
     /**
      * 是否能正常唤醒Activity
      */
     public static boolean canResolveActivity(Context context, Intent intent) {
-        return intent != null && intent.resolveActivityInfo(context.getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null;
+        return intent != null && intent.resolveActivityInfo(context.getPackageManager(),
+                PackageManager.MATCH_DEFAULT_ONLY) != null;
     }
 
     /**
@@ -344,7 +372,8 @@ public class AppUtil {
         }
 
         final String fileName = file.getName();
-        String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length())
+                .toLowerCase();
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }
 
@@ -368,11 +397,13 @@ public class AppUtil {
         if (context == null || serviceClass == null) {
             return false;
         }
-        ActivityManager manager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) context.getApplicationContext()
+                .getSystemService(Context.ACTIVITY_SERVICE);
         if (manager == null) {
             return false;
         }
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
+                Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
                 return true;
             }
@@ -385,7 +416,8 @@ public class AppUtil {
      */
     public static int getPackageUid(Context context, String packageName) {
         try {
-            ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
+            ApplicationInfo applicationInfo = context.getPackageManager()
+                    .getApplicationInfo(packageName, 0);
             if (applicationInfo != null) {
                 return applicationInfo.uid;
             }
