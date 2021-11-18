@@ -1,9 +1,4 @@
-import com.app.version.Basic
-import com.app.version.TestDep
-import com.app.version.AndroidXDep
-import com.app.version.KotlinDep
-import com.app.version.GoogleDep
-import com.app.version.ThirdDep
+import com.app.version.*
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -35,8 +30,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 
     // 'return void' removes the lint error: 'Not all execution paths return a value'.

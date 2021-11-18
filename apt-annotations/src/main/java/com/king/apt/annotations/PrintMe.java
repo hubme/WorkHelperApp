@@ -1,4 +1,4 @@
-package com.king.app.processor.annotation;
+package com.king.apt.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * @author VanceKing
  * @since 2018/10/18.
  */
-@Target({ElementType.TYPE, ElementType.FIELD,ElementType.PARAMETER,ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
 @Inherited
 @Retention(RetentionPolicy.SOURCE)
 public @interface PrintMe {

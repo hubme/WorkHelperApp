@@ -1,4 +1,4 @@
-package com.king.app.processor.annotation;
+package com.king.apt.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

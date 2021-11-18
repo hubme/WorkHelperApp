@@ -1,8 +1,4 @@
-import com.app.version.Basic
-import com.app.version.TestDep
-import com.app.version.AndroidXDep
-import com.app.version.GoogleDep
-import com.app.version.ThirdDep
+import com.app.version.*
 
 apply plugin: 'com.android.application'
 apply plugin: 'project-report'
@@ -154,7 +150,9 @@ android {
 dependencies {
     //公共基础库
     implementation project(':applib')
-//    implementation project(':processor')
+    implementation project(':apt-annotations')
+    kapt project(':apt-compiler')
+
 //    implementation project(':permission')
 
     //表示主module和lib module 编译类型保持一致
