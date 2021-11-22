@@ -1,4 +1,4 @@
-import com.app.version.ThirdDep
+import com.king.versionplugin.ThirdDep
 
 plugins {
     id 'java-library'

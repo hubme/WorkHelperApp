@@ -1,3 +1,4 @@
+includeBuild 'versionPlugin'
 include ':app', ':applib'
 //include ':javalib'
 //include ':permission'

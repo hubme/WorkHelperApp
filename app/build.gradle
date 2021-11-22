@@ -1,4 +1,4 @@
-import com.app.version.*
+import com.king.versionplugin.*
 
 apply plugin: 'com.android.application'
 apply plugin: 'project-report'
