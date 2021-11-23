@@ -4,12 +4,17 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.LayoutDirection;
 import android.util.Size;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.text.TextUtilsCompat;
+
+import java.util.Locale;
 
 /**
  * 支持 drawableStart 和 drawableEnd 响应点击事件的 TextView。<br>
@@ -27,10 +32,10 @@ public class DrawableClickableTextView extends androidx.appcompat.widget.AppComp
 
     private int mClickedDrawable = DRAWABLE_NONE;
 
-    private OnClickListener mStartListener;
-    private OnClickListener mTopListener;
-    private OnClickListener mEndListener;
-    private OnClickListener mBottomListener;
+    private View.OnClickListener mStartListener;
+    private View.OnClickListener mTopListener;
+    private View.OnClickListener mEndListener;
+    private View.OnClickListener mBottomListener;
 
     private Size mStartArea;
     private Size mTopArea;
@@ -111,12 +116,20 @@ public class DrawableClickableTextView extends androidx.appcompat.widget.AppComp
             widthExtra = mStartArea.getWidth();
             heightExtra = mStartArea.getHeight();
         }
-        final int marginStart = getMarginStart();
         final Rect bounds = drawable.getBounds();
-        mTempRect.set(getLeft() - marginStart + getPaddingStart() - widthExtra,
-                getHeight() / 2 - bounds.height() / 2 - heightExtra,
-                getLeft() - marginStart + getPaddingStart() + bounds.width() + widthExtra,
-                getHeight() / 2 + bounds.height() / 2 + heightExtra);
+
+        if (LayoutDirection.LTR == TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())) {
+            mTempRect.set(getPaddingStart() - widthExtra,
+                    getHeight() / 2 - bounds.height() / 2 - heightExtra,
+                    getPaddingStart() + bounds.width() + widthExtra,
+                    getHeight() / 2 + bounds.height() / 2 + heightExtra);
+        } else {
+            mTempRect.set(getWidth() - getPaddingStart() - bounds.width() - widthExtra,
+                    getHeight() / 2 - bounds.height() / 2 - heightExtra,
+                    getWidth() - getPaddingStart() + widthExtra,
+                    getHeight() / 2 + bounds.height() / 2 + heightExtra);
+        }
+
         boolean contains = mTempRect.contains((int) event.getX(), (int) event.getY());
         if (contains) {
             mClickedDrawable = DRAWABLE_START;
@@ -149,12 +162,19 @@ public class DrawableClickableTextView extends androidx.appcompat.widget.AppComp
             widthExtra = mEndArea.getWidth();
             heightExtra = mEndArea.getHeight();
         }
-        final int marginStart = getMarginStart();
         final Rect bounds = drawable.getBounds();
-        mTempRect.set(getRight() - marginStart - getPaddingEnd() - bounds.width() - widthExtra,
-                getHeight() / 2 - bounds.height() / 2 - heightExtra,
-                getRight() - marginStart - getPaddingEnd() + widthExtra,
-                getHeight() / 2 + bounds.height() / 2 + heightExtra);
+
+        if (LayoutDirection.LTR == TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())) {
+            mTempRect.set(getWidth() - getPaddingEnd() - bounds.width() - widthExtra,
+                    getHeight() / 2 - bounds.height() / 2 - heightExtra,
+                    getWidth() - getPaddingEnd() + widthExtra,
+                    getHeight() / 2 + bounds.height() / 2 + heightExtra);
+        } else {
+            mTempRect.set(getPaddingEnd() - widthExtra,
+                    getHeight() / 2 - bounds.height() / 2 - heightExtra,
+                    getPaddingEnd() + bounds.width() + widthExtra,
+                    getHeight() / 2 + bounds.height() / 2 + heightExtra);
+        }
 
         boolean contains = mTempRect.contains((int) event.getX(), (int) event.getY());
         if (contains) {
@@ -185,22 +205,22 @@ public class DrawableClickableTextView extends androidx.appcompat.widget.AppComp
         return 0;
     }
 
-    public void setDrawableStartClick(OnClickListener listener, Size extraArea) {
+    public void setDrawableStartClick(View.OnClickListener listener, Size extraArea) {
         mStartListener = listener;
         mStartArea = extraArea;
     }
 
-    private void setDrawableTopClick(OnClickListener listener, Size extraArea) {
+    private void setDrawableTopClick(View.OnClickListener listener, Size extraArea) {
         mTopListener = listener;
         mTopArea = extraArea;
     }
 
-    public void setDrawableEndClick(OnClickListener listener, Size extraArea) {
+    public void setDrawableEndClick(View.OnClickListener listener, Size extraArea) {
         mEndListener = listener;
         mEndArea = extraArea;
     }
 
-    private void setDrawableBottomClick(OnClickListener listener, Size extraArea) {
+    private void setDrawableBottomClick(View.OnClickListener listener, Size extraArea) {
         mBottomListener = listener;
         mBottomArea = extraArea;
     }
