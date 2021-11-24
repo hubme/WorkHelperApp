@@ -29,7 +29,7 @@ object AndroidXDep {
     const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha01"
     const val palette = "androidx.palette:palette:1.0.0"
 
-    private const val lifecycle_version = "2.3.1"
+    private const val lifecycle_version = "2.3.0"
     const val lifecycle_viewmodel_ktx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
