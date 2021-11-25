@@ -11,8 +11,14 @@ import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.flipper.android.AndroidFlipperClient;
+import com.facebook.flipper.android.utils.FlipperUtils;
+import com.facebook.flipper.core.FlipperClient;
+import com.facebook.flipper.plugins.inspector.DescriptorMapping;
+import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.soloader.SoLoader;
 import com.king.app.workhelper.BuildConfig;
 import com.king.app.workhelper.activity.CrashedActivity;
 import com.king.app.workhelper.common.AppManager;
@@ -55,7 +61,7 @@ public class WorkHelperApp extends BaseApplication {
         sApplication = this;
         Logger.init(AppConfig.LOG_TAG).setShowLog(BuildConfig.LOG_DEBUG).methodCount(1);
         Logger.i("WorkHelperApp#onCreate()");
-//        initStrictMode();
+        //initStrictMode();
 
         ContextUtil.init(this);
         initARouter();
@@ -72,6 +78,8 @@ public class WorkHelperApp extends BaseApplication {
         setDefaultSystemTextSize();
         registerLifecycle();
         //DoraemonKit.install(this);
+
+        initFlipper();
     }
 
     public static Application getApplication() {
@@ -236,5 +244,14 @@ public class WorkHelperApp extends BaseApplication {
             baseComponent = DaggerBaseComponent.create();
         }
         return baseComponent;
+    }
+
+    private void initFlipper() {
+        SoLoader.init(this, false);
+        if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
+            final FlipperClient client = AndroidFlipperClient.getInstance(this);
+            client.addPlugin(new InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()));
+            client.start();
+        }
     }
 }

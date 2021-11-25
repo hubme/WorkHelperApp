@@ -105,6 +105,11 @@ object ThirdDep {
 
     const val stetho = "com.facebook.stetho:stetho:1.5.0"
     const val stetho_okhttp3 = "com.facebook.stetho:stetho-okhttp3:1.5.0"
+
+    const val soloader = "com.facebook.soloader:soloader:0.10.3"
+    const val flipper = "com.facebook.flipper:flipper:0.121.1"
+    const val flipper_noop = "com.facebook.flipper:flipper-noop:0.121.1"
+
     const val flatbuffers_java = "com.google.flatbuffers:flatbuffers-java:1.8.0"
 
     const val dagger_android = "com.google.dagger:dagger-android:2.28.1"

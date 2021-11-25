@@ -229,6 +229,9 @@ dependencies {
     implementation GoogleDep.firebase_analytics
     implementation GoogleDep.firebase_crashlytics
 
+    debugImplementation ThirdDep.soloader
+    debugImplementation ThirdDep.flipper
+    releaseImplementation ThirdDep.flipper_noop
 }
 
 repositories {
