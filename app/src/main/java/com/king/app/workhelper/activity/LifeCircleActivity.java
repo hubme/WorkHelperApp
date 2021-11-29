@@ -42,6 +42,26 @@ public class LifeCircleActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        log("onResumeFragments.");
+    }
+
+    /*
+    https://stackoverflow.com/questions/42095705/activity-life-cycle-methods-onpostresume-significance
+
+    1. It will ensure that screen is visible to user and will do the final set up for activity.
+    2. Remove any pending posts of messages with code 'what' that are in the message queue.
+    3. Check all fragment gets resumed and Moves all Fragments managed by the controller's FragmentManager into the resume state.
+    4. Execute any pending actions for the Fragments managed by the controller's FragmentManager.
+     */
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        log("onPostResume.");
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         log("onStart.");
