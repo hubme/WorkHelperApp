@@ -20,9 +20,10 @@ object TestDep {
 
 @Suppress("unused")
 object AndroidXDep {
-    const val appcompat = "androidx.appcompat:appcompat:1.2.0"
-    const val fragment = "androidx.fragment:fragment:1.3.0"
-    const val annotation = "androidx.annotation:annotation:1.1.0"
+    const val appcompat = "androidx.appcompat:appcompat:1.3.1"
+
+    //const val fragment = "androidx.fragment:fragment:1.3.0"
+    //const val annotation = "androidx.annotation:annotation:1.2.0"
     const val multidex = "androidx.multidex:multidex:2.0.1"
     const val cardview = "androidx.cardview:cardview:1.0.0"
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.2"
@@ -48,7 +49,7 @@ object KotlinDep {
 
 @Suppress("unused")
 object GoogleDep {
-    const val design = "com.google.android.material:material:1.2.0"
+    const val design = "com.google.android.material:material:1.3.0"
 
     const val gson = "com.google.code.gson:gson:2.8.5"
     const val flexbox = "com.google.android:flexbox:1.0.0"
