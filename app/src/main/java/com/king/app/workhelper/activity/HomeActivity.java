@@ -2,17 +2,17 @@ package com.king.app.workhelper.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.RxBus;
-import com.king.app.workhelper.fragment.EntryFragment;
 import com.king.applib.log.Logger;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,7 +34,8 @@ public class HomeActivity extends AppBaseActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    @Override protected void beforeCreateView() {
+    @Override
+    protected void beforeCreateView() {
         super.beforeCreateView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WebView.enableSlowWholeDocumentDraw();
@@ -62,10 +63,6 @@ public class HomeActivity extends AppBaseActivity {
     @Override
     protected void initData() {
         super.initData();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.layout_container, new EntryFragment())
-                .commit();
 
         toast = Toast.makeText(getApplicationContext(), "确定退出？", Toast.LENGTH_SHORT);
     }
@@ -75,16 +72,18 @@ public class HomeActivity extends AppBaseActivity {
         return "测试";
     }
 
-    @Override protected void onNavigationClicked() {
+    @Override
+    protected void onNavigationClicked() {
         moveTaskToBack(true);
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
         } else {
             //isTaskRoot();//用来判断该Activity是否为任务栈中的根Activity，即启动应用的第一个Activity
-//            moveTaskToBack(true);//将应用退到后台，不是finish
+            //moveTaskToBack(true);//将应用退到后台，不是finish
             quitToast();
         }
     }
