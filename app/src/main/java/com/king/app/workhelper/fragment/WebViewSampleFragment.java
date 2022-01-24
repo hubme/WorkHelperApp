@@ -24,6 +24,7 @@ import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
 import com.king.applib.base.webview.SimpleWebView;
 import com.king.applib.log.Logger;
+import com.king.applib.util.NightModeUtil;
 import com.king.applib.util.StringUtil;
 
 import butterknife.BindView;
@@ -89,8 +90,7 @@ public class WebViewSampleFragment extends AppBaseFragment {
             }
         });
 
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            Logger.i("WebViewFeature.FORCE_DARK isFeatureSupported。");
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK) && !NightModeUtil.isNightMode(requireContext())) {
             WebSettingsCompat.setForceDark(mWebView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
         }
     }
