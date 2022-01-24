@@ -27,12 +27,14 @@ public class JsonUtil {
     static {
         GSON = new GsonBuilder()
                 .registerTypeAdapterFactory(new NullToEmptyStringAdapterFactory())
-//                .serializeNulls()
-//                .registerTypeAdapter(String.class, new StringJsonDeserializer())
-//                .registerTypeAdapter(String.class, new NullJsonDeserializer())
+                //.setLenient()
+                //.setFieldNamingStrategy(new AnnotateNaming())
+                //.serializeNulls()
+                //.registerTypeAdapter(String.class, new StringJsonDeserializer())
+                //.registerTypeAdapter(String.class, new NullJsonDeserializer())
                 .create();
     }
-    
+
     private JsonUtil() {
         throw new UnsupportedOperationException("No instances!");
     }
@@ -121,7 +123,8 @@ public class JsonUtil {
         if (list == null || list.isEmpty()) {
             return "";
         }
-        Type listType = new TypeToken<List<T>>() {}.getType();
+        Type listType = new TypeToken<List<T>>() {
+        }.getType();
         return GSON.toJson(list, listType);
     }
 
@@ -150,27 +153,37 @@ public class JsonUtil {
         return null;
     }
 
-    /** 从指定的JSONObject获取name的JSONArray */
+    /**
+     * 从指定的JSONObject获取name的JSONArray
+     */
     public static JSONArray getJsonArray(final JSONObject jsonObject, String name) {
         return jsonObject == null ? null : jsonObject.optJSONArray(name);
     }
 
-    /** 从JSONObject中获取name的内容 */
+    /**
+     * 从JSONObject中获取name的内容
+     */
     public static String getString(JSONObject jsonObject, String name) {
         return jsonObject == null ? "" : jsonObject.optString(name, "");
     }
 
-    /** 从JSONObject中获取name的内容 */
+    /**
+     * 从JSONObject中获取name的内容
+     */
     public static String getString(JSONObject jsonObject, String name, String defaultValue) {
         return jsonObject == null ? defaultValue : jsonObject.optString(name, defaultValue);
     }
 
-    /** 从JSONObject中获取name的值 */
+    /**
+     * 从JSONObject中获取name的值
+     */
     public static int getInt(JSONObject jsonObject, String name) {
         return getInt(jsonObject, name, 0);
     }
 
-    /** 从JSONObject中获取name的值 */
+    /**
+     * 从JSONObject中获取name的值
+     */
     public static int getInt(JSONObject jsonObject, String name, int defaultValue) {
         return jsonObject == null ? defaultValue : jsonObject.optInt(name, defaultValue);
     }
