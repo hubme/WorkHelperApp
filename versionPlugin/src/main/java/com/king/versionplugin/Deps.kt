@@ -38,6 +38,8 @@ object AndroidXDep {
         "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    const val webkit = "androidx.webkit:webkit:1.4.0"
 }
 
 @Suppress("unused")

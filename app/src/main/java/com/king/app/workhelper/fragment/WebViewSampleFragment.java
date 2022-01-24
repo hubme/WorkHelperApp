@@ -1,5 +1,7 @@
 package com.king.app.workhelper.fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.os.Build;
 import android.view.Gravity;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseFragment;
@@ -24,8 +28,6 @@ import com.king.applib.util.StringUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * WebView 和 Native 交互
@@ -38,10 +40,14 @@ public class WebViewSampleFragment extends AppBaseFragment {
     private static String URL2 = "http://gjj.9188.com/app/material/bj/daikuantiaojian_beijing.html";
     private static String URL3 = "http://10.0.11.98:8002/5/anniversary/";
 
-    @BindView(R.id.web_my) SimpleWebView mWebView;
-    @BindView(R.id.btn_load_url) Button mLoadUrlBtn;
-    @BindView(R.id.panel_bottom_content) View mBottonContent;
-    @BindView(R.id.et_input) EditText mUrlInput;
+    @BindView(R.id.web_my)
+    SimpleWebView mWebView;
+    @BindView(R.id.btn_load_url)
+    Button mLoadUrlBtn;
+    @BindView(R.id.panel_bottom_content)
+    View mBottonContent;
+    @BindView(R.id.et_input)
+    EditText mUrlInput;
 
     @Override
     protected int getContentLayout() {
@@ -53,7 +59,8 @@ public class WebViewSampleFragment extends AppBaseFragment {
         super.initData();
         loadUrl(BAIDU_URL);
         mWebView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override public boolean onLongClick(View v) {
+            @Override
+            public boolean onLongClick(View v) {
                 WebView.HitTestResult result = ((WebView) v).getHitTestResult();
                 int type = result.getType();
                 switch (type) {
@@ -81,9 +88,15 @@ public class WebViewSampleFragment extends AppBaseFragment {
                 return false;
             }
         });
+
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            Logger.i("WebViewFeature.FORCE_DARK isFeatureSupported。");
+            WebSettingsCompat.setForceDark(mWebView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+        }
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         if (mWebView != null) {
             mWebView.destroySelf(true);
             mWebView = null;
