@@ -1,5 +1,7 @@
 package com.example;
 
+import org.openjdk.jol.info.ClassLayout;
+
 import java.lang.reflect.Array;
 import java.util.Random;
 
@@ -9,7 +11,9 @@ import java.util.Random;
  */
 public class Other {
     public static void main(String[] args) {
-        printHelloWorldRandom();
+        Object obj = new Object();
+        String layout = ClassLayout.parseInstance(obj).toPrintable();
+        System.out.println(layout);
     }
 
     private static void printHelloWorldRandom() {
