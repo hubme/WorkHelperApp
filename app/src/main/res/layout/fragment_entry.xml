@@ -249,6 +249,11 @@
                 style="@style/EntryItem"
                 android:text="蓝牙" />
 
+            <TextView
+                android:id="@+id/tv_surface"
+                style="@style/EntryItem"
+                android:text="Surface" />
+
         </LinearLayout>
 
 

@@ -263,6 +263,8 @@
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true" />
 
+        <activity android:name=".activity.SurfaceActivity" />
+
     </application>
 
 </manifest>

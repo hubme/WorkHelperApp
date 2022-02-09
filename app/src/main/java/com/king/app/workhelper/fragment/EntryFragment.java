@@ -13,6 +13,7 @@ import com.king.app.workhelper.activity.LifeCircleEntryActivity;
 import com.king.app.workhelper.activity.MainActivity;
 import com.king.app.workhelper.activity.RecyclerViewActivity;
 import com.king.app.workhelper.activity.ServiceActivity;
+import com.king.app.workhelper.activity.SurfaceActivity;
 import com.king.app.workhelper.activity.TabSwitchActivity;
 import com.king.app.workhelper.activity.TestActivity;
 import com.king.app.workhelper.activity.ThreadActivity;
@@ -69,7 +70,7 @@ public class EntryFragment extends AppBaseFragment {
                 mBinding.tvExpandableListView, mBinding.tvThreadPool,
                 mBinding.tvThread, mBinding.tvDataBinding,
                 mBinding.tvDagger2, mBinding.tvMotionEvent,
-                mBinding.tvBluetooth);
+                mBinding.tvBluetooth, mBinding.tvSurface);
     }
 
     @Override
@@ -177,6 +178,8 @@ public class EntryFragment extends AppBaseFragment {
             clickedOn(new MotionEventFragment());
         } else if (v == mBinding.tvBluetooth) {
             openActivity(BluetoothActivity.class);
+        } else if (v == mBinding.tvSurface) {
+            openActivity(SurfaceActivity.class);
         }
     }
 
