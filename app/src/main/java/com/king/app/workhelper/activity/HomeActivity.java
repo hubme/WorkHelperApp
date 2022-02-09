@@ -1,5 +1,7 @@
 package com.king.app.workhelper.activity;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.common.RxBus;
+import com.king.app.workhelper.receiver.ScreenOnOffReceiver;
 import com.king.applib.log.Logger;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,6 +50,12 @@ public class HomeActivity extends AppBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerRxBus();
+
+        IntentFilter mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        mIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        ScreenOnOffReceiver mBootBroadcastReceiver = new ScreenOnOffReceiver();
+        registerReceiver(mBootBroadcastReceiver, mIntentFilter);
     }
 
     @Override
