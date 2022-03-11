@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 /**
@@ -30,7 +31,7 @@ public class CustomGlideModule extends AppGlideModule {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .build();
 
-        OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory(client);
+        OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory((Call.Factory) client);
         glide.getRegistry().replace(GlideUrl.class, InputStream.class, factory);
     }
 
