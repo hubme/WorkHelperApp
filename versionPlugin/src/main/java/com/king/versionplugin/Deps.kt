@@ -27,7 +27,7 @@ object AndroidXDep {
     const val multidex = "androidx.multidex:multidex:2.0.1"
     const val cardview = "androidx.cardview:cardview:1.0.0"
     const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.2"
-    const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0-alpha01"
+    const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
     const val palette = "androidx.palette:palette:1.0.0"
 
     private const val lifecycle_version = "2.3.0"
