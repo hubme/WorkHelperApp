@@ -147,17 +147,17 @@ dependencies {
     implementation project(':apt-annotations')
     kapt project(':apt-compiler')
 
-    implementation project(':permission')
+    //implementation project(':permission')
 
     //表示主module和lib module 编译类型保持一致
-//    releaseImplementation project(path: ':applib', configuration: 'release')
-//    debugImplementation project(path: ':applib', configuration: 'debug')
+    /*releaseImplementation project(path: ':applib', configuration: 'release')
+    debugImplementation project(path: ':applib', configuration: 'debug')
 
-//    debugCompile(name: 'applib-debug', ext: 'aar')
-//    releaseCompile(name: 'applib-release', ext: 'aar')
+    debugCompile(name: 'applib-debug', ext: 'aar')
+    releaseCompile(name: 'applib-release', ext: 'aar')
 
-//    debugImplementation files('libs/applib-debug.aar')
-//    releaseImplementation files('libs/applib-release.aar')
+    debugImplementation files('libs/applib-debug.aar')
+    releaseImplementation files('libs/applib-release.aar')*/
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation(name:'applib-0.0.1', ext:'aar')
