@@ -171,7 +171,6 @@ class FunctionKotlin {
             println("($k, $v)")
         }
         println(map["b"])
-        SingleInstance
     }
 
     fun methodReturnIncreasedInteger(num: Int): Int {
