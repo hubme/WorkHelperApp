@@ -1,6 +1,6 @@
 includeBuild 'versionPlugin'
 include ':app', ':applib'
 //include ':javalib'
-//include ':permission'
+include ':permission'
 include ':apt-annotations'
 include ':apt-compiler'

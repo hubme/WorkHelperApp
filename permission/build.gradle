@@ -1,22 +1,17 @@
+import com.king.versionplugin.*
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: "kotlin-kapt"
+apply plugin: 'kotlin-kapt'
 
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-}
-
-def cfg = rootProject.ext.android
 android {
-    compileSdkVersion cfg.compileSdkVersion
+    compileSdkVersion Basic.compileSdkVersion
     resourcePrefix "per"
 
     defaultConfig {
-        minSdkVersion cfg.minSdkVersion
-        targetSdkVersion cfg.targetSdkVersion
+        minSdkVersion Basic.minSdkVersion
+        targetSdkVersion Basic.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -33,26 +28,28 @@ android {
 
 }
 
-def dependency = rootProject.ext.dependencies
 dependencies {
+    testImplementation TestDep.junit
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':applib')
 
-    testImplementation dependency.junit
+    implementation KotlinDep.kotlin_stdlib_jdk8
 
-    implementation dependency.appcompat
-    implementation dependency.support_annotations
+    implementation ThirdDep.easypermissions
+   // implementation ThirdDep.rxpermissions
+   // implementation ThirdDep.permissionsdispatcher
+   // implementation ThirdDep.permissionsdispatcher_processor
 
-    implementation dependency.kotlin_stdlib_jdk8
+    implementation GoogleDep.flexbox
 
-    implementation dependency.easypermissions
-//    implementation dependency.rxpermissions
-//    implementation dependency.permissionsdispatcher
-//    implementation dependency.permissionsdispatcher_processor
+    implementation ThirdDep.arouter_api
+    kapt ThirdDep.arouter_compiler
 
-    implementation dependency.flexbox
+}
 
-    implementation dependency.arouter_api
-    kapt dependency.arouter_compiler
-
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
 }
