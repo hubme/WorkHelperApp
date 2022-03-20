@@ -144,8 +144,8 @@ android {
 dependencies {
     //公共基础库
     implementation project(':applib')
-    implementation project(':apt-annotations')
-    kapt project(':apt-compiler')
+    //implementation project(':apt-annotations')
+    //kapt project(':apt-compiler')
 
     //implementation project(':permission')
 
