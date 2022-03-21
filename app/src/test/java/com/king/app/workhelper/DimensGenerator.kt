@@ -7,7 +7,7 @@ import kotlin.math.min
  * @Author: leavesC
  * @Date: 2021/08/24 10:46
  * @Desc:
- * @Github https://github.com/leavesC
+ * @Github https://github.com/leavesCZY
  */
 
 private const val XML_FILE_NAME = """dimens.xml"""
