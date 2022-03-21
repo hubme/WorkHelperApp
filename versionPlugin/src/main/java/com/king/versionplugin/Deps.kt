@@ -36,6 +36,7 @@ object AndroidXDep {
     const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     const val lifecycle_common_java8 =
         "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    const val lifecycle_process = "androidx.lifecycle:lifecycle-process:${lifecycle_version}"
 
     const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 

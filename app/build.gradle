@@ -169,6 +169,7 @@ dependencies {
     implementation AndroidXDep.lifecycle_livedata
     implementation AndroidXDep.lifecycle_viewmodel_ktx
     implementation AndroidXDep.lifecycle_common_java8
+    implementation AndroidXDep.lifecycle_process
     implementation AndroidXDep.webkit
 
     implementation ThirdDep.butterknife
