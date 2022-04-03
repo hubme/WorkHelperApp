@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -80,6 +81,11 @@ public class WorkHelperApp extends BaseApplication {
         //DoraemonKit.install(this);
 
         initFlipper();
+        printLooperMessage();
+    }
+
+    private void printLooperMessage() {
+        Looper.getMainLooper().setMessageLogging(x -> Log.i("Looper", x));
     }
 
     public static Application getApplication() {
