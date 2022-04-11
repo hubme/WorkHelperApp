@@ -128,4 +128,28 @@
         <item name="android:minHeight">10dip</item>
         <item name="android:maxHeight">10dip</item>
     </style>
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- buttonBarButtonStyle 对三个按钮都有效 -->
+        <!--<item name="buttonBarButtonStyle">@style/AlertDialogButtonStyle</item>-->
+        <item name="buttonBarPositiveButtonStyle">@style/AlertDialogPositiveStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AlertDialogNeutralStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertDialogNegativeStyle</item>
+    </style>
+
+    <style name="AlertDialogButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#F00</item>
+    </style>
+
+    <style name="AlertDialogPositiveStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#0000ff</item>
+    </style>
+
+    <style name="AlertDialogNeutralStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/chocolate</item>
+    </style>
+
+    <style name="AlertDialogNegativeStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#999999</item>
+    </style>
 </resources>
