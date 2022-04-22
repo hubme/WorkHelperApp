@@ -47,7 +47,7 @@ object AndroidXDep {
 object KotlinDep {
     const val core_ktx = "androidx.core:core-ktx:1.2.0"
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0"
-    const val kotlinx_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    const val kotlinx_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 }
 
 @Suppress("unused")
