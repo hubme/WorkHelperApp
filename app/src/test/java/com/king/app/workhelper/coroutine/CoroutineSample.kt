@@ -1,4 +1,4 @@
-package com.king.app.workhelper
+package com.king.app.workhelper.coroutine
 
 import kotlinx.coroutines.*
 import org.junit.Test
@@ -11,9 +11,9 @@ class CoroutineSample {
             delay(1000L)
             println("World!")
         }
-        println("Hello,")
+        print("Hello ")
         job.join() // 等待直到子协程执行结束
-
+        println("Done!")
     }
 
     @Test
@@ -27,6 +27,55 @@ class CoroutineSample {
             delay(500L)
             println("Task from coroutine scope") // 这一行会在内嵌 launch 之前输出
         }
+        println("Done")
+        /*
+        output:
+        Task from coroutine scope
+        Task from nested launch
+        Done
+         */
+    }
+
+    @Test
+    fun coroutineScope2() = runBlocking {
+        launch {
+            delay(200L)
+            println("Task from runBlocking")
+        }
+
+        //CoroutineScope()
+
+        coroutineScope {
+            launch {
+                delay(500L)
+                println("Task from nested launch")
+            }
+
+            delay(100L)
+            println("Task from coroutine scope") // 这一行会在内嵌 launch 之前输出
+        }
+
+        println("Coroutine scope is over") // 这一行在内嵌 launch 执行完毕后才输出
+
+        /*
+        output:
+        Task from coroutine scope
+        Task from runBlocking
+        Task from nested launch
+        Coroutine scope is over
+         */
+    }
+
+    @Test
+    fun globalScopeTest() = runBlocking {
+        //在 GlobalScope 中启动的活动协程并不会使进程保活。它们就像守护线程。
+        GlobalScope.launch {
+            repeat(1000) { i ->
+                println("I'm sleeping $i ...")
+                delay(500L)
+            }
+        }
+        delay(1300L) // 在延迟后退出
     }
 
     @Test
@@ -34,6 +83,7 @@ class CoroutineSample {
         val job = launch {
             repeat(1000) { i ->
                 println("job: I'm sleeping $i ...")
+                //delay 是挂起函数 ，它不会造成线程阻塞，但是会挂起协程
                 delay(500L)
             }
         }
@@ -153,6 +203,7 @@ class CoroutineSample {
         SupervisorJob()
     }
 
+    //https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-global-scope/index.html
     @Test
     fun coroutineScopeSample() = runBlocking {
         val request = launch {
