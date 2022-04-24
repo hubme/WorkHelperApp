@@ -7,6 +7,8 @@ import android.text.Annotation
 import android.view.View
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.app.workhelper.databinding.ActivityTestBinding
+import com.king.app.workhelper.ui.customview.filter.FilterHelper
+import com.king.app.workhelper.ui.customview.filter.FilterView
 import com.king.applib.log.Logger
 
 
@@ -32,6 +34,43 @@ class TestActivity : AppBaseActivity() {
         super.initContentView()
 
         mBinding.tvText.text = "哈哈哈"
+
+        val filterHelper = FilterHelper()
+        populateFilters(filterHelper, true)
+        mBinding.filterView.setOnFilterChanged { groupTitle, checkText ->
+            doFilterChanged(filterHelper, groupTitle, checkText)
+        }
+    }
+
+    private fun doFilterChanged(
+        filterHelper: FilterHelper,
+        groupTitle: String,
+        checkText: String?
+    ) {
+        when (groupTitle) {
+            FilterView.BRAND -> filterHelper.filterConditionModel.brand = checkText
+            FilterView.MODEL -> filterHelper.filterConditionModel.model = checkText
+        }
+        populateFilters(filterHelper, checkText == null)
+    }
+
+    private fun populateFilters(filterHelper: FilterHelper, forceRefresh: Boolean) {
+        if (needRefreshView(filterHelper) || forceRefresh) {
+            mBinding.filterView.setFilterGroups(filterHelper.transformConditions(FilterHelper.fakeData()))
+        }
+    }
+
+    private fun needRefreshView(filterHelper: FilterHelper): Boolean {
+        if (filterHelper.filterConditionModel.isReset) {
+            return true
+        }
+
+        filterHelper.filterGroups.values.forEach {
+            if (it.conditions.size > 1) {
+                return true
+            }
+        }
+        return false
     }
 
     //由于用户操作，应用进入后台时(home 键)调用，在 onPause() 之前执行

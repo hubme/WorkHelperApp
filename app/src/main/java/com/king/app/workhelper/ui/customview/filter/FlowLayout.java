@@ -1,4 +1,4 @@
-package com.king.app.workhelper.ui.customview;
+package com.king.app.workhelper.ui.customview.filter;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -32,6 +32,14 @@ public class FlowLayout extends ViewGroup {
 
     public FlowLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public FlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    public FlowLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     public void setHorizontalSpacing(int pixelSize) {

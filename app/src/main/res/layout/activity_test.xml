@@ -10,4 +10,10 @@
         android:text="按钮"
         android:textSize="@dimen/ts_normal" />
 
+    <com.king.app.workhelper.ui.customview.filter.FilterView
+        android:id="@+id/filter_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
 </LinearLayout>
