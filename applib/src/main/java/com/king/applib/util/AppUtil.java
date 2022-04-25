@@ -15,6 +15,8 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -26,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -353,12 +356,27 @@ public class AppUtil {
         if (StringUtil.isNullOrEmpty(uri)) {
             return false;
         }
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        Intent intent = null;
+        if (uri.startsWith("intent:")) {
+            try {
+                // uri 是通过 intent.toUri(Intent.URI_INTENT_SCHEME) 生成的
+                intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        }
+        if (intent == null) {
+            return false;
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
+        intent.addCategory(Intent.CATEGORY_APP_BROWSER);
+        try {
             context.startActivity(intent);
             return true;
-        } else {
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -425,5 +443,25 @@ public class AppUtil {
             return -1;
         }
         return -1;
+    }
+
+    /**
+     * 打开应用的设置界面。
+     */
+    public static void openAppSettings(Activity context, int requestCode) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+        intent.setData(uri);
+        context.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 打开相册应用。
+     */
+    public static void openAlbum(Activity context, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        context.startActivityForResult(intent, requestCode);
     }
 }
