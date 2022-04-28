@@ -47,7 +47,14 @@ object AndroidXDep {
 object KotlinDep {
     // 1.7.0 要求 minCompileSdk=31
     const val core_ktx = "androidx.core:core-ktx:1.6.0"
+
+    //Kotlin 为 JVM 平台提供的标准库
+    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:1.6.20"
+
+    //Kotlin JDK 8 上的扩展库
     const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.20"
+
+    //Kotlin 协程在 Android 平台的支持库
     const val kotlinx_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 }
 
