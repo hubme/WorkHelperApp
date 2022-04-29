@@ -115,4 +115,53 @@ class CoroutineExceptionHandlerTest {
          */
     }
 
+    fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
+
+    @Test
+    fun test4() = runBlocking(CoroutineName("main")) {
+        log("Started main coroutine")
+        // 运行两个后台值计算
+        val v1 = async(CoroutineName("v1coroutine")) {
+            delay(500)
+            log("Computing v1")
+            252
+        }
+        val v2 = async(CoroutineName("v2coroutine")) {
+            delay(1000)
+            log("Computing v2")
+            6
+        }
+        log("The answer for v1 / v2 = ${v1.await() / v2.await()}")
+
+        /*
+        output:
+        [Test worker @main#1] Started main coroutine
+        [Test worker @v1coroutine#2] Computing v1
+        [Test worker @v2coroutine#3] Computing v2
+        [Test worker @main#1] The answer for v1 / v2 = 42
+         */
+    }
+
+    @Test
+    fun test5() = runBlocking {
+        val threadLocal = ThreadLocal<String?>()
+        threadLocal.set("main")
+
+        println("Pre-main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+        val job = launch(Dispatchers.Default + threadLocal.asContextElement(value = "launch")) {
+            println("Launch start, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+            yield()
+            println("After yield, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+        }
+        job.join()
+        println("Post-main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+
+        /*
+        output:
+        Pre-main, current thread: Thread[Test worker @coroutine#1,5,main], thread local value: 'main'
+        Launch start, current thread: Thread[DefaultDispatcher-worker-1 @coroutine#2,5,main], thread local value: 'launch'
+        After yield, current thread: Thread[DefaultDispatcher-worker-1 @coroutine#2,5,main], thread local value: 'launch'
+        Post-main, current thread: Thread[Test worker @coroutine#1,5,main], thread local value: 'main'
+         */
+    }
 }
