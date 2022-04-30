@@ -163,8 +163,9 @@ dependencies {
     //implementation(name:'applib-0.0.1', ext:'aar')
 
     testImplementation TestDep.junit
-    androidTestImplementation TestDep.android_junit
-    androidTestImplementation TestDep.espresso_core
+    testImplementation KotlinDep.kotlinx_coroutines_test
+    androidTestImplementation AndroidXDep.android_junit
+    androidTestImplementation AndroidXDep.espresso_core
 
     implementation AndroidXDep.lifecycle_livedata
     implementation AndroidXDep.lifecycle_viewmodel_ktx

@@ -40,8 +40,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation TestDep.espresso_core
     testImplementation TestDep.junit
+    androidTestImplementation AndroidXDep.espresso_core
 
     api AndroidXDep.appcompat
     api AndroidXDep.palette

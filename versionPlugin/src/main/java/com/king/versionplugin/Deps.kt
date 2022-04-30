@@ -13,13 +13,14 @@ object Basic {
 
 @Suppress("unused")
 object TestDep {
-    const val junit = "junit:junit:4.12"
-    const val android_junit = "androidx.test.ext:junit:1.1.1"
-    const val espresso_core = "androidx.test.espresso:espresso-core:3.1.0"
+    const val junit = "junit:junit:4.13.2"
 }
 
 @Suppress("unused")
 object AndroidXDep {
+    const val android_junit = "androidx.test.ext:junit:1.1.2"
+    const val espresso_core = "androidx.test.espresso:espresso-core:3.4.0"
+
     const val appcompat = "androidx.appcompat:appcompat:1.3.1"
 
     //const val fragment = "androidx.fragment:fragment:1.3.0"
@@ -56,6 +57,8 @@ object KotlinDep {
 
     //Kotlin 协程在 Android 平台的支持库
     const val kotlinx_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+
+    const val kotlinx_coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
 }
 
 @Suppress("unused")
