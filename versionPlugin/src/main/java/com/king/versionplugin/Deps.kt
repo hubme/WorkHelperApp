@@ -59,6 +59,16 @@ object KotlinDep {
     const val kotlinx_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 
     const val kotlinx_coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+
+    //1.4.0 版本要求 sdk-31
+    const val activity_ktx = "androidx.activity:activity-ktx:1.3.1"
+
+    //1.4.0 版本要求 sdk-31
+    const val fragment_ktx = "androidx.fragment:fragment-ktx:1.3.6"
+
+    //2.4.1 版本要求 sdk-31
+    const val lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+    const val lifecycle_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
 }
 
 @Suppress("unused")

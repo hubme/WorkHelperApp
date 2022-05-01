@@ -4,12 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.text.Annotation
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.app.workhelper.databinding.ActivityTestBinding
-import com.king.app.workhelper.ui.customview.filter.FilterHelper
-import com.king.app.workhelper.ui.customview.filter.FilterView
 import com.king.applib.log.Logger
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 /**
@@ -20,6 +23,10 @@ import com.king.applib.log.Logger
 class TestActivity : AppBaseActivity() {
 
     private lateinit var mBinding: ActivityTestBinding
+
+    init {
+        lifecycleScopeTest()
+    }
 
     override fun getContentView(): View {
         mBinding = ActivityTestBinding.inflate(layoutInflater)
@@ -35,42 +42,28 @@ class TestActivity : AppBaseActivity() {
 
         mBinding.tvText.text = "哈哈哈"
 
-        val filterHelper = FilterHelper()
-        populateFilters(filterHelper, true)
-        mBinding.filterView.setOnFilterChanged { groupTitle, checkText ->
-            doFilterChanged(filterHelper, groupTitle, checkText)
+        val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            Log.i(TAG, "initContentView: $coroutineContext $throwable")
         }
-    }
-
-    private fun doFilterChanged(
-        filterHelper: FilterHelper,
-        groupTitle: String,
-        checkText: String?
-    ) {
-        when (groupTitle) {
-            FilterView.BRAND -> filterHelper.filterConditionModel.brand = checkText
-            FilterView.MODEL -> filterHelper.filterConditionModel.model = checkText
-        }
-        populateFilters(filterHelper, checkText == null)
-    }
-
-    private fun populateFilters(filterHelper: FilterHelper, forceRefresh: Boolean) {
-        if (needRefreshView(filterHelper) || forceRefresh) {
-            mBinding.filterView.setFilterGroups(filterHelper.transformConditions(FilterHelper.fakeData()))
-        }
-    }
-
-    private fun needRefreshView(filterHelper: FilterHelper): Boolean {
-        if (filterHelper.filterConditionModel.isReset) {
-            return true
-        }
-
-        filterHelper.filterGroups.values.forEach {
-            if (it.conditions.size > 1) {
-                return true
+        mBinding.tvText.setOnClickListener {
+            lifecycleScope.launch(handler) {
+                throw RuntimeException("异常")
             }
         }
-        return false
+    }
+
+    private fun lifecycleScopeTest() {
+
+        lifecycleScope.launchWhenCreated {
+            launch {
+                var index = 0
+                while (index < 100) {
+                    delay(1000)
+                    Log.i("aaa", "index: $index")
+                    index++
+                }
+            }
+        }
     }
 
     //由于用户操作，应用进入后台时(home 键)调用，在 onPause() 之前执行
