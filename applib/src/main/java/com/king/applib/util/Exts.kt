@@ -1,8 +1,5 @@
 package com.king.applib.util
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.util.TypedValue
@@ -30,8 +27,4 @@ fun SharedPreferences.spEdit(action: SharedPreferences.Editor.() -> Unit) {
     val editor = edit()
     action(editor)
     editor.apply()
-}
-
-inline fun <reified T : Activity> Context.openActivity(configIntent: Intent.() -> Unit = {}) {
-    startActivity(Intent(this, T::class.java).apply(configIntent))
 }
