@@ -11,7 +11,7 @@ inline fun <reified T : Activity> Context.openActivity(configIntent: Intent.() -
 }
 
 @SuppressLint("WrongConstant")
-private fun Context.getUid(packageName: String): Int {
+fun Context.getUid(packageName: String): Int {
     try {
         return packageManager.getApplicationInfo(packageName, PackageManager.GET_ACTIVITIES).uid
     } catch (e: PackageManager.NameNotFoundException) {
