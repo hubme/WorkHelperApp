@@ -3,16 +3,17 @@ package com.king.app.workhelper.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.LauncherApps
+import android.os.Build
+import android.os.UserHandle
 import android.text.Annotation
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.lifecycleScope
+import androidx.annotation.RequiresApi
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.app.workhelper.databinding.ActivityTestBinding
 import com.king.applib.log.Logger
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.king.applib.util.getUid
 
 
 /**
@@ -23,10 +24,6 @@ import kotlinx.coroutines.launch
 class TestActivity : AppBaseActivity() {
 
     private lateinit var mBinding: ActivityTestBinding
-
-    init {
-        lifecycleScopeTest()
-    }
 
     override fun getContentView(): View {
         mBinding = ActivityTestBinding.inflate(layoutInflater)
@@ -42,29 +39,48 @@ class TestActivity : AppBaseActivity() {
 
         mBinding.tvText.text = "哈哈哈"
 
-        val handler = CoroutineExceptionHandler { coroutineContext, throwable ->
-            Log.i(TAG, "initContentView: $coroutineContext $throwable")
-        }
         mBinding.tvText.setOnClickListener {
-            lifecycleScope.launch(handler) {
-                throw RuntimeException("异常")
-            }
+            testSystemProperties()
         }
+
     }
 
-    private fun lifecycleScopeTest() {
-
-        lifecycleScope.launchWhenCreated {
-            launch {
-                var index = 0
-                while (index < 100) {
-                    delay(1000)
-                    Log.i("aaa", "index: $index")
-                    index++
-                }
-            }
-        }
+    private fun testSystemProperties() {
+        val clazz = Class.forName("android.os.SystemProperties");
+        val mGetMethod = clazz.getDeclaredMethod("get", String::class.java)
+        val mGetIntMethod =
+            clazz.getDeclaredMethod("getInt", String::class.java, Int::class.javaPrimitiveType)
     }
+
+    private fun testLauncherApps() {
+        val launcherApps = getSystemService(LauncherApps::class.java)
+        /*val field = LauncherApps::class.java.getDeclaredMethod(
+            "getAppUsageLimit",
+            String::class.java,
+            UserHandle::class.java
+        )
+        val uid = getUid(packageName)
+        Log.i("aaa", "uid: $uid")
+        val userHandler = UserHandle.getUserHandleForUid(uid)
+        Log.i("aaa", "userHandler: $userHandler")
+        val usageLimit = field.invoke(launcherApps, packageName, userHandler)
+        Log.i("aaa", "usageLimit: $usageLimit")*/
+
+        val mService = LauncherApps::class.java.getDeclaredField("mService")
+        Log.i("aaa", "mService: $mService")
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun testUserHandler() {
+        val uid = getUid(packageName)//12a9b8d
+        Log.i("aaa", "UID: $uid")
+        val userHandleForUid = UserHandle.getUserHandleForUid(uid)
+        Log.i("aaa", "UserHandle: $userHandleForUid")
+        val declaredMethod = UserHandle::class.java.getDeclaredMethod("getIdentifier")
+        val invoke = declaredMethod.invoke(userHandleForUid)
+        Log.i("aaa", "invoke: $invoke")
+    }
+
 
     //由于用户操作，应用进入后台时(home 键)调用，在 onPause() 之前执行
     override fun onUserLeaveHint() {

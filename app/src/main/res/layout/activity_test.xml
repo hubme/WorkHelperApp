@@ -7,13 +7,23 @@
     <TextView
         android:id="@+id/tv_text"
         style="@style/EntryItem"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/chocolate"
         android:text="按钮"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
         android:textSize="@dimen/ts_normal" />
 
-    <com.king.app.workhelper.ui.customview.filter.FilterView
-        android:id="@+id/filter_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
+    <TextView
+        android:id="@+id/tv_hehehe"
+        style="@style/EntryItem"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/chocolate"
+        android:text="呵呵"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:textSize="@dimen/ts_normal" />
 
 </LinearLayout>
