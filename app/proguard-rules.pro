@@ -132,14 +132,13 @@
 
 ############################## webView ###############################
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
-    public *;
+   public *;
 }
--keepclassmembers class * extends android.webkit.webViewClient {
+
+-keepclassmembers class * extends android.webkit.WebViewClient {
     public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
     public boolean *(android.webkit.WebView, java.lang.String);
-}
--keepclassmembers class * extends android.webkit.webViewClient {
-    public void *(android.webkit.webView, jav.lang.String);
+    public void *(android.webkit.WebView, java.lang.String);檀
 }
 
 ########################################################################
@@ -232,3 +231,21 @@
 
 # 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
  -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
+
+############################## Glide ###############################ɀ
+# https://github.com/bumptech/glide/blob/master/library/proguard-rules.txt
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep class * extends com.bumptech.glide.module.AppGlideModule {
+ <init>(...);
+}
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+-keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
+  *** rewind();
+}
+
+# Uncomment for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
