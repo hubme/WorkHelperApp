@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
+    <!-- https://www.jianshu.com/p/ac5fe346a5b7 -->
+
     <!--name：一个引用字符串。path：文件夹“相对路径”，完整路径取决于当前的标签类型。
     物理路径相当于Environment.getExternalStorageDirectory() + /path/。-->
     <external-path
         name="camera_photos"
-        path=""/>
+        path="" />
 
     <!--物理路径相当于Context.getExternalFilesDir(String) + /path/。-->
     <external-files-path
         name="name"
-        path=""/>
+        path="" />
 
     <!--物理路径相当于Context.getExternalCacheDir() + /path/。
     注意：external-cache-path在support-v4:24.0.0这个版本并未支持，直到support-v4:25.0.0才支持，-->
     <external-cache-path
         name="name"
-        path=""/>
+        path="" />
 
-    <!--物理路径相当于Context.getFilesDir() + /path/。-->
+    <!--物理路径相当于Context.getFilesDir() + /images/。
+    content://com.example.myapp.fileprovider/my_images
+    -->
     <files-path
         name="my_images"
-        path="images"/>
+        path="images" />
 
     <!--物理路径相当于Context.getCacheDir() + /path/。-->
     <cache-path
         name="name"
-        path="path"/>
+        path="path" />
 </paths>
