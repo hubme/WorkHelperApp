@@ -1,5 +1,7 @@
 package com.king.app.workhelper.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
@@ -56,6 +58,23 @@ public class HomeActivity extends AppBaseActivity {
         mIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         ScreenOnOffReceiver mBootBroadcastReceiver = new ScreenOnOffReceiver();
         registerReceiver(mBootBroadcastReceiver, mIntentFilter);
+
+        appInstallStateReceiver();
+    }
+
+    //包可见行：需要添加 QUERY_ALL_PACKAGES 权限或配置 query
+    private void appInstallStateReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        filter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        filter.addDataScheme("package");
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Logger.i("AppInstallStateReceiver: " + intent.getAction());
+            }
+        }, filter);
     }
 
     @Override
