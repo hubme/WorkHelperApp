@@ -27,8 +27,6 @@ import com.king.app.workhelper.common.CrashHandler;
 import com.king.app.workhelper.okhttp.OkHttpProvider;
 import com.king.app.workhelper.okhttp.SimpleOkHttp;
 import com.king.app.workhelper.okhttp.interceptor.LogInterceptor;
-import com.king.app.workhelper.thirdparty.dragger2.BaseComponent;
-import com.king.app.workhelper.thirdparty.dragger2.DaggerBaseComponent;
 import com.king.applib.base.BaseApplication;
 import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
@@ -36,13 +34,14 @@ import com.king.applib.util.ContextUtil;
 
 import java.util.concurrent.TimeUnit;
 
+import dagger.hilt.android.HiltAndroidApp;
 import okhttp3.OkHttpClient;
 
 /**
  * 全局Application
  * Created by VanceKing on 2016/9/28.
  */
-
+@HiltAndroidApp
 public class WorkHelperApp extends BaseApplication {
 
     private static Application sApplication;
@@ -241,15 +240,6 @@ public class WorkHelperApp extends BaseApplication {
             case TRIM_MEMORY_UI_HIDDEN: // 进行资源释放操作  
                 break;
         }
-    }
-
-    private BaseComponent baseComponent;
-
-    public BaseComponent getBaseComponent() {
-        if (baseComponent == null) {
-            baseComponent = DaggerBaseComponent.create();
-        }
-        return baseComponent;
     }
 
     private void initFlipper() {

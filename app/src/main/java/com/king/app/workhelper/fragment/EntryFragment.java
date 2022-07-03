@@ -171,7 +171,7 @@ public class EntryFragment extends AppBaseFragment {
         } else if (v == mBinding.tvDataBinding) {
 
         } else if (v == mBinding.tvDagger2) {
-            clickedOn(new Dagger2Fragment());
+            // clickedOn(new Dagger2Fragment());
         } else if (v == mBinding.tvService) {
             openActivity(ServiceActivity.class);
         } else if (v == mBinding.tvMotionEvent) {

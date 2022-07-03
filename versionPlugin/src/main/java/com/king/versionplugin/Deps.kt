@@ -140,6 +140,9 @@ object ThirdDep {
     const val dagger_android = "com.google.dagger:dagger-android:2.28.1"
     const val dagger_compiler = "com.google.dagger:dagger-compiler:2.28.1"
 
+    const val hilt_android = "com.google.dagger:hilt-android:2.41"
+    const val hilt_android_compiler = "com.google.dagger:hilt-android-compiler:2.41"
+
     const val arouter_api = "com.alibaba:arouter-api:1.5.2"
     const val arouter_compiler = "com.alibaba:arouter-compiler:1.5.2"
 
