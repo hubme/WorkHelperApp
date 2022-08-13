@@ -82,7 +82,9 @@
             android:authorities="com.example.provider"
             android:exported="true" />
 
-        <receiver android:name=".receiver.NetworkChangeReceiver">
+        <receiver
+            android:name=".receiver.NetworkChangeReceiver"
+            android:exported="false">
             <intent-filter>
                 <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -103,13 +105,17 @@
             android:name=".service.AidlService"
             android:process=":aidl" />
 
-        <service android:name=".service.IntentServiceSample">
+        <service
+            android:name=".service.IntentServiceSample"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.example.action" />
             </intent-filter>
         </service>
 
-        <service android:name=".service.NormalService">
+        <service
+            android:name=".service.NormalService"
+            android:exported="true">
             <intent-filter android:priority="1000">
                 <action android:name="com.example.action" />
             </intent-filter>
@@ -119,6 +125,7 @@
 
         <activity
             android:name=".activity.SplashActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -154,7 +161,9 @@
 
         <activity android:name=".activity.ContentProviderActivity" />
 
-        <activity android:name=".activity.TestActivity">
+        <activity
+            android:name=".activity.TestActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.king.action1" />
                 <action android:name="com.king.action2" />
@@ -173,6 +182,7 @@
         <activity-alias
             android:name="TestActivity"
             android:enabled="false"
+            android:exported="true"
             android:icon="@drawable/house"
             android:targetActivity=".activity.TestActivity">
 
@@ -209,6 +219,7 @@
         <activity
             android:name=".activity.WBShareActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />

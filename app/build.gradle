@@ -28,7 +28,7 @@ android {
 
         //打包指定cpu架构的so库.
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
 
     }
