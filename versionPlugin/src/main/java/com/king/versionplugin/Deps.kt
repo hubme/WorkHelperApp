@@ -162,4 +162,8 @@ object ThirdDep {
 
     const val SmartRefreshLayout = "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14"
     const val SmartRefreshHeader = "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14"
+
+    // https://bugly.qq.com/docs/release-notes/release-android-bugly/
+    // "com.tencent.bugly:nativecrashreport:3.9.2" 是 so 库依赖，crashreport:4.0.4 以下需要引入，>= 4.0.4 合并了
+    const val Bugly = "com.tencent.bugly:crashreport:4.0.4"
 }

@@ -29,5 +29,5 @@
     <!--物理路径相当于Context.getCacheDir() + /path/。-->
     <cache-path
         name="name"
-        path="path" />
+        path="." />
 </paths>
