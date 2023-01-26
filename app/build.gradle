@@ -79,6 +79,31 @@ android {
         }*/
     }
 
+    //https://developer.android.com/studio/build/configure-apk-splits?hl=zh-cn
+    /*splits{
+        density{
+            enable true
+            exclude "ldpi", "mdpi", "hdpi"
+            compatibleScreens "small", "normal", "large", "xlarge"
+        }
+        abi{
+            enable true
+            reset()
+            include "armeabi", "armeabi-v7a", "arm64-v8a"
+            universalApk true
+        }
+    }*/
+
+    /*if (project.hasProperty('DevBuild')) {
+        splits.density.enable = false
+        splits.abi {
+            enable true
+            reset()
+            include 'arm64-v8a'
+            universalApk false
+        }
+    }*/
+
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def outputApk = output.outputFile
