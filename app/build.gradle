@@ -169,7 +169,7 @@ android {
 
 dependencies {
     //公共基础库
-    implementation project(':applib')
+    implementation project(':module_common')
     implementation project(':biz_export')
     //implementation project(':apt-annotations')
     //kapt project(':apt-compiler')
