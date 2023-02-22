@@ -1,0 +1,47 @@
+import com.king.versionplugin.AndroidXDep
+import com.king.versionplugin.Basic
+import com.king.versionplugin.KotlinDep
+import com.king.versionplugin.TestDep
+import com.king.versionplugin.ThirdDep
+
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.example.biz_login'
+    compileSdk Basic.compileSdkVersion
+
+    defaultConfig {
+        minSdk Basic.minSdkVersion
+        targetSdk Basic.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    testImplementation TestDep.junit
+    androidTestImplementation AndroidXDep.android_junit
+    androidTestImplementation AndroidXDep.espresso_core
+
+    implementation KotlinDep.core_ktx
+    implementation AndroidXDep.appcompat
+    implementation ThirdDep.arouter_api
+}
