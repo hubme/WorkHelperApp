@@ -41,6 +41,8 @@ dependencies {
     androidTestImplementation AndroidXDep.android_junit
     androidTestImplementation AndroidXDep.espresso_core
 
+    api project(':module_common')
+
     implementation KotlinDep.core_ktx
     implementation AndroidXDep.appcompat
     implementation ThirdDep.arouter_api

@@ -11,6 +11,7 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.biz_common.IModuleInit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.flipper.android.AndroidFlipperClient;
 import com.facebook.flipper.android.utils.FlipperUtils;
@@ -32,6 +33,7 @@ import com.king.applib.log.Logger;
 import com.king.applib.util.AppUtil;
 import com.king.applib.util.ContextUtil;
 
+import java.util.ServiceLoader;
 import java.util.concurrent.TimeUnit;
 
 import dagger.hilt.android.HiltAndroidApp;
@@ -81,6 +83,7 @@ public class WorkHelperApp extends BaseApplication {
 
         initFlipper();
         //printLooperMessage();
+        initModule();
     }
 
     private void printLooperMessage() {
@@ -248,6 +251,14 @@ public class WorkHelperApp extends BaseApplication {
             final FlipperClient client = AndroidFlipperClient.getInstance(this);
             client.addPlugin(new InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()));
             client.start();
+        }
+    }
+
+    // 通过 SPI 初始化模块
+    private void initModule() {
+        ServiceLoader<IModuleInit> moduleLoader = ServiceLoader.load(IModuleInit.class);
+        for (IModuleInit module : moduleLoader) {
+            module.onInit(this);
         }
     }
 }

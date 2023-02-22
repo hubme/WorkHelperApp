@@ -169,8 +169,10 @@ android {
 
 dependencies {
     //公共基础库
-    implementation project(':module_common')
+    implementation project(':biz_common')
     implementation project(':biz_export')
+    implementation project(':biz_home')
+    implementation project(':biz_login')
     //implementation project(':apt-annotations')
     //kapt project(':apt-compiler')
 
