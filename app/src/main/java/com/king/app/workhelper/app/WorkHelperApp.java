@@ -80,7 +80,7 @@ public class WorkHelperApp extends BaseApplication {
         //DoraemonKit.install(this);
 
         initFlipper();
-        printLooperMessage();
+        //printLooperMessage();
     }
 
     private void printLooperMessage() {
