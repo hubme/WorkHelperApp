@@ -1,8 +1,8 @@
 import com.king.versionplugin.AndroidXDep
 import com.king.versionplugin.Basic
 import com.king.versionplugin.KotlinDep
-import com.king.versionplugin.TestDep
 import com.king.versionplugin.ThirdDep
+import com.king.versionplugin.TestDep
 
 plugins {
     id 'com.android.library'
@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.biz_export'
+    namespace 'com.example.module_common'
     compileSdk Basic.compileSdkVersion
 
     defaultConfig {
