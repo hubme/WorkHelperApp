@@ -7,6 +7,7 @@ import com.king.versionplugin.ThirdDep
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id "org.jetbrains.kotlin.kapt"
 }
 
 android {
@@ -19,6 +20,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {
@@ -36,14 +41,22 @@ android {
     }
 }
 
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
 dependencies {
     testImplementation TestDep.junit
     androidTestImplementation AndroidXDep.android_junit
     androidTestImplementation AndroidXDep.espresso_core
 
     implementation project(':biz_common')
+    implementation project(':biz_export')
 
     implementation KotlinDep.core_ktx
     implementation AndroidXDep.appcompat
     implementation ThirdDep.arouter_api
+    kapt ThirdDep.arouter_compiler
 }
