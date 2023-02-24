@@ -173,8 +173,8 @@ dependencies {
     implementation project(':biz_export')
     implementation project(':biz_home')
     implementation project(':biz_login')
-    //implementation project(':apt-annotations')
-    //kapt project(':apt-compiler')
+    //implementation project(':apt:apt-annotations')
+    //kapt project(':apt:apt-compiler')
 
     //implementation project(':permission')
 
