@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.app.workhelper.databinding.ActivitySurfaceBinding
-import kotlinx.android.synthetic.main.activity_surface.*
 
 /**
  * 使用MediaPlayer+SurfaceView播放视频。也可以使用 VideoPlayer。
@@ -31,10 +30,10 @@ class SurfaceActivity : AppBaseActivity(), SurfaceHolder.Callback {
 
     override fun initContentView() {
         super.initContentView()
-        sv_video.holder.setKeepScreenOn(true)
-        sv_video.holder.addCallback(this)
+        mBinding.svVideo.holder.setKeepScreenOn(true)
+        mBinding.svVideo.holder.addCallback(this)
         initMedia()
-        btn_play.setOnClickListener {
+        mBinding.btnPlay.setOnClickListener {
             if (mediaPlayer.isPlaying) {
                 pause()
             } else {
@@ -54,7 +53,7 @@ class SurfaceActivity : AppBaseActivity(), SurfaceHolder.Callback {
         }
         mediaPlayer.setOnCompletionListener {
             Toast.makeText(this, "播放完毕", Toast.LENGTH_SHORT).show()
-            btn_play.text = "重新播放"
+            mBinding.btnPlay.text = "重新播放"
         }
     }
 
@@ -74,12 +73,12 @@ class SurfaceActivity : AppBaseActivity(), SurfaceHolder.Callback {
     }
 
     private fun start() {
-        btn_play.text = "暂停"
+        mBinding.btnPlay.text = "暂停"
         mediaPlayer.start()
     }
 
     private fun pause() {
-        btn_play.text = "播放"
+        mBinding.btnPlay.text = "播放"
         mediaPlayer.pause()
     }
 

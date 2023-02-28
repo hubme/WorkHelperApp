@@ -45,7 +45,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(getContentLayout(), container, false);
+        mRootView = getContentView();
+        if (mRootView == null) {
+            mRootView = inflater.inflate(getContentLayout(), container, false);
+        }
         initContentView(mRootView);
         initData();
         fetchData();
@@ -81,9 +84,16 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     @LayoutRes
-    protected abstract int getContentLayout();
+    protected int getContentLayout() {
+        return 0;
+    }
 
-    protected void initContentView(View view) {
+    @Nullable
+    protected View getContentView() {
+        return null;
+    }
+
+    protected void initContentView(View contentView) {
     }
 
     protected void initData() {

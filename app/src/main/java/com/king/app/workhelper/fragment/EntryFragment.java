@@ -1,5 +1,7 @@
 package com.king.app.workhelper.fragment;
 
+import static com.example.biz_common.RouterPath.ROUTE_PERMISSION_MAIN;
+
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -95,7 +97,7 @@ public class EntryFragment extends AppBaseFragment {
         } else if (v == mBinding.tvMainActivity) {
             openActivity(MainActivity.class);
         } else if (v == mBinding.tvPermission) {
-            ARouter.getInstance().build("/permission/main").navigation();
+            ARouter.getInstance().build(ROUTE_PERMISSION_MAIN).navigation();
         } else if (v == mBinding.tvImageSample) {
             clickedOn(new ImageSampleFragment());
         } else if (v == mBinding.tvRxJava) {

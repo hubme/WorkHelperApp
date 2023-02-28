@@ -2,7 +2,6 @@ import com.king.versionplugin.*
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -32,7 +31,7 @@ dependencies {
     testImplementation TestDep.junit
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':applib')
+    implementation project(':biz_common')
 
     implementation KotlinDep.kotlin_stdlib_jdk8
 

@@ -2,8 +2,10 @@ package com.vance.permission.activity
 
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.example.biz_common.ROUTE_PERMISSION_MAIN
 import com.king.applib.base.BaseActivity
 import com.vance.permission.R
+import com.vance.permission.databinding.PerActivityPermissionBinding
 import com.vance.permission.fragment.CustomPermissionFragment
 import com.vance.permission.fragment.EasyPermissionsFragment
 import com.vance.permission.fragment.NormalPermissionFragment
@@ -14,22 +16,29 @@ import com.vance.permission.fragment.PermissionsDispatcherFragment
  * @author VanceKing
  * @since 19-8-8.
  */
-
-@Route(path = "/permission/main")
+@Route(path = ROUTE_PERMISSION_MAIN)
 open class PerPermissionActivity : BaseActivity() {
-    override fun getContentLayout(): Int {
-        return R.layout.per_activity_permission
+    private lateinit var mViewBinding: PerActivityPermissionBinding
+
+    override fun getContentView(): View? {
+        mViewBinding = PerActivityPermissionBinding.inflate(layoutInflater)
+        return mViewBinding.root
     }
 
     override fun initContentView() {
         super.initContentView()
         showFragment(CustomPermissionFragment.TAG)
-        setViewClickListeners(R.id.tv_normal, R.id.tv_dispatcher, R.id.tv_easypermission, R.id.tv_custom_easypermission)
+        setViewClickListeners(
+            R.id.tv_normal,
+            R.id.tv_dispatcher,
+            R.id.tv_easypermission,
+            R.id.tv_custom_easypermission
+        )
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(v: View) {
         super.onClick(v)
-        when (v?.id) {
+        when (v.id) {
             R.id.tv_normal -> showFragment(NormalPermissionFragment.TAG)
             R.id.tv_dispatcher -> showFragment(PermissionsDispatcherFragment.TAG)
             R.id.tv_easypermission -> showFragment(EasyPermissionsFragment.TAG)
@@ -40,11 +49,12 @@ open class PerPermissionActivity : BaseActivity() {
     private fun showFragment(tag: String) {
         var fragment = supportFragmentManager.findFragmentByTag(tag)
         if (fragment == null) {
-            when (tag) {
-                PermissionsDispatcherFragment.TAG -> fragment = PermissionsDispatcherFragment.getInstance()
-                EasyPermissionsFragment.TAG -> fragment = EasyPermissionsFragment.instance
-                NormalPermissionFragment.TAG -> fragment = NormalPermissionFragment.getInstance()
-                CustomPermissionFragment.TAG -> fragment = CustomPermissionFragment.instance
+            fragment = when (tag) {
+                PermissionsDispatcherFragment.TAG -> PermissionsDispatcherFragment.getInstance()
+                EasyPermissionsFragment.TAG -> EasyPermissionsFragment.instance
+                NormalPermissionFragment.TAG -> NormalPermissionFragment.getInstance()
+                CustomPermissionFragment.TAG -> CustomPermissionFragment.instance
+                else -> null
             }
         }
         fragment?.let {

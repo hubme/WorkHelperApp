@@ -1,12 +1,11 @@
 package com.king.app.workhelper.fragment
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.View
 import com.king.app.workhelper.R
 import com.king.app.workhelper.common.AppBaseFragment
+import com.king.app.workhelper.databinding.FragmentRxjavaSample2Binding
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.fragment_rxjava_sample2.*
 import java.util.concurrent.TimeUnit
 
 
@@ -18,29 +17,37 @@ import java.util.concurrent.TimeUnit
 
 @SuppressLint("CheckResult")
 class RxJavaSampleFragment2 : AppBaseFragment() {
+    private lateinit var mViewBinding: FragmentRxjavaSample2Binding
+
     override fun getContentLayout(): Int {
         return R.layout.fragment_rxjava_sample2
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        tv_merger.setOnClickListener { mergeWith() }
-        tv_concat.setOnClickListener { concat() }
-        tv_map.setOnClickListener { flatMap() }
+    override fun getContentView(): View {
+        mViewBinding = FragmentRxjavaSample2Binding.inflate(layoutInflater)
+        return mViewBinding.root
     }
 
+    override fun initContentView(rootView: View?) {
+        super.initContentView(rootView)
+        mViewBinding.tvMerger.setOnClickListener { mergeWith() }
+        mViewBinding.tvConcat.setOnClickListener { concat() }
+        mViewBinding.tvMap.setOnClickListener { flatMap() }
+    }
 
     private fun mergeWith() {
         Observable.just("1", "2", "3")
-                .mergeWith(Observable.just("a", "b"))
-                .subscribe { println(it) }
+            .mergeWith(Observable.just("a", "b"))
+            .subscribe { println(it) }
     }
 
     private fun concat() {
-        Observable.concat(Observable.just("1", "2", "3").delay(1, TimeUnit.SECONDS),
-                Observable.just("a", "b"),
-                Observable.just("A", "B").delay(2, TimeUnit.SECONDS))
-                .subscribe { println(it) }
+        Observable.concat(
+            Observable.just("1", "2", "3").delay(1, TimeUnit.SECONDS),
+            Observable.just("a", "b"),
+            Observable.just("A", "B").delay(2, TimeUnit.SECONDS)
+        )
+            .subscribe { println(it) }
     }
 
     private fun concatWith() {
