@@ -29,7 +29,7 @@ public class JsoupTest {
         log(doc.toString());
     }
 
-    private static void parseHtml() throws Exception{
+    private static void parseHtml() throws Exception {
         Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/Main_Page").get();
         log(doc.title());
 
@@ -39,8 +39,8 @@ public class JsoupTest {
         }
     }
 
-    private static void log(String msg, String... vals) {
-        System.out.println(String.format(msg, vals));
+    private static void log(String msg, Object... vals) {
+        System.out.printf((msg) + "%n", vals);
     }
 
 }
