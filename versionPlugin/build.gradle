@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         // 因为使用的 Kotlin 需要需要添加 Kotlin 插件
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
     }
 }
 
