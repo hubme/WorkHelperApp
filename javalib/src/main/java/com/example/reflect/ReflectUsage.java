@@ -1,17 +1,25 @@
 package com.example.reflect;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * @author VanceKing
  * @since 2018/4/19 0019.
  */
-public class ReflectUsage {
+public class ReflectUsage<T> {
     private static final String DIVIDER = "===================================";
+    private List<String>[] array;
+    private T[] tArray;
 
     public static void main(String[] args) throws Exception {
-        test1();
+        //test1();
+
+        ReflectUsage<String> aaa = new ReflectUsage<>();
+        aaa.aaa();
     }
 
     private static void test1() throws Exception {
@@ -67,5 +75,26 @@ public class ReflectUsage {
 
     private static void printMessage(String message) {
         System.out.println(message);
+    }
+
+    private void aaa() throws Exception {
+        Class<ReflectUsage> clazz = ReflectUsage.class;
+        Type array = clazz.getDeclaredField("array").getGenericType();
+        // java.util.List<java.lang.String>[]
+        System.out.println(array);
+        if (array instanceof GenericArrayType) {
+            Type genericComponentType = ((GenericArrayType) array).getGenericComponentType();
+            // java.util.List<java.lang.String>
+            System.out.println(genericComponentType);
+        }
+
+        Type tArray = clazz.getDeclaredField("tArray").getGenericType();
+        // T[]
+        System.out.println(tArray);
+        if (tArray instanceof GenericArrayType) {
+            Type genericComponentType = ((GenericArrayType) tArray).getGenericComponentType();
+            // T
+            System.out.println(genericComponentType);
+        }
     }
 }
