@@ -18,7 +18,7 @@ object TestDep {
 
 @Suppress("unused")
 object AndroidXDep {
-    const val android_junit = "androidx.test.ext:junit:1.1.2"
+    const val android_junit = "androidx.test.ext:junit:1.1.5"
     const val espresso_core = "androidx.test.espresso:espresso-core:3.4.0"
 
     const val appcompat = "androidx.appcompat:appcompat:1.3.1"
@@ -166,4 +166,6 @@ object ThirdDep {
     // https://bugly.qq.com/docs/release-notes/release-android-bugly/
     // "com.tencent.bugly:nativecrashreport:3.9.2" 是 so 库依赖，crashreport:4.0.4 以下需要引入，>= 4.0.4 合并了
     const val Bugly = "com.tencent.bugly:crashreport:4.0.4"
+
+    const val disklrucache = "com.jakewharton:disklrucache:2.0.2"
 }
