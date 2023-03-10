@@ -5,7 +5,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.king.applib.log.Logger;
 
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,11 +19,20 @@ import java.io.IOException;
 @RunWith(AndroidJUnit4.class)
 public class DiskLruCacheTest extends BaseTestCase {
 
-    private static DiskLruCache mDiskLruCache;
+    private DiskLruCache mDiskLruCache;
 
-    @BeforeClass
-    public static void initDiskLruCache() throws IOException {
+    @Before
+    public void initDiskLruCache() throws IOException {
         mDiskLruCache = DiskLruCache.open(mContext.getCacheDir(), 1, 2, 1024 * 1024 * 50);
+    }
+
+    @After
+    public void closeDiskLruCache() {
+        try {
+            mDiskLruCache.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
