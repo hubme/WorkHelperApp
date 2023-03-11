@@ -135,6 +135,13 @@ object ThirdDep {
     const val flipper = "com.facebook.flipper:flipper:0.121.1"
     const val flipper_noop = "com.facebook.flipper:flipper-noop:0.121.1"
 
+    // Facebook 开源的声明式 UI 渲染框架。https://fblitho.com/
+    const val litho_core = "com.facebook.litho:litho-core:0.47.0"
+    const val litho_core_kotlin = "com.facebook.litho:litho-core-kotlin:0.47.0"
+    const val litho_widget = "com.facebook.litho:litho-widget:0.47.0"
+    const val litho_widget_kotlin = "com.facebook.litho:litho-widget-kotlin:0.47.0"
+    const val litho_processor = "com.facebook.litho:litho-processor:0.47.0"
+
     const val flatbuffers_java = "com.google.flatbuffers:flatbuffers-java:1.8.0"
 
     const val dagger_android = "com.google.dagger:dagger-android:2.28.1"
