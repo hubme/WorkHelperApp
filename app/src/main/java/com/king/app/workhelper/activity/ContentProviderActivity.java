@@ -32,7 +32,7 @@ public class ContentProviderActivity extends AppBaseActivity {
     @Override protected void initData() {
         super.initData();
 
-        mContentObserver = new BookContentObserver(this, mHandler);
+        mContentObserver = new BookContentObserver(this, null);
         getContentResolver().registerContentObserver(BookProvider.BOOK_CONTENT_URI, true, mContentObserver);
     }
 

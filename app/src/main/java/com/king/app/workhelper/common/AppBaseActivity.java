@@ -32,19 +32,6 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
     @Nullable
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
-    protected com.king.applib.base.WeakHandler mHandler = new WeakHandler(AppBaseActivity.this);
-
-    private static class WeakHandler extends com.king.applib.base.WeakHandler<AppBaseActivity> {
-
-        private WeakHandler(AppBaseActivity target) {
-            super(target);
-        }
-
-        @Override
-        public void handle(AppBaseActivity target, Message msg) {
-            target.handleMessage(msg);
-        }
-    }
 
     protected void handleMessage(Message msg) {
     }
@@ -67,9 +54,6 @@ public abstract class AppBaseActivity extends RxLifeActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mHandler != null) {
-            mHandler.removeCallbacksAndMessages(null);
-        }
     }
 
     @Override

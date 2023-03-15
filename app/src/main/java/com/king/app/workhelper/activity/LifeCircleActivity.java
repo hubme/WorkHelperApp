@@ -3,37 +3,39 @@ package com.king.app.workhelper.activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.king.app.workhelper.R;
+import com.king.app.workhelper.common.AppBaseActivity;
 import com.king.app.workhelper.constant.GlobalConstant;
+import com.king.app.workhelper.databinding.ActivityLifeCircleBinding;
 import com.king.app.workhelper.fragment.LifeCircleFragment;
-
-import butterknife.ButterKnife;
 
 /**
  * @author VanceKing
  * @since 2018/1/15.
  */
-
-public class LifeCircleActivity extends AppCompatActivity {
+public class LifeCircleActivity extends AppBaseActivity {
     private static final String BUNDLE_KEY = "BUNDLE_KEY";
-    private boolean mIsShowFragmentLog = true;
+    private boolean mIsShowFragmentLog = false;
+
+    private ActivityLifeCircleBinding mViewBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_life_circle);
-        ButterKnife.bind(this);
-
         if (savedInstanceState != null) {
             log("onCreate." + savedInstanceState.getString(BUNDLE_KEY));
         } else {
             log("onCreate. savedInstanceState == null");
         }
+    }
 
+    @Override
+    protected void initContentView() {
+        super.initContentView();
         if (mIsShowFragmentLog) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new LifeCircleFragment())
@@ -42,9 +44,15 @@ public class LifeCircleActivity extends AppCompatActivity {
     }
 
     @Override
+    protected View getContentView() {
+        mViewBinding = ActivityLifeCircleBinding.inflate(getLayoutInflater());
+        return mViewBinding.getRoot();
+    }
+
+    @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        log("onResumeFragments.");
+        log("onResumeFragments");
     }
 
     /*
@@ -58,13 +66,13 @@ public class LifeCircleActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        log("onPostResume.");
+        log("onPostResume");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        log("onStart.");
+        log("onStart");
     }
 
     // 在 onStart() 与 onPostCreate() 之间被调用。onPostCreate() 在 onResume() 之前调用。
@@ -82,19 +90,19 @@ public class LifeCircleActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        log("onRestart.");
+        log("onRestart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        log("onResume.");
+        log("onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        log("onPause.");
+        log("onPause");
     }
 
     // >=9.0: 在 onStop() 后调用；< 9.0: onStop() 之前，但是不确定是在 onPause() 前后。
