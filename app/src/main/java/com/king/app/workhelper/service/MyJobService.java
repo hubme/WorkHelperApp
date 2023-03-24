@@ -6,8 +6,6 @@ import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
 import android.widget.Toast;
 
 import com.king.applib.log.Logger;
@@ -25,27 +23,25 @@ import com.king.applib.log.Logger;
  * @author VanceKing
  * @since 2017/1/22.
  */
-
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MyJobService extends JobService {
-    @Override public boolean onStartJob(JobParameters params) {
+    @Override
+    public boolean onStartJob(JobParameters params) {
         Logger.i("MyJobService#onStartJob.JobId: " + params.getJobId());
         Toast.makeText(MyJobService.this, "start job:" + params.getJobId(), Toast.LENGTH_SHORT).show();
-        jobFinished(params, false);//任务执行完后记得调用jobFinsih通知系统释放相关资源  
+        jobFinished(params, false);//任务执行完后记得调用jobFinsih通知系统释放相关资源
         return false;
     }
 
-    @Override public boolean onStopJob(JobParameters params) {
+    @Override
+    public boolean onStopJob(JobParameters params) {
         Logger.i("MyJobService#onStopJob");
         return false;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void startJobService() {
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        ComponentName componentName = new ComponentName(this, MyJobService.class);
+    public static void startJobService(Context context) {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        ComponentName componentName = new ComponentName(context, MyJobService.class);
         JobInfo.Builder builder = new JobInfo.Builder(0, componentName);
-
         builder.setMinimumLatency(2000);//设置JobService执行的最小延时时间
         builder.setOverrideDeadline(3000);//设置JobService执行的最晚时间
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);//设置执行的网络条件
