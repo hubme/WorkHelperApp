@@ -42,6 +42,26 @@ object AndroidXDep {
     const val swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     const val webkit = "androidx.webkit:webkit:1.4.0"
+
+    private const val work_version = "2.8.0"
+
+    //Java only
+    const val work_runtime = "androidx.work:work-runtime:$work_version"
+
+    // Kotlin + coroutines
+    const val work_runtime_ktx = "androidx.work:work-runtime-ktx:$work_version"
+
+    // optional - RxJava2 support
+    const val work_rxjava2 = "androidx.work:work-rxjava2:$work_version"
+
+    // optional - GCMNetworkManager support
+    const val work_gcm = "androidx.work:work-gcm:$work_version"
+
+    // optional - Test helpers
+    const val work_testing = "androidx.work:work-testing:$work_version"
+
+    // optional - Multiprocess support
+    const val work_multiprocess = "androidx.work:work-multiprocess:$work_version"
 }
 
 @Suppress("unused")

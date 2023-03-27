@@ -50,6 +50,7 @@ dependencies {
     api GoogleDep.design
     api AndroidXDep.swiperefreshlayout
     api AndroidXDep.constraintlayout
+    api AndroidXDep.work_runtime
 
     api KotlinDep.kotlin_stdlib_jdk8
     api KotlinDep.core_ktx
