@@ -14,10 +14,13 @@ apply plugin: 'java-gradle-plugin'
 repositories {
     // 需要添加 jcenter 否则会提示找不到 gradlePlugin
     jcenter()
+    google()
 }
 
 dependencies {
-    implementation gradleApi()
+    implementation gradleApi() // gradle sdk
+    implementation localGroovy() // groovy sdk
+    implementation 'com.android.tools.build:gradle:7.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.20"
 }
 
