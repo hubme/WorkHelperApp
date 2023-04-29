@@ -43,7 +43,7 @@ object AndroidXDep {
 
     const val webkit = "androidx.webkit:webkit:1.4.0"
 
-    private const val work_version = "2.8.0"
+    private const val work_version = "2.7.1"
 
     //Java only
     const val work_runtime = "androidx.work:work-runtime:$work_version"

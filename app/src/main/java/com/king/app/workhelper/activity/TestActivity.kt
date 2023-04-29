@@ -1,5 +1,6 @@
 package com.king.app.workhelper.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,8 +12,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.alibaba.android.arouter.launcher.ARouter
-import com.example.biz_common.ROUTER_LOGIN_ACTIVITY
+import androidx.core.content.ContextCompat
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.king.app.workhelper.common.AppBaseActivity
 import com.king.app.workhelper.databinding.ActivityTestBinding
 import com.king.applib.log.Logger
@@ -47,6 +49,28 @@ class TestActivity : AppBaseActivity() {
             testSystemProperties()
         }
 
+        mBinding.tvHehehe.setOnClickListener {
+            test(1)
+        }
+    }
+
+    private fun test(number: Int) {
+        Log.i(TAG, "test: start")
+        /*while (number == 1) {
+
+        }*/
+
+        Thread.sleep(5_000)
+        Log.i(TAG, "test: end")
+    }
+
+    private fun testAnr() {
+        Log.i(TAG, "testAnr: " + System.currentTimeMillis())
+        val dateTime = DateTimeUtil.getCurrentTime(DateTimeUtil.I18N_DATE_FORMAT)
+        Log.i(TAG, "testAnr: $dateTime")
+
+        Thread.sleep(10_000)
+        Toast.makeText(this, "哈哈哈", Toast.LENGTH_SHORT).show()
     }
 
     private fun testSystemProperties() {
@@ -56,8 +80,9 @@ class TestActivity : AppBaseActivity() {
             clazz.getDeclaredMethod("getInt", String::class.java, Int::class.javaPrimitiveType)
     }
 
+    @SuppressLint("SoonBlockedPrivateApi")
     private fun testLauncherApps() {
-        val launcherApps = getSystemService(LauncherApps::class.java)
+        val launcherApps = getSystemService(Context.LAUNCHER_APPS_SERVICE)
         /*val field = LauncherApps::class.java.getDeclaredMethod(
             "getAppUsageLimit",
             String::class.java,
@@ -122,5 +147,25 @@ class TestActivity : AppBaseActivity() {
     @Override
     fun getBasePackageName(): String {
         return "fake_package"
+    }
+
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun showBadge() {
+        val badgeDrawable = BadgeDrawable.create(this).apply {
+            number = 1898980
+            maxCharacterCount = 5
+            backgroundColor =
+                ContextCompat.getColor(this@TestActivity, android.R.color.holo_red_dark)
+        }
+        // BadgeUtils 是实验性 API
+        BadgeUtils.attachBadgeDrawable(badgeDrawable, mBinding.tvHehehe)
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
     }
 }

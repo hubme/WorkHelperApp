@@ -254,6 +254,11 @@
                 style="@style/EntryItem"
                 android:text="Surface" />
 
+            <TextView
+                android:id="@+id/tv_touch_event"
+                style="@style/EntryItem"
+                android:text="TouchEvent" />
+
         </LinearLayout>
 
 

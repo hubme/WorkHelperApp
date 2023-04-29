@@ -284,6 +284,8 @@
 
         <activity android:name=".activity.SurfaceActivity" />
 
+        <activity android:name=".activity.TouchEventActivity" />
+
     </application>
 
 </manifest>

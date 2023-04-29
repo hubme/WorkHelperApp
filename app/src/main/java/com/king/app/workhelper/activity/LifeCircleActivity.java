@@ -75,8 +75,10 @@ public class LifeCircleActivity extends AppBaseActivity {
         log("onStart");
     }
 
-    // 在 onStart() 与 onPostCreate() 之间被调用。onPostCreate() 在 onResume() 之前调用。
-    //onRestoreInstanceState被调用的前提是，activity “确实”被系统销毁了
+    /* 在 onStart() 与 onPostCreate() 之间被调用。onPostCreate() 在 onResume() 之前调用。
+    onRestoreInstanceState被调用的前提是 activity “确实”被系统销毁了
+    与 onSaveInstanceState() 方法非成对调用。比如按 Home 键后又立即打开 APP
+    */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -105,12 +107,14 @@ public class LifeCircleActivity extends AppBaseActivity {
         log("onPause");
     }
 
-    // >=9.0: 在 onStop() 后调用；< 9.0: onStop() 之前，但是不确定是在 onPause() 前后。
-    //将要被kill的时候回调（例如按Home进入后台、长按Home选择其他程序、锁屏、屏幕旋转前、跳转下一个Activity等情况下会被调用）
-    //可以打开开发者选项中的“不保留活动”调试。主动关闭 Activity 不会调用该方法。
-    //onSaveInstanceState的调用遵循一个重要原则，即当系统“未经你许可”时销毁了你的activity，则onSaveInstanceState会被系统调用，
-    //因为系统有责任也应该提供机会让你保存数据。
-    //see also: android.view.View.onSaveInstanceState()
+    /* >=9.0: 在 onStop() 后调用；< 9.0: onStop() 之前，但是不确定是在 onPause() 前后。
+    将要被kill的时候回调（例如按Home进入后台、锁屏、屏幕旋转等配置变化）
+    可以打开开发者选项中的“不保留活动”调试。主动关闭 Activity 不会调用该方法。
+    onSaveInstanceState的调用遵循一个重要原则，即当系统“未经你许可”时销毁了你的activity，则onSaveInstanceState会被系统调用，
+    因为系统有责任也应该提供机会让你保存数据。
+    see also: android.view.View.onSaveInstanceState()
+    应该存储 UI 状态，不能执行持久化等耗时长的操作
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //注意在调用 super 之前保存数据

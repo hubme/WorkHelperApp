@@ -1,6 +1,7 @@
 package com.king.app.workhelper.activity;
 
-import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.king.app.workhelper.R;
 import com.king.app.workhelper.common.AppBaseActivity;
+import com.king.app.workhelper.constant.GlobalConstant;
 import com.king.app.workhelper.databinding.ActivityLifeCircleEntryBinding;
 
 /**
@@ -49,8 +51,50 @@ public class LifeCircleEntryActivity extends AppBaseActivity {
         }
     }
 
-    protected void openActivity(@NonNull Class<?> cls) {
-        Intent intent = new Intent(this, cls);
-        startActivity(intent);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        log("onCreate");
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        log("onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        log("onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        log("onPause");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        log("onRestoreInstanceState");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        log("onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        log("onDestroy");
+    }
+
+    private void log(String message) {
+        Log.i(GlobalConstant.LOG_TAG, "EntryActivity#" + message);
+    }
+
 }

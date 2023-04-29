@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.king.app.workhelper.activity.MyViewGroup
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <com.king.app.workhelper.activity.MyViewGroup
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/blue_78b7ff"
+        android:orientation="vertical">
+
+        <com.king.app.workhelper.activity.MyView
+            android:id="@+id/tv_view2"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/indianred"
+            android:text="不可点击" />
+
+        <com.king.app.workhelper.activity.MyView
+            android:id="@+id/tv_view3"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/chocolate"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="可点击" />
+
+        <com.king.app.workhelper.activity.MyView
+            android:id="@+id/tv_view4"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/darkkhaki"
+            android:text="自定义 View" />
+
+    </com.king.app.workhelper.activity.MyViewGroup>
+
+    <TextView
+        android:id="@+id/tv_view1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:background="@color/chocolate"
+        android:clickable="true"
+        android:focusable="true" />
+
+</LinearLayout>
