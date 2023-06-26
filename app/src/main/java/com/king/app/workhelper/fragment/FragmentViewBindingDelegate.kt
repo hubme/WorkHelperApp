@@ -12,6 +12,7 @@ import kotlin.reflect.KProperty
 
 /**
  * https://github.com/Zhuinden/fragmentviewbindingdelegate-kt
+ * https://github.com/pengxurui/AndroidFamilyDemo/blob/main/KotlinDelegate/ktx/src/main/java/com/xurui/ktx/property/ViewBindingProperty.kt
  *
  * @author guangxu.huo
  * @since 2021/8/2
