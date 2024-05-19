@@ -3,6 +3,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url 'https://maven.google.com/' }
         //https://dl.google.com/dl/android/maven2/index.html
         maven { url 'https://plugins.gradle.org/m2/' }

@@ -47,20 +47,19 @@ dependencies {
     api AndroidXDep.appcompat
     api AndroidXDep.palette
     api AndroidXDep.recyclerview
-    api GoogleDep.design
     api AndroidXDep.swiperefreshlayout
     api AndroidXDep.constraintlayout
     api AndroidXDep.work_runtime
+    api AndroidXDep.lifecycle_viewmodel_ktx
 
     api KotlinDep.kotlin_stdlib_jdk8
     api KotlinDep.core_ktx
     api KotlinDep.kotlinx_coroutines_android
     api KotlinDep.activity_ktx
     api KotlinDep.fragment_ktx
-    api KotlinDep.lifecycle_runtime_ktx
-    api KotlinDep.lifecycle_viewmodel_ktx
 
     api GoogleDep.gson
+    api GoogleDep.design
 
     api ThirdDep.otto
     api ThirdDep.eventbus
