@@ -31,7 +31,7 @@ object AndroidXDep {
     const val recyclerview = "androidx.recyclerview:recyclerview:1.2.0"
     const val palette = "androidx.palette:palette:1.0.0"
 
-    private const val lifecycle_version = "2.3.0"
+    private const val lifecycle_version = "2.6.1"
     const val lifecycle_viewmodel_ktx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
@@ -85,10 +85,6 @@ object KotlinDep {
 
     //1.4.0 版本要求 sdk-31
     const val fragment_ktx = "androidx.fragment:fragment-ktx:1.3.6"
-
-    //2.4.1 版本要求 sdk-31
-    const val lifecycle_runtime_ktx = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
-    const val lifecycle_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
 }
 
 @Suppress("unused")
